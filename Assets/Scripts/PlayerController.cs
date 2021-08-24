@@ -20,13 +20,18 @@ public class PlayerController : MonoBehaviour
     [Serializable]
     public class PlayerStatus : Status
     {
+        public float parryingTime = 1f;
+        public float bulletSpeed = 10f;
         public float movementSpeed = 10f;
+        public float jumpingSpeed = 1f;
         public float jumpForce = 1f;
+        public float invincibleTime = 1f;
     }
 
     [Serializable]
     public class Value
     {
+        public Vector3 knockBackPower;
         public Vector3 moveVector;
         public Vector3 moveVelocity;
         public float velocityY;
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
         public bool isForwardBlocked;
         public bool isCrouch;
         public bool isCanParrying;
+        public bool isHitted;
     }
 
     [Serializable]
@@ -62,8 +68,8 @@ public class PlayerController : MonoBehaviour
         public KeyCode moveLeft = KeyCode.LeftArrow;
         public KeyCode crouch = KeyCode.DownArrow;
         public KeyCode lookUp = KeyCode.UpArrow;
-        public KeyCode attack = KeyCode.X;
-        public KeyCode jump = KeyCode.C;
+        public KeyCode attack = KeyCode.Z;
+        public KeyCode jump = KeyCode.X;
     }
 
     [Serializable]
@@ -106,6 +112,7 @@ public class PlayerController : MonoBehaviour
     public GameObject bullets;
     public List<GameObject> bullet = new List<GameObject>();
     private int bulletCount;
+    private Vector3 recentBulletPos;
 
     private void Awake()
     {
@@ -114,8 +121,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(bullets.transform.childCount);
-
         for(int i = 0; i < bullets.transform.childCount; i++)
         {
             bullet.Add(bullets.transform.GetChild(i).gameObject);
@@ -138,6 +143,19 @@ public class PlayerController : MonoBehaviour
         Jump();
         Crouch();
         Move();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        recentBulletPos = collision.transform.position;
+        if (State.isCanParrying == true || State.isHitted)
+        {
+            return;
+        }
+        else
+        {
+            StartCoroutine(Hitted(recentBulletPos));
+        }
     }
 
     private void SetInput()
@@ -205,6 +223,11 @@ public class PlayerController : MonoBehaviour
             Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
         }
 
+        if (State.isJumping && !State.isGrounded)
+        {
+            Val.moveVelocity = Val.moveVector * Stat.movementSpeed * Stat.jumpingSpeed;
+        }
+
         Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + (Vector3.up * Val.velocityY);
     }
 
@@ -232,30 +255,35 @@ public class PlayerController : MonoBehaviour
     {
         if (InState.upPush == true && InState.downPush == false && InState.rightPush == false && InState.leftPush == false) // 위만
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(0,0.5f,0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 5;
         }
         else if (InState.upPush == true && InState.downPush == false && InState.rightPush == true && InState.leftPush == false) // 위 우측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(0.25f, 0.25f, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 3;
         }
         else if (InState.upPush == true && InState.downPush == false && InState.rightPush == false && InState.leftPush == true) // 위 좌측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(-0.25f, 0.25f, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 4;
         }
         else if (InState.upPush == false && InState.downPush == false && InState.rightPush == true && InState.leftPush == false) // 우측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(0.5f, 0, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 1;
         }
         else if (InState.upPush == false && InState.downPush == false && InState.rightPush == false && InState.leftPush == true) // 좌측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(-0.5f, 0, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 2;
@@ -264,12 +292,14 @@ public class PlayerController : MonoBehaviour
         {
             if (InState.currentInput == 0)
             {
+                bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
                 bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(0.5f, -0.25f, 0);
                 bullet[bulletCount].gameObject.SetActive(true);
                 bullet[bulletCount].GetComponent<Bullet>().moveDir = 1;
             }
             else
             {
+                bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
                 bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(-0.5f, -0.25f, 0);
                 bullet[bulletCount].gameObject.SetActive(true);
                 bullet[bulletCount].GetComponent<Bullet>().moveDir = 2;
@@ -277,12 +307,14 @@ public class PlayerController : MonoBehaviour
         }
         else if (InState.upPush == false && InState.downPush == true && InState.rightPush == true && InState.leftPush == false) // 아래 우측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(0.5f, -0.25f, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 1;
         }
         else if (InState.upPush == false && InState.downPush == true && InState.rightPush == false && InState.leftPush == true) // 아래 좌측
         {
+            bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
             bullet[bulletCount].gameObject.transform.position = gameObject.transform.position + new Vector3(-0.5f, -0.25f, 0);
             bullet[bulletCount].gameObject.SetActive(true);
             bullet[bulletCount].GetComponent<Bullet>().moveDir = 2;
@@ -291,12 +323,14 @@ public class PlayerController : MonoBehaviour
         {
             if (InState.currentInput == 0)
             {
+                bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
                 bullet[bulletCount].gameObject.transform.position = gameObject.transform.position;
                 bullet[bulletCount].gameObject.SetActive(true);
                 bullet[bulletCount].GetComponent<Bullet>().moveDir = 1;
             }
             else
             {
+                bullet[bulletCount].GetComponent<Bullet>().moveSpeed = Stat.bulletSpeed;
                 bullet[bulletCount].gameObject.transform.position = gameObject.transform.position;
                 bullet[bulletCount].gameObject.SetActive(true);
                 bullet[bulletCount].GetComponent<Bullet>().moveDir = 2;
@@ -350,7 +384,8 @@ public class PlayerController : MonoBehaviour
     {
         State.isCanParrying = true;
         Debug.Log("DoParrying!!");
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(Stat.parryingTime);
+        StartCoroutine(Hitted(recentBulletPos));
         State.isCanParrying = false;
     }
 
@@ -388,5 +423,26 @@ public class PlayerController : MonoBehaviour
                 State.isForwardBlocked = true;
             }
         }
+    }
+
+    private IEnumerator Hitted(Vector3 bullet)
+    {
+        //피격 애니메이션
+
+
+        // 넉백
+        Vector3 direction = (transform.position - bullet).normalized;
+        
+        Com.rigidbody.AddForce(new Vector3(direction.x * Val.knockBackPower.x, Val.knockBackPower.y, Val.knockBackPower.z), ForceMode.Impulse);
+
+        if(Stat.hp == 1)
+        {
+            //게임오버
+        }
+        else Stat.hp--;
+
+        State.isHitted = true;
+        yield return new WaitForSeconds(Stat.invincibleTime);
+        State.isHitted = false;
     }
 }

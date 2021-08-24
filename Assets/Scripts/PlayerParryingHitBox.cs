@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHitBox : MonoBehaviour
+public class PlayerParryingHitBox : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
