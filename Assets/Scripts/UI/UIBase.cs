@@ -10,9 +10,7 @@ public class UIBase : MonoBehaviour
 {
 
     #region definitions
-    /// <summary>
-    /// UIBase의 컴포넌트 모음.
-    /// </summary>
+
     [Serializable]
     public class Components
     {
@@ -29,6 +27,17 @@ public class UIBase : MonoBehaviour
 
     #endregion
 
+    private void Start()
+    {
+        Init();
+        RegisterUIManager();
+    }
+
+    public virtual void Init()
+    {
+        Com.canvas = GetComponent<Canvas>();
+        Com.canvasGroup = GetComponent<CanvasGroup>();
+    }
 
     public virtual void Open() { }
     public virtual void Close() { }

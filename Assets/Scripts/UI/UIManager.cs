@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour
     }
     #endregion
 
+    [SerializeField]
     private List<UIBase> uiList = new List<UIBase>();
 
 
