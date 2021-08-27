@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// UI¸¦ ÀÛµ¿/°ü¸®ÇÏ´Â ¸Å´ÏÀú Å¬·¡½º
+/// UIë¥¼ ì‘ë™/ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € í´ë˜ìŠ¤
 /// </summary>
 
 public class UIManager : MonoBehaviour

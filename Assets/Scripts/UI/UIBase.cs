@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// UIµéÀÇ »óÀ§ Å¬·¡½º 
+/// UIë“¤ì˜ ìƒìœ„ í´ë˜ìŠ¤ 
 /// </summary>
 public class UIBase : MonoBehaviour
 {
