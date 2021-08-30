@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// UI들의 상위 클래스 
@@ -21,11 +22,14 @@ public class UIBase : MonoBehaviour
 
     #region field
 
-    [SerializeField] private Components components = new Components();
+    [SerializeField] protected Components components = new Components();
 
     public Components Com => components;
 
     #endregion
+
+    [Tooltip("열려있는 상태일 때 true를 반환함!")]
+    public bool isOpen;
 
     private void Start()
     {
@@ -37,10 +41,26 @@ public class UIBase : MonoBehaviour
     {
         Com.canvas = GetComponent<Canvas>();
         Com.canvasGroup = GetComponent<CanvasGroup>();
+        CheckOpen();
     }
 
-    public virtual void Open() { }
-    public virtual void Close() { }
+    protected void CheckOpen()
+    {
+        isOpen = Com.canvas.enabled ? true : false;
+    }
+
+    public virtual bool Open()
+    {
+        Com.canvas.enabled = true;
+        isOpen = true;
+        return true;
+    }
+    public virtual bool Close()
+    {
+        Com.canvas.enabled = false;
+        isOpen = false;
+        return true;
+    }
 
     /// <summary>
     /// UIManager에 해당 UI를 등록합니다.
