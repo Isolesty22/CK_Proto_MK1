@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+#else
+using System;
 using System.Collections;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -70,3 +73,4 @@ public static class Debug
 	if (!condition) throw new Exception();
     }
 }
+#endif
