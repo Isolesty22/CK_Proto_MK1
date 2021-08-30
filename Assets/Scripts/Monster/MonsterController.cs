@@ -47,6 +47,5 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Dead()
     {
-        gameObject.SetActive(false);
     }
 }

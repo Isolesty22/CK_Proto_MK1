@@ -29,11 +29,10 @@ public class VenomShootingPlantController : MonsterController
         State(state);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.transform.CompareTag("Bullet"))
+        if (collision.transform.CompareTag("Bullet"))
         {
-            other.gameObject.SetActive(false);
             if (Stat.hp > 1)
                 Stat.hp--;
             else
@@ -111,10 +110,9 @@ public class VenomShootingPlantController : MonsterController
         isRunninCo = true;
         yield return new WaitForSeconds(shootDelay);
         venoms[bulletCount].transform.position = gameObject.transform.position;
-        venoms[bulletCount].gameObject.SetActive(true);
         venoms[bulletCount].GetComponent<VenomBullet>().target = GameManager.instance.playerController.transform;
         StartCoroutine(venoms[bulletCount].GetComponent<VenomBullet>().ParabolaShoot());
-        if (bulletCount < 2)
+        if (bulletCount < 3)
             bulletCount++;
         else if (bulletCount == 2)
             bulletCount = 0;

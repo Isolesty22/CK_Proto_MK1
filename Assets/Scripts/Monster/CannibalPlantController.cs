@@ -16,8 +16,6 @@ public class CannibalPlantController : MonsterController
     public float moveSpeed;
     #endregion
 
-    public Mesh changeMesh;
-
     void Start()
     {
         
@@ -28,24 +26,14 @@ public class CannibalPlantController : MonsterController
         State(state);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.transform.CompareTag("Bullet"))
+        if (collision.transform.CompareTag("Bullet"))
         {
-            other.gameObject.SetActive(false);
             if (Stat.hp > 1)
                 Stat.hp--;
             else
                 ChangeState("Dead");
-        }
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Player"))
-        {
-            StartCoroutine(collision.transform.GetComponent<PlayerController>().Hitted(gameObject.transform.position));
-            gameObject.SetActive(false);
         }
     }
 
@@ -106,7 +94,6 @@ public class CannibalPlantController : MonsterController
     protected override void Attack()
     {
         base.Attack();
-        gameObject.transform.GetComponent<MeshFilter>().sharedMesh = changeMesh;
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameManager.instance.playerController.gameObject.transform.position, moveSpeed);
     }
     protected override void Dead()

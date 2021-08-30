@@ -13,11 +13,9 @@ public class SeedShootingPlantController : MonsterController
     public MonsterState state = MonsterState.Search;
 
     public List<GameObject> seeds = new List<GameObject>();
-
-    private static int bulletCount;
+    private int bulletCount;
 
     public float shootDelay;
-    public float seedSpeed;
 
     public bool isRunninCo;
     #endregion
@@ -31,11 +29,10 @@ public class SeedShootingPlantController : MonsterController
         State(state);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.transform.CompareTag("Bullet"))
+        if (collision.transform.CompareTag("Bullet"))
         {
-            other.gameObject.SetActive(false);
             if (Stat.hp > 1)
                 Stat.hp--;
             else
@@ -111,15 +108,14 @@ public class SeedShootingPlantController : MonsterController
     {
         isRunninCo = true;
         yield return new WaitForSeconds(shootDelay);
-        seeds[bulletCount].GetComponent<Bullet>().moveSpeed = seedSpeed;
         seeds[bulletCount].transform.position = gameObject.transform.position;
-        seeds[bulletCount].gameObject.SetActive(true);
         if(gameObject.transform.position.x - GameManager.instance.transform.position.x <= 0)
-            seeds[bulletCount].GetComponent<Bullet>().moveDir = 1;
-        else
             seeds[bulletCount].GetComponent<Bullet>().moveDir = 2;
+        else
+            seeds[bulletCount].GetComponent<Bullet>().moveDir = 1;
 
-        if (bulletCount < 2)
+        seeds[bulletCount].GetComponent<Bullet>().Move();
+        if (bulletCount < 3)
             bulletCount++;
         else if (bulletCount == 2)
             bulletCount = 0;

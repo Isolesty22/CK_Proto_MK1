@@ -36,10 +36,4 @@ public class Bullet : MonoBehaviour
         else if (moveDir == 4) rigid.velocity = new Vector3(-moveSpeed, moveSpeed, 0);
         else if (moveDir == 5) rigid.velocity = new Vector3(0, moveSpeed, 0);
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform.CompareTag("Ground"))
-            gameObject.SetActive(false);
-    }
 }

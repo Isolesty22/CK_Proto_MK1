@@ -425,7 +425,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public IEnumerator Hitted(Vector3 bullet)
+    private IEnumerator Hitted(Vector3 bullet)
     {
         //피격 애니메이션
 

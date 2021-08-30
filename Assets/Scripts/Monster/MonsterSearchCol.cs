@@ -9,8 +9,7 @@ public class MonsterSearchCol : MonoBehaviour
         if (other.gameObject.transform.CompareTag("Player"))
         {
             Debug.Log("Detect Player");
-            gameObject.transform.parent.SendMessage("ChangeState", "Attack");
-            //gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Attack");
+            gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Attack");
         }
     }
 
@@ -19,8 +18,7 @@ public class MonsterSearchCol : MonoBehaviour
         if (other.gameObject.transform.CompareTag("Player"))
         {
             Debug.Log("Detect Player");
-            gameObject.transform.parent.SendMessage("ChangeState", "Search");
-            //gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Search");
+            gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Search");
         }
     }
 }

@@ -30,19 +30,16 @@ public class RabbitController : MonsterController
     {
         State(state);
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (other.transform.CompareTag("Bullet"))
+        if (collision.transform.CompareTag("Bullet"))
         {
-            other.gameObject.SetActive(false);
             if (Stat.hp > 1)
                 Stat.hp--;
             else
                 ChangeState("Dead");
         }
     }
-
     public void ChangeState(string functionName)
     {
         if (functionName == "Search")
