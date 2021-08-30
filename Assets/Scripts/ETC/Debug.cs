@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections;
 using System.IO;
 using System.Text.RegularExpressions;
@@ -7,7 +7,7 @@ using UnityEngineInternal;
 
 
 /// <summary>
-/// ºôµå ½Ã ºó ÇÔ¼ö·Î ´ëÃ¼µÇ¾î ·Î±×¸¦ Ãâ·ÂÇÏÁö ¾Ê½À´Ï´Ù.
+/// ë¹Œë“œ ì‹œ ë¹ˆ í•¨ìˆ˜ë¡œ ëŒ€ì²´ë˜ì–´ ë¡œê·¸ë¥¼ ì¶œë ¥í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 /// </summary>
 public static class Debug 
 {
