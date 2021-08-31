@@ -56,6 +56,7 @@ public class UIBase : MonoBehaviour
 
     public virtual bool Open()
     {
+        
         Com.canvas.enabled = true;
         isOpen = true;
 
