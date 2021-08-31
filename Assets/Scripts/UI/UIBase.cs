@@ -35,6 +35,7 @@ public class UIBase : MonoBehaviour
     {
         Init();
         RegisterUIManager();
+
     }
 
     public virtual void Init()
@@ -44,21 +45,31 @@ public class UIBase : MonoBehaviour
         CheckOpen();
     }
 
+    /// <summary>
+    /// canvas의 활성화 상태에 따라 enabled와 isOpen의 값을 결정합니다.
+    /// </summary>
     protected void CheckOpen()
     {
         isOpen = Com.canvas.enabled ? true : false;
+        this.enabled = isOpen;
     }
 
     public virtual bool Open()
     {
         Com.canvas.enabled = true;
         isOpen = true;
+
+        this.enabled = true;
+
         return true;
     }
     public virtual bool Close()
     {
         Com.canvas.enabled = false;
         isOpen = false;
+
+        this.enabled = false;
+
         return true;
     }
 
