@@ -120,9 +120,11 @@ public class RabbitController : MonsterController
                 Com.rigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
                 break;
             case 2:
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(-90, -90, 0));
                 Com.rigidbody.AddForce(new Vector3(-moveSpeed, jumpPower, 0), ForceMode.Impulse);
                 break;
             case 3:
+                gameObject.transform.rotation = Quaternion.Euler(new Vector3(-90, 90, 0));
                 Com.rigidbody.AddForce(new Vector3(moveSpeed, jumpPower, 0), ForceMode.Impulse);
                 break;
             default:

@@ -163,6 +163,7 @@ public class PlayerController : MonoBehaviour
         InputVal.movementInput = 0f;
         if (Input.GetKey(Key.moveLeft))
         {
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
             InputVal.movementInput = -1f;
             InState.leftPush = true;
             InState.currentInput = 1;
@@ -171,6 +172,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(Key.moveRight))
         {
+            gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
             InputVal.movementInput = 1f;
             InState.rightPush = true;
             InState.currentInput = 0;
