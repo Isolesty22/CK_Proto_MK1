@@ -24,7 +24,7 @@ public class MonsterController : MonoBehaviour
     public class Components
     {
         public Rigidbody rigidbody;
-        public CapsuleCollider collider;
+        public Collider collider;
         public Collider searchCol;
     }
 
