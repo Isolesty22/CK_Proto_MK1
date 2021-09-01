@@ -32,7 +32,7 @@ public class DataManager : MonoBehaviour
     private const string fileName_settings = "Data_Settings.dat";
     #endregion
     [Tooltip("/DataFiles/")]
-    private readonly string dataFilePath = Application.dataPath + "/DataFiles/";
+    private string dataFilePath = string.Empty;
 
     [HideInInspector]
     public string currentFilePath;
@@ -51,11 +51,16 @@ public class DataManager : MonoBehaviour
             instance = this;
             Instance = instance;
         }
+        dataFilePath = Application.dataPath + "/DataFiles/";
     }
 
+    private void Start()
+    {
+        Init();
+    }
     public void Init()
     {
-
+        StartCoroutine(CheckFiles());
     }
 
 
@@ -67,8 +72,7 @@ public class DataManager : MonoBehaviour
     {
         currentState = eDataManagerState.CHECK;
 
-
-        #region DataFiles 폴더 체크
+        #region DataFiles 폴더 검사
         DirectoryInfo directoryInfo = new DirectoryInfo(dataFilePath);
 
         //DataFiles 폴더가 없으면 폴더 생성
@@ -78,6 +82,13 @@ public class DataManager : MonoBehaviour
         }
         #endregion
 
+        //파일 검사--
+
+        yield return StartCoroutine(CheckThisFile(fileName_settings));
+
+        yield return StartCoroutine(CheckThisFile(fileName_player));
+
+
         yield return null;
 
     }
@@ -86,8 +97,6 @@ public class DataManager : MonoBehaviour
     /// </summary>
     private IEnumerator CheckThisFile(string _fileName)
     {
-
-        //--Settings--
         currentFilePath = dataFilePath + _fileName;
 
         //설정 파일이 존재하는지 검사
@@ -95,7 +104,7 @@ public class DataManager : MonoBehaviour
 
         if (fileManager.isExist_Result == false)// 파일이 없으면
         {
-            Debug.LogWarning("[" + _fileName + "] 파일이 없습니다. 새로 만든다!");
+            Debug.LogWarning(_fileName + " 파일이 없습니다. 새로 만든다!");
 
             //파일 생성
             fileManager.CreateFile(currentFilePath);
@@ -111,14 +120,16 @@ public class DataManager : MonoBehaviour
                     yield return StartCoroutine(SaveData_Settings());
                     break;
 
+
                 case fileName_player:
                     //기본값 생성
                     Data_Player playerData = new Data_Player();
                     currentData_player.CopyData(playerData);
 
                     //기본 데이터 저장
-                    yield return StartCoroutine(SaveData_Settings());
+                    yield return StartCoroutine(SaveData_Player());
                     break;
+
 
                 default:
                     Debug.LogError("해당하는 파일이 없습니다.");
@@ -127,17 +138,31 @@ public class DataManager : MonoBehaviour
 
 
         }
+        else
+        {
+            Debug.Log(_fileName + " 파일이 존재합니다.");
+        }
     }
 
     /// <summary>
     /// currentData를 json파일로 저장합니다.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator SaveData_Settings()
     {
         //json 형식으로 변경
         string jsonData = JsonUtility.ToJson(currentData_settings, true);
         yield return StartCoroutine(fileManager.WriteText(fileName_settings, jsonData, dataFilePath));
     }
+
+    /// <summary>
+    /// currentData를 json파일로 저장합니다.
+    /// </summary>
+    private IEnumerator SaveData_Player()
+    {
+        //json 형식으로 변경
+        string jsonData = JsonUtility.ToJson(currentData_player, true);
+        yield return StartCoroutine(fileManager.WriteText(fileName_player, jsonData, dataFilePath));
+    }
+
 
 }
