@@ -56,11 +56,15 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
-        Init();
+        StartCoroutine(Init());
     }
-    public void Init()
+    public IEnumerator Init()
     {
-        StartCoroutine(CheckFiles());
+        yield return StartCoroutine(CheckFiles());
+
+#if UNITY_EDITOR
+        AssetDatabase.Refresh();
+#endif
     }
 
 
@@ -78,6 +82,7 @@ public class DataManager : MonoBehaviour
         //DataFiles 폴더가 없으면 폴더 생성
         if (directoryInfo.Exists == false)
         {
+            Debug.LogWarning(dataFilePath + "폴더를 생성했습니다.");
             directoryInfo.Create();
         }
         #endregion
@@ -105,9 +110,6 @@ public class DataManager : MonoBehaviour
         if (fileManager.isExist_Result == false)// 파일이 없으면
         {
             Debug.LogWarning(_fileName + " 파일이 없습니다. 새로 만든다!");
-
-            //파일 생성
-            fileManager.CreateFile(currentFilePath);
 
             switch (_fileName)
             {
@@ -142,6 +144,7 @@ public class DataManager : MonoBehaviour
         {
             Debug.Log(_fileName + " 파일이 존재합니다.");
         }
+
     }
 
     /// <summary>

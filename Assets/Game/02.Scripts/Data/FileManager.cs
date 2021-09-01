@@ -57,7 +57,8 @@ public class FileManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 파일을 생성합니다.
+    /// 파일을 생성합니다. 근데 C#에서는 File.Create()를 할 필요없다고 합니다...
+    /// https://answers.unity.com/questions/990496/ioexception-sharing-violation-on-path-please-help.html
     /// </summary>
     /// <param name="_path">파일, 파일 확장자를 포함한 전체 경로</param>
     public void CreateFile(string _path)

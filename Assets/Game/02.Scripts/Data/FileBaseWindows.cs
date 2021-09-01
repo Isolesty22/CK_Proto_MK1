@@ -61,13 +61,10 @@ public class FileBaseWindows : FileBase
         yield break;
     }
 
-    /// <summary>
-    /// 파일을 생성합니다.
-    /// </summary>
-    /// <param name="_path">파일, 파일 확장자를 포함한 전체 경로</param>
+
     public override void CreateFile(string _path)
     {
-        File.Create(_path);
+        File.Create(_path).Dispose();
     }    
 //#endif
 }
