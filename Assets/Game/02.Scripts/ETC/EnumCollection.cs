@@ -44,7 +44,7 @@ public enum eDataManagerState
     /// <summary>
     /// 데이터 파일을 적용하는 중
     /// </summary>
-    APPLY,
+    SAVE,
 
     /// <summary>
     /// 작업 완료

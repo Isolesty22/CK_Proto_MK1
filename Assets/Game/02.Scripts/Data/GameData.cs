@@ -71,7 +71,7 @@ public class Data_Settings : GameData
 
 
 [System.Serializable]
-public class Data_Player
+public class Data_Player : GameData
 {
     /// <summary>
     /// 현재 스테이지 이름(씬이름?)
