@@ -57,6 +57,7 @@ public enum eDataManagerState
     ERROR,
     
 }
+
 public class EnumCollection : MonoBehaviour
 {
 
