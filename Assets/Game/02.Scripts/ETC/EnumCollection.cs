@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +21,42 @@ public enum eResolutionType
     UHD,
 }
 
+public enum eDataManagerState
+{
 
+    DEFAULT,
+
+    /// <summary>
+    /// 데이터 파일 검사 중
+    /// </summary>
+    CHECK,
+
+    /// <summary>
+    /// 데이터 파일을 생성하는 중
+    /// </summary>
+    CREATE,
+
+    /// <summary>
+    /// 데이터 파일을 읽는 중
+    /// </summary>
+    READ,
+
+    /// <summary>
+    /// 데이터 파일을 적용하는 중
+    /// </summary>
+    APPLY,
+
+    /// <summary>
+    /// 작업 완료
+    /// </summary>
+    FINISH,
+
+    /// <summary>
+    /// 무...무슨일이지?
+    /// </summary>
+    ERROR,
+    
+}
 public class EnumCollection : MonoBehaviour
 {
 
