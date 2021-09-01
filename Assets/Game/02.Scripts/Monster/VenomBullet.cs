@@ -19,7 +19,6 @@ public class VenomBullet : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(ParabolaShoot());
     }
 
     public IEnumerator ParabolaShoot()
@@ -47,5 +46,10 @@ public class VenomBullet : MonoBehaviour
 
             yield return null;
         }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform.CompareTag("Ground"))
+            gameObject.SetActive(false);
     }
 }

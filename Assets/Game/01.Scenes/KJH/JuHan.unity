@@ -786,6 +786,24 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2538254628240786888, guid: dd46bce07db3b9a4eaaa83841a91853d, type: 3}
   m_PrefabInstance: {fileID: 2538254627273264465}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2130991938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2198045445453374669, guid: 8eb6a5e82caff9f479370757191b2e7a, type: 3}
+  m_PrefabInstance: {fileID: 2198045445039639008}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2130991939
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2130991938}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2133384191
 GameObject:
   m_ObjectHideFlags: 0
@@ -955,6 +973,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CannibalPlant
       objectReference: {fileID: 0}
+    - target: {fileID: 2198045446004961775, guid: 8eb6a5e82caff9f479370757191b2e7a, type: 3}
+      propertyPath: components.searchCol
+      value: 
+      objectReference: {fileID: 2130991939}
     - target: {fileID: 2198045446004961780, guid: 8eb6a5e82caff9f479370757191b2e7a, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -999,7 +1021,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2198045445453374671, guid: 8eb6a5e82caff9f479370757191b2e7a, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8eb6a5e82caff9f479370757191b2e7a, type: 3}
 --- !u!1001 &2538254627273264465
 PrefabInstance:

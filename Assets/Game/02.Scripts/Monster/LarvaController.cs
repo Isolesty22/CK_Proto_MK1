@@ -41,10 +41,11 @@ public class LarvaController : MonsterController
         State(state);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.transform.CompareTag("Bullet"))
+        if (other.transform.CompareTag("Bullet"))
         {
+            other.gameObject.SetActive(false);
             if (Stat.hp > 1)
                 Stat.hp--;
             else
@@ -140,7 +141,6 @@ public class LarvaController : MonsterController
     protected override void Dead()
     {
         base.Dead();
-        gameObject.SetActive(false);
     }
 
     private IEnumerator UpDownDelay(int n)
