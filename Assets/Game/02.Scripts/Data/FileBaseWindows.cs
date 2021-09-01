@@ -1,9 +1,9 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 /// <summary>
-/// Windows OS¿¡¼­ÀÇ FileBaseÀÔ´Ï´Ù.
+/// Windows OSì—ì„œì˜ FileBaseì…ë‹ˆë‹¤.
 /// </summary>
 public class FileBaseWindows : FileBase
 {
@@ -17,9 +17,9 @@ public class FileBaseWindows : FileBase
         yield break;
     }
     /// <summary>
-    /// ÅØ½ºÆ® °ü·Ã ÆÄÀÏÀ» ÀĞ¾î¿É´Ï´Ù. °á°ú´Â readText_Result¿¡ ÀúÀåµË´Ï´Ù.
+    /// í…ìŠ¤íŠ¸ ê´€ë ¨ íŒŒì¼ì„ ì½ì–´ì˜µë‹ˆë‹¤. ê²°ê³¼ëŠ” readText_Resultì— ì €ì¥ë©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="_dataName">ÆÄÀÏÀÇ ÀÌ¸§. ¿¹½Ã : testFile.png</param>
+    /// <param name="_dataName">íŒŒì¼ì˜ ì´ë¦„. ì˜ˆì‹œ : testFile.png</param>
     /// <returns></returns>
     public override IEnumerator ReadText(string _dataName, string _path)
     {
@@ -34,8 +34,8 @@ public class FileBaseWindows : FileBase
         }
         else
         {
-            Debug.LogWarning("ÆÄÀÏÀÌ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù." + " [" + _dataName + "]");
-            //ÆÄÀÏ ÀĞ±â ½ÇÆĞ
+            Debug.LogWarning("íŒŒì¼ì´ ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤." + " [" + _dataName + "]");
+            //íŒŒì¼ ì½ê¸° ì‹¤íŒ¨
         }
 
         yield break;
@@ -43,19 +43,19 @@ public class FileBaseWindows : FileBase
 
 
     /// <summary>
-    /// Application.dataPath : ½ÇÇàÆÄÀÏ/½ÇÇàÆÄÀÏ_Data/
+    /// Application.dataPath : ì‹¤í–‰íŒŒì¼/ì‹¤í–‰íŒŒì¼_Data/
     /// </summary>
     public override string GetDataLocation_DataPath()
     {
         return Application.dataPath + "/";
-        //À©µµ¿ìÀÇ °æ¿ì¿¡´Â ÆÄÀÏ °æ·Î µÚ¿¡ / ºÙ¿©Áà¾ß ¤©¤· °æ·ÎÃ³·³ µÇ¾î¹ö¸®±â ¶§¹®¿¡...¤·¤»? 
+        //ìœˆë„ìš°ì˜ ê²½ìš°ì—ëŠ” íŒŒì¼ ê²½ë¡œ ë’¤ì— / ë¶™ì—¬ì¤˜ì•¼ ã„¹ã…‡ ê²½ë¡œì²˜ëŸ¼ ë˜ì–´ë²„ë¦¬ê¸° ë•Œë¬¸ì—...ã…‡ã…‹? 
     }
 
 
     /// <summary>
-    /// ÆÄÀÏÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎÈü´Ï´Ù. °á°ú´Â isExit_Result¿¡ ÀúÀåµË´Ï´Ù.
+    /// íŒŒì¼ì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸í™ë‹ˆë‹¤. ê²°ê³¼ëŠ” isExit_Resultì— ì €ì¥ë©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="dataName">ÆÄÀÏÀÇ ÀÌ¸§. ¿¹½Ã : testFile.png</param>
+    /// <param name="dataName">íŒŒì¼ì˜ ì´ë¦„. ì˜ˆì‹œ : testFile.png</param>
     public override IEnumerator IsExist(string dataName, string dataPath)
     {
         string path = dataPath + dataName;

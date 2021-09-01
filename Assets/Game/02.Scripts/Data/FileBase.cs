@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ public class FileBase
     }
 
     /// <summary>
-    /// Application.dataPath¸¦ »ç¿ëÇØ¼­ °æ·Î¸¦ °¡Á®¿É´Ï´Ù.
+    /// Application.dataPathë¥¼ ì‚¬ìš©í•´ì„œ ê²½ë¡œë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
     /// </summary>
     public virtual string GetDataLocation_DataPath()
     {
@@ -24,7 +24,7 @@ public class FileBase
     }
 
     /// <summary>
-    /// IsExistÀÇ °á°ú°ª
+    /// IsExistì˜ ê²°ê³¼ê°’
     /// </summary>
     public bool isExist_result;
     public virtual IEnumerator IsExist(string dataName, string dataPath)

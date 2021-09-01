@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,33 +6,34 @@ public class FileManager : MonoBehaviour
 {
     private FileBase fileBase;
 
-    private void Awake()
-    {
-        #region legacy
-        //#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    #region legacy
+//    private void Awake()
+//    {
 
-        //        fileBase = new FileBaseWindows();
-        //#endif
+//#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
-        //#if UNITY_PS4
-        //        fileBase = new FileBasePS4();
-        //#endif
-        #endregion
-    }
+//        fileBase = new FileBaseWindows();
+//#endif
+
+//#if UNITY_PS4
+//                fileBase = new FileBasePS4();
+//#endif
+
+//    }
+    #endregion
     public IEnumerator WriteText(string dataName, string data, string path)
     {
-        yield return StartCoroutine(fileBase.WriteText(dataName, data, path)); // ÀÌ ÄÚ·çÆ¾ÀÌ ³¡³¯ ¶§ ±îÁö.
+        yield return StartCoroutine(fileBase.WriteText(dataName, data, path)); // ì´ ì½”ë£¨í‹´ì´ ëë‚  ë•Œ ê¹Œì§€.
 
     }
 
     [HideInInspector] public string readText_Result;
 
     /// <summary>
-    /// ÆÄÀÏÀ» ÀĞÀº ÈÄ, ,readText_Result¿¡ ÀúÀåÇÕ´Ï´Ù.
+    /// íŒŒì¼ì„ ì½ì€ í›„, ,readText_Resultì— ì €ì¥í•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="dataName">ÆÄÀÏÀÇ ÀÌ¸§À» Àû½À´Ï´Ù. ¿¹½Ã : "testFile.png"  </param>
-    /// <param name="dataPath">ÆÄÀÏÀÇ ÀÌ¸§À» Á¦¿ÜÇÑ °æ·Î¸¦ Àû½À´Ï´Ù. ¿¹½Ã : "Assets/data/" </param>
-    /// <returns></returns>
+    /// <param name="dataName">íŒŒì¼ì˜ ì´ë¦„ì„ ì ìŠµë‹ˆë‹¤. ì˜ˆì‹œ : "testFile.png"  </param>
+    /// <param name="dataPath">íŒŒì¼ì˜ ì´ë¦„ì„ ì œì™¸í•œ ê²½ë¡œë¥¼ ì ìŠµë‹ˆë‹¤. ì˜ˆì‹œ : "Assets/data/" </param>
     public IEnumerator ReadText(string dataName, string path)
     {
 
@@ -45,14 +46,13 @@ public class FileManager : MonoBehaviour
 
 
     /// <summary>
-    /// ÇØ´ç ÆÄÀÏÀÌ Á¸ÀçÇÏ´ÂÁö È®ÀÎÇÕ´Ï´Ù. °á°ú´Â isExist_Result¿¡ ÀúÀåµË´Ï´Ù.
+    /// í•´ë‹¹ íŒŒì¼ì´ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸í•©ë‹ˆë‹¤. ê²°ê³¼ëŠ” isExist_Resultì— ì €ì¥ë©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="dataName">ÆÄÀÏÀÇ ÀÌ¸§À» Àû½À´Ï´Ù. ¿¹½Ã : "testFile.png"  </param>
-    /// <param name="dataPath">ÆÄÀÏÀÇ ÀÌ¸§À» Á¦¿ÜÇÑ °æ·Î¸¦ Àû½À´Ï´Ù. ¿¹½Ã : "Assets/data/" </param>
-    /// <returns></returns>
+    /// <param name="dataName">íŒŒì¼ì˜ ì´ë¦„ì„ ì ìŠµë‹ˆë‹¤. ì˜ˆì‹œ : "testFile.png"  </param>
+    /// <param name="dataPath">íŒŒì¼ì˜ ì´ë¦„ì„ ì œì™¸í•œ ê²½ë¡œë¥¼ ì ìŠµë‹ˆë‹¤. ì˜ˆì‹œ : "Assets/data/" </param>
     public IEnumerator IsExist(string dataName, string dataPath)
     {
         yield return StartCoroutine(fileBase.IsExist(dataName, dataPath));
-        isExist_Result = fileBase.isExist_Result;
+        isExist_Result = fileBase.isExist_result;
     }
 }
