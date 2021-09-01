@@ -62,12 +62,13 @@ public class DataManager : MonoBehaviour
 
         yield return StartCoroutine(CheckFiles());
 
+        yield return StartCoroutine(LoadData());
 
     }
 
     #region CheckFiles
     /// <summary>
-    /// 파일 및 폴더들이 존재하는지 검사하고, 없으면 생성합니다.
+    /// 모든 데이터 파일 및 폴더들이 존재하는지 검사하고, 없으면 생성합니다.
     /// </summary>
     private IEnumerator CheckFiles()
     {
@@ -149,11 +150,81 @@ public class DataManager : MonoBehaviour
 
     #endregion
 
-
+    #region LoadData
+    /// <summary>
+    /// 모든 데이터를 불러와 currentData에 저장합니다.
+    /// </summary>
     private IEnumerator LoadData()
     {
-        yield break;
+        yield return StartCoroutine(LoadData_Settings());
+
+        yield return StartCoroutine(LoadData_Player());
+
     }
+
+    /// <summary>
+    /// 데이터를 불러와 currentData에 저장합니다.
+    /// </summary>
+    private IEnumerator LoadData_Settings()
+    {
+        SetCurrentState(eDataManagerState.READ);
+
+        //파일 읽어오기
+        yield return StartCoroutine(fileManager.ReadText(fileName_settings, dataFilePath));
+
+        //제대로 읽어졌으면
+        if (!string.IsNullOrEmpty(fileManager.readText_Result))
+        {
+            Data_Settings loadedData = JsonUtility.FromJson<Data_Settings>(fileManager.readText_Result);
+
+            currentData_settings = loadedData;
+        }
+        else // 없을 경우
+        {
+            Data_Settings defaultData = new Data_Settings();
+            currentData_settings = defaultData;
+
+            yield return StartCoroutine(SaveCurrentData(fileName_settings));
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
+
+        SetCurrentState(eDataManagerState.FINISH);
+    }
+
+    /// <summary>
+    /// 데이터를 불러와 currentData에 저장합니다.
+    /// </summary>
+    private IEnumerator LoadData_Player()
+    {
+        SetCurrentState(eDataManagerState.READ);
+
+        //파일 읽어오기
+        yield return StartCoroutine(fileManager.ReadText(fileName_player, dataFilePath));
+
+        //제대로 읽어졌으면
+        if (!string.IsNullOrEmpty(fileManager.readText_Result))
+        {
+            Data_Player loadedData = JsonUtility.FromJson<Data_Player>(fileManager.readText_Result);
+
+            currentData_player = loadedData;
+        }
+        else // 없을 경우
+        {
+            Data_Player defaultData = new Data_Player();
+            currentData_player = defaultData;
+
+            yield return StartCoroutine(SaveCurrentData(fileName_player));
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
+
+        SetCurrentState(eDataManagerState.FINISH);
+    }
+
+    #endregion
 
     #region SaveData
     /// <summary>
