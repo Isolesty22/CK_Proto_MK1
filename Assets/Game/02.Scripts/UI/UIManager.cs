@@ -11,17 +11,17 @@ public class UIManager : MonoBehaviour
 
     #region Instance
     private static UIManager instance;
-    public static UIManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<UIManager>();
-            }
-            return instance;
-        }
-    }
+    public static UIManager Instance;
+    //{
+    //    get
+    //    {
+    //        if (instance == null)
+    //        {
+    //            instance = FindObjectOfType<UIManager>();
+    //        }
+    //        return instance;
+    //    }
+    //}
     #endregion
 
     [SerializeField]
@@ -38,9 +38,16 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             instance = this;
+            Instance = instance;
 
             // DontDestroyOnLoad(this.gameObject);
         }
+        //if (Instance == null)
+        //{
+        //    instance = this;
+
+        //    // DontDestroyOnLoad(this.gameObject);
+        //}
         else
         {
             Debug.Log("이미 instance가 존재합니다." + this);
