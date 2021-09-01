@@ -7,15 +7,17 @@ using UnityEngine;
 /// </summary>
 public class DataManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region Instance
+    private static DataManager instance;
+    public static DataManager Instance;
+    #endregion
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            instance = this;
+            Instance = instance;
+        }
     }
 }

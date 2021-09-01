@@ -7,15 +7,18 @@ using UnityEngine;
 /// </summary>
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region Instance
+    private static AudioManager instance;
+    public static AudioManager Instance;
+    #endregion
 
-    // Update is called once per frame
-    void Update()
+
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            instance = this;
+            Instance = instance;
+        }
     }
 }
