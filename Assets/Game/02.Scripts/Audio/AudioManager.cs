@@ -55,28 +55,27 @@ public class AudioManager : MonoBehaviour
     }
 
 
-    private string audioFilePath = string.Empty;
     public IEnumerator LoadAudioClips()
     {
-        audioFilePath = Application.dataPath + "/Game/10.Audios/";
-        Debug.Log(audioFilePath);
-        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan.mp3", audioFilePath));
-        clipDict_BGM.Add("SS501_URMan.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan"));
+        clipDict_BGM.Add("SS501_URMan", DataManager.Instance.fileManager.getAudioClip_Result);
         Debug.Log("암욜맨을 불러왔습니다.");
 
-        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("The_Red_Knot.mp3", audioFilePath));
-        clipDict_BGM.Add("The_Red_Knot.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("The_Red_Knot"));
+        clipDict_BGM.Add("The_Red_Knot", DataManager.Instance.fileManager.getAudioClip_Result);
         Debug.Log("홍연을 불러왔습니다..");
 
 
         while (true)
         {
 
-            PlayBGM_Smooth("The_Red_Knot.mp3", 5f);
+            PlayBGM_Smooth("The_Red_Knot", 5f);
 
             yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
 
-            PlayBGM_Smooth("SS501_URMan.mp3", 1f);
+            PlayBGM_Smooth("SS501_URMan", 1f);
 
             yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
         }

@@ -68,12 +68,11 @@ public class FileManager : MonoBehaviour
     /// <summary>
     /// getAudioClip_Result에 오디오 클립을 저장합니다.
     /// </summary>
-    /// <param name="_dataName">파일 이름. 확장자까지!</param>
-    /// <param name="_path">파일의 이름을 제외한 경로를 적습니다. 예시 : "Assets/AudioFiles/" </param>
+    /// <param name="_fileName">파일 이름. 확장자는 쓰지 않아야합니다.</param>
     /// <returns></returns>
-    public IEnumerator GetAudioClip(string _dataName, string _path)
+    public IEnumerator GetAudioClip(string _fileName)
     {
-        yield return StartCoroutine(fileBase.GetAudioClip(_dataName, _path));
+        yield return StartCoroutine(fileBase.GetAudioClip(_fileName));
         getAudioClip_Result = fileBase.getAudioClip_Result;
     }
 

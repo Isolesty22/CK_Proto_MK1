@@ -18,7 +18,7 @@ public class FileBase
 
 
     public AudioClip getAudioClip_Result;
-    public virtual IEnumerator GetAudioClip(string _dataName, string _path)
+    public virtual IEnumerator GetAudioClip(string _fileName)
     {
         yield break;
     }

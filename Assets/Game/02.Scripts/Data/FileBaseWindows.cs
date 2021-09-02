@@ -41,28 +41,34 @@ public class FileBaseWindows : FileBase
     }
 
 
-    public override IEnumerator GetAudioClip(string _dataName, string _path)
+    public override IEnumerator GetAudioClip(string _fileName)
     {
-        string filePath = "file:///" + _path + _dataName;
+        string path = "Audios/" + _fileName;
+        getAudioClip_Result = Resources.Load(path) as AudioClip;
+        yield break;
 
-        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(filePath, GetAudioType(_dataName)))
-        {
+        #region legacy
+        //string filePath = "file:///" + _path + _dataName;
 
-            yield return www.SendWebRequest();
+        //using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(filePath, GetAudioType(_dataName)))
+        //{
 
-            if (www.result != UnityWebRequest.Result.Success)
-            {
+        //    yield return www.SendWebRequest();
 
-                Debug.LogError(www.error);
+        //    if (www.result != UnityWebRequest.Result.Success)
+        //    {
 
-            }
-            else
-            {
-                getAudioClip_Result = DownloadHandlerAudioClip.GetContent(www);
-                getAudioClip_Result.name = _dataName;
-            }
+        //        Debug.LogError(www.error);
 
-        }
+        //    }
+        //    else
+        //    {
+        //        getAudioClip_Result = DownloadHandlerAudioClip.GetContent(www);
+        //        getAudioClip_Result.name = _dataName;
+        //    }
+
+        //}
+        #endregion
     }
 
 
