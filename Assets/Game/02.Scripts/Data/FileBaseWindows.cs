@@ -50,7 +50,7 @@ public class FileBaseWindows : FileBase
 
             yield return www.SendWebRequest();
 
-            if (www.result == UnityWebRequest.Result.ConnectionError)
+            if (www.result == UnityWebRequest.Result.DataProcessingError)
             {
 
                 Debug.LogError(www.error);
@@ -59,6 +59,7 @@ public class FileBaseWindows : FileBase
             else
             {
                 getAudioClip_Result = DownloadHandlerAudioClip.GetContent(www);
+                getAudioClip_Result.name = _dataName;
             }
 
         }

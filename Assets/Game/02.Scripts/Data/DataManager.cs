@@ -29,7 +29,7 @@ public class DataManager : MonoBehaviour
     private const string fileName_settings = "Data_Settings.dat";
 
     [Tooltip("/DataFiles/")]
-    private string dataFilePath = string.Empty;
+    public string dataFilePath = string.Empty;
     #endregion
 
     [HideInInspector]
@@ -49,12 +49,14 @@ public class DataManager : MonoBehaviour
             instance = this;
             Instance = instance;
         }
-    }
 
-    private void Start()
-    {
         StartCoroutine(Init_DataFiles());
     }
+
+    //private void Start()
+    //{
+
+    //}
 
     public IEnumerator Init_DataFiles()
     {
@@ -103,19 +105,19 @@ public class DataManager : MonoBehaviour
     }
 
 
-    /// <summary>
-    /// 오디오 파일 _fileName을 불러와서 _audioClip에 넣습니다.
-    /// </summary>
-    /// <param name="_audioClip">오디오 파일을 가지게 될 오디오 클립.</param>
-    /// <param name="_fileName">파일의 이름. 파일의 확장자까지 전부 써야합니다.</param>
-    /// <param name="_path">파일의 경로. 파일의 이름은 쓰면 안됩니다.</param>
-    /// <returns></returns>
-    public IEnumerator LoadAudioClip(AudioClip _audioClip, string _fileName, string _path)
-    {
-        yield return StartCoroutine(fileManager.GetAudioClip(_fileName, _path));
+    ///// <summary>
+    ///// 오디오 파일 _fileName을 불러와서 _audioClip에 넣습니다.
+    ///// </summary>
+    ///// <param name="_audioClip">오디오 파일을 가지게 될 오디오 클립.</param>
+    ///// <param name="_fileName">파일의 이름. 파일의 확장자까지 전부 써야합니다.</param>
+    ///// <param name="_path">파일의 경로. 파일의 이름은 쓰면 안됩니다.</param>
+    ///// <returns></returns>
+    //public IEnumerator LoadAudioClip(AudioClip _audioClip, string _fileName, string _path)
+    //{
+    //    yield return StartCoroutine(fileManager.GetAudioClip(_fileName, _path));
 
-        _audioClip = fileManager.getAudioClip_Result;
-    }
+    //    _audioClip = fileManager.getAudioClip_Result;
+    //}
 
     #region CheckFiles
     /// <summary>

@@ -23,6 +23,8 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
+    #region 변수들
+
     [Serializable]
     public class AudioSourceCol
     {
@@ -34,18 +36,11 @@ public class AudioManager : MonoBehaviour
 
     public AudioSourceCol AudioSources => audioSource;
 
+    public Dictionary<string, AudioClip> clipDict_BGM = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_EVM = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_SFX = new Dictionary<string, AudioClip>();
 
-    //[Serializable]
-    //public class AudioClipDictonaries
-    //{
-    public Dictionary<AudioClip, string> clipDict_BGM = new Dictionary<AudioClip, string>();
-    public Dictionary<AudioClip, string> clipDict_EVM = new Dictionary<AudioClip, string>();
-    public Dictionary<AudioClip, string> clipDict_SFX = new Dictionary<AudioClip, string>();
-    //}
-    //[SerializeField] private AudioClipDictonaries audioClipDictonaries = new AudioClipDictonaries();
-
-    //public AudioClipDictonaries ClipDict => audioClipDictonaries;
-
+    #endregion
     private void Awake()
     {
         if (Instance == null)
@@ -54,10 +49,26 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-
+    private void Start()
+    {
+        Init();
+    }
     public void Init()
     {
-
+        StartCoroutine(LoadAudioClips());
     }
+
+
+    private string audioFilePath = string.Empty;
+    public IEnumerator LoadAudioClips()
+    {
+        audioFilePath = Application.dataPath + "/Game/10.Audios/";
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan.mp3", audioFilePath));
+        clipDict_BGM.Add("SS501_URMan.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        AudioSources.audioSource_BGM.clip = clipDict_BGM["SS501_URMan.mp3"];
+    }
+
+
 
 }

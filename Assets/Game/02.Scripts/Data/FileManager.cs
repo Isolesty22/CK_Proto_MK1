@@ -64,11 +64,19 @@ public class FileManager : MonoBehaviour
 
 
     [HideInInspector] public AudioClip getAudioClip_Result;
+
+    /// <summary>
+    /// getAudioClip_Result에 오디오 클립을 저장합니다.
+    /// </summary>
+    /// <param name="_dataName">파일 이름. 확장자까지!</param>
+    /// <param name="_path">파일의 이름을 제외한 경로를 적습니다. 예시 : "Assets/AudioFiles/" </param>
+    /// <returns></returns>
     public IEnumerator GetAudioClip(string _dataName, string _path)
     {
         yield return StartCoroutine(fileBase.GetAudioClip(_dataName, _path));
         getAudioClip_Result = fileBase.getAudioClip_Result;
     }
+
 
     /// <summary>
     /// 파일을 생성합니다. 근데 C#에서는 File.Create()를 할 필요없다고 합니다...
