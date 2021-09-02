@@ -47,6 +47,7 @@ public class AudioManager : MonoBehaviour
         {
             instance = this;
         }
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public IEnumerator Init()
@@ -68,6 +69,22 @@ public class AudioManager : MonoBehaviour
         Debug.Log("홍연을 불러왔습니다..");
 
 
+        //while (true)
+        //{
+
+        //    PlayBGM_Smooth("The_Red_Knot", 5f);
+
+        //    yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
+
+        //    PlayBGM_Smooth("SS501_URMan", 1f);
+
+        //    yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
+        //}
+
+    }
+
+    public IEnumerator TestPlayBgmLoop()
+    {
         while (true)
         {
 
@@ -79,7 +96,6 @@ public class AudioManager : MonoBehaviour
 
             yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
         }
-
     }
 
 

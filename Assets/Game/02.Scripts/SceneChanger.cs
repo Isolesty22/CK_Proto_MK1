@@ -1,6 +1,7 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SceneChanger : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class SceneChanger : MonoBehaviour
     }
     #endregion
 
+
+    public bool goChange = false;
+    private bool testOff = false;
     private void Awake()
     {
         if (Instance == null)
@@ -29,7 +33,22 @@ public class SceneChanger : MonoBehaviour
         }
         else
         {
-            Debug.Log("¿ÃπÃ instance∞° ¡∏¿Á«’¥œ¥Ÿ." + this);
+            Debug.Log("Ïù¥ÎØ∏ instanceÍ∞Ä Ï°¥Ïû¨Ìï©ÎãàÎã§." + this);
         }
+    }
+
+    private void Update()
+    {
+        if (goChange == true)
+        {
+            if (testOff == true)
+            {
+                return;
+            }
+
+            testOff = true;
+            SceneManager.LoadScene("TestHomeScene");
+        }
+
     }
 }

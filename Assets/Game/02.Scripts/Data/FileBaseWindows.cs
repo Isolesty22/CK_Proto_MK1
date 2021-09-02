@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 /// <summary>
 /// Windows OS에서의 FileBase입니다.
 /// </summary>

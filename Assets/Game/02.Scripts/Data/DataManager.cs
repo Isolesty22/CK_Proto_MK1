@@ -50,6 +50,7 @@ public class DataManager : MonoBehaviour
             Instance = instance;
         }
 
+        DontDestroyOnLoad(this.gameObject);
 
     }
 
