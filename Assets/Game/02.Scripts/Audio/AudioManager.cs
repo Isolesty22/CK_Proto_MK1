@@ -49,13 +49,9 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    public IEnumerator Init()
     {
-        Init();
-    }
-    public void Init()
-    {
-        StartCoroutine(LoadAudioClips());
+       yield return StartCoroutine(LoadAudioClips());
     }
 
 
@@ -65,8 +61,9 @@ public class AudioManager : MonoBehaviour
         audioFilePath = Application.dataPath + "/Game/10.Audios/";
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan.mp3", audioFilePath));
         clipDict_BGM.Add("SS501_URMan.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
-
         AudioSources.audioSource_BGM.clip = clipDict_BGM["SS501_URMan.mp3"];
+
+        Debug.Log("암욜맨을 불러왔습니다.");
     }
 
 

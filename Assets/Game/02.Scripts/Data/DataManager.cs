@@ -50,12 +50,12 @@ public class DataManager : MonoBehaviour
             Instance = instance;
         }
 
-        StartCoroutine(Init_DataFiles());
+
     }
 
     //private void Start()
     //{
-
+    //  StartCoroutine(Init_DataFiles());
     //}
 
     public IEnumerator Init_DataFiles()
@@ -307,7 +307,7 @@ public class DataManager : MonoBehaviour
         if (currentState != _state)
         {
             currentState = _state;
-            Debug.Log("DataManager : " + "상태 변경! " + currentState.ToString());
+           // Debug.Log("DataManager : " + "상태 변경! " + currentState.ToString());
         }
 
     }

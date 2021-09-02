@@ -115,6 +115,6 @@ public class UIManager : MonoBehaviour
     public void RegisterThis(UIBase _uiBase)
     {
         uiList.Add(_uiBase);
-        Debug.Log("uiList에 " + _uiBase.name + " 추가!");
+        //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
     }
 }
