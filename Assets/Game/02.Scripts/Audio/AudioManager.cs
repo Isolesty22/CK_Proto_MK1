@@ -9,7 +9,17 @@ public class AudioManager : MonoBehaviour
 {
     #region Instance
     private static AudioManager instance;
-    public static AudioManager Instance;
+    public static AudioManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<AudioManager>();
+            }
+            return instance;
+        }
+    }
     #endregion
 
 
@@ -18,7 +28,8 @@ public class AudioManager : MonoBehaviour
         if (Instance == null)
         {
             instance = this;
-            Instance = instance;
+
+            // DontDestroyOnLoad(this.gameObject);
         }
     }
 }
