@@ -50,7 +50,7 @@ public class FileBaseWindows : FileBase
 
             yield return www.SendWebRequest();
 
-            if (www.result == UnityWebRequest.Result.DataProcessingError)
+            if (www.result == UnityWebRequest.Result.ProtocolError)
             {
 
                 Debug.LogError(www.error);
