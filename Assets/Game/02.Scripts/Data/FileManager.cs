@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class FileManager : MonoBehaviour
@@ -7,20 +8,24 @@ public class FileManager : MonoBehaviour
     private FileBase fileBase = new FileBaseWindows();
 
     #region legacy
-//    private void Awake()
-//    {
+    //    private void Awake()
+    //    {
 
-//#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    //#if UNITY_EDITOR || UNITY_STANDALONE_WIN
 
-//        fileBase = new FileBaseWindows();
-//#endif
+    //        fileBase = new FileBaseWindows();
+    //#endif
 
-//#if UNITY_PS4
-//                fileBase = new FileBasePS4();
-//#endif
+    //#if UNITY_PS4
+    //                fileBase = new FileBasePS4();
+    //#endif
 
-//    }
+    //    }
     #endregion
+
+
+    #region Text
+
     public IEnumerator WriteText(string _dataName, string _data, string _path)
     {
         yield return StartCoroutine(fileBase.WriteText(_dataName, _data, _path)); // 이 코루틴이 끝날 때 까지.
@@ -42,9 +47,10 @@ public class FileManager : MonoBehaviour
         readText_Result = fileBase.readText_Result;
     }
 
+    #endregion
+
+
     [HideInInspector] public bool isExist_Result;
-
-
     /// <summary>
     /// 해당 파일이 존재하는지 확인합니다. 결과는 isExist_Result에 저장됩니다.
     /// </summary>
@@ -55,6 +61,9 @@ public class FileManager : MonoBehaviour
         yield return StartCoroutine(fileBase.IsExist(_dataName, _dataPath));
         isExist_Result = fileBase.isExist_result;
     }
+
+
+
 
     /// <summary>
     /// 파일을 생성합니다. 근데 C#에서는 File.Create()를 할 필요없다고 합니다...

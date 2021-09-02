@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
+using UnityEngine;
+using UnityEngine.Networking;
 /// <summary>
 /// Windows OS에서의 FileBase입니다.
 /// </summary>
 public class FileBaseWindows : FileBase
 {
 
-//#if UNITY_EDITOR || UNITY_STANDALONE_WIN
+    //#if UNITY_EDITOR || UNITY_STANDALONE_WIN
     public override IEnumerator WriteText(string _dataName, string _data, string _path)
     {
         string path = _path + _dataName;
@@ -40,6 +41,30 @@ public class FileBaseWindows : FileBase
     }
 
 
+    public override IEnumerator GetAudioClip(string _dataName, string _path)
+    {
+        string filePath = "file:///" + _path + _dataName;
+
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(filePath, GetAudioType(_dataName)))
+        {
+
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError)
+            {
+
+                Debug.LogError(www.error);
+
+            }
+            else
+            {
+                getAudioClip_Result = DownloadHandlerAudioClip.GetContent(www);
+            }
+
+        }
+    }
+
+
     /// <summary>
     /// Application.dataPath : 실행파일/실행파일_Data/
     /// </summary>
@@ -65,6 +90,6 @@ public class FileBaseWindows : FileBase
     public override void CreateFile(string _path)
     {
         File.Create(_path).Dispose();
-    }    
-//#endif
+    }
+    //#endif
 }

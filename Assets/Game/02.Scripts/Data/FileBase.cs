@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public class FileBase
@@ -11,6 +12,13 @@ public class FileBase
 
     public string readText_Result;
     public virtual IEnumerator ReadText(string _dataName, string _path)
+    {
+        yield break;
+    }
+
+
+    public AudioClip getAudioClip_Result;
+    public virtual IEnumerator GetAudioClip(string _dataName, string _path)
     {
         yield break;
     }
@@ -39,7 +47,35 @@ public class FileBase
     /// <param name="_path">파일, 파일 확장자를 포함한 전체 경로</param>
     public virtual void CreateFile(string _path)
     {
-   
+
+    }
+
+    /// <summary>
+    /// 오디오 파일 이름에서 확장자를 가져와 AudioType으로 변환합니다.
+    /// </summary>
+    /// <param name="_fileName">확장자를 포함한 파일 이름</param>
+    protected AudioType GetAudioType(string _fileName)
+    {
+        string[] tempExtension = _fileName.Split('.');
+
+
+        //마지막이 확장자일테니...
+        switch (tempExtension[tempExtension.Length - 1])
+        {
+            case "wav":
+            case "WAV":
+                return AudioType.WAV;
+
+            case "ogg":
+            case "OGG":
+                return AudioType.OGGVORBIS;
+
+            case "mp3":
+            case "MP3":
+                return AudioType.MPEG;
+            default:
+                return AudioType.UNKNOWN;
+        }
     }
 
 }

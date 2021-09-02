@@ -22,6 +22,7 @@ public class AudioManager : MonoBehaviour
     }
     #endregion
 
+    public Dictionary<AudioClip, string> audioClipDict = new Dictionary<AudioClip, string>();
 
     private void Awake()
     {
@@ -32,4 +33,6 @@ public class AudioManager : MonoBehaviour
             // DontDestroyOnLoad(this.gameObject);
         }
     }
+
+
 }
