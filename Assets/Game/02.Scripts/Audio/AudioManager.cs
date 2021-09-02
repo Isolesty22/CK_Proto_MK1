@@ -59,6 +59,7 @@ public class AudioManager : MonoBehaviour
     public IEnumerator LoadAudioClips()
     {
         audioFilePath = Application.dataPath + "/Game/10.Audios/";
+        Debug.Log(audioFilePath);
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan.mp3", audioFilePath));
         clipDict_BGM.Add("SS501_URMan.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
         Debug.Log("암욜맨을 불러왔습니다.");
@@ -70,16 +71,12 @@ public class AudioManager : MonoBehaviour
 
         while (true)
         {
-            Audios.audioSource_BGM.clip = clipDict_BGM["The_Red_Knot.mp3"];
-            Audios.audioSource_BGM.volume = 0.5f;
-            Audios.audioSource_BGM.Play();
+
+            PlayBGM_Smooth("The_Red_Knot.mp3", 5f);
 
             yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
 
-
-            Audios.audioSource_BGM.clip = clipDict_BGM["SS501_URMan.mp3"];
-            Audios.audioSource_BGM.volume = 0.5f;
-            Audios.audioSource_BGM.Play();
+            PlayBGM_Smooth("SS501_URMan.mp3", 1f);
 
             yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
         }
@@ -100,25 +97,80 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayBGM(string _fileName)
     {
-
+        AudioClip tempClip = clipDict_BGM[_fileName];
+        Audios.audioSource_BGM.clip = tempClip;
+        Audios.audioSource_BGM.Play();
     }
 
     /// <summary>
     /// BGM을 부드럽게 재생시킵니다(크레센도). 
     /// </summary>
     /// <param name="_fileName">오디오 파일 이름</param>
-    /// <param name="_time">해당 시간동안 볼륨이 올라갑니다.</param>
-    public void PlayBGM_Smooth(string _fileName, float _time)
+    /// <param name="_smoothTime">해당 시간동안 볼륨이 올라갑니다.</param>
+    public void PlayBGM_Smooth(string _fileName, float _smoothTime)
     {
-
-    }
-
-    private IEnumerator ProcessBgmLerp(string _fileName, float _time)
-    {
-        yield break;
+        StartCoroutine(ProcessBgmLerp(_fileName, _smoothTime, true));
     }
 
 
+    public void StopBGM()
+    {
+        Audios.audioSource_BGM.Stop();
+    }
+
+    public void StopBGM_Smooth(string _fileName, float _smoothTime)
+    {
+        StartCoroutine(ProcessBgmLerp(_fileName, _smoothTime, false));
+    }
+
+
+
+    private readonly float myEarGuard = 0.5f;
+    private IEnumerator ProcessBgmLerp(string _fileName, float _smoothTime, bool _isStart)
+    {
+        float timer = 0f;
+        float progress = 0f;
+
+        AudioClip tempClip = clipDict_BGM[_fileName];
+        AudioSource source = Audios.audioSource_BGM;
+
+        if (_isStart) //시작하는 경우
+        {
+            source.clip = tempClip;
+            source.volume = 0f;
+            source.Play();
+
+            while (progress < 1f)
+            {
+                timer += Time.unscaledDeltaTime;
+                progress = timer / _smoothTime;
+
+                source.volume = progress - myEarGuard;
+
+                yield return null;
+            }
+
+
+        }
+        else //종료하는 경우
+        {
+            source.volume = 1f - myEarGuard;
+
+            while (progress < 1f)
+            {
+                timer += Time.unscaledDeltaTime;
+                progress = timer / _smoothTime;
+
+                source.volume = 1f - progress - myEarGuard;
+
+                yield return null;
+            }
+
+            source.Stop();
+            source.volume = 1f- myEarGuard;
+        }
+
+    }
 
     private float keepBgmTime = 0f;
     private AudioClip keepBgmClip = null;
