@@ -51,7 +51,7 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator Init()
     {
-       yield return StartCoroutine(LoadAudioClips());
+        yield return StartCoroutine(LoadAudioClips());
     }
 
 
@@ -67,27 +67,79 @@ public class AudioManager : MonoBehaviour
         clipDict_BGM.Add("The_Red_Knot.mp3", DataManager.Instance.fileManager.getAudioClip_Result);
         Debug.Log("홍연을 불러왔습니다..");
 
-        Audios.audioSource_BGM.clip = clipDict_BGM["The_Red_Knot.mp3"];
-        Audios.audioSource_BGM.time = 0f;
-        Audios.audioSource_BGM.volume = 0.5f;
-        Audios.audioSource_BGM.Play();
 
-        yield return new WaitForSecondsRealtime(10f);   
-        float _time = Audios.audioSource_BGM.time;
+        while (true)
+        {
+            Audios.audioSource_BGM.clip = clipDict_BGM["The_Red_Knot.mp3"];
+            Audios.audioSource_BGM.volume = 0.5f;
+            Audios.audioSource_BGM.Play();
 
-        Audios.audioSource_BGM.Stop();
-        Audios.audioSource_BGM.clip = clipDict_BGM["SS501_URMan.mp3"];
-        Audios.audioSource_BGM.time = 43f;
-        Audios.audioSource_BGM.volume = 0.5f;
-        Audios.audioSource_BGM.Play();
+            yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
 
-        yield return new WaitForSecondsRealtime(10f);
-        Audios.audioSource_BGM.Stop();
-        Audios.audioSource_BGM.clip = clipDict_BGM["The_Red_Knot.mp3"];
-        Audios.audioSource_BGM.time = _time;
-        Audios.audioSource_BGM.Play();
+
+            Audios.audioSource_BGM.clip = clipDict_BGM["SS501_URMan.mp3"];
+            Audios.audioSource_BGM.volume = 0.5f;
+            Audios.audioSource_BGM.Play();
+
+            yield return new WaitUntil(() => !Audios.audioSource_BGM.isPlaying);
+        }
+
     }
 
 
 
+
+    #region BGM
+
+    /// <summary>
+    /// BGM을 반복재생할 것인가?
+    /// </summary>
+    public void SetBgmLoop(bool _isLoop)
+    {
+        Audios.audioSource_BGM.loop = _isLoop;
+    }
+    public void PlayBGM(string _fileName)
+    {
+
+    }
+
+    /// <summary>
+    /// BGM을 부드럽게 재생시킵니다(크레센도). 
+    /// </summary>
+    /// <param name="_fileName">오디오 파일 이름</param>
+    /// <param name="_time">해당 시간동안 볼륨이 올라갑니다.</param>
+    public void PlayBGM_Smooth(string _fileName, float _time)
+    {
+
+    }
+
+    private IEnumerator ProcessBgmLerp(string _fileName, float _time)
+    {
+        yield break;
+    }
+
+
+
+    private float keepBgmTime = 0f;
+    private AudioClip keepBgmClip = null;
+
+    /// <summary>
+    /// 현재 BGM과, 그게 어떤 부분까지 재생되었는지를 따로 저장해둡니다.
+    /// </summary>
+    public void KeepCurrentBgmClip()
+    {
+        keepBgmTime = Audios.audioSource_BGM.time;
+        keepBgmClip = Audios.audioSource_BGM.clip;
+    }
+
+    /// <summary>
+    /// 저장해뒀던 BGM을 반환합니다. 이것을 바로 Play할 경우, 저장했던 부분부터 재생됩니다.
+    /// </summary>
+    public AudioClip GetKeepBgmClip()
+    {
+        Audios.audioSource_BGM.time = keepBgmTime;
+        return keepBgmClip;
+    }
+
+    #endregion
 }

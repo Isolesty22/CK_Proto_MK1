@@ -55,7 +55,7 @@ public enum eDataManagerState
     /// 무...무슨일이지?
     /// </summary>
     ERROR,
-    
+
 }
 
 public class EnumCollection : MonoBehaviour
