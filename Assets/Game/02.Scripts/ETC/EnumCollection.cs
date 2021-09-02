@@ -39,7 +39,7 @@ public enum eDataManagerState
     /// <summary>
     /// 데이터 파일을 읽는 중
     /// </summary>
-    READ,
+    LOAD,
 
     /// <summary>
     /// 데이터 파일을 적용하는 중

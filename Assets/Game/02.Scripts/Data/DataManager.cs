@@ -53,17 +53,68 @@ public class DataManager : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(Init());
+        StartCoroutine(Init_DataFiles());
     }
 
-    public IEnumerator Init()
+    public IEnumerator Init_DataFiles()
     {
         dataFilePath = Application.dataPath + "/DataFiles/";
 
-        yield return StartCoroutine(CheckFiles());
 
-        yield return StartCoroutine(LoadData());
+        SetCurrentState(eDataManagerState.CHECK);
 
+        #region DataFiles 폴더 검사
+        DirectoryInfo directoryInfo = new DirectoryInfo(dataFilePath);
+
+        //DataFiles 폴더가 없으면 폴더 생성
+        if (directoryInfo.Exists == false)
+        {
+            directoryInfo.Create();
+            Debug.LogWarning(dataFilePath + "폴더를 생성했습니다.");
+        }
+        #endregion
+
+        #region 세팅,플레이어 파일 검사
+
+        yield return StartCoroutine(CheckThisFile(fileName_settings));
+
+        yield return StartCoroutine(CheckThisFile(fileName_player));
+
+
+
+#if UNITY_EDITOR
+        AssetDatabase.Refresh();
+#endif
+
+
+
+        #endregion
+
+        SetCurrentState(eDataManagerState.FINISH);
+        SetCurrentState(eDataManagerState.LOAD);
+
+        yield return StartCoroutine(LoadData_Settings());
+
+        yield return StartCoroutine(LoadData_Player());
+
+        SetCurrentState(eDataManagerState.FINISH);
+
+
+    }
+
+
+    /// <summary>
+    /// 오디오 파일 _fileName을 불러와서 _audioClip에 넣습니다.
+    /// </summary>
+    /// <param name="_audioClip">오디오 파일을 가지게 될 오디오 클립.</param>
+    /// <param name="_fileName">파일의 이름. 파일의 확장자까지 전부 써야합니다.</param>
+    /// <param name="_path">파일의 경로. 파일의 이름은 쓰면 안됩니다.</param>
+    /// <returns></returns>
+    public IEnumerator LoadAudioClip(AudioClip _audioClip, string _fileName, string _path)
+    {
+        yield return StartCoroutine(fileManager.GetAudioClip(_fileName, _path));
+
+        _audioClip = fileManager.getAudioClip_Result;
     }
 
     #region CheckFiles
@@ -103,8 +154,6 @@ public class DataManager : MonoBehaviour
     private IEnumerator CheckThisFile(string _fileName)
     {
 
-        SetCurrentState(eDataManagerState.CHECK);
-
         currentFilePath = dataFilePath + _fileName;
 
         //설정 파일이 존재하는지 검사
@@ -138,12 +187,10 @@ public class DataManager : MonoBehaviour
             //데이터 저장
             yield return StartCoroutine(SaveCurrentData(_fileName));
 
-            yield break;
         }
         else
         {
             Debug.Log(_fileName + " 파일이 존재합니다.");
-            SetCurrentState(eDataManagerState.FINISH);
         }
 
     }
@@ -167,8 +214,6 @@ public class DataManager : MonoBehaviour
     /// </summary>
     private IEnumerator LoadData_Settings()
     {
-        SetCurrentState(eDataManagerState.READ);
-
         //파일 읽어오기
         yield return StartCoroutine(fileManager.ReadText(fileName_settings, dataFilePath));
 
@@ -189,8 +234,6 @@ public class DataManager : MonoBehaviour
             AssetDatabase.Refresh();
 #endif
         }
-
-        SetCurrentState(eDataManagerState.FINISH);
     }
 
     /// <summary>
@@ -198,7 +241,6 @@ public class DataManager : MonoBehaviour
     /// </summary>
     private IEnumerator LoadData_Player()
     {
-        SetCurrentState(eDataManagerState.READ);
 
         //파일 읽어오기
         yield return StartCoroutine(fileManager.ReadText(fileName_player, dataFilePath));
@@ -220,8 +262,6 @@ public class DataManager : MonoBehaviour
             AssetDatabase.Refresh();
 #endif
         }
-
-        SetCurrentState(eDataManagerState.FINISH);
     }
 
     #endregion

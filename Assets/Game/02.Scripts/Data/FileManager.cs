@@ -63,7 +63,12 @@ public class FileManager : MonoBehaviour
     }
 
 
-
+    [HideInInspector] public AudioClip getAudioClip_Result;
+    public IEnumerator GetAudioClip(string _dataName, string _path)
+    {
+        yield return StartCoroutine(fileBase.GetAudioClip(_dataName, _path));
+        getAudioClip_Result = fileBase.getAudioClip_Result;
+    }
 
     /// <summary>
     /// 파일을 생성합니다. 근데 C#에서는 File.Create()를 할 필요없다고 합니다...
