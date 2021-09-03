@@ -89,41 +89,40 @@ public class SceneChanger : MonoBehaviour
             timer += Time.unscaledDeltaTime;
 
             #region 녹화용
-            progress = timer / 3f;
-            uiLoading.ipiaTransform.anchoredPosition
-                = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
-            if (progress >= 1f)
-            {
-                yield return new WaitForSecondsRealtime(1f);
-                asyncOperation.allowSceneActivation = true;
-            }
-
+            //progress = timer / 3f;
+            //uiLoading.ipiaTransform.anchoredPosition
+            //    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
+            //if (progress >= 1f)
+            //{
+            //    yield return new WaitForSecondsRealtime(1f);
+            //    asyncOperation.allowSceneActivation = true;
+            //}
             #endregion
             #region real
-            //if (asyncOperation.progress < 0.9f)
-            //{
-            //    progress = Mathf.Lerp(progress, asyncOperation.progress, timer);
-            //    //이피아 이동시키기
-            //    uiLoading.ipiaTransform.anchoredPosition
-            //        = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
+            if (asyncOperation.progress < 0.9f)
+            {
+                progress = Mathf.Lerp(progress, asyncOperation.progress, timer);
+                //이피아 이동시키기
+                uiLoading.ipiaTransform.anchoredPosition
+                    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
 
-            //    if (progress >= asyncOperation.progress)
-            //    {
-            //        timer = 0f;
-            //    }
-            //}
-            //else
-            //{
-            //    progress = Mathf.Lerp(progress, 1f, timer);
+                if (progress >= asyncOperation.progress)
+                {
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                progress = Mathf.Lerp(progress, 1f, timer);
 
-            //    uiLoading.ipiaTransform.anchoredPosition
-            //         = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
+                uiLoading.ipiaTransform.anchoredPosition
+                     = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
 
-            //    if (progress >= 1f)
-            //    {
-            //        break;
-            //    }
-            //}
+                if (progress >= 1f)
+                {
+                    break;
+                }
+            }
             #endregion
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
