@@ -31,7 +31,7 @@ public class GameStarter : MonoBehaviour
 
         yield return null;
 
-        SceneChanger.Instance.LoadTestHomeScene();
+        StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("TestHomeScene"));
 
     }
 

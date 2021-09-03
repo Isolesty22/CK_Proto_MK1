@@ -40,12 +40,6 @@ public class SceneChanger : MonoBehaviour
         }
     }
 
-    public void LoadTestHomeScene()
-    {
-        SceneManager.LoadScene("TestHomeScene");
-    }
-
-
     public IEnumerator LoadThisScene_Joke(string _sceneName)
     {
         isLoading = true;
@@ -55,13 +49,62 @@ public class SceneChanger : MonoBehaviour
         //시작위치 계산
         uiLoading.CalcStartPosY();
         float startY = uiLoading.startPosY;
-        float endY = 0f;
+        float absStartY = Mathf.Abs(uiLoading.startPosY);
 
-        //비동기로 로드
+        //이피아를 시작위치로
+        uiLoading.ipiaTransform.anchoredPosition
+            = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, uiLoading.startPosY);
+
+        uiLoading.Open();
+
+        //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
 
         SceneManager.sceneLoaded += LoadSceneEnd;
+
+        //타이머
+        float timer = 0f;
+
+        //진행도
+        float progress = 0f;
+
+        while (!asyncOperation.isDone) //로딩이 완료되기 전 까지만
+        {
+            timer += Time.unscaledDeltaTime;
+
+            if (asyncOperation.progress < 0.9f)
+            {
+                progress = Mathf.Lerp(progress, asyncOperation.progress, timer);
+                //이피아 이동시키기
+                uiLoading.ipiaTransform.anchoredPosition
+                    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
+
+                if (progress >= asyncOperation.progress)
+                {
+                    timer = 0f;
+                }
+            }
+            else
+            {
+                progress = Mathf.Lerp(progress, 1f, timer);
+
+                uiLoading.ipiaTransform.anchoredPosition
+                     = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
+
+                if (progress >= 1f)
+                {
+                    break;
+                }
+            }
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+
+        Debug.Log("씬 로딩 완료.");
+
+        asyncOperation.allowSceneActivation = true;
+
+        Debug.Log("씬을 활성화했습니다.");
 
         yield break;
     }
@@ -69,10 +112,17 @@ public class SceneChanger : MonoBehaviour
 
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
-
-        if (_scene.name == moveSceneName)
+        if (_scene.name != moveSceneName)
         {
-
+            Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");
+            return;
         }
+
+
+        uiLoading.Close();
+        SceneManager.sceneLoaded -= LoadSceneEnd;
+
+        Debug.Log("LoadSceneEnd 함수 호출!!");
+        isLoading = false;
     }
 }
