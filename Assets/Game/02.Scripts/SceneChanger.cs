@@ -72,6 +72,7 @@ public class SceneChanger : MonoBehaviour
 
         uiLoading.Open();
 
+        yield return new WaitUntil(() =>uiLoading.isOpen);
         //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
