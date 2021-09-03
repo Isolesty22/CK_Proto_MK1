@@ -1520,7 +1520,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1873932816}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: CloseTop
         m_Mode: 1
@@ -1728,7 +1728,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1873932816}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: CloseTop
         m_Mode: 1
@@ -2067,7 +2067,7 @@ GameObject:
   - component: {fileID: 1873932817}
   - component: {fileID: 1873932816}
   m_Layer: 0
-  m_Name: UIManager(DESTROYTEST)
+  m_Name: UIManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2085,6 +2085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5eeb116c9d630b5448065b520e256641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dontDestroyOnLoad: 0
   uiList: []
 --- !u!4 &1873932817
 Transform:

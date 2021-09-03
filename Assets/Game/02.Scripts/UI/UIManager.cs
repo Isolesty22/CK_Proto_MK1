@@ -8,12 +8,16 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [Header("씬 이동 시 파괴하지 않음")]
+    public bool dontDestroyOnLoad;
 
     #region Instance
     private static UIManager instance;
 
     public static UIManager Instance;
     #endregion
+
+    [Space(10)]
 
     [SerializeField]
     private List<UIBase> uiList = new List<UIBase>();
@@ -30,7 +34,10 @@ public class UIManager : MonoBehaviour
         {
             instance = this;
             Instance = instance;
-            DontDestroyOnLoad(this.gameObject);
+            if (dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }
         }
         else
         {

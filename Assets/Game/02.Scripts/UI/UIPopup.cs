@@ -10,6 +10,7 @@ public class UIPopup : UIBase
     private void Start()
     {
         Init();
+        RegisterUIManager();
     }
 
     public override void Init()
@@ -32,7 +33,6 @@ public class UIPopup : UIBase
         Com.canvas.enabled = false;
         return isOpen = Com.canvas.enabled;
     }
-
     public override void RegisterUIManager()
     {
         base.RegisterUIManager();

@@ -7,9 +7,19 @@ using UnityEngine;
 /// </summary>
 public class GameStarter : MonoBehaviour
 {
-
     public UISplashLogo uiSplashLogo;
-    private IEnumerator Start()
+
+    public SceneChanger sceneChanger;
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+    
+    private void Start()
+    {
+        StartCoroutine(ProcessStart());
+    }
+    private IEnumerator ProcessStart()
     {
         yield return new WaitUntil(() => uiSplashLogo.isEnd);
 
@@ -22,6 +32,7 @@ public class GameStarter : MonoBehaviour
         yield return null;
 
         SceneChanger.Instance.LoadTestHomeScene();
+
     }
 
 }
