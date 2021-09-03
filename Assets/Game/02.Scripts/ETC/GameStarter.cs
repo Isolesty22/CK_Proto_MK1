@@ -29,7 +29,7 @@ public class GameStarter : MonoBehaviour
         yield return StartCoroutine(AudioManager.Instance.Init());
         Debug.Log("오디오 파일을 불러왔습니다.");
 
-        yield return null;
+        yield return new WaitForSecondsRealtime(1f);
 
         StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("TestHomeScene"));
 
