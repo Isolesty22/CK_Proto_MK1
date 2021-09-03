@@ -109,6 +109,13 @@ public class UIManager : MonoBehaviour
     }
 
 
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
     /// <summary>
     /// uiList에 해당 uiBase를 Add합니다.
     /// </summary>

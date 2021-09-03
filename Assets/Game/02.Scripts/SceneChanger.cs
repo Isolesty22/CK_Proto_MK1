@@ -10,8 +10,16 @@ public class SceneChanger : MonoBehaviour
     public static SceneChanger Instance;
     #endregion
 
-    public bool goChange = false;
-    private bool testOff = false;
+
+    public UILoading uiLoading;
+
+    [Space(10)]
+
+    [SerializeField]
+    private bool isLoading = false;
+
+    [SerializeField]
+    private string moveSceneName = string.Empty;
     private void Awake()
     {
         if (Instance == null)
@@ -35,5 +43,36 @@ public class SceneChanger : MonoBehaviour
     public void LoadTestHomeScene()
     {
         SceneManager.LoadScene("TestHomeScene");
+    }
+
+
+    public IEnumerator LoadThisScene_Joke(string _sceneName)
+    {
+        isLoading = true;
+
+        moveSceneName = _sceneName;
+
+        //시작위치 계산
+        uiLoading.CalcStartPosY();
+        float startY = uiLoading.startPosY;
+        float endY = 0f;
+
+        //비동기로 로드
+        AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
+        asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
+
+        SceneManager.sceneLoaded += LoadSceneEnd;
+
+        yield break;
+    }
+
+
+    public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
+    {
+
+        if (_scene.name == moveSceneName)
+        {
+
+        }
     }
 }

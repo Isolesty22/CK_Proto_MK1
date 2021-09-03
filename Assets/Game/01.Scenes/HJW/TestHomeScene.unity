@@ -911,7 +911,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 554113553}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1873932816}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: OpenThis
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1079058137}
+          m_ObjectArgumentAssemblyTypeName: UIBase, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &554113553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1321,7 +1333,7 @@ GameObject:
   - component: {fileID: 1079058134}
   - component: {fileID: 1079058133}
   m_Layer: 0
-  m_Name: UIPopup(Exit)
+  m_Name: UIPopup(Quit)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1406,7 +1418,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1079058131}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_RenderMode: 0
   m_Camera: {fileID: 0}
@@ -1730,7 +1742,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1873932816}
         m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
-        m_MethodName: CloseTop
+        m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2067,7 +2079,7 @@ GameObject:
   - component: {fileID: 1873932817}
   - component: {fileID: 1873932816}
   m_Layer: 0
-  m_Name: UIManager
+  m_Name: UIManager(Main)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

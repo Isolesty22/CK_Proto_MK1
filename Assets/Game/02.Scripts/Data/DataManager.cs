@@ -130,42 +130,12 @@ public class DataManager : MonoBehaviour
     //}
 
     #region CheckFiles
-    /// <summary>
-    /// 모든 데이터 파일 및 폴더들이 존재하는지 검사하고, 없으면 생성합니다.
-    /// </summary>
-    private IEnumerator CheckFiles()
-    {
-        SetCurrentState(eDataManagerState.CHECK);
-
-        #region DataFiles 폴더 검사
-        DirectoryInfo directoryInfo = new DirectoryInfo(dataFilePath);
-
-        //DataFiles 폴더가 없으면 폴더 생성
-        if (directoryInfo.Exists == false)
-        {
-            directoryInfo.Create();
-            Debug.LogWarning(dataFilePath + "폴더를 생성했습니다.");
-        }
-        #endregion
-
-        //파일 검사--
-
-        yield return StartCoroutine(CheckThisFile(fileName_settings));
-
-        yield return StartCoroutine(CheckThisFile(fileName_player));
-
-#if UNITY_EDITOR
-        AssetDatabase.Refresh();
-#endif
-        SetCurrentState(eDataManagerState.FINISH);
-    }
 
     /// <summary>
     // 해당 이름을 가진 파일 및 폴더들이 존재하는지 검사하고, 없으면 생성합니다.
     /// </summary>
     private IEnumerator CheckThisFile(string _fileName)
     {
-
         currentFilePath = dataFilePath + _fileName;
 
         //설정 파일이 존재하는지 검사

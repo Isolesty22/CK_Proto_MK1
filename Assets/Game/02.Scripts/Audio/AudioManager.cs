@@ -63,11 +63,9 @@ public class AudioManager : MonoBehaviour
         
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan"));
         clipDict_BGM.Add("SS501_URMan", DataManager.Instance.fileManager.getAudioClip_Result);
-        Debug.Log("암욜맨을 불러왔습니다.");
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("The_Red_Knot"));
         clipDict_BGM.Add("The_Red_Knot", DataManager.Instance.fileManager.getAudioClip_Result);
-        Debug.Log("홍연을 불러왔습니다..");
 
 
         //while (true)

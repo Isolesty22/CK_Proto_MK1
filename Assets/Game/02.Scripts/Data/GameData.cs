@@ -83,12 +83,12 @@ public class Data_Player : GameData
      /// </summary>
     public Data_Player()
     {
-
+        currentStageName = "NONE";
     }
 
     public Data_Player(Data_Player _data)
     {
-
+        CopyData(_data);
     }
 
     /// <summary>
@@ -96,6 +96,6 @@ public class Data_Player : GameData
     /// </summary>
     public void CopyData(Data_Player _data)
     {
-
+        currentStageName = _data.currentStageName;
     }
 }
