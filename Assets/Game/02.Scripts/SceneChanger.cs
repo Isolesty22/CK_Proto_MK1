@@ -20,7 +20,6 @@ public class SceneChanger : MonoBehaviour
     }
     #endregion
 
-
     public bool goChange = false;
     private bool testOff = false;
     private void Awake()
@@ -28,7 +27,6 @@ public class SceneChanger : MonoBehaviour
         if (Instance == null)
         {
             instance = this;
-
             // DontDestroyOnLoad(this.gameObject);
         }
         else
@@ -37,18 +35,8 @@ public class SceneChanger : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void LoadTestHomeScene()
     {
-        if (goChange == true)
-        {
-            if (testOff == true)
-            {
-                return;
-            }
-
-            testOff = true;
-            SceneManager.LoadScene("TestHomeScene");
-        }
-
+        SceneManager.LoadScene("TestHomeScene");
     }
 }

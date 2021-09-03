@@ -11,17 +11,8 @@ public class UIManager : MonoBehaviour
 
     #region Instance
     private static UIManager instance;
-    public static UIManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<UIManager>();
-            }
-            return instance;
-        }
-    }
+
+    public static UIManager Instance;
     #endregion
 
     [SerializeField]
@@ -38,29 +29,31 @@ public class UIManager : MonoBehaviour
         if (Instance == null)
         {
             instance = this;
-
-            // DontDestroyOnLoad(this.gameObject);
+            Instance = instance;
+            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
             Debug.Log("이미 instance가 존재합니다." + this);
+            if (Instance != this) //나 자신이 인스턴스가 아닐 경우
+            {
+                Debug.Log(this + " : 더 이상, 이 세계선에서는 존재할 수 없을 것 같아... 안녕.");
+                Destroy(this.gameObject);
+            }
+
         }
     }
 
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            CloseTop();
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        CloseTop();
+    //    }
+    //}
 
     public void OpenThis(UIBase _uiBase)
     {
-
-
         if (_uiBase.isOpen)
         {
             Debug.Log("이미 열려있어!");
@@ -71,14 +64,14 @@ public class UIManager : MonoBehaviour
 
         if (latelyUI.Open()) //성공적으로 열렸으면
         {
-            if (uiStack.Count != 0)
+            if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                uiStack.Peek().Com.canvasGroup.interactable = false;
+                //uiStack.Peek().Com.canvasGroup.interactable = false;
             }
 
             uiStack.Push(latelyUI);
 
-            latelyUI.Com.canvasGroup.interactable = true;
+            //latelyUI.Com.canvasGroup.interactable = true;
             latelyUI.Com.canvas.sortingOrder = uiStack.Count;
         }
     }
@@ -100,9 +93,9 @@ public class UIManager : MonoBehaviour
         {
             uiStack.Pop();
 
-            if (uiStack.Count != 0)
+            if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                uiStack.Peek().Com.canvasGroup.interactable = true;
+                // uiStack.Peek().Com.canvasGroup.interactable = true;
             }
         }
 

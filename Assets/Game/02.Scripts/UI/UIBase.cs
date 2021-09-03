@@ -15,8 +15,12 @@ public class UIBase : MonoBehaviour
     [Serializable]
     public class Components
     {
+        [Tooltip("실제 이미지 등이 들어있는 게임 오브젝트입니다.")]
+        public GameObject contentObject;
+
         public Canvas canvas;
         public CanvasGroup canvasGroup;
+
     }
     #endregion
 
@@ -35,7 +39,6 @@ public class UIBase : MonoBehaviour
     {
         Init();
         RegisterUIManager();
-
     }
 
     public virtual void Init()
@@ -48,7 +51,7 @@ public class UIBase : MonoBehaviour
     /// <summary>
     /// canvas의 활성화 상태에 따라 enabled와 isOpen의 값을 결정합니다.
     /// </summary>
-    protected void CheckOpen()
+    protected virtual void CheckOpen()
     {
         isOpen = Com.canvas.enabled ? true : false;
         this.enabled = isOpen;
@@ -56,7 +59,6 @@ public class UIBase : MonoBehaviour
 
     public virtual bool Open()
     {
-        
         Com.canvas.enabled = true;
         isOpen = true;
 
