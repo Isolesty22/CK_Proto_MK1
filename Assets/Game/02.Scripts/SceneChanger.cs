@@ -128,7 +128,7 @@ public class SceneChanger : MonoBehaviour
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
-
+        yield return new WaitForSecondsRealtime(0.5f);
 
         Debug.Log("씬 로딩 완료.");
 
