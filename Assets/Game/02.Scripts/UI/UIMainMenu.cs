@@ -6,7 +6,7 @@ public class UIMainMenu : UIBase
 {
     private void Start()
     {
-        
+        Init();
     }
     public void TestFunc()
     {
@@ -20,7 +20,8 @@ public class UIMainMenu : UIBase
 
     public override void Init()
     {
-        base.Init();
+        RegisterUIManager();
+        Debug.LogWarning(this.GetType().Name);
     }
 
     protected override void CheckOpen()
@@ -43,6 +44,8 @@ public class UIMainMenu : UIBase
 
     public override void RegisterUIManager()
     {
-        base.RegisterUIManager();
+        UIManager.Instance.RegisterDictThis(this.GetType().Name, this);
+        UIManager.Instance.RegisterListThis( this);
+
     }
 }

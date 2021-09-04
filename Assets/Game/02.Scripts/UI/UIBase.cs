@@ -10,7 +10,7 @@ using UnityEngine.UI;
 public class UIBase : MonoBehaviour
 {
 
-    private readonly float fadeDuration = 0.3f;
+    private readonly float fadeDuration = 0.2f;
 
     [Tooltip("열려있는 상태일 때 true를 반환함!")]
     public bool isOpen;
@@ -152,7 +152,7 @@ public class UIBase : MonoBehaviour
     /// </summary>
     public virtual void RegisterUIManager()
     {
-        UIManager.Instance.RegisterThis(this);
+        UIManager.Instance.RegisterListThis(this);
     }
 
 }
