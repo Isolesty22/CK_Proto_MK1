@@ -72,13 +72,11 @@ public class DataManager : MonoBehaviour
 
     public IEnumerator Init_DataFiles()
     {
+        SetCurrentState(eDataManagerState.CHECK);
 
         dataFilePath = Application.dataPath + "/DataFiles/";
 
-
-        SetCurrentState(eDataManagerState.CHECK);
-
-        #region DataFiles 폴더 검사
+        #region DataFiles 폴더 존재 유무 검사
         DirectoryInfo directoryInfo = new DirectoryInfo(dataFilePath);
 
         //DataFiles 폴더가 없으면 폴더 생성
@@ -96,17 +94,10 @@ public class DataManager : MonoBehaviour
         isCreatedNewPlayerData = false;
         yield return StartCoroutine(CheckThisFile(fileName_player));
 
-
-
 #if UNITY_EDITOR
         AssetDatabase.Refresh();
 #endif
-
-
-
         #endregion
-
-        SetCurrentState(eDataManagerState.FINISH);
         SetCurrentState(eDataManagerState.LOAD);
 
         yield return StartCoroutine(LoadData_Settings());
@@ -114,8 +105,6 @@ public class DataManager : MonoBehaviour
         yield return StartCoroutine(LoadData_Player());
 
         SetCurrentState(eDataManagerState.FINISH);
-
-
     }
 
 

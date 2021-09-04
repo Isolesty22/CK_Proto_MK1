@@ -39,12 +39,14 @@ public class UILoading : UIBase
 
     public override bool Open()
     {
+        fadeDuration = 0.3f;
         StartCoroutine(ProcessOpen());
         return true;
     }
 
     public override bool Close()
     {
+        fadeDuration = 0.5f;
         StartCoroutine(ProcessClose());
         return true;
     }

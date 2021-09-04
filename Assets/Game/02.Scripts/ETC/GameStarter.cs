@@ -36,10 +36,11 @@ public class GameStarter : MonoBehaviour
         //데이터 파일 로드 
         SetText_Load("이피아가 이불을 정리하는 중...");
         yield return StartCoroutine(DataManager.Instance.Init_DataFiles());
-
+        yield return new WaitForSecondsRealtime(1f);
         //오디오 파일 로드
         SetText_Load("이피아가 양치질 하는 중...");
         yield return StartCoroutine(AudioManager.Instance.Init());
+        yield return new WaitForSecondsRealtime(1f);
 
         SetText_Load("이피아가 모든 준비를 끝마쳤습니다.");
         yield return new WaitForSecondsRealtime(1f);
@@ -64,8 +65,8 @@ public class GameStarter : MonoBehaviour
         yield return null;
 
         //메인 메뉴 Open
-        UIMainMenu uiMainMenu = UIManager.Instance.uiDict["UIMainMenu"] as UIMainMenu;
-        uiMainMenu.Open();
+        //UIMainMenu uiMainMenu = UIManager.Instance.uiDict["UIMainMenu"] as UIMainMenu;
+        //uiMainMenu.Open();
 
     }
 

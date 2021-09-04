@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class UIMainMenu : UIBase
 {
+
+    
     private void Start()
     {
         Init();
-        //Open();
+        Open();
     }
     public void TestFunc()
     {

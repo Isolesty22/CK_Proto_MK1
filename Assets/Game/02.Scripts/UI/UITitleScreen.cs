@@ -47,11 +47,13 @@ public class UITitleScreen : UIBase
 
     public override bool Open()
     {
+        fadeDuration = 0.5f;
         StartCoroutine(ProcessOpen());
         return true;
     }
     public override bool Close()
     {
+        fadeDuration = 1f;
         StartCoroutine(ProcessClose());
         return true;
     }
@@ -62,7 +64,6 @@ public class UITitleScreen : UIBase
     //}
     protected override IEnumerator ProcessClose()
     {
-        fadeDuration = 1f;
         return base.ProcessClose();
     }
 }
