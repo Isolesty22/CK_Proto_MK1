@@ -13,7 +13,17 @@ public class PlayerHitBox : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if(!playerController.State.isInvincible)
+        if (playerController.State.canParry)
+        {
+            if(other.CompareTag("Monster"))
+            {
+                StartCoroutine(playerController.Parrying());
+                return;
+            }
+        }
+
+        //피격 가능
+        if (!playerController.State.isInvincible )
         {
             if (other.CompareTag("Monster"))
             {
@@ -22,5 +32,6 @@ public class PlayerHitBox : MonoBehaviour
                 Debug.Log("hit");
             }
         }
+
     }
 }
