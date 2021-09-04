@@ -41,18 +41,13 @@ public class LarvaController : MonsterController
         State(state);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Hitted()
     {
-        if (other.transform.CompareTag("Bullet"))
-        {
-            other.gameObject.SetActive(false);
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
+        if (Stat.hp > 1)
+            Stat.hp--;
+        else
+            ChangeState("Dead");
     }
-
     public void State(MonsterState state)
     {
         switch (state)
@@ -127,11 +122,11 @@ public class LarvaController : MonsterController
             case AttackState.Wait:
                 break;
             case AttackState.Down:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed);
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed * 0.1f);
                 isRunninCo = false;
                 break;
             case AttackState.Up:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed);
+                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed * 0.1f);
                 isRunninCo = false;
                 break;
             default:

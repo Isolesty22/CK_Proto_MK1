@@ -24,16 +24,12 @@ public class VenomMushroomController : MonsterController
         State(state);
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Hitted()
     {
-        if (other.transform.CompareTag("Bullet"))
-        {
-            other.gameObject.SetActive(false);
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
+        if (Stat.hp > 1)
+            Stat.hp--;
+        else
+            ChangeState("Dead");
     }
 
     public void State(MonsterState state)

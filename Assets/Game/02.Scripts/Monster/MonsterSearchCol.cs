@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class MonsterSearchCol : MonoBehaviour
 {
+    public GameObject originMonster;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            Debug.Log("Detect Player");
-            transform.parent.SendMessage("ChangeState", "Attack");
+                originMonster.transform.SendMessage("ChangeState", "Attack");
         }
     }
 
@@ -17,8 +18,7 @@ public class MonsterSearchCol : MonoBehaviour
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            Debug.Log("Detect Player");
-            transform.parent.SendMessage("ChangeState", "Search");
+                originMonster.transform.SendMessage("ChangeState", "Search");
         }
     }
 }

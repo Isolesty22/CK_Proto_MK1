@@ -26,6 +26,7 @@ public class MonsterController : MonoBehaviour
         public Rigidbody rigidbody;
         public Collider collider;
         public Collider searchCol;
+        public Collider hitBox;
     }
 
     #endregion
@@ -47,6 +48,6 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Dead()
     {
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
     }
 }

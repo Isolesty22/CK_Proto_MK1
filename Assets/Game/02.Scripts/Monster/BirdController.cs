@@ -20,22 +20,10 @@ public class BirdController : MonsterController
     {
         
     }
-
+    
     void Update()
     {
         State(state);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform.CompareTag("Bullet"))
-        {
-            other.gameObject.SetActive(false);
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
     }
 
     public void State(MonsterState state)
@@ -102,4 +90,11 @@ public class BirdController : MonsterController
         base.Dead();
     }
 
+    public void Hitted()
+    {
+        if (Stat.hp > 1)
+            Stat.hp--;
+        else
+            ChangeState("Dead");
+    }
 }
