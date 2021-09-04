@@ -6,6 +6,9 @@ public class MonsterHitBox : MonoBehaviour
 {
     public GameObject originMonster;
 
+    private void Start()
+    {
+    }
     private void Update()
     {
         gameObject.transform.position = originMonster.transform.position;
@@ -16,6 +19,19 @@ public class MonsterHitBox : MonoBehaviour
         {
             other.gameObject.SetActive(false);
             originMonster.transform.SendMessage("Hitted");
+        }
+
+        if (other.transform.CompareTag("Player"))
+        {
+            other.GetComponent<PlayerController>().Hitted(gameObject.transform.position);
+        }
+
+        if (other.transform.GetComponent<SowBugController>() != null)
+        {
+            if (other.transform.CompareTag("Player") || other.transform.CompareTag("Wall"))
+            {
+                originMonster.transform.SendMessage("Dead");
+            }
         }
     }
 }

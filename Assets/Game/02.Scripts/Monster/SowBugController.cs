@@ -13,6 +13,8 @@ public class SowBugController : MonsterController
     public MonsterState state = MonsterState.Search;
 
     public bool isRunninCo;
+    public float moveSpeed;
+    public float stunTime;
     #endregion
 
     void Start()
@@ -90,10 +92,19 @@ public class SowBugController : MonsterController
     protected override void Attack()
     {
         base.Attack();
+        transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
     }
     protected override void Dead()
     {
-        base.Dead();
+        if(isRunninCo == false)
+            StartCoroutine(Stun());
     }
 
+    private IEnumerator Stun()
+    {
+        isRunninCo = true;
+        yield return new WaitForSeconds(stunTime);
+        base.Dead();
+        isRunninCo = false;
+    }
 }

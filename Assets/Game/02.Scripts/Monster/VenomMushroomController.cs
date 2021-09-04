@@ -13,6 +13,10 @@ public class VenomMushroomController : MonsterController
     public MonsterState state = MonsterState.Search;
 
     public bool isRunninCo;
+    public ParticleSystem venomSpore;
+    public float poisonTime;
+    public float sporeAreaActiveTime;
+    public GameObject sporeArea;
     #endregion
     void Start()
     {
@@ -89,10 +93,24 @@ public class VenomMushroomController : MonsterController
     protected override void Attack()
     {
         base.Attack();
+        if (isRunninCo == false)
+        {
+            venomSpore.Play();
+            StartCoroutine(activeSpore());
+        }
     }
     protected override void Dead()
     {
         base.Dead();
+    }
+
+    private IEnumerator activeSpore()
+    {
+        isRunninCo = true;
+        sporeArea.SetActive(true);
+        yield return new WaitForSeconds(sporeAreaActiveTime);
+        sporeArea.SetActive(false);
+        isRunninCo = false;
     }
 
 }

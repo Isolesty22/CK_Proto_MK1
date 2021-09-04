@@ -988,10 +988,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 87700487907798768, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_Height
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 87700487907798771, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
       propertyPath: originMonster
       value: 
-      objectReference: {fileID: 598796847}
+      objectReference: {fileID: 87700488836066544}
     - target: {fileID: 87700487962799420, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
       propertyPath: originMonster
       value: 
@@ -1003,6 +1007,18 @@ PrefabInstance:
     - target: {fileID: 87700488742806687, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
       propertyPath: m_RootOrder
       value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 87700488742806687, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 87700488742806687, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 87700488742806687, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 87700488742806687, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1044,8 +1060,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 87700488899757351, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: sporeArea
+      value: 
+      objectReference: {fileID: 87700488836066543}
+    - target: {fileID: 87700488899757351, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: poisonTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 87700488899757351, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: venomSpore
+      value: 
+      objectReference: {fileID: 87700488836066545}
+    - target: {fileID: 87700488899757351, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: sporeAreaActiveTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 87700488899757354, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608751217199992976, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3473125228268905492, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_Radius
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105929425829699648, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+--- !u!1 &87700488836066543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4869118239089794741, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+  m_PrefabInstance: {fileID: 87700488836066542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &87700488836066544 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 87700488899757357, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+  m_PrefabInstance: {fileID: 87700488836066542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &87700488836066545 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 4442642377889800920, guid: 89c691e3460c15e41b5e79755d6ac0ef, type: 3}
+  m_PrefabInstance: {fileID: 87700488836066542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1328435131552697241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1318,7 +1381,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6918166240845214582, guid: 7697797e39fcc324599100b9bf5400cf, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7697797e39fcc324599100b9bf5400cf, type: 3}

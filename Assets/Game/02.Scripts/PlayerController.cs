@@ -107,6 +107,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 crouchCapsulePoint1 => new Vector3(transform.position.x, Com.crouchCollier.radius, 0);
     private Vector3 crouchCapsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.crouchCollier.height / 2 - Com.crouchCollier.radius, 0);
 
+    public bool isPoison;
+
     #endregion
 
     public GameObject bullets;
@@ -437,12 +439,23 @@ public class PlayerController : MonoBehaviour
         
         Com.rigidbody.AddForce(new Vector3(direction.x * Val.knockBackPower.x, Val.knockBackPower.y, Val.knockBackPower.z), ForceMode.Impulse);
 
-        if(Stat.hp == 1)
+        if (isPoison == true)
         {
-            //게임오버
-        }
-        else Stat.hp--;
+            if (Stat.hp <= 2)
+            {
+                //게임오버
+            }
+            else Stat.hp -= 2;
 
+        }
+        else
+        {
+            if (Stat.hp <= 1)
+            {
+                //게임오버
+            }
+            else Stat.hp--;
+        }
         State.isHitted = true;
         yield return new WaitForSeconds(Stat.invincibleTime);
         State.isHitted = false;
