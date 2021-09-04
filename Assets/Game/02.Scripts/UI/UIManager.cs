@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     private List<UIBase> uiList = new List<UIBase>();
 
     [Tooltip("하나 밖에 존재하지 않는 UI들을 위한 딕셔너리")]
-    private Dictionary<string, UIBase> uiDict = new Dictionary<string, UIBase>();
+    public Dictionary<string, UIBase> uiDict = new Dictionary<string, UIBase>();
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();

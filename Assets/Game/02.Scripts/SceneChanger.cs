@@ -156,7 +156,5 @@ public class SceneChanger : MonoBehaviour
         Debug.Log("LoadSceneEnd 함수 호출!!");
 
         uiLoading.Close();
-
-        isLoading = false;
     }
 }

@@ -39,11 +39,11 @@ public class UIBase : MonoBehaviour
 
 
 
-    private void Start()
-    {
-        Init();
-        RegisterUIManager();
-    }
+    //private void Start()
+    //{
+    //    Init();
+    //    RegisterUIManager();
+    //}
 
     public virtual void Init()
     {
@@ -57,7 +57,7 @@ public class UIBase : MonoBehaviour
     /// </summary>
     protected virtual void CheckOpen()
     {
-        isOpen = Com.canvas.enabled ? true : false;
+        isOpen = Com.canvas.enabled;
         this.enabled = isOpen;
     }
 
@@ -80,7 +80,7 @@ public class UIBase : MonoBehaviour
         return true;
     }
 
-    protected IEnumerator ProcessOpen()
+    protected virtual IEnumerator ProcessOpen()
     {
         isOpen = false;
 
@@ -111,7 +111,7 @@ public class UIBase : MonoBehaviour
         yield break;
     }
 
-    protected IEnumerator ProcessClose()
+    protected virtual IEnumerator ProcessClose()
     {
         isOpen = true;
         //  yield return new WaitUntil(() =>SceneChanger.Instance.);

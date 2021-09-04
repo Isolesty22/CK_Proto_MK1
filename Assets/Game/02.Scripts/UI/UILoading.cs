@@ -49,7 +49,12 @@ public class UILoading : UIBase
         return true;
     }
 
-    
+    protected override IEnumerator ProcessClose()
+    {
+        yield return StartCoroutine(base.ProcessClose());
+        SceneChanger.Instance.isLoading = false;
+    }
+
     public override void RegisterUIManager()
     {
         base.RegisterUIManager();

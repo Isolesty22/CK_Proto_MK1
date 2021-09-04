@@ -37,11 +37,12 @@ public class GameStarter : MonoBehaviour
 
         //로딩이 끝날 때 까지 대기
         yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
-
         yield return null;
        
         Debug.Log("GameStarter Log");
-
+        UIMainMenu uiMainMenu = UIManager.Instance.uiDict["UIMainMenu"] as UIMainMenu;
+        uiMainMenu.Open();
+ 
     }
 
 }
