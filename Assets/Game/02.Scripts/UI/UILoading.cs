@@ -30,7 +30,7 @@ public class UILoading : UIBase
 
     public override void Init()
     {
-        CheckOpen();
+        base.Init();
     }
     protected override void CheckOpen()
     {

@@ -8,6 +8,7 @@ using UnityEngine;
 public class GameStarter : MonoBehaviour
 {
     public UISplashLogo uiSplashLogo;
+    public UITitleScreen uiTitleScreen;
 
     public SceneChanger sceneChanger;
     private void Awake()
@@ -33,13 +34,15 @@ public class GameStarter : MonoBehaviour
         Debug.Log("오디오 파일을 불러왔습니다.");
         yield return new WaitForSecondsRealtime(1f);
 
+        //메인 화면으로 이동
         StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("TestHomeScene"));
 
         //로딩이 끝날 때 까지 대기
         yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
+
         yield return null;
        
-        Debug.Log("GameStarter Log");
+        //메인 메뉴 Open
         UIMainMenu uiMainMenu = UIManager.Instance.uiDict["UIMainMenu"] as UIMainMenu;
         uiMainMenu.Open();
  

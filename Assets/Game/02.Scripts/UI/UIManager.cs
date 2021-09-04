@@ -82,7 +82,7 @@ public class UIManager : MonoBehaviour
             uiStack.Push(latelyUI);
 
             //latelyUI.Com.canvasGroup.interactable = true;
-            latelyUI.Com.canvas.sortingOrder = uiStack.Count;
+            latelyUI.Com.canvas.sortingOrder = 10 + uiStack.Count;
         }
     }
 

@@ -45,6 +45,9 @@ public class UIBase : MonoBehaviour
     //    RegisterUIManager();
     //}
 
+    /// <summary>
+    /// GetComponent, CheckOpen
+    /// </summary>
     public virtual void Init()
     {
         Com.canvas = GetComponent<Canvas>();
