@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class RabbitController : MonsterController
 {
+    #region
+    public MonsterState state = MonsterState.Search;
+
+    public bool isRunninCo;
 
     public float nextActDelay;
     public int nextActNum;
 
     public float jumpPower;
     public float moveSpeed;
+    #endregion
 
     private float timer;
     private int randomJump;
@@ -23,13 +28,7 @@ public class RabbitController : MonsterController
     {
         State(state);
     }
-    public void Hitted()
-    {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
-    }
+
     public void ChangeState(string functionName)
     {
         if (functionName == "Search")

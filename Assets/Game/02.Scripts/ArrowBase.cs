@@ -10,6 +10,7 @@ public class ArrowBase : MonoBehaviour
     {
         if(other.CompareTag("Monster"))
         {
+            other.GetComponent<MonsterController>().Hit();
             isAlive = false;
             ArrowPool.instance.Despawn(this.gameObject);
         }

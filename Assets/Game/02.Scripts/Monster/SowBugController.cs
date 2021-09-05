@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class SowBugController : MonsterController
 {
+    #region
+    public MonsterState state = MonsterState.Search;
+
+    public bool isRunninCo;
     public float moveSpeed;
     public float stunTime;
+    #endregion
 
     void Start()
     {

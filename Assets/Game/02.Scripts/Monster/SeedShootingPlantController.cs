@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class SeedShootingPlantController : MonsterController
 {
+    #region
+    public MonsterState state = MonsterState.Search;
+
     public List<GameObject> seeds = new List<GameObject>();
     private static int bulletCount;
 
     public float shootDelay;
     public float seedSpeed;
 
+    public bool isRunninCo;
+    #endregion
     void Start()
     {
         
@@ -19,6 +24,12 @@ public class SeedShootingPlantController : MonsterController
     {
         State(state);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Arrow"))
+            Hitted();
+    }
+
     public void Hitted()
     {
         if (Stat.hp > 1)

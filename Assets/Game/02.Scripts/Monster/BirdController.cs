@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class BirdController : MonsterController
 {
+    #region
+    public MonsterState state = MonsterState.Search;
+
+    public bool isRunninCo;
     public float moveSpeed;
+    #endregion
 
     void Start()
     {
@@ -14,6 +19,12 @@ public class BirdController : MonsterController
     void Update()
     {
         State(state);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Arrow"))
+            Hitted();
     }
 
     public void State(MonsterState state)
