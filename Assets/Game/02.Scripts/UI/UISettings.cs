@@ -9,6 +9,7 @@ using UnityEngine.Audio;
 /// </summary>
 public class UISettings : UIBase
 {
+    [Space(10)]
     public AudioMixer audioMixer;
 
     [Tooltip("현재 저장되어있는 데이터. \nDataManager의 Data_Settings와 동일해야합니다.")]
