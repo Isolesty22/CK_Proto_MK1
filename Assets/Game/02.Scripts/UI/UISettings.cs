@@ -73,9 +73,6 @@ public class UISettings : UIBase
     }
 
 
-
-
-
     public void Button_Close(UIBase _uiBase)
     {
         //변경사항이 있다면
@@ -94,11 +91,9 @@ public class UISettings : UIBase
 
     }
 
-
     /// <summary>
     /// UI들의 값을 _data에 있는 것으로 변경합니다.
     /// </summary>
-    /// <param name="_data"></param>
     public void UpdateUI(Data_Settings _data)
     {
         VolumeSlider.master.value = GetFloat(_data.volume_master);
@@ -118,7 +113,7 @@ public class UISettings : UIBase
     }
 
     /// <summary>
-    /// 데이터를 저장합니다.
+    /// data_current를 저장합니다.
     /// </summary>
     /// <returns></returns>
     private IEnumerator ProcessSaveData(Data_Settings _data)
@@ -128,14 +123,17 @@ public class UISettings : UIBase
     public void ValueChanged_MasterSlider()
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
+        data_current.volume_master = VolumeSlider.master.value.ToString();
     }
     public void ValueChanged_BGMSlider()
     {
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
+        data_current.volume_bgm = VolumeSlider.bgm.value.ToString();
     }
     public void ValueChanged_SFXSlider()
     {
         audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
+        data_current.volume_sfx = VolumeSlider.sfx.value.ToString();
     }
 
 
