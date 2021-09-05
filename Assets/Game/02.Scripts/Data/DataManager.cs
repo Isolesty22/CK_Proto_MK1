@@ -41,6 +41,8 @@ public class DataManager : MonoBehaviour
     [Tooltip("현재 반영되어있는 설정 데이터")]
     public Data_Player currentData_player;
 
+    [HideInInspector, Tooltip("플레이어 데이터를 새로 생성했는가? \n (로드 시 Data_Player 파일이 없는 경우에 true)")]
+    public bool isCreatedNewPlayerData = false;
 
     private void Awake()
     {
@@ -70,12 +72,11 @@ public class DataManager : MonoBehaviour
 
     public IEnumerator Init_DataFiles()
     {
-        dataFilePath = Application.dataPath + "/DataFiles/";
-
-
         SetCurrentState(eDataManagerState.CHECK);
 
-        #region DataFiles 폴더 검사
+        dataFilePath = Application.dataPath + "/DataFiles/";
+
+        #region DataFiles 폴더 존재 유무 검사
         DirectoryInfo directoryInfo = new DirectoryInfo(dataFilePath);
 
         //DataFiles 폴더가 없으면 폴더 생성
@@ -90,19 +91,13 @@ public class DataManager : MonoBehaviour
 
         yield return StartCoroutine(CheckThisFile(fileName_settings));
 
+        isCreatedNewPlayerData = false;
         yield return StartCoroutine(CheckThisFile(fileName_player));
-
-
 
 #if UNITY_EDITOR
         AssetDatabase.Refresh();
 #endif
-
-
-
         #endregion
-
-        SetCurrentState(eDataManagerState.FINISH);
         SetCurrentState(eDataManagerState.LOAD);
 
         yield return StartCoroutine(LoadData_Settings());
@@ -110,8 +105,6 @@ public class DataManager : MonoBehaviour
         yield return StartCoroutine(LoadData_Player());
 
         SetCurrentState(eDataManagerState.FINISH);
-
-
     }
 
 
@@ -156,6 +149,9 @@ public class DataManager : MonoBehaviour
                     break;
 
                 case fileName_player:
+                    //플레이어 데이터를 새로 생성했다는 표시
+                    isCreatedNewPlayerData = true;
+
                     //기본값 생성
                     Data_Player playerData = new Data_Player();
                     currentData_player.CopyData(playerData);

@@ -24,14 +24,20 @@ public class UIPopup : UIBase
 
     public override bool Open()
     {
-        Com.canvas.enabled = true;
-        return isOpen = Com.canvas.enabled;
+        StartCoroutine(ProcessOpen());
+        return true;
+
+        //Com.canvas.enabled = true;
+        //return isOpen = Com.canvas.enabled;
     }
 
     public override bool Close()
     {
-        Com.canvas.enabled = false;
-        return isOpen = Com.canvas.enabled;
+
+        StartCoroutine(ProcessClose());
+        return true;
+        //Com.canvas.enabled = false;
+        //return !(isOpen = Com.canvas.enabled);
     }
     public override void RegisterUIManager()
     {

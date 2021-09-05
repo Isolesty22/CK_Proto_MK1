@@ -26,10 +26,6 @@ public class UISplashLogo : MonoBehaviour
     {
         isEnd = false;
     }
-    private void Start()
-    {
-        StartCoroutine(ProcessSplashAllImage());
-    }
 
     public IEnumerator ProcessSplashAllImage()
     {

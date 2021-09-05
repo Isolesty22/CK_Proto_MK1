@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private List<UIBase> uiList = new List<UIBase>();
 
+    [Tooltip("하나 밖에 존재하지 않는 UI들을 위한 딕셔너리")]
+    public Dictionary<string, UIBase> uiDict = new Dictionary<string, UIBase>();
+
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
 
@@ -79,7 +82,7 @@ public class UIManager : MonoBehaviour
             uiStack.Push(latelyUI);
 
             //latelyUI.Com.canvasGroup.interactable = true;
-            latelyUI.Com.canvas.sortingOrder = uiStack.Count;
+            latelyUI.Com.canvas.sortingOrder = 10 + uiStack.Count;
         }
     }
 
@@ -119,9 +122,15 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// uiList에 해당 uiBase를 Add합니다.
     /// </summary>
-    public void RegisterThis(UIBase _uiBase)
+    public void RegisterListThis(UIBase _uiBase)
     {
         uiList.Add(_uiBase);
+        //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
+    }
+
+    public void RegisterDictThis(string _uiName ,UIBase _uiBase)
+    {
+        uiDict.Add(_uiName, _uiBase);
         //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
     }
 }

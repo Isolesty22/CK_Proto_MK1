@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UIMainMenu : MonoBehaviour
+public class UIMainMenu : UIBase
 {
 
+    
+    private void Start()
+    {
+        Init();
+        Open();
+    }
     public void TestFunc()
     {
         if (SceneChanger.Instance == null)
@@ -13,5 +19,36 @@ public class UIMainMenu : MonoBehaviour
         }
 
         StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("TestHomeScene"));
+    }
+
+    public override void Init()
+    {
+        base.Init();
+        RegisterUIManager();
+    }
+
+    protected override void CheckOpen()
+    {
+        base.CheckOpen();
+    }
+
+    public override bool Open()
+    {
+        StartCoroutine(ProcessOpen());
+        return true;
+    }
+
+    public override bool Close()
+    {
+        StartCoroutine(ProcessClose());
+        return true;
+
+    }
+
+    public override void RegisterUIManager()
+    {
+        UIManager.Instance.RegisterDictThis(this.GetType().Name, this);
+        UIManager.Instance.RegisterListThis(this);
+
     }
 }

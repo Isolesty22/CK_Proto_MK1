@@ -30,11 +30,12 @@ public class SceneChanger : MonoBehaviour
 
     [Space(10)]
 
-    [SerializeField]
-    private bool isLoading = false;
+    [HideInInspector]
+    public bool isLoading = false;
 
     [SerializeField]
     private string moveSceneName = string.Empty;
+
     private void Awake()
     {
         if (Instance == null)
@@ -54,7 +55,6 @@ public class SceneChanger : MonoBehaviour
 
         }
     }
-
     public IEnumerator LoadThisScene_Joke(string _sceneName)
     {
         isLoading = true;
@@ -156,7 +156,5 @@ public class SceneChanger : MonoBehaviour
         Debug.Log("LoadSceneEnd 함수 호출!!");
 
         uiLoading.Close();
-
-        isLoading = false;
     }
 }

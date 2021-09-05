@@ -60,13 +60,18 @@ public class AudioManager : MonoBehaviour
     public IEnumerator LoadAudioClips()
     {
 
-        
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan"));
         clipDict_BGM.Add("SS501_URMan", DataManager.Instance.fileManager.getAudioClip_Result);
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("The_Red_Knot"));
         clipDict_BGM.Add("The_Red_Knot", DataManager.Instance.fileManager.getAudioClip_Result);
 
+        /*
+         * for (i = 0; i < audioFileNameList.Count; i++) {
+         *  yield return StartCoroutine GetAudioClip(audioFileNameList[i]);
+         *  clipDict_BGM.Add(audioFileNameList[i], getAudioClip_Result);
+         *  }
+         */
 
         //while (true)
         //{
