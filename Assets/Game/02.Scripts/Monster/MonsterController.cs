@@ -28,6 +28,14 @@ public class MonsterController : MonoBehaviour
         public Collider searchCol;
     }
 
+    [SerializeField] private Components components = new Components();
+    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+
+    public Components Com => components;
+    public MonsterStatus Stat => monsterStatus;
+    public MonsterState state = MonsterState.Search;
+
+    public bool isRunninCo;
     #endregion
 
     protected virtual void Search()

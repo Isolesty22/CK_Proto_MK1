@@ -4,22 +4,12 @@ using UnityEngine;
 
 public class RabbitController : MonsterController
 {
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
 
     public float nextActDelay;
     public int nextActNum;
 
     public float jumpPower;
     public float moveSpeed;
-    #endregion
 
     private float timer;
     private int randomJump;
@@ -32,11 +22,6 @@ public class RabbitController : MonsterController
     void Update()
     {
         State(state);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Arrow"))
-            Hitted();
     }
     public void Hitted()
     {

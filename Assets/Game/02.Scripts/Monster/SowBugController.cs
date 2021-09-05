@@ -4,18 +4,8 @@ using UnityEngine;
 
 public class SowBugController : MonsterController
 {
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
     public float moveSpeed;
     public float stunTime;
-    #endregion
 
     void Start()
     {

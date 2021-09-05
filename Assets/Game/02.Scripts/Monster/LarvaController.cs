@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class LarvaController : MonsterController
 {
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
 
     public float upDownSpeed;
     public float upDelay;
     public float downRange;
-    public bool isRunninCo;
-    #endregion
 
     private Vector3 pos;
     private Vector3 destPos;
@@ -39,11 +30,6 @@ public class LarvaController : MonsterController
     void Update()
     {
         State(state);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Arrow"))
-            Hitted();
     }
 
     public void Hitted()

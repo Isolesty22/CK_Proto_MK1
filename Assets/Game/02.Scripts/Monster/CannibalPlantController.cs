@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class CannibalPlantController : MonsterController
 {
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
     public float moveSpeed;
 
     public Mesh changeMesh;
-    #endregion
 
     void Start()
     {
@@ -26,12 +17,6 @@ public class CannibalPlantController : MonsterController
     void Update()
     {
         State(state);
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Arrow"))
-            Hitted();
     }
 
     public void Hitted()
@@ -99,7 +84,7 @@ public class CannibalPlantController : MonsterController
     protected override void Attack()
     {
         base.Attack();
-        gameObject.transform.GetComponent<MeshFilter>().sharedMesh = changeMesh;
+        gameObject.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh = changeMesh;
         gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameManager.instance.playerController.gameObject.transform.position, moveSpeed * 0.1f);
     }
     protected override void Dead()
