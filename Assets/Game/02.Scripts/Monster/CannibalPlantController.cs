@@ -35,15 +35,6 @@ public class CannibalPlantController : MonsterController
         else
             ChangeState("Dead");
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Player"))
-        {
-            StartCoroutine(collision.transform.GetComponent<PlayerController>().Hitted(gameObject.transform.position));
-            gameObject.SetActive(false);
-        }
-    }
-
 
     public void State(MonsterState state)
     {

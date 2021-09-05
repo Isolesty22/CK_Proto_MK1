@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
         public bool isLookUp;
         public bool canParry;
         public bool isParrying;
+        public bool isPoison;
     }
 
     [Serializable]

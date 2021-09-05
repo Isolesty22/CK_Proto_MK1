@@ -13,17 +13,13 @@ public class MonsterHitBox : MonoBehaviour
     {
         gameObject.transform.position = originMonster.transform.position;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.CompareTag("Bullet"))
         {
             other.gameObject.SetActive(false);
             originMonster.transform.SendMessage("Hitted");
-        }
-
-        if (other.transform.CompareTag("Player"))
-        {
-            other.GetComponent<PlayerController>().Hitted(gameObject.transform.position);
         }
 
         if (other.transform.GetComponent<SowBugController>() != null)

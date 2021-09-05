@@ -67,8 +67,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6437406286512965462}
+  - component: {fileID: 430571208}
   m_Layer: 7
-  m_Name: WeaponPos
+  m_Name: Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -89,6 +90,21 @@ Transform:
   m_Father: {fileID: 4650393343393378140}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &430571208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1386670904801639561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2686c5082b3db5d41a563a66ecea698b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponState: 0
+  basicArrowSpeed: 13
+  basicArrowRange: 49
 --- !u!1 &4650393343325549109
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +192,7 @@ MonoBehaviour:
     crouchCollier: {fileID: 4650393343393378131}
     standingModel: {fileID: 5496904800840965384}
     crouchModel: {fileID: 4650393343472536617}
+    weapon: {fileID: 430571208}
   playerStatus:
     name: Player
     hp: 0
@@ -185,14 +202,14 @@ MonoBehaviour:
     movementSpeed: 5
     crouchMoveSpeed: 1
     jumpingSpeed: 1
-    jumpForce: 15
+    jumpForce: 18
     invincibleTime: 1
-    parryingForce: 15
+    parryingForce: 18
   value:
     moveVector: {x: 0, y: 0, z: 0}
     moveVelocity: {x: 0, y: 0, z: 0}
     velocityY: 0
-    gravity: 40
+    gravity: 60
     groundNormal: {x: 0, y: 0, z: 0}
     groundedDistance: 2
     groundedCheck: 2
@@ -213,7 +230,7 @@ MonoBehaviour:
     isLookUp: 0
     canParry: 0
     isParrying: 0
-    isCanParrying: 0
+    isPoison: 0
   keyOption:
     moveRight: 275
     moveLeft: 276
@@ -223,13 +240,7 @@ MonoBehaviour:
     jump: 120
     parry: 99
   inputState:
-    upPush: 0
-    downPush: 0
-    rightPush: 0
-    leftPush: 0
-    currentInput: 0
-  bullets: {fileID: 0}
-  bullet: []
+    attack: 0
 --- !u!136 &4650393343393378142
 CapsuleCollider:
   m_ObjectHideFlags: 0

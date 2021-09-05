@@ -17,12 +17,12 @@ public class VenomSpore : MonoBehaviour
     }
     private IEnumerator VenomMushroonPoison()
     {
-        if (GameManager.instance.playerController.isPoison == true)
+        if (GameManager.instance.playerController.State.isPoison == true)
             yield return null;
 
-        GameManager.instance.playerController.isPoison = true;
+        GameManager.instance.playerController.State.isPoison = true;
         yield return new WaitForSeconds(originMonster.GetComponent<VenomMushroomController>().poisonTime);
-        GameManager.instance.playerController.isPoison = false;
+        GameManager.instance.playerController.State.isPoison = false;
     }
 
 }
