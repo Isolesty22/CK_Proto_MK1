@@ -82,10 +82,6 @@ public class UISettings : UIBase
     {
 
     }
-    public void ValueChanged_MasterSlider()
-    {
-        audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
-    }
 
 
     /// <summary>
@@ -110,6 +106,18 @@ public class UISettings : UIBase
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_sfx)) * 20));
     }
 
+    /// <summary>
+    /// 데이터를 저장합니다.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ProcessSaveData(Data_Settings _data)
+    {
+        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+    }
+    public void ValueChanged_MasterSlider()
+    {
+        audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
+    }
     public void ValueChanged_BGMSlider()
     {
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);

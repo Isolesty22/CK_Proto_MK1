@@ -25,8 +25,10 @@ public class DataManager : MonoBehaviour
     private eDataManagerState currentState;
 
     #region 파일 이름 및 경로
-    private const string fileName_player = "Data_Player.dat";
-    private const string fileName_settings = "Data_Settings.dat";
+    [HideInInspector]
+    public const string fileName_player = "Data_Player.dat";
+    [HideInInspector]
+    public const string fileName_settings = "Data_Settings.dat";
 
     [Tooltip("/DataFiles/")]
     public string dataFilePath = string.Empty;
@@ -234,7 +236,7 @@ public class DataManager : MonoBehaviour
     /// currentData를 json파일로 저장합니다.
     /// </summary>
     /// <param name="_fileName">저장할 파일 이름</param>
-    private IEnumerator SaveCurrentData(string _fileName)
+    public IEnumerator SaveCurrentData(string _fileName)
     {
         SetCurrentState(eDataManagerState.SAVE);
 
