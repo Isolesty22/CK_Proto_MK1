@@ -9,14 +9,17 @@ using UnityEngine.Audio;
 /// </summary>
 public class UISettings : UIBase
 {
-    [Space(10)]
-    public AudioMixer audioMixer;
-
     [Tooltip("현재 저장되어있는 데이터. \nDataManager의 Data_Settings와 동일해야합니다.")]
     private Data_Settings data_saved;
 
     [Tooltip("현재 수정 중인 데이터.")]
     private Data_Settings data_current;
+
+
+
+    [Header("Volume 관련")]
+    public AudioMixer audioMixer;
+
 
     [System.Serializable]
     public class Sliders
@@ -29,6 +32,10 @@ public class UISettings : UIBase
     [SerializeField] private Sliders sliders = new Sliders();
     public Sliders VolumeSlider => sliders;
 
+    [Header("캔버스그룹")]
+    public CanvasGroup canvasGroup_Volume;
+    public CanvasGroup canvasGroup_Key;
+
     private void Start()
     {
         Init();
@@ -38,6 +45,9 @@ public class UISettings : UIBase
     public override void Init()
     {
         CheckOpen();
+        VolumeSlider.master.onValueChanged.AddListener(delegate { ValueChanged_MasterSlider(); });
+        VolumeSlider.bgm.onValueChanged.AddListener(delegate { ValueChanged_BGMSlider(); });
+        VolumeSlider.sfx.onValueChanged.AddListener(delegate { ValueChanged_SFXSlider(); });
     }
 
     protected override void CheckOpen()

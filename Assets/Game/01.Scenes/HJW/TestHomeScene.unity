@@ -210,6 +210,7 @@ GameObject:
   - component: {fileID: 127985631}
   - component: {fileID: 127985630}
   - component: {fileID: 127985629}
+  - component: {fileID: 127985632}
   m_Layer: 0
   m_Name: Canvas_Key
   m_TagString: Untagged
@@ -297,6 +298,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &127985632
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 127985627}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &262152319
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,6 +423,7 @@ GameObject:
   - component: {fileID: 382882595}
   - component: {fileID: 382882594}
   - component: {fileID: 382882593}
+  - component: {fileID: 382882596}
   m_Layer: 0
   m_Name: Canvas_Volume
   m_TagString: Untagged
@@ -503,6 +517,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!225 &382882596
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 382882591}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &480550694
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,19 +876,7 @@ MonoBehaviour:
   m_Value: 0.697
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5596913373205031720}
-        m_TargetAssemblyTypeName: UISettings, Assembly-CSharp
-        m_MethodName: ValueChanged_SFXSlider
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &681146287
 GameObject:
   m_ObjectHideFlags: 0
@@ -2261,19 +2275,7 @@ MonoBehaviour:
   m_Value: 0.697
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5596913373205031720}
-        m_TargetAssemblyTypeName: UISettings, Assembly-CSharp
-        m_MethodName: ValueChanged_BGMSlider
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1608786362
 GameObject:
   m_ObjectHideFlags: 0
@@ -2438,19 +2440,7 @@ MonoBehaviour:
   m_Value: 0.697
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 5596913373205031720}
-        m_TargetAssemblyTypeName: UISettings, Assembly-CSharp
-        m_MethodName: ValueChanged_MasterSlider
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1771040370
 GameObject:
   m_ObjectHideFlags: 0
@@ -3487,6 +3477,8 @@ MonoBehaviour:
     master: {fileID: 1659111615}
     bgm: {fileID: 1603009367}
     sfx: {fileID: 645111994}
+  canvasGroup_Volume: {fileID: 382882596}
+  canvasGroup_Key: {fileID: 127985632}
 --- !u!114 &5682964922597347650
 MonoBehaviour:
   m_ObjectHideFlags: 0
