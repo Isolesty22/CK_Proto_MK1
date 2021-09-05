@@ -5,11 +5,6 @@ using UnityEngine;
 public class SeedShootingPlantController : MonsterController
 {
     #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
     public MonsterState state = MonsterState.Search;
 
     public List<GameObject> seeds = new List<GameObject>();
