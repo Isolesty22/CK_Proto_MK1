@@ -66,7 +66,21 @@ public class Data_Settings : GameData
         resolutionType = eResolutionType.FHD;
     }
 
-
+    /// <summary>
+    /// 데이터 내용이 같은가?
+    /// </summary>
+    /// <param name="_data"></param>
+    /// <returns></returns>
+    public bool IsEquals(Data_Settings _data)
+    {
+        return volume_master == _data.volume_master &&
+               volume_sfx == _data.volume_sfx &&
+               volume_bgm == _data.volume_bgm &&
+               isMute_master == _data.isMute_master &&
+               isMute_sfx == _data.isMute_sfx &&
+               isMute_bgm == _data.isMute_bgm &&
+               resolutionType == _data.resolutionType;
+    }
 }
 
 
