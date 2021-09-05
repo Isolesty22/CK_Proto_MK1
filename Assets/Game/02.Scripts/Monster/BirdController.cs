@@ -26,6 +26,12 @@ public class BirdController : MonsterController
         State(state);
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Arrow"))
+            Hitted();
+    }
+
     public void State(MonsterState state)
     {
         switch (state)

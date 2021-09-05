@@ -40,6 +40,11 @@ public class LarvaController : MonsterController
     {
         State(state);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Arrow"))
+            Hitted();
+    }
 
     public void Hitted()
     {

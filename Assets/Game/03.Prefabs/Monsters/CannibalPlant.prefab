@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7340090881588478809}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3664827644149930718
 MonoBehaviour:
@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originMonster: {fileID: 7340090881334250478}
+  originMonster: {fileID: 7340090881588478814}
 --- !u!135 &7869934232844116439
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -69,11 +69,7 @@ GameObject:
   - component: {fileID: 7340090881334250473}
   - component: {fileID: 7340090881334250474}
   - component: {fileID: 7340090881334250475}
-  - component: {fileID: 7340090881334250472}
-  - component: {fileID: 7340090881334250468}
-  - component: {fileID: 7340090881334250469}
-  - component: {fileID: 7340090881334250471}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: CanPlantDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,132 +139,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &7340090881334250472
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881334250478}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &7340090881334250468
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881334250478}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!65 &7340090881334250469
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881334250478}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7340090881334250471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881334250478}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74b34f1f86aae9743b1114c74330fb2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  components:
-    rigidbody: {fileID: 7340090881334250468}
-    collider: {fileID: 7340090881334250472}
-    searchCol: {fileID: 7869934232844116439}
-    hitBox: {fileID: 7340090881550034528}
-  monsterStatus:
-    name: CannibalPlant
-    hp: 1
-    maxHp: 1
-  state: 0
-  isRunninCo: 0
-  moveSpeed: 2
-  changeMesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &7340090881550034535
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7340090881550034534}
-  - component: {fileID: 7340090881550034528}
-  - component: {fileID: 7340090881550034529}
-  m_Layer: 9
-  m_Name: HitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7340090881550034534
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881550034535}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7340090881588478809}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &7340090881550034528
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881550034535}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7340090881550034529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7340090881550034535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ccff6488a8178428f2ee62b0513cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originMonster: {fileID: 7340090881334250478}
 --- !u!1 &7340090881588478814
 GameObject:
   m_ObjectHideFlags: 0
@@ -278,9 +148,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7340090881588478809}
-  m_Layer: 0
+  - component: {fileID: 4215977121721772372}
+  - component: {fileID: 122317140571213459}
+  - component: {fileID: 8070159720374797805}
+  m_Layer: 8
   m_Name: CannibalPlant
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,8 +170,60 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7340090881334250473}
-  - {fileID: 7340090881550034534}
   - {fileID: 64508029093943114}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4215977121721772372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340090881588478814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74b34f1f86aae9743b1114c74330fb2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rigidbody: {fileID: 122317140571213459}
+    collider: {fileID: 8070159720374797805}
+    searchCol: {fileID: 7869934232844116439}
+  monsterStatus:
+    name: CannibalPlant
+    hp: 1
+    maxHp: 1
+  state: 0
+  isRunninCo: 0
+  moveSpeed: 2
+  changeMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &122317140571213459
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340090881588478814}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &8070159720374797805
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7340090881588478814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}

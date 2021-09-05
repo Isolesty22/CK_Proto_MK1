@@ -26,7 +26,6 @@ public class MonsterController : MonoBehaviour
         public Rigidbody rigidbody;
         public Collider collider;
         public Collider searchCol;
-        public Collider hitBox;
     }
 
     #endregion

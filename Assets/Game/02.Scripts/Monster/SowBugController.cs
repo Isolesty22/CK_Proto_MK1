@@ -26,6 +26,13 @@ public class SowBugController : MonsterController
     {
         State(state);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Wall"))
+        {
+            ChangeState("Dead");
+        }
+    }
 
     public void Hitted()
     {

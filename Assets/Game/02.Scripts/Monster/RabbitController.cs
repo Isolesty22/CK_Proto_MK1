@@ -33,6 +33,11 @@ public class RabbitController : MonsterController
     {
         State(state);
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Arrow"))
+            Hitted();
+    }
     public void Hitted()
     {
         if (Stat.hp > 1)
@@ -104,12 +109,12 @@ public class RabbitController : MonsterController
                 case 0:
                     break;
                 case 1:
-                    transform.rotation = Quaternion.Euler(new Vector3(-90 , -90, 0));
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     //Com.rigidbody.velocity = new Vector3(-moveSpeed, 0, 0);
                     transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
                     break;
                 case 2:
-                    transform.rotation = Quaternion.Euler(new Vector3(-90, 90, 0));
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     //Com.rigidbody.velocity = new Vector3(moveSpeed, 0, 0);
                     transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
 

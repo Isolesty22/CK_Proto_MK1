@@ -1,64 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &87700487907798773
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 87700487907798770}
-  - component: {fileID: 87700487907798768}
-  - component: {fileID: 87700487907798771}
-  m_Layer: 9
-  m_Name: HitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &87700487907798770
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700487907798773}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 87700488742806687}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &87700487907798768
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700487907798773}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &87700487907798771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700487907798773}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ccff6488a8178428f2ee62b0513cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originMonster: {fileID: 87700488899757357}
 --- !u!1 &87700488742806686
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 87700488742806687}
-  m_Layer: 0
+  - component: {fileID: 4533336875030021895}
+  - component: {fileID: 7093991071038094838}
+  - component: {fileID: 7019932833138002830}
+  m_Layer: 8
   m_Name: VenomMushroom
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,13 +31,68 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 87700488899757354}
-  - {fileID: 87700487907798770}
   - {fileID: 4576799730497907840}
   - {fileID: 6105929425829699648}
   - {fileID: 608751217199992976}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4533336875030021895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87700488742806686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99e417102e4d0f14fa57c4ac711450da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rigidbody: {fileID: 7093991071038094838}
+    collider: {fileID: 7019932833138002830}
+    searchCol: {fileID: 3473125228268905492}
+  monsterStatus:
+    name: VenomMushroom
+    hp: 1
+    maxHp: 1
+  state: 0
+  isRunninCo: 0
+  venomSpore: {fileID: 4442642377889800920}
+  poisonTime: 2
+  sporeAreaActiveTime: 2
+  sporeArea: {fileID: 4869118239089794741}
+--- !u!54 &7093991071038094838
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87700488742806686}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &7019932833138002830
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87700488742806686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &87700488899757357
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,10 +104,7 @@ GameObject:
   - component: {fileID: 87700488899757354}
   - component: {fileID: 87700488899757350}
   - component: {fileID: 87700488899757353}
-  - component: {fileID: 87700488899757352}
-  - component: {fileID: 87700488899757355}
-  - component: {fileID: 87700488899757351}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: VenomMushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 87700488899757357}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.36, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 87700488742806687}
@@ -178,63 +174,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &87700488899757352
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700488899757357}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &87700488899757355
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700488899757357}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &87700488899757351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87700488899757357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99e417102e4d0f14fa57c4ac711450da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  components:
-    rigidbody: {fileID: 87700488899757355}
-    collider: {fileID: 87700488899757352}
-    searchCol: {fileID: 3473125228268905492}
-    hitBox: {fileID: 87700487907798768}
-  monsterStatus:
-    name: VenomMushroom
-    hp: 1
-    maxHp: 1
-  state: 0
-  isRunninCo: 0
-  venomSpore: {fileID: 4442642377889800920}
-  poisonTime: 2
-  sporeAreaActiveTime: 2
-  sporeArea: {fileID: 4869118239089794741}
 --- !u!1 &4817417709308545761
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +204,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 87700488742806687}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3863660324386253512
 MonoBehaviour:
@@ -279,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originMonster: {fileID: 87700488899757357}
+  originMonster: {fileID: 87700488742806686}
 --- !u!135 &3473125228268905492
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -323,7 +262,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 87700488742806687}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &7937174232502836654
 SphereCollider:
@@ -381,7 +320,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 87700488742806687}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &4442642377889800920
 ParticleSystem:

@@ -1,64 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1328435131041201272
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1328435131041201275}
-  - component: {fileID: 1328435131041201277}
-  - component: {fileID: 1328435131041201274}
-  m_Layer: 9
-  m_Name: HitBox
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1328435131041201275
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328435131041201272}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &1328435131041201277
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328435131041201272}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1328435131041201274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1328435131041201272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1ccff6488a8178428f2ee62b0513cd5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originMonster: {fileID: 2210956699192713113}
 --- !u!1 &1328435132049023886
 GameObject:
   m_ObjectHideFlags: 0
@@ -68,9 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1328435132049023873}
-  m_Layer: 0
+  - component: {fileID: 2422373535673575700}
+  - component: {fileID: 2636562877231805735}
+  - component: {fileID: 8948101247578799124}
+  m_Layer: 8
   m_Name: Caterpillar
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87,11 +31,66 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1577726393806390563}
-  - {fileID: 1328435131041201275}
   - {fileID: 1328435132460131798}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2422373535673575700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328435132049023886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1403f476a80b3e84ba8abd64898d9d1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+    rigidbody: {fileID: 2636562877231805735}
+    collider: {fileID: 8948101247578799124}
+    searchCol: {fileID: 1328435132460131785}
+  monsterStatus:
+    name: Caterpillar
+    hp: 2
+    maxHp: 2
+  state: 0
+  upDownSpeed: 2
+  upDelay: 2
+  downRange: 1
+  isRunninCo: 0
+  attackState: 0
+--- !u!54 &2636562877231805735
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328435132049023886}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &8948101247578799124
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328435132049023886}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1328435132460131799
 GameObject:
   m_ObjectHideFlags: 0
@@ -122,7 +121,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1328435132460131784
 MonoBehaviour:
@@ -136,7 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  originMonster: {fileID: 2210956699192713113}
+  originMonster: {fileID: 1328435132049023886}
 --- !u!65 &1328435132460131785
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -150,63 +149,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &1328435131516183244
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2210956699192713113}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &1328435131516183247
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2210956699192713113}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.2521564
-  m_Height: 1.3462684
-  m_Direction: 1
-  m_Center: {x: 0, y: 0.000000029802322, z: 0}
---- !u!114 &1328435131516183245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2210956699192713113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1403f476a80b3e84ba8abd64898d9d1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  components:
-    rigidbody: {fileID: 1328435131516183244}
-    collider: {fileID: 1328435131516183247}
-    searchCol: {fileID: 1328435132460131785}
-    hitBox: {fileID: 1328435131041201277}
-  monsterStatus:
-    name: Caterpillar
-    hp: 2
-    maxHp: 2
-  state: 0
-  upDownSpeed: 2
-  upDelay: 2
-  downRange: 1
-  isRunninCo: 0
-  attackState: 0
 --- !u!1001 &1328435131516183240
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -261,22 +203,17 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: e00936960c18b2b48b4465da31e595ea, type: 2}
+      objectReference: {fileID: 2100000, guid: af84c183231784c4abd2087a7b7038a7, type: 2}
     - target: {fileID: 919132149155446097, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
       propertyPath: m_Name
       value: caterpillar_02
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
       propertyPath: m_Layer
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
---- !u!1 &2210956699192713113 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
-  m_PrefabInstance: {fileID: 1328435131516183240}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1577726393806390563 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 5300e281b3da95c42ad8ba60c43300c4, type: 3}
