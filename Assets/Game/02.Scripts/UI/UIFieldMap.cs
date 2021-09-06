@@ -59,14 +59,14 @@ public class UIFieldMap : MonoBehaviour
             //왼쪽
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                yield return TryMoveCharacter("Right");
+                yield return TryMoveCharacter("Left");
 
             }
 
             //오른쪽
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-                yield return TryMoveCharacter("Left");
+                yield return TryMoveCharacter("Right");
             }
 
             yield return null;
@@ -75,7 +75,7 @@ public class UIFieldMap : MonoBehaviour
 
     private Vector3 originalPosition;
     private Vector3 targetPosition;
-    private float moveSpeed = 1f;
+    private float moveSpeed = 2f;
     private IEnumerator TryMoveCharacter(string _moveDir)
     {
 
@@ -97,14 +97,14 @@ public class UIFieldMap : MonoBehaviour
         }
 
         DataManager dataManager = DataManager.Instance;
-        int moveNumber = moveDir + dataManager.currentData_player.currentStageNumber;
+        int moveNumber = moveDir + currentStageNumber;
 
         //0보다 작거나, 클리어하지 못한 스테이지거나, 전체 스테이지 수보다 크면
         if (moveNumber < 0
             || moveNumber > dataManager.currentData_player.finalStageNumber + 1
             || moveNumber > stageTransformList.Count - 1)
         {
-            Debug.LogWarning("이동할 수 없어!");
+            Debug.LogWarning("이동할 수 없어! moveNumber : " + moveNumber);
             yield break;
         }
 
@@ -119,14 +119,15 @@ public class UIFieldMap : MonoBehaviour
 
         //목표 위치 설정 
         targetPosition = stageTransformList[moveNumber].position;
-        float distance = 25252;
-
+        float timer = 0f;
+       // float distance = 25252;
+        float progress = 0f;
         //일정 거리 안에 들어올 때 까지
-        while (distance < 0.1f)
+        while (progress < 1f)
         {
-            distance = Vector2.Distance(ipiaTransform.position, targetPosition);
-
-            ipiaTransform.position = Vector2.MoveTowards(originalPosition, targetPosition, moveSpeed);
+            timer += Time.smoothDeltaTime;
+            progress = timer / moveSpeed;
+            ipiaTransform.position = Vector3.Lerp(originalPosition, targetPosition, progress);//Vector2.MoveTowards(originalPosition, targetPosition, moveSpeed);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
