@@ -47,9 +47,26 @@ public class UIPause : UIBase
         UIManager.Instance.OpenThis(_uiBase);
     }
 
-    public void Button_ReturnMap(UIBase _uiBase)
+    public void Button_ReturnGame()
+    {
+        UIManager.Instance.CloseTop();
+    }
+    public void Button_ReturnMain()
+    {
+        SceneChanger.Instance.LoadThisScene("TestHomeScene");
+        Time.timeScale = 1f;
+    }
+
+    public void Button_QuitGame(UIPopup _uiBase)
     {
         UIManager.Instance.OpenThis(_uiBase);
+    }
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
 
 
