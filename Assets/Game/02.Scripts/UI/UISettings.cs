@@ -38,6 +38,7 @@ public class UISettings : UIBase
     public UIBase uiPopup;
 
     private DataManager dataManager;
+    private UIManager uiManager;
     private void Start()
     {
         Init();
@@ -51,7 +52,9 @@ public class UISettings : UIBase
         VolumeSlider.bgm.onValueChanged.AddListener(delegate { ValueChanged_BGMSlider(); });
         VolumeSlider.sfx.onValueChanged.AddListener(delegate { ValueChanged_SFXSlider(); });
 
+        uiManager = UIManager.Instance;
         dataManager = DataManager.Instance;
+
         data_current.CopyData(dataManager.currentData_settings);
     }
 
@@ -84,11 +87,11 @@ public class UISettings : UIBase
         //변경사항이 있다면
         if (!(data_current.IsEquals(data_saved)))
         {
-            UIManager.Instance.OpenThis(uiPopup);
+            uiManager.OpenThis(uiPopup);
         }
         else //없다면
         {
-            UIManager.Instance.CloseTop();
+            uiManager.CloseTop();
         }
     }
 
@@ -112,7 +115,7 @@ public class UISettings : UIBase
     public void Button_ChangesSave()
     {
         StartCoroutine(ProcessSaveCurrentData());
-        UIManager.Instance.CloseTop();
+        uiManager.CloseTop();
     }
     public void Button_ChangesClose()
     {
@@ -126,7 +129,7 @@ public class UISettings : UIBase
         UpdateSettings(data_current);
 
         //닫기
-        UIManager.Instance.CloseTop();
+        uiManager.CloseTop();
     }
 
     /// <summary>

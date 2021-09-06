@@ -88,9 +88,16 @@ public class Data_Settings : GameData
 public class Data_Player : GameData
 {
     /// <summary>
-    /// 현재 스테이지 이름(씬이름?)
+    /// 현재 플레이어가 존재하는 스테이지
     /// </summary>
     public string currentStageName;
+    public int currentStageNumber;
+
+    /// <summary>
+    /// 최대 기록?
+    /// </summary>
+    public string finalStageName;
+    public int finalStageNumber;
 
     /// <summary>
      /// 디폴트 생성자
@@ -98,6 +105,9 @@ public class Data_Player : GameData
     public Data_Player()
     {
         currentStageName = "NONE";
+        currentStageNumber = 0;
+        finalStageName = "NONE";
+        finalStageNumber = 0;
     }
 
     public Data_Player(Data_Player _data)
@@ -111,5 +121,8 @@ public class Data_Player : GameData
     public void CopyData(Data_Player _data)
     {
         currentStageName = _data.currentStageName;
+        currentStageNumber = _data.currentStageNumber;
+        finalStageName = _data.finalStageName;
+        finalStageNumber = _data.finalStageNumber;
     }
 }
