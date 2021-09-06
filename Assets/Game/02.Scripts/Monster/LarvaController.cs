@@ -122,11 +122,13 @@ public class LarvaController : MonsterController
             case AttackState.Wait:
                 break;
             case AttackState.Down:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed * 0.1f);
+                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed * 0.1f);
+                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, destPos, upDownSpeed * Time.deltaTime);
                 isRunninCo = false;
                 break;
             case AttackState.Up:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed * 0.1f);
+                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed * 0.1f);
+                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, upDownSpeed * Time.deltaTime);
                 isRunninCo = false;
                 break;
             default:

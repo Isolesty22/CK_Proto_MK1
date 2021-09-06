@@ -14,6 +14,7 @@ public class RabbitController : MonsterController
 
     public float jumpPower;
     public float moveSpeed;
+    public int jumpProbability;
     #endregion
 
     private float timer;
@@ -86,6 +87,7 @@ public class RabbitController : MonsterController
     protected override void Attack()
     {
         base.Attack();
+        float gravity = Com.rigidbody.velocity.y;
         if (timer > 0)
         {
             switch (nextActNum)
@@ -94,14 +96,11 @@ public class RabbitController : MonsterController
                     break;
                 case 1:
                     transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                    //Com.rigidbody.velocity = new Vector3(-moveSpeed, 0, 0);
-                    transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
+                    Com.rigidbody.velocity = new Vector3(-moveSpeed, gravity, 0);
                     break;
                 case 2:
                     transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                    //Com.rigidbody.velocity = new Vector3(moveSpeed, 0, 0);
-                    transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-
+                    Com.rigidbody.velocity = new Vector3(moveSpeed, gravity, 0);
                     break;
                 default:
                     break;
@@ -115,7 +114,6 @@ public class RabbitController : MonsterController
 
         if (isRunninCo == false)
             StartCoroutine(RandomJump());
-
         timer -= Time.deltaTime;
     }
     protected override void Dead()
@@ -127,7 +125,7 @@ public class RabbitController : MonsterController
     private IEnumerator RandomJump()
     {
         isRunninCo = true;
-        randomJump = Random.Range(0, 2);
+        randomJump = Random.Range(0, jumpProbability);
         if(randomJump == 0)
             Com.rigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
         yield return new WaitForSeconds(1f);
