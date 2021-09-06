@@ -152,6 +152,9 @@ public class UIFieldMap : MonoBehaviour
         switch (_number)
         {
             case 0:
+                return "Main";
+            case 1:
+                return "Graphic";
             default:
                 return "Main";
         }
