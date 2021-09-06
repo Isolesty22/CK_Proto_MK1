@@ -10,17 +10,30 @@ public class UIFieldMap : MonoBehaviour
 {
     public Transform ipiaTransform;
 
-    public List<Transform> stageTransformList = new List<Transform>();
     [SerializeField]
     private int currentStageNumber;
 
     [SerializeField, Tooltip("이동키를 입력할 수 있는 상태인가?")]
-    private bool canInputKey;
+    private bool canInputKey = true;
+
+    public List<Transform> stageTransformList = new List<Transform>();
+
 
 
     private void Start()
     {
-        currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
+        if (DataManager.Instance != null)
+        {
+            currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
+        }
+        else
+        {
+            currentStageNumber = 0;
+        }
+
+
+        //이피아 위치 설정
+        ipiaTransform.position = stageTransformList[currentStageNumber].position;
         StartCoroutine(ProcessInputMoveKey());
     }
 
@@ -95,9 +108,9 @@ public class UIFieldMap : MonoBehaviour
             yield break;
         }
 
-        
+
         //지나갈 수 있다면...지나가야지!!
-        
+
         //이동키 입력 방지
         canInputKey = false;
 
