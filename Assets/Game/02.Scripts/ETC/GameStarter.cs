@@ -15,7 +15,6 @@ public class GameStarter : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
     }
-
     private void Start()
     {
         StartCoroutine(ProcessStart());

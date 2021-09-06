@@ -15,8 +15,6 @@ public class UISettings : UIBase
     [Tooltip("현재 수정 중인 데이터.")]
     private Data_Settings data_current;
 
-
-
     [Header("Volume 관련")]
     public AudioMixer audioMixer;
 
@@ -36,6 +34,10 @@ public class UISettings : UIBase
     public CanvasGroup canvasGroup_Volume;
     public CanvasGroup canvasGroup_Key;
 
+    [Header("전용 팝업창")]
+    public UIBase uiPopup;
+
+    private DataManager dataManager;
     private void Start()
     {
         Init();
@@ -48,6 +50,9 @@ public class UISettings : UIBase
         VolumeSlider.master.onValueChanged.AddListener(delegate { ValueChanged_MasterSlider(); });
         VolumeSlider.bgm.onValueChanged.AddListener(delegate { ValueChanged_BGMSlider(); });
         VolumeSlider.sfx.onValueChanged.AddListener(delegate { ValueChanged_SFXSlider(); });
+
+        dataManager = DataManager.Instance;
+        data_current.CopyData(dataManager.currentData_settings);
     }
 
     protected override void CheckOpen()
@@ -57,6 +62,7 @@ public class UISettings : UIBase
 
     public override bool Open()
     {
+        UpdateUI(data_current);
         StartCoroutine(ProcessOpen());
         return true;
 
@@ -73,12 +79,12 @@ public class UISettings : UIBase
     }
 
 
-    public void Button_Close(UIBase _uiBase)
+    public void Button_Close()
     {
         //변경사항이 있다면
         if (!(data_current.IsEquals(data_saved)))
         {
-            UIManager.Instance.OpenThis(_uiBase);
+            UIManager.Instance.OpenThis(uiPopup);
         }
         else //없다면
         {
@@ -88,7 +94,39 @@ public class UISettings : UIBase
 
     public void Button_Save()
     {
+        StartCoroutine(ProcessSaveCurrentData());
+    }
 
+    private IEnumerator ProcessSaveCurrentData()
+    {
+        //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
+        dataManager.currentData_settings.CopyData(data_current);
+
+        //변경된 데이터 저장
+        yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
+
+        //변경된 데이터를 '저장된 데이터'로 변경
+        data_saved.CopyData(data_current);
+    }
+
+    public void Button_ChangesSave()
+    {
+        StartCoroutine(ProcessSaveCurrentData());
+        UIManager.Instance.CloseTop();
+    }
+    public void Button_ChangesClose()
+    {
+        //현재 데이터를 저장된 데이터로 변경(폐기)
+        data_current.CopyData(data_saved);
+
+        //UI 업데이트
+        UpdateUI(data_current);
+
+        //실제 설정 업데이트
+        UpdateSettings(data_current);
+
+        //닫기
+        UIManager.Instance.CloseTop();
     }
 
     /// <summary>
@@ -112,14 +150,6 @@ public class UISettings : UIBase
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_sfx)) * 20));
     }
 
-    /// <summary>
-    /// data_current를 저장합니다.
-    /// </summary>
-    /// <returns></returns>
-    private IEnumerator ProcessSaveData(Data_Settings _data)
-    {
-        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
-    }
     public void ValueChanged_MasterSlider()
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
