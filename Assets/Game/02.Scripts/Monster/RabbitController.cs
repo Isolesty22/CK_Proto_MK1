@@ -5,11 +5,6 @@ using UnityEngine;
 public class RabbitController : MonsterController
 {
     #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
     public MonsterState state = MonsterState.Search;
 
     public bool isRunninCo;
@@ -33,13 +28,7 @@ public class RabbitController : MonsterController
     {
         State(state);
     }
-    public void Hitted()
-    {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
-    }
+
     public void ChangeState(string functionName)
     {
         if (functionName == "Search")
@@ -104,12 +93,12 @@ public class RabbitController : MonsterController
                 case 0:
                     break;
                 case 1:
-                    transform.rotation = Quaternion.Euler(new Vector3(-90 , -90, 0));
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     //Com.rigidbody.velocity = new Vector3(-moveSpeed, 0, 0);
                     transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
                     break;
                 case 2:
-                    transform.rotation = Quaternion.Euler(new Vector3(-90, 90, 0));
+                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     //Com.rigidbody.velocity = new Vector3(moveSpeed, 0, 0);
                     transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
 

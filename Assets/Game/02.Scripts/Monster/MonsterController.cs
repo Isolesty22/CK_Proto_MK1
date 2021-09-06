@@ -26,10 +26,17 @@ public class MonsterController : MonoBehaviour
         public Rigidbody rigidbody;
         public Collider collider;
         public Collider searchCol;
-        public Collider hitBox;
     }
 
+
+    [SerializeField] private Components components = new Components();
+    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+
+    public Components Com => components;
+    public MonsterStatus Stat => monsterStatus;
+
     #endregion
+
 
     protected virtual void Search()
     {
@@ -46,8 +53,17 @@ public class MonsterController : MonoBehaviour
 
     }
 
+    public virtual void Hit()
+    {
+        if (Stat.hp <= 1)
+            Dead();
+
+        Stat.hp--;
+
+    }
+
     protected virtual void Dead()
     {
-        transform.parent.gameObject.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

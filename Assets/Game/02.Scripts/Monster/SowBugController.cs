@@ -5,11 +5,6 @@ using UnityEngine;
 public class SowBugController : MonsterController
 {
     #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
     public MonsterState state = MonsterState.Search;
 
     public bool isRunninCo;
@@ -25,6 +20,13 @@ public class SowBugController : MonsterController
     void Update()
     {
         State(state);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Wall"))
+        {
+            ChangeState("Dead");
+        }
     }
 
     public void Hitted()
