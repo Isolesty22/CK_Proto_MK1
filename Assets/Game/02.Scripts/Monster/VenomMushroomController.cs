@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class VenomMushroomController : MonsterController
 {
+    public MonsterState state = MonsterState.Search;
     public ParticleSystem venomSpore;
     public float poisonTime;
     public float sporeAreaActiveTime;
     public GameObject sporeArea;
+    public bool isRunninCo;
     void Start()
     {
         

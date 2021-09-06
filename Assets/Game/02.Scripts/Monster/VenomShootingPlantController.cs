@@ -8,6 +8,8 @@ public class VenomShootingPlantController : MonsterController
     private int bulletCount;
 
     public float shootDelay;
+    public MonsterState state = MonsterState.Search;
+    public bool isRunninCo;
 
     void Start()
     {
