@@ -13,7 +13,7 @@ public class UISettings : UIBase
     private Data_Settings data_saved;
 
     [Tooltip("현재 수정 중인 데이터.")]
-    private Data_Settings data_current;
+    private Data_Settings data_current = new Data_Settings();
 
     [Header("Volume 관련")]
     public AudioMixer audioMixer;

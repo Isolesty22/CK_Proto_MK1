@@ -55,9 +55,20 @@ public class UIMainMenu : UIBase
         }
         else
         {
-            //GameStart;
+
+            SceneChanger.Instance.LoadThisScene("TestMapScene");
         }
 
+    }
+
+    public void Button_Continue_OK()
+    {
+        SceneChanger.Instance.LoadThisScene("TestMapScene");
+    }
+
+    public void Button_Continue_Close()
+    {
+        UIManager.Instance.CloseTop();
     }
     public void Button_OpenSettings(UIBase _uiBase)
     {
