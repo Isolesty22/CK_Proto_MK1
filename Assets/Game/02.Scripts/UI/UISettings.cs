@@ -10,7 +10,7 @@ using UnityEngine.Audio;
 public class UISettings : UIBase
 {
     [Tooltip("현재 저장되어있는 데이터. \nDataManager의 Data_Settings와 동일해야합니다.")]
-    private Data_Settings data_saved;
+    private Data_Settings data_saved = new Data_Settings();
 
     [Tooltip("현재 수정 중인 데이터.")]
     private Data_Settings data_current = new Data_Settings();
@@ -54,7 +54,7 @@ public class UISettings : UIBase
 
         uiManager = UIManager.Instance;
         dataManager = DataManager.Instance;
-
+        data_saved.CopyData(dataManager.currentData_settings);
         data_current.CopyData(dataManager.currentData_settings);
     }
 
@@ -129,6 +129,7 @@ public class UISettings : UIBase
         UpdateSettings(data_current);
 
         //닫기
+        uiManager.CloseTop();
         uiManager.CloseTop();
     }
 
