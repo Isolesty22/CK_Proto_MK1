@@ -94,8 +94,13 @@ public class CannibalPlantController : MonsterController
     protected override void Attack()
     {
         base.Attack();
-        //gameObject.transform.GetComponent<MeshFilter>().sharedMesh = changeMesh;
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameManager.instance.playerController.gameObject.transform.position, moveSpeed * 0.1f);
+        gameObject.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh = changeMesh;
+        //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameManager.instance.playerController.gameObject.transform.position, moveSpeed * 0.1f);
+        if(gameObject.transform.position.x - GameManager.instance.playerController.gameObject.transform.position.x > 0)
+            transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
+        else
+            transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+
     }
 
     protected override void Dead()
