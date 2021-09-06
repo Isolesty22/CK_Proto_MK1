@@ -15,7 +15,6 @@ public class GameStarter : MonoBehaviour
     {
         DontDestroyOnLoad(this.gameObject);
     }
-
     private void Start()
     {
         StartCoroutine(ProcessStart());
@@ -68,6 +67,8 @@ public class GameStarter : MonoBehaviour
         //UIMainMenu uiMainMenu = UIManager.Instance.uiDict["UIMainMenu"] as UIMainMenu;
         //uiMainMenu.Open();
 
+        // Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
     }
 
     private void SetText_Load(string _text)

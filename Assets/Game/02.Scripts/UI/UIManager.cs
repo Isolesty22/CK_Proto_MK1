@@ -76,12 +76,12 @@ public class UIManager : MonoBehaviour
         {
             if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                //uiStack.Peek().Com.canvasGroup.interactable = false;
+                uiStack.Peek().Com.canvasGroup.interactable = false;
             }
 
             uiStack.Push(latelyUI);
 
-            //latelyUI.Com.canvasGroup.interactable = true;
+            latelyUI.Com.canvasGroup.interactable = true;
             latelyUI.Com.canvas.sortingOrder = 10 + uiStack.Count;
         }
     }
@@ -105,20 +105,12 @@ public class UIManager : MonoBehaviour
 
             if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                // uiStack.Peek().Com.canvasGroup.interactable = true;
+                uiStack.Peek().Com.canvasGroup.interactable = true;
             }
         }
 
     }
 
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
-    }
     /// <summary>
     /// uiList에 해당 uiBase를 Add합니다.
     /// </summary>

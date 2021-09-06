@@ -39,6 +39,12 @@ public class UIPopup : UIBase
         //Com.canvas.enabled = false;
         //return !(isOpen = Com.canvas.enabled);
     }
+
+
+    public void CloseMe()
+    {
+        UIManager.Instance.CloseTop();
+    }
     public override void RegisterUIManager()
     {
         base.RegisterUIManager();

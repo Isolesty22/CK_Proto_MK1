@@ -9,12 +9,12 @@ using UnityEngine.UI;
 /// </summary>
 public class UIBase : MonoBehaviour
 {
-
-    protected float fadeDuration = 0.2f;
+    [Header("UIBase")]
 
     [Tooltip("열려있는 상태일 때 true를 반환함!")]
     public bool isOpen;
 
+    protected float fadeDuration = 0.2f;
     #region definitions
 
     [Serializable]
@@ -61,7 +61,7 @@ public class UIBase : MonoBehaviour
     protected virtual void CheckOpen()
     {
         isOpen = Com.canvas.enabled;
-        this.enabled = isOpen;
+      //  this.enabled = isOpen;
     }
 
     public virtual bool Open()
@@ -69,7 +69,7 @@ public class UIBase : MonoBehaviour
         Com.canvas.enabled = true;
         isOpen = true;
 
-        this.enabled = true;
+        //this.enabled = true;
 
         return true;
     }
@@ -78,7 +78,7 @@ public class UIBase : MonoBehaviour
         Com.canvas.enabled = false;
         isOpen = false;
 
-        this.enabled = false;
+        //this.enabled = false;
 
         return true;
     }

@@ -55,6 +55,11 @@ public class SceneChanger : MonoBehaviour
 
         }
     }
+
+    public void LoadThisScene(string _sceneName)
+    {
+        StartCoroutine(LoadThisScene_Joke(_sceneName));
+    }
     public IEnumerator LoadThisScene_Joke(string _sceneName)
     {
         isLoading = true;

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class UIMainMenu : UIBase
 {
-
-    
     private void Start()
     {
         Init();
@@ -45,6 +43,49 @@ public class UIMainMenu : UIBase
 
     }
 
+    public void Button_StartNewGame(UIPopup _uiBase)
+    {
+        UIManager.Instance.OpenThis(_uiBase);
+    }
+    public void Button_ContinueGame(UIPopup _uiBase)
+    {
+        if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
+        {
+            UIManager.Instance.OpenThis(_uiBase);
+        }
+        else
+        {
+
+            SceneChanger.Instance.LoadThisScene("TestMapScene");
+        }
+
+    }
+
+    public void Button_Continue_OK()
+    {
+        SceneChanger.Instance.LoadThisScene("TestMapScene");
+    }
+
+    public void Button_Continue_Close()
+    {
+        UIManager.Instance.CloseTop();
+    }
+    public void Button_OpenSettings(UIBase _uiBase)
+    {
+        UIManager.Instance.OpenThis(_uiBase);
+    }
+
+    public void Button_QuitGame(UIPopup _uiBase)
+    {
+        UIManager.Instance.OpenThis(_uiBase);
+    }
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
     public override void RegisterUIManager()
     {
         UIManager.Instance.RegisterDictThis(this.GetType().Name, this);
