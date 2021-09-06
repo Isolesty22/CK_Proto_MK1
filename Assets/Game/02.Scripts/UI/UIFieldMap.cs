@@ -97,6 +97,7 @@ public class UIFieldMap : MonoBehaviour
         }
 
         DataManager dataManager = DataManager.Instance;
+
         int moveNumber = moveDir + currentStageNumber;
 
         //0보다 작거나, 클리어하지 못한 스테이지거나, 전체 스테이지 수보다 크면
@@ -104,7 +105,22 @@ public class UIFieldMap : MonoBehaviour
             || moveNumber > dataManager.currentData_player.finalStageNumber + 1
             || moveNumber > stageTransformList.Count - 1)
         {
-            Debug.LogWarning("이동할 수 없어! moveNumber : " + moveNumber);
+
+            //부들부들 떨리는 효과
+            originalPosition = ipiaTransform.position;
+
+            ipiaTransform.position = new Vector2(ipiaTransform.position.x, ipiaTransform.position.y + 0.1f);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+
+            ipiaTransform.position = originalPosition;
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+
+            ipiaTransform.position = new Vector2(ipiaTransform.position.x, ipiaTransform.position.y - 0.1f);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+
+
+            //원래 위치로 설정
+            ipiaTransform.position = originalPosition;
             yield break;
         }
 
@@ -119,8 +135,9 @@ public class UIFieldMap : MonoBehaviour
 
         //목표 위치 설정 
         targetPosition = stageTransformList[moveNumber].position;
+
         float timer = 0f;
-       // float distance = 25252;
+        // float distance = 25252;
         float progress = 0f;
         //일정 거리 안에 들어올 때 까지
         while (progress < 1f)
