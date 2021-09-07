@@ -126,3 +126,32 @@ public class Data_Player : GameData
         finalStageNumber = _data.finalStageNumber;
     }
 }
+
+
+
+public static class SceneNames
+{
+    public static readonly string mainMenu = "MainMenu";
+    public static readonly string loading = "Loading";
+    public static readonly string fieldMap = "FieldMap";
+    public static string GetSceneNameUseStageNumber(int _number)
+    {
+        string str = "Stage_";
+        switch (_number)
+        {
+            case 0:
+                return str + "00";
+            case 1:
+                return str + "01";
+            case 2:
+                return str + "02";
+            case 3:
+                return str + "03";
+            case 4:
+                return str + "04";
+            default:
+                return str + "00";
+        }
+    }
+
+}

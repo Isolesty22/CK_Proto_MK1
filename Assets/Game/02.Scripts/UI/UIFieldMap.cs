@@ -198,21 +198,6 @@ public class UIFieldMap : MonoBehaviour
     /// </summary>
     private string GetSceneNameUseStageNumber(int _number)
     {
-        string str = "Stage_";
-        switch (_number)
-        {
-            case 0:
-                return str + "00";
-            case 1:
-                return str + "01";
-            case 2:
-                return str + "02";
-            case 3:
-                return str + "03";
-            case 4:
-                return str + "04";
-            default:
-                return str + "00";
-        }
+        return SceneNames.GetSceneNameUseStageNumber(_number);
     }
 }
