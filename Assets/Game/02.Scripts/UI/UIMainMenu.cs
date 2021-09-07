@@ -47,6 +47,13 @@ public class UIMainMenu : UIBase
     {
         UIManager.Instance.OpenThis(_uiBase);
     }
+    public void StartNewGame()
+    {
+        DataManager.Instance.currentData_player = new Data_Player();
+        StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+    }
+
     public void Button_ContinueGame(UIPopup _uiBase)
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
