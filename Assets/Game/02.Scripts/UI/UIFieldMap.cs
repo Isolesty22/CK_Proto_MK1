@@ -16,7 +16,7 @@ public class UIFieldMap : MonoBehaviour
     [SerializeField, Tooltip("이동키를 입력할 수 있는 상태인가?")]
     private bool canInputKey = true;
 
-    public List<Transform> stageTransformList = new List<Transform>();
+    public List<FieldMapStage> stageList = new List<FieldMapStage>();
 
 
 
@@ -33,7 +33,7 @@ public class UIFieldMap : MonoBehaviour
         }
 
         //이피아 위치 설정
-        ipiaTransform.position = stageTransformList[currentStageNumber].position;
+        ipiaTransform.position = stageList[currentStageNumber].stageTransform.position;
         StageGrayScale_Legacy();
         StartCoroutine(ProcessInputMoveKey());
     }
@@ -134,7 +134,7 @@ public class UIFieldMap : MonoBehaviour
         originalPosition = ipiaTransform.position;
 
         //목표 위치 설정 
-        targetPosition = stageTransformList[moveNumber].position;
+        targetPosition = stageList[moveNumber].stageTransform.position;
 
         float timer = 0f;
         // float distance = 25252;
@@ -165,11 +165,11 @@ public class UIFieldMap : MonoBehaviour
     /// 제일 마지막에 클리어한 스테이지의 다음 스테이지까지 이동이 가능합니다.
     /// </summary>
     private bool CanMoveThisNumber(int _moveNumber)
-    {  
+    {
         //0보다 작거나, 클리어하지 못한 스테이지거나, 전체 스테이지 수보다 크면
         if (_moveNumber < 0
             || _moveNumber > dataManager.currentData_player.finalStageNumber + 1
-            || _moveNumber > stageTransformList.Count - 1)
+            || _moveNumber > stageList.Count - 1)
         {
             return false;
         }
@@ -178,22 +178,21 @@ public class UIFieldMap : MonoBehaviour
             return true;
         }
     }
-    
+
 
     /// <summary>
     /// 가지 못하는 스테이지의 색상을 변경합니다.
     /// </summary>
     private void StageGrayScale_Legacy()
     {
-        SpriteRenderer renderer = null;
-        for (int i = 0; i < stageTransformList.Count; i++)
+        //마지막으로 클리어한 스테이지의 다음 스테이지까지는 갈 수 있어야함
+        for (int i = DataManager.Instance.currentData_player.finalStageNumber + 2; i < stageList.Count; i++)
+        //for (int i = 0 + 2; i < stageList.Count; i++)
         {
-            //부모한테서 렌더러 가져오고...
-            renderer = stageTransformList[i].gameObject.GetComponentInParent<SpriteRenderer>();
-            renderer.material.SetFloat("Greyscale", 1f);
+            stageList[i].SetStageGrayScale(1f);
         }
     }
-    
+
     /// <summary>
     /// 번호를 주면 그에 맞는 씬 이름을 반환합니다.
     /// </summary>

@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 62944575}
   - component: {fileID: 62944576}
   m_Layer: 0
-  m_Name: Stage_00_Images
+  m_Name: Images
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -173,7 +173,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 762a30708ee3b9c449c95dba1f84c112, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -216,7 +216,7 @@ GameObject:
   - component: {fileID: 174201181}
   - component: {fileID: 174201182}
   m_Layer: 0
-  m_Name: Stage_02_Position
+  m_Name: Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -443,6 +443,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 420785227}
+  - component: {fileID: 420785228}
   m_Layer: 0
   m_Name: Stage_02
   m_TagString: Untagged
@@ -466,6 +467,20 @@ Transform:
   m_Father: {fileID: 5596913373611768104}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &420785228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420785226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983ee322fb0d33d41b3dc0668d43f4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageTransform: {fileID: 174201181}
+  spriteRenderer: {fileID: 1654876208}
 --- !u!1 &440963667
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,7 +492,7 @@ GameObject:
   - component: {fileID: 440963668}
   - component: {fileID: 440963669}
   m_Layer: 0
-  m_Name: Stage_01_Position
+  m_Name: Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,6 +665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 675961549}
+  - component: {fileID: 675961550}
   m_Layer: 0
   m_Name: Stage_00
   m_TagString: Untagged
@@ -673,6 +689,20 @@ Transform:
   m_Father: {fileID: 5596913373611768104}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &675961550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 675961548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983ee322fb0d33d41b3dc0668d43f4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageTransform: {fileID: 2012386776}
+  spriteRenderer: {fileID: 62944576}
 --- !u!1001 &1025446042
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -972,6 +1002,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1606363184}
+  - component: {fileID: 1606363185}
   m_Layer: 0
   m_Name: Stage_01
   m_TagString: Untagged
@@ -995,6 +1026,20 @@ Transform:
   m_Father: {fileID: 5596913373611768104}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1606363185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606363183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983ee322fb0d33d41b3dc0668d43f4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageTransform: {fileID: 440963668}
+  spriteRenderer: {fileID: 2043103931}
 --- !u!1 &1654876206
 GameObject:
   m_ObjectHideFlags: 0
@@ -1006,7 +1051,7 @@ GameObject:
   - component: {fileID: 1654876207}
   - component: {fileID: 1654876208}
   m_Layer: 0
-  m_Name: Stage_02_Images
+  m_Name: Images
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1045,7 +1090,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 762a30708ee3b9c449c95dba1f84c112, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1187,7 +1232,7 @@ GameObject:
   - component: {fileID: 2012386776}
   - component: {fileID: 2012386777}
   m_Layer: 0
-  m_Name: Stage_00_Position
+  m_Name: Position
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1269,7 +1314,7 @@ GameObject:
   - component: {fileID: 2043103930}
   - component: {fileID: 2043103931}
   m_Layer: 0
-  m_Name: Stage_01_Images
+  m_Name: Images
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1308,7 +1353,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 762a30708ee3b9c449c95dba1f84c112, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1631,10 +1676,10 @@ MonoBehaviour:
   ipiaTransform: {fileID: 389263784}
   currentStageNumber: 0
   canInputKey: 1
-  stageTransformList:
-  - {fileID: 2012386776}
-  - {fileID: 440963668}
-  - {fileID: 174201181}
+  stageList:
+  - {fileID: 675961550}
+  - {fileID: 1606363185}
+  - {fileID: 420785228}
 --- !u!4 &5596913373611768104
 Transform:
   m_ObjectHideFlags: 0
