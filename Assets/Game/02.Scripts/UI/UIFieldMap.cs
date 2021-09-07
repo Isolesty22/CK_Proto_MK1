@@ -76,6 +76,8 @@ public class UIFieldMap : MonoBehaviour
     private Vector3 originalPosition;
     private Vector3 targetPosition;
     private float moveSpeed = 2f;
+
+    private DataManager dataManager = null;
     private IEnumerator TryMoveCharacter(string _moveDir)
     {
 
@@ -96,16 +98,13 @@ public class UIFieldMap : MonoBehaviour
                 break;
         }
 
-        DataManager dataManager = DataManager.Instance;
+        dataManager = DataManager.Instance;
 
         int moveNumber = moveDir + currentStageNumber;
 
-        //0보다 작거나, 클리어하지 못한 스테이지거나, 전체 스테이지 수보다 크면
-        if (moveNumber < 0
-            || moveNumber > dataManager.currentData_player.finalStageNumber + 1
-            || moveNumber > stageTransformList.Count - 1)
+        //해당 넘버의 스테이지로 이동할 수 없다면
+        if (!CanMoveThisNumber(moveNumber))
         {
-
             //부들부들 떨리는 효과
             originalPosition = ipiaTransform.position;
 
@@ -159,11 +158,29 @@ public class UIFieldMap : MonoBehaviour
         yield break;
     }
 
+
     /// <summary>
-    /// 번호를 주면 씬이름을 슝~
+    /// 해당 번호의 스테이지로 이동할 수 있는가?
     /// </summary>
-    /// <param name="_number"></param>
-    /// <returns></returns>
+    private bool CanMoveThisNumber(int _moveNumber)
+    {  
+        //0보다 작거나, 클리어하지 못한 스테이지거나, 전체 스테이지 수보다 크면
+        if (_moveNumber < 0
+            || _moveNumber > dataManager.currentData_player.finalStageNumber + 1
+            || _moveNumber > stageTransformList.Count - 1)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    
+    
+    /// <summary>
+    /// 번호를 주면 그에 맞는 씬 이름을 반환합니다.
+    /// </summary>
     private string GetSceneNameUseStageNumber(int _number)
     {
         string str = "Stage_";
