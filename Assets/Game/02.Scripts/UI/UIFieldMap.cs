@@ -49,10 +49,14 @@ public class UIFieldMap : MonoBehaviour
                 continue;
             }
 
-            //엔터키
-            if (Input.GetKeyDown(KeyCode.Return))
+            //엔터키 or Z
+            if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Z))
             {
                 canInputKey = false;
+                //현재 스테이지넘버를 변경
+                DataManager.Instance.currentData_player.currentStageNumber = currentStageNumber;
+
+                DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
                 SceneChanger.Instance.LoadThisScene(GetSceneNameUseStageNumber(currentStageNumber));
                 yield break;
             }
