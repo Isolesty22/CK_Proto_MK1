@@ -53,7 +53,7 @@ public class UIPause : UIBase
     }
     public void Button_ReturnMain()
     {
-        SceneChanger.Instance.LoadThisScene("TestHomeScene");
+        SceneChanger.Instance.LoadThisScene("MainMenu");
         Time.timeScale = 1f;
     }
 
