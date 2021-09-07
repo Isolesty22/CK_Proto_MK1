@@ -28,9 +28,9 @@ public class UIFieldMap : MonoBehaviour
         }
         else
         {
+            Debug.LogError("DataManager Instance가 null입니다. 또 뭔가 깜빡했나보네요...");
             currentStageNumber = 0;
         }
-
 
         //이피아 위치 설정
         ipiaTransform.position = stageTransformList[currentStageNumber].position;
@@ -166,14 +166,21 @@ public class UIFieldMap : MonoBehaviour
     /// <returns></returns>
     private string GetSceneNameUseStageNumber(int _number)
     {
+        string str = "Stage_";
         switch (_number)
         {
             case 0:
-                return "Main";
+                return str + "00";
             case 1:
-                return "Graphic";
+                return str + "01";
+            case 2:
+                return str + "02";
+            case 3:
+                return str + "03";
+            case 4:
+                return str + "04";
             default:
-                return "Main";
+                return str + "00";
         }
     }
 }
