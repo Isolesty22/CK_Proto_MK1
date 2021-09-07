@@ -126,6 +126,9 @@ public class UISettings : UIBase
     public void Button_ChangesSave()
     {
         StartCoroutine(ProcessSaveCurrentData());
+
+        //닫기
+        uiManager.CloseTop();
         uiManager.CloseTop();
     }
     public void Button_ChangesClose()
