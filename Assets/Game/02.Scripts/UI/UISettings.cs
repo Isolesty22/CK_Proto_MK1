@@ -54,8 +54,18 @@ public class UISettings : UIBase
 
         uiManager = UIManager.Instance;
         dataManager = DataManager.Instance;
-        data_saved.CopyData(dataManager.currentData_settings);
-        data_current.CopyData(dataManager.currentData_settings);
+
+        if (ReferenceEquals(dataManager, null))//null일경우
+        {
+            data_saved.CopyData(new Data_Settings());
+            data_current.CopyData(data_saved);
+        }
+        else
+        {
+            data_saved.CopyData(dataManager.currentData_settings);
+            data_current.CopyData(dataManager.currentData_settings);
+        }
+
     }
 
     protected override void CheckOpen()
@@ -65,6 +75,7 @@ public class UISettings : UIBase
 
     public override bool Open()
     {
+        this.enabled = true;
         UpdateUI(data_current);
         StartCoroutine(ProcessOpen());
         return true;
@@ -185,5 +196,10 @@ public class UISettings : UIBase
         base.RegisterUIManager();
     }
 
-
+    protected override IEnumerator ProcessClose()
+    {
+        //다 닫은다음에 false
+        yield return base.ProcessClose();
+        this.enabled = false;
+    }
 }
