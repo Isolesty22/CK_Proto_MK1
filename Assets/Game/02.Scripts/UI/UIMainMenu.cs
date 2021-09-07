@@ -16,7 +16,7 @@ public class UIMainMenu : UIBase
             Debug.LogWarning("SceneChanger is Null");
         }
 
-        StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("TestHomeScene"));
+        StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke("MainMenu"));
     }
 
     public override void Init()
@@ -56,14 +56,14 @@ public class UIMainMenu : UIBase
         else
         {
 
-            SceneChanger.Instance.LoadThisScene("TestMapScene");
+            SceneChanger.Instance.LoadThisScene("FieldMap");
         }
 
     }
 
     public void Button_Continue_OK()
     {
-        SceneChanger.Instance.LoadThisScene("TestMapScene");
+        SceneChanger.Instance.LoadThisScene("FieldMap");
     }
 
     public void Button_Continue_Close()

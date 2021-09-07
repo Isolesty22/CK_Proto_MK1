@@ -34,6 +34,7 @@ public class UIFieldMap : MonoBehaviour
 
         //이피아 위치 설정
         ipiaTransform.position = stageTransformList[currentStageNumber].position;
+        StageGrayScale_Legacy();
         StartCoroutine(ProcessInputMoveKey());
     }
 
@@ -161,6 +162,7 @@ public class UIFieldMap : MonoBehaviour
 
     /// <summary>
     /// 해당 번호의 스테이지로 이동할 수 있는가?
+    /// 제일 마지막에 클리어한 스테이지의 다음 스테이지까지 이동이 가능합니다.
     /// </summary>
     private bool CanMoveThisNumber(int _moveNumber)
     {  
@@ -177,6 +179,20 @@ public class UIFieldMap : MonoBehaviour
         }
     }
     
+
+    /// <summary>
+    /// 가지 못하는 스테이지의 색상을 변경합니다.
+    /// </summary>
+    private void StageGrayScale_Legacy()
+    {
+        SpriteRenderer renderer = null;
+        for (int i = 0; i < stageTransformList.Count; i++)
+        {
+            //부모한테서 렌더러 가져오고...
+            renderer = stageTransformList[i].gameObject.GetComponentInParent<SpriteRenderer>();
+            renderer.material.SetFloat("Greyscale", 1f);
+        }
+    }
     
     /// <summary>
     /// 번호를 주면 그에 맞는 씬 이름을 반환합니다.
