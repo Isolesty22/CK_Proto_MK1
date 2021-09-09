@@ -31,6 +31,8 @@ public class UIManager : MonoBehaviour
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 
+    [Tooltip("팝업창")]
+    public UIPopup_New uiPopup_new;
     private void Awake()
     {
         if (Instance == null)
@@ -109,6 +111,16 @@ public class UIManager : MonoBehaviour
             }
         }
 
+    }
+
+    /// <summary>
+    /// 팝업창 하나를 엽니다.
+    /// </summary>
+    public void OpenPopup(string _text, UnityEngine.Events.UnityAction _yes, UnityEngine.Events.UnityAction _no)
+    {
+        uiPopup_new.Init_Popup(_text, _yes, _no);
+        OpenThis(uiPopup_new);
+    
     }
 
     /// <summary>
