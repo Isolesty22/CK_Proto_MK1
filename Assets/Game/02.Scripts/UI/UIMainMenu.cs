@@ -49,6 +49,7 @@ public class UIMainMenu : UIBase
     }
     public void StartNewGame()
     {
+        Com.canvasGroup.interactable = false;
         DataManager.Instance.currentData_player = new Data_Player();
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -63,6 +64,7 @@ public class UIMainMenu : UIBase
         else
         {
 
+            Com.canvasGroup.interactable = false;
             SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         }
 
@@ -70,6 +72,7 @@ public class UIMainMenu : UIBase
 
     public void Button_Continue_OK()
     {
+        Com.canvasGroup.interactable = false;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 

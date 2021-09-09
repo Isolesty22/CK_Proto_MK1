@@ -54,6 +54,7 @@ public class UIPause : UIBase
     public void Button_ReturnMain()
     {
         SceneChanger.Instance.LoadThisScene(SceneNames.mainMenu);
+        Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
 
