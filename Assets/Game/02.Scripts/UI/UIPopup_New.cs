@@ -24,10 +24,6 @@ public class UIPopup_New : UIBase
         RegisterUIManager();
     }
 
-    public override void Init()
-    {
-        CheckOpen();
-    }
     protected override void CheckOpen()
     {
         isOpen = Com.canvas.enabled;

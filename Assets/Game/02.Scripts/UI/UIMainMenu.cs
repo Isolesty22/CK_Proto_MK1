@@ -61,7 +61,9 @@ public class UIMainMenu : UIBase
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            UIManager.Instance.OpenThis(_uiBase);
+            UIManager.Instance.OpenPopup("저장된 데이터가 없습니다. \n 새로운 게임을 시작합니다.",
+                Button_Continue_OK,
+                Button_Continue_Close);
         }
         else
         {
@@ -90,7 +92,9 @@ public class UIMainMenu : UIBase
 
     public void Button_QuitGame(UIPopup _uiBase)
     {
-        UIManager.Instance.OpenThis(_uiBase);
+        UIManager.Instance.OpenPopup("게임을 종료하시겠습니까?",
+            QuitGame, 
+            UIManager.Instance.CloseTop);
     }
     public void QuitGame()
     {

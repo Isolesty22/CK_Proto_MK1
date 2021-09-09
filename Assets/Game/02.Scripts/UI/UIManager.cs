@@ -7,7 +7,10 @@ using UnityEngine;
 /// </summary>
 
 public class UIManager : MonoBehaviour
-{
+{   
+    [Header("팝업창")]
+    public UIPopup_New uiPopup_new;
+
     [Header("씬 이동 시 파괴하지 않음")]
     public bool dontDestroyOnLoad;
 
@@ -31,8 +34,7 @@ public class UIManager : MonoBehaviour
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 
-    [Tooltip("팝업창")]
-    public UIPopup_New uiPopup_new;
+
     private void Awake()
     {
         if (Instance == null)
