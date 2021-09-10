@@ -61,7 +61,7 @@ public class UIMainMenu : UIBase
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            UIManager.Instance.OpenPopup("저장된 데이터가 없습니다. \n 새로운 게임을 시작합니다.",
+            UIManager.Instance.OpenPopup("<b>저장된 데이터가 없습니다.</b> \n <size=30>새로운 게임을 시작합니다.</size>",
                 Button_Continue_OK,
                 Button_Continue_Close);
         }
