@@ -8,8 +8,8 @@ public class UIPopup_New : UIBase
 
     [Header("팝업 관련")]
     public Text message;
-    public Button button_yes;
-    public Button button_no;
+    public Button button_left;
+    public Button button_right;
 
     /// <summary>
     /// 팝업창의 내용, 버튼 이벤트를 초기화합니다.
@@ -17,11 +17,11 @@ public class UIPopup_New : UIBase
     /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
     /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
     /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
-    public void Init_Popup(string _text, UnityEngine.Events.UnityAction _yes, UnityEngine.Events.UnityAction _no)
+    public void Init_Popup(string _text, UnityEngine.Events.UnityAction _left, UnityEngine.Events.UnityAction _right)
     {
         message.text = _text;
-        button_yes.onClick.AddListener(_yes);
-        button_no.onClick.AddListener(_no);
+        button_left.onClick.AddListener(_left);
+        button_right.onClick.AddListener(_right);
     }
     private void Start()
     {
@@ -47,8 +47,8 @@ public class UIPopup_New : UIBase
     {
 
         //RemoveListeners
-        button_yes.onClick.RemoveAllListeners();
-        button_no.onClick.RemoveAllListeners();
+        button_right.onClick.RemoveAllListeners();
+        button_left.onClick.RemoveAllListeners();
 
         StartCoroutine(ProcessClose());
         return true;

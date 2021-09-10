@@ -145,11 +145,11 @@ public class UIManager : MonoBehaviour
     /// 팝업창 하나를 열고, 내용, 버튼 이벤트를 초기화합니다.
     /// </summary>
     /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
-    /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
-    /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
-    public void OpenPopup(string _text, UnityEngine.Events.UnityAction _yes, UnityEngine.Events.UnityAction _no)
+    /// <param name="_left">오른쪽 버튼에 적용되는 이벤트</param>
+    /// <param name="_right">왼쪽 버튼에 적용되는 이벤트</param>
+    public void OpenPopup(string _text, UnityEngine.Events.UnityAction _left, UnityEngine.Events.UnityAction _right)
     {
-        uiPopup_new.Init_Popup(_text, _yes, _no);
+        uiPopup_new.Init_Popup(_text, _left, _right);
         OpenThis(uiPopup_new);
 
     }
