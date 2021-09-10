@@ -149,7 +149,13 @@ public class SceneChanger : MonoBehaviour
         yield break;
     }
 
-
+    /// <summary>
+    /// 현재 활성화 되어있는 씬 이름을 반환합니다.
+    /// </summary>
+    public string GetNowSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         if (_scene.name != moveSceneName)

@@ -27,6 +27,7 @@ public class UIPause : UIBase
 
         }
     }
+
     public override bool Open()
     {
         StartCoroutine(ProcessOpen());
@@ -46,7 +47,6 @@ public class UIPause : UIBase
     {
         UIManager.Instance.OpenThis(_uiBase);
     }
-
     public void Button_ReturnGame()
     {
         UIManager.Instance.CloseTop();
@@ -57,11 +57,23 @@ public class UIPause : UIBase
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
-
+    public void Button_ReturnFieldMap()
+    {
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+        Com.canvasGroup.interactable = false;
+        Time.timeScale = 1f;
+    }
     public void Button_QuitGame(UIPopup _uiBase)
     {
         UIManager.Instance.OpenThis(_uiBase);
     }
+    public void Button_Restart()
+    {
+        SceneChanger.Instance.LoadThisScene(SceneChanger.Instance.GetNowSceneName());
+        Com.canvasGroup.interactable = false;
+        Time.timeScale = 1f;
+    }
+    
     public void QuitGame()
     {
 #if UNITY_EDITOR
