@@ -69,6 +69,9 @@ public class UIManager : MonoBehaviour
     //    }
     //}
 
+    /// <summary>
+    /// Stack에서, 현재 UI 이전에 있는 UI
+    /// </summary>
     private UIBase prevUI = null;
     public void OpenThis(UIBase _uiBase)
     {
