@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class UIPopup_New : UIBase
 {
@@ -17,7 +18,7 @@ public class UIPopup_New : UIBase
     /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
     /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
     /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
-    public void Init_Popup(string _text, UnityEngine.Events.UnityAction _left, UnityEngine.Events.UnityAction _right)
+    public void Init_Popup(string _text, UnityAction _left, UnityAction _right)
     {
         message.text = _text;
         button_left.onClick.AddListener(_left);

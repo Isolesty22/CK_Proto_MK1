@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// UI를 작동/관리하는 매니저 클래스
@@ -147,7 +148,7 @@ public class UIManager : MonoBehaviour
     /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
     /// <param name="_left">오른쪽 버튼에 적용되는 이벤트</param>
     /// <param name="_right">왼쪽 버튼에 적용되는 이벤트</param>
-    public void OpenPopup(string _text, UnityEngine.Events.UnityAction _left, UnityEngine.Events.UnityAction _right)
+    public void OpenPopup(string _text, UnityAction _left, UnityAction _right)
     {
         uiPopup_new.Init_Popup(_text, _left, _right);
         OpenThis(uiPopup_new);
