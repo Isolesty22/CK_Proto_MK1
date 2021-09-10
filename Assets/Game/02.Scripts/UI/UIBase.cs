@@ -141,7 +141,7 @@ public class UIBase : MonoBehaviour
         Com.canvasGroup.alpha = 0f;
         Com.canvas.enabled = false;
 
-        isOpen = Com.canvas.enabled;
+        isOpen = false;
 
         yield break;
     }

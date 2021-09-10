@@ -48,9 +48,9 @@ public class UISettings : UIBase
     public override void Init()
     {
         CheckOpen();
-        VolumeSlider.master.onValueChanged.AddListener(delegate { ValueChanged_MasterSlider(); });
-        VolumeSlider.bgm.onValueChanged.AddListener(delegate { ValueChanged_BGMSlider(); });
-        VolumeSlider.sfx.onValueChanged.AddListener(delegate { ValueChanged_SFXSlider(); });
+        VolumeSlider.master.onValueChanged.AddListener(delegate { OnValueChanged_MasterSlider(); });
+        VolumeSlider.bgm.onValueChanged.AddListener(delegate { OnValueChanged_BGMSlider(); });
+        VolumeSlider.sfx.onValueChanged.AddListener(delegate { OnValueChanged_SFXSlider(); });
 
         uiManager = UIManager.Instance;
         dataManager = DataManager.Instance;
@@ -168,17 +168,17 @@ public class UISettings : UIBase
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_sfx)) * 20));
     }
 
-    public void ValueChanged_MasterSlider()
+    public void OnValueChanged_MasterSlider()
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         data_current.volume_master = VolumeSlider.master.value.ToString();
     }
-    public void ValueChanged_BGMSlider()
+    public void OnValueChanged_BGMSlider()
     {
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         data_current.volume_bgm = VolumeSlider.bgm.value.ToString();
     }
-    public void ValueChanged_SFXSlider()
+    public void OnValueChanged_SFXSlider()
     {
         audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         data_current.volume_sfx = VolumeSlider.sfx.value.ToString();

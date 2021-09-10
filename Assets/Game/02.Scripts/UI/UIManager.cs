@@ -7,12 +7,15 @@ using UnityEngine;
 /// </summary>
 
 public class UIManager : MonoBehaviour
-{   
+{
     [Header("팝업창")]
     public UIPopup_New uiPopup_new;
 
     [Header("씬 이동 시 파괴하지 않음")]
     public bool dontDestroyOnLoad;
+
+    [Header("OpenThis호출 시 이전 UI가 꺼짐")]
+    public bool disabledPrevUI;
 
     #region Instance
     private static UIManager instance;
@@ -66,6 +69,7 @@ public class UIManager : MonoBehaviour
     //    }
     //}
 
+    private UIBase prevUI = null;
     public void OpenThis(UIBase _uiBase)
     {
         if (_uiBase.isOpen)
@@ -80,7 +84,16 @@ public class UIManager : MonoBehaviour
         {
             if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                uiStack.Peek().Com.canvasGroup.interactable = false;
+                //다른 UI를 비활성화
+                prevUI = uiStack.Peek();
+                prevUI.Com.canvasGroup.interactable = false;
+
+                if (disabledPrevUI)
+                {
+                    prevUI.Com.canvas.enabled = false;
+                }
+                //uiStack.Peek().Com.canvasGroup.interactable = false;
+                //uiStack.Peek().Com.
             }
 
             uiStack.Push(latelyUI);
@@ -109,20 +122,33 @@ public class UIManager : MonoBehaviour
 
             if (uiStack.Count != 0) //만약 다른 UI가 있다면
             {
-                uiStack.Peek().Com.canvasGroup.interactable = true;
+                //다른 UI를 활성화
+                prevUI = uiStack.Peek();
+                prevUI.Com.canvasGroup.interactable = true;
+
+                //만약 이전 UI의 캔버스가 비활성화 되어있다면
+                if (prevUI.Com.canvas.enabled == false)
+                {
+                    prevUI.Com.canvas.enabled = true;
+                }
+
+                //uiStack.Peek().Com.canvasGroup.interactable = true;
             }
         }
 
     }
 
     /// <summary>
-    /// 팝업창 하나를 엽니다.
+    /// 팝업창 하나를 열고, 내용, 버튼 이벤트를 초기화합니다.
     /// </summary>
+    /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
+    /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
+    /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
     public void OpenPopup(string _text, UnityEngine.Events.UnityAction _yes, UnityEngine.Events.UnityAction _no)
     {
         uiPopup_new.Init_Popup(_text, _yes, _no);
         OpenThis(uiPopup_new);
-    
+
     }
 
     /// <summary>
@@ -134,7 +160,7 @@ public class UIManager : MonoBehaviour
         //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
     }
 
-    public void RegisterDictThis(string _uiName ,UIBase _uiBase)
+    public void RegisterDictThis(string _uiName, UIBase _uiBase)
     {
         uiDict.Add(_uiName, _uiBase);
         //Debug.Log("uiList에 " + _uiBase.name + " 추가!");

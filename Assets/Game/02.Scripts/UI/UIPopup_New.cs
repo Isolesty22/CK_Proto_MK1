@@ -11,7 +11,12 @@ public class UIPopup_New : UIBase
     public Button button_yes;
     public Button button_no;
 
-
+    /// <summary>
+    /// 팝업창의 내용, 버튼 이벤트를 초기화합니다.
+    /// </summary>
+    /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
+    /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
+    /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
     public void Init_Popup(string _text, UnityEngine.Events.UnityAction _yes, UnityEngine.Events.UnityAction _no)
     {
         message.text = _text;
