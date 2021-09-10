@@ -34,9 +34,6 @@ public class UISettings : UIBase
     public CanvasGroup canvasGroup_Volume;
     public CanvasGroup canvasGroup_Key;
 
-    [Header("전용 팝업창")]
-    public UIBase uiPopup;
-
     private DataManager dataManager;
     private UIManager uiManager;
     private void Start()
@@ -93,15 +90,19 @@ public class UISettings : UIBase
     }
 
 
+    private readonly string str_changes = "변경사항을 저장하시겠습니까?";
     public void Button_Close()
     {
         //변경사항이 있다면
         if (!(data_current.IsEquals(data_saved)))
         {
-            uiManager.OpenThis(uiPopup);
+            //팝업 띄우기
+            uiManager.OpenPopup(str_changes, 
+                Button_ChangesSave, Button_ChangesClose);
         }
         else //없다면
         {
+            //그냥 닫음
             uiManager.CloseTop();
         }
     }
@@ -123,7 +124,7 @@ public class UISettings : UIBase
         data_saved.CopyData(data_current);
     }
 
-    public void Button_ChangesSave()
+    private void Button_ChangesSave()
     {
         StartCoroutine(ProcessSaveCurrentData());
 
@@ -131,7 +132,7 @@ public class UISettings : UIBase
         uiManager.CloseTop();
         uiManager.CloseTop();
     }
-    public void Button_ChangesClose()
+    private void Button_ChangesClose()
     {
         //현재 데이터를 저장된 데이터로 변경(폐기)
         data_current.CopyData(data_saved);

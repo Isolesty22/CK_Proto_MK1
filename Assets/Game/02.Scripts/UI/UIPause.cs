@@ -63,9 +63,12 @@ public class UIPause : UIBase
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
-    public void Button_QuitGame(UIPopup _uiBase)
+
+    private readonly string str_quitGame = "게임을 종료하시겠습니까?";
+    public void Button_QuitGame()
     {
-        UIManager.Instance.OpenThis(_uiBase);
+        UIManager.Instance.OpenPopup(str_quitGame,
+            QuitGame, UIManager.Instance.CloseTop);
     }
     public void Button_Restart()
     {

@@ -42,12 +42,13 @@ public class UIMainMenu : UIBase
         return true;
 
     }
-
-    public void Button_StartNewGame(UIPopup _uiBase)
+    private readonly string str_startNewGame = "게임을 새로 시작하시겠습니까? \n 기존에 있던 데이터는 모두 삭제됩니다.";
+    public void Button_StartNewGame()
     {
-        UIManager.Instance.OpenThis(_uiBase);
+        UIManager.Instance.OpenPopup(str_startNewGame,
+            StartNewGame, UIManager.Instance.CloseTop);
     }
-    public void StartNewGame()
+    private void StartNewGame()
     {
         //상호작용 불가
         Com.canvasGroup.interactable = false;
@@ -57,11 +58,12 @@ public class UIMainMenu : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
-    public void Button_ContinueGame(UIPopup _uiBase)
+    private readonly string str_noPlayerData = "<b>저장된 데이터가 없습니다.</b> \n <size=30>새로운 게임을 시작합니다.</size>";
+    public void Button_ContinueGame()
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            UIManager.Instance.OpenPopup("<b>저장된 데이터가 없습니다.</b> \n <size=30>새로운 게임을 시작합니다.</size>",
+            UIManager.Instance.OpenPopup(str_noPlayerData,
                 Button_Continue_OK,
                 Button_Continue_Close);
         }
@@ -75,13 +77,13 @@ public class UIMainMenu : UIBase
 
     }
 
-    public void Button_Continue_OK()
+    private void Button_Continue_OK()
     {
         Com.canvasGroup.interactable = false;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
-    public void Button_Continue_Close()
+    private void Button_Continue_Close()
     {
         UIManager.Instance.CloseTop();
     }
@@ -90,13 +92,13 @@ public class UIMainMenu : UIBase
         UIManager.Instance.OpenThis(_uiBase);
     }
 
-    public void Button_QuitGame(UIPopup _uiBase)
+    public void Button_QuitGame()
     {
         UIManager.Instance.OpenPopup("게임을 종료하시겠습니까?",
             QuitGame, 
             UIManager.Instance.CloseTop);
     }
-    public void QuitGame()
+    private void QuitGame()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
