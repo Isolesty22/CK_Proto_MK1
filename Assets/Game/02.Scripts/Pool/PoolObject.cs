@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoolObject : MonoBehaviour
+[System.Serializable]
+public class PoolObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("스폰 이름")]
+    [Tooltip("오브젝트를 Spawn할 때, 해당 값을 통해 \n오브젝트를 찾습니다.")]
+    public string name;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("프리팹")]
+    public GameObject gameObject;
+
+    [Header("초기 생성 개수")]
+    public int count;
 }
