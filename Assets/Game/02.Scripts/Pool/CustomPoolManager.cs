@@ -56,7 +56,6 @@ public class CustomPoolManager : MonoBehaviour
 
     public CustomPool<T> GetPool<T>() where T : MonoBehaviour
     {
-        Debug.Log("GetPool :" + typeof(T).Name);
         return poolDictionary[typeof(T).Name] as CustomPool<T>;
     }
 

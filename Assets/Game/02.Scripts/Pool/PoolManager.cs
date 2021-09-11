@@ -189,8 +189,7 @@ public class PoolManager : MonoBehaviour
             tempTransform.SetParent(null);
 
             //위치, 회전값 설정
-            tempTransform.position = _position;
-            tempTransform.rotation = Quaternion.Euler(_rotation);
+            tempTransform.SetPositionAndRotation(_position, Quaternion.Euler(_rotation));
 
             //부모 설정
             tempTransform.SetParent(_parent);

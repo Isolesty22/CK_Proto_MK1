@@ -81,7 +81,7 @@ public class CustomPool<T> where T : MonoBehaviour
         {
             if (objectQueue.Count == 0)
             {
-                Debug.LogWarning(myTransform.name + " : 남은 오브젝트가 없습니다. 새로 만듭니다.");
+                Debug.LogWarning("[ " + myTransform.name + " ] 풀이 텅텅 비어있습니다. 오브젝트 하나를 새로 만듭니다.");
                 CreatePoolObject();
             }
 
@@ -92,8 +92,8 @@ public class CustomPool<T> where T : MonoBehaviour
             tempTransform.SetParent(null);
 
             //위치, 회전값 설정
-            tempTransform.position = _position;
-            tempTransform.rotation = Quaternion.Euler(_rotation);
+            tempTransform.SetPositionAndRotation(_position, Quaternion.Euler(_rotation));
+            //tempTransform.rotation = Quaternion.Euler(_rotation);
 
             //부모 설정
             tempTransform.SetParent(_parent);
