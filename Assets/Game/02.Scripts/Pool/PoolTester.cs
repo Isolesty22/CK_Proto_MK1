@@ -55,25 +55,25 @@ public class PoolTester : MonoBehaviour
     {
 
         //느림...하지만 간편하다
-        cPoolManager.CreateCustomPool<TestArrow>();
-        cPoolManager.CreateCustomPool<TestBullet>();
+        //cPoolManager.CreateCustomPool<TestArrow>();
+        //cPoolManager.CreateCustomPool<TestBullet>();
 
-        int count = cPoolManager.GetPool<TestArrow>().count;
-        for (int i = 0; i < count+1; i++)
-        {
-            cPoolManager.GetPool<TestArrow>().SpawnThis(Vector3.zero, Vector3.zero, null).Shot();
-            yield return new WaitForSecondsRealtime(0.2f);
-        }
-
-        //빠름...하지만 변수를 만들어놓는게 필요
-        //arrowPool = cPoolManager.CreateCustomPool<TestArrow>();
-        //bulletPool = cPoolManager.CreateCustomPool<TestBullet>();
-        //int count = arrowPool.count;
-        //for (int i = 0; i < count; i++)
+        //int count = cPoolManager.GetPool<TestArrow>().count;
+        //for (int i = 0; i < count+1; i++)
         //{
-        //    arrowPool.SpawnThis(Vector3.zero, Vector3.zero, null).Shot();
+        //    cPoolManager.GetPool<TestArrow>().SpawnThis(Vector3.zero, Vector3.zero, null).Shot();
         //    yield return new WaitForSecondsRealtime(0.2f);
         //}
+
+        //빠름...하지만 변수를 만들어놓는게 필요
+        arrowPool = cPoolManager.CreateCustomPool<TestArrow>();
+        bulletPool = cPoolManager.CreateCustomPool<TestBullet>();
+        int count = arrowPool.count;
+        for (int i = 0; i < count+1; i++)
+        {
+            arrowPool.SpawnThis(Vector3.zero, Vector3.zero, null).Shot();
+            yield return new WaitForSecondsRealtime(0.2f);
+        }
 
     }
 
