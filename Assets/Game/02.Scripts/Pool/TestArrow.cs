@@ -21,7 +21,7 @@ public class TestArrow : MonoBehaviour
 
     private IEnumerator ProcessShot()
     {
-        Debug.Log("|         <-----= ");
+        Debug.Log("|             <-----= ");
 
         yield return new WaitForSecondsRealtime(2f);
         Debug.Log("|<-----= ");

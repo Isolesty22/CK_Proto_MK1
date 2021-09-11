@@ -54,7 +54,7 @@ public class PoolTester : MonoBehaviour
     private IEnumerator Start_CustomPool()
     {
 
-        //느림...하지만 간편
+        //느림...하지만 간편하다
         cPoolManager.CreateCustomPool<TestArrow>();
         cPoolManager.CreateCustomPool<TestBullet>();
 

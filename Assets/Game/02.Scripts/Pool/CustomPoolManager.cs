@@ -52,7 +52,7 @@ public class CustomPoolManager : MonoBehaviour
     }
 
     /// <summary>
-    /// [자주 사용하지 마세요] 해당 타입의 CustomPool을 반환합니다.
+    /// [너무 자주 사용하지 마세요] 해당 타입의 CustomPool을 반환합니다.
     /// </summary>
     /// <typeparam name="T">CustomPool의 지정된 타입</typeparam>
     public CustomPool<T> GetPool<T>() where T : MonoBehaviour
