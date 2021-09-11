@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class VenomShootingPlantController : MonsterController
 {
+    #region
     public List<GameObject> venoms = new List<GameObject>();
     private int bulletCount;
 
     public float shootDelay;
-    public MonsterState state = MonsterState.Search;
-    public bool isRunninCo;
-
+    #endregion
     void Start()
     {
         
@@ -20,66 +19,33 @@ public class VenomShootingPlantController : MonsterController
     {
         State(state);
     }
-    public void Hitted()
+    private void OnCollisionEnter(Collision collision)
     {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
+        if (collision.transform.CompareTag("Arrow"))
+            ChangeState("HIT");
+    }
+    public override void State(MonsterState state)
+    {
+        base.State(state);
     }
 
-    public void State(MonsterState state)
+    public override void ChangeState(string functionName)
     {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        base.ChangeState(functionName);
+    }
+    protected override void Idle()
+    {
+        base.Idle();
     }
 
-    public void ChangeState(string functionName)
+    protected override void Detect()
     {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
+        base.Detect();
     }
 
-    protected override void Chase()
+    protected override void Move()
     {
-        base.Chase();
+        base.Move();
     }
 
     protected override void Attack()
@@ -88,9 +54,14 @@ public class VenomShootingPlantController : MonsterController
         if(isRunninCo == false)
             StartCoroutine(ShootVenom());
     }
-    protected override void Dead()
+    public override void Hit()
     {
-        base.Dead();
+        base.Hit();
+    }
+
+    protected override void Death()
+    {
+        base.Death();
     }
 
     IEnumerator ShootVenom()

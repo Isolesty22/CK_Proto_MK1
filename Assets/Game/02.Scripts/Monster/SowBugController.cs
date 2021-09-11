@@ -5,10 +5,6 @@ using UnityEngine;
 public class SowBugController : MonsterController
 {
     #region
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
-    public float moveSpeed;
     public float stunTime;
     #endregion
 
@@ -25,78 +21,45 @@ public class SowBugController : MonsterController
     {
         if (collision.transform.CompareTag("Player") || collision.transform.CompareTag("Wall"))
         {
-            ChangeState("Dead");
+            ChangeState("DEATH");
         }
     }
 
-    public void Hitted()
+    public override void State(MonsterState state)
     {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
+        base.State(state);
     }
 
-    public void State(MonsterState state)
+    public override void ChangeState(string functionName)
     {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        base.ChangeState(functionName);
+    }
+    protected override void Idle()
+    {
+        base.Idle();
     }
 
-    public void ChangeState(string functionName)
+    protected override void Detect()
     {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
+        base.Detect();
     }
 
-    protected override void Chase()
+    protected override void Move()
     {
-        base.Chase();
+        base.Move();
     }
 
     protected override void Attack()
     {
         base.Attack();
-        transform.position += new Vector3(-moveSpeed * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(-Stat.move_Speed * Time.deltaTime, 0, 0);
     }
-    protected override void Dead()
+    public override void Hit()
+    {
+        base.Hit();
+    }
+
+    protected override void Death()
     {
         if(isRunninCo == false)
             StartCoroutine(Stun());
@@ -106,7 +69,7 @@ public class SowBugController : MonsterController
     {
         isRunninCo = true;
         yield return new WaitForSeconds(stunTime);
-        base.Dead();
+        base.Death();
         isRunninCo = false;
     }
 }

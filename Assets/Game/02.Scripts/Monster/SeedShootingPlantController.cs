@@ -5,15 +5,11 @@ using UnityEngine;
 public class SeedShootingPlantController : MonsterController
 {
     #region
-    public MonsterState state = MonsterState.Search;
-
     public List<GameObject> seeds = new List<GameObject>();
     private static int bulletCount;
 
     public float shootDelay;
     public float seedSpeed;
-
-    public bool isRunninCo;
     #endregion
     void Start()
     {
@@ -27,69 +23,31 @@ public class SeedShootingPlantController : MonsterController
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Arrow"))
-            Hitted();
+            ChangeState("HIT");
     }
 
-    public void Hitted()
+    public override void State(MonsterState state)
     {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
+        base.State(state);
     }
 
-    public void State(MonsterState state)
+    public override void ChangeState(string functionName)
     {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        base.ChangeState(functionName);
+    }
+    protected override void Idle()
+    {
+        base.Idle();
     }
 
-    public void ChangeState(string functionName)
+    protected override void Detect()
     {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
+        base.Detect();
     }
 
-    protected override void Chase()
+    protected override void Move()
     {
-        base.Chase();
+        base.Move();
     }
 
     protected override void Attack()
@@ -98,9 +56,14 @@ public class SeedShootingPlantController : MonsterController
         if (isRunninCo == false)
             StartCoroutine(ShootSeed());
     }
-    protected override void Dead()
+    public override void Hit()
     {
-        base.Dead();
+        base.Hit();
+    }
+
+    protected override void Death()
+    {
+        base.Death();
     }
     IEnumerator ShootSeed()
     {

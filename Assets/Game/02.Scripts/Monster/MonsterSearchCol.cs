@@ -10,15 +10,27 @@ public class MonsterSearchCol : MonoBehaviour
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-                originMonster.transform.SendMessage("ChangeState", "Attack");
+            if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.IDLE)
+            {
+                originMonster.transform.SendMessage("ChangeState", "DETECT");
+            }
+
+            else if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.MOVE)
+            {
+                originMonster.transform.SendMessage("ChangeState", "DETECT");
+            }
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.transform.CompareTag("Player"))
-        {
-                originMonster.transform.SendMessage("ChangeState", "Search");
-        }
+        //if (other.gameObject.transform.CompareTag("Player"))
+        //{
+        //    if (originMonster.GetComponent<MonsterController>().state != MonsterController.MonsterState.IDLE)
+        //    {
+        //        originMonster.transform.SendMessage("ChangeState", "IDLE");
+        //    }
+        //}
     }
 }

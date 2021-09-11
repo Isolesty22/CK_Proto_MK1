@@ -5,15 +5,10 @@ using UnityEngine;
 public class RabbitController : MonsterController
 {
     #region
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
-
     public float nextActDelay;
     public int nextActNum;
 
     public float jumpPower;
-    public float moveSpeed;
     public int jumpProbability;
     #endregion
 
@@ -29,65 +24,40 @@ public class RabbitController : MonsterController
     {
         State(state);
     }
-
-    public void ChangeState(string functionName)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        if (collision.transform.CompareTag("Arrow"))
+            ChangeState("HIT");
     }
 
-    protected override void Search()
+    public override void State(MonsterState state)
     {
-        base.Search();
+        base.State(state);
     }
 
-    protected override void Chase()
+    public override void ChangeState(string functionName)
     {
-        base.Chase();
+        base.ChangeState(functionName);
+    }
+
+    protected override void Idle()
+    {
+        base.Idle();
+    }
+
+    protected override void Detect()
+    {
+        base.Detect();
+    }
+
+    protected override void Move()
+    {
+        base.Move();
     }
 
     protected override void Attack()
     {
         base.Attack();
-        float gravity = Com.rigidbody.velocity.y;
         if (timer > 0)
         {
             switch (nextActNum)
@@ -96,11 +66,11 @@ public class RabbitController : MonsterController
                     break;
                 case 1:
                     transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                    Com.rigidbody.velocity = new Vector3(-moveSpeed, gravity, 0);
+                    Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
                     break;
                 case 2:
                     transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                    Com.rigidbody.velocity = new Vector3(moveSpeed, gravity, 0);
+                    Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
                     break;
                 default:
                     break;
@@ -116,9 +86,14 @@ public class RabbitController : MonsterController
             StartCoroutine(RandomJump());
         timer -= Time.deltaTime;
     }
-    protected override void Dead()
+    public override void Hit()
     {
-        base.Dead();
+        base.Hit();
+    }
+
+    protected override void Death()
+    {
+        base.Death();
 
     }
 
