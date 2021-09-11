@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class BirdController : MonsterController
 {
-    #region
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
-    public float moveSpeed;
-    #endregion
-
     void Start()
     {
         
@@ -24,78 +17,45 @@ public class BirdController : MonsterController
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Arrow"))
-            Hitted();
+            ChangeState("HIT");
     }
 
-    public void State(MonsterState state)
+    public override void State(MonsterState state)
     {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        base.State(state);
     }
 
-    public void ChangeState(string functionName)
+    public override void ChangeState(string functionName)
     {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
+        base.ChangeState(functionName);
     }
-    protected override void Search()
+    protected override void Idle()
     {
-        base.Search();
+        base.Idle();
     }
 
-    protected override void Chase()
+    protected override void Detect()
     {
-        base.Chase();
+        base.Detect();
+    }
+
+    protected override void Move()
+    {
+        base.Move();
     }
 
     protected override void Attack()
     {
         base.Attack();
-        transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
+        transform.Translate(Vector3.left * Time.deltaTime * Stat.move_Speed);
     }
-    protected override void Dead()
+    protected override void Death()
     {
-        base.Dead();
+        base.Death();
     }
 
-    public void Hitted()
+    public override void Hit()
     {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
+        base.Hit();
     }
 }

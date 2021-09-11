@@ -5,12 +5,9 @@ using UnityEngine;
 public class LarvaController : MonsterController
 {
     #region
-    public MonsterState state = MonsterState.Search;
-
     public float upDownSpeed;
     public float upDelay;
     public float downRange;
-    public bool isRunninCo;
     #endregion
 
     private Vector3 pos;
@@ -38,69 +35,31 @@ public class LarvaController : MonsterController
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Arrow"))
-            Hitted();
+            ChangeState("HIT");
+    }
+    public override void State(MonsterState state)
+    {
+        base.State(state);
     }
 
-    public void Hitted()
+    public override void ChangeState(string functionName)
     {
-        if (Stat.hp > 1)
-            Stat.hp--;
-        else
-            ChangeState("Dead");
-    }
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
-
-            case MonsterState.Chase:
-                Chase();
-                break;
-
-            case MonsterState.Attack:
-                Attack();
-                break;
-
-            case MonsterState.Dead:
-                Dead();
-                break;
-
-            default:
-                break;
-        }
+        base.ChangeState(functionName);
     }
 
-    public void ChangeState(string functionName)
+    protected override void Idle()
     {
-        if(functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if(functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if(functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
+        base.Idle();
     }
 
-    protected override void Search()
+    protected override void Detect()
     {
-        base.Search();
+        base.Detect();
     }
 
-    protected override void Chase()
+    protected override void Move()
     {
-        base.Chase();
+        base.Move();
     }
 
     protected override void Attack()
@@ -135,9 +94,14 @@ public class LarvaController : MonsterController
                 break;
         }
     }
-    protected override void Dead()
+    public override void Hit()
     {
-        base.Dead();
+        base.Hit();
+    }
+
+    protected override void Death()
+    {
+        base.Death();
     }
 
     private IEnumerator UpDownDelay(int n)
