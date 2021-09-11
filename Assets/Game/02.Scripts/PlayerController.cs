@@ -295,10 +295,12 @@ public class PlayerController : MonoBehaviour
         if (InputVal.movementInput == -1f)
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
+            transform.localScale = new Vector3(-1, 1, 1);
         }
         else if (InputVal.movementInput == 1f)
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+            transform.localScale = new Vector3(1, 1, 1);
         }
     }
 
