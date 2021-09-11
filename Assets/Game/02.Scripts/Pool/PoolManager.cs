@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.Reflection;
 
 public class PoolManager : MonoBehaviour
 {
@@ -49,6 +51,26 @@ public class PoolManager : MonoBehaviour
         Init_PoolObjectDictionary();
         Init_Queue();
         InstantiatePoolObjects();
+        Test_PrintQueue();
+    }
+
+    private IEnumerator Start()
+    {
+        List<GameObject> list = new List<GameObject>();
+        for (int i = 0; i < 6; i++)
+        {
+            list.Add(SpawnThis("Arrow", Vector3.zero, Vector3.zero, null));
+
+            yield return null;
+        }
+
+        yield return new WaitForSecondsRealtime(1f);
+
+        for (int i = 0; i < 6; i++)
+        {
+            ReleaseThis("Arrow", list[i]);
+            yield return null;
+        }
     }
 
 
@@ -90,6 +112,8 @@ public class PoolManager : MonoBehaviour
 
     private void Init_Queue()
     {
+        queueDictionary = new Dictionary<string, Queue<GameObject>>();
+
         for (int i = 0; i < listCount; i++)
         {
             Queue<GameObject> queue = new Queue<GameObject>();
@@ -114,11 +138,104 @@ public class PoolManager : MonoBehaviour
             for (int j = 0; j < tempCount; j++)
             {
                 tempGameObject = GameObject.Instantiate(
-                    poolObjectList[i].gameObject, Vector3.zero, 
+                    poolObjectList[i].gameObject, Vector3.zero,
                     Quaternion.identity, tempTransform);
+
+                tempGameObject.SetActive(false);
+                //큐에 넣기
+                queueDictionary[tempName].Enqueue(tempGameObject);
             }
         }
     }
 
 
+    private void Test_PrintQueue()
+    {
+        Debug.Log(queueDictionary["Arrow"].Count);
+    }
+
+    private GameObject CreatePoolObject(string _name)
+    {
+        //오브젝트 생성
+        GameObject tempGameObject = GameObject.Instantiate(
+                        poolObjectDictionary[_name], Vector3.zero,
+                        Quaternion.identity, transformDictionary[_name]);
+
+        tempGameObject.SetActive(false);
+        //큐에 넣기
+        queueDictionary[_name].Enqueue(tempGameObject);
+        return tempGameObject;
+    }
+
+    /// <summary>
+    /// 오브젝트를 스폰합니다.
+    /// </summary>
+    /// <param name="_name">스폰할 오브젝트의 이름. 매니저에서 설정했던 name입니다.</param>
+    /// <param name="_position">스폰할 오브젝트의 위치.</param>
+    /// <param name="_rotation">스폰할 오브젝트의 회전값.</param>
+    /// <param name="_parent">스폰할 오브젝트의 부모 오브젝트. 부모가 필요없다면 null을 넣습니다.</param>
+    public GameObject SpawnThis(string _name, Vector3 _position, Vector3 _rotation, Transform _parent)
+    {
+        var tempQueue = queueDictionary[_name];
+        GameObject tempObject = null;
+        Transform tempTransform = null;
+        lock (tempQueue)
+        {
+            if (tempQueue.Count != 0)
+            {
+                //큐에서 빼기
+                tempObject = tempQueue.Dequeue();
+
+                tempTransform = tempObject.transform;
+
+                //빼주기
+                tempTransform.SetParent(null);
+
+                //위치, 회전값 설정
+                tempTransform.position = _position;
+                tempTransform.rotation = Quaternion.Euler(_rotation);
+
+                //부모 설정
+                tempTransform.SetParent(_parent);
+
+
+                tempObject.SetActive(true);
+                return tempObject;
+            }
+            else
+            {
+                Debug.LogWarning(_name + "Pool : 남은 오브젝트가 없습니다. 새로 만듭니다.");
+                CreatePoolObject(_name);
+                tempObject = tempQueue.Dequeue();
+
+                tempTransform = tempObject.transform;
+
+                //빼주기
+                tempTransform.SetParent(null);
+
+                //위치, 회전값 설정
+                tempTransform.position = _position;
+                tempTransform.rotation = Quaternion.Euler(_rotation);
+
+                //부모 설정
+                tempTransform.SetParent(_parent);
+
+
+                tempObject.SetActive(true);
+                return tempObject;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 오브젝트를 반환합니다.
+    /// </summary>
+    /// <param name="_name">반환할 오브젝트의 이름. 매니저에서 설정했던 name입니다.</param>
+    /// <param name="_gameObject">반환할 오브젝트 그 자체.</param>
+    public void ReleaseThis(string _name, GameObject _gameObject)
+    {
+        _gameObject.SetActive(false);
+        _gameObject.transform.SetParent(transformDictionary[_name]);
+        queueDictionary[_name].Enqueue(_gameObject);
+    }
 }
