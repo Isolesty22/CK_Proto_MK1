@@ -6,6 +6,13 @@ public class RollerController : MonsterController
 {
     #region
     public Vector3 moveDirection;
+    public GameObject rollingModel;
+    public ParticleSystem particle;
+
+    public float currentSpeed;
+    public float maxSpeed;
+    public float aclrt; // °¡¼Óµµ
+    public float jumpPower;
     #endregion
 
     void Start()
@@ -15,7 +22,8 @@ public class RollerController : MonsterController
 
     void Update()
     {
-        State(state);
+        if(active == true)
+            State(state);
     }
 
     private void FixedUpdate()
@@ -55,6 +63,7 @@ public class RollerController : MonsterController
     {
         base.ChangeState(functionName);
     }
+
     protected override void Idle()
     {
         base.Idle();
@@ -68,7 +77,10 @@ public class RollerController : MonsterController
             moveDirection = new Vector3(-1, 0, 0);
         else
             moveDirection = new Vector3(1, 0, 0);
-        ChangeState("ATTACK");
+
+        currentSpeed = 0;
+        if(isRunninCo == false)
+            StartCoroutine(ChangeModel());
     }
 
     protected override void Move()
@@ -87,34 +99,35 @@ public class RollerController : MonsterController
     protected override void Attack()
     {
         base.Attack();
-        if (moveDirection.x < 0)
-            Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
-        else
-            Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+        isRunninCo = false;
+        currentSpeed = Mathf.Clamp(currentSpeed += aclrt * Time.deltaTime, 0f, maxSpeed);
 
-        if(Vector3.Distance(gameObject.transform.position, GameManager.instance.playerController.transform.position) > 30)
-        {
-            ChangeState("DEATH");
-        }
+        if (moveDirection.x < 0)
+            Com.rigidbody.velocity = new Vector3(-currentSpeed, Com.rigidbody.velocity.y, 0);
+        else
+            Com.rigidbody.velocity = new Vector3(currentSpeed, Com.rigidbody.velocity.y, 0);
+
     }
+
     public override void Hit()
     {
-        if (Stat.hp <= 1)
-            ChangeState("DEATH");
-
-        Stat.hp -= damage;
-        if(prevState == MonsterState.IDLE)
-            ChangeState("IDLE");
-        else if (prevState == MonsterState.DETECT)
-            ChangeState("IDLE");
-        else if (prevState == MonsterState.ATTACK)
-            ChangeState("ATTACK");
-        else if (prevState == MonsterState.MOVE)
-            ChangeState("IDLE");
+        base.Hit();
     }
 
     protected override void Death()
     {
         base.Death();
+    }
+
+    IEnumerator ChangeModel()
+    {
+        isRunninCo = true;
+        Com.rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+        particle.Play();
+        yield return new WaitForSeconds(0.3f);
+        Com.monsterModel.SetActive(false);
+        rollingModel.SetActive(true);
+        Com.monsterModel = rollingModel;
+        ChangeState("ATTACK");
     }
 }

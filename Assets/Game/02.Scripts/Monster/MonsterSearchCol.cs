@@ -4,33 +4,15 @@ using UnityEngine;
 
 public class MonsterSearchCol : MonoBehaviour
 {
-    public GameObject originMonster;
+    public GameObject monsterModel;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.transform.CompareTag("Player"))
+        if (gameObject.transform.parent.GetComponent<MonsterController>().active == false)
         {
-            if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.IDLE)
-            {
-                originMonster.transform.SendMessage("ChangeState", "DETECT");
-            }
-
-            else if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.MOVE)
-            {
-                originMonster.transform.SendMessage("ChangeState", "DETECT");
-            }
-
+            monsterModel.SetActive(true);
+            gameObject.transform.parent.GetComponent<MonsterController>().active = true;
+            gameObject.transform.parent.SendMessage("ChangeState", "IDLE");
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        //if (other.gameObject.transform.CompareTag("Player"))
-        //{
-        //    if (originMonster.GetComponent<MonsterController>().state != MonsterController.MonsterState.IDLE)
-        //    {
-        //        originMonster.transform.SendMessage("ChangeState", "IDLE");
-        //    }
-        //}
     }
 }

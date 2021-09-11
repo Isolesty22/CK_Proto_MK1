@@ -43,6 +43,7 @@ public class RabbitController : MonsterController
     protected override void Idle()
     {
         base.Idle();
+        ChangeState("ATTACK");
     }
 
     protected override void Detect()
@@ -85,6 +86,7 @@ public class RabbitController : MonsterController
         if (isRunninCo == false)
             StartCoroutine(RandomJump());
         timer -= Time.deltaTime;
+
     }
     public override void Hit()
     {
