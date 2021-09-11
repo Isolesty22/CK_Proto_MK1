@@ -7,13 +7,16 @@ public class Pixy : MonoBehaviour
 {
     public Transform pixyModel;
     public Vector3 originalPos;
+    public Vector3 crouchPos;
+    public Vector3 originalModelPos;
     public float pixyMoveTime = 0.2f;
     public float counterRange = 100f;
     public float counterSpeed = 10f;
 
     private void Awake()
     {
-        pixyModel.localPosition = originalPos;
+        originalPos = transform.position;
+        pixyModel.localPosition = originalModelPos;
     }
 
     public void ReadyToCounter()
@@ -48,6 +51,6 @@ public class Pixy : MonoBehaviour
 
     public void EndCounter()
     {
-        pixyModel.DOLocalMove(originalPos, pixyMoveTime).SetEase(Ease.Unset);
+        pixyModel.DOLocalMove(originalModelPos, pixyMoveTime).SetEase(Ease.Unset);
     }
 }

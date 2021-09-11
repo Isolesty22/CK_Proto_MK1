@@ -326,10 +326,11 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-
             //instance model
             Com.standingModel.SetActive(true);
             Com.crouchModel.SetActive(false);
+
+            Com.pixy.transform.localPosition = Com.pixy.originalPos;
 
             return;
         }
@@ -348,6 +349,8 @@ public class PlayerController : MonoBehaviour
             //instance model
             Com.standingModel.SetActive(false);
             Com.crouchModel.SetActive(true);
+
+            Com.pixy.transform.localPosition = Com.pixy.crouchPos;
         }
     }
 

@@ -21,6 +21,11 @@ public class ArrowBase : MonoBehaviour
                 return;
             }
 
+            if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isAlive = false;
+                ArrowPool.instance.Despawn(this.gameObject);
+            }
             //isAlive = false;
             //ArrowPool.instance.Despawn(this.gameObject);
         }
