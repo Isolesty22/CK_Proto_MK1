@@ -70,8 +70,8 @@ public class VenomShootingPlantController : MonsterController
         yield return new WaitForSeconds(shootDelay);
         venoms[bulletCount].transform.position = gameObject.transform.position;
         venoms[bulletCount].gameObject.SetActive(true);
-        venoms[bulletCount].GetComponent<VenomBullet>().target = GameManager.instance.playerController.transform;
-        StartCoroutine(venoms[bulletCount].GetComponent<VenomBullet>().ParabolaShoot());
+        venoms[bulletCount].GetComponent<CurveBullet>().target = GameManager.instance.playerController.transform.position;
+        StartCoroutine(venoms[bulletCount].GetComponent<CurveBullet>().ParabolaShoot());
         if (bulletCount < 2)
             bulletCount++;
         else if (bulletCount == 2)

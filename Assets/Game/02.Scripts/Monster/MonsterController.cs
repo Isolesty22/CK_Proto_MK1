@@ -29,6 +29,8 @@ public class MonsterController : MonoBehaviour
         public int atk_Range;
         public float respawn;
         public float agro_End_Time;
+        public float fadeOutTime;
+        public float destroyDistance;
     }
 
     [Serializable]
@@ -37,6 +39,7 @@ public class MonsterController : MonoBehaviour
         public Rigidbody rigidbody;
         public Collider collider;
         public Collider searchCol;
+        public GameObject monsterModel;
     }
 
     [SerializeField] private Components components = new Components();
@@ -50,6 +53,7 @@ public class MonsterController : MonoBehaviour
 
     public int damage;
     public bool isRunninCo;
+    public bool active;
     #endregion
 
     public virtual void State(MonsterState state)
@@ -142,15 +146,54 @@ public class MonsterController : MonoBehaviour
 
     public virtual void Hit()
     {
-        if (Stat.hp <= 1)
+        StartCoroutine(HitColor());
+        if (Stat.hp <= damage)
             ChangeState("DEATH");
-
-        Stat.hp -= damage;
-        ChangeState("IDLE");
+        else
+        {
+            Stat.hp -= damage;
+            if (prevState == MonsterState.IDLE)
+                ChangeState("IDLE");
+            else if (prevState == MonsterState.DETECT)
+                ChangeState("ATTACK");
+            else if (prevState == MonsterState.ATTACK)
+                ChangeState("ATTACK");
+            else if (prevState == MonsterState.MOVE)
+                ChangeState("IDLE");
+        }
     }
 
     protected virtual void Death()
     {
+        if(isRunninCo == false)
+            StartCoroutine(Dead());
+    }
+
+    IEnumerator HitColor()
+    {
+        Color prevColor = Com.monsterModel.GetComponent<Renderer>().material.color;
+        Com.monsterModel.GetComponent<Renderer>().material.color = new Color(150 / 255f, 150 / 255f, 150 / 255f, 255 / 255f);
+        yield return new WaitForSeconds(0.2f);
+        Com.monsterModel.GetComponent<Renderer>().material.color = prevColor;
+    }
+
+    IEnumerator Dead()
+    {
+        isRunninCo = true;
+        Com.collider.enabled = false;
+        Com.rigidbody.velocity = Vector3.zero;
+        Com.rigidbody.useGravity = false;
+        Color fadecolor = Com.monsterModel.GetComponent<Renderer>().material.color;
+        float time = 0f;
+
+        while (fadecolor.a > 0f)
+        {
+            time += Time.deltaTime / Stat.fadeOutTime;
+            fadecolor.a = Mathf.Lerp(255/255f, 0, time);
+            Com.monsterModel.GetComponent<Renderer>().material.color = fadecolor;
+            yield return null;
+        }
+        isRunninCo = false;
         this.gameObject.SetActive(false);
     }
 }

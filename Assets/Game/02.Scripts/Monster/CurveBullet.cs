@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VenomBullet : MonoBehaviour
+public class CurveBullet : MonoBehaviour
 {
-    public Transform target;
+    public Vector3 target;
     public float firingAngle = 45.0f;
     public float gravity = 9.8f;
 
@@ -19,13 +19,20 @@ public class VenomBullet : MonoBehaviour
 
     private void Start()
     {
+
+    }
+
+    private void Update()
+    {
+        if (Vector3.Distance(gameObject.transform.position, target) < 0.05f)
+            gameObject.SetActive(false);
     }
 
     public IEnumerator ParabolaShoot()
     {
         projectile.position = myTransform.position + new Vector3(0, 0.0f, 0);
 
-        float targetDistance = Vector3.Distance(projectile.position, target.position);
+        float targetDistance = Vector3.Distance(projectile.position, target);
 
         float projectileVelocity = targetDistance / (Mathf.Sin(2 * firingAngle * Mathf.Deg2Rad) / gravity);
 
@@ -34,7 +41,7 @@ public class VenomBullet : MonoBehaviour
 
         float flightDuration = targetDistance / Vx;
 
-        projectile.rotation = Quaternion.LookRotation(target.position - projectile.position);
+        projectile.rotation = Quaternion.LookRotation(target - projectile.position);
 
         float elapse_time = 0;
 
