@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class PlayerController : MonoBehaviour
 {
@@ -13,9 +14,12 @@ public class PlayerController : MonoBehaviour
         public Rigidbody rigidbody;
         public CapsuleCollider collider;
         public CapsuleCollider crouchCollier;
+        public PlayerHitBox hitBox;
         public GameObject standingModel;
         public GameObject crouchModel;
         public Weapon weapon;
+        public Pixy pixy;
+        public ParticleSystem parry;
     }
 
     [Serializable]
@@ -48,6 +52,11 @@ public class PlayerController : MonoBehaviour
         public float knockBackPower;
         public Vector3 knockBackVelocity;
         public float constDecrease = 12f;
+        [Header("FirePos")]
+        public Vector3 FirePos;
+        public Vector3 upFirePos;
+        public Vector3 crouchFirePos;
+        public Vector3 crouchUpFirePos;
     }
 
     [Serializable]
@@ -64,6 +73,7 @@ public class PlayerController : MonoBehaviour
         public bool canParry;
         public bool isParrying;
         public bool isPoison;
+        public bool canCounter;
     }
 
     [Serializable]
@@ -82,7 +92,7 @@ public class PlayerController : MonoBehaviour
         public KeyCode lookUp = KeyCode.UpArrow;
         public KeyCode attack = KeyCode.Z;
         public KeyCode jump = KeyCode.X;
-        public KeyCode parry = KeyCode.C;
+        public KeyCode counter = KeyCode.C;
     }
 
     [Serializable]
@@ -111,17 +121,19 @@ public class PlayerController : MonoBehaviour
     public InputState InState => inputState;
 
     private Vector3 capsulePoint1 => new Vector3(transform.position.x, transform.position.y - Com.collider.height / 2 + Com.collider.radius, 0);
-    private Vector3 capsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.collider.height/2 - Com.collider.radius, 0);
+    private Vector3 capsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.collider.height / 2 - Com.collider.radius, 0);
 
     private Vector3 crouchCapsulePoint1 => new Vector3(transform.position.x, Com.crouchCollier.radius, 0);
     private Vector3 crouchCapsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.crouchCollier.height / 2 - Com.crouchCollier.radius, 0);
 
+    private IEnumerator parry;
     #endregion
 
     private void Awake()
     {
         Stat.Initialize();
         transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
+        parry = Parry();
     }
 
     private void Start()
@@ -132,6 +144,15 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         SetInput();
+
+        FirePos();
+        Attack();
+        LookUp();
+        Crouch();
+        Rotate();
+        ReadyToParry();
+
+        Counter();
     }
 
     private void FixedUpdate()
@@ -141,11 +162,7 @@ public class PlayerController : MonoBehaviour
         UpdatePhysics();
 
         Jump();
-        Crouch();
         Move();
-        Rotate();
-        LookUp();
-        ReadyToParry();
     }
 
     private void SetInput()
@@ -163,7 +180,8 @@ public class PlayerController : MonoBehaviour
             InputVal.movementInput = 1f;
         }
 
-        if (Input.GetKeyDown(Key.attack)) Attack();
+        //if (Input.GetKeyDown(Key.attack)) Attack();
+
 
         if (!State.isGrounded)
             return;
@@ -176,7 +194,7 @@ public class PlayerController : MonoBehaviour
         const float rayDistance = 10f;
         const float threshold = 0.13f;
 
-        bool cast = Physics.SphereCast(transform.position, Com.collider.radius* 0.9f, Vector3.down, out var hit, rayDistance, layerMask);
+        bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.down, out var hit, rayDistance, layerMask);
         Val.groundedDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
         State.isGrounded = Val.groundedDistance <= threshold;
 
@@ -213,7 +231,7 @@ public class PlayerController : MonoBehaviour
     private void UpdatePhysics()
     {
         //gravity
-        if(State.isGrounded)
+        if (State.isGrounded)
         {
             Val.velocityY = 0f;
             State.isJumping = false;
@@ -230,7 +248,7 @@ public class PlayerController : MonoBehaviour
         State.isMoving = Val.moveVector.x != 0;
 
         //slope vector
-        if(State.isGrounded || Val.groundedDistance < Val.groundedCheck && !State.isJumping)
+        if (State.isGrounded || Val.groundedDistance < Val.groundedCheck && !State.isJumping)
         {
             Vector3 projection = Vector3.ProjectOnPlane(Val.moveVector, Val.groundNormal);
             Val.moveVector = new Vector3(projection.x, projection.y, 0).normalized;
@@ -243,7 +261,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(State.isHit)
+            if (State.isHit)
             {
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed * 0.3f;
             }
@@ -283,7 +301,6 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-
         if (!State.isGrounded)
         {
             return;
@@ -305,6 +322,11 @@ public class PlayerController : MonoBehaviour
             Com.collider.enabled = true;
             Com.crouchCollier.enabled = false;
 
+            //hit box
+            Com.hitBox.hitBox.enabled = true;
+            Com.hitBox.crouchHitBox.enabled = false;
+
+
             //instance model
             Com.standingModel.SetActive(true);
             Com.crouchModel.SetActive(false);
@@ -318,6 +340,10 @@ public class PlayerController : MonoBehaviour
 
             Com.collider.enabled = false;
             Com.crouchCollier.enabled = true;
+
+            //hit box
+            Com.hitBox.hitBox.enabled = false;
+            Com.hitBox.crouchHitBox.enabled = true;
 
             //instance model
             Com.standingModel.SetActive(false);
@@ -333,7 +359,7 @@ public class PlayerController : MonoBehaviour
 
         float knockBackDir = transform.position.x - monsterTransform.position.x;
 
-        if(knockBackDir >= 0)
+        if (knockBackDir >= 0)
         {
             knockBackDir = 1f;
         }
@@ -351,9 +377,9 @@ public class PlayerController : MonoBehaviour
     {
         Val.knockBackVelocity.x = knockBackDir * Val.knockBackPower;
 
-        if(Val.knockBackVelocity.x >= 0 )
+        if (Val.knockBackVelocity.x >= 0)
         {
-            while (Val.knockBackVelocity.x >= 0 )
+            while (Val.knockBackVelocity.x >= 0)
             {
                 Val.knockBackVelocity.x -= Val.constDecrease * Time.fixedDeltaTime;
 
@@ -389,32 +415,33 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(Key.lookUp))
         {
             State.isLookUp = true;
-            Com.weapon.transform.localPosition = new Vector3(0, 1f, 0);
         }
         else
         {
             State.isLookUp = false;
-            Com.weapon.transform.localPosition = new Vector3(0, 0, 0.5f);
         }
     }
 
     public void ReadyToParry()
     {
         //패링 불가능한 상태
-        if (!State.isJumping || State.isGrounded)
+        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded)
         {
+            StopCoroutine(parry);
             State.canParry = false;
+            Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            return;
         }
 
-        if (State.canParry)
+        if(State.canParry)
         {
             return;
         }
 
-        if(Input.GetKey(Key.parry))
+        if (Input.GetKeyDown(Key.jump))
         {
-            Debug.Log("Parrying");
-            StartCoroutine(Parry());
+            parry = Parry();
+            StartCoroutine(parry);
         }
 
     }
@@ -424,18 +451,26 @@ public class PlayerController : MonoBehaviour
         State.canParry = true;
 
         //effect
+        Com.parry.Play();
 
         yield return new WaitForSeconds(Stat.parryingTime);
 
+        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         State.canParry = false;
     }
 
     public IEnumerator Parrying()
     {
-        Val.velocityY = Stat.jumpForce;
-
         State.canParry = false;
-        StopCoroutine(Parry());
+
+        Com.pixy.ReadyToCounter();
+
+        Val.velocityY = Stat.parryingForce;
+
+        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        StopCoroutine(parry);
+
+
 
         //프레임 단위 무적
         //State.isInvincible = true;
@@ -446,21 +481,58 @@ public class PlayerController : MonoBehaviour
         State.isInvincible = true;
         yield return new WaitForSeconds(0.1f);
         State.isInvincible = false;
+
+
+        yield return new WaitForSeconds(Com.pixy.pixyMoveTime);
+        State.canCounter = true;
     }
 
     private void Attack()
     {
-        var fireDir = Vector3.forward;
-
-        if(State.isLookUp)
+        if (Input.GetKey(Key.attack))
         {
-            fireDir = transform.up;
+            Com.weapon.Fire();
+        }
+    }
+
+    private void FirePos()
+    {
+        //스탠딩, 업, 크라우치, 크라우치 업, 
+        if (!State.isLookUp && !State.isCrouching)
+        {
+            Com.weapon.transform.localPosition = Val.FirePos;
+            Com.weapon.transform.localEulerAngles = Vector3.zero;
+        }
+        else if (State.isLookUp && !State.isCrouching)
+        {
+            Com.weapon.transform.localPosition = Val.upFirePos;
+            Com.weapon.transform.localEulerAngles = new Vector3(-90, 0, 0);
+        }
+        else if (!State.isLookUp && State.isCrouching)
+        {
+            Com.weapon.transform.localPosition = Val.crouchFirePos;
+            Com.weapon.transform.localEulerAngles = Vector3.zero;
+        }
+        else if (State.isLookUp && State.isCrouching)
+        {
+            Com.weapon.transform.localPosition = Val.crouchUpFirePos;
+            Com.weapon.transform.localEulerAngles = new Vector3(-90, 0, 0);
         }
         else
-        {
-            fireDir = transform.forward;
-        }
+            Debug.Log("state error");
+    }
 
-        StartCoroutine(Com.weapon.Fire(fireDir));
+    public void Counter()
+    {
+        if (!State.canCounter)
+            return;
+
+        if (Input.GetKeyDown(Key.counter))
+        {
+            State.canCounter = false;
+            var counter = Com.pixy.Counter();
+            StartCoroutine(counter);
+            Com.pixy.EndCounter();
+        }
     }
 }
