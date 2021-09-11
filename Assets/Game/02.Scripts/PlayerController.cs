@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
         public bool isParrying;
         public bool isPoison;
         public bool canCounter;
+        public bool isAttack;
     }
 
     [Serializable]
@@ -267,7 +268,7 @@ public class PlayerController : MonoBehaviour
         {
             if (State.isHit)
             {
-                Val.moveVelocity = Val.moveVector * Stat.movementSpeed * 0.3f;
+                Val.moveVelocity = Val.moveVector * Stat.movementSpeed * 0.5f;
             }
             else
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
@@ -288,7 +289,9 @@ public class PlayerController : MonoBehaviour
 
 
         //최종 이동속도 결정
-        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity + (Vector3.up * Val.velocityY);
+        Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
+      
+        //Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity + (Vector3.up * Val.velocityY);
     }
 
     private void Rotate()
@@ -307,7 +310,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (!State.isGrounded)
+        if (!State.isGrounded || State.isHit)
         {
             return;
         }
@@ -501,8 +504,11 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKey(Key.attack))
         {
+            State.isAttack = true;
             Com.weapon.Fire();
         }
+        else
+            State.isAttack = false;
     }
 
     private void FirePos()
@@ -550,5 +556,6 @@ public class PlayerController : MonoBehaviour
     {
         Com.animator.SetFloat("Speed", Mathf.Abs(Com.rigidbody.velocity.x));
         Com.animator.SetBool("isJumping", State.isJumping);
+        Com.animator.SetBool("isAttack", State.isAttack);
     }
 }
