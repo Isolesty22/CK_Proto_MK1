@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
         public Weapon weapon;
         public Pixy pixy;
         public ParticleSystem parry;
+        public Animator animator;
     }
 
     [Serializable]
@@ -153,6 +154,8 @@ public class PlayerController : MonoBehaviour
         ReadyToParry();
 
         Counter();
+
+        HandleAnimation();
     }
 
     private void FixedUpdate()
@@ -537,5 +540,11 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(counter);
             Com.pixy.EndCounter();
         }
+    }
+
+    public void HandleAnimation()
+    {
+        Com.animator.SetFloat("Speed", Mathf.Abs(Com.rigidbody.velocity.x));
+        Com.animator.SetBool("isJumping", State.isJumping);
     }
 }
