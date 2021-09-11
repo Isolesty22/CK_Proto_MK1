@@ -5,6 +5,9 @@ using UnityEngine;
 public class PlayerHitBox : MonoBehaviour
 {
     private PlayerController playerController;
+    public CapsuleCollider hitBox;
+    public CapsuleCollider crouchHitBox;
+    
 
     private void Start()
     {
