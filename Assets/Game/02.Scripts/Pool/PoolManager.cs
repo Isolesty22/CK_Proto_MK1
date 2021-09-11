@@ -51,7 +51,6 @@ public class PoolManager : MonoBehaviour
         Init_PoolObjectDictionary();
         Init_Queue();
         InstantiatePoolObjects();
-        Test_PrintQueue();
     }
 
     private IEnumerator Start()
@@ -146,12 +145,6 @@ public class PoolManager : MonoBehaviour
                 queueDictionary[tempName].Enqueue(tempGameObject);
             }
         }
-    }
-
-
-    private void Test_PrintQueue()
-    {
-        Debug.Log(queueDictionary["Arrow"].Count);
     }
 
     private GameObject CreatePoolObject(string _name)
