@@ -5,12 +5,36 @@ using UnityEngine;
 public class TestBullet : MonoBehaviour
 {
     CustomPoolManager cPoolManager;
+    PoolManager poolManager;
 
-    IEnumerator Start()
+    private void Start()
     {
-        yield return new WaitForSecondsRealtime(2f);
         cPoolManager = CustomPoolManager.Instance;
+        poolManager = PoolManager.Instance;
+    }
 
-        cPoolManager.GetPool<TestBullet>().ReleaseThis(this);
+    public void Shot()
+    {
+        StartCoroutine(ProcessShot());
+    }
+
+    private IEnumerator ProcessShot()
+    {
+        Debug.Log("|         <= ");
+
+        yield return new WaitForSecondsRealtime(2f);
+        Debug.Log("|<= ");
+
+        //Pool·Î ¹ÝÈ¯
+
+        if (cPoolManager.gameObject.activeInHierarchy)
+        {
+            cPoolManager.GetPool<TestBullet>().ReleaseThis(this);
+        }
+        else
+        {
+            poolManager.ReleaseThis("Bullet", this.gameObject);
+        }
+
     }
 }

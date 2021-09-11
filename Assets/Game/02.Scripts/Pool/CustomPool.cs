@@ -10,7 +10,7 @@ public class CustomPool<T> where T : MonoBehaviour
     private GameObject poolObject;
 
     private Queue<T> objectQueue;
-    private int count;
+    public int count;
 
 
     /// <summary>

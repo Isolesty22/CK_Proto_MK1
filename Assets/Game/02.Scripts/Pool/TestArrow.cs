@@ -5,13 +5,34 @@ using UnityEngine;
 public class TestArrow : MonoBehaviour
 {
     CustomPoolManager cPoolManager;
+    PoolManager poolManager;
 
-    private IEnumerator Start()
+    private void Start()
     {
         cPoolManager = CustomPoolManager.Instance;
-        yield return new WaitForSecondsRealtime(2f);
+        poolManager = PoolManager.Instance;
+    }
 
-        //Pool·Î ¹ÝÈ¯
-        cPoolManager.GetPool<TestArrow>().ReleaseThis(this);
+
+    public void Shot()
+    {
+        StartCoroutine(ProcessShot());
+    }    
+
+    private IEnumerator ProcessShot()
+    {
+        Debug.Log("|         <-----= ");
+
+        yield return new WaitForSecondsRealtime(2f);
+        Debug.Log("|<-----= ");
+
+        if (cPoolManager.gameObject.activeInHierarchy)
+        {
+            cPoolManager.GetPool<TestArrow>().ReleaseThis(this);
+        }
+        else
+        {
+            poolManager.ReleaseThis("Arrow", this.gameObject);
+        }
     }
 }

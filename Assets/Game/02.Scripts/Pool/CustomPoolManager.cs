@@ -12,9 +12,8 @@ public class CustomPoolManager : MonoBehaviour
     #endregion
 
 
-
-    public GameObject arrow;
-    public GameObject bullet;
+    public List<CustomPoolObject> poolObjectList;
+    private Dictionary<string, CustomPoolObject> poolObjectDictionary;
 
     private Dictionary<string, object> poolDictionary = new Dictionary<string, object>();
 
@@ -38,48 +37,52 @@ public class CustomPoolManager : MonoBehaviour
 
         }
         #endregion
+
+        Init_Dict();
     }
 
-    private IEnumerator Start()
+    private void Init_Dict()
     {
-        //풀 생성하기
-        CustomPool<TestArrow> arrowPool = CreateCustomPool<TestArrow>(arrow, 5);
-        CustomPool<TestBullet> bulletPool = CreateCustomPool<TestBullet>(bullet, 5);
+        poolObjectDictionary = new Dictionary<string, CustomPoolObject>();
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < poolObjectList.Count; i++)
         {
-            bulletPool.SpawnThis(Vector3.zero, Vector3.zero, null);
-            yield return new WaitForSecondsRealtime(0.2f);
+            poolObjectDictionary.Add(poolObjectList[i].typeName,poolObjectList[i]);
         }
     }
 
-
+    /// <summary>
+    /// [자주 사용하지 마세요] 해당 타입의 CustomPool을 반환합니다.
+    /// </summary>
+    /// <typeparam name="T">CustomPool의 지정된 타입</typeparam>
     public CustomPool<T> GetPool<T>() where T : MonoBehaviour
     {
         return poolDictionary[typeof(T).Name] as CustomPool<T>;
     }
 
+
     /// <summary>
     /// 지정한 타입의 CustomPool을 생성합니다.
     /// </summary>
     /// <typeparam name="T">CustomPool이 다룰 Type</typeparam>
-    /// <param name="_prefab">Clone될 오브젝트.</param>
-    /// <param name="_count">초기 생성할 오브젝트 개수.</param>
     /// <returns>생성된 CustomPool을 반환합니다.</returns>
-    public CustomPool<T> CreateCustomPool<T>(GameObject _prefab, int _count) where T : MonoBehaviour
+    public CustomPool<T> CreateCustomPool<T>() where T : MonoBehaviour
     {
+        string typeName = typeof(T).Name;
+
         GameObject pool = new GameObject("CustomPool : " + typeof(T).Name);
         pool.transform.SetParent(this.transform);
 
         CustomPool<T> customPool = new CustomPool<T>();
 
         //딕셔너리에 넣기
-        poolDictionary.Add(typeof(T).Name, customPool);
+        poolDictionary.Add(typeName, customPool);
         //pool.AddComponent<CustomPool<T>>();
-        customPool.Init(_prefab, _count, pool.transform);
+        customPool.Init(poolObjectDictionary[typeName].gameObject, poolObjectDictionary[typeName].count, pool.transform);
         customPool.Init_Queue();
         return customPool;
     }
+
 
 
 }

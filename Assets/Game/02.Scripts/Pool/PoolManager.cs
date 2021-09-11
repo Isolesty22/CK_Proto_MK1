@@ -47,35 +47,13 @@ public class PoolManager : MonoBehaviour
         #endregion
 
         listCount = poolObjectList.Count;
-        Init_Transforms();
-        Init_PoolObjectDictionary();
-        Init_Queue();
-        InstantiatePoolObjects();
-    }
 
-    private IEnumerator Start()
-    {
-        List<GameObject> list = new List<GameObject>();
-        for (int i = 0; i < 6; i++)
-        {
-            list.Add(SpawnThis("Arrow", Vector3.zero, Vector3.zero, null));
-
-            yield return null;
-        }
-
-        yield return new WaitForSecondsRealtime(1f);
-
-        for (int i = 0; i < 6; i++)
-        {
-            ReleaseThis("Arrow", list[i]);
-            yield return null;
-        }
     }
 
 
     private readonly string str_pool = "Pool";
 
-    private void Init_Transforms()
+    public void Init_Transforms()
     {
         transformDictionary = new Dictionary<string, Transform>();
 
@@ -97,7 +75,7 @@ public class PoolManager : MonoBehaviour
             transformDictionary.Add(poolObjectList[i].name, tempObject.transform);
         }
     }
-    private void Init_PoolObjectDictionary()
+    public void Init_PoolObjectDictionary()
     {
         poolObjectDictionary = new Dictionary<string, GameObject>();
 
@@ -109,7 +87,7 @@ public class PoolManager : MonoBehaviour
     }
 
 
-    private void Init_Queue()
+    public void Init_Queue()
     {
         queueDictionary = new Dictionary<string, Queue<GameObject>>();
 
@@ -120,7 +98,7 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    private void InstantiatePoolObjects()
+    public void InstantiatePoolObjects()
     {
         int tempCount = 0;
         string tempName = string.Empty;
@@ -177,7 +155,7 @@ public class PoolManager : MonoBehaviour
             if (tempQueue.Count == 0)
             {
 
-                Debug.LogWarning(_name + "Pool : 남은 오브젝트가 없습니다. 새로 만듭니다.");
+                Debug.LogWarning("[ "+ _name + "Pool ] 풀이 텅텅 비어있습니다. 오브젝트 하나를 새로 만듭니다.");
                 CreatePoolObject(_name);
             }
 
