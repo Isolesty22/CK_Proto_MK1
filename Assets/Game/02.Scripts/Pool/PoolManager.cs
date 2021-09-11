@@ -181,49 +181,30 @@ public class PoolManager : MonoBehaviour
         Transform tempTransform = null;
         lock (tempQueue)
         {
-            if (tempQueue.Count != 0)
+            if (tempQueue.Count == 0)
             {
-                //큐에서 빼기
-                tempObject = tempQueue.Dequeue();
 
-                tempTransform = tempObject.transform;
-
-                //빼주기
-                tempTransform.SetParent(null);
-
-                //위치, 회전값 설정
-                tempTransform.position = _position;
-                tempTransform.rotation = Quaternion.Euler(_rotation);
-
-                //부모 설정
-                tempTransform.SetParent(_parent);
-
-
-                tempObject.SetActive(true);
-                return tempObject;
-            }
-            else
-            {
                 Debug.LogWarning(_name + "Pool : 남은 오브젝트가 없습니다. 새로 만듭니다.");
                 CreatePoolObject(_name);
-                tempObject = tempQueue.Dequeue();
-
-                tempTransform = tempObject.transform;
-
-                //빼주기
-                tempTransform.SetParent(null);
-
-                //위치, 회전값 설정
-                tempTransform.position = _position;
-                tempTransform.rotation = Quaternion.Euler(_rotation);
-
-                //부모 설정
-                tempTransform.SetParent(_parent);
-
-
-                tempObject.SetActive(true);
-                return tempObject;
             }
+
+            tempObject = tempQueue.Dequeue();
+
+            tempTransform = tempObject.transform;
+
+            //빼주기
+            tempTransform.SetParent(null);
+
+            //위치, 회전값 설정
+            tempTransform.position = _position;
+            tempTransform.rotation = Quaternion.Euler(_rotation);
+
+            //부모 설정
+            tempTransform.SetParent(_parent);
+
+            tempObject.SetActive(true);
+            return tempObject;
+
         }
     }
 
