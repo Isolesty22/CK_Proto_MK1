@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour
         public float jumpForce = 1f;
         public float invincibleTime = 1f;
         public float parryingForce = 10f;
+        public float hitTime = 1f;
     }
 
     [Serializable]
@@ -404,9 +405,10 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        State.isHit = false;
-
         Val.knockBackVelocity.x = 0;
+
+        yield return new WaitForSeconds(Stat.hitTime);
+        State.isHit = false;
     }
 
     private IEnumerator Invincible()
