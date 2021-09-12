@@ -24,6 +24,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     #endregion
 
+    [Tooltip("현재 열려있는 UI 개수")]
+    public int openUIcount;
     [Space(10)]
 
     [SerializeField]
@@ -105,6 +107,8 @@ public class UIManager : MonoBehaviour
             latelyUI.Com.canvasGroup.interactable = true;
             latelyUI.Com.canvas.sortingOrder = 10 + uiStack.Count;
         }
+
+        openUIcount = uiStack.Count;
     }
 
     /// <summary>
@@ -139,7 +143,7 @@ public class UIManager : MonoBehaviour
                 //uiStack.Peek().Com.canvasGroup.interactable = true;
             }
         }
-
+        openUIcount = uiStack.Count;
     }
 
     /// <summary>

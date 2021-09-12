@@ -125,6 +125,20 @@ public class Data_Player : GameData
         finalStageName = _data.finalStageName;
         finalStageNumber = _data.finalStageNumber;
     }
+
+    /// <summary>
+    /// 데이터 내용이 같은가?
+    /// </summary>
+    /// <param name="_data"></param>
+    /// <returns></returns>
+    public bool IsEquals(Data_Player _data)
+    {
+        return currentStageName == _data.currentStageName &&
+               currentStageNumber == _data.currentStageNumber &&
+               finalStageName == _data.finalStageName &&
+               finalStageNumber == _data.finalStageNumber;
+    }
+    
 }
 
 

@@ -85,7 +85,7 @@ public class UIBase : MonoBehaviour
 
     protected virtual IEnumerator ProcessOpen()
     {
-        isOpen = false;
+        isOpen = true;
 
         float progress = 0f;
         float timer = 0f;
@@ -109,14 +109,13 @@ public class UIBase : MonoBehaviour
 
         Com.canvasGroup.alpha = 1f;
 
-        isOpen = Com.canvas.enabled;
+
 
         yield break;
     }
 
     protected virtual IEnumerator ProcessClose()
     {
-        isOpen = true;
         //  yield return new WaitUntil(() =>SceneChanger.Instance.);
         float progress = 0f;
         float timer = 0f;

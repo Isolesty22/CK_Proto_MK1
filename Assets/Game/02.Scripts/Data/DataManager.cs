@@ -227,9 +227,27 @@ public class DataManager : MonoBehaviour
             AssetDatabase.Refresh();
 #endif
         }
+
+        isCreatedNewPlayerData = CheckNewPlayerData();
     }
 
     #endregion
+
+    /// <summary>
+    /// 플레이어 데이터가 새로 만든 플레이어 데이터와 다를게 없는지 검사합니다.
+    /// </summary>
+    /// <returns>기본값과 같으면 true를 반환합니다.</returns>
+    private bool CheckNewPlayerData()
+    {
+        if (currentData_player.IsEquals(new Data_Player()))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     #region SaveData
     /// <summary>

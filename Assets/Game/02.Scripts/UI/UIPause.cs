@@ -15,14 +15,14 @@ public class UIPause : UIBase
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isOpen)
+            if (UIManager.Instance.openUIcount == 0)
             {
-                UIManager.Instance.CloseTop();
 
+                UIManager.Instance.OpenThis(this);
             }
             else
             {
-                UIManager.Instance.OpenThis(this);
+                UIManager.Instance.CloseTop();
             }
 
         }
@@ -76,7 +76,7 @@ public class UIPause : UIBase
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
-    
+
     public void QuitGame()
     {
 #if UNITY_EDITOR
