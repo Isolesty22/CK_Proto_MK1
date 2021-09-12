@@ -105,6 +105,42 @@ public class CustomPool<T> where T : MonoBehaviour
     }
 
     /// <summary>
+    /// 오브젝트를 기본값으로 스폰합니다.
+    /// 위치값, 회전값이 모두 Vector3.zero이고, 부모는 null입니다.
+    /// </summary>
+    public T SpawnThis()
+    {
+        T tempObject = default(T);
+        Transform tempTransform = null;
+        lock (objectQueue)
+        {
+            if (objectQueue.Count == 0)
+            {
+                Debug.LogWarning("[ " + myTransform.name + " ] 풀이 텅텅 비어있습니다. 오브젝트 하나를 새로 만듭니다.");
+                CreatePoolObject();
+            }
+
+            tempObject = objectQueue.Dequeue();
+            tempTransform = tempObject.transform;
+
+            //빼주기
+            tempTransform.SetParent(null);
+
+            //위치, 회전값 설정
+            tempTransform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(Vector3.zero));
+            //tempTransform.rotation = Quaternion.Euler(_rotation);
+
+            //부모 설정
+            tempTransform.SetParent(null);
+
+            tempObject.gameObject.SetActive(true);
+            return tempObject;
+
+        }
+    }
+
+
+    /// <summary>
     /// 오브젝트를 반환합니다.
     /// </summary>
     /// <param name="_object">반환할 오브젝트.</param>
