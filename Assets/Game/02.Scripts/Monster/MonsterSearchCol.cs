@@ -4,15 +4,27 @@ using UnityEngine;
 
 public class MonsterSearchCol : MonoBehaviour
 {
-    public GameObject monsterModel;
+    private MonsterController monsterController;
+
+    private void Awake()
+    {
+        monsterController = transform.parent.GetComponent<MonsterController>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (gameObject.transform.parent.GetComponent<MonsterController>().active == false)
+        if(other.CompareTag("Player"))
         {
-            monsterModel.SetActive(true);
-            gameObject.transform.parent.GetComponent<MonsterController>().active = true;
-            gameObject.transform.parent.SendMessage("ChangeState", "IDLE");
+            monsterController.Com.monsterModel.SetActive(true);
+            monsterController.active = true;
+            monsterController.ChangeState("IDLE");
         }
+
+        //if (gameObject.transform.parent.GetComponent<MonsterController>().active == false)
+        //{
+        //    monsterModel.SetActive(true);
+        //    gameObject.transform.parent.GetComponent<MonsterController>().active = true;
+        //    gameObject.transform.parent.SendMessage("ChangeState", "IDLE");
+        //}
     }
 }

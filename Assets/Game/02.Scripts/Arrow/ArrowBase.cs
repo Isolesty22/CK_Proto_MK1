@@ -15,7 +15,7 @@ public class ArrowBase : MonoBehaviour
         {
             if (other.CompareTag("Monster"))
             {
-                other.GetComponent<MonsterController>().Hit();
+                other.GetComponent<MonsterController>().Hit(damage);
                 isAlive = false;
                 ArrowPool.instance.Despawn(this.gameObject);
                 return;
@@ -26,25 +26,20 @@ public class ArrowBase : MonoBehaviour
                 isAlive = false;
                 ArrowPool.instance.Despawn(this.gameObject);
             }
-            //isAlive = false;
-            //ArrowPool.instance.Despawn(this.gameObject);
         }
         else
         {
             if (other.CompareTag("Monster"))
             {
-                other.GetComponent<MonsterController>().Hit();
+                other.GetComponent<MonsterController>().Hit(damage);
                 return;
             }
 
-            //isAlive = false;
-            //ArrowPool.instance.DespawnCounter(this.gameObject);
+            if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            {
+                isAlive = false;
+                ArrowPool.instance.Despawn(this.gameObject);
+            }
         }
-
-        //if(other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        //{
-        //    isAlive = false;
-        //    ArrowPool.instance.Despawn(this.gameObject);
-        //}
     }
 }

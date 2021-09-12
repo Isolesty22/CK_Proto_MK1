@@ -13,9 +13,9 @@ public class SowBugController : MonsterController
         
     }
 
-    void Update()
+    public override void Update()
     {
-        State(state);
+        base.Update();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -54,9 +54,9 @@ public class SowBugController : MonsterController
         base.Attack();
         transform.position += new Vector3(-Stat.move_Speed * Time.deltaTime, 0, 0);
     }
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()

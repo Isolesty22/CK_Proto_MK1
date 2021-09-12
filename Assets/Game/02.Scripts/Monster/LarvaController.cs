@@ -28,9 +28,9 @@ public class LarvaController : MonsterController
         destPos = gameObject.transform.position - new Vector3(0, downRange, 0);
     }
 
-    void Update()
+    public override void Update()
     {
-        State(state);
+        base.Update();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -94,9 +94,9 @@ public class LarvaController : MonsterController
                 break;
         }
     }
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()

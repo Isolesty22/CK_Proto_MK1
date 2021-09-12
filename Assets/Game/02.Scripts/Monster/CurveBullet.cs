@@ -54,9 +54,10 @@ public class CurveBullet : MonoBehaviour
             yield return null;
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Ground"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
             gameObject.SetActive(false);
     }
 }

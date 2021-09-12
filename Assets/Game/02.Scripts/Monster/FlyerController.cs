@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class FlyerController : MonsterController
 {
@@ -10,6 +11,11 @@ public class FlyerController : MonsterController
     public float shootDelay;
     public Transform currentPlayerPos;
 
+    public Vector3 patrolPos1;
+    public Vector3 patrolPos2;
+    public float patrolRange;
+    public float patrolTime = 2f;
+
     public float currentSpeed;
     public float maxSpeed;
     public float aclrt; // °¡¼Óµµ
@@ -18,14 +24,20 @@ public class FlyerController : MonsterController
     RaycastHit hit;
     #endregion
 
+    public override void Awake()
+    {
+        base.Awake();
+        patrolPos1 = transform.position;
+        patrolPos2 = transform.position + Vector3.left * patrolRange;
+    }
+
     void Start()
     {
 
     }
-
-    void Update()
+    public override void Update()
     {
-        State(state);
+        base.Update();
         Gliding();
     }
 
@@ -78,14 +90,27 @@ public class FlyerController : MonsterController
     protected override void Move()
     {
         base.Move();
-        if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
+
+        if (transform.position.x == patrolPos2.x)
         {
-            Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            transform.DOMove(patrolPos1, patrolTime).SetEase(Ease.Unset);
+            transform.eulerAngles = new Vector3(0, 180, 0);
         }
-        else
+        else if (transform.position.x == patrolPos1.x) 
         {
-            Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            transform.DOMove(patrolPos2, patrolTime).SetEase(Ease.Unset);
+            transform.eulerAngles = Vector3.zero;
         }
+
+
+        //if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
+        //{
+        //    Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+        //}
+        //else
+        //{
+        //    Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+        //}
     }
 
     protected override void Attack()
@@ -132,9 +157,9 @@ public class FlyerController : MonsterController
             }
         }
     }
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()

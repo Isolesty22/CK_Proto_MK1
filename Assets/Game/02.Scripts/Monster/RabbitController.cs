@@ -20,9 +20,9 @@ public class RabbitController : MonsterController
         
     }
 
-    void Update()
+    public override void Update()
     {
-        State(state);
+        base.Update();
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -88,9 +88,9 @@ public class RabbitController : MonsterController
         timer -= Time.deltaTime;
 
     }
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()

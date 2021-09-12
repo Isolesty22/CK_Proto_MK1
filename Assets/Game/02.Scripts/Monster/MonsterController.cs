@@ -7,11 +7,11 @@ public class MonsterController : MonoBehaviour
 {
     public enum MonsterState
     {
+        SEARCH,
         IDLE,
         MOVE,
         DETECT,
         ATTACK,
-        HIT,
         DEATH
     }
 
@@ -48,18 +48,41 @@ public class MonsterController : MonoBehaviour
     public Components Com => components;
     public MonsterStatus Stat => monsterStatus;
 
-    public MonsterState state = MonsterState.IDLE;
-    public MonsterState prevState = MonsterState.IDLE;
+    public MonsterState state;
 
-    public int damage;
+    public bool isAlive;
     public bool isRunninCo;
     public bool active;
+    public IEnumerator hitColor;
+    public Color originalColor;
+    public float hitTime =0.2f;
+
     #endregion
+
+    public virtual void Awake()
+    {
+        monsterStatus.Initialize();
+        Com.monsterModel.SetActive(false);
+        state = MonsterState.SEARCH;
+        active = false;
+        isAlive = true;
+        Color originalColor = Com.monsterModel.GetComponent<Renderer>().material.color;
+    }
+
+    public virtual void Update()
+    {
+        if (active && isAlive)
+            State(state);
+    }
 
     public virtual void State(MonsterState state)
     {
         switch (state)
         {
+            case MonsterState.SEARCH:
+                Search();
+                break;
+
             case MonsterState.IDLE:
                 Idle();
                 break;
@@ -70,10 +93,6 @@ public class MonsterController : MonoBehaviour
 
             case MonsterState.ATTACK:
                 Attack();
-                break;
-
-            case MonsterState.HIT:
-                Hit();
                 break;
 
             case MonsterState.MOVE:
@@ -91,38 +110,36 @@ public class MonsterController : MonoBehaviour
 
     public virtual void ChangeState(string functionName)
     {
-        if (functionName == "IDLE")
+        if (functionName == "SEARCH")
         {
-            prevState = state;
+            state = MonsterState.SEARCH;
+        }
+        else if (functionName == "IDLE")
+        {
             state = MonsterState.IDLE;
         }
         else if (functionName == "DETECT")
         {
-            prevState = state;
             state = MonsterState.DETECT;
         }
         else if (functionName == "ATTACK")
         {
-            prevState = state;
             state = MonsterState.ATTACK;
         }
         else if (functionName == "MOVE")
         {
-            prevState = state;
             state = MonsterState.MOVE;
-        }
-        else if (functionName == "HIT")
-        {
-            prevState = state;
-            state = MonsterState.HIT;
         }
         else if (functionName == "DEATH")
         {
-            prevState = state;
             state = MonsterState.DEATH;
         }
     }
 
+    protected virtual void Search()
+    {
+
+    }
 
     protected virtual void Idle()
     {
@@ -144,42 +161,43 @@ public class MonsterController : MonoBehaviour
 
     }
 
-    public virtual void Hit()
+    public virtual void Hit(int damage)
     {
-        StartCoroutine(HitColor());
-        if (Stat.hp <= damage)
-            ChangeState("DEATH");
-        else
+        if(hitColor != null)
+            StopCoroutine(hitColor);
+
+        hitColor = HitColor();
+        StartCoroutine(hitColor);
+
+        Stat.hp -= damage;
+
+        if(Stat.hp <= 0)
         {
-            Stat.hp -= damage;
-            if (prevState == MonsterState.IDLE)
-                ChangeState("IDLE");
-            else if (prevState == MonsterState.DETECT)
-                ChangeState("ATTACK");
-            else if (prevState == MonsterState.ATTACK)
-                ChangeState("ATTACK");
-            else if (prevState == MonsterState.MOVE)
-                ChangeState("IDLE");
+            ChangeState("DEATH");
         }
     }
 
     protected virtual void Death()
     {
-        if(isRunninCo == false)
-            StartCoroutine(Dead());
+        if(isAlive)
+        {
+            var dead = Dead();
+            StartCoroutine(dead);
+            isAlive = false;
+        }
     }
 
     IEnumerator HitColor()
     {
-        Color prevColor = Com.monsterModel.GetComponent<Renderer>().material.color;
+
         Com.monsterModel.GetComponent<Renderer>().material.color = new Color(150 / 255f, 150 / 255f, 150 / 255f, 255 / 255f);
-        yield return new WaitForSeconds(0.2f);
-        Com.monsterModel.GetComponent<Renderer>().material.color = prevColor;
+        yield return new WaitForSeconds(hitTime);
+        Com.monsterModel.GetComponent<Renderer>().material.color = originalColor;
+
     }
 
     IEnumerator Dead()
     {
-        isRunninCo = true;
         Com.collider.enabled = false;
         Com.rigidbody.velocity = Vector3.zero;
         Com.rigidbody.useGravity = false;
@@ -193,7 +211,7 @@ public class MonsterController : MonoBehaviour
             Com.monsterModel.GetComponent<Renderer>().material.color = fadecolor;
             yield return null;
         }
-        isRunninCo = false;
+
         this.gameObject.SetActive(false);
     }
 }

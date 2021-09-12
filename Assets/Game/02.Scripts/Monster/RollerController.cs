@@ -8,6 +8,12 @@ public class RollerController : MonsterController
     public Vector3 moveDirection;
     public GameObject rollingModel;
     public ParticleSystem particle;
+    public Collider sphereCollider;
+
+
+    public float cooltime;
+    public int random;
+
 
     public float currentSpeed;
     public float maxSpeed;
@@ -15,39 +21,19 @@ public class RollerController : MonsterController
     public float jumpPower;
     #endregion
 
-    void Start()
+    public override void Awake()
     {
-
+        base.Awake();
+        cooltime = 10f;
+        Com.collider.enabled = true;
+        sphereCollider.enabled = false;
+        currentSpeed = 0;
     }
 
-    void Update()
+    public override void Update()
     {
-        if(active == true)
-            State(state);
+        base.Update();
     }
-
-    private void FixedUpdate()
-    {
-        if (state == MonsterState.MOVE)
-        {
-
-            Vector3 frontVector = Vector3.zero;
-
-            if(gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
-                frontVector = new Vector3(Com.rigidbody.position.x - Stat.move_Speed * 0.5f, Com.rigidbody.position.y, Com.rigidbody.position.z);
-            else
-                frontVector = new Vector3(Com.rigidbody.position.x + Stat.move_Speed * 0.5f, Com.rigidbody.position.y, Com.rigidbody.position.z);
-
-            if (Physics.Raycast(frontVector, Vector3.down, 1, LayerMask.GetMask("Ground")) == false)
-            {
-                if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
-                    gameObject.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-                else
-                    gameObject.transform.rotation = Quaternion.Euler(Vector3.zero);
-            }
-        }
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Arrow"))
@@ -73,33 +59,69 @@ public class RollerController : MonsterController
     protected override void Detect()
     {
         base.Detect();
+
+        Com.rigidbody.velocity = Vector3.zero;
+
         if (gameObject.transform.position.x > GameManager.instance.playerController.transform.position.x)
             moveDirection = new Vector3(-1, 0, 0);
         else
             moveDirection = new Vector3(1, 0, 0);
 
-        currentSpeed = 0;
-        if(isRunninCo == false)
-            StartCoroutine(ChangeModel());
+        if (moveDirection.x < 0)
+            transform.localEulerAngles = Vector3.zero;
+        else
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+
+
+        var changeMode = ChangeMode();
+        StartCoroutine(changeMode);
+
+        //if(isRunninCo == false)
+        //    StartCoroutine(ChangeMode());
     }
 
     protected override void Move()
     {
         base.Move();
-        if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
+
+        cooltime += Time.deltaTime;
+
+        if(cooltime > 1f)
+        {
+            random = Random.Range(0, 3);
+            cooltime = 0f;
+        }
+
+        if (random == 0f)
+        {
+            return;
+        }
+        else if (random == 1)
         {
             Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            transform.localEulerAngles = Vector3.zero;
         }
-        else
+        else if (random == 2)
         {
             Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            transform.localEulerAngles = new Vector3(0, 180, 0);
         }
+
+        //if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
+        //{
+        //    Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+        //}
+        //else
+        //{
+        //    Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+        //}
     }
 
     protected override void Attack()
     {
         base.Attack();
-        isRunninCo = false;
+
+        //isRunninCo = false;
         currentSpeed = Mathf.Clamp(currentSpeed += aclrt * Time.deltaTime, 0f, maxSpeed);
 
         if (moveDirection.x < 0)
@@ -109,25 +131,32 @@ public class RollerController : MonsterController
 
     }
 
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()
     {
+        sphereCollider.enabled = false;
         base.Death();
     }
 
-    IEnumerator ChangeModel()
+    IEnumerator ChangeMode()
     {
-        isRunninCo = true;
+        //isRunninCo = true;
         Com.rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
         particle.Play();
+
+
         yield return new WaitForSeconds(0.3f);
         Com.monsterModel.SetActive(false);
         rollingModel.SetActive(true);
         Com.monsterModel = rollingModel;
+
+        Com.collider.enabled = false;
+        sphereCollider.enabled = true;
+
         ChangeState("ATTACK");
     }
 }

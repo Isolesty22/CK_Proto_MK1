@@ -8,10 +8,10 @@ public class BirdController : MonsterController
     {
         
     }
-    
-    void Update()
+
+    public override void Update()
     {
-        State(state);
+        base.Update();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -54,8 +54,8 @@ public class BirdController : MonsterController
         base.Death();
     }
 
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 }

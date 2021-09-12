@@ -12,13 +12,14 @@ public class VenomMushroomController : MonsterController
     #endregion
     void Start()
     {
-        
+
     }
 
-    void Update()
+    public override void Update()
     {
-        State(state);
+        base.Update();
     }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.CompareTag("Arrow"))
@@ -57,9 +58,9 @@ public class VenomMushroomController : MonsterController
             StartCoroutine(activeSpore());
         }
     }
-    public override void Hit()
+    public override void Hit(int damage)
     {
-        base.Hit();
+        base.Hit(damage);
     }
 
     protected override void Death()
