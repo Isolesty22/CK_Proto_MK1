@@ -8,31 +8,25 @@ public class FlyerController : MonsterController
     #region
     public Transform feather;
     public List<GameObject> featherList = new List<GameObject>();
-    public int shootingCount;
-    public float shootDelay;
-    public Transform currentPlayerPos;
 
     public Vector3 patrolPos1;
     public Vector3 patrolPos2;
     public float patrolRange;
     public float patrolTime = 2f;
 
-    private Tween  tween;
+    public Tween  tween;
     bool trigger = true;
+    bool moveTrigger = true;
+    public bool isAttack;
 
-    public float attackDelay;
+    public float shotDelay;
+    public float tripleShotDelay;
     private float attackCooltime;
 
     public float shotSpeed;
     public float featherRange;
 
-    /////
-    public float currentSpeed;
-    public float maxSpeed;
-    public float aclrt; // °¡¼Óµµ
-
-    public float glidingHeight;
-    RaycastHit hit;
+    public float moveSpeed;
     #endregion
 
     public override void Awake()
@@ -47,9 +41,6 @@ public class FlyerController : MonsterController
         {
             featherList.Add(feather.GetChild(i).gameObject);
         }
-
-
-        shootingCount = 0;
     }
 
     void Start()
@@ -60,22 +51,7 @@ public class FlyerController : MonsterController
     public override void Update()
     {
         base.Update();
-        Gliding();
         attackCooltime += Time.deltaTime;
-    }
-
-    private void Gliding()
-    {
-        Debug.DrawRay(transform.position, Vector3.down * glidingHeight, Color.red);
-        if(Physics.Raycast(gameObject.transform.position, Vector3.down , out hit, glidingHeight, LayerMask.GetMask("Ground")))
-        {
-            gameObject.transform.position += new Vector3(0, Stat.move_Speed * Time.deltaTime, 0);
-        }
-
-        if(Physics.Raycast(gameObject.transform.position, Vector3.down, out hit, glidingHeight + 0.5f, LayerMask.GetMask("Ground")) == false)
-        {
-            gameObject.transform.position -= new Vector3(0, Stat.move_Speed * Time.deltaTime, 0);
-        }
     }
 
     public override void State(MonsterState state)
@@ -87,9 +63,14 @@ public class FlyerController : MonsterController
     {
         base.ChangeState(functionName);
     }
+
     protected override void Idle()
     {
         base.Idle();
+
+        trigger = true;
+        moveTrigger = true;
+
         ChangeState("MOVE");
     }
 
@@ -104,6 +85,9 @@ public class FlyerController : MonsterController
     {
         base.Move();
 
+        if (isAttack)
+            return;
+
         if (transform.position.x == patrolPos2.x)
         {
             Utility.KillTween(tween);
@@ -111,14 +95,41 @@ public class FlyerController : MonsterController
             tween.Play();
             transform.eulerAngles = new Vector3(0, 180, 0);
         }
-        else if (transform.position.x == patrolPos1.x) 
+        else if (transform.position.x == patrolPos1.x)
         {
             Utility.KillTween(tween);
             tween = transform.DOMove(patrolPos2, patrolTime).SetEase(Ease.InOutCubic);
             tween.Play();
             transform.eulerAngles = Vector3.zero;
         }
+        else
+        {
+            if(moveTrigger)
+            {
+                var pos1 = Mathf.Abs(transform.position.x - patrolPos1.x);
+                var pos2 = Mathf.Abs(transform.position.x - patrolPos2.x);
+                if (pos1 > pos2)
+                {
+                    Utility.KillTween(tween);
+                    tween = transform.DOMove(patrolPos1, patrolTime).SetEase(Ease.InOutCubic);
+                    tween.Play();
+                    transform.eulerAngles = new Vector3(0, 180, 0);
+                }
+                else if (pos2 > pos1)
+                {
+                    Utility.KillTween(tween);
+                    tween = transform.DOMove(patrolPos2, patrolTime).SetEase(Ease.InOutCubic);
+                    tween.Play();
+                    transform.eulerAngles = Vector3.zero;
+                }
+
+                moveTrigger = false;
+            }
+        }
+
+
     }
+
 
     protected override void Attack()
     {
@@ -135,7 +146,7 @@ public class FlyerController : MonsterController
         }
 
         //ready to attack
-        if(trigger)
+        if (trigger)
         {
             Utility.KillTween(tween);
             var targetDir = transform.position - GameManager.instance.playerController.transform.position;
@@ -146,27 +157,29 @@ public class FlyerController : MonsterController
         }
 
         //attack
-        if (attackCooltime > attackDelay)
+        if (attackCooltime > shotDelay)
         {
             int attackType;
             attackType = Random.Range(0, 10);
 
-            var normalShot = NormalShot();
-            StartCoroutine(normalShot);
-
-            //shootingCount++;
-
             if (attackType >= 0 && attackType < 7)
             {
                 // Normal Attack
-                //var normalShot = NormalShot();
-                //StartCoroutine(normalShot);
+                isAttack = true;
+                var shotDir = GameManager.instance.playerController.transform.position - transform.position;
+                shotDir.Normalize();
+                var normalShot = NormalShot(shotDir);
+                StartCoroutine(normalShot);
+                isAttack = false;
             }
             else
             {
                 // Triple Attack
-                //var tripleShot = TripleShot();
-                //StartCoroutine(tripleShot);
+                isAttack = true;
+                var shotDir = GameManager.instance.playerController.transform.position - transform.position;
+                shotDir.Normalize();
+                var tripleShot = TripleShot(shotDir);
+                StartCoroutine(tripleShot);
             }
 
             attackCooltime = 0f;
@@ -182,71 +195,56 @@ public class FlyerController : MonsterController
         base.Death();
     }
 
-    public IEnumerator NormalShot()
+    public IEnumerator NormalShot(Vector3 shotDir)
     {
-        var shotDir = GameManager.instance.playerController.transform.position - transform.position;
-        shotDir.Normalize();
+        yield return new WaitForSeconds(0.5f);
 
-        if (shootingCount > feather.childCount)
+        var featherShot = SpawnFeather();
+
+        while ((transform.position - featherShot.transform.position).sqrMagnitude < featherRange)
         {
-            Debug.Log("normalShot");
-            shootingCount = 0;
-        }
-
-        featherList[shootingCount].SetActive(true);
-
-        Vector3 curPosition = transform.position;
-
-        while ((curPosition - featherList[shootingCount].transform.position).sqrMagnitude < featherRange)
-        {
-            featherList[shootingCount].transform.Translate(shotDir * shotSpeed * Time.fixedDeltaTime);
+            featherShot.transform.Translate(shotDir * shotSpeed * Time.fixedDeltaTime);
 
             yield return new WaitForFixedUpdate();
         }
 
-        featherList[shootingCount].SetActive(false);
-        featherList[shootingCount].transform.localPosition = Vector3.zero;
-        
-
-
-
-        //curveBullets[shootingCount].gameObject.transform.position = gameObject.transform.position;
-        //curveBullets[shootingCount].gameObject.SetActive(true);
-        //curveBullets[shootingCount].GetComponent<CurveBullet>().target = currentPlayerPos.position;
-        //StartCoroutine(curveBullets[shootingCount].GetComponent<CurveBullet>().ParabolaShoot());
-        //yield return new WaitForSeconds(shootDelay);
-        //curveBullets[shootingCount].gameObject.SetActive(false);
-        //if (shootingCount == curveBullets.Count - 1)
-        //    shootingCount = 0;
-        //else
-        //    shootingCount++;
-        //isRunninCo = false;
+        DespawnFeather(featherShot);
     }
 
-    //public IEnumerator TripleShot()
-    //{
-    //    //curveBullets[0].gameObject.SetActive(false);
-    //    //curveBullets[1].gameObject.SetActive(false);
-    //    //curveBullets[2].gameObject.SetActive(false);
-    //    //isRunninCo = true;
-    //    //curveBullets[0].gameObject.transform.position = gameObject.transform.position;
-    //    //curveBullets[0].gameObject.SetActive(true);
-    //    //curveBullets[0].GetComponent<CurveBullet>().target = currentPlayerPos.position;
-    //    //curveBullets[1].gameObject.transform.position = gameObject.transform.position;
-    //    //curveBullets[1].gameObject.SetActive(true);
-    //    //curveBullets[1].GetComponent<CurveBullet>().target = currentPlayerPos.position + new Vector3(-1,0,0);
-    //    //curveBullets[2].gameObject.transform.position = gameObject.transform.position;
-    //    //curveBullets[2].gameObject.SetActive(true);
-    //    //curveBullets[2].GetComponent<CurveBullet>().target = currentPlayerPos.position + new Vector3(1,0,0);
-    //    //StartCoroutine(curveBullets[shootingCount].GetComponent<CurveBullet>().ParabolaShoot());
-    //    //StartCoroutine(curveBullets[shootingCount+1].GetComponent<CurveBullet>().ParabolaShoot());
-    //    //StartCoroutine(curveBullets[shootingCount+2].GetComponent<CurveBullet>().ParabolaShoot());
-    //    //yield return new WaitForSeconds(shootDelay);
-    //    //curveBullets[0].gameObject.SetActive(false);
-    //    //curveBullets[1].gameObject.SetActive(false);
-    //    //curveBullets[2].gameObject.SetActive(false);
-    //    //shootingCount = 0;
-    //    //isRunninCo = false;
-    //}
+    public GameObject SpawnFeather()
+    {
+        var instFeather = featherList[0];
+        instFeather.SetActive(true);
+        instFeather.transform.position = transform.position;
+
+        featherList.Remove(featherList[0]);
+
+
+        return instFeather;
+    }
+
+
+    public void DespawnFeather(GameObject feather)
+    {
+        feather.SetActive(false);
+        feather.transform.localPosition = Vector3.zero;
+
+        featherList.Add(feather);
+    }
+
+    public IEnumerator TripleShot(Vector3 shotDir)
+    {
+        var normalShot = NormalShot(shotDir);
+        var normalShot2 = NormalShot(shotDir);
+        var normalShot3 = NormalShot(shotDir);
+
+        StartCoroutine(normalShot);
+        yield return new WaitForSeconds(tripleShotDelay);
+        StartCoroutine(normalShot2);
+        yield return new WaitForSeconds(tripleShotDelay);
+        StartCoroutine(normalShot3);
+
+        isAttack = false;
+    }
 
 }

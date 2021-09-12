@@ -19,6 +19,12 @@ public class RollerController : MonsterController
     public float maxSpeed;
     public float aclrt; // 가속도
     public float jumpPower;
+
+    public bool isAttack;
+
+    bool trigger;
+
+    IEnumerator modeChange;
     #endregion
 
     public override void Awake()
@@ -28,16 +34,13 @@ public class RollerController : MonsterController
         Com.collider.enabled = true;
         sphereCollider.enabled = false;
         currentSpeed = 0;
+        isAttack = false;
+        trigger = true;
     }
 
     public override void Update()
     {
         base.Update();
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Arrow"))
-            ChangeState("HIT");
     }
 
     public override void State(MonsterState state)
@@ -72,9 +75,15 @@ public class RollerController : MonsterController
         else
             transform.localEulerAngles = new Vector3(0, 180, 0);
 
+        if(trigger)
+        {
+            modeChange = ChangeMode();
+            StartCoroutine(modeChange);
 
-        var changeMode = ChangeMode();
-        StartCoroutine(changeMode);
+            trigger = false;
+        }
+
+
 
         //if(isRunninCo == false)
         //    StartCoroutine(ChangeMode());
@@ -121,6 +130,7 @@ public class RollerController : MonsterController
     {
         base.Attack();
 
+        isAttack = true;
         //isRunninCo = false;
         currentSpeed = Mathf.Clamp(currentSpeed += aclrt * Time.deltaTime, 0f, maxSpeed);
 
@@ -138,8 +148,10 @@ public class RollerController : MonsterController
 
     protected override void Death()
     {
-        sphereCollider.enabled = false;
         base.Death();
+        Debug.Log("작동");
+        StopCoroutine(modeChange);
+        sphereCollider.enabled = false;
     }
 
     IEnumerator ChangeMode()
@@ -154,9 +166,11 @@ public class RollerController : MonsterController
         rollingModel.SetActive(true);
         Com.monsterModel = rollingModel;
 
+        Debug.Log("work");
         Com.collider.enabled = false;
         sphereCollider.enabled = true;
 
-        ChangeState("ATTACK");
+        if(isAlive)
+            ChangeState("ATTACK");
     }
 }

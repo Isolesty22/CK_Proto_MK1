@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class MonsterAttackCol : MonoBehaviour
 {
-    public GameObject originMonster;
+    public MonsterController monsterController;
 
-    private void OnTriggerEnter(Collider other)
+    public virtual void Awake()
+    {
+        monsterController = transform.parent.GetComponent<MonsterController>();
+    }
+
+    public virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.IDLE)
-            {
-                originMonster.transform.SendMessage("ChangeState", "DETECT");
-            }
-
-            else if (originMonster.GetComponent<MonsterController>().state == MonsterController.MonsterState.MOVE)
-            {
-                originMonster.transform.SendMessage("ChangeState", "DETECT");
-            }
+            monsterController.ChangeState("DETECT");
         }
+    }
+
+    public virtual void OnTriggerExit(Collider other)
+    {
+
     }
 }

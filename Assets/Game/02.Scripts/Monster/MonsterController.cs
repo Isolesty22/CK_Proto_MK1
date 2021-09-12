@@ -212,6 +212,8 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
 
+        yield return new WaitForSeconds(2f);
+
         this.gameObject.SetActive(false);
     }
 }
