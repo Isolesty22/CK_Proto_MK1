@@ -45,6 +45,9 @@ public class PoolTester : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.2f);
         }
 
+        yield return new WaitForSecondsRealtime(5f);
+        Debug.Log("내용물을 지웠습니다.");
+        poolManager.ClearPool();
 
     }
 
@@ -75,6 +78,9 @@ public class PoolTester : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.2f);
         }
 
+        yield return new WaitForSecondsRealtime(5f);
+        Debug.Log("내용물을 지웠습니다.");
+        cPoolManager.ClearPool();
     }
 
 }

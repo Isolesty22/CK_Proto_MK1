@@ -150,5 +150,21 @@ public class CustomPool<T> where T : MonoBehaviour
         _object.gameObject.transform.SetParent(myTransform);
         objectQueue.Enqueue(_object);
     }
+
+    public void ClearPool()
+    {
+        while (objectQueue.Count > 0)
+        {
+            //큐 안에 있는 오브젝트 삭제
+            GameObject.Destroy(objectQueue.Dequeue());
+        }
+        poolObject = null;
+
+        //큐 클리어
+        objectQueue.Clear();
+
+        //CustomPool 오브젝트 삭제
+        GameObject.Destroy(myTransform.gameObject);
+    }
 }
 
