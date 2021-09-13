@@ -14,7 +14,7 @@ public class PoolManager : MonoBehaviour
     [Header("PoolManager Transform")]
     public Transform myTransform;
 
-    [Header("풀 오브젝트 리스트")]
+    [Tooltip("풀 오브젝트 리스트"),Space(5)]
     public List<PoolObject> poolObjectList;
 
     private Dictionary<string, GameObject> poolObjectDictionary;
@@ -138,6 +138,9 @@ public class PoolManager : MonoBehaviour
         return tempGameObject;
     }
 
+
+    private GameObject tempObject = null;
+    private Transform tempTransform = null;
     /// <summary>
     /// 오브젝트를 스폰합니다.
     /// </summary>
@@ -148,14 +151,14 @@ public class PoolManager : MonoBehaviour
     public GameObject SpawnThis(string _name, Vector3 _position, Vector3 _rotation, Transform _parent)
     {
         var tempQueue = queueDictionary[_name];
-        GameObject tempObject = null;
-        Transform tempTransform = null;
+
+
         lock (tempQueue)
         {
             if (tempQueue.Count == 0)
             {
 
-                Debug.LogWarning("[ "+ _name + "Pool ] 풀이 텅텅 비어있습니다. 오브젝트 하나를 새로 만듭니다.");
+                Debug.LogWarning("[ " + _name + "Pool ] 풀이 텅텅 비어있습니다. 오브젝트 하나를 새로 만듭니다.");
                 CreatePoolObject(_name);
             }
 
@@ -188,5 +191,20 @@ public class PoolManager : MonoBehaviour
         _gameObject.SetActive(false);
         _gameObject.transform.SetParent(transformDictionary[_name]);
         queueDictionary[_name].Enqueue(_gameObject);
+    }
+
+    /// <summary>
+    /// 모든걸 파괴시킵니다.
+    /// </summary>
+    public void ClearPool()
+    {
+        transformDictionary.Clear();
+        queueDictionary.Clear();
+        //poolObjectDictionary.Clear();
+
+        foreach (Transform child in myTransform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
