@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UIPlayerHP : MonoBehaviour
 {
-
+    [Tooltip("testCurrentHp=>playerController.Stat.hp")]
     public int testCurrentHP;
     public Image[] hpImageList;
 
