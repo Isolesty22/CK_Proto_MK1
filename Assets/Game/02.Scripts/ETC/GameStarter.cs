@@ -10,7 +10,6 @@ public class GameStarter : MonoBehaviour
     public UISplashLogo uiSplashLogo;
     public UITitleScreen uiTitleScreen;
 
-    public SceneChanger sceneChanger;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
