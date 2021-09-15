@@ -25,6 +25,7 @@ public class StageStarter : MonoBehaviour
     {
         if (isDebug)
         {
+            Debug.LogWarning("StageStarter : Debug Mode!! 빌드 시에는 isDebug를 꺼주세요.");
             if (SceneChanger.Instance != null)
             {
                 while (SceneChanger.Instance.isLoading)
