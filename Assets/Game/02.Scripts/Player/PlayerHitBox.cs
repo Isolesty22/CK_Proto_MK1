@@ -31,8 +31,6 @@ public class PlayerHitBox : MonoBehaviour
             if (other.CompareTag("Monster"))
             {
                 playerController.Hit(other.transform);
-
-                Debug.Log("hit");
             }
         }
 

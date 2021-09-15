@@ -15,13 +15,12 @@ public class ArrowBase : MonoBehaviour
         {
             if (other.CompareTag("Monster"))
             {
-                if(other.GetComponent<MonsterController>().isAlive)
-                {
-                    other.GetComponent<MonsterController>().Hit(damage);
-                    isAlive = false;
-                    ArrowPool.instance.Despawn(this.gameObject);
-                    return;
-                }
+
+                other.GetComponent<MonsterController>().Hit(damage);
+                isAlive = false;
+                ArrowPool.instance.Despawn(this.gameObject);
+                return;
+
             }
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -34,11 +33,9 @@ public class ArrowBase : MonoBehaviour
         {
             if (other.CompareTag("Monster"))
             {
-                if (other.GetComponent<MonsterController>().isAlive)
-                {
-                    other.GetComponent<MonsterController>().Hit(damage);
-                    return;
-                }
+                other.GetComponent<MonsterController>().Hit(damage);
+                return;
+
             }
 
             if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))

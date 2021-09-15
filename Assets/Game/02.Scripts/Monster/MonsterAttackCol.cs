@@ -6,16 +6,11 @@ public class MonsterAttackCol : MonoBehaviour
 {
     public MonsterController monsterController;
 
-    public virtual void Awake()
-    {
-        monsterController = transform.parent.GetComponent<MonsterController>();
-    }
-
     public virtual void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            monsterController.ChangeState("DETECT");
+            monsterController.ChangeState(MonsterController.MonsterState.DETECT);
         }
     }
 

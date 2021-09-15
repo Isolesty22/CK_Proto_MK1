@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2636562877231805735}
   - component: {fileID: 771319751876465725}
   - component: {fileID: 8948101247578799124}
+  - component: {fileID: 1551969497}
   m_Layer: 8
   m_Name: Roller
   m_TagString: Monster
@@ -132,44 +133,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06aa24552b88e4418ff8ef56e7f7193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  monsterStatus:
+    name: Larva
+    hp: 2
+    maxHp: 5
+    moveSpeed: 1
+    isAlive: 0
+    hitTime: 0.1
+    fadeOutTime: 1
   components:
     rigidbody: {fileID: 2636562877231805735}
     collider: {fileID: 8948101247578799124}
-    searchCol: {fileID: 238044909664837763}
     monsterModel: {fileID: 2670603780217495918}
-  monsterStatus:
-    name: Roller
-    hp: 2
-    maxHp: 5
-    mon_No: 0
-    name_Kr: "\uB864\uB7EC"
-    type_Move: 0
-    type_Gimic: 1
-    move_Speed: 1
-    atk_Type: 0
-    atk_Speed: 0
-    atk_Range: 0
-    respawn: 0
-    agro_End_Time: 0
-    fadeOutTime: 1
-    destroyDistance: 0
-  state: 0
-  isAlive: 0
-  isRunninCo: 0
-  active: 0
-  originalColor: {r: 1, g: 1, b: 1, a: 1}
-  hitTime: 0.1
-  moveDirection: {x: 0, y: 0, z: 0}
-  rollingModel: {fileID: 2105105199}
-  particle: {fileID: 7611530813265327115}
-  sphereCollider: {fileID: 771319751876465725}
-  cooltime: 0
-  random: 0
-  currentSpeed: 0
-  maxSpeed: 5
-  aclrt: 2.5
-  jumpPower: 1
-  isAttack: 0
+    renderer: {fileID: 7046807258105837217}
+    originalColor: {r: 1, g: 1, b: 1, a: 1}
+    hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  rollerStatus:
+    jumpPower: 7
+    aclrt: 3
+    maxSpeed: 8
+    moveChangeTime: 1
+    changeDelay: 0.5
+  rollerComponents:
+    rollingModel: {fileID: 2105105199}
+    particle: {fileID: 7611530813265327115}
+    constantForce: {fileID: 1551969497}
+    sphereCollider: {fileID: 771319751876465725}
+    capsuleCollider: {fileID: 8948101247578799124}
 --- !u!54 &2636562877231805735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -213,6 +204,18 @@ CapsuleCollider:
   m_Height: 1.5
   m_Direction: 0
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!75 &1551969497
+ConstantForce:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328435132049023886}
+  m_Enabled: 1
+  m_Force: {x: 0, y: -10, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 0, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &2622166264224751813
 GameObject:
   m_ObjectHideFlags: 0
@@ -5200,8 +5203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2b8711724f5864e8a826325cd800f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterController: {fileID: 0}
-  rollerController: {fileID: 0}
+  monsterController: {fileID: 84442913191359413}
 --- !u!65 &2141422118
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5259,6 +5261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterController: {fileID: 84442913191359413}
 --- !u!65 &238044909664837763
 BoxCollider:
   m_ObjectHideFlags: 0

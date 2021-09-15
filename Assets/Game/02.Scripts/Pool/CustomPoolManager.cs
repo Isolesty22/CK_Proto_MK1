@@ -19,6 +19,9 @@ public class CustomPoolManager : MonoBehaviour
 
     private Dictionary<string, object> poolDictionary = new Dictionary<string, object>();
 
+    public CustomPool<Feather> featherPool;
+
+
     #region ClearHandler
     /// <summary>
     /// ClearPool
@@ -48,6 +51,8 @@ public class CustomPoolManager : MonoBehaviour
         }
         #endregion
         Init_PoolObjectDictionary();
+
+        featherPool = CreateCustomPool<Feather>();
     }
 
     private void Init_PoolObjectDictionary()

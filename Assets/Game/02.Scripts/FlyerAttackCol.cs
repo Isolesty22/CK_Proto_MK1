@@ -4,18 +4,9 @@ using UnityEngine;
 
 public class FlyerAttackCol : MonsterAttackCol
 {
-    public FlyerController flyerController;
-
-    public override void Awake()
-    {
-        base.Awake();
-        flyerController = transform.parent.GetComponent<FlyerController>();
-    }
-
     public override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
-        //StopCoroutine(flyerController.move);
     }
 
     public override void OnTriggerExit(Collider other)
@@ -23,7 +14,7 @@ public class FlyerAttackCol : MonsterAttackCol
         base.OnTriggerExit(other);
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            monsterController.ChangeState("IDLE");
+            monsterController.ChangeState(MonsterController.MonsterState.IDLE);
         }
     }
 }

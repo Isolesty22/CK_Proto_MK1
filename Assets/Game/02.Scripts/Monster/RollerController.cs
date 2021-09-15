@@ -1,41 +1,60 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class RollerController : MonsterController
 {
     #region
-    public Vector3 moveDirection;
-    public GameObject rollingModel;
-    public ParticleSystem particle;
-    public Collider sphereCollider;
+    [Serializable]
+    public class RollerStatus
+    {
+        public float jumpPower;
+        public float aclrt; // 가속도
+        public float maxSpeed;
 
+        [Header("Sub Status")]
+        public float moveChangeTime;
+        public float changeDelay;
+    }
 
-    public float cooltime;
-    public int random;
+    [Serializable]
+    public class RollerComponents
+    {
+        //instance
+        public GameObject rollingModel;
+        public ParticleSystem particle;
 
+        public ConstantForce constantForce;
+        public SphereCollider sphereCollider;
+        public CapsuleCollider capsuleCollider;
+    }
 
-    public float currentSpeed;
-    public float maxSpeed;
-    public float aclrt; // 가속도
-    public float jumpPower;
+    [SerializeField] private RollerStatus rollerStatus = new RollerStatus();
+    [SerializeField] private RollerComponents rollerComponents = new RollerComponents();
 
-    public bool isAttack;
+    public RollerStatus Stat2 => rollerStatus;
+    public RollerComponents Com2 => rollerComponents;
 
-    bool trigger;
+    private IEnumerator modeChange;
+    private float movePatternTime;
+    private int random;
+    private Vector3 moveDir;
+    private float currentSpeed;
 
-    IEnumerator modeChange;
     #endregion
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        movePatternTime = 10f;
+        Com2.sphereCollider.enabled = false;
+    }
+
 
     public override void Awake()
     {
         base.Awake();
-        cooltime = 10f;
-        Com.collider.enabled = true;
-        sphereCollider.enabled = false;
-        currentSpeed = 0;
-        isAttack = false;
-        trigger = true;
     }
 
     public override void Update()
@@ -48,57 +67,29 @@ public class RollerController : MonsterController
         base.State(state);
     }
 
-    public override void ChangeState(string functionName)
+    public override void ChangeState(MonsterState state)
     {
-        base.ChangeState(functionName);
+        base.ChangeState(state);
     }
 
     protected override void Idle()
     {
         base.Idle();
-        ChangeState("MOVE");
-    }
-
-    protected override void Detect()
-    {
-        base.Detect();
-
-        Com.rigidbody.velocity = Vector3.zero;
-
-        if (gameObject.transform.position.x > GameManager.instance.playerController.transform.position.x)
-            moveDirection = new Vector3(-1, 0, 0);
-        else
-            moveDirection = new Vector3(1, 0, 0);
-
-        if (moveDirection.x < 0)
-            transform.localEulerAngles = Vector3.zero;
-        else
-            transform.localEulerAngles = new Vector3(0, 180, 0);
-
-        if(trigger)
-        {
-            modeChange = ChangeMode();
-            StartCoroutine(modeChange);
-
-            trigger = false;
-        }
-
-
-
-        //if(isRunninCo == false)
-        //    StartCoroutine(ChangeMode());
+        ChangeState(MonsterState.MOVE);
     }
 
     protected override void Move()
     {
         base.Move();
 
-        cooltime += Time.deltaTime;
+        movePatternTime += Time.deltaTime;
 
-        if(cooltime > 1f)
+
+
+        if(movePatternTime > Stat2.moveChangeTime)
         {
-            random = Random.Range(0, 3);
-            cooltime = 0f;
+            random = UnityEngine.Random.Range(0, 3);
+            movePatternTime = 0f;
         }
 
         if (random == 0f)
@@ -107,37 +98,107 @@ public class RollerController : MonsterController
         }
         else if (random == 1)
         {
-            Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = Vector3.zero;
         }
         else if (random == 2)
         {
-            Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+            Com.rigidbody.velocity = new Vector3(Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = new Vector3(0, 180, 0);
         }
 
-        //if (gameObject.transform.rotation == Quaternion.Euler(Vector3.zero))
-        //{
-        //    Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
-        //}
-        //else
-        //{
-        //    Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
-        //}
+        if (!Physics.Raycast(transform.position - Vector3.left * Com2.capsuleCollider.height / 2, Vector3.down, 1, LayerMask.GetMask("Ground")))
+        {
+            if(random == 1)
+            {
+                random = 2;
+                movePatternTime = 0f;
+            }
+            else if(random == 2)
+            {
+                random = 1;
+                movePatternTime = 0f;
+            }
+        }
+    }
+
+    protected override void Detect()
+    {
+        base.Detect();
+
+        Com.rigidbody.velocity = Vector3.zero;
+
+        var changeMode = ChangeMode();
+        StartCoroutine(changeMode);
+
+        ChangeState(MonsterState.ATTACK);
+    }
+
+    IEnumerator ChangeMode()
+    {
+        moveDir = new Vector3();
+
+        if (transform.position.x > GameManager.instance.playerController.transform.position.x)
+        {
+            moveDir = new Vector3(-1, 0, 0);
+            transform.localEulerAngles = Vector3.zero;
+        }
+        else
+        {
+            moveDir = new Vector3(1, 0, 0);
+            transform.localEulerAngles = new Vector3(0, 180, 0);
+        }
+
+        Com.rigidbody.AddForce(Vector3.up * Stat2.jumpPower, ForceMode.Impulse);
+
+        yield return new WaitForSeconds(Stat2.changeDelay);
+
+        //change mode
+
+        //instance
+        Com2.particle.Play();
+        Com.monsterModel.SetActive(false);
+        Com2.rollingModel.SetActive(true);
+        Com.monsterModel = Com2.rollingModel;
+
+        Com.collider.enabled = false;
+        Com2.sphereCollider.enabled = true;
     }
 
     protected override void Attack()
     {
         base.Attack();
 
-        isAttack = true;
-        //isRunninCo = false;
-        currentSpeed = Mathf.Clamp(currentSpeed += aclrt * Time.deltaTime, 0f, maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed += Stat2.aclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
 
-        if (moveDirection.x < 0)
+        var layDir = new Vector3();
+
+        if (moveDir.x < 0)
+        {
             Com.rigidbody.velocity = new Vector3(-currentSpeed, Com.rigidbody.velocity.y, 0);
+            layDir = Vector3.left;
+        }
         else
+        {
             Com.rigidbody.velocity = new Vector3(currentSpeed, Com.rigidbody.velocity.y, 0);
+            layDir = Vector3.right;
+        }
+
+
+
+        if (Physics.Raycast(transform.position, layDir, Com2.sphereCollider.radius + 0.1f, LayerMask.GetMask("Ground")))
+        {
+            if (moveDir.x < 0)
+            {
+                moveDir = new Vector3(1, 0, 0);
+                transform.localEulerAngles = new Vector3(0, 180, 0);
+            }
+            else
+            {
+                moveDir = new Vector3(-1, 0, 0);
+                transform.localEulerAngles = Vector3.zero;
+            }
+        }
 
     }
 
@@ -149,28 +210,7 @@ public class RollerController : MonsterController
     protected override void Death()
     {
         base.Death();
-        Debug.Log("작동");
-        StopCoroutine(modeChange);
-        sphereCollider.enabled = false;
-    }
-
-    IEnumerator ChangeMode()
-    {
-        //isRunninCo = true;
-        Com.rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
-        particle.Play();
-
-
-        yield return new WaitForSeconds(0.3f);
-        Com.monsterModel.SetActive(false);
-        rollingModel.SetActive(true);
-        Com.monsterModel = rollingModel;
-
-        Debug.Log("work");
-        Com.collider.enabled = false;
-        sphereCollider.enabled = true;
-
-        if(isAlive)
-            ChangeState("ATTACK");
+        Com2.sphereCollider.enabled = false;
+        Com2.constantForce.enabled = false;
     }
 }

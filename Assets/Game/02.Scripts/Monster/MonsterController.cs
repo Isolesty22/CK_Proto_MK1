@@ -5,9 +5,11 @@ using System;
 
 public class MonsterController : MonoBehaviour
 {
+    #region
+    [Serializable]
     public enum MonsterState
     {
-        SEARCH,
+        WAIT,
         IDLE,
         MOVE,
         DETECT,
@@ -15,71 +17,78 @@ public class MonsterController : MonoBehaviour
         DEATH
     }
 
-    #region
     [Serializable]
-    public class MonsterStatus : Status
+    public class MonsterStatus
     {
-        public int mon_No;
-        public string name_Kr;
-        public int type_Move;
-        public int type_Gimic;
-        public float move_Speed;
-        public int atk_Type;
-        public float atk_Speed;
-        public int atk_Range;
-        public float respawn;
-        public float agro_End_Time;
+        public string name;
+        public int hp;
+        public int maxHp;
+        public float moveSpeed;
+
+
+        [Header("Sub Status")]
+        public bool isAlive;
+
+        public float hitTime = 0.2f;
         public float fadeOutTime;
-        public float destroyDistance;
     }
 
     [Serializable]
-    public class Components
+    public class MonsterComponents
     {
         public Rigidbody rigidbody;
         public Collider collider;
-        public Collider searchCol;
+
         public GameObject monsterModel;
+        public Renderer renderer;
+
+        public Color originalColor;
+        public Color hitColor;
     }
 
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
 
+    //field
     public MonsterState state;
 
-    public bool isAlive;
-    public bool isRunninCo;
-    public bool active;
-    public IEnumerator hitColor;
-    public Color originalColor;
-    public float hitTime =0.2f;
+    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+    [SerializeField] private MonsterComponents components = new MonsterComponents();
 
+    public MonsterStatus Stat => monsterStatus;
+    public MonsterComponents Com => components;
+
+    public IEnumerator hitColor;
     #endregion
+
+    public virtual void Initialize()
+    {
+        Stat.hp = Stat.maxHp;
+        Com.monsterModel.SetActive(false);
+        state = MonsterState.WAIT;
+        Com.originalColor = Com.renderer.material.color;
+        Stat.isAlive = true;
+    }
 
     public virtual void Awake()
     {
-        monsterStatus.Initialize();
-        Com.monsterModel.SetActive(false);
-        state = MonsterState.SEARCH;
-        active = false;
-        isAlive = true;
-        Color originalColor = Com.monsterModel.GetComponent<Renderer>().material.color;
+        Initialize();
+    }
+
+    public virtual void Start()
+    {
+
     }
 
     public virtual void Update()
     {
-        if (active && isAlive)
-            State(state);
+        State(state);
     }
 
     public virtual void State(MonsterState state)
     {
         switch (state)
         {
-            case MonsterState.SEARCH:
+            case MonsterState.WAIT:
                 Search();
                 break;
 
@@ -108,31 +117,36 @@ public class MonsterController : MonoBehaviour
         }
     }
 
-    public virtual void ChangeState(string functionName)
+    public virtual void ChangeState(MonsterState stateName)
     {
-        if (functionName == "SEARCH")
+        switch (stateName)
         {
-            state = MonsterState.SEARCH;
-        }
-        else if (functionName == "IDLE")
-        {
-            state = MonsterState.IDLE;
-        }
-        else if (functionName == "DETECT")
-        {
-            state = MonsterState.DETECT;
-        }
-        else if (functionName == "ATTACK")
-        {
-            state = MonsterState.ATTACK;
-        }
-        else if (functionName == "MOVE")
-        {
-            state = MonsterState.MOVE;
-        }
-        else if (functionName == "DEATH")
-        {
-            state = MonsterState.DEATH;
+            case MonsterState.WAIT:
+                state = MonsterState.WAIT;
+                break;
+
+            case MonsterState.IDLE:
+                state = MonsterState.IDLE;
+                break;
+
+            case MonsterState.DETECT:
+                state = MonsterState.DETECT;
+                break;
+
+            case MonsterState.ATTACK:
+                state = MonsterState.ATTACK;
+                break;
+
+            case MonsterState.MOVE:
+                state = MonsterState.MOVE;
+                break;
+
+            case MonsterState.DEATH:
+                state = MonsterState.DEATH;
+                break;
+
+            default:
+                break;
         }
     }
 
@@ -173,46 +187,44 @@ public class MonsterController : MonoBehaviour
 
         if(Stat.hp <= 0)
         {
-            ChangeState("DEATH");
+            ChangeState(MonsterState.DEATH);
         }
     }
 
     protected virtual void Death()
     {
-        if(isAlive)
+        if(Stat.isAlive)
         {
+            Stat.isAlive = false;
+            Com.collider.enabled = false;
+            Com.rigidbody.velocity = Vector3.zero;
+            Com.rigidbody.useGravity = false;
+
             var dead = Dead();
             StartCoroutine(dead);
-            isAlive = false;
         }
     }
 
     IEnumerator HitColor()
     {
-
-        Com.monsterModel.GetComponent<Renderer>().material.color = new Color(150 / 255f, 150 / 255f, 150 / 255f, 255 / 255f);
-        yield return new WaitForSeconds(hitTime);
-        Com.monsterModel.GetComponent<Renderer>().material.color = originalColor;
-
+        Com.renderer.material.color = Com.hitColor;
+        yield return new WaitForSeconds(Stat.hitTime);
+        Com.renderer.material.color = Com.originalColor;
     }
 
     IEnumerator Dead()
     {
-        Com.collider.enabled = false;
-        Com.rigidbody.velocity = Vector3.zero;
-        Com.rigidbody.useGravity = false;
-        Color fadecolor = Com.monsterModel.GetComponent<Renderer>().material.color;
+        var fadecolor = Com.renderer.material.color;
+
         float time = 0f;
 
         while (fadecolor.a > 0f)
         {
             time += Time.deltaTime / Stat.fadeOutTime;
             fadecolor.a = Mathf.Lerp(255/255f, 0, time);
-            Com.monsterModel.GetComponent<Renderer>().material.color = fadecolor;
+            Com.renderer.material.color = fadecolor;
             yield return null;
         }
-
-        yield return new WaitForSeconds(2f);
 
         this.gameObject.SetActive(false);
     }
