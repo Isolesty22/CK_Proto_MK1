@@ -22,7 +22,6 @@ public class UIMainMenu : UIBase
     public override void Init()
     {
         base.Init();
-        RegisterUIManager();
     }
 
     protected override void CheckOpen()
@@ -104,11 +103,5 @@ public class UIMainMenu : UIBase
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
         Application.Quit();
-    }
-    public override void RegisterUIManager()
-    {
-        UIManager.Instance.RegisterDictThis(this.GetType().Name, this);
-        UIManager.Instance.RegisterListThis(this);
-
     }
 }

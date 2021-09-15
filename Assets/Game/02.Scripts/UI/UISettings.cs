@@ -39,7 +39,6 @@ public class UISettings : UIBase
     private void Start()
     {
         Init();
-        RegisterUIManager();
     }
 
     public override void Init()
@@ -193,11 +192,6 @@ public class UISettings : UIBase
     private float GetFloat(string input)
     {
         return (float)System.Convert.ToDouble(input);
-    }
-
-    public override void RegisterUIManager()
-    {
-        base.RegisterUIManager();
     }
 
     protected override IEnumerator ProcessClose()

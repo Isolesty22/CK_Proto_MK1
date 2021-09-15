@@ -10,7 +10,6 @@ public class UIPopup : UIBase
     private void Start()
     {
         Init();
-        RegisterUIManager();
     }
 
     public override void Init()
@@ -44,9 +43,5 @@ public class UIPopup : UIBase
     public void CloseMe()
     {
         UIManager.Instance.CloseTop();
-    }
-    public override void RegisterUIManager()
-    {
-        base.RegisterUIManager();
     }
 }

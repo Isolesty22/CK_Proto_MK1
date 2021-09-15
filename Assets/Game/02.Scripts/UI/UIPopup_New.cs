@@ -27,7 +27,6 @@ public class UIPopup_New : UIBase
     private void Start()
     {
         Init();
-        RegisterUIManager();
     }
 
     protected override void CheckOpen()
@@ -61,9 +60,5 @@ public class UIPopup_New : UIBase
     public void CloseMe()
     {
         UIManager.Instance.CloseTop();
-    }
-    public override void RegisterUIManager()
-    {
-        base.RegisterUIManager();
     }
 }

@@ -8,7 +8,6 @@ public class UIPause : UIBase
     void Start()
     {
         Init();
-        RegisterUIManager();
     }
 
     void Update()

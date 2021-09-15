@@ -57,8 +57,4 @@ public class UILoading : UIBase
         SceneChanger.Instance.isLoading = false;
     }
 
-    public override void RegisterUIManager()
-    {
-        base.RegisterUIManager();
-    }
 }

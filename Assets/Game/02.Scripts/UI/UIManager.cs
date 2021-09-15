@@ -158,19 +158,4 @@ public class UIManager : MonoBehaviour
         OpenThis(uiPopup_new);
 
     }
-
-    /// <summary>
-    /// uiList에 해당 uiBase를 Add합니다.
-    /// </summary>
-    public void RegisterListThis(UIBase _uiBase)
-    {
-        uiList.Add(_uiBase);
-        //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
-    }
-
-    public void RegisterDictThis(string _uiName, UIBase _uiBase)
-    {
-        uiDict.Add(_uiName, _uiBase);
-        //Debug.Log("uiList에 " + _uiBase.name + " 추가!");
-    }
 }

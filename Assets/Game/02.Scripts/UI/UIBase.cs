@@ -145,16 +145,4 @@ public class UIBase : MonoBehaviour
         yield break;
     }
 
-
-
-
-
-    /// <summary>
-    /// UIManager에 해당 UI를 등록합니다.
-    /// </summary>
-    public virtual void RegisterUIManager()
-    {
-        UIManager.Instance.RegisterListThis(this);
-    }
-
 }
