@@ -29,12 +29,6 @@ public class UIManager : MonoBehaviour
     [Space(10)]
 
     [SerializeField]
-    private List<UIBase> uiList = new List<UIBase>();
-
-    [Tooltip("하나 밖에 존재하지 않는 UI들을 위한 딕셔너리")]
-    public Dictionary<string, UIBase> uiDict = new Dictionary<string, UIBase>();
-
-    [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
 
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
