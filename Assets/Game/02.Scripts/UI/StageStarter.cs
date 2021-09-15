@@ -7,9 +7,14 @@ using UnityEngine;
 /// </summary>
 public class StageStarter : MonoBehaviour
 {
+    [Header("Null Check")]
+    public bool isDebug;
 
+    [Header("Fade Out이전 대기 시간")]
     [Tooltip("스테이지 시작 후 출력되는 시작 UI가 출력되어있는 시간")]
     public float waitTime;
+
+    [Header("Stage Start UI")]
     public UIStageStart uiStageStart;
     public void Start()
     {
@@ -18,12 +23,27 @@ public class StageStarter : MonoBehaviour
 
     private IEnumerator WaitSceneLoading()
     {
-        //로딩이 끝날 때 까지 대기
-        while (SceneChanger.Instance.isLoading)
+        if (isDebug)
         {
-            Debug.Log("StageStarter : waiting...");
-            yield return null;
+            if (SceneChanger.Instance != null)
+            {
+                while (SceneChanger.Instance.isLoading)
+                {
+                    Debug.Log("StageStarter : waiting...");
+                    yield return null;
+                }
+            }
         }
+        else
+        {
+            while (SceneChanger.Instance.isLoading)
+            {
+                Debug.Log("StageStarter : waiting...");
+                yield return null;
+            }
+        }
+        //로딩이 끝날 때 까지 대기
+
         yield return new WaitForSeconds(0.5f);
         //StageStart 열기.
         //UIManager랑 상관없어야하므로 그냥 Open 호출
