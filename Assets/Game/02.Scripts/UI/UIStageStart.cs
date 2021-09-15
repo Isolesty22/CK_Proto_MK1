@@ -4,25 +4,19 @@ using UnityEngine;
 
 public class UIStageStart : UIBase
 {
-    private void Start()
+    private void Awake()
     {
         Init();
-    }
-    public override void Init()
-    {
-        base.Init();
     }
     public override bool Open()
     {
         StartCoroutine(ProcessOpen());
-        Time.timeScale = 0f;
         return true;
     }
 
     public override bool Close()
     {
         StartCoroutine(ProcessClose());
-        Time.timeScale = 1f;
         return true;
     }
 
@@ -34,5 +28,13 @@ public class UIStageStart : UIBase
     protected override IEnumerator ProcessOpen()
     {
         return base.ProcessOpen();
+    }
+    public void SetFadeDuration(float _value)
+    {
+         fadeDuration = _value;
+    }
+    public float GetFadeDuration()
+    {
+        return fadeDuration;
     }
 }

@@ -34,7 +34,6 @@ public class UIManager : MonoBehaviour
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 
-
     private void Awake()
     {
         if (Instance == null)
