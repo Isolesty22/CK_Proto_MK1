@@ -30,7 +30,6 @@ public class StageStarter : MonoBehaviour
             {
                 while (SceneChanger.Instance.isLoading)
                 {
-                    Debug.Log("StageStarter : waiting...");
                     yield return null;
                 }
             }
@@ -39,7 +38,6 @@ public class StageStarter : MonoBehaviour
         {
             while (SceneChanger.Instance.isLoading)
             {
-                Debug.Log("StageStarter : waiting...");
                 yield return null;
             }
         }
