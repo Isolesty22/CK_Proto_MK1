@@ -44,8 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 934955a400f006d4d9203a832ccbfd6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterController: {fileID: 0}
-  flyerController: {fileID: 0}
+  monsterController: {fileID: 5896250351852412521}
 --- !u!65 &2016316210
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -107,45 +106,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65314bba6da5b2e418ff291e004fdc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  monsterStatus:
+    name: Bird
+    hp: 2
+    maxHp: 3
+    moveSpeed: 0
+    isAlive: 0
+    hitTime: 0.2
+    fadeOutTime: 1
   components:
     rigidbody: {fileID: 1794512776784310942}
     collider: {fileID: 1227735245}
-    searchCol: {fileID: 5885340922005460021}
     monsterModel: {fileID: 9184687447124193120}
-  monsterStatus:
-    name: Flyer
-    hp: 2
-    maxHp: 3
-    mon_No: 0
-    name_Kr: "\uD50C\uB77C\uC774\uC5B4"
-    type_Move: 0
-    type_Gimic: 0
-    move_Speed: 2
-    atk_Type: 1
-    atk_Speed: 0
-    atk_Range: 0
-    respawn: 0
-    agro_End_Time: 0
-    fadeOutTime: 1
-    destroyDistance: 0
-  state: 0
-  isAlive: 0
-  isRunninCo: 0
-  active: 0
-  originalColor: {r: 1, g: 1, b: 1, a: 1}
-  hitTime: 0.2
-  feather: {fileID: 0}
-  featherList: []
-  patrolPos1: {x: 0, y: 0, z: 0}
-  patrolPos2: {x: 0, y: 0, z: 0}
-  patrolRange: 8
-  patrolTime: 4
-  isAttack: 0
-  shotDelay: 2
-  tripleShotDelay: 0.2
-  shotSpeed: 5
-  featherRange: 100
-  moveSpeed: 2
+    renderer: {fileID: 7239093169575169717}
+    originalColor: {r: 1, g: 1, b: 1, a: 1}
+    hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  flyerStatus:
+    patrolRange: 6
+    patrolTime: 4
+    shotSpeed: 1.5
+    featherRange: 81
+    attackCoolTime: 2
+    tripleShotDelay: 0.3
+    attackTime: 0
+    isAttack: 0
+    patrolPos1: {x: 0, y: 0, z: 0}
+    patrolPos2: {x: 0, y: 0, z: 0}
 --- !u!54 &1794512776784310942
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -219,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterController: {fileID: 5896250351852412521}
 --- !u!65 &5885340922005460021
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -309,5 +297,10 @@ GameObject:
 --- !u!4 &8375921519299392986 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 898324c3b4754bf49bcb01d1a60c6517, type: 3}
+  m_PrefabInstance: {fileID: 8338407305399669297}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &7239093169575169717 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 898324c3b4754bf49bcb01d1a60c6517, type: 3}
   m_PrefabInstance: {fileID: 8338407305399669297}
   m_PrefabAsset: {fileID: 0}

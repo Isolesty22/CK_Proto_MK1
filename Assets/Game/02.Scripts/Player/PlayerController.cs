@@ -26,15 +26,20 @@ public class PlayerController : MonoBehaviour
     [Serializable]
     public class PlayerStatus : Status
     {
-        public float parryingTime = 1f;
-        public float bulletSpeed = 10f;
         public float movementSpeed = 10f;
+        public float jumpForce = 1f;
+
+        public float bulletSpeed = 10f;
+
+        public float parryingForce = 10f;
+        public float parryingTime = 1f;
+
+        public float hitTime = 1f;
+        public float invincibleTime = 1f;
+
+        [Header("unused")]
         public float crouchMoveSpeed = 1f;
         public float jumpingSpeed = 1f;
-        public float jumpForce = 1f;
-        public float invincibleTime = 1f;
-        public float parryingForce = 10f;
-        public float hitTime = 1f;
     }
 
     [Serializable]
@@ -178,14 +183,11 @@ public class PlayerController : MonoBehaviour
         {
             InputVal.movementInput = -1f;
         }
-        //else InState.leftPush = false;
 
         if (Input.GetKey(Key.moveRight))
         {
             InputVal.movementInput = 1f;
         }
-
-        //if (Input.GetKeyDown(Key.attack)) Attack();
 
 
         if (!State.isGrounded)
@@ -324,7 +326,7 @@ public class PlayerController : MonoBehaviour
 
     private void Crouch()
     {
-        if (State.isJumping || !Input.GetKey(Key.crouch) && State.isCrouching)
+        if (State.isJumping || Input.GetKeyUp(Key.crouch) && State.isCrouching)
         {
             State.isCrouching = false;
 
@@ -344,7 +346,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(Key.crouch))
+        if (Input.GetKeyDown(Key.crouch))
         {
             State.isCrouching = true;
 

@@ -7,12 +7,14 @@ public enum ePoolType
     CustomPool,
     GameObjectPool,
 }
+
 public class PoolTester : MonoBehaviour
 {
     public ePoolType poolType;
 
     private PoolManager poolManager;
     private CustomPoolManager cPoolManager;
+
     private void Start()
     {
         poolManager = PoolManager.Instance;

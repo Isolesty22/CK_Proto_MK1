@@ -15,7 +15,7 @@ public class Pixy : MonoBehaviour
 
     private void Awake()
     {
-        originalPos = transform.position;
+        originalPos = transform.localPosition;
         pixyModel.localPosition = originalModelPos;
     }
 
