@@ -1,157 +1,118 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class LarvaController : MonsterController
-{
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+//public class LarvaController : MonsterController
+//{
+//    #region
+//    public float upDownSpeed;
+//    public float upDelay;
+//    public float downRange;
+//    #endregion
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
+//    private Vector3 pos;
+//    private Vector3 destPos;
 
-    public float upDownSpeed;
-    public float upDelay;
-    public float downRange;
-    public bool isRunninCo;
-    #endregion
+//    public enum AttackState
+//    {
+//        Wait,
+//        Down,
+//        Up
+//    }
 
-    private Vector3 pos;
-    private Vector3 destPos;
+//    public AttackState attackState = AttackState.Wait;
 
-    public enum AttackState
-    {
-        Wait,
-        Down,
-        Up
-    }
+//    void Start()
+//    {
+//        pos = gameObject.transform.position;
+//        destPos = gameObject.transform.position - new Vector3(0, downRange, 0);
+//    }
 
-    public AttackState attackState = AttackState.Wait;
+//    public override void Update()
+//    {
+//        base.Update();
+//    }
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.transform.CompareTag("Arrow"))
+//            ChangeState("HIT");
+//    }
+//    public override void State(MonsterState state)
+//    {
+//        base.State(state);
+//    }
 
-    void Start()
-    {
-        pos = gameObject.transform.position;
-        destPos = gameObject.transform.position - new Vector3(0, downRange, 0);
-    }
+//    public override void ChangeState(string functionName)
+//    {
+//        base.ChangeState(functionName);
+//    }
 
-    void Update()
-    {
-        State(state);
-    }
+//    protected override void Idle()
+//    {
+//        base.Idle();
+//    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
-    }
+//    protected override void Detect()
+//    {
+//        base.Detect();
+//    }
 
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
+//    protected override void Move()
+//    {
+//        base.Move();
+//    }
 
-            case MonsterState.Chase:
-                Chase();
-                break;
+//    protected override void Attack()
+//    {
+//        base.Attack();
+//        if(gameObject.transform.position.y == pos.y)
+//        {
+//            if(isRunninCo == false)
+//                StartCoroutine(UpDownDelay(0));
+//        }
+//        else if(gameObject.transform.position.y == destPos.y)
+//        {
+//            if (isRunninCo == false)
+//                StartCoroutine(UpDownDelay(1));
+//        }
 
-            case MonsterState.Attack:
-                Attack();
-                break;
+//        switch (attackState)
+//        {
+//            case AttackState.Wait:
+//                break;
+//            case AttackState.Down:
+//                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed * 0.1f);
+//                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, destPos, upDownSpeed * Time.deltaTime);
+//                isRunninCo = false;
+//                break;
+//            case AttackState.Up:
+//                //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed * 0.1f);
+//                gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, upDownSpeed * Time.deltaTime);
+//                isRunninCo = false;
+//                break;
+//            default:
+//                break;
+//        }
+//    }
+//    public override void Hit(int damage)
+//    {
+//        base.Hit(damage);
+//    }
 
-            case MonsterState.Dead:
-                Dead();
-                break;
+//    protected override void Death()
+//    {
+//        base.Death();
+//    }
 
-            default:
-                break;
-        }
-    }
+//    private IEnumerator UpDownDelay(int n)
+//    {
+//        isRunninCo = true;
+//        attackState = AttackState.Wait;
+//        yield return new WaitForSeconds(upDelay);
+//        if (n == 0)
+//            attackState = AttackState.Down;
+//        else
+//            attackState = AttackState.Up;
+//    }
 
-    public void ChangeState(string functionName)
-    {
-        if(functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if(functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if(functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-
-    protected override void Search()
-    {
-        base.Search();
-    }
-
-    protected override void Chase()
-    {
-        base.Chase();
-    }
-
-    protected override void Attack()
-    {
-        base.Attack();
-        if(gameObject.transform.position.y == pos.y)
-        {
-            if(isRunninCo == false)
-                StartCoroutine(UpDownDelay(0));
-        }
-        else if(gameObject.transform.position.y == destPos.y)
-        {
-            if (isRunninCo == false)
-                StartCoroutine(UpDownDelay(1));
-        }
-
-        switch (attackState)
-        {
-            case AttackState.Wait:
-                break;
-            case AttackState.Down:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, destPos, upDownSpeed);
-                isRunninCo = false;
-                break;
-            case AttackState.Up:
-                gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, pos, upDownSpeed);
-                isRunninCo = false;
-                break;
-            default:
-                break;
-        }
-    }
-    protected override void Dead()
-    {
-        base.Dead();
-        gameObject.SetActive(false);
-    }
-
-    private IEnumerator UpDownDelay(int n)
-    {
-        isRunninCo = true;
-        attackState = AttackState.Wait;
-        yield return new WaitForSeconds(upDelay);
-        if (n == 0)
-            attackState = AttackState.Down;
-        else
-            attackState = AttackState.Up;
-    }
-
-}
+//}

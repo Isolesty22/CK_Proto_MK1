@@ -4,21 +4,22 @@ using UnityEngine;
 
 public class MonsterSearchCol : MonoBehaviour
 {
+    public MonsterController monsterController;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.transform.CompareTag("Player"))
+        if(other.CompareTag("Player"))
         {
-            Debug.Log("Detect Player");
-            gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Attack");
+            monsterController.Com.monsterModel.SetActive(true);
+            monsterController.ChangeState(MonsterController.MonsterState.IDLE);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.transform.CompareTag("Player"))
+        if(other.CompareTag("Player"))
         {
-            Debug.Log("Detect Player");
-            gameObject.transform.parent.gameObject.transform.GetComponent<LarvaController>().ChangeState("Search");
+
         }
     }
 }

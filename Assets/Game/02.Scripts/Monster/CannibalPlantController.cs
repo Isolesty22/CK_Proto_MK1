@@ -1,104 +1,72 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class CannibalPlantController : MonsterController
-{
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+//public class CannibalPlantController : MonsterController
+//{
+//    #region
+//    public Mesh changeMesh;
+//    #endregion
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
-    public float moveSpeed;
-    #endregion
-
-    void Start()
-    {
+//    void Start()
+//    {
         
-    }
+//    }
 
-    void Update()
-    {
-        State(state);
-    }
+//    public override void Update()
+//    {
+//        base.Update();
+//    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
-    }
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.transform.CompareTag("Arrow"))
+//            ChangeState("HIT");
+//    }
 
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
+//    public override void State(MonsterState state)
+//    {
+//        base.State(state);
+//    }
 
-            case MonsterState.Chase:
-                Chase();
-                break;
+//    public override void ChangeState(string functionName)
+//    {
+//        base.ChangeState(functionName);
+//    }
+//    protected override void Idle()
+//    {
+//        base.Idle();
+//    }
 
-            case MonsterState.Attack:
-                Attack();
-                break;
+//    protected override void Detect()
+//    {
+//        base.Detect();
+//    }
 
-            case MonsterState.Dead:
-                Dead();
-                break;
+//    protected override void Move()
+//    {
+//        base.Move();
+//    }
 
-            default:
-                break;
-        }
-    }
+//    protected override void Attack()
+//    {
+//        base.Attack();
+//        gameObject.transform.GetChild(0).GetComponent<MeshFilter>().sharedMesh = changeMesh;
+//        if(gameObject.transform.position.x > GameManager.instance.playerController.gameObject.transform.position.x)
+//            transform.position += new Vector3(-Stat.move_Speed * Time.deltaTime, 0, 0);
+//        else
+//            transform.position += new Vector3(Stat.move_Speed * Time.deltaTime, 0, 0);
 
-    public void ChangeState(string functionName)
-    {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
-    }
+//    }
+//    public override void Hit(int damage)
+//    {
+//        base.Hit(damage);
+//    }
 
-    protected override void Chase()
-    {
-        base.Chase();
-    }
 
-    protected override void Attack()
-    {
-        base.Attack();
-        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, GameManager.instance.playerController.gameObject.transform.position, moveSpeed);
-    }
-    protected override void Dead()
-    {
-        base.Dead();
-    }
+//    protected override void Death()
+//    {
+//        base.Death();
+//    }
 
-}
+//}

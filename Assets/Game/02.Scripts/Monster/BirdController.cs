@@ -1,104 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class BirdController : MonsterController
-{
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
-
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
-
-    public bool isRunninCo;
-    public float moveSpeed;
-    #endregion
-
-    void Start()
-    {
+//public class BirdController : MonsterController
+//{
+//    void Start()
+//    {
         
-    }
+//    }
 
-    void Update()
-    {
-        State(state);
-    }
+//    public override void Update()
+//    {
+//        base.Update();
+//    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
-    }
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.transform.CompareTag("Arrow"))
+//            ChangeState("HIT");
+//    }
 
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
+//    public override void State(MonsterState state)
+//    {
+//        base.State(state);
+//    }
 
-            case MonsterState.Chase:
-                Chase();
-                break;
+//    //public override void ChangeState(string functionName)
+//    //{
+//    //    base.ChangeState(functionName);
+//    //}
+//    protected override void Idle()
+//    {
+//        base.Idle();
+//    }
 
-            case MonsterState.Attack:
-                Attack();
-                break;
+//    protected override void Detect()
+//    {
+//        base.Detect();
+//    }
 
-            case MonsterState.Dead:
-                Dead();
-                break;
+//    protected override void Move()
+//    {
+//        base.Move();
+//    }
 
-            default:
-                break;
-        }
-    }
+//    //protected override void Attack()
+//    //{
+//    //    base.Attack();
+//    //    transform.Translate(Vector3.left * Time.deltaTime * Stat.move_Speed);
+//    //}
+//    protected override void Death()
+//    {
+//        base.Death();
+//    }
 
-    public void ChangeState(string functionName)
-    {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
-    }
-
-    protected override void Chase()
-    {
-        base.Chase();
-    }
-
-    protected override void Attack()
-    {
-        base.Attack();
-        transform.Translate(Vector3.left * Time.deltaTime * moveSpeed);
-    }
-    protected override void Dead()
-    {
-        base.Dead();
-    }
-
-}
+//    public override void Hit(int damage)
+//    {
+//        base.Hit(damage);
+//    }
+//}

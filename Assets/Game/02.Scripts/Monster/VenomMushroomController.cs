@@ -1,101 +1,80 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class VenomMushroomController : MonsterController
-{
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+//public class VenomMushroomController : MonsterController
+//{
+//    #region
+//    public ParticleSystem venomSpore;
+//    public float poisonTime;
+//    public float sporeAreaActiveTime;
+//    public GameObject sporeArea;
+//    #endregion
+//    void Start()
+//    {
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
+//    }
 
-    public bool isRunninCo;
-    #endregion
-    void Start()
-    {
-        
-    }
+//    public override void Update()
+//    {
+//        base.Update();
+//    }
 
-    void Update()
-    {
-        State(state);
-    }
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.transform.CompareTag("Arrow"))
+//            ChangeState("HIT");
+//    }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
-    }
+//    public override void State(MonsterState state)
+//    {
+//        base.State(state);
+//    }
 
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
+//    public override void ChangeState(string functionName)
+//    {
+//        base.ChangeState(functionName);
+//    }
+//    protected override void Idle()
+//    {
+//        base.Idle();
+//    }
 
-            case MonsterState.Chase:
-                Chase();
-                break;
+//    protected override void Detect()
+//    {
+//        base.Detect();
+//    }
 
-            case MonsterState.Attack:
-                Attack();
-                break;
+//    protected override void Move()
+//    {
+//        base.Move();
+//    }
+//    protected override void Attack()
+//    {
+//        base.Attack();
+//        if (isRunninCo == false)
+//        {
+//            venomSpore.Play();
+//            StartCoroutine(activeSpore());
+//        }
+//    }
+//    public override void Hit(int damage)
+//    {
+//        base.Hit(damage);
+//    }
 
-            case MonsterState.Dead:
-                Dead();
-                break;
+//    protected override void Death()
+//    {
+//        base.Death();
+//    }
 
-            default:
-                break;
-        }
-    }
+//    private IEnumerator activeSpore()
+//    {
+//        isRunninCo = true;
+//        sporeArea.SetActive(true);
+//        yield return new WaitForSeconds(sporeAreaActiveTime);
+//        sporeArea.SetActive(false);
+//        isRunninCo = false;
+//    }
 
-    public void ChangeState(string functionName)
-    {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    protected override void Search()
-    {
-        base.Search();
-    }
-
-    protected override void Chase()
-    {
-        base.Chase();
-    }
-
-    protected override void Attack()
-    {
-        base.Attack();
-    }
-    protected override void Dead()
-    {
-        base.Dead();
-    }
-
-}
+//}

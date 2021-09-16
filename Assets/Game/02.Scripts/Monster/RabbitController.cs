@@ -1,136 +1,111 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 
-public class RabbitController : MonsterController
-{
-    #region
-    [SerializeField] private Components components = new Components();
-    [SerializeField] private MonsterStatus monsterStatus = new MonsterStatus();
+//public class RabbitController : MonsterController
+//{
+//    #region
+//    public float nextActDelay;
+//    public int nextActNum;
 
-    public Components Com => components;
-    public MonsterStatus Stat => monsterStatus;
-    public MonsterState state = MonsterState.Search;
+//    public float jumpPower;
+//    public int jumpProbability;
+//    #endregion
 
-    public bool isRunninCo;
+//    private float timer;
+//    private int randomJump;
 
-    public float nextActDelay;
-    public int nextActNum;
-
-    public float jumpPower;
-    public float moveSpeed;
-    #endregion
-
-    void Start()
-    {
+//    void Start()
+//    {
         
-    }
+//    }
 
-    void Update()
-    {
-        State(state);
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.CompareTag("Bullet"))
-        {
-            if (Stat.hp > 1)
-                Stat.hp--;
-            else
-                ChangeState("Dead");
-        }
-    }
-    public void ChangeState(string functionName)
-    {
-        if (functionName == "Search")
-        {
-            state = MonsterState.Search;
-        }
-        else if (functionName == "Chase")
-        {
-            state = MonsterState.Chase;
-        }
-        else if (functionName == "Attack")
-        {
-            state = MonsterState.Attack;
-        }
-        else if (functionName == "Dead")
-        {
-            state = MonsterState.Dead;
-        }
-    }
-    public void State(MonsterState state)
-    {
-        switch (state)
-        {
-            case MonsterState.Search:
-                Search();
-                break;
+//    public override void Update()
+//    {
+//        base.Update();
+//    }
+//    private void OnCollisionEnter(Collision collision)
+//    {
+//        if (collision.transform.CompareTag("Arrow"))
+//            ChangeState("HIT");
+//    }
 
-            case MonsterState.Chase:
-                Chase();
-                break;
+//    public override void State(MonsterState state)
+//    {
+//        base.State(state);
+//    }
 
-            case MonsterState.Attack:
-                Attack();
-                break;
+//    public override void ChangeState(string functionName)
+//    {
+//        base.ChangeState(functionName);
+//    }
 
-            case MonsterState.Dead:
-                Dead();
-                break;
+//    protected override void Idle()
+//    {
+//        base.Idle();
+//        ChangeState("ATTACK");
+//    }
 
-            default:
-                break;
-        }
-    }
+//    protected override void Detect()
+//    {
+//        base.Detect();
+//    }
 
-    protected override void Search()
-    {
-        base.Search();
-        if (isRunninCo == false)
-            StartCoroutine(SelectNextAct());
-    }
+//    protected override void Move()
+//    {
+//        base.Move();
+//    }
 
-    protected override void Chase()
-    {
-        base.Chase();
-    }
+//    protected override void Attack()
+//    {
+//        base.Attack();
+//        if (timer > 0)
+//        {
+//            switch (nextActNum)
+//            {
+//                case 0:
+//                    break;
+//                case 1:
+//                    transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+//                    Com.rigidbody.velocity = new Vector3(-Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+//                    break;
+//                case 2:
+//                    transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
+//                    Com.rigidbody.velocity = new Vector3(Stat.move_Speed, Com.rigidbody.velocity.y, 0);
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//        else
+//        {
+//            nextActNum = Random.Range(0, 3);
+//            timer = nextActDelay;
+//        }
 
-    protected override void Attack()
-    {
-        base.Attack();
-        if (isRunninCo == false)
-            StartCoroutine(SelectNextAct());
-    }
-    protected override void Dead()
-    {
-        base.Dead();
-    }
+//        if (isRunninCo == false)
+//            StartCoroutine(RandomJump());
+//        timer -= Time.deltaTime;
 
-    private IEnumerator SelectNextAct()
-    {
-        isRunninCo = true;
-        nextActNum = Random.Range(0, 4);
-        yield return new WaitForSeconds(nextActDelay);
-        switch (nextActNum)
-        {
-            case 0:
-                break;
-            case 1:
-                Com.rigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
-                break;
-            case 2:
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(-90, -90, 0));
-                Com.rigidbody.AddForce(new Vector3(-moveSpeed, jumpPower, 0), ForceMode.Impulse);
-                break;
-            case 3:
-                gameObject.transform.rotation = Quaternion.Euler(new Vector3(-90, 90, 0));
-                Com.rigidbody.AddForce(new Vector3(moveSpeed, jumpPower, 0), ForceMode.Impulse);
-                break;
-            default:
-                break;
-        }
-        isRunninCo = false;
-    }
+//    }
+//    public override void Hit(int damage)
+//    {
+//        base.Hit(damage);
+//    }
 
-}
+//    protected override void Death()
+//    {
+//        base.Death();
+
+//    }
+
+//    private IEnumerator RandomJump()
+//    {
+//        isRunninCo = true;
+//        randomJump = Random.Range(0, jumpProbability);
+//        if(randomJump == 0)
+//            Com.rigidbody.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
+//        yield return new WaitForSeconds(1f);
+//        isRunninCo = false;
+//    }
+//}
