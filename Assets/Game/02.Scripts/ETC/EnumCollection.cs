@@ -2,16 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eKeyType
-{
-    moveRight,
-    moveLeft,
-    crouch,
-    lookUp,
-    attack,
-    jump,
-    counter,
-}
+
 public enum eResolutionType
 {
     /// <summary>

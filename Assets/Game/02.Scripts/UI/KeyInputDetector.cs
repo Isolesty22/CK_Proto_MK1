@@ -13,6 +13,7 @@ public class KeyInputDetector : MonoBehaviour
 
     public bool isDetecting = false;
 
+    [HideInInspector]
     public KeyCode currentKeyCode = KeyCode.None;
 
 
@@ -39,7 +40,7 @@ public class KeyInputDetector : MonoBehaviour
             Debug.LogWarning("[" + currentKeyCode.ToString() + "]" + "키가 입력되었습니다.");
 
             currentKeyCode = GetKeyCode(currentKeyCode.ToString());
-            Debug.LogWarning("ToString 후 또 GetKeyCode는 : " + currentKeyCode.ToString());
+
             isDetecting = false;
             this.gameObject.SetActive(false);
         }
