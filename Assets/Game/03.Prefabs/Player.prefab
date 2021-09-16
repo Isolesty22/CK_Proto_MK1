@@ -45,12 +45,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pixyModel: {fileID: 2028246054}
-  originalPos: {x: 0, y: 0.5, z: 0.75}
-  crouchPos: {x: 0, y: 0.2, z: 0.75}
-  originalModelPos: {x: -2.5, y: 0, z: -7}
+  firePos: {x: 0, y: 0.5, z: 0.75}
+  crouchFirePos: {x: 0, y: 0.2, z: 0.75}
+  pixyPos: {x: -2.5, y: 0, z: -7}
+  pixyCounterPos: {x: -2.5, y: 0, z: 0}
   pixyMoveTime: 0.4
   counterRange: 100
-  counterSpeed: 10
+  counterSpeed: 2
 --- !u!1 &1040427547
 GameObject:
   m_ObjectHideFlags: 0
@@ -63,6 +64,7 @@ GameObject:
   - component: {fileID: 1040427550}
   - component: {fileID: 1040427549}
   - component: {fileID: 682862411}
+  - component: {fileID: 1008533299}
   m_Layer: 0
   m_Name: PlayerHitBox
   m_TagString: Untagged
@@ -120,12 +122,28 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1040427547}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 0
   m_Radius: 0.5
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: -0.25, z: 0}
+--- !u!54 &1008533299
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1040427547}
+  serializedVersion: 2
+  m_Mass: 0.01
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &1140968014
 GameObject:
   m_ObjectHideFlags: 0
@@ -9861,7 +9879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponState: 0
-  basicArrowSpeed: 17
+  basicArrowSpeed: 2
   basicArrowRange: 64
   basicArrowCooldown: 0.2
 --- !u!1 &4650393343325549109
@@ -9962,15 +9980,14 @@ MonoBehaviour:
     name: Player
     hp: 0
     maxHp: 3
-    parryingTime: 0.5
-    bulletSpeed: 10
     movementSpeed: 5
+    jumpForce: 17
+    parryingForce: 13
+    parryingTime: 0.5
+    hitTime: 0.5
+    invincibleTime: 1
     crouchMoveSpeed: 1
     jumpingSpeed: 1
-    jumpForce: 17
-    invincibleTime: 1
-    parryingForce: 13
-    hitTime: 0.5
   value:
     moveVector: {x: 0, y: 0, z: 0}
     moveVelocity: {x: 0, y: 0, z: 0}
@@ -9985,7 +10002,7 @@ MonoBehaviour:
     constDecrease: 14
     FirePos: {x: 0, y: 0, z: 0.7}
     upFirePos: {x: 0, y: 1, z: 0}
-    crouchFirePos: {x: 0, y: -0.3, z: 0.5}
+    crouchFirePos: {x: 0, y: -0.3, z: 0.7}
     crouchUpFirePos: {x: 0, y: 0.7, z: 0}
   input:
     movementInput: 0

@@ -20,6 +20,8 @@ public class CustomPoolManager : MonoBehaviour
     private Dictionary<string, object> poolDictionary = new Dictionary<string, object>();
 
     public CustomPool<Feather> featherPool;
+    public CustomPool<ArrowBase> basicArrowPool;
+    public CustomPool<Counter> counterPool;
 
 
     #region ClearHandler
@@ -53,6 +55,8 @@ public class CustomPoolManager : MonoBehaviour
         Init_PoolObjectDictionary();
 
         featherPool = CreateCustomPool<Feather>();
+        basicArrowPool = CreateCustomPool<ArrowBase>();
+        counterPool = CreateCustomPool<Counter>();
     }
 
     private void Init_PoolObjectDictionary()

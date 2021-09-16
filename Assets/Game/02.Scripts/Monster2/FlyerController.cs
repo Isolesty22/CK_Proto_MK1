@@ -184,8 +184,7 @@ public class FlyerController : MonsterController
             if (attackType >= 0 && attackType < 7)
             {
                 // Normal Attack
-                var normalShot = NormalShot(targetPos);
-                StartCoroutine(normalShot);
+                NormalShot(targetPos);
             }
             else
             {
@@ -198,39 +197,22 @@ public class FlyerController : MonsterController
         }
     }
 
-    public IEnumerator NormalShot(Vector3 targetPos)
+    public void NormalShot(Vector3 targetPos)
     {
         var feather = CustomPoolManager.Instance.featherPool.SpawnThis(transform.position, Vector3.zero, null);
         feather.transform.LookAt(targetPos);
         feather.isActive = true;
-
-        while(feather.isActive)
-        {
-            if ((transform.position - feather.transform.position).sqrMagnitude < Stat2.featherRange)
-            {
-                feather.transform.Translate(Vector3.forward * Stat2.shotSpeed * Time.fixedDeltaTime);
-
-                yield return null;
-            }
-            else
-            {
-                feather.isActive = false;
-                CustomPoolManager.Instance.ReleaseThis(feather);
-            }
-        }
+        var normalShot = feather.Shot(transform.position, Stat2.shotSpeed, Stat2.featherRange);
+        StartCoroutine(normalShot);
     }
 
     public IEnumerator TripleShot(Vector3 targetPos)
     {
-        var normalShot1 = NormalShot(targetPos);
-        var normalShot2 = NormalShot(targetPos);
-        var normalShot3 = NormalShot(targetPos);
-
-        StartCoroutine(normalShot1);
+        NormalShot(targetPos);
         yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        StartCoroutine(normalShot2);
+        NormalShot(targetPos);
         yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        StartCoroutine(normalShot3);
+        NormalShot(targetPos);
     }
 
     public IEnumerator CheckAttack()

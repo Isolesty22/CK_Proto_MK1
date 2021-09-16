@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Feather : MonoBehaviour
+public class Counter : MonoBehaviour
 {
+    public int damage = 3;
+
     public bool isActive;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Monster"))
         {
-            var despawn = Despawn();
-            StartCoroutine(despawn);
+            other.GetComponent<MonsterController>().Hit(damage);
+
+            return;
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -19,13 +22,5 @@ public class Feather : MonoBehaviour
             isActive = false;
             CustomPoolManager.Instance.ReleaseThis(this);
         }
-    }
-
-    public IEnumerator Despawn()
-    {
-        yield return null;
-
-        isActive = false;
-        CustomPoolManager.Instance.ReleaseThis(this);
     }
 }

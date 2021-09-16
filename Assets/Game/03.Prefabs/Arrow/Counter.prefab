@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 683968333360176408}
+  - component: {fileID: 431714498242752965}
   - component: {fileID: 2133841935154532402}
-  - component: {fileID: 5600409641891218328}
   - component: {fileID: 8130632238619190164}
   m_Layer: 9
   m_Name: Counter
@@ -34,6 +34,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &431714498242752965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213205833186364788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e19f8a4f7901e4b9ad19b9915d608b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 3
+  isActive: 0
 --- !u!135 &2133841935154532402
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -47,21 +61,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5600409641891218328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 213205833186364788}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 457efc0509425c34899922834025a367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 3
-  isAlive: 0
-  isCounter: 1
 --- !u!54 &8130632238619190164
 Rigidbody:
   m_ObjectHideFlags: 0
