@@ -29,8 +29,6 @@ public class PlayerController : MonoBehaviour
         public float movementSpeed = 10f;
         public float jumpForce = 1f;
 
-        public float bulletSpeed = 10f;
-
         public float parryingForce = 10f;
         public float parryingTime = 1f;
 
@@ -341,12 +339,12 @@ public class PlayerController : MonoBehaviour
             Com.standingModel.SetActive(true);
             Com.crouchModel.SetActive(false);
 
-            Com.pixy.transform.localPosition = Com.pixy.originalPos;
+            Com.pixy.transform.localPosition = Com.pixy.firePos;
 
             return;
         }
 
-        if (Input.GetKeyDown(Key.crouch))
+        if (Input.GetKey(Key.crouch))
         {
             State.isCrouching = true;
 
@@ -361,7 +359,7 @@ public class PlayerController : MonoBehaviour
             Com.standingModel.SetActive(false);
             Com.crouchModel.SetActive(true);
 
-            Com.pixy.transform.localPosition = Com.pixy.crouchPos;
+            Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
         }
     }
 

@@ -6,43 +6,23 @@ public class ArrowBase : MonoBehaviour
 {
     public int damage = 1;
 
-    public bool isAlive;
-    public bool isCounter;
+    public bool isActive;
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!isCounter)
+        if (other.CompareTag("Monster"))
         {
-            if (other.CompareTag("Monster"))
-            {
+            other.GetComponent<MonsterController>().Hit(damage);
+            isActive = false;
+            CustomPoolManager.Instance.ReleaseThis(this);
 
-                other.GetComponent<MonsterController>().Hit(damage);
-                isAlive = false;
-                ArrowPool.instance.Despawn(this.gameObject);
-                return;
-
-            }
-
-            if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            {
-                isAlive = false;
-                ArrowPool.instance.Despawn(this.gameObject);
-            }
+            return;
         }
-        else
+
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            if (other.CompareTag("Monster"))
-            {
-                other.GetComponent<MonsterController>().Hit(damage);
-                return;
-
-            }
-
-            if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            {
-                isAlive = false;
-                ArrowPool.instance.Despawn(this.gameObject);
-            }
+            isActive = false;
+            CustomPoolManager.Instance.ReleaseThis(this);
         }
     }
 }

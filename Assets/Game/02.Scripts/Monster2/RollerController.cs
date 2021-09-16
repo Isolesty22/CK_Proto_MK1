@@ -51,7 +51,6 @@ public class RollerController : MonsterController
         Com2.sphereCollider.enabled = false;
     }
 
-
     public override void Awake()
     {
         base.Awake();
@@ -152,8 +151,6 @@ public class RollerController : MonsterController
         Com.rigidbody.AddForce(Vector3.up * Stat2.jumpPower, ForceMode.Impulse);
 
         yield return new WaitForSeconds(Stat2.changeDelay);
-
-        //change mode
 
         //instance
         Com2.particle.Play();

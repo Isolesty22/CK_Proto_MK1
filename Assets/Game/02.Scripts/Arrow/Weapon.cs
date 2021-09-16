@@ -37,26 +37,25 @@ public class Weapon : MonoBehaviour
 
     public IEnumerator BasicFire()
     {
-        GameObject arrow;
-        arrow = ArrowPool.instance.SpawnArrow(transform.position, Quaternion.Euler(transform.eulerAngles));
-        arrow.GetComponent<ArrowBase>().isAlive = true;
+        var arrow = CustomPoolManager.Instance.basicArrowPool.SpawnThis(transform.position, transform.eulerAngles, null);
+        arrow.isActive = true;
 
         Vector3 curPosition = transform.position;
 
-        while (arrow.GetComponent<ArrowBase>().isAlive)
+        while (arrow.isActive)
         {
-            if ((curPosition - arrow.transform.position).sqrMagnitude > basicArrowRange)
+            if ((curPosition - arrow.transform.position).sqrMagnitude < basicArrowRange)
             {
-                arrow.GetComponent<ArrowBase>().isAlive = false;
-                ArrowPool.instance.Despawn(arrow);
-                break;
+                arrow.transform.Translate(Vector3.forward * basicArrowSpeed * Time.fixedDeltaTime);
+
+                yield return null;
             }
-
-            arrow.transform.Translate(Vector3.forward * basicArrowSpeed * Time.fixedDeltaTime);
-
-            yield return new WaitForFixedUpdate();
+            else
+            {
+                arrow.isActive = false;
+                CustomPoolManager.Instance.ReleaseThis(arrow);
+            }
         }
-
     }
 
 }
