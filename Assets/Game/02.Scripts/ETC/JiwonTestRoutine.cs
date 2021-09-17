@@ -101,12 +101,19 @@ public class JiwonTestRoutine : MonoBehaviour
 
         if (ReferenceEquals(_testField, null))
         {
-            Debug.LogError("존재하지 않는 KeyType입니다("+_keyType+"). 버튼 OnClick을 확인하세요.");
+            Debug.LogError("존재하지 않는 KeyType입니다(" + _keyType + "). 버튼 OnClick을 확인하세요.");
             return;
         }
-        _testField.SetValue(data_keySetting, keyInputDetector.currentKeyCode);
-        UpdateKeyText(_keyType, _testField.GetValue(data_keySetting).ToString());
 
+        KeyCode prevKeyCode = (KeyCode)_testField.GetValue(data_keySetting);
+
+        keyInfoDict.Remove(prevKeyCode);
+
+        _testField.SetValue(data_keySetting, keyInputDetector.currentKeyCode);
+
+        KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keySetting);
+        UpdateKeyText(_keyType, currentKeyCode.ToString());
+        keyInfoDict.Add(currentKeyCode, _keyType);
     }
 
     public bool IsUsedKey(KeyCode _inputKey)
@@ -135,6 +142,7 @@ public class JiwonTestRoutine : MonoBehaviour
     {
         keyTextDict[_keyType].text.text = _changedKey;
     }
+
 }
 
 
