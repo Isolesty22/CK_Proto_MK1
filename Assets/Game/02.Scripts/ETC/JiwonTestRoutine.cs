@@ -30,7 +30,7 @@ public class JiwonTestRoutine : MonoBehaviour
     /// </summary>
     private Dictionary<KeyCode, string> keyInfoDict = new Dictionary<KeyCode, string>();
 
-
+    //해야함 :  System.Reflection의 GetType, GetValue는 너무나도 느리기 때문에, 불편하더라도 다른 방법이 필요함
     public void Init()
     {
         int length = keyButtonList.Count;
@@ -182,13 +182,22 @@ public class JiwonTestRoutine : MonoBehaviour
     /// </summary>
     public void UpdateAllKeyText()
     {
-
         for (int i = 0; i < keyButtonList.Count; i++)
         {
             FieldInfo _testField = data_keySetting.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
             keyButtonList[i].text.text = _testField.GetValue(data_keySetting).ToString();
         }
     }
+
+
+    //private KeyCode SetKeyCode(string _keyType, KeyCode _keyCode)
+    //{
+    //}
+
+    //private KeyCode GetKeyCode(string _keyType)
+    //{
+    //    return null;
+    //}
 }
 
 
