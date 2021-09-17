@@ -49,7 +49,6 @@ public class KeyInputDetector : MonoBehaviour
     public KeyCode GetKeyCode(string _keyCode)
     {
         KeyCode tempKeyCode = (KeyCode)Enum.Parse(typeof(KeyCode), _keyCode);
-        Debug.LogWarning("[" + tempKeyCode.ToString() + "]" + " string을 KeyCode로 변환했습니다.");
         return tempKeyCode;
     }
 
