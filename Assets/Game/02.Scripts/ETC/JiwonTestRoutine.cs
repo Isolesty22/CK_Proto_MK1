@@ -10,12 +10,12 @@ using System.Reflection;
 public class KeyChangeButton
 {
     public string keyType;
+    public Button button;
     public Text text;
 }
 public class JiwonTestRoutine : MonoBehaviour
 {
     public KeyInputDetector keyInputDetector;
-    public Text text;
 
     public KeyCode changedKey;
 
@@ -33,23 +33,33 @@ public class JiwonTestRoutine : MonoBehaviour
 
     public void Init()
     {
-        for (int i = 0; i < keyButtonList.Count; i++)
+        int length = keyButtonList.Count;
+
+        //keyButtonDict 생성
+        for (int i = 0; i < length; i++)
         {
             keyButtonDict.Add(keyButtonList[i].keyType, keyButtonList[i]);
         }
 
-        for (int i = 0; i < keyButtonList.Count; i++)
+        //keyButtonList에 등록된 Button들의 OnClick()에 Button_InputChangeKey() 추가
+        for (int i = 0; i < length; i++)
+        {
+            int index = i;
+            keyButtonList[index].button.onClick.AddListener(delegate { Button_InputChangeKey(keyButtonList[index].keyType); });
+        }
+        //keyInfoDict 생성
+        for (int i = 0; i < length; i++)
         {
             FieldInfo _testField = data_keySetting.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
             Debug.Log("TestField String : " + _testField.Name);
 
             keyInfoDict.Add((KeyCode)_testField.GetValue(data_keySetting), _testField.Name);
-
-            UpdateKeyText(keyButtonList[i].keyType, _testField.GetValue(data_keySetting).ToString());
         }
+        //Key Text 업데이트
+        UpdateAllKeyText();
     }
 
-    private void Awake()
+    private void Start()
     {
         Init();
     }
@@ -79,7 +89,6 @@ public class JiwonTestRoutine : MonoBehaviour
             {
                 break;
             }
-
             yield return null;
         }
 
@@ -119,6 +128,7 @@ public class JiwonTestRoutine : MonoBehaviour
         KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keySetting);
 
         //텍스트 업데이트
+        //UpdateAllKeyText();
         UpdateKeyText(_keyType, currentKeyCode.ToString());
         keyInfoDict.Add(currentKeyCode, _keyType);
 
@@ -167,6 +177,18 @@ public class JiwonTestRoutine : MonoBehaviour
         keyButtonDict[_keyType].text.text = _changedKey;
     }
 
+    /// <summary>
+    /// /UI의 Key Text를 변경합니다.
+    /// </summary>
+    public void UpdateAllKeyText()
+    {
+
+        for (int i = 0; i < keyButtonList.Count; i++)
+        {
+            FieldInfo _testField = data_keySetting.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
+            keyButtonList[i].text.text = _testField.GetValue(data_keySetting).ToString();
+        }
+    }
 }
 
 

@@ -348,7 +348,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   keyInputDetector: {fileID: 1692246799}
-  text: {fileID: 0}
   changedKey: 0
   data_keySetting:
     moveRight: 275
@@ -360,18 +359,25 @@ MonoBehaviour:
     counter: 99
   keyButtonList:
   - keyType: moveRight
+    button: {fileID: 1070634672}
     text: {fileID: 61848032}
   - keyType: moveLeft
+    button: {fileID: 1180132374}
     text: {fileID: 1833247191}
   - keyType: crouch
+    button: {fileID: 1403775976}
     text: {fileID: 223748862}
   - keyType: lookUp
+    button: {fileID: 404301546}
     text: {fileID: 100982015}
   - keyType: attack
+    button: {fileID: 1680352845}
     text: {fileID: 2138106542}
   - keyType: jump
+    button: {fileID: 1915622377}
     text: {fileID: 1808916673}
   - keyType: counter
+    button: {fileID: 1980269558}
     text: {fileID: 2041823067}
 --- !u!4 &91839141
 Transform:
@@ -809,19 +815,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 404301547}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: lookUp
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &404301547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1486,19 +1480,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1070634673}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: TEST
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1070634673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1787,19 +1769,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1180132375}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: moveLeft
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1180132375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2149,19 +2119,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1403775977}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: crouch
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1403775977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2357,19 +2315,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1680352846}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: attack
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1680352846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2775,19 +2721,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1915622378}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: jump
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1915622378
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2908,19 +2842,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1980269559}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 91839140}
-        m_TargetAssemblyTypeName: JiwonTestRoutine, Assembly-CSharp
-        m_MethodName: Button_InputChangeKey
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: counter
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1980269559
 MonoBehaviour:
   m_ObjectHideFlags: 0

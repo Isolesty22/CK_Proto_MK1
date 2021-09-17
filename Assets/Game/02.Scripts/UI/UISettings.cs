@@ -13,8 +13,11 @@ public class UISettings : UIBase
     [Header("키입력 감지기")]
     public KeyInputDetector keyInputDetector;
 
-    [Tooltip("현재 저장되어있는 데이터. \nDataManager의 Data_Settings와 동일해야합니다.")]
-    private Data_Settings data_saved = new Data_Settings();
+
+    /// <summary>
+    /// 현재 저장되어있는 데이터. DataManager의 Data_Settings와 동일해야합니다.
+    /// </summary>
+    private Data_Settings data_saved;
 
     [Tooltip("현재 수정 중인 데이터.")]
     private Data_Settings data_current = new Data_Settings();
