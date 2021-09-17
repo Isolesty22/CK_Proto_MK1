@@ -11,14 +11,11 @@ public class GameData
 public class Data_Settings : GameData
 {
     //볼륨값
-
     public string volume_master;
     public string volume_sfx;
     public string volume_bgm;
 
-
     //음소거 상태
-
     public bool isMute_master;
     public bool isMute_sfx;
     public bool isMute_bgm;
@@ -26,6 +23,8 @@ public class Data_Settings : GameData
     //해상도
     public eResolutionType resolutionType;
 
+    //키세팅
+    public Data_KeySetting keySetting;
 
     /// <summary>
     /// 디폴트 생성자
@@ -41,10 +40,8 @@ public class Data_Settings : GameData
         isMute_sfx = false;
 
         resolutionType = eResolutionType.FHD;
+        keySetting = new Data_KeySetting();
     }
-
-
-
     public Data_Settings(Data_Settings _data)
     {
         CopyData(_data);
@@ -64,7 +61,10 @@ public class Data_Settings : GameData
         isMute_sfx = _data.isMute_sfx;
 
         resolutionType = eResolutionType.FHD;
+
+        keySetting.CopyData(_data.keySetting);
     }
+
 
     /// <summary>
     /// 데이터 내용이 같은가?
@@ -79,7 +79,61 @@ public class Data_Settings : GameData
                isMute_master == _data.isMute_master &&
                isMute_sfx == _data.isMute_sfx &&
                isMute_bgm == _data.isMute_bgm &&
-               resolutionType == _data.resolutionType;
+               resolutionType == _data.resolutionType &&
+               keySetting.IsEquals(_data.keySetting);
+    }
+}
+
+[System.Serializable]
+public class Data_KeySetting
+{
+    public KeyCode moveRight;
+    public KeyCode moveLeft;
+    public KeyCode crouch;
+    public KeyCode lookUp;
+    public KeyCode attack;
+    public KeyCode jump;
+    public KeyCode counter;
+    public Data_KeySetting()
+    {
+        moveRight = KeyCode.RightArrow;
+        moveLeft = KeyCode.LeftArrow;
+        crouch = KeyCode.DownArrow;
+        lookUp = KeyCode.UpArrow;
+        attack = KeyCode.Z;
+        jump = KeyCode.X;
+        counter = KeyCode.C;
+    }
+    public Data_KeySetting(Data_KeySetting _data)
+    {
+        moveRight = _data.moveRight;
+        moveLeft = _data.moveLeft;
+        crouch = _data.crouch;
+        lookUp = _data.lookUp;
+        attack = _data.attack;
+        jump = _data.jump;
+        counter = _data.counter;
+    }
+    public void CopyData(Data_KeySetting _data)
+    {
+        moveRight = _data.moveRight;
+        moveLeft = _data.moveLeft;
+        crouch = _data.crouch;
+        lookUp = _data.lookUp;
+        attack = _data.attack;
+        jump = _data.jump;
+        counter = _data.counter;
+    }
+
+    public bool IsEquals(Data_KeySetting _data)
+    {
+        return moveRight == _data.moveRight &&
+        moveLeft == _data.moveLeft &&
+        crouch == _data.crouch &&
+        lookUp == _data.lookUp &&
+        attack == _data.attack &&
+        jump == _data.jump &&
+        counter == _data.counter;
     }
 }
 
@@ -100,8 +154,8 @@ public class Data_Player : GameData
     public int finalStageNumber;
 
     /// <summary>
-     /// 디폴트 생성자
-     /// </summary>
+    /// 디폴트 생성자
+    /// </summary>
     public Data_Player()
     {
         currentStageName = "NONE";
@@ -138,10 +192,8 @@ public class Data_Player : GameData
                finalStageName == _data.finalStageName &&
                finalStageNumber == _data.finalStageNumber;
     }
-    
+
 }
-
-
 
 public static class SceneNames
 {

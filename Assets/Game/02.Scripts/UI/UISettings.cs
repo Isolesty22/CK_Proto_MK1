@@ -4,11 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
 
+
 /// <summary>
 /// 환경설정 UI
 /// </summary>
 public class UISettings : UIBase
 {
+    [Header("키입력 감지기")]
+    public KeyInputDetector keyInputDetector;
+
     [Tooltip("현재 저장되어있는 데이터. \nDataManager의 Data_Settings와 동일해야합니다.")]
     private Data_Settings data_saved = new Data_Settings();
 
@@ -64,6 +68,8 @@ public class UISettings : UIBase
 
     }
 
+
+    #region UIBase---
     protected override void CheckOpen()
     {
         isOpen = Com.canvas.enabled;
@@ -87,7 +93,52 @@ public class UISettings : UIBase
         //Com.canvas.enabled = false;
         //return !(isOpen = Com.canvas.enabled);
     }
+    protected override IEnumerator ProcessClose()
+    {
+        //다 닫은다음에 false
+        yield return base.ProcessClose();
+        this.enabled = false;
+    }
+    #endregion
 
+    private IEnumerator ProcessSaveCurrentData()
+    {
+        //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
+        dataManager.currentData_settings.CopyData(data_current);
+
+        //변경된 데이터 저장
+        yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
+
+        //변경된 데이터를 '저장된 데이터'로 변경
+        data_saved.CopyData(data_current);
+    }
+
+
+    #region UpdateXXX---
+/// <summary>
+/// UI들의 값을 _data에 있는 것으로 변경합니다.
+/// </summary>
+public void UpdateUI(Data_Settings _data)
+    {
+        VolumeSlider.master.value = GetFloat(_data.volume_master);
+        VolumeSlider.bgm.value = GetFloat(_data.volume_bgm);
+        VolumeSlider.sfx.value = GetFloat(_data.volume_sfx);
+    }
+
+    /// <summary>
+    /// _data를 실제 설정에 반영합니다.
+    /// </summary>
+    /// <param name="_data"></param>
+    public void UpdateSettings(Data_Settings _data)
+    {
+        audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_master)) * 20));
+        audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_bgm)) * 20));
+        audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_sfx)) * 20));
+    }
+
+    #endregion
+
+    #region Button---
 
     private readonly string str_changes = "변경사항을 저장하시겠습니까?";
     public void Button_Close()
@@ -96,7 +147,7 @@ public class UISettings : UIBase
         if (!(data_current.IsEquals(data_saved)))
         {
             //팝업 띄우기
-            uiManager.OpenPopup(str_changes, 
+            uiManager.OpenPopup(str_changes,
                 Button_ChangesSave, Button_ChangesClose);
         }
         else //없다면
@@ -109,18 +160,6 @@ public class UISettings : UIBase
     public void Button_Save()
     {
         StartCoroutine(ProcessSaveCurrentData());
-    }
-
-    private IEnumerator ProcessSaveCurrentData()
-    {
-        //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
-        dataManager.currentData_settings.CopyData(data_current);
-
-        //변경된 데이터 저장
-        yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
-
-        //변경된 데이터를 '저장된 데이터'로 변경
-        data_saved.CopyData(data_current);
     }
 
     private void Button_ChangesSave()
@@ -146,28 +185,9 @@ public class UISettings : UIBase
         uiManager.CloseTop();
         uiManager.CloseTop();
     }
+    #endregion
 
-    /// <summary>
-    /// UI들의 값을 _data에 있는 것으로 변경합니다.
-    /// </summary>
-    public void UpdateUI(Data_Settings _data)
-    {
-        VolumeSlider.master.value = GetFloat(_data.volume_master);
-        VolumeSlider.bgm.value = GetFloat(_data.volume_bgm);
-        VolumeSlider.sfx.value = GetFloat(_data.volume_sfx);
-    }
-
-    /// <summary>
-    /// _data를 실제 설정에 반영합니다.
-    /// </summary>
-    /// <param name="_data"></param>
-    public void UpdateSettings(Data_Settings _data)
-    {
-        audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_master)) * 20));
-        audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_bgm)) * 20));
-        audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(_data.volume_sfx)) * 20));
-    }
-
+    #region OnValueChanged---
     public void OnValueChanged_MasterSlider()
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
@@ -184,20 +204,26 @@ public class UISettings : UIBase
         data_current.volume_sfx = VolumeSlider.sfx.value.ToString();
     }
 
+    #endregion
 
+    #region GetXX---
     /// <summary>
     /// string을 float로 변환해줍니다.
     /// </summary>
-
-    private float GetFloat(string input)
+    private float GetFloat(string _input)
     {
-        return (float)System.Convert.ToDouble(input);
+        return (float)System.Convert.ToDouble(_input);
     }
 
-    protected override IEnumerator ProcessClose()
+    /// <summary>
+    /// string을 KeyCode로 변환해줍니다.
+    /// </summary>
+    private KeyCode GetKeyCode(string _keyCode)
     {
-        //다 닫은다음에 false
-        yield return base.ProcessClose();
-        this.enabled = false;
+        return (KeyCode)System.Enum.Parse(typeof(KeyCode), _keyCode);
     }
+
+    #endregion
+
+
 }
