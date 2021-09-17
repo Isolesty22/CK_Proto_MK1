@@ -89,19 +89,6 @@ public class PlayerController : MonoBehaviour
     }
 
     [Serializable]
-    public class KeyOption
-    {
-        //default
-        public KeyCode moveRight = KeyCode.RightArrow;
-        public KeyCode moveLeft = KeyCode.LeftArrow;
-        public KeyCode crouch = KeyCode.DownArrow;
-        public KeyCode lookUp = KeyCode.UpArrow;
-        public KeyCode attack = KeyCode.Z;
-        public KeyCode jump = KeyCode.X;
-        public KeyCode counter = KeyCode.C;
-    }
-
-    [Serializable]
     public class InputState
     {
         public bool attack;
