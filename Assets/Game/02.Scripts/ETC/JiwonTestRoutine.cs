@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +23,7 @@ public class JiwonTestRoutine : MonoBehaviour
 
     public List<KeyChangeButton> keyButtonList = new List<KeyChangeButton>();
 
-    private Dictionary<string, KeyChangeButton> keyTextDict = new Dictionary<string, KeyChangeButton>();
+    private Dictionary<string, KeyChangeButton> keyButtonDict = new Dictionary<string, KeyChangeButton>();
 
     /// <summary>
     /// ex: <A, "moveLeft">
@@ -35,7 +35,7 @@ public class JiwonTestRoutine : MonoBehaviour
     {
         for (int i = 0; i < keyButtonList.Count; i++)
         {
-            keyTextDict.Add(keyButtonList[i].keyType, keyButtonList[i]);
+            keyButtonDict.Add(keyButtonList[i].keyType, keyButtonList[i]);
         }
 
         for (int i = 0; i < keyButtonList.Count; i++)
@@ -63,14 +63,12 @@ public class JiwonTestRoutine : MonoBehaviour
             return;
         }
 
-        isChangingKey = true;
+        StartChangingKey();
         StartCoroutine(WaitInputKey(_keyType));
     }
     /// <summary>
-    /// Å° ÀÔ·ÂÀ» ±â´Ù¸®°í, Å°°¡ ÀÔ·ÂµÇ¾úÀ¸¸é Å°¸¦ ¹Ù²ß´Ï´Ù.
+    /// í‚¤ ì…ë ¥ì„ ê¸°ë‹¤ë¦¬ê³ , í‚¤ê°€ ì…ë ¥ë˜ì—ˆìœ¼ë©´ ChangeThisKey()ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
     /// </summary>
-    /// <param name="_keyType"></param>
-    /// <returns></returns>
     private IEnumerator WaitInputKey(string _keyType)
     {
         keyInputDetector.StartDetect();
@@ -86,61 +84,87 @@ public class JiwonTestRoutine : MonoBehaviour
         }
 
         ChangeThisKey(_keyType);
-        isChangingKey = false;
+
     }
 
     public void ChangeThisKey(string _keyType)
     {
-        //»ç¿ëÇÏ°í ÀÖ´Â Å°°¡ ¾Æ´Ï¶ó¸é!!
+        //ì‚¬ìš©í•˜ê³  ìˆëŠ” í‚¤ë¼ë©´ return
         if (IsUsedKey(keyInputDetector.currentKeyCode))
         {
+            EndChangingKey();
             return;
         }
 
+        //_keyType ì´ë¦„ì˜ ë³€ìˆ˜ ë°›ì•„ì˜¤ê¸°
         FieldInfo _testField = data_keySetting.GetType().GetField(_keyType, BindingFlags.Public | BindingFlags.Instance);
 
+        //í•´ë‹¹ ì´ë¦„ì˜ ë³€ìˆ˜ê°€ ì—†ìœ¼ë©´ return
         if (ReferenceEquals(_testField, null))
         {
-            Debug.LogError("Á¸ÀçÇÏÁö ¾Ê´Â KeyTypeÀÔ´Ï´Ù(" + _keyType + "). ¹öÆ° OnClickÀ» È®ÀÎÇÏ¼¼¿ä.");
+            Debug.LogError("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” KeyTypeì…ë‹ˆë‹¤(" + _keyType + "). ë²„íŠ¼ OnClickì„ í™•ì¸í•˜ì„¸ìš”.");
+
+            EndChangingKey();
             return;
         }
 
+        //ë³€ê²½ ì „ì˜ í‚¤ì½”ë“œ
         KeyCode prevKeyCode = (KeyCode)_testField.GetValue(data_keySetting);
-
         keyInfoDict.Remove(prevKeyCode);
 
+        //í•´ë‹¹ _keyTypeì˜ í‚¤ì½”ë“œ ë³€ê²½
         _testField.SetValue(data_keySetting, keyInputDetector.currentKeyCode);
 
+        //ë³€ê²½ëœ í˜„ì¬ í‚¤ì½”ë“œ
         KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keySetting);
+
+        //í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
         UpdateKeyText(_keyType, currentKeyCode.ToString());
         keyInfoDict.Add(currentKeyCode, _keyType);
+
+        EndChangingKey();
     }
 
+    public void StartChangingKey()
+    {
+        isChangingKey = true;
+    }
+    public void EndChangingKey()
+    {
+        isChangingKey = false;
+    }
+    /// <summary>
+    /// ì´ë¯¸ ì‚¬ìš©í•˜ê³  ìˆëŠ” í‚¤ì¸ê°€?
+    /// </summary>
     public bool IsUsedKey(KeyCode _inputKey)
     {
         string tempKeyType;
 
 
-        //ÀÌ¹Ì Å°°¡ Á¸ÀçÇÒ°æ¿ì
+        //ì´ë¯¸ í‚¤ê°€ ì¡´ì¬í• ê²½ìš°
         if (keyInfoDict.TryGetValue(_inputKey, out tempKeyType))
         {
-            Debug.LogError("ÇØ´ç Å°´Â ÀÌ¹Ì " + tempKeyType + "¿¡ ÇÒ´çµÇ¾îÀÖ½À´Ï´Ù.");
+            Debug.LogError("í•´ë‹¹ í‚¤ëŠ” ì´ë¯¸ " + tempKeyType + "ì— í• ë‹¹ë˜ì–´ìˆìŠµë‹ˆë‹¤.");
             return true;
         }
-        else //Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì
+        else //ì¡´ì¬í•˜ì§€ ì•Šì„ê²½ìš°
         {
             if (_inputKey == KeyCode.Escape)
             {
-                Debug.LogError(_inputKey.ToString() + "Å°´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
+                Debug.LogError(_inputKey.ToString() + "í‚¤ëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                 return true;
             }
 
             return false;
         }
     }
+
+    /// <summary>
+    /// /UIì˜ Key Textë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
+    /// </summary>
     public void UpdateKeyText(string _keyType, string _changedKey)
     {
-        keyTextDict[_keyType].text.text = _changedKey;
+        keyButtonDict[_keyType].text.text = _changedKey;
     }
 
 }
