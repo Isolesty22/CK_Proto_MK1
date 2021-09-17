@@ -27,12 +27,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75888090283175202}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.77, y: -7, z: -0.049827635}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 470382815358732871}
   - {fileID: 4731958819456654202}
-  - {fileID: 3819654170289496426}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48,36 +47,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc0317fb7c633de44b3854d7c1be849e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
+  monsterStatus:
+    name: Rabbit
+    hp: 3
+    maxHp: 3
+    moveSpeed: 2
+    isAlive: 0
+    hitTime: 0.2
+    fadeOutTime: 1
   components:
     rigidbody: {fileID: 6307346486017835251}
     collider: {fileID: 4147787381735573126}
-    searchCol: {fileID: 6409304293795793507}
     monsterModel: {fileID: 994435704712302845}
-  monsterStatus:
-    name: Rabbit
-    hp: 2
-    maxHp: 1000
-    mon_No: 0
-    name_Kr: "\uD1A0\uB07C"
-    type_Move: 0
-    type_Gimic: 0
-    move_Speed: 0
-    atk_Type: 0
-    atk_Speed: 0
-    atk_Range: 0
-    respawn: 0
-    agro_End_Time: 0
-    fadeOutTime: 1
-    destroyDistance: 0
-  state: 0
-  prevState: 0
-  damage: 1
-  isRunninCo: 0
-  active: 0
-  nextActDelay: 2
-  nextActNum: 0
-  jumpPower: 3
-  jumpProbability: 5
+    renderer: {fileID: 1642703842677633320}
+    originalColor: {r: 1, g: 1, b: 1, a: 1}
+    hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+  rabbitStatus:
+    jumpPower: 2
+    moveChangeTime: 2
+    onGround: 0
+  rabbitComponents:
+    capsuleCollider: {fileID: 4147787381735573126}
 --- !u!54 &6307346486017835251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -133,8 +124,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6450163429204945786}
-  m_LocalRotation: {x: -0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -20.77, y: 7, z: 0.049827635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 75888090283175203}
@@ -152,7 +143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterModel: {fileID: 994435704712302845}
+  monsterController: {fileID: 492337635536134117}
 --- !u!65 &6409304293795793507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -166,64 +157,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5, y: 5, z: 5}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &8463871686164983984
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3819654170289496426}
-  - component: {fileID: 6372365972254283419}
-  - component: {fileID: 5746359185185597719}
-  m_Layer: 0
-  m_Name: AttackCol
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3819654170289496426
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463871686164983984}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20.77, y: 7, z: 0.049827635}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 75888090283175203}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &6372365972254283419
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463871686164983984}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 3
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5746359185185597719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8463871686164983984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0e9f9262944a46488db55ef344123f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  originMonster: {fileID: 75888090283175202}
 --- !u!1001 &75888090003713452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -297,5 +230,10 @@ GameObject:
 --- !u!4 &470382815358732871 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: db2343fdfa971e54c8b61a2823700cc2, type: 3}
+  m_PrefabInstance: {fileID: 75888090003713452}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1642703842677633320 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: db2343fdfa971e54c8b61a2823700cc2, type: 3}
   m_PrefabInstance: {fileID: 75888090003713452}
   m_PrefabAsset: {fileID: 0}
