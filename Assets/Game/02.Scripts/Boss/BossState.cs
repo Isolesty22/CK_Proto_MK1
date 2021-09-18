@@ -5,6 +5,11 @@ using UnityEngine;
 public class BossState
 {
     /// <summary>
+    /// exit해도 괜찮은 상태인가?
+    /// </summary>
+    public bool canExit = true;
+
+    /// <summary>
     /// 상태가 시작할때 호출됨
     /// </summary>
     public virtual void OnEnter()

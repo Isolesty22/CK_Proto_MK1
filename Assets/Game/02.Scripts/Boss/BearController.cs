@@ -4,16 +4,33 @@ using UnityEngine;
 
 public class BearController : MonoBehaviour
 {
+    public Animator animator;
 
-    BearStateMachine bearStateMachine;
+    private BearStateMachine bearStateMachine;
 
-    private void Init()
+
+    private void Awake()
     {
-        bearStateMachine = new BearStateMachine(this);
+        Init();
+        Debug.Log("Init 완료");
     }
     private void Start()
     {
-        Init();
+        StartCoroutine(ProcessChangeStateTest());
+    }
+    private void Init()
+    {
+        bearStateMachine = new BearStateMachine(this);
+        bearStateMachine.StartState(eBossState.BearState_Idle);
     }
 
+    IEnumerator ProcessChangeStateTest()
+    {
+        bearStateMachine.ChangeState(eBossState.BearState_Doljin);
+        yield return new WaitForSecondsRealtime(3f);
+        bearStateMachine.ChangeState(eBossState.BearState_Halquigi_A);
+        yield return new WaitForSecondsRealtime(3f);
+        bearStateMachine.ChangeState(eBossState.BearState_Halquigi_B);
+
+    }
 }

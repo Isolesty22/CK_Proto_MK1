@@ -17,6 +17,22 @@ public class BossStateMachine
     [Tooltip("BossState가 들어있는 딕셔너리")]
     protected Dictionary<eBossState, BossState> stateDict = new Dictionary<eBossState, BossState>();
 
+    public virtual void StartState(eBossState _state)
+    {
+        BossState tempState = GetState(_state);
+        stateDict.Add(_state, tempState);
+
+        prevStateEnum = eBossState.None;
+        currentStateEnum = _state;
+
+        //현재 스테이트 변경
+        currentState = stateDict[_state];
+
+        //상태 진입
+        currentState.OnEnter();
+        LogWarning(currentStateEnum.ToString() + " - Enter");
+    }
+
     public virtual void ChangeState(eBossState _state)
     {
         BossState tempState = null;
@@ -43,6 +59,7 @@ public class BossStateMachine
         if (!ReferenceEquals(currentState, null))
         {
             currentState.OnExit();
+            LogWarning(currentStateEnum.ToString() + " - Exit");
         }
 
 
@@ -55,7 +72,7 @@ public class BossStateMachine
 
         //상태 진입
         currentState.OnEnter();
-
+        LogWarning(currentStateEnum.ToString() + " - Enter");
     }
 
     public void Update()

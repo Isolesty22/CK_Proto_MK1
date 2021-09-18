@@ -6,12 +6,15 @@ public class BearStateMachine : BossStateMachine
 {
 
     private BearController bearController;
-
     public BearStateMachine(BearController _bearController)
     {
         bearController = _bearController;
     }
 
+    public override void StartState(eBossState _state)
+    {
+        base.StartState(_state);
+    }
     public override void ChangeState(eBossState _state)
     {
         base.ChangeState(_state);

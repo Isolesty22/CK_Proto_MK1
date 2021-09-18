@@ -4,7 +4,5 @@ using UnityEngine;
 
 public class BossController : MonoBehaviour
 {
-    public Animator animator;
-
 
 }
