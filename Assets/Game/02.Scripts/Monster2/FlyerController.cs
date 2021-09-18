@@ -231,4 +231,9 @@ public class FlyerController : MonsterController
     {
         base.Death();
     }
+
+    protected override void HandleAnimation()
+    {
+        base.HandleAnimation();
+    }
 }
