@@ -11,4 +11,9 @@ public class BearController : MonoBehaviour
     {
         bearStateMachine = new BearStateMachine(this);
     }
+    private void Start()
+    {
+        Init();
+    }
+
 }
