@@ -36,3 +36,58 @@ public class BossState
 }
 
 
+
+#region BearState
+public class BearState : BossState
+{
+    protected BearController bearController;
+}
+
+public class BearState_Idle : BearState
+{
+    public BearState_Idle(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+
+public class BearState_Doljin : BearState
+{
+    public BearState_Doljin(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+public class BearState_Halquigi_A : BearState
+{
+    public BearState_Halquigi_A(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+public class BearState_Halquigi_B : BearState
+{
+    public BearState_Halquigi_B(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+public class BearState_Phohyo : BearState
+{
+    public BearState_Phohyo(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+public class BearState_Naeryeochigi : BearState
+{
+    public BearState_Naeryeochigi(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+}
+
+
+#endregion
+
+
