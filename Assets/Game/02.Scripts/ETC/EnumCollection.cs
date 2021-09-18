@@ -2,7 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum eBossState
+{
+    None, 
+    BearState_Idle,
+    BearState_Doljin,
+    BearState_Halquigi_A,
+    BearState_Halquigi_B,
+    BearState_Phohyo,
+    BearState_Naeryeochigi
+}
 public enum eResolutionType
 {
     /// <summary>

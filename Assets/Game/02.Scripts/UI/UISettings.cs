@@ -58,6 +58,9 @@ public class UISettings : UIBase
         uiManager = UIManager.Instance;
         dataManager = DataManager.Instance;
 
+        data_saved = new Data_Settings();
+        data_current = new Data_Settings();
+
         if (ReferenceEquals(dataManager, null))//null일경우
         {
             data_saved.CopyData(new Data_Settings());
