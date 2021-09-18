@@ -14,6 +14,7 @@ public class BossState
     /// </summary>
     public virtual void OnEnter()
     {
+        canExit = true;
 
     }
 
@@ -57,6 +58,7 @@ public class BearState_Idle : BearState
 
     public override void OnEnter()
     {
+        canExit = true;
 
     }
 
@@ -124,6 +126,7 @@ public class BearState_Halquigi_A : BearState
     }
     public override void OnEnter()
     {
+        canExit = true;
 
     }
 
@@ -150,6 +153,7 @@ public class BearState_Halquigi_B : BearState
     }
     public override void OnEnter()
     {
+        canExit = true;
 
     }
 
@@ -176,6 +180,7 @@ public class BearState_Phohyo : BearState
     }
     public override void OnEnter()
     {
+        canExit = true;
 
     }
 
@@ -202,6 +207,7 @@ public class BearState_Naeryeochigi : BearState
     }
     public override void OnEnter()
     {
+        canExit = true;
 
     }
 

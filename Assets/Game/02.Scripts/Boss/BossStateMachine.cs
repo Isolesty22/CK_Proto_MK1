@@ -17,6 +17,10 @@ public class BossStateMachine
     [Tooltip("BossState가 들어있는 딕셔너리")]
     protected Dictionary<eBossState, BossState> stateDict = new Dictionary<eBossState, BossState>();
 
+    /// <summary>
+    /// 아무런 검사를 하지 않고 상태에 진입합니다.
+    /// </summary>
+    /// <param name="_state"></param>
     public virtual void StartState(eBossState _state)
     {
         BossState tempState = GetState(_state);
