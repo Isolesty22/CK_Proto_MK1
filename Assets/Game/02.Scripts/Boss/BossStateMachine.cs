@@ -97,6 +97,10 @@ public class BossStateMachine
         return currentState.ToString();
     }
 
+    public bool CanExit()
+    {
+        return currentState.canExit;
+    }
     #region Log 
     protected void Log(object _message)
     {

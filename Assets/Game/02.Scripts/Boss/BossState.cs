@@ -54,6 +54,27 @@ public class BearState_Idle : BearState
     {
         bearController = _bearController;
     }
+
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
+
 }
 
 public class BearState_Doljin : BearState
@@ -62,12 +83,63 @@ public class BearState_Doljin : BearState
     {
         bearController = _bearController;
     }
+    public override void OnEnter()
+    {
+        canExit = false;
+        bearController.StartCoroutine(ProcessDoljin());
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
+
+    private IEnumerator ProcessDoljin()
+    {
+        float timer = 0f;
+        float doljinTime = 5f;
+        while (timer < doljinTime)
+        {
+            timer += Time.deltaTime;
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        canExit = true;
+    }
 }
 public class BearState_Halquigi_A : BearState
 {
     public BearState_Halquigi_A(BearController _bearController)
     {
         bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
     }
 }
 public class BearState_Halquigi_B : BearState
@@ -76,6 +148,25 @@ public class BearState_Halquigi_B : BearState
     {
         bearController = _bearController;
     }
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
 }
 public class BearState_Phohyo : BearState
 {
@@ -83,12 +174,50 @@ public class BearState_Phohyo : BearState
     {
         bearController = _bearController;
     }
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
 }
 public class BearState_Naeryeochigi : BearState
 {
     public BearState_Naeryeochigi(BearController _bearController)
     {
         bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
     }
 }
 

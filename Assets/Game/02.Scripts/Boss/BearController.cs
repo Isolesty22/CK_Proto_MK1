@@ -21,16 +21,16 @@ public class BearController : MonoBehaviour
     private void Init()
     {
         bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.StartState(eBossState.BearState_Idle);
+        bearStateMachine.StartState(eBossState.BearState_Doljin);
     }
 
     IEnumerator ProcessChangeStateTest()
     {
-        bearStateMachine.ChangeState(eBossState.BearState_Doljin);
-        yield return new WaitForSecondsRealtime(3f);
-        bearStateMachine.ChangeState(eBossState.BearState_Halquigi_A);
-        yield return new WaitForSecondsRealtime(3f);
-        bearStateMachine.ChangeState(eBossState.BearState_Halquigi_B);
+        while (!bearStateMachine.CanExit())
+        {
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        bearStateMachine.ChangeState(eBossState.BearState_Idle);
 
     }
 }
