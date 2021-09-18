@@ -129,4 +129,9 @@ public class RabbitController : MonsterController
     {
         base.Death();
     }
+
+    protected override void HandleAnimation()
+    {
+        base.HandleAnimation();
+    }
 }

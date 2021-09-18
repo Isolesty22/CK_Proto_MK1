@@ -41,6 +41,7 @@ public class MonsterController : MonoBehaviour
 
         public GameObject monsterModel;
         public Renderer renderer;
+        public Animator animator;
 
         public Color originalColor;
         public Color hitColor;
@@ -82,6 +83,7 @@ public class MonsterController : MonoBehaviour
     public virtual void Update()
     {
         State(state);
+        HandleAnimation();
     }
 
     public virtual void State(MonsterState state)
@@ -228,4 +230,9 @@ public class MonsterController : MonoBehaviour
 
         this.gameObject.SetActive(false);
     }
+
+    protected virtual void HandleAnimation()
+    {
+    }
+
 }

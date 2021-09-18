@@ -22,7 +22,6 @@ public class RollerController : MonsterController
     public class RollerComponents
     {
         //instance
-        public GameObject rollingModel;
         public ParticleSystem particle;
 
         public ConstantForce constantForce;
@@ -93,15 +92,18 @@ public class RollerController : MonsterController
 
         if (random == 0f)
         {
+            Com.animator.SetBool("isMove", false);
             return;
         }
         else if (random == 1)
         {
+            Com.animator.SetBool("isMove", true);
             Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = Vector3.zero;
         }
         else if (random == 2)
         {
+            Com.animator.SetBool("isMove", true);
             Com.rigidbody.velocity = new Vector3(Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = new Vector3(0, 180, 0);
         }
@@ -124,7 +126,7 @@ public class RollerController : MonsterController
     protected override void Detect()
     {
         base.Detect();
-
+        Com.animator.SetBool("isJump", true);
         Com.rigidbody.velocity = Vector3.zero;
 
         var changeMode = ChangeMode();
@@ -153,10 +155,8 @@ public class RollerController : MonsterController
         yield return new WaitForSeconds(Stat2.changeDelay);
 
         //instance
+        Com.animator.SetBool("isAttack", true);
         Com2.particle.Play();
-        Com.monsterModel.SetActive(false);
-        Com2.rollingModel.SetActive(true);
-        Com.monsterModel = Com2.rollingModel;
 
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
@@ -167,7 +167,7 @@ public class RollerController : MonsterController
         base.Attack();
 
         currentSpeed = Mathf.Clamp(currentSpeed += Stat2.aclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
-
+        Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
         var layDir = new Vector3();
 
         if (moveDir.x < 0)
@@ -207,7 +207,13 @@ public class RollerController : MonsterController
     protected override void Death()
     {
         base.Death();
+        Com.animator.SetBool("isAttack", false);
         Com2.sphereCollider.enabled = false;
         Com2.constantForce.enabled = false;
+    }
+
+    protected override void HandleAnimation()
+    {
+        base.HandleAnimation();
     }
 }
