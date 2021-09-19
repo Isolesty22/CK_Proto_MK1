@@ -133,7 +133,7 @@ public class BearState_Halquigi_A : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
+        canExit = false;
         bearController.SetTrigger("Start_Halquigi_A");
     }
 
