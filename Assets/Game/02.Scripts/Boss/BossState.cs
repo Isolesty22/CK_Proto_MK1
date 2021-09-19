@@ -58,9 +58,9 @@ public class BearState_Idle : BearState
 
     public override void OnEnter()
     {
-        canExit = false;
+        canExit = true;
         bearController.SetTrigger("Start_Idle");
-        bearController.StartCoroutine(ProcessUpdate());
+        //bearController.StartCoroutine(ProcessUpdate());
     }
 
     public override void OnUpdate()
@@ -80,7 +80,17 @@ public class BearState_Idle : BearState
 
     IEnumerator ProcessUpdate()
     {
-        yield return new WaitForSeconds(1f);
+        while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            yield return null;
+        }
+        Debug.Log("Idle 애니메이션 진입");
+
+        while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+        Debug.Log("Idle 애니메이션 끝");
         canExit = true;
     }
 }
@@ -187,8 +197,9 @@ public class BearState_Phohyo : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
+        canExit = false;
         bearController.SetTrigger("Start_Phohyo");
+        //bearController.StartCoroutine(ProcessUpdate());
     }
 
     public override void OnUpdate()
@@ -204,6 +215,21 @@ public class BearState_Phohyo : BearState
     public override void OnExit()
     {
 
+    }
+    IEnumerator ProcessUpdate()
+    {
+        while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Phohyo.Start_Phohyo"))
+        {
+            yield return null;
+        }
+        Debug.Log("포효 애니메이션 진입");
+
+        while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+        Debug.Log("포효 애니메이션 끝");
+        canExit = true;
     }
 }
 public class BearState_Naeryeochigi : BearState

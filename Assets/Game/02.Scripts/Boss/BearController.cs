@@ -58,6 +58,7 @@ public class BearController : MonoBehaviour
     private void Start()
     {
         bearStateMachine = new BearStateMachine(this);
+        bearStateMachine.isDebugMode = true;
         bearStateMachine.StartState(eBossState.BearState_Idle);
         StartCoroutine(ProcessChangeStateTest());
     }
@@ -84,7 +85,7 @@ public class BearController : MonoBehaviour
     private IEnumerator ProcessChangeStateTest()
     {
         stateInfo.phase = "Phase 01";
-
+        yield return waitOneSec;
         while (phaseQueue_01.Count > 0)
         {
             if (ChangeState(phaseQueue_01.Peek()))
@@ -97,7 +98,24 @@ public class BearController : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+
+        //animator.Play("Halquigi_A.Start_Halguigi_A", 0, 0f);
+
+        //while (!animator.GetCurrentAnimatorStateInfo(0).IsName("Halquigi_A.Start_Halguigi_A"))
+        //{
+        //    yield return null;
+        //}
+        //Debug.Log("애니메이션 진입");
+
+        //while (animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        //{
+        //    yield return null;
+        //}
+        //Debug.Log("애니메이션 끝");
+
+        //animator.CrossFade("Idle", 3f, 0);
         Debug.Log("End Pattern!");
+        yield break;
     }
 
     public void SetTrigger(string _paramName)
