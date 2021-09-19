@@ -58,8 +58,9 @@ public class BearState_Idle : BearState
 
     public override void OnEnter()
     {
-        canExit = true;
+        canExit = false;
         bearController.SetTrigger("Start_Idle");
+        bearController.StartCoroutine(ProcessUpdate());
     }
 
     public override void OnUpdate()
@@ -77,6 +78,11 @@ public class BearState_Idle : BearState
 
     }
 
+    IEnumerator ProcessUpdate()
+    {
+        yield return new WaitForSeconds(1f);
+        canExit = true;
+    }
 }
 
 public class BearState_Doljin : BearState
