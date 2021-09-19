@@ -59,7 +59,7 @@ public class BearState_Idle : BearState
     public override void OnEnter()
     {
         canExit = true;
-
+        bearController.SetTrigger("Start_Idle");
     }
 
     public override void OnUpdate()
@@ -88,7 +88,8 @@ public class BearState_Doljin : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.StartCoroutine(ProcessDoljin());
+        bearController.SetTrigger("Start_Doljin");
+        //bearController.StartCoroutine(ProcessDoljin());
     }
 
     public override void OnUpdate()
@@ -127,7 +128,7 @@ public class BearState_Halquigi_A : BearState
     public override void OnEnter()
     {
         canExit = true;
-
+        bearController.SetTrigger("Start_Halquigi_A");
     }
 
     public override void OnUpdate()
@@ -181,7 +182,7 @@ public class BearState_Phohyo : BearState
     public override void OnEnter()
     {
         canExit = true;
-
+        bearController.SetTrigger("Start_Phohyo");
     }
 
     public override void OnUpdate()

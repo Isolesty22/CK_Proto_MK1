@@ -19,7 +19,6 @@ public class BearStateMachine : BossStateMachine
     {
         base.ChangeState(_state);
     }
-
     public override BossState GetState(eBossState _state)
     {
 

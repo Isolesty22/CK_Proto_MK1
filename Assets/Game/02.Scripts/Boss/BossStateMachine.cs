@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class BossStateMachine
 {
-
     [Tooltip("현재 스테이트")]
-    protected BossState currentState = null;
+    public BossState currentState = null;
 
     [Tooltip("현재 상태 enum")]
     protected eBossState currentStateEnum;

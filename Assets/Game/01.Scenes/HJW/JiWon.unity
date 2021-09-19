@@ -2107,6 +2107,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1382808116}
   - component: {fileID: 1382808115}
+  - component: {fileID: 1382808117}
   m_Layer: 0
   m_Name: Boss
   m_TagString: Untagged
@@ -2126,8 +2127,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073bf542edf304042bb9afea901316ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  phaseList_01: 02000000010000000300000001000000040000000200000006000000010000000600000001000000
+  animator: {fileID: 1382808117}
+  stateInfo:
+    phase: 
+    state: 
+  phaseList_01: 0200000003000000020000000500000001000000
 --- !u!4 &1382808116
 Transform:
   m_ObjectHideFlags: 0
@@ -2142,6 +2146,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1382808117
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382808114}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1d895e1996eaff843907070cb2956507, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1403775974
 GameObject:
   m_ObjectHideFlags: 0
