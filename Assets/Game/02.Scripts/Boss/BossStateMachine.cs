@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class BossStateMachine
 {
-
     [Tooltip("현재 스테이트")]
-    protected BossState currentState = null;
+    public BossState currentState = null;
 
     [Tooltip("현재 상태 enum")]
     protected eBossState currentStateEnum;
@@ -16,6 +15,8 @@ public class BossStateMachine
 
     [Tooltip("BossState가 들어있는 딕셔너리")]
     protected Dictionary<eBossState, BossState> stateDict = new Dictionary<eBossState, BossState>();
+
+    public bool isDebugMode = false;
 
     /// <summary>
     /// 아무런 검사를 하지 않고 상태에 진입합니다.
@@ -44,11 +45,11 @@ public class BossStateMachine
         //딕셔너리에 있는 상태라면
         if (stateDict.TryGetValue(_state, out tempState))
         {
-            if (currentState == stateDict[_state])
-            {
-                LogError("같은 스테이트로는 변경할 수 없습니다.");
-                return;
-            }
+            //if (currentState == stateDict[_state])
+            //{
+            //    LogError("같은 스테이트로는 변경할 수 없습니다.");
+            //    return;
+            //}
         }
         //딕셔너리에 안들어있었으면
         else
@@ -108,15 +109,25 @@ public class BossStateMachine
     #region Log 
     protected void Log(object _message)
     {
-        Debug.Log("BossStateMachine : " + _message);
+        if (isDebugMode)
+        {
+            Debug.Log("BossStateMachine : " + _message);
+
+        }
     }
     protected void LogWarning(object _message)
     {
-        Debug.LogWarning("BossStateMachine : " + _message);
+        if (isDebugMode)
+        {
+            Debug.LogWarning("BossStateMachine : " + _message);
+        }
     }
     protected void LogError(object _message)
     {
-        Debug.LogError("BossStateMachine : " + _message);
+        if (isDebugMode)
+        {
+            Debug.LogError("BossStateMachine : " + _message);
+        }
     }
     #endregion
 }

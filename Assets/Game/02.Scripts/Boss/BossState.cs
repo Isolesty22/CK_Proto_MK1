@@ -59,7 +59,8 @@ public class BearState_Idle : BearState
     public override void OnEnter()
     {
         canExit = true;
-
+        bearController.SetTrigger("Start_Idle");
+        //bearController.StartCoroutine(ProcessUpdate());
     }
 
     public override void OnUpdate()
@@ -77,6 +78,21 @@ public class BearState_Idle : BearState
 
     }
 
+    IEnumerator ProcessUpdate()
+    {
+        while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+        {
+            yield return null;
+        }
+        Debug.Log("Idle 애니메이션 진입");
+
+        while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+        Debug.Log("Idle 애니메이션 끝");
+        canExit = true;
+    }
 }
 
 public class BearState_Doljin : BearState
@@ -88,7 +104,8 @@ public class BearState_Doljin : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.StartCoroutine(ProcessDoljin());
+        bearController.SetTrigger("Start_Doljin");
+        //bearController.StartCoroutine(ProcessDoljin());
     }
 
     public override void OnUpdate()
@@ -126,8 +143,8 @@ public class BearState_Halquigi_A : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
-
+        canExit = false;
+        bearController.SetTrigger("Start_Halquigi_A");
     }
 
     public override void OnUpdate()
@@ -180,8 +197,9 @@ public class BearState_Phohyo : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
-
+        canExit = false;
+        bearController.SetTrigger("Start_Phohyo");
+        //bearController.StartCoroutine(ProcessUpdate());
     }
 
     public override void OnUpdate()
@@ -197,6 +215,21 @@ public class BearState_Phohyo : BearState
     public override void OnExit()
     {
 
+    }
+    IEnumerator ProcessUpdate()
+    {
+        while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Phohyo.Start_Phohyo"))
+        {
+            yield return null;
+        }
+        Debug.Log("포효 애니메이션 진입");
+
+        while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+        {
+            yield return null;
+        }
+        Debug.Log("포효 애니메이션 끝");
+        canExit = true;
     }
 }
 public class BearState_Naeryeochigi : BearState
