@@ -89,6 +89,7 @@ public class FlyerController : MonsterController
     protected override void Move()
     {
         base.Move();
+        Com.animator.SetBool("isMove", true);
 
         if (Stat2.isAttack)
             return;
@@ -135,7 +136,7 @@ public class FlyerController : MonsterController
     protected override void Detect()
     {
         base.Detect();
-
+        Com.animator.SetBool("isMove", false);
         //ready to attack
         Utility.KillTween(tween);
         var targetDir = transform.position.x - GameManager.instance.playerController.transform.position.x;
@@ -155,7 +156,6 @@ public class FlyerController : MonsterController
     protected override void Attack()
     {
         base.Attack();
-
         //rotate
         if (transform.position.x > GameManager.instance.playerController.transform.position.x)
         {
@@ -184,11 +184,14 @@ public class FlyerController : MonsterController
             if (attackType >= 0 && attackType < 7)
             {
                 // Normal Attack
-                NormalShot(targetPos);
+                Com.animator.speed = 1f;
+                var normalShot = NormalShot(targetPos);
+                StartCoroutine(normalShot);
             }
             else
             {
                 // Triple Attack
+                Com.animator.speed = 2.5f;
                 var tripleShot = TripleShot(targetPos);
                 StartCoroutine(tripleShot);
             }
@@ -197,22 +200,37 @@ public class FlyerController : MonsterController
         }
     }
 
-    public void NormalShot(Vector3 targetPos)
+    public IEnumerator NormalShot(Vector3 targetPos)
     {
+        Com.animator.SetTrigger("isAttack");
+        yield return new WaitForSeconds(0.3f);
         var feather = CustomPoolManager.Instance.featherPool.SpawnThis(transform.position, Vector3.zero, null);
         feather.transform.LookAt(targetPos);
         feather.isActive = true;
         var normalShot = feather.Shot(transform.position, Stat2.shotSpeed, Stat2.featherRange);
         StartCoroutine(normalShot);
     }
+    public IEnumerator TripleLastShot(Vector3 targetPos)
+    {
+        Com.animator.SetTrigger("isAttack");
+        yield return new WaitForSeconds(0.3f);
+        var feather = CustomPoolManager.Instance.featherPool.SpawnThis(transform.position, Vector3.zero, null);
+        feather.transform.LookAt(targetPos);
+        feather.isActive = true;
+        var normalShot = feather.Shot(transform.position, Stat2.shotSpeed, Stat2.featherRange);
+        StartCoroutine(normalShot);
+        Com.animator.speed = 1f;
+    }
 
     public IEnumerator TripleShot(Vector3 targetPos)
     {
-        NormalShot(targetPos);
+        StartCoroutine(NormalShot(targetPos));
         yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        NormalShot(targetPos);
+        StartCoroutine(NormalShot(targetPos));
         yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        NormalShot(targetPos);
+        StartCoroutine(NormalShot(targetPos));
+        yield return new WaitForSeconds(0.3f);
+        Com.animator.speed = 1f;
     }
 
     public IEnumerator CheckAttack()
@@ -229,6 +247,13 @@ public class FlyerController : MonsterController
 
     protected override void Death()
     {
+        StartCoroutine(Dead());
+    }
+
+    private IEnumerator Dead()
+    {
+        Com.animator.SetBool("isDead", true);
+        yield return new WaitForSeconds(0.2f);
         base.Death();
     }
 
