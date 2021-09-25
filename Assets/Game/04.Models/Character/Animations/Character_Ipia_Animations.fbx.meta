@@ -1,68 +1,68 @@
 fileFormatVersion: 2
-guid: c053daf73974abd439ca78392cadaa73
+guid: 0d175d21bd14e3046b7f67e73389e72b
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 1419260025576710409
-    second: Ipia_Idle
-  - first:
-      74: 7188469343668471420
-    second: Ipia_Walk
-  - first:
-      74: -5088172995999845627
-    second: Ipia_Move
-  - first:
-      74: 7959995810459709602
-    second: Ipia_Attack_Move
-  - first:
-      74: -8823261704155207875
-    second: Ipia_Jump
-  - first:
       74: -5252816984213320552
     second: idle
-  - first:
-      74: 2459078804267041145
-    second: hit
   - first:
       74: -7878480847144369853
     second: IDLE_UP
   - first:
+      74: -4129562920104797250
+    second: IDLE_Attack
+  - first:
+      74: -1189716755847505327
+    second: IDLE_Attack_Up
+  - first:
       74: 4348485665485846014
     second: Death
+  - first:
+      74: 2459078804267041145
+    second: hit
   - first:
       74: -3419257869308726280
     second: walk
   - first:
-      74: -9184093488522337696
-    second: walk (1)
+      74: 6919766607078920642
+    second: Jump_01
   - first:
-      74: -1153197917219448158
-    second: walk (2)
+      74: -9208786964252199404
+    second: Jump_Attack
   - first:
-      74: -7135902473522557533
-    second: walk (3)
+      74: -543940008047461441
+    second: Jump_02
+  - first:
+      74: -5261788940640077557
+    second: Jump_03
+  - first:
+      74: 5553912630342016743
+    second: Parrying
   - first:
       74: -139364887524879693
     second: move
   - first:
-      74: 6919766607078920642
-    second: Jump_01
+      74: -7753456883186581462
+    second: Move_Attack
   - first:
-      74: 5389245610286917688
-    second: move (1)
+      74: 6386035268696066588
+    second: Move_Down
+  - first:
+      74: -1235899336060224234
+    second: Move_Down_Attack
+  - first:
+      74: -1951471246342969661
+    second: Down_Attack
   - first:
       74: 5801631219749707262
     second: Attack_Heave
   - first:
-      74: 8946065538274830369
-    second: Attack_Jump
+      74: 5917537482288442099
+    second: Fall
   - first:
-      74: -4757473521941455513
-    second: Attack_Down
-  - first:
-      74: 6386035268696066588
-    second: Move_Down
+      74: -2516013265382948196
+    second: Attack_01
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -83,217 +83,14 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: idle
-      takeName: idle
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 28
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: IDLE_UP
-      takeName: IDLE_UP
-      internalID: 0
-      firstFrame: 32
-      lastFrame: 58
-      wrapMode: 2
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 30
-    - serializedVersion: 16
-      name: Death
-      takeName: Death
-      internalID: 0
-      firstFrame: 60
-      lastFrame: 84
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 60
-    - serializedVersion: 16
-      name: hit
-      takeName: hit
-      internalID: 0
-      firstFrame: 86
-      lastFrame: 114
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 85.799995
-    - serializedVersion: 16
-      name: walk
-      takeName: walk
-      internalID: 0
-      firstFrame: 120
-      lastFrame: 148
-      wrapMode: 2
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 120
-    - serializedVersion: 16
-      name: move
-      takeName: move
-      internalID: 0
-      firstFrame: 286
-      lastFrame: 308
-      wrapMode: 2
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 285.9
-    - serializedVersion: 16
-      name: Move_Down
-      takeName: Move_Down
-      internalID: 0
-      firstFrame: 152
-      lastFrame: 180
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 151.8
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
@@ -307,8 +104,8 @@ ModelImporter:
     importCameras: 1
     importLights: 1
     fileIdsGeneration: 2
-    swapUVChannels: 1
-    generateSecondaryUV: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -351,7 +148,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 1
+    hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
