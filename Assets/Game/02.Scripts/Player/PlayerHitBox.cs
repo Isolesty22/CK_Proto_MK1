@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class PlayerHitBox : MonoBehaviour
 {
-    private PlayerController playerController;
+    public PlayerController playerController;
     public CapsuleCollider hitBox;
     public CapsuleCollider crouchHitBox;
-    
-
-    private void Start()
-    {
-        playerController = GameManager.instance.playerController;
-    }
 
     private void OnTriggerStay(Collider other)
     {
-        if (playerController.State.canParry && !playerController.State.isHit)
+        if (playerController.State.canParry && !playerController.State.isInvincible)
         {
             if(other.CompareTag("Monster"))
             {
@@ -30,7 +24,7 @@ public class PlayerHitBox : MonoBehaviour
         {
             if (other.CompareTag("Monster"))
             {
-                playerController.Hit(other.transform);
+                playerController.Hit();
             }
         }
 

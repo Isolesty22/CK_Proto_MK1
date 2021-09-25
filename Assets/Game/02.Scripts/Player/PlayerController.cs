@@ -14,13 +14,23 @@ public class PlayerController : MonoBehaviour
         public Rigidbody rigidbody;
         public CapsuleCollider collider;
         public CapsuleCollider crouchCollier;
+
         public PlayerHitBox hitBox;
-        public GameObject standingModel;
-        public GameObject crouchModel;
         public Weapon weapon;
         public Pixy pixy;
         public ParticleSystem parry;
         public Animator animator;
+
+        public Material mat1;
+        public Material mat2;
+        public Material mat3;
+
+        public Color originalColor;
+        public Color hitColor;
+
+        //instance
+        public GameObject standingModel;
+        public GameObject crouchModel;
     }
 
     [Serializable]
@@ -35,6 +45,9 @@ public class PlayerController : MonoBehaviour
         public float hitTime = 1f;
         public float invincibleTime = 1f;
 
+        public float hitColorTime = 1f;
+        public float hitColorDelay = 1f;
+
         [Header("unused")]
         public float crouchMoveSpeed = 1f;
         public float jumpingSpeed = 1f;
@@ -46,9 +59,9 @@ public class PlayerController : MonoBehaviour
         [Header("movement value")]
         public Vector3 moveVector;
         public Vector3 moveVelocity;
+        [Header("physics value")]
         public float velocityY;
         public float gravity = 1f;
-        [Header("physics value")]
         public Vector3 groundNormal;
         public float groundedDistance = 0f;
         public float groundedCheck = 2f;
@@ -88,11 +101,6 @@ public class PlayerController : MonoBehaviour
         public float movementInput = 0;
     }
 
-    [Serializable]
-    public class InputState
-    {
-        public bool attack;
-    }
     #endregion
 
     //field
@@ -103,7 +111,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputValue input = new InputValue();
     [SerializeField] private PlayerState playerState = new PlayerState();
     [SerializeField] private KeyOption keyOption = new KeyOption();
-    [SerializeField] private InputState inputState = new InputState();
 
     public Components Com => components;
     public PlayerStatus Stat => playerStatus;
@@ -111,7 +118,6 @@ public class PlayerController : MonoBehaviour
     public InputValue InputVal => input;
     public PlayerState State => playerState;
     public KeyOption Key => keyOption;
-    public InputState InState => inputState;
 
     private Vector3 capsulePoint1 => new Vector3(transform.position.x, transform.position.y - Com.collider.height / 2 + Com.collider.radius, 0);
     private Vector3 capsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.collider.height / 2 - Com.collider.radius, 0);
@@ -164,6 +170,9 @@ public class PlayerController : MonoBehaviour
     {
         InputVal.movementInput = 0f;
 
+        if (State.isHit)
+            return;
+
         if (Input.GetKey(Key.moveLeft))
         {
             InputVal.movementInput = -1f;
@@ -173,10 +182,6 @@ public class PlayerController : MonoBehaviour
         {
             InputVal.movementInput = 1f;
         }
-
-
-        if (!State.isGrounded)
-            return;
     }
 
     private void GroundCheck()
@@ -261,28 +266,17 @@ public class PlayerController : MonoBehaviour
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
         }
 
-        //점프중에 이동속도, 조건 더 추가해줘야 벽에서 버그 안생김.
-        //if (State.isJumping && !State.isGrounded)
-        //{
-        //    Val.moveVelocity = Val.moveVector * Stat.movementSpeed * Stat.jumpingSpeed;
-        //}
-
-        //crouch movement speed;
-
-        //if (State.isCrouching)
-        //{
-        //    Val.moveVelocity = Val.moveVector * Stat.movementSpeed * Stat.crouchMoveSpeed;
-        //}
-
-
         //최종 이동속도 결정
-        Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
+        //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
       
-        //Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity + (Vector3.up * Val.velocityY);
+        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + (Vector3.up * Val.velocityY);
     }
 
     private void Rotate()
     {
+        //if (State.isJumping)
+        //    return;
+
         if (InputVal.movementInput == -1f)
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
@@ -323,8 +317,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = false;
 
             //instance model
-            Com.standingModel.SetActive(true);
-            Com.crouchModel.SetActive(false);
+            //Com.standingModel.SetActive(true);
+            //Com.crouchModel.SetActive(false);
 
             Com.pixy.transform.localPosition = Com.pixy.firePos;
 
@@ -343,62 +337,56 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = true;
 
             //instance model
-            Com.standingModel.SetActive(false);
-            Com.crouchModel.SetActive(true);
+            //Com.standingModel.SetActive(false);
+            //Com.crouchModel.SetActive(true);
 
             Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
         }
     }
 
-    public void Hit(Transform monsterTransform)
+    public void Hit()
     {
         State.isHit = true;
 
         Stat.hp -= 1;
 
-        float knockBackDir = transform.position.x - monsterTransform.position.x;
-
-        if (knockBackDir >= 0)
-        {
-            knockBackDir = 1f;
-        }
-        else
-        {
-            knockBackDir = -1f;
-        }
-
-
-        StartCoroutine(KnockBack(knockBackDir));
-        StartCoroutine(Invincible());
+        var knockBack = KnockBack();
+        StartCoroutine(knockBack);
+        var invincible = Invincible();
+        StartCoroutine(invincible);
     }
 
-    private IEnumerator KnockBack(float knockBackDir)
+    private IEnumerator KnockBack()
     {
-        Val.knockBackVelocity.x = knockBackDir * Val.knockBackPower;
+        //Val.knockBackVelocity.x = knockBackDir * Val.knockBackPower;
 
-        if (Val.knockBackVelocity.x >= 0)
-        {
-            while (Val.knockBackVelocity.x >= 0)
-            {
-                Val.knockBackVelocity.x -= Val.constDecrease * Time.fixedDeltaTime;
+        //if (Val.knockBackVelocity.x >= 0)
+        //{
+        //    while (Val.knockBackVelocity.x >= 0)
+        //    {
+        //        Val.knockBackVelocity.x -= Val.constDecrease * Time.fixedDeltaTime;
 
-                yield return new WaitForFixedUpdate();
-            }
-        }
-        else if (Val.knockBackVelocity.x < 0)
-        {
-            while (Val.knockBackVelocity.x < 0)
-            {
-                Val.knockBackVelocity.x += Val.constDecrease * Time.fixedDeltaTime;
+        //        yield return new WaitForFixedUpdate();
+        //    }
+        //}
+        //else if (Val.knockBackVelocity.x < 0)
+        //{
+        //    while (Val.knockBackVelocity.x < 0)
+        //    {
+        //        Val.knockBackVelocity.x += Val.constDecrease * Time.fixedDeltaTime;
 
-                yield return new WaitForFixedUpdate();
-            }
-        }
+        //        yield return new WaitForFixedUpdate();
+        //    }
+        //}
 
-        Val.knockBackVelocity.x = 0;
+        //Val.knockBackVelocity.x = 0;
 
         yield return new WaitForSeconds(Stat.hitTime);
+
         State.isHit = false;
+
+        var hitColor = HitColor();
+        StartCoroutine(hitColor);
     }
 
     private IEnumerator Invincible()
@@ -408,6 +396,21 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(Stat.invincibleTime);
 
         State.isInvincible = false;
+    }
+
+    private IEnumerator HitColor()
+    {
+        while(State.isInvincible)
+        {
+            Com.mat1.color = Com.hitColor;
+            Com.mat2.color = Com.hitColor;
+            Com.mat3.color = Com.hitColor;
+            yield return new WaitForSeconds(Stat.hitColorTime);
+            Com.mat1.color = Com.originalColor;
+            Com.mat2.color = Com.originalColor;
+            Com.mat3.color = Com.originalColor;
+            yield return new WaitForSeconds(Stat.hitColorDelay);
+        }
     }
 
     private void LookUp()
@@ -544,5 +547,6 @@ public class PlayerController : MonoBehaviour
         Com.animator.SetFloat("Speed", Mathf.Abs(Com.rigidbody.velocity.x));
         Com.animator.SetBool("isJumping", State.isJumping);
         Com.animator.SetBool("isAttack", State.isAttack);
+        Com.animator.SetBool("isCrouching", State.isCrouching);
     }
 }
