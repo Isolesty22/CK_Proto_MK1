@@ -94,10 +94,36 @@ public class BearState_Idle : BearState
         canExit = true;
     }
 }
-
-public class BearState_Doljin : BearState
+public class BearState_Stamp : BearState
 {
-    public BearState_Doljin(BearController _bearController)
+    public BearState_Stamp(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+        canExit = true;
+
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
+public class BearState_Rush : BearState
+{
+    public BearState_Rush(BearController _bearController)
     {
         bearController = _bearController;
     }
@@ -135,63 +161,9 @@ public class BearState_Doljin : BearState
         canExit = true;
     }
 }
-public class BearState_Halquigi_A : BearState
+public class BearState_Roar : BearState
 {
-    public BearState_Halquigi_A(BearController _bearController)
-    {
-        bearController = _bearController;
-    }
-    public override void OnEnter()
-    {
-        canExit = false;
-        bearController.SetTrigger("Start_Halquigi_A");
-    }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
-    public override void OnExit()
-    {
-
-    }
-}
-public class BearState_Halquigi_B : BearState
-{
-    public BearState_Halquigi_B(BearController _bearController)
-    {
-        bearController = _bearController;
-    }
-    public override void OnEnter()
-    {
-        canExit = true;
-
-    }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
-    public override void OnExit()
-    {
-
-    }
-}
-public class BearState_Phohyo : BearState
-{
-    public BearState_Phohyo(BearController _bearController)
+    public BearState_Roar(BearController _bearController)
     {
         bearController = _bearController;
     }
@@ -232,9 +204,9 @@ public class BearState_Phohyo : BearState
         canExit = true;
     }
 }
-public class BearState_Naeryeochigi : BearState
+public class BearState_Strike : BearState
 {
-    public BearState_Naeryeochigi(BearController _bearController)
+    public BearState_Strike(BearController _bearController)
     {
         bearController = _bearController;
     }
@@ -259,8 +231,33 @@ public class BearState_Naeryeochigi : BearState
 
     }
 }
+public class BearState_Claw : BearState
+{
+    public BearState_Claw(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+        bearController.SetTrigger("Start_Halquigi_A");
+    }
 
+    public override void OnUpdate()
+    {
 
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+
+    }
+}
 #endregion
 
 

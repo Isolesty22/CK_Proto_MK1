@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class BearMapInfo :  MonoBehaviour
+public class BearMapInfo : MonoBehaviour
 {
-    [ReadOnly]
+    public BoxCollider mapCollider;
+
+    [BeginReadOnlyGroup]
     public BearBlock[] bearBlocks = new BearBlock[5];
+    public void InitBearBlocks()
+    {
+
+    }
 }
 
 
@@ -20,13 +26,21 @@ public class BearBlock
 
         public Position(Vector3 _min, Vector3 _max)
         {
-            max = _max;
             min = _min;
+            max = _max;
         }
 
-        public Vector3 max;
         public Vector3 min;
+        public Vector3 max;
     }
 
-    public Position position = null;
+    public Position position = new Position();
+
+    public void SetPosition(Vector3 _min, Vector3 _max)
+    {
+        position.min = _min;
+        position.max = _max;
+    }
 }
+
+

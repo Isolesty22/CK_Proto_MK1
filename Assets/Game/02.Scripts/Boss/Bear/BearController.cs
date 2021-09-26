@@ -4,17 +4,11 @@ using UnityEngine;
 
 using System;
 
-[Serializable]
-public class StateInfo
-{
-    [Tooltip("현재 페이즈")]
-    public string phase = "";
-    [Tooltip("현재 상태")]
-    public string state = "";
-}
+
 public class BearController : MonoBehaviour
 {
     public Animator animator;
+
 
     private BearStateMachine bearStateMachine;
 
@@ -35,10 +29,7 @@ public class BearController : MonoBehaviour
 
     [Range(0, 100)]
     public float hp = 100f;
-
-    [Header("각 페이즈를 시작하는 체력")]
-    public float startPhase02 = 0f;
-    public float startPhase03 = 0f;
+    public BossPhaseValue bossPhaseValue;
 
     [Header("패턴 목록")]
     public List<eBossState> phase_01_List = new List<eBossState>();
@@ -143,7 +134,7 @@ public class BearController : MonoBehaviour
                 stateInfo.state = phase_01_List[i].ToString();
                 Debug.Log("현재 인덱스 " + (i));
                 i += 1;
-                if (hp <= startPhase02)
+                if (hp <= bossPhaseValue.phase2)
                 {
                     thisPhase = false;
                 }
@@ -164,7 +155,7 @@ public class BearController : MonoBehaviour
                 stateInfo.state = phase_02_List[i].ToString();
                 Debug.Log("현재 인덱스 " + (i));
                 i += 1;
-                if (hp <= startPhase03)
+                if (hp <= bossPhaseValue.phase3)
                 {
                     thisPhase = false;
                 }
@@ -266,18 +257,19 @@ public class BearController : MonoBehaviour
         switch (_changePhase)
         {
             case 2:
-                if (hp <= startPhase02)
+                if (hp <= bossPhaseValue.phase2)
                 {
                     phase_01_Queue.Clear();
                 }
                 break;
 
             case 3:
-                if (hp <= startPhase03)
+                if (hp <= bossPhaseValue.phase3)
                 {
                     phase_02_Queue.Clear();
                 }
                 break;
+
             default:
                 break;
         }

@@ -4,13 +4,34 @@ using UnityEngine;
 
 public enum eBossState
 {
-    None, 
+    None,
+    [InspectorName("곰_대기")]
     BearState_Idle,
-    BearState_Doljin,
-    BearState_Halquigi_A,
-    BearState_Halquigi_B,
-    BearState_Phohyo,
-    BearState_Naeryeochigi
+
+    [InspectorName("곰_발구르기")]
+    BearState_Stamp,
+
+    [InspectorName("곰_돌진")]
+    BearState_Rush,
+
+    [InspectorName("곰_포효_A")]
+    BearState_Roar_A,
+    [InspectorName("곰_포효_B")]
+    BearState_Roar_B,
+
+    [InspectorName("곰_내려치기_A")]
+    BearState_Strike_A,
+    [InspectorName("곰_내려치기_B")]
+    BearState_Strike_B,
+    [InspectorName("곰_내려치기_C")]
+    BearState_Strike_C,
+
+    [InspectorName("곰_할퀴기_A")]
+    BearState_Claw_A,
+    [InspectorName("곰_할퀴기_B")]
+    BearState_Claw_B,
+    [InspectorName("곰_할퀴기_C")]
+    BearState_Claw_C,
 }
 public enum eResolutionType
 {
