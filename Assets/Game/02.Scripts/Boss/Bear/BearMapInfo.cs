@@ -50,20 +50,24 @@ public class BearMapInfo : MonoBehaviour
 
     private void UpdateBearBlocks()
     {
-        Vector3 tempMax = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
-        Vector3 tempMin = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
+
+        Vector3 mapMin = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
+        Vector3 mapMax = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
+
+        Vector3 tempMin = mapMin;
+        Vector3 tempMax = mapMax;
 
         Vector3 tempDistance = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
         tempDistance = tempDistance / blockCount;
 
-        Vector3 mapMin = tempMin;
-        Vector3 mapMax = tempMax;
 
+        //첫번째 블록 포지션 계산
         tempMin = new Vector3(tempMin.x, mapMin.y, mapMin.z);
         tempMax = new Vector3(tempMin.x + tempDistance.x, mapMax.y, mapMax.z);
 
         bearBlocks[0].SetMinMaxPosition(tempMin, tempMax);
 
+        //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
         {
             tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapMin.y, mapMin.z);
@@ -73,33 +77,36 @@ public class BearMapInfo : MonoBehaviour
         }
 
     }
-
     private void OnDrawGizmos()
     {
         UpdateMapVector();
+        UpdateBearBlocks();
+
+
+
         Gizmos.color = Color.red;
+        for (int i = 0; i < blockCount; i++)
+        {
+            Gizmos.DrawLine(bearBlocks[i].position.min, bearBlocks[i].position.max);
+        }
+
+        Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(mapData.position, mapData.size);
 
-        //Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
-        //     mapPosition.y + mapExtents.y,
-        //     mapPosition.z + mapExtents.z);
-        //Gizmos.color = Color.blue;
-        //Gizmos.DrawSphere(tempMax, 0.5f);
-
-        UpdateBearBlocks();
         Gizmos.color = Color.yellow;
         for (int i = 0; i < blockCount; i++)
         {
-            Gizmos.DrawSphere(bearBlocks[i].position.min, 0.3f);
+            Gizmos.DrawSphere(bearBlocks[i].position.min, 0.1f);
 
         }
 
-        Gizmos.color = Color.black;
+        Gizmos.color = Color.green;
         for (int i = 0; i < blockCount; i++)
         {
-            Gizmos.DrawSphere(bearBlocks[i].position.max, 0.3f);
+            Gizmos.DrawSphere(bearBlocks[i].position.max, 0.1f);
 
         }
+
 
     }
 }
