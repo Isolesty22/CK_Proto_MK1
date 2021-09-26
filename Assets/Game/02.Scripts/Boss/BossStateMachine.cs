@@ -34,8 +34,8 @@ public class BossStateMachine
         currentState = stateDict[_state];
 
         //상태 진입
-        currentState.OnEnter();
-        LogWarning(currentStateEnum.ToString() + " - Enter");
+        //currentState.OnEnter();
+        //LogWarning(currentStateEnum.ToString() + " - Enter");
     }
 
     public virtual void ChangeState(eBossState _state)

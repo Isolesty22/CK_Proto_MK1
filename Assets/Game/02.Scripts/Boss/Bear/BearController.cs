@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
-
-
 public class BearController : MonoBehaviour
 {
     public Animator animator;
-
 
     private BearStateMachine bearStateMachine;
     public BearMapInfo bearMapInfo;
@@ -89,6 +86,7 @@ public class BearController : MonoBehaviour
         AddAnimatorHash("Start_Doljin");
         AddAnimatorHash("Start_Phohyo");
         AddAnimatorHash("Start_Halquigi_A");
+        AddAnimatorHash("Start_Strike_A");
     }
 
     private void Start()
@@ -107,6 +105,8 @@ public class BearController : MonoBehaviour
         testTextMesh.phaseText.text = stateInfo.phase;
     }
 
+
+
     private bool ChangeState(eBossState _state)
     {
         if (!bearStateMachine.CanExit())
@@ -122,7 +122,6 @@ public class BearController : MonoBehaviour
     }
 
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
-
     private IEnumerator ProcessChangeStateTest()
     {
         //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
@@ -255,7 +254,6 @@ public class BearController : MonoBehaviour
         Debug.Log("End Pattern!");
         yield break;
     }
-
     private void CheckChangePhase(int _changePhase)
     {
         switch (_changePhase)
@@ -278,7 +276,6 @@ public class BearController : MonoBehaviour
                 break;
         }
     }
-
     public void SetTrigger(string _paramName)
     {
         animator.SetTrigger(aniHash[_paramName]);
@@ -294,10 +291,10 @@ public class BearController : MonoBehaviour
     {
         bearStateMachine.currentState.canExit = _canExit;
     }
-
     public void AnimatorPlay(string _pathAndName)
     {
         animator.Play(_pathAndName, 0, 0f);
     }
+
 }
 

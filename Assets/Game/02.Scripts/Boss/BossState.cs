@@ -212,8 +212,8 @@ public class BearState_Strike : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
-
+        canExit = false;
+        bearController.SetTrigger("Start_Strike_A");
     }
 
     public override void OnUpdate()
