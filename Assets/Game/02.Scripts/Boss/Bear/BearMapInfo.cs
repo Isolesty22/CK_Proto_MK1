@@ -11,14 +11,21 @@ public class BearMapInfo : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
-    [ReadOnly]
-    public Vector3 mapSize;
+    [System.Serializable]
+    public class MapData
+    {
+        [ReadOnly]
+        public Vector3 size;
 
-    [ReadOnly]
-    public Vector3 mapPosition;
+        [ReadOnly]
+        public Vector3 position;
 
-    [Tooltip("사이즈의 절반값입니다.")]
-    private Vector3 mapExtents;
+        [ReadOnly, Tooltip("사이즈의 절반값")] 
+        public Vector3 extents;
+    }
+
+    [BeginReadOnlyGroup]
+    public MapData mapData = new MapData();
 
     [BeginReadOnlyGroup]
     public BearBlock[] bearBlocks = new BearBlock[blockCount];
@@ -28,59 +35,72 @@ public class BearMapInfo : MonoBehaviour
     {
         //mapSize, mapPosition 계산
         UpdateMapVector();
-
-
+        UpdateBearBlocks();
     }
     private void UpdateMapVector()
     {
-        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x,
+        mapData.size = new Vector3(mapCollider.size.x * myTransform.lossyScale.x,
             mapCollider.size.y * myTransform.lossyScale.y,
             mapCollider.size.z * myTransform.lossyScale.z);
 
-        mapPosition = myTransform.TransformPoint(mapCollider.center);
+        mapData.position = myTransform.TransformPoint(mapCollider.center);
 
-        mapExtents = new Vector3(mapSize.x * 0.5f, mapSize.y * 0.5f, mapSize.z * 0.5f);
+        mapData.extents = new Vector3(mapData.size.x * 0.5f, mapData.size.y * 0.5f, mapData.size.z * 0.5f);
     }
 
     private void UpdateBearBlocks()
     {
+        Vector3 tempMax = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
+        Vector3 tempMin = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
 
-        //5개로 나누기
-        float oneBlockPos = mapPosition.x / blockCount;
-        //float oneBlockPos = mapPosition.x * 0.2f;
-
-        Vector3 tempMin = new Vector3(mapPosition.x - mapExtents.x,
-            mapPosition.y - mapExtents.y,
-            mapPosition.z - mapExtents.z);
-
-        Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
-            mapPosition.y + mapExtents.y,
-            mapPosition.z + mapExtents.z);
-
-        Vector3 tempDistance = new Vector3(Mathf.Abs(tempMax.x - tempMin.x),
-            Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
-
+        Vector3 tempDistance = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
         tempDistance = tempDistance / blockCount;
 
-        bearBlocks[0].SetPosition(tempMin, tempMax);
+        Vector3 mapMin = tempMin;
+        Vector3 mapMax = tempMax;
+
+        tempMin = new Vector3(tempMin.x, mapMin.y, mapMin.z);
+        tempMax = new Vector3(tempMin.x + tempDistance.x, mapMax.y, mapMax.z);
+
+        bearBlocks[0].SetMinMaxPosition(tempMin, tempMax);
 
         for (int i = 1; i < blockCount; i++)
         {
+            tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapMin.y, mapMin.z);
+            tempMax = new Vector3(mapMin.x + (tempDistance.x * (i + 1)), mapMax.y, mapMax.z);
 
+            bearBlocks[i].SetMinMaxPosition(tempMin, tempMax);
         }
+
     }
 
     private void OnDrawGizmos()
     {
         UpdateMapVector();
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(mapPosition, mapSize);
+        Gizmos.DrawWireCube(mapData.position, mapData.size);
 
-        Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
-             mapPosition.y + mapExtents.y,
-             mapPosition.z + mapExtents.z);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(tempMax, 0.5f);
+        //Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
+        //     mapPosition.y + mapExtents.y,
+        //     mapPosition.z + mapExtents.z);
+        //Gizmos.color = Color.blue;
+        //Gizmos.DrawSphere(tempMax, 0.5f);
+
+        UpdateBearBlocks();
+        Gizmos.color = Color.yellow;
+        for (int i = 0; i < blockCount; i++)
+        {
+            Gizmos.DrawSphere(bearBlocks[i].position.min, 0.3f);
+
+        }
+
+        Gizmos.color = Color.black;
+        for (int i = 0; i < blockCount; i++)
+        {
+            Gizmos.DrawSphere(bearBlocks[i].position.max, 0.3f);
+
+        }
+
     }
 }
 
@@ -90,24 +110,23 @@ public class BearBlock
     [System.Serializable]
     public class Position
     {
-        public Position() { }
-
-        public Position(Vector3 _min, Vector3 _max)
-        {
-            min = _min;
-            max = _max;
-        }
-
         public Vector3 min;
         public Vector3 max;
+
+        public Vector3 groundCenter;
     }
 
     public Position position = new Position();
 
-    public void SetPosition(Vector3 _min, Vector3 _max)
+    public void SetMinMaxPosition(Vector3 _min, Vector3 _max)
     {
         position.min = _min;
         position.max = _max;
+    }
+
+    public void SetGroundCenterPosition()
+    {
+
     }
 }
 
