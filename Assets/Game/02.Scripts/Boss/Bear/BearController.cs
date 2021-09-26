@@ -52,7 +52,7 @@ public class BearController : MonoBehaviour
     {
         Init();
         Init_Animator();
-        bearMapInfo.InitBearBlocks();
+        bearMapInfo.Init();
 
         Debug.Log("Init 완료");
     }

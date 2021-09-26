@@ -17,18 +17,54 @@ public class BearMapInfo : MonoBehaviour
     [ReadOnly]
     public Vector3 mapPosition;
 
+    [Tooltip("사이즈의 절반값입니다.")]
+    private Vector3 mapExtents;
+
     [BeginReadOnlyGroup]
     public BearBlock[] bearBlocks = new BearBlock[blockCount];
 
 
-    public void InitBearBlocks()
+    public void Init()
     {
         //mapSize, mapPosition 계산
         UpdateMapVector();
 
-        Vector3 tempMin;
-        Vector3 tempMax;
-        for (int i = 0; i < blockCount; i++)
+
+    }
+    private void UpdateMapVector()
+    {
+        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x,
+            mapCollider.size.y * myTransform.lossyScale.y,
+            mapCollider.size.z * myTransform.lossyScale.z);
+
+        mapPosition = myTransform.TransformPoint(mapCollider.center);
+
+        mapExtents = new Vector3(mapSize.x * 0.5f, mapSize.y * 0.5f, mapSize.z * 0.5f);
+    }
+
+    private void UpdateBearBlocks()
+    {
+
+        //5개로 나누기
+        float oneBlockPos = mapPosition.x / blockCount;
+        //float oneBlockPos = mapPosition.x * 0.2f;
+
+        Vector3 tempMin = new Vector3(mapPosition.x - mapExtents.x,
+            mapPosition.y - mapExtents.y,
+            mapPosition.z - mapExtents.z);
+
+        Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
+            mapPosition.y + mapExtents.y,
+            mapPosition.z + mapExtents.z);
+
+        Vector3 tempDistance = new Vector3(Mathf.Abs(tempMax.x - tempMin.x),
+            Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
+
+        tempDistance = tempDistance / blockCount;
+
+        bearBlocks[0].SetPosition(tempMin, tempMax);
+
+        for (int i = 1; i < blockCount; i++)
         {
 
         }
@@ -36,25 +72,15 @@ public class BearMapInfo : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-
         UpdateMapVector();
+        Gizmos.color = Color.red;
         Gizmos.DrawWireCube(mapPosition, mapSize);
-    }
 
-    private void UpdateMapVector()
-    {
-        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x,
-            mapCollider.size.y * myTransform.lossyScale.y,
-            mapCollider.size.z * myTransform.lossyScale.z);
-        
-        mapPosition = myTransform.TransformPoint(mapCollider.center);
-
-    }
-
-    private void CalcBearBlocks()
-    {
-
+        Vector3 tempMax = new Vector3(mapPosition.x + mapExtents.x,
+             mapPosition.y + mapExtents.y,
+             mapPosition.z + mapExtents.z);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(tempMax, 0.5f);
     }
 }
 
