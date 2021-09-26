@@ -5,7 +5,11 @@ using UnityEngine;
 [RequireComponent((typeof(BoxCollider)))]
 public class BearMapInfo : MonoBehaviour
 {
+    [Tooltip("맵 상의 블록 개수")]
+    private const int blockCount = 5;
+
     public BoxCollider mapCollider;
+    public Transform myTransform;
 
     [ReadOnly]
     public Vector3 mapSize;
@@ -14,24 +18,43 @@ public class BearMapInfo : MonoBehaviour
     public Vector3 mapPosition;
 
     [BeginReadOnlyGroup]
-    public BearBlock[] bearBlocks = new BearBlock[5];
+    public BearBlock[] bearBlocks = new BearBlock[blockCount];
+
 
     public void InitBearBlocks()
     {
+        //mapSize, mapPosition 계산
         CalcMapVector();
+
+        Vector3 tempMin;
+        Vector3 tempMax;
+        for (int i = 0; i < blockCount; i++)
+        {
+            
+        }
     }
 
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        CalcMapVector();
-        Gizmos.DrawWireCube(mapPosition, mapSize);
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    CalcMapVector();
+    //    Gizmos.DrawWireCube(mapPosition, mapSize);
+    //}
 
     private void CalcMapVector()
     {
-        mapSize = new Vector3(mapCollider.size.x * transform.lossyScale.x, mapCollider.size.y * transform.lossyScale.y, mapCollider.size.z * transform.lossyScale.z);
-        mapPosition = new Vector3(mapCollider.center.x + transform.localPosition.x, mapCollider.center.y + transform.localPosition.y, mapCollider.center.z + transform.localPosition.z);
+        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x, 
+            mapCollider.size.y * myTransform.lossyScale.y, 
+            mapCollider.size.z * myTransform.lossyScale.z);
+
+        mapPosition = new Vector3(mapCollider.center.x + myTransform.localPosition.x, 
+            mapCollider.center.y + myTransform.localPosition.y, 
+            mapCollider.center.z + myTransform.localPosition.z);
+    }
+
+    private void CalcBearBlocks()
+    {
+        
     }
 }
 
