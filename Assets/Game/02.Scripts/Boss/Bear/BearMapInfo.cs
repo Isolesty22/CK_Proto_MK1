@@ -20,8 +20,11 @@ public class BearMapInfo : MonoBehaviour
         [ReadOnly]
         public Vector3 position;
 
-        [ReadOnly, Tooltip("사이즈의 절반값")] 
+        [ReadOnly, Tooltip("사이즈의 절반값")]
         public Vector3 extents;
+
+        [ReadOnly, Tooltip("블록 하나당 길이")]
+        public Vector3 blockLength;
     }
 
     [BeginReadOnlyGroup]
@@ -57,32 +60,47 @@ public class BearMapInfo : MonoBehaviour
         Vector3 tempMin = mapMin;
         Vector3 tempMax = mapMax;
 
-        Vector3 tempDistance = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
-        tempDistance = tempDistance / blockCount;
+        mapData.blockLength = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
+        mapData.blockLength = mapData.blockLength / blockCount;
 
 
         //첫번째 블록 포지션 계산
         tempMin = new Vector3(tempMin.x, mapMin.y, mapMin.z);
-        tempMax = new Vector3(tempMin.x + tempDistance.x, mapMax.y, mapMax.z);
+        tempMax = new Vector3(tempMin.x + mapData.blockLength.x, mapMax.y, mapMax.z);
 
-        bearBlocks[0].SetMinMaxPosition(tempMin, tempMax);
+        bearBlocks[0].SetMinMax(tempMin, tempMax);
+        bearBlocks[0].SetGroundCenter(CalcGroundCenter(bearBlocks[0].position));
+        bearBlocks[0].SetTopCenter(CalcTopCenter(bearBlocks[0].position));
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
         {
             tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapMin.y, mapMin.z);
-            tempMax = new Vector3(mapMin.x + (tempDistance.x * (i + 1)), mapMax.y, mapMax.z);
+            tempMax = new Vector3(mapMin.x + (mapData.blockLength.x * (i + 1)), mapMax.y, mapMax.z);
 
-            bearBlocks[i].SetMinMaxPosition(tempMin, tempMax);
+            bearBlocks[i].SetMinMax(tempMin, tempMax);
+            bearBlocks[i].SetGroundCenter(CalcGroundCenter(bearBlocks[i].position));
+            bearBlocks[i].SetTopCenter(CalcTopCenter(bearBlocks[i].position));
         }
 
     }
+
+    private Vector3 CalcGroundCenter(BearBlock.Position _bearBlockPosition)
+    {
+        Vector3 bottomCenter = new Vector3(_bearBlockPosition.min.x + mapData.blockLength.x * 0.5f, _bearBlockPosition.min.y, mapData.position.z);
+        return bottomCenter;
+    }
+
+    private Vector3 CalcTopCenter(BearBlock.Position _bearBlockPosition)
+    {
+        Vector3 bottomCenter = new Vector3(_bearBlockPosition.groundCenter.x, _bearBlockPosition.max.y, mapData.position.z);
+        return bottomCenter;
+    }
+
     private void OnDrawGizmos()
     {
         UpdateMapVector();
         UpdateBearBlocks();
-
-
 
         Gizmos.color = Color.red;
         for (int i = 0; i < blockCount; i++)
@@ -93,21 +111,17 @@ public class BearMapInfo : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(mapData.position, mapData.size);
 
-        Gizmos.color = Color.yellow;
+        Gizmos.color = Color.grey;
         for (int i = 0; i < blockCount; i++)
         {
-            Gizmos.DrawSphere(bearBlocks[i].position.min, 0.1f);
-
+            Gizmos.DrawSphere(bearBlocks[i].position.groundCenter, 0.1f);
         }
 
-        Gizmos.color = Color.green;
+        Gizmos.color = Color.white;
         for (int i = 0; i < blockCount; i++)
         {
-            Gizmos.DrawSphere(bearBlocks[i].position.max, 0.1f);
-
+            Gizmos.DrawLine(bearBlocks[i].position.groundCenter, bearBlocks[i].position.topCenter);
         }
-
-
     }
 }
 
@@ -121,19 +135,24 @@ public class BearBlock
         public Vector3 max;
 
         public Vector3 groundCenter;
-    }
 
+        public Vector3 topCenter;
+    }
     public Position position = new Position();
 
-    public void SetMinMaxPosition(Vector3 _min, Vector3 _max)
+    public void SetMinMax(Vector3 _min, Vector3 _max)
     {
         position.min = _min;
         position.max = _max;
     }
 
-    public void SetGroundCenterPosition()
+    public void SetGroundCenter(Vector3 _groundCenter)
     {
-
+        position.groundCenter = _groundCenter;
+    }
+    public void SetTopCenter(Vector3 _topCenter)
+    {
+        position.topCenter = _topCenter;
     }
 }
 
