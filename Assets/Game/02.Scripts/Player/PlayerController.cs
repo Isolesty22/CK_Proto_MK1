@@ -545,8 +545,10 @@ public class PlayerController : MonoBehaviour
     public void HandleAnimation()
     {
         Com.animator.SetFloat("Speed", Mathf.Abs(Com.rigidbody.velocity.x));
-        Com.animator.SetBool("isJumping", State.isJumping);
+        Com.animator.SetBool("isMoving", State.isMoving);
         Com.animator.SetBool("isAttack", State.isAttack);
         Com.animator.SetBool("isCrouching", State.isCrouching);
+        Com.animator.SetBool("isJumping", State.isJumping);
+        Com.animator.SetBool("isLookUp", State.isLookUp);
     }
 }
