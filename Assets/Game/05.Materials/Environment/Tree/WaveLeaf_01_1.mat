@@ -7,20 +7,24 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WeedWindTest
-  m_Shader: {fileID: -6465566751694194690, guid: 99ef16da84dac834f99b028cf8964711, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON _EMISSION
-  m_LightmapFlags: 2
+  m_Name: WaveLeaf_01_1
+  m_Shader: {fileID: -6465566751694194690, guid: 0ea54cd809a416049b4466fb1ada6082, type: 3}
+  m_ShaderKeywords: _ALPHATEST_ON
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
+  m_DoubleSidedGI: 1
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 902d00601cd6c394a9e12c37256f2f6f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -44,7 +48,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 902d00601cd6c394a9e12c37256f2f6f, type: 3}
+        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -63,14 +67,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Sw_BaseColor:
-        m_Texture: {fileID: 2800000, guid: 902d00601cd6c394a9e12c37256f2f6f, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Sw_Nomal:
-        m_Texture: {fileID: 2800000, guid: b90a7a4b63ca01842b840f9bbd14ed9a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -85,12 +81,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 1
-    - _Blend: 0
+    - _Blend: 3
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cull: 0
+    - _Cutoff: 0.4
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -103,24 +99,23 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.5
+    - _Smoothness: 0.22
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _Sw_WindDensity: 0.006
-    - _Sw_WindStrength: 0.6
+    - _WindSpeed: 0.32
+    - _WindStrength: 0.68
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_67e61f45a8d047e5886e6d6694000920: {r: 0.30588236, g: 0.49411765, b: 0.03137255, a: 0}
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0.51837134, g: 0.5471698, b: 0, a: 1}
+    - _BaseColor: {r: 0.9866245, g: 1, b: 0.6745283, a: 1}
+    - _Color: {r: 0.15395543, g: 0.4056604, b: 0, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _Sw_WindMovement: {r: 12, g: 0, b: 0, a: 0}
+    - _WindDirection: {r: 1.22, g: 1.35, b: 0.67, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4119915261004972507
+--- !u!114 &7031506296687118702
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
