@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 64203631}
   - component: {fileID: 64203630}
+  - component: {fileID: 64203632}
   m_Layer: 0
   m_Name: BearMapInfo
   m_TagString: Untagged
@@ -152,22 +153,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3240911a5d91f85449daf5b88a4880e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapCollider: {fileID: 64203632}
+  mapSize: {x: 0, y: 0, z: 0}
   bearBlocks:
   - position:
-      max: {x: 0, y: 0, z: 0}
       min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
   - position:
-      max: {x: 0, y: 0, z: 0}
       min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
   - position:
-      max: {x: 0, y: 0, z: 0}
       min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
   - position:
-      max: {x: 0, y: 0, z: 0}
       min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
   - position:
-      max: {x: 0, y: 0, z: 0}
       min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
 --- !u!4 &64203631
 Transform:
   m_ObjectHideFlags: 0
@@ -176,12 +179,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 64203629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 369.50003, y: 257.71146, z: -1540.3082}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1.93, z: 8.4005}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &64203632
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 64203629}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &115871482
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +248,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 115871483}
+  bearMapInfo: {fileID: 64203630}
   stateInfo:
     phase: 
     state: 
@@ -240,8 +257,9 @@ MonoBehaviour:
     phaseText: {fileID: 843945484}
     hpText: {fileID: 140443600}
   hp: 100
-  startPhase02: 70
-  startPhase03: 30
+  bossPhaseValue:
+    phase2: 70
+    phase3: 30
   phase_01_List: 03000000030000000300000001000000
   phase_02_List: 0500000003000000
   phase_03_List: 0500000005000000

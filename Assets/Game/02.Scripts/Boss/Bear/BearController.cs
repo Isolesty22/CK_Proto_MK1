@@ -11,6 +11,7 @@ public class BearController : MonoBehaviour
 
 
     private BearStateMachine bearStateMachine;
+    public BearMapInfo bearMapInfo;
 
     #region Test용
     [Tooltip("현재 상태")]
@@ -26,9 +27,10 @@ public class BearController : MonoBehaviour
     public TestTextMesh testTextMesh;
     #endregion
 
-
+    [Header("현재 체력")]
     [Range(0, 100)]
     public float hp = 100f;
+    [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
     [Header("패턴 목록")]
@@ -50,6 +52,8 @@ public class BearController : MonoBehaviour
     {
         Init();
         Init_Animator();
+        bearMapInfo.InitBearBlocks();
+
         Debug.Log("Init 완료");
     }
     private void Init()
