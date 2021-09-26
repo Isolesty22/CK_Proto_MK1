@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 2DBush1_Wave01
-  m_Shader: {fileID: -6465566751694194690, guid: 4ebfbd494e11f4041ac23b05d880c325, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 7b4ffafcf0e659646926f427b3014711, type: 3}
   m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _ALPHATEST_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,7 +19,19 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Texture2D_07085fc1beaf44b6a2735c32f3302f49:
+        m_Texture: {fileID: 2800000, guid: 902d00601cd6c394a9e12c37256f2f6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - Texture2D_9f555db27fcd405680aade1365600e37:
+        m_Texture: {fileID: 2800000, guid: 48a5a5ba05f9f404d96f39d0718e65ad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_ac635a0af41c45e3b274f5280ea3415a:
+        m_Texture: {fileID: 2800000, guid: 48a5a5ba05f9f404d96f39d0718e65ad, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _AlphaTex:
         m_Texture: {fileID: 2800000, guid: 48a5a5ba05f9f404d96f39d0718e65ad, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -115,6 +127,10 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _WindIntensity: 0.39
+    - _WindScale: 1
+    - _WindSpeed: 0.4
+    - _WindStregth: 0.1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -123,7 +139,9 @@ Material:
     - _Bg_WindDirection: {r: 0.98, g: 0, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _MainTexColor: {r: 1, g: 1, b: 1, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _WindDirection: {r: 1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &6527352519883881738
 MonoBehaviour:
