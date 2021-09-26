@@ -24,37 +24,37 @@ public class BearMapInfo : MonoBehaviour
     public void InitBearBlocks()
     {
         //mapSize, mapPosition 계산
-        CalcMapVector();
+        UpdateMapVector();
 
         Vector3 tempMin;
         Vector3 tempMax;
         for (int i = 0; i < blockCount; i++)
         {
-            
+
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.green;
-    //    CalcMapVector();
-    //    Gizmos.DrawWireCube(mapPosition, mapSize);
-    //}
-
-    private void CalcMapVector()
+    private void OnDrawGizmos()
     {
-        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x, 
-            mapCollider.size.y * myTransform.lossyScale.y, 
-            mapCollider.size.z * myTransform.lossyScale.z);
+        Gizmos.color = Color.red;
 
-        mapPosition = new Vector3(mapCollider.center.x + myTransform.localPosition.x, 
-            mapCollider.center.y + myTransform.localPosition.y, 
-            mapCollider.center.z + myTransform.localPosition.z);
+        UpdateMapVector();
+        Gizmos.DrawWireCube(mapPosition, mapSize);
+    }
+
+    private void UpdateMapVector()
+    {
+        mapSize = new Vector3(mapCollider.size.x * myTransform.lossyScale.x,
+            mapCollider.size.y * myTransform.lossyScale.y,
+            mapCollider.size.z * myTransform.lossyScale.z);
+        
+        mapPosition = myTransform.TransformPoint(mapCollider.center);
+
     }
 
     private void CalcBearBlocks()
     {
-        
+
     }
 }
 
