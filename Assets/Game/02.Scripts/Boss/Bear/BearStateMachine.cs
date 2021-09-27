@@ -19,7 +19,6 @@ public class BearStateMachine : BossStateMachine
     {
         base.ChangeState(_state);
     }
-
     public override BossState GetState(eBossState _state)
     {
 
@@ -28,20 +27,28 @@ public class BearStateMachine : BossStateMachine
             case eBossState.BearState_Idle:
                 return new BearState_Idle(bearController);
 
-            case eBossState.BearState_Doljin:
-                return new BearState_Doljin(bearController);
+            case eBossState.BearState_Stamp:
+                return new BearState_Stamp(bearController);
 
-            case eBossState.BearState_Halquigi_A:
-                return new BearState_Halquigi_A(bearController);
+            case eBossState.BearState_Rush:
+                return new BearState_Rush(bearController);
 
-            case eBossState.BearState_Halquigi_B:
-                return new BearState_Halquigi_B(bearController);
+            case eBossState.BearState_Roar_A:
+            case eBossState.BearState_Roar_B:
+                return new BearState_Roar(bearController);
 
-            case eBossState.BearState_Phohyo:
-                return new BearState_Phohyo(bearController);
+            case eBossState.BearState_Strike_A:
+            case eBossState.BearState_Strike_B:
+            case eBossState.BearState_Strike_C:
+                return new BearState_Strike(bearController);
 
-            case eBossState.BearState_Naeryeochigi:
-                return new BearState_Naeryeochigi(bearController);
+            case eBossState.BearState_Claw_A:
+            case eBossState.BearState_Claw_B:
+            case eBossState.BearState_Claw_C:
+                return new BearState_Claw(bearController);
+
+
+
 
             default:
                 return new BearState_Idle(bearController);
