@@ -12,9 +12,9 @@ public class BearController : BossController
     #region definitions
     [Serializable] public class Patterns
     {
-        public List<eBearState> phase_01_List = new List<eBearState>();
-        public List<eBearState> phase_02_List = new List<eBearState>();
-        public List<eBearState> phase_03_List = new List<eBearState>();
+        public List<eBossState> phase_01_List = new List<eBossState>();
+        public List<eBossState> phase_02_List = new List<eBossState>();
+        public List<eBossState> phase_03_List = new List<eBossState>();
 
         //public Queue<eBossState> phase_01_Queue = new Queue<eBossState>();
         //public Queue<eBossState> phase_02_Queue = new Queue<eBossState>();
@@ -24,6 +24,7 @@ public class BearController : BossController
     [Serializable] public class SkillObjects
     {
         public GameObject strikeCube;
+        public GameObject roarCube;
     }
 
     #endregion
@@ -51,8 +52,6 @@ public class BearController : BossController
 
     [Header("패턴 목록")]
     public Patterns patterns;
-
-
 
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
@@ -118,7 +117,7 @@ public class BearController : BossController
         testTextMesh.hpText.text = hp.ToString();
         testTextMesh.phaseText.text = stateInfo.phase;
     }
-    private bool ChangeState(eBearState _state)
+    private bool ChangeState(eBossState _state)
     {
         if (!bearStateMachine.CanExit())
         {
