@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +24,7 @@ public class TriggerHitScan : MonoBehaviour
         //    }
         //}
 
-        //ÇÇ°Ý °¡´É
+        //í”¼ê²© ê°€ëŠ¥
         if (!playerController.State.isInvincible)
         {
             if (other.CompareTag(playerTag))
