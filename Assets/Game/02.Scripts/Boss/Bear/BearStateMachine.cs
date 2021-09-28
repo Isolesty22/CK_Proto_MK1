@@ -4,22 +4,21 @@ using UnityEngine;
 
 public class BearStateMachine : BossStateMachine
 {
-
     private BearController bearController;
     public BearStateMachine(BearController _bearController)
     {
         bearController = _bearController;
     }
 
-    public override void StartState(eBossState _state)
+    public override void StartState(eBearState _state)
     {
         base.StartState(_state);
     }
-    public override void ChangeState(eBossState _state)
+    public override void ChangeState(eBearState _state)
     {
         base.ChangeState(_state);
     }
-    public override BossState GetState(eBossState _state)
+    public override BossState GetState(eBearState _state)
     {
 
         switch (_state)

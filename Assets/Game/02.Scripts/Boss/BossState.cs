@@ -41,8 +41,6 @@ public class BossState
     }
 }
 
-
-
 #region BearState
 public class BearState : BossState
 {
@@ -75,7 +73,7 @@ public class BearState_Idle : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 
     IEnumerator ProcessUpdate()
@@ -103,7 +101,7 @@ public class BearState_Stamp : BearState
     public override void OnEnter()
     {
         canExit = true;
-
+        bearController.SetTrigger("Start_Stamp");
     }
 
     public override void OnUpdate()
@@ -118,7 +116,7 @@ public class BearState_Stamp : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }
 public class BearState_Rush : BearState
@@ -130,7 +128,7 @@ public class BearState_Rush : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetTrigger("Start_Doljin");
+        bearController.SetTrigger("Start_Rush");
         //bearController.StartCoroutine(ProcessDoljin());
     }
 
@@ -146,7 +144,7 @@ public class BearState_Rush : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 
     private IEnumerator ProcessDoljin()
@@ -170,7 +168,7 @@ public class BearState_Roar : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetTrigger("Start_Phohyo");
+        bearController.SetTrigger("Start_Roar");
         //bearController.StartCoroutine(ProcessUpdate());
     }
 
@@ -186,7 +184,7 @@ public class BearState_Roar : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
     IEnumerator ProcessUpdate()
     {
@@ -213,7 +211,8 @@ public class BearState_Strike : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetTrigger("Start_Strike_A");
+        bearController.SetSkillAction(Skill_Strike);
+        bearController.SetTrigger("Start_Strike");
     }
 
     public override void OnUpdate()
@@ -228,8 +227,16 @@ public class BearState_Strike : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
+
+    public void Skill_Strike()
+    {
+        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[0].position.groundCenter, Quaternion.identity);
+        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[2].position.groundCenter, Quaternion.identity);
+        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[3].position.groundCenter, Quaternion.identity);
+    }
+
 }
 public class BearState_Claw : BearState
 {
@@ -240,7 +247,7 @@ public class BearState_Claw : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetTrigger("Start_Halquigi_A");
+        bearController.SetTrigger("Start_Claw");
     }
 
     public override void OnUpdate()
@@ -255,7 +262,7 @@ public class BearState_Claw : BearState
 
     public override void OnExit()
     {
-
+        base.OnExit();
     }
 }
 #endregion

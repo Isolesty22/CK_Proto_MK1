@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum eBossState
+public enum eBearState
 {
     None,
     [InspectorName("곰_대기")]
