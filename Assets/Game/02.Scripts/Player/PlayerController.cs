@@ -350,6 +350,9 @@ public class PlayerController : MonoBehaviour
 
         Stat.hp -= 1;
 
+        Com.animator.SetTrigger("Hit");
+
+
         var knockBack = KnockBack();
         StartCoroutine(knockBack);
         var invincible = Invincible();
@@ -550,5 +553,16 @@ public class PlayerController : MonoBehaviour
         Com.animator.SetBool("isCrouching", State.isCrouching);
         Com.animator.SetBool("isJumping", State.isJumping);
         Com.animator.SetBool("isLookUp", State.isLookUp);
+        Com.animator.SetBool("isHit", State.isHit);
+    }
+
+    public bool CanParry()
+    {
+        return State.canParry;
+    }
+
+    public bool IsInvincible()
+    {
+        return State.isInvincible;
     }
 }
