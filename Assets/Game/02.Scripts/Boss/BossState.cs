@@ -100,7 +100,8 @@ public class BearState_Stamp : BearState
     }
     public override void OnEnter()
     {
-        canExit = true;
+        canExit = false;
+        bearController.SetSkillAction(SkillAction);
         bearController.SetTrigger("Start_Stamp");
     }
 
@@ -117,6 +118,20 @@ public class BearState_Stamp : BearState
     public override void OnExit()
     {
         base.OnExit();
+    }
+
+    public void SkillAction()
+    {
+        //땅에 있을 경우
+        if (GameManager.instance.playerController.State.isGrounded == true)
+        {
+            //피격 가능
+            if (!GameManager.instance.playerController.State.isInvincible)
+            {
+                GameManager.instance.playerController.Hit();
+            }
+
+        }
     }
 }
 public class BearState_Rush : BearState
@@ -211,7 +226,7 @@ public class BearState_Strike : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetSkillAction(Skill_Strike);
+        bearController.SetSkillAction(SkillAction);
         bearController.SetTrigger("Start_Strike");
     }
 
@@ -230,7 +245,7 @@ public class BearState_Strike : BearState
         base.OnExit();
     }
 
-    public void Skill_Strike()
+    public void SkillAction()
     {
         GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[0].position.groundCenter, Quaternion.identity);
         GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[2].position.groundCenter, Quaternion.identity);

@@ -66,8 +66,6 @@ public class BearController : BossController
         Init();
         Init_Animator();
         bearMapInfo.Init();
-
-        Debug.Log("Init 완료");
     }
     private void Init()
     {
@@ -104,6 +102,7 @@ public class BearController : BossController
         AddAnimatorHash("Start_Claw");
         AddAnimatorHash("Start_Strike");
         AddAnimatorHash("Phase");
+        AddAnimatorHash("Start_Stamp");
     }
     private void Start()
     {
@@ -146,7 +145,6 @@ public class BearController : BossController
             if (ChangeState(patterns.phase_01_List[i]))
             {
                 stateInfo.state = patterns.phase_01_List[i].ToString();
-                Debug.Log("현재 인덱스 " + (i));
                 i += 1;
                 if (hp <= bossPhaseValue.phase2)
                 {
