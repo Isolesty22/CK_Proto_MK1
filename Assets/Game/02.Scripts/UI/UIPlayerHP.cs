@@ -22,8 +22,8 @@ public class UIPlayerHP : MonoBehaviour
 
     private void Init()
     {
-        //playerController = GameManager.instance.playerController;
-        hpCount = testCurrentHP;
+        playerController = GameManager.instance.playerController;
+        hpCount = playerController.Stat.hp;
         UpdateCurrentHP();
     }
 
@@ -59,10 +59,10 @@ public class UIPlayerHP : MonoBehaviour
 
     private bool CheckHP()
     {
-        return testCurrentHP == hpCount;
+        return playerController.Stat.hp == hpCount;
     }
     private void UpdateCurrentHP()
     {
-        currentHP = testCurrentHP;
+        currentHP = playerController.Stat.hp;
     }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BearStateMachine : BossStateMachine
 {
-
     private BearController bearController;
     public BearStateMachine(BearController _bearController)
     {

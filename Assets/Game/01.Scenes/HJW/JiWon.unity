@@ -1065,12 +1065,12 @@ GameObject:
   - component: {fileID: 637029902}
   - component: {fileID: 637029901}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: UIPlayerHP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &637029901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1182,7 +1182,7 @@ GameObject:
   - component: {fileID: 882455114}
   - component: {fileID: 882455113}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: KeySettingCanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2508,11 +2508,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1382808117}
+  bearMapInfo: {fileID: 0}
   stateInfo:
     phase: 
     state: 
-  phaseList_01: 0500000001000000030000000100000005000000010000000500000003000000050000000300000001000000
-  testMesh: {fileID: 367113810}
+  testTextMesh:
+    stateText: {fileID: 0}
+    phaseText: {fileID: 0}
+    hpText: {fileID: 0}
+  skillObjects:
+    strikeCube: {fileID: 0}
+    roarCube: {fileID: 0}
+  hp: 100
+  bossPhaseValue:
+    phase2: 0
+    phase3: 0
+  patterns:
+    phase_01_List: 
+    phase_02_List: 
+    phase_03_List: 
 --- !u!4 &1382808116
 Transform:
   m_ObjectHideFlags: 0
