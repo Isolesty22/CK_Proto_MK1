@@ -4,55 +4,59 @@ using UnityEngine;
 
 public class CurveBullet : MonoBehaviour
 {
-    public Vector3 target;
-    public float firingAngle = 45.0f;
-    public float gravity = 9.8f;
+    public Vector3 startPos; 
+    public Vector3 endPos; 
 
-    public Transform projectile;
-    public Transform myTransform;
+    public Vector3 startHeightPos;
+    public Vector3 endHeightPos;
 
-    private void Awake()
+    public float duration;
+
+    public float height = 3.5f;
+
+    public bool isRun;
+
+    float t; 
+
+    float startTime;
+
+
+    void Start()
     {
-        projectile = transform;
-        myTransform = transform;
+        startTime = Time.time;
+        startHeightPos = startPos + new Vector3(0, 1, 0) * height;
+        endHeightPos = endPos + new Vector3(0, 1, 0) * height;
     }
 
-    private void Start()
+    void Update()
     {
-
-    }
-
-    private void Update()
-    {
-        if (Vector3.Distance(gameObject.transform.position, target) < 0.05f)
-            gameObject.SetActive(false);
-    }
-
-    public IEnumerator ParabolaShoot()
-    {
-        projectile.position = myTransform.position + new Vector3(0, 0.0f, 0);
-
-        float targetDistance = Vector3.Distance(projectile.position, target);
-
-        float projectileVelocity = targetDistance / (Mathf.Sin(2 * firingAngle * Mathf.Deg2Rad) / gravity);
-
-        float Vx = Mathf.Sqrt(projectileVelocity) * Mathf.Cos(firingAngle * Mathf.Deg2Rad);
-        float Vy = Mathf.Sqrt(projectileVelocity) * Mathf.Sin(firingAngle * Mathf.Deg2Rad);
-
-        float flightDuration = targetDistance / Vx;
-
-        projectile.rotation = Quaternion.LookRotation(target - projectile.position);
-
-        float elapse_time = 0;
-
-        while (elapse_time < flightDuration)
+        if (isRun)
         {
-            projectile.Translate(0, (Vy - (gravity * elapse_time)) * Time.deltaTime, Vx * Time.deltaTime);
+            t = (Time.time - startTime) / duration;
 
-            elapse_time += Time.deltaTime;
-
-            yield return null;
+            BezierCurve();
         }
+
+        if(Vector3.Distance(transform.position, endPos) < 0.01f)
+        {
+            isRun = false;
+            transform.GetComponent<Rigidbody>().useGravity = true;
+        }
+    }
+
+
+    void BezierCurve()
+    {
+        Vector3 a = Vector3.Lerp(startPos, startHeightPos, t); //Mathf.SmoothStep(tMin, tMax, t)값이 자연스럽게 증가하는건데 생각보다 별로다.
+        Vector3 b = Vector3.Lerp(startHeightPos, endHeightPos, t);
+        Vector3 c = Vector3.Lerp(endHeightPos, endPos, t);
+
+        Vector3 d = Vector3.Lerp(a, b, t);
+        Vector3 e = Vector3.Lerp(b, c, t);
+
+        Vector3 f = Vector3.Lerp(d, e, t);
+
+        transform.position = f;
     }
 
     private void OnTriggerEnter(Collider other)
