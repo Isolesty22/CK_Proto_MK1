@@ -64,8 +64,11 @@ public class PlayerController : MonoBehaviour
         public float gravity = 1f;
         public Vector3 groundNormal;
         public float groundedDistance = 0f;
+        public float upDistance = 0f;
         public float groundedCheck = 2f;
         public float forwardCheck = 0.1f;
+        public bool upTrigger = true;
+        public bool prevJump;
         [Header("KnockBack")]
         public float knockBackPower;
         public Vector3 knockBackVelocity;
@@ -84,6 +87,7 @@ public class PlayerController : MonoBehaviour
         public bool isGrounded;
         public bool isJumping;
         public bool isForwardBlocked;
+        public bool isUpBlocked;
         public bool isCrouching;
         public bool isHit;
         public bool isInvincible;
@@ -164,6 +168,8 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         ForwardCheck();
         UpdatePhysics();
+        UpCheck();
+
 
         Jump();
         Move();
@@ -226,6 +232,33 @@ public class PlayerController : MonoBehaviour
         //        State.isForwardBlocked = true;
         //    }
         //}
+    }
+
+    private void UpCheck()
+    {
+        if(State.isGrounded)
+        {
+            Val.upTrigger = true;
+            return;
+        }
+
+        State.isUpBlocked = false;
+
+        int layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        const float rayDistance = 10f;
+        const float threshold = 0.13f;
+
+        bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
+        Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
+        State.isUpBlocked = Val.upDistance <= threshold;
+
+        if(State.isUpBlocked && Val.upTrigger)
+        {
+            Val.velocityY = 0f;
+            Val.upTrigger = false;
+        }
+
     }
 
     private void UpdatePhysics()
@@ -299,11 +332,13 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(Key.jump))
+        if (!Val.prevJump && Input.GetKey(Key.jump))
         {
             Val.velocityY = Stat.jumpForce;
             State.isJumping = true;
         }
+
+        Val.prevJump = Input.GetKey(Key.jump);
     }
 
     private void Crouch()
