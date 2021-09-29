@@ -57,6 +57,8 @@ public class BearMapInfo : MonoBehaviour
         //mapSize, mapPosition 계산
         UpdateMapVector();
         UpdateBearBlocks();
+        UpdateProjectilePositions();
+        UpdateProjectileRandArray();
     }
     private void UpdateMapVector()
     {
@@ -140,9 +142,38 @@ public class BearMapInfo : MonoBehaviour
 
     }
 
-    private void ShuffleProjectileRandArray()
+    private void UpdateProjectileRandArray()
     {
+        //배열 초기화--
+        projectileRandArray = new int[projectilePosCount];
 
+        int length = projectilePosCount - 1;
+
+        for (int i = 0; i < length; i++)
+        {
+            projectileRandArray[i] = i;
+        }
+
+
+        //랜덤---
+        for (int i = 0; i < length; i++)
+        {
+            int randIndex = Random.Range(i, length);
+
+            int tempPos = projectileRandArray[i];
+            projectileRandArray[i] = projectileRandArray[randIndex];
+            projectileRandArray[randIndex] = tempPos;
+        }
+
+        string logString = "결과 :  { ";
+        for (int i = 0; i < length; i++)
+        {
+            logString += projectileRandArray[i];
+            logString += ", ";
+        }
+        logString += "}";
+
+        Debug.LogWarning(logString);
     }
 
     private void OnDrawGizmos()
