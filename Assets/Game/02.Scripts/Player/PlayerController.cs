@@ -133,6 +133,9 @@ public class PlayerController : MonoBehaviour
         Stat.Initialize();
         transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
         parry = Parry();
+        Com.mat1.color = Com.originalColor;
+        Com.mat2.color = Com.originalColor;
+        Com.mat3.color = Com.originalColor;
     }
 
     private void Start()
@@ -489,7 +492,7 @@ public class PlayerController : MonoBehaviour
         State.isInvincible = false;
 
 
-        yield return new WaitForSeconds(Com.pixy.pixyMoveTime);
+        yield return new WaitForSeconds(Com.pixy.pixyMoveTime+ Com.pixy.drainTime);
         State.canCounter = true;
     }
 

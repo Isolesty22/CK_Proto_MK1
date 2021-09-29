@@ -12,6 +12,8 @@ public class Pixy : MonoBehaviour
     public Vector3 pixyPos;
     public Vector3 pixyCounterPos;
 
+    public float drainTime = .5f;
+
     public float pixyMoveTime = 0.2f;
     public float counterRange = 100f;
     public float counterSpeed = 10f;
@@ -24,8 +26,18 @@ public class Pixy : MonoBehaviour
 
     public void ReadyToCounter()
     {
+        var ready = Ready();
+        StartCoroutine(ready);
+
+    }
+
+    public IEnumerator Ready()
+    {
+        yield return new WaitForSeconds(drainTime);
+
         pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
     }
+
 
     public IEnumerator Counter()
     {
