@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
+using System.Linq;
+
 public class BearController : BossController
 {
     public Animator animator;
@@ -47,6 +49,7 @@ public class BearController : BossController
     #endregion
 
     public SkillObjects skillObjects;
+
     [Header("현재 체력")]
     [Range(0, 100)]
     public float hp = 100f;
@@ -59,9 +62,8 @@ public class BearController : BossController
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
-
-    [HideInInspector]
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
+    private BearPattern currentPattern;
 
     /// <summary>
     /// 스킬 액션
@@ -110,11 +112,15 @@ public class BearController : BossController
         testTextMesh.hpText.text = hp.ToString();
         testTextMesh.phaseText.text = stateInfo.phase.ToString();
     }
+    private bool CanChangeState()
+    {
+        return bearStateMachine.CanExit();
+    }
     private bool ChangeState(eBossState _state)
     {
         if (_state == eBossState.BearState_Random)
         {
-            bearStateMachine.ChangeState((eBossState)UnityEngine.Random.Range(0, (int)eBossState.BearState_Random));
+            bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
         }
         else
         {
@@ -124,10 +130,24 @@ public class BearController : BossController
         return false;
     }
 
-    private bool CanChangeState()
-    {
-        return bearStateMachine.CanExit();
-    }
+    //해야함 : 다른 페이즈로 이동 가능한지를 체크해주는 함수
+    //private bool CanGoNextPhase(ePhase _currentPhase)
+    //{
+    //    switch (_currentPhase)
+    //    {
+    //        case ePhase.Phase_1:
+    //             bossPhaseValue.phase2;
+
+    //        case ePhase.Phase_2:
+    //             bossPhaseValue.phase3;
+
+    //        case ePhase.Phase_3:
+    //             return true
+
+    //        default:
+    //             0;
+    //    }
+    //}
 
     /// <summary>
     /// 다음 페이즈로 가기 위한 체력을 반환해줍니다.
@@ -155,7 +175,6 @@ public class BearController : BossController
 
     }
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
-    BearPattern currentPattern;
     private IEnumerator ProcessChangeStateTest()
     {
         //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
@@ -214,6 +233,31 @@ public class BearController : BossController
     {
         bearStateMachine.currentState.canExit = _canExit;
     }
+
+    //랜덤 범위------------
+    private readonly eBossState[] patterns_phase_1 
+        = { eBossState.BearState_Stamp, eBossState.BearState_Strike_A, eBossState.BearState_Claw_A };
+    private readonly eBossState[] patterns_phase_2 
+        = { eBossState.BearState_Roar_A, eBossState.BearState_Roar_B, eBossState.BearState_Claw_B, eBossState.BearState_Strike_B };
+    private readonly eBossState[] patterns_phase_3 
+        = { eBossState.BearState_Stamp, eBossState.BearState_Roar_A, eBossState.BearState_Strike_A, eBossState.BearState_Claw_C, eBossState.BearState_Strike_C };
+    private eBossState GetRandomState(ePhase _phase)
+    {
+        switch (_phase)
+        {
+            case ePhase.Phase_1:
+                return patterns_phase_1[UnityEngine.Random.Range(0, patterns_phase_1.Length)];
+
+            case ePhase.Phase_2:
+                return patterns_phase_2[UnityEngine.Random.Range(0, patterns_phase_2.Length)];
+
+            case ePhase.Phase_3:
+                return patterns_phase_3[UnityEngine.Random.Range(0, patterns_phase_3.Length)];
+
+            default:
+                return eBossState.None;
+        }
+    }
     public void SetSkillAction(Action _action)
     {
         skillAction = null;
@@ -230,18 +274,14 @@ public class BearController : BossController
     {
         aniHash.Add(_paramName, Animator.StringToHash(_paramName));
     }
-    public void AnimatorPlay(string _pathAndName)
-    {
-        animator.Play(_pathAndName, 0, 0f);
-    }
     public void OnAnimStateExit()
     {
         bearStateMachine.currentState.canExit = true;
     }
     #endregion
 }
-[Serializable]
-public struct BearPattern
+
+[Serializable] public struct BearPattern
 {
     [Tooltip("대기 시간")]
     public float waitTime;
