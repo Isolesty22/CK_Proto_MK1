@@ -1,22 +1,24 @@
 ﻿//using System.Collections;
 //using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class BossController : MonoBehaviour
 {
 
 }
 
-[System.Serializable]
+
+[Serializable]
 public class StateInfo
 {
     [Tooltip("현재 페이즈")]
-    public string phase = "";
+    public ePhase phase;
     [Tooltip("현재 상태")]
     public string state = "";
 }
 
-[System.Serializable]
+[Serializable]
 public class BossPhaseValue
 {
     public float phase2;

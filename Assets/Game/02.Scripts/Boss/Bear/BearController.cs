@@ -10,18 +10,20 @@ public class BearController : BossController
     public BearMapInfo bearMapInfo;
 
     #region definitions
-    [Serializable] public class Patterns
+    [Serializable]
+    public class Patterns
     {
-        public List<eBossState> phase_01_List = new List<eBossState>();
-        public List<eBossState> phase_02_List = new List<eBossState>();
-        public List<eBossState> phase_03_List = new List<eBossState>();
+        public List<BearPattern> phase_01_List = new List<BearPattern>();
+        public List<BearPattern> phase_02_List = new List<BearPattern>();
+        public List<BearPattern> phase_03_List = new List<BearPattern>();
 
         //public Queue<eBossState> phase_01_Queue = new Queue<eBossState>();
         //public Queue<eBossState> phase_02_Queue = new Queue<eBossState>();
         //public Queue<eBossState> phase_03_Queue = new Queue<eBossState>();
     }
 
-    [Serializable] public class SkillObjects
+    [Serializable]
+    public class SkillObjects
     {
         public GameObject strikeCube;
         public GameObject roarCube;
@@ -115,22 +117,31 @@ public class BearController : BossController
     {
         testTextMesh.stateText.text = stateInfo.state;
         testTextMesh.hpText.text = hp.ToString();
-        testTextMesh.phaseText.text = stateInfo.phase;
+        testTextMesh.phaseText.text = stateInfo.phase.ToString();
     }
     private bool ChangeState(eBossState _state)
     {
-        if (!bearStateMachine.CanExit())
+        if (_state == eBossState.BearState_Random)
         {
-            return false;
+            bearStateMachine.ChangeState((eBossState)UnityEngine.Random.Range(0, (int)eBossState.BearState_Random));
         }
         else
         {
             bearStateMachine.ChangeState(_state);
-            return true;
-        }
 
+        }
+        return false;
     }
 
+    private bool CanChangeState()
+    {
+        return bearStateMachine.CanExit();
+    }
+
+    private void NextPhase()
+    {
+        stateInfo.phase = stateInfo.phase + 1;
+    }
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private IEnumerator ProcessChangeStateTest()
     {
@@ -138,31 +149,58 @@ public class BearController : BossController
         bool thisPhase = true;
         int i = 0;
         int length = patterns.phase_01_List.Count;
-        stateInfo.phase = "Phase 01";
+        stateInfo.phase = ePhase.Phase_1;
         while (thisPhase)
         {
             i = i % length;
-            if (ChangeState(patterns.phase_01_List[i]))
+            // if (ChangeState(patterns.phase_01_List[i].state))
+            if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
             {
-                stateInfo.state = patterns.phase_01_List[i].ToString();
-                i += 1;
+                //페이즈 전환 체크
                 if (hp <= bossPhaseValue.phase2)
                 {
-                    thisPhase = false;
+                    break;
                 }
-                yield return waitOneSec;
+
+                //아직 현재 페이즈에 머무를수 있다면
+                //대기 시간동안 기다림
+                yield return new WaitForSeconds(patterns.phase_01_List[i].waitTime);
+
+                //스테이트 변경
+                ChangeState(patterns.phase_01_List[i].state);
+                stateInfo.state = bearStateMachine.GetCurrentStateName();
+
+                //다음 패턴 불러오기
+                i += 1;
+
+                yield return null;
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        //while (thisPhase)
+        //{
+        //    i = i % length;
+        //    if (ChangeState(patterns.phase_01_List[i].state))
+        //    {
+        //        stateInfo.state = patterns.phase_01_List[i].ToString();
+        //        i += 1;
+        //        if (hp <= bossPhaseValue.phase2)
+        //        {
+        //            thisPhase = false;
+        //        }
+        //        yield return waitOneSec;
+        //    }
+        //    yield return YieldInstructionCache.WaitForFixedUpdate;
+        //}
 
         thisPhase = true;
         i = 0;
         length = patterns.phase_02_List.Count;
-        stateInfo.phase = "Phase 02";
+        stateInfo.phase = ePhase.Phase_2;
         while (thisPhase)
         {
             i = i % length;
-            if (ChangeState(patterns.phase_02_List[i]))
+            if (ChangeState(patterns.phase_02_List[i].state))
             {
                 stateInfo.state = patterns.phase_02_List[i].ToString();
                 Debug.Log("현재 인덱스 " + (i));
@@ -179,11 +217,11 @@ public class BearController : BossController
         thisPhase = true;
         i = 0;
         length = patterns.phase_03_List.Count;
-        stateInfo.phase = "Phase 03";
+        stateInfo.phase = ePhase.Phase_3;
         while (thisPhase)
         {
             i = i % length;
-            if (ChangeState(patterns.phase_03_List[i]))
+            if (ChangeState(patterns.phase_03_List[i].state))
             {
                 stateInfo.state = patterns.phase_03_List[i].ToString();
                 Debug.Log("현재 인덱스 " + (i));
@@ -229,4 +267,13 @@ public class BearController : BossController
         bearStateMachine.currentState.canExit = true;
     }
     #endregion
+}
+[Serializable]
+public struct BearPattern
+{
+    [Tooltip("대기 시간")]
+    public float waitTime;
+
+    [Tooltip("실행할 패턴")]
+    public eBossState state;
 }

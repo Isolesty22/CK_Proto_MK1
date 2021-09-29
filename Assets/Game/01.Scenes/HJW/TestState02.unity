@@ -1200,7 +1200,7 @@ MonoBehaviour:
   animator: {fileID: 597055438}
   bearMapInfo: {fileID: 711534392}
   stateInfo:
-    phase: 
+    phase: 0
     state: 
   testTextMesh:
     stateText: {fileID: 1999091326}
@@ -1214,9 +1214,19 @@ MonoBehaviour:
     phase2: 70
     phase3: 30
   patterns:
-    phase_01_List: 060000000200000009000000
-    phase_02_List: 01000000
-    phase_03_List: 04000000
+    phase_01_List:
+    - waitTime: 0
+      state: 4
+    - waitTime: 0
+      state: 12
+    - waitTime: 0
+      state: 9
+    phase_02_List:
+    - waitTime: 0
+      state: 0
+    phase_03_List:
+    - waitTime: 0
+      state: 0
 --- !u!4 &597055440
 Transform:
   m_ObjectHideFlags: 0
