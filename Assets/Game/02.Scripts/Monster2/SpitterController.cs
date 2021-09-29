@@ -9,8 +9,11 @@ public class SpitterController : MonsterController
     [Serializable]
     public class SpitterStatus
     {
-
-        //[Header("Sub Status")]
+        public float shootDelay;
+        [Header("Sub Status")]
+        public bool isPlayerInCol;
+        public float venomHeight;
+        public float venomSpeed;
     }
 
     [Serializable]
@@ -23,10 +26,13 @@ public class SpitterController : MonsterController
 
     public SpitterStatus Stat2 => spitterStatus;
     public SpitterComponents Com2 => spitterComponents;
+
+    private bool isRunCo;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
+        isRunCo = false;
     }
 
     public override void Awake()
@@ -52,7 +58,23 @@ public class SpitterController : MonsterController
     protected override void Idle()
     {
         base.Idle();
+        if (Stat2.isPlayerInCol)
+        {
+            if (GameManager.instance.playerController.transform.position.x <= transform.position.x) 
+            {
+                transform.localEulerAngles = Vector3.zero;
+            }
 
+            else
+            {
+                transform.localEulerAngles = new Vector3(0, 180, 0);
+            }
+
+            ChangeState(MonsterState.ATTACK);
+        }
+
+        else
+            return;
     }
 
     protected override void Move()
@@ -67,6 +89,49 @@ public class SpitterController : MonsterController
     protected override void Attack()
     {
         base.Attack();
+        var shoot = Shoot();
+
+        if (transform.localEulerAngles == Vector3.zero) // look left
+        {
+            if (GameManager.instance.playerController.transform.position.x <= transform.position.x) // player left
+            {
+                if (isRunCo == false)
+                    StartCoroutine(shoot);
+            }
+
+            else
+            {
+                ChangeState(MonsterState.IDLE);
+            }
+        }
+        else
+        {
+            if (GameManager.instance.playerController.transform.position.x > transform.position.x) // player right
+            {
+                if (isRunCo == false)
+                    StartCoroutine(shoot);
+            }
+
+            else
+            {
+                ChangeState(MonsterState.IDLE);
+            }
+        }
+
+    }
+
+    private IEnumerator Shoot()
+    {
+        isRunCo = true;
+        var venom = CustomPoolManager.Instance.curveBulletPool.SpawnThis(transform.position, Vector3.zero, null);
+        venom.startPos = transform.position;
+        venom.endPos = GameManager.instance.playerController.transform.position + new Vector3(0,-1,0);
+        venom.duration = 10 - Stat2.venomSpeed;
+        venom.height = Stat2.venomHeight;
+        venom.isRun = true;
+        yield return new WaitForSeconds(Stat2.shootDelay);
+        ChangeState(MonsterState.IDLE);
+        isRunCo = false;
     }
 
     public override void Hit(int damage)

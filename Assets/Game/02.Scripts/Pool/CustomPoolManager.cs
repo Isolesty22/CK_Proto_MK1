@@ -19,6 +19,7 @@ public class CustomPoolManager : MonoBehaviour
 
     private Dictionary<string, object> poolDictionary = new Dictionary<string, object>();
 
+    public CustomPool<CurveBullet> curveBulletPool;
     public CustomPool<Feather> featherPool;
     public CustomPool<ArrowBase> basicArrowPool;
     public CustomPool<Counter> counterPool;
@@ -54,6 +55,7 @@ public class CustomPoolManager : MonoBehaviour
         #endregion
         Init_PoolObjectDictionary();
 
+        curveBulletPool = CreateCustomPool<CurveBullet>();
         featherPool = CreateCustomPool<Feather>();
         basicArrowPool = CreateCustomPool<ArrowBase>();
         counterPool = CreateCustomPool<Counter>();
