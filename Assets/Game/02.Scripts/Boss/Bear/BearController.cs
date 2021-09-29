@@ -5,6 +5,8 @@ using UnityEngine;
 using System;
 using System.Linq;
 
+//BearController 오브젝트가 선택됨
+[SelectionBase]
 public class BearController : BossController
 {
     public Animator animator;
@@ -28,6 +30,7 @@ public class BearController : BossController
     [Serializable]
     public class SkillObjects
     {
+        public Transform position_Phase2;
         public GameObject strikeCube;
         public GameObject roarCube;
     }
@@ -169,9 +172,8 @@ public class BearController : BossController
                 return 0;
         }
     }
-    private void GoNextPhase()
+    private void YeonChool_Phase2()
     {
-        //현재 페이즈에 1 추가
 
     }
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
@@ -181,16 +183,23 @@ public class BearController : BossController
         stateInfo.phase = ePhase.Phase_1;
         int i = 0;
         int length = phaseList[stateInfo].Count;
+        currentPattern = new BearPattern();
 
         while (true)
         {
             if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
             {
-                //페이즈를 전환 체크
+                //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
                     //페이즈 전환
                     //GoNextPhase(); //빈 함수임
+
+                    if (stateInfo.phase == ePhase.Phase_1)
+                    {
+                        Transform tr = transform;
+                        tr.SetPositionAndRotation(skillObjects.position_Phase2.position, Quaternion.Euler(Vector3.zero));
+                    }
 
                     if (stateInfo.phase == ePhase.Phase_3)
                     {
@@ -201,19 +210,21 @@ public class BearController : BossController
                     length = phaseList[stateInfo].Count;
                 }
 
-                i = i % length;
+                //대기 시간동안 기다림
+                yield return new WaitForSeconds(currentPattern.waitTime);
 
                 //다음 패턴 가져오기
                 currentPattern = phaseList[stateInfo][i];
 
-                //대기 시간동안 기다림
-                yield return new WaitForSeconds(currentPattern.waitTime);
-
                 //스테이트 변경
+
+                stateInfo.stateE = currentPattern.state;
+                stateInfo.state = currentPattern.state.ToString();
+
                 ChangeState(currentPattern.state);
-                stateInfo.state = bearStateMachine.GetCurrentStateName();
 
                 i += 1;
+                i = i % length;
 
                 yield return null;
             }
@@ -235,11 +246,11 @@ public class BearController : BossController
     }
 
     //랜덤 범위------------
-    private readonly eBossState[] patterns_phase_1 
+    private readonly eBossState[] patterns_phase_1
         = { eBossState.BearState_Stamp, eBossState.BearState_Strike_A, eBossState.BearState_Claw_A };
-    private readonly eBossState[] patterns_phase_2 
+    private readonly eBossState[] patterns_phase_2
         = { eBossState.BearState_Roar_A, eBossState.BearState_Roar_B, eBossState.BearState_Claw_B, eBossState.BearState_Strike_B };
-    private readonly eBossState[] patterns_phase_3 
+    private readonly eBossState[] patterns_phase_3
         = { eBossState.BearState_Stamp, eBossState.BearState_Roar_A, eBossState.BearState_Strike_A, eBossState.BearState_Claw_C, eBossState.BearState_Strike_C };
     private eBossState GetRandomState(ePhase _phase)
     {
@@ -281,11 +292,14 @@ public class BearController : BossController
     #endregion
 }
 
-[Serializable] public struct BearPattern
+[Serializable]
+public struct BearPattern
 {
-    [Tooltip("대기 시간")]
-    public float waitTime;
-
     [Tooltip("실행할 패턴")]
     public eBossState state;
+
+    [Tooltip("실행 후 대기 시간")]
+    public float waitTime;
+
+
 }

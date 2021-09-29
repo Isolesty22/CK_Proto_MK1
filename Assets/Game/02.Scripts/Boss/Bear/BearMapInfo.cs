@@ -11,6 +11,14 @@ public class BearMapInfo : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
+    [Range(10, 30)]
+    public int projectilePosCount = 10;
+
+    [Range(5, 30)]
+    public int projectileRandCount = 10;
+
+    private int[] projectileRandArray;
+
     [System.Serializable]
     public class MapData
     {
@@ -20,20 +28,30 @@ public class BearMapInfo : MonoBehaviour
         [ReadOnly]
         public Vector3 position;
 
+        [ReadOnly]
+        public Vector3 minPosition;
+
+        [ReadOnly]
+        public Vector3 maxPosition;
+
         [ReadOnly, Tooltip("사이즈의 절반값")]
         public Vector3 extents;
 
         [ReadOnly, Tooltip("블록 하나당 길이")]
         public Vector3 blockLength;
     }
-
+    [Space(10)]
     [BeginReadOnlyGroup]
     public MapData mapData = new MapData();
 
     [BeginReadOnlyGroup]
     public BearBlock[] bearBlocks = new BearBlock[blockCount];
+    [EndReadOnlyGroup]
 
 
+
+    [HideInInspector]
+    public Vector3[] projectilePositions;
     public void Init()
     {
         //mapSize, mapPosition 계산
@@ -49,24 +67,23 @@ public class BearMapInfo : MonoBehaviour
         mapData.position = myTransform.TransformPoint(mapCollider.center);
 
         mapData.extents = new Vector3(mapData.size.x * 0.5f, mapData.size.y * 0.5f, mapData.size.z * 0.5f);
+
+        mapData.minPosition = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
+        mapData.maxPosition = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
     }
 
     private void UpdateBearBlocks()
     {
-
-        Vector3 mapMin = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
-        Vector3 mapMax = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
-
-        Vector3 tempMin = mapMin;
-        Vector3 tempMax = mapMax;
+        Vector3 tempMin = mapData.minPosition;
+        Vector3 tempMax = mapData.maxPosition;
 
         mapData.blockLength = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
         mapData.blockLength = mapData.blockLength / blockCount;
 
 
         //첫번째 블록 포지션 계산
-        tempMin = new Vector3(tempMin.x, mapMin.y, mapMin.z);
-        tempMax = new Vector3(tempMin.x + mapData.blockLength.x, mapMax.y, mapMax.z);
+        tempMin = new Vector3(tempMin.x, mapData.minPosition.y, mapData.minPosition.z);
+        tempMax = new Vector3(tempMin.x + mapData.blockLength.x, mapData.maxPosition.y, mapData.maxPosition.z);
 
         bearBlocks[0].SetMinMax(tempMin, tempMax);
         bearBlocks[0].SetGroundCenter(CalcGroundCenter(bearBlocks[0].position));
@@ -75,8 +92,8 @@ public class BearMapInfo : MonoBehaviour
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
         {
-            tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapMin.y, mapMin.z);
-            tempMax = new Vector3(mapMin.x + (mapData.blockLength.x * (i + 1)), mapMax.y, mapMax.z);
+            tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
+            tempMax = new Vector3(mapData.minPosition.x + (mapData.blockLength.x * (i + 1)), mapData.maxPosition.y, mapData.maxPosition.z);
 
             bearBlocks[i].SetMinMax(tempMin, tempMax);
             bearBlocks[i].SetGroundCenter(CalcGroundCenter(bearBlocks[i].position));
@@ -97,31 +114,73 @@ public class BearMapInfo : MonoBehaviour
         return bottomCenter;
     }
 
+
+    private void UpdateProjectilePositions()
+    {
+        projectilePositions= new Vector3[projectilePosCount];
+
+        Vector3 tempMin = mapData.minPosition;
+        Vector3 tempMax = mapData.maxPosition;
+
+        float distanceX = (Mathf.Abs(tempMax.x - tempMin.x)) / projectilePosCount;
+
+        //첫번째 가운데 지점 계산
+        tempMin = new Vector3(tempMin.x + distanceX * 0.5f, mapData.maxPosition.y, mapData.position.z);
+
+
+        int length = projectilePositions.Length;
+
+        //첫번째 가운데 지점 설정
+        projectilePositions[0] = tempMin;
+
+        for (int i = 1; i < length; i++)
+        {
+            projectilePositions[i] = new Vector3(projectilePositions[i - 1].x + distanceX, mapData.maxPosition.y, mapData.position.z);
+        }
+
+    }
+
+    private void ShuffleProjectileRandArray()
+    {
+
+    }
+
     private void OnDrawGizmos()
     {
         UpdateMapVector();
         UpdateBearBlocks();
-
-        Gizmos.color = Color.red;
-        for (int i = 0; i < blockCount; i++)
+        UpdateProjectilePositions();
         {
-            Gizmos.DrawLine(bearBlocks[i].position.min, bearBlocks[i].position.max);
+            Gizmos.color = Color.red;
+            for (int i = 0; i < blockCount; i++)
+            {
+                Gizmos.DrawLine(bearBlocks[i].position.min, bearBlocks[i].position.max);
+            }
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireCube(mapData.position, mapData.size);
+
+            Gizmos.color = Color.grey;
+            for (int i = 0; i < blockCount; i++)
+            {
+                Gizmos.DrawSphere(bearBlocks[i].position.groundCenter, 0.1f);
+            }
+
+            Gizmos.color = Color.white;
+            for (int i = 0; i < blockCount; i++)
+            {
+                Gizmos.DrawLine(bearBlocks[i].position.groundCenter, bearBlocks[i].position.topCenter);
+            }
         }
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireCube(mapData.position, mapData.size);
+        Gizmos.color = Color.green;
 
-        Gizmos.color = Color.grey;
-        for (int i = 0; i < blockCount; i++)
+        for (int i = 0; i < projectilePosCount; i++)
         {
-            Gizmos.DrawSphere(bearBlocks[i].position.groundCenter, 0.1f);
+            Gizmos.DrawSphere(projectilePositions[i], 0.2f);
+
         }
 
-        Gizmos.color = Color.white;
-        for (int i = 0; i < blockCount; i++)
-        {
-            Gizmos.DrawLine(bearBlocks[i].position.groundCenter, bearBlocks[i].position.topCenter);
-        }
     }
 }
 

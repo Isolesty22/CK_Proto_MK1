@@ -17,6 +17,9 @@ public class StateInfo
     [Tooltip("현재 상태")]
     public string state = "";
 
+    [Tooltip("현재 상태 enum")]
+    public eBossState stateE;
+
     public static implicit operator int(StateInfo _si) => (int)_si.phase;
 }
 

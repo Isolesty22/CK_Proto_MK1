@@ -226,7 +226,18 @@ public class BearState_Strike : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetSkillAction(SkillAction);
+
+
+        if (bearController.stateInfo.stateE == eBossState.BearState_Strike_A)
+        {
+            ShuffleArray();
+            bearController.SetSkillAction(SkillAction_A);
+
+        }
+        else
+        {
+            bearController.SetSkillAction(SkillAction_B);
+        }
         bearController.SetTrigger("Start_Strike");
     }
 
@@ -245,13 +256,54 @@ public class BearState_Strike : BearState
         base.OnExit();
     }
 
-    public void SkillAction()
+
+    private int[] strikePos;
+    //랜덤
+    private void ShuffleArray()
     {
-        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[0].position.groundCenter, Quaternion.identity);
-        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[2].position.groundCenter, Quaternion.identity);
-        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[3].position.groundCenter, Quaternion.identity);
+        strikePos = new int[4] { 0, 1, 2, 3 };
+
+        int length = strikePos.Length;
+
+        for (int i = 0; i < length; i++)
+        {
+            int randIndex = Random.Range(i, length);
+
+            int tempPos = strikePos[i];
+            strikePos[i] = strikePos[randIndex];
+            strikePos[randIndex] = tempPos;
+        }
     }
 
+    private void CloneStrikeCube(int _bearBlockIndex)
+    {
+        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[_bearBlockIndex].position.groundCenter, Quaternion.identity);
+    }
+    //랜덤
+    private void SkillAction_A()
+    {
+        CloneStrikeCube(strikePos[0]);
+        CloneStrikeCube(strikePos[1]);
+        CloneStrikeCube(strikePos[2]);
+    }
+
+    //퍼지기
+    private void SkillAction_B()
+    {
+        //strikePos = new int[5] { 0, 1, 2, 3, 4};
+        bearController.StartCoroutine(ProcessSkillAction_B());
+    }
+
+    WaitForSeconds waitBSec = new WaitForSeconds(1f);
+    private IEnumerator ProcessSkillAction_B()
+    {
+
+        CloneStrikeCube(1);
+        CloneStrikeCube(3);
+        yield return waitBSec;
+        CloneStrikeCube(0);
+        CloneStrikeCube(4);
+    }
 }
 public class BearState_Claw : BearState
 {
