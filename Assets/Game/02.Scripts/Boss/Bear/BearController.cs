@@ -13,6 +13,7 @@ public class BearController : BossController
     [Serializable]
     public class Patterns
     {
+
         public List<BearPattern> phase_01_List = new List<BearPattern>();
         public List<BearPattern> phase_02_List = new List<BearPattern>();
         public List<BearPattern> phase_03_List = new List<BearPattern>();
@@ -58,6 +59,10 @@ public class BearController : BossController
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
+
+    [HideInInspector]
+    private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
+
     /// <summary>
     /// 스킬 액션
     /// </summary>
@@ -71,23 +76,9 @@ public class BearController : BossController
     }
     private void Init()
     {
-        //int length = patterns.phase_01_List.Count;
-        //for (int i = 0; i < length; i++)
-        //{
-        //    patterns.phase_01_Queue.Enqueue(patterns.phase_01_List[i]);
-        //}
-
-        //length = patterns.phase_02_List.Count;
-        //for (int i = 0; i < length; i++)
-        //{
-        //    patterns.phase_02_Queue.Enqueue(patterns.phase_02_List[i]);
-        //}
-
-        //length = patterns.phase_03_List.Count;
-        //for (int i = 0; i < length; i++)
-        //{
-        //    patterns.phase_03_Queue.Enqueue(patterns.phase_03_List[i]);
-        //}
+        phaseList.Add(patterns.phase_01_List);
+        phaseList.Add(patterns.phase_02_List);
+        phaseList.Add(patterns.phase_03_List);
     }
     private void Init_Animator()
     {
@@ -138,98 +129,79 @@ public class BearController : BossController
         return bearStateMachine.CanExit();
     }
 
-    private void NextPhase()
+    /// <summary>
+    /// 다음 페이즈로 가기 위한 체력을 반환해줍니다.
+    /// </summary>
+    private float GetNextPhaseHP(ePhase _currentPhase)
     {
-        stateInfo.phase = stateInfo.phase + 1;
+        switch (_currentPhase)
+        {
+            case ePhase.Phase_1:
+                return bossPhaseValue.phase2;
+
+            case ePhase.Phase_2:
+                return bossPhaseValue.phase3;
+
+            case ePhase.Phase_3:
+                return 0;
+
+            default:
+                return 0;
+        }
+    }
+    private void GoNextPhase()
+    {
+        //현재 페이즈에 1 추가
+
     }
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
+    BearPattern currentPattern;
     private IEnumerator ProcessChangeStateTest()
     {
         //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
-        bool thisPhase = true;
-        int i = 0;
-        int length = patterns.phase_01_List.Count;
         stateInfo.phase = ePhase.Phase_1;
-        while (thisPhase)
+        int i = 0;
+        int length = phaseList[stateInfo - 1].Count;
+
+        while (true)
         {
-            i = i % length;
-            // if (ChangeState(patterns.phase_01_List[i].state))
             if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
             {
-                //페이즈 전환 체크
-                if (hp <= bossPhaseValue.phase2)
+                //페이즈를 전환 체크
+                if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
-                    break;
+                    //페이즈 전환
+                    //GoNextPhase(); //빈 함수임
+
+                    if (stateInfo.phase == ePhase.Phase_3)
+                    {
+                        break;
+                    }
+                    stateInfo.phase = stateInfo.phase + 1;
+                    i = 0;
+                    length = phaseList[stateInfo - 1].Count;
                 }
 
-                //아직 현재 페이즈에 머무를수 있다면
+                i = i % length;
+
+                //다음 패턴 가져오기
+                currentPattern = phaseList[stateInfo - 1][i];
+
                 //대기 시간동안 기다림
-                yield return new WaitForSeconds(patterns.phase_01_List[i].waitTime);
+                yield return new WaitForSeconds(currentPattern.waitTime);
 
                 //스테이트 변경
-                ChangeState(patterns.phase_01_List[i].state);
+                ChangeState(currentPattern.state);
                 stateInfo.state = bearStateMachine.GetCurrentStateName();
 
-                //다음 패턴 불러오기
                 i += 1;
 
                 yield return null;
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //while (thisPhase)
-        //{
-        //    i = i % length;
-        //    if (ChangeState(patterns.phase_01_List[i].state))
-        //    {
-        //        stateInfo.state = patterns.phase_01_List[i].ToString();
-        //        i += 1;
-        //        if (hp <= bossPhaseValue.phase2)
-        //        {
-        //            thisPhase = false;
-        //        }
-        //        yield return waitOneSec;
-        //    }
-        //    yield return YieldInstructionCache.WaitForFixedUpdate;
-        //}
+        this.gameObject.SetActive(false);
 
-        thisPhase = true;
-        i = 0;
-        length = patterns.phase_02_List.Count;
-        stateInfo.phase = ePhase.Phase_2;
-        while (thisPhase)
-        {
-            i = i % length;
-            if (ChangeState(patterns.phase_02_List[i].state))
-            {
-                stateInfo.state = patterns.phase_02_List[i].ToString();
-                Debug.Log("현재 인덱스 " + (i));
-                i += 1;
-                if (hp <= bossPhaseValue.phase3)
-                {
-                    thisPhase = false;
-                }
-                yield return waitOneSec;
-            }
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
-
-        thisPhase = true;
-        i = 0;
-        length = patterns.phase_03_List.Count;
-        stateInfo.phase = ePhase.Phase_3;
-        while (thisPhase)
-        {
-            i = i % length;
-            if (ChangeState(patterns.phase_03_List[i].state))
-            {
-                stateInfo.state = patterns.phase_03_List[i].ToString();
-                Debug.Log("현재 인덱스 " + (i));
-                i += 1;
-                yield return waitOneSec;
-            }
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
     }
     public void SetTrigger(string _paramName)
     {

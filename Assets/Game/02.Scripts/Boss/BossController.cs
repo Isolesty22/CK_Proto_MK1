@@ -16,6 +16,8 @@ public class StateInfo
     public ePhase phase;
     [Tooltip("현재 상태")]
     public string state = "";
+
+    public static implicit operator int(StateInfo _si) => (int)_si.phase;
 }
 
 [Serializable]
