@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum ePhase
 {
-    Phase_1 = 1,
+    Phase_1,
     Phase_2,
     Phase_3,
     Phase_Finish

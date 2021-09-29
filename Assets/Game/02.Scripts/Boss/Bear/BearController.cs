@@ -161,7 +161,7 @@ public class BearController : BossController
         //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
         stateInfo.phase = ePhase.Phase_1;
         int i = 0;
-        int length = phaseList[stateInfo - 1].Count;
+        int length = phaseList[stateInfo].Count;
 
         while (true)
         {
@@ -179,13 +179,13 @@ public class BearController : BossController
                     }
                     stateInfo.phase = stateInfo.phase + 1;
                     i = 0;
-                    length = phaseList[stateInfo - 1].Count;
+                    length = phaseList[stateInfo].Count;
                 }
 
                 i = i % length;
 
                 //다음 패턴 가져오기
-                currentPattern = phaseList[stateInfo - 1][i];
+                currentPattern = phaseList[stateInfo][i];
 
                 //대기 시간동안 기다림
                 yield return new WaitForSeconds(currentPattern.waitTime);
