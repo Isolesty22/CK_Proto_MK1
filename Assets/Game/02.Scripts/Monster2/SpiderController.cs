@@ -72,6 +72,7 @@ public class SpiderController : MonsterController
             if (Stat2.isPlayerInCol)
             {
                 moveTrigger = true;
+                Com.animator.SetBool("isAttack", true);
                 ChangeState(MonsterState.ATTACK);
             }
         }
@@ -106,6 +107,7 @@ public class SpiderController : MonsterController
 
         if(transform.position == Stat2.downPos)
         {
+            Com.animator.SetBool("isAttack", false);
             ChangeState(MonsterState.IDLE);
         }
     }
@@ -117,6 +119,7 @@ public class SpiderController : MonsterController
 
     protected override void Death()
     {
+        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 
