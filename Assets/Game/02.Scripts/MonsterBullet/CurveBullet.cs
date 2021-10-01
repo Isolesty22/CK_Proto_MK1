@@ -47,7 +47,7 @@ public class CurveBullet : MonoBehaviour
 
     void BezierCurve()
     {
-        Vector3 a = Vector3.Lerp(startPos, startHeightPos, t); //Mathf.SmoothStep(tMin, tMax, t)값이 자연스럽게 증가하는건데 생각보다 별로다.
+        Vector3 a = Vector3.Lerp(startPos, startHeightPos, t); 
         Vector3 b = Vector3.Lerp(startHeightPos, endHeightPos, t);
         Vector3 c = Vector3.Lerp(endHeightPos, endPos, t);
 

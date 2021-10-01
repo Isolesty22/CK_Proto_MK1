@@ -41,7 +41,6 @@ public class FlyerController : MonsterController
     public Tween tween;
     private float cooltime;
     private bool moveTrigger;
-
     #endregion
 
     public override void Awake()
@@ -247,14 +246,13 @@ public class FlyerController : MonsterController
 
     protected override void Death()
     {
-        StartCoroutine(Dead());
-    }
-
-    private IEnumerator Dead()
-    {
+        Com.rigidbody.useGravity = true;
         Com.animator.SetBool("isDead", true);
-        yield return new WaitForSeconds(0.2f);
-        base.Death();
+        if (Physics.Raycast(transform.position, Vector3.down, 0.3f, LayerMask.GetMask("Ground")))
+        {
+            Com.rigidbody.useGravity = false;
+            base.Death();
+        }
     }
 
     protected override void HandleAnimation()

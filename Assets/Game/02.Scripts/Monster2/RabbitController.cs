@@ -63,7 +63,6 @@ public class RabbitController : MonsterController
     protected override void Move()
     {
         base.Move();
-
         moveTime += Time.deltaTime;
 
         if (moveTime > Stat2.moveDelay)
@@ -108,6 +107,7 @@ public class RabbitController : MonsterController
                     layDir = Vector3.right;
                 }
             }
+            Com.animator.SetTrigger("isMove");
             moveTime = 0;
         }
     }
@@ -127,7 +127,12 @@ public class RabbitController : MonsterController
 
     protected override void Death()
     {
-        base.Death();
+        Com.animator.SetBool("isDeath", true);
+        if (Physics.Raycast(transform.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground")))
+        {
+            Com.rigidbody.useGravity = false;
+            base.Death();
+        }
     }
 
     protected override void HandleAnimation()
