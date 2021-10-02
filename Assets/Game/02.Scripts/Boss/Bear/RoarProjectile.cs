@@ -53,37 +53,43 @@ public class RoarProjectile : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Despawn();
+
+            //if (playerController.State.canParry && !playerController.State.isInvincible)
+            //{
+            //    if (other.CompareTag("Monster"))
+            //    {
+            //        StartCoroutine(playerController.Parrying());
+            //        return;
+            //    }
+            //}
+
+            ////피격 가능
+            //if (!playerController.State.isInvincible)
+            //{
+            //    if (other.CompareTag("Monster"))
+            //    {
+            //        playerController.Hit();
+            //    }
+            //}
 
             //if (!playerController.IsInvincible())
             //{
             //    if (playerController.CanParry())
             //    {
             //        StartCoroutine(playerController.Parrying());
+            //        Despawn();
             //        return;
             //    }
             //    else
             //    {
             //        playerController.Hit();
             //        Despawn();
-            //        return;
             //    }
+
+
             //}
 
-
-            if (!playerController.IsInvincible() && playerController.CanParry())
-            {
-
-                StartCoroutine(playerController.Parrying());
-                return;
-            }
-
-
-            if (!playerController.IsInvincible())
-            {
-                playerController.Hit();
-                Despawn();
-                return;
-            }
         }
     }
 }

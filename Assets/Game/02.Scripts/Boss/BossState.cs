@@ -222,8 +222,10 @@ public class BearState_Roar : BearState
         int length = bearController.bearMapInfo.projectileRandCount;
         for (int i = 0; i < length; i++)
         {
+            Vector2 tempPost = bearController.bearMapInfo.mapData.maxPosition;
             Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
             Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
+            //Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
 
             RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
             roarProjectile.Init(startPos, endPos);
