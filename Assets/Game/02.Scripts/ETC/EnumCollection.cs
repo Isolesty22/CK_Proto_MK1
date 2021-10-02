@@ -41,6 +41,9 @@ public enum eBossState
     BearState_Claw_C,
     [InspectorName("곰_랜덤")]
     BearState_Random,
+
+    [InspectorName("곰_죽음")]
+    BearState_Die,
 }
 public enum eResolutionType
 {

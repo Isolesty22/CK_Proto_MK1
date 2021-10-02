@@ -31,6 +31,7 @@ public class BearController : BossController
     {
         public GameObject strikeCube;
         public GameObject roarCube;
+        public GameObject clawObject;
 
     }
 
@@ -82,7 +83,7 @@ public class BearController : BossController
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
-
+        ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
         Init_Animator();
         bearMapInfo.Init();
     }
@@ -102,6 +103,7 @@ public class BearController : BossController
         AddAnimatorHash("Start_Strike");
         AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
+        AddAnimatorHash("Start_Die");
     }
     private void Start()
     {
@@ -111,7 +113,7 @@ public class BearController : BossController
 
         roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
 
-        StartCoroutine(ProcessChangeStateTest());
+        StartCoroutine(ProcessChangeStateTestCoroutine);
     }
     private void Update()
     {
@@ -180,6 +182,7 @@ public class BearController : BossController
     {
 
     }
+    private IEnumerator ProcessChangeStateTestCoroutine;
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private IEnumerator ProcessChangeStateTest()
     {

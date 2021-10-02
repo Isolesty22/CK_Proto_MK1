@@ -46,8 +46,8 @@ public class BearStateMachine : BossStateMachine
             case eBossState.BearState_Claw_C:
                 return new BearState_Claw(bearController);
 
-
-
+            case eBossState.BearState_Die:
+                return new BearState_Die(bearController);
 
             default:
                 return new BearState_Idle(bearController);

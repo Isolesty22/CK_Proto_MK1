@@ -2,17 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoarProjectile : MonoBehaviour
+public class ClawProjectile : MonoBehaviour
 {
     public Transform myTransform;
 
     public float moveTime;
+    public float degree;
 
     private Vector3 startPos;
     private Vector3 endPos;
 
     private PlayerController playerController = null;
     private IEnumerator moveEnumerator = null;
+
+    private void Start()
+    {
+        Vector3 tempPos = myTransform.position;
+
+        Vector3 fiPos = Quaternion.Euler(0, 0, degree) * tempPos;
+        fiPos *= 10f;
+
+        Init(myTransform.position, fiPos);
+        Move();
+    }
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
