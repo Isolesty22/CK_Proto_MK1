@@ -5,19 +5,24 @@ using UnityEngine;
 [RequireComponent((typeof(BoxCollider)))]
 public class BearMapInfo : MonoBehaviour
 {
+    [Range(0, 30)]
+    public int projectilePosCount = 10;
+
+    [Range(0, 30)]
+    public int projectileRandCount = 10;
+
+    [HideInInspector]
+    public int[] projectileRandArray = new int[] { };
+
+    [Space(20)]
+
     [Tooltip("맵 상의 블록 개수")]
     private const int blockCount = 5;
 
     public BoxCollider mapCollider;
     public Transform myTransform;
+    public Transform phase2Position;
 
-    [Range(10, 30)]
-    public int projectilePosCount = 10;
-
-    [Range(5, 30)]
-    public int projectileRandCount = 10;
-
-    private int[] projectileRandArray;
 
     [System.Serializable]
     public class MapData
@@ -57,7 +62,9 @@ public class BearMapInfo : MonoBehaviour
         //mapSize, mapPosition 계산
         UpdateMapVector();
         UpdateBearBlocks();
+
         UpdateProjectilePositions();
+        InitProjectileRandArray();
         UpdateProjectileRandArray();
     }
     private void UpdateMapVector()
@@ -142,7 +149,7 @@ public class BearMapInfo : MonoBehaviour
 
     }
 
-    private void UpdateProjectileRandArray()
+    private void InitProjectileRandArray()
     {
         //배열 초기화--
         projectileRandArray = new int[projectilePosCount];
@@ -164,17 +171,23 @@ public class BearMapInfo : MonoBehaviour
             projectileRandArray[i] = projectileRandArray[randIndex];
             projectileRandArray[randIndex] = tempPos;
         }
+    }
 
-        string logString = "결과 :  { ";
+    public void UpdateProjectileRandArray()
+    {
+        int length = projectilePosCount - 1;
+
+        //랜덤---
         for (int i = 0; i < length; i++)
         {
-            logString += projectileRandArray[i];
-            logString += ", ";
-        }
-        logString += "}";
+            int randIndex = Random.Range(i, length);
 
-        Debug.LogWarning(logString);
+            int tempPos = projectileRandArray[i];
+            projectileRandArray[i] = projectileRandArray[randIndex];
+            projectileRandArray[randIndex] = tempPos;
+        }
     }
+
 
     private void OnDrawGizmos()
     {

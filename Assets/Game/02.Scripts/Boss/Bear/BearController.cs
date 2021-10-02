@@ -5,7 +5,6 @@ using UnityEngine;
 using System;
 using System.Linq;
 
-//BearController 오브젝트가 선택됨
 [SelectionBase]
 public class BearController : BossController
 {
@@ -30,9 +29,9 @@ public class BearController : BossController
     [Serializable]
     public class SkillObjects
     {
-        public Transform position_Phase2;
         public GameObject strikeCube;
         public GameObject roarCube;
+
     }
 
     #endregion
@@ -67,6 +66,7 @@ public class BearController : BossController
 
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     private BearPattern currentPattern;
+    public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
 
     /// <summary>
     /// 스킬 액션
@@ -76,14 +76,15 @@ public class BearController : BossController
     private void Awake()
     {
         Init();
-        Init_Animator();
-        bearMapInfo.Init();
     }
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
+
+        Init_Animator();
+        bearMapInfo.Init();
     }
     private void Init_Animator()
     {
@@ -107,6 +108,9 @@ public class BearController : BossController
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = true;
         bearStateMachine.StartState(eBossState.BearState_Idle);
+
+        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+
         StartCoroutine(ProcessChangeStateTest());
     }
     private void Update()
@@ -198,7 +202,7 @@ public class BearController : BossController
                     if (stateInfo.phase == ePhase.Phase_1)
                     {
                         Transform tr = transform;
-                        tr.SetPositionAndRotation(skillObjects.position_Phase2.position, Quaternion.Euler(Vector3.zero));
+                        tr.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
                     }
 
                     if (stateInfo.phase == ePhase.Phase_3)
@@ -290,6 +294,7 @@ public class BearController : BossController
         bearStateMachine.currentState.canExit = true;
     }
     #endregion
+
 }
 
 [Serializable]
@@ -300,6 +305,4 @@ public struct BearPattern
 
     [Tooltip("실행 후 대기 시간")]
     public float waitTime;
-
-
 }

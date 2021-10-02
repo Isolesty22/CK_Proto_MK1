@@ -125,12 +125,11 @@ public class BearState_Stamp : BearState
         //땅에 있을 경우
         if (GameManager.instance.playerController.State.isGrounded == true)
         {
-            //피격 가능
-            if (!GameManager.instance.playerController.State.isInvincible)
+            //피격 가능 상태일 경우
+            if (!GameManager.instance.playerController.IsInvincible())
             {
                 GameManager.instance.playerController.Hit();
             }
-
         }
     }
 }
@@ -173,6 +172,14 @@ public class BearState_Rush : BearState
         }
         canExit = true;
     }
+
+
+
+
+    private IEnumerator ProcessChangePhase2()
+    {
+        yield break;
+    }
 }
 public class BearState_Roar : BearState
 {
@@ -183,6 +190,8 @@ public class BearState_Roar : BearState
     public override void OnEnter()
     {
         canExit = false;
+        bearController.bearMapInfo.UpdateProjectileRandArray();
+        bearController.SetSkillAction(SkillAction);
         bearController.SetTrigger("Start_Roar");
         //bearController.StartCoroutine(ProcessUpdate());
     }
@@ -201,21 +210,43 @@ public class BearState_Roar : BearState
     {
         base.OnExit();
     }
-    IEnumerator ProcessUpdate()
+    public void SkillAction()
     {
-        while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Phohyo.Start_Phohyo"))
-        {
-            yield return null;
-        }
-        Debug.Log("포효 애니메이션 진입");
 
-        while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
-        {
-            yield return null;
-        }
-        Debug.Log("포효 애니메이션 끝");
-        canExit = true;
+        bearController.StartCoroutine(ProcessSkillAction());
     }
+
+    private IEnumerator ProcessSkillAction()
+    {
+        //Spawn Roar projectile
+        int length = bearController.bearMapInfo.projectileRandCount;
+        for (int i = 0; i < length; i++)
+        {
+            Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
+            Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
+
+            RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
+            roarProjectile.Init(startPos, endPos);
+            roarProjectile.Move();
+        }
+
+        yield break;
+    }
+    //IEnumerator ProcessUpdate()
+    //{
+    //    while (!bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Phohyo.Start_Phohyo"))
+    //    {
+    //        yield return null;
+    //    }
+    //    Debug.Log("포효 애니메이션 진입");
+
+    //    while (bearController.animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f)
+    //    {
+    //        yield return null;
+    //    }
+    //    Debug.Log("포효 애니메이션 끝");
+    //    canExit = true;
+    //}
 }
 public class BearState_Strike : BearState
 {

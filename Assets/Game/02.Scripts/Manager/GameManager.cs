@@ -18,4 +18,5 @@ public class GameManager : MonoBehaviour
             GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
+
 }
