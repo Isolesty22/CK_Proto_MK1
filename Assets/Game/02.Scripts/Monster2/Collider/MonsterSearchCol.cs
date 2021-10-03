@@ -14,7 +14,7 @@ public class MonsterSearchCol : MonoBehaviour
             {
                 monsterController.Com.monsterModel.SetActive(true);
                 monsterController.ChangeState(MonsterController.MonsterState.IDLE);
-                monsterController.trigger = false;
+                monsterController.playerOutOfRange = false;
             }
         }
     }
@@ -23,7 +23,7 @@ public class MonsterSearchCol : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            monsterController.trigger = true;
+            monsterController.playerOutOfRange = true;
         }
     }
 }

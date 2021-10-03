@@ -219,7 +219,6 @@ public class RollerController : MonsterController
     {
         base.Death();
         Com.animator.SetBool("isAttack", false);
-        Com2.sphereCollider.enabled = false;
         Com2.constantForce.enabled = false;
     }
 

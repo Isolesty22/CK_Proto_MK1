@@ -17,6 +17,13 @@ public class PlayerHitBox : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        if (other.CompareTag("Monster"))
+        {
+            if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                return;
+        }
+
+
         if (playerController.State.canParry)
         {
             if(other.CompareTag("Monster"))
