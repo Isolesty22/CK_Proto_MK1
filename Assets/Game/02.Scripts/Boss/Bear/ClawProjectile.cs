@@ -14,17 +14,6 @@ public class ClawProjectile : MonoBehaviour
 
     private PlayerController playerController = null;
     private IEnumerator moveEnumerator = null;
-
-    private void Start()
-    {
-        Vector3 tempPos = myTransform.position;
-
-        Vector3 fiPos = Quaternion.Euler(0, 0, degree) * tempPos;
-        fiPos *= 10f;
-
-        Init(myTransform.position, fiPos);
-        Move();
-    }
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;

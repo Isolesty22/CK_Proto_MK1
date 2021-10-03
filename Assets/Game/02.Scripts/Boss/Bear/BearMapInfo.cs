@@ -21,7 +21,11 @@ public class BearMapInfo : MonoBehaviour
 
     public BoxCollider mapCollider;
     public Transform myTransform;
+
+    [Space(10)]
+    public Transform phase1Position;
     public Transform phase2Position;
+    public Transform phase3Position;
 
 
     [System.Serializable]
@@ -66,6 +70,12 @@ public class BearMapInfo : MonoBehaviour
         UpdateProjectilePositions();
         InitProjectileRandArray();
         UpdateProjectileRandArray();
+    }
+
+    //임시
+    public void SetPhase3Position(Vector3 _pos)
+    {
+        phase3Position.position = _pos;
     }
     private void UpdateMapVector()
     {

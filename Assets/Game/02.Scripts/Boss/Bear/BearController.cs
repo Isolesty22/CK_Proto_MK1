@@ -30,9 +30,9 @@ public class BearController : BossController
     public class SkillObjects
     {
         public GameObject strikeCube;
-        public GameObject roarCube;
-        public GameObject clawObject;
-
+        public GameObject roarEffect;
+        public GameObject claw_A_Effect;
+        public Transform clawUnderPosition;
     }
 
     #endregion
@@ -59,15 +59,24 @@ public class BearController : BossController
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
-    [Header("패턴 목록")]
+    [Header("패턴 관련")]
     public Patterns patterns;
+
+    [Tooltip("할퀴기 추가공격 개수")]
+    public int clawCount = 3;
+    [Tooltip("할퀴기 추가공격 간격")]
+    public float clawDelay = 0.5f;
 
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
+
+
+    private Transform myTransform;
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     private BearPattern currentPattern;
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
+    public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
 
     /// <summary>
     /// 스킬 액션
@@ -86,6 +95,8 @@ public class BearController : BossController
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
         Init_Animator();
         bearMapInfo.Init();
+        myTransform = transform;
+        bearMapInfo.SetPhase3Position(myTransform.position);
     }
     private void Init_Animator()
     {
@@ -112,6 +123,7 @@ public class BearController : BossController
         bearStateMachine.StartState(eBossState.BearState_Idle);
 
         roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
 
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
@@ -204,11 +216,14 @@ public class BearController : BossController
 
                     if (stateInfo.phase == ePhase.Phase_1)
                     {
-                        Transform tr = transform;
-                        tr.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
-                    }
+                        myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
 
-                    if (stateInfo.phase == ePhase.Phase_3)
+                    }
+                    else if (stateInfo.phase == ePhase.Phase_2)
+                    {
+                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(Vector3.zero));
+                    }
+                    else
                     {
                         break;
                     }
@@ -298,6 +313,15 @@ public class BearController : BossController
     }
     #endregion
 
+    private readonly string str_Arrow = "Arrow";
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(str_Arrow))
+        {
+            hp -= 1f;
+        }
+    }
 }
 
 [Serializable]

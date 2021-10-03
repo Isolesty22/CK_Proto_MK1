@@ -222,7 +222,6 @@ public class BearState_Roar : BearState
         int length = bearController.bearMapInfo.projectileRandCount;
         for (int i = 0; i < length; i++)
         {
-            Vector2 tempPost = bearController.bearMapInfo.mapData.maxPosition;
             Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
             Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
 
@@ -375,7 +374,24 @@ public class BearState_Claw : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetSkillAction(SkillAction);
+
+        switch (bearController.stateInfo.stateE)
+        {
+            case eBossState.BearState_Claw_A:
+                bearController.SetSkillAction(SkillAction_A);
+                break;
+
+            case eBossState.BearState_Claw_B:
+                bearController.SetSkillAction(SkillAction_B);
+                break;
+
+            case eBossState.BearState_Claw_C:
+                bearController.SetSkillAction(SkillAction_C);
+                break;
+
+            default:
+                break;
+        }
         bearController.SetTrigger("Start_Claw");
     }
 
@@ -394,9 +410,49 @@ public class BearState_Claw : BearState
         base.OnExit();
     }
 
-    public void SkillAction()
+    public void SkillAction_A()
     {
-        bearController.skillObjects.clawObject.SetActive(true);
+        bearController.StartCoroutine(ProcessSkillAction_A());
+    }
+    public void SkillAction_B()
+    {
+        bearController.StartCoroutine(ProcessSkillAction_C());
+    }
+    public void SkillAction_C()
+    {
+        bearController.StartCoroutine(ProcessSkillAction_C());
+    }
+
+    private IEnumerator ProcessSkillAction_A()
+    {
+        bearController.skillObjects.claw_A_Effect.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        bearController.skillObjects.claw_A_Effect.SetActive(false);
+    }
+    private IEnumerator ProcessSkillAction_C()
+    {
+        SkillAction_A();
+
+         //Spawn Claw projectile
+
+         WaitForSeconds waitDelay = new WaitForSeconds(bearController.clawDelay);
+
+        int length = bearController.clawCount;
+
+        for (int i = 0; i < length; i++)
+        {
+            ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
+
+            Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
+            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x, startPos.y, startPos.z);
+
+            clawProjectile.Init(startPos, endPos);
+            clawProjectile.Move();
+
+            yield return waitDelay;
+        }
+
+        yield break;
     }
 }
 
