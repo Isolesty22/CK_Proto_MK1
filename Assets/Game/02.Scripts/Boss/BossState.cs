@@ -434,7 +434,7 @@ public class BearState_Claw : BearState
         yield return new WaitForSeconds(0.5f);
         bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
-    private float rotVal = 80f;
+    private float rotVal = 70f;
     private IEnumerator ProcessSkillAction_B()
     {
         int random = Random.Range(0, 2);
