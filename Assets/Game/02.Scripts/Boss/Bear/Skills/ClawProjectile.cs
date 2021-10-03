@@ -2,18 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClawProjectile : MonoBehaviour
+public class ClawProjectile : BearProjectile
 {
-    public Transform myTransform;
-
-    public float moveTime;
     public float degree;
-
-    private Vector3 startPos;
-    private Vector3 endPos;
-
-    private PlayerController playerController = null;
-    private IEnumerator moveEnumerator = null;
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
@@ -21,6 +12,7 @@ public class ClawProjectile : MonoBehaviour
 
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
+        parryEnumerator = playerController.Parrying();
     }
 
     public void Move()
@@ -44,40 +36,18 @@ public class ClawProjectile : MonoBehaviour
         myTransform.position = endPos;
         Despawn();
     }
-
-    private void Despawn()
+    protected override IEnumerator ProcessDespawn()
     {
         StopCoroutine(moveEnumerator);
-        StartCoroutine(TestDespawn());
-
+        yield return null;
+        CustomPoolManager.Instance.ReleaseThis(this);
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //피격 가능한 상태일 때
-            //if (!playerController.IsInvincible())
-            //{
-            //    //패링 가능한 상태라면
-            //    if (playerController.CanParry())
-            //    {
-            //        //패링
-            //        StartCoroutine(playerController.Parrying());
-            //    }
-            //    else // 패링 불가능한 상태라면
-            //    {
-            //        //피격
-            //        playerController.Hit();
-            //    }
-                Despawn();
-            //}
-
+            OnTrigger();
         }
     }
 
-    IEnumerator TestDespawn()
-    {
-        yield return null;
-        CustomPoolManager.Instance.ReleaseThis(this);
-    }
 }
