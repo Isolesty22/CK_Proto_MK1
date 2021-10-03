@@ -7,32 +7,25 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaveLeaf_01_1
-  m_Shader: {fileID: -6465566751694194690, guid: b4e978871af3de34584a62a952fbded6, type: 3}
-  m_ShaderKeywords: _ALPHATEST_ON
-  m_LightmapFlags: 4
+  m_Name: Spitter_01
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_ShaderKeywords: _EMISSION _NORMALMAP
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 1
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 2000
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_05520394aba84614aadb02e017a48dc1:
-        m_Texture: {fileID: 2800000, guid: 38f2f77d786629d46a590aec5a6ec0a6, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _AlphaTex:
-        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9cc1f2aa0d635e44b9e3fb3e6e964a5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: b483385d212010f46819f170c59235fe, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -48,11 +41,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 78f7bc3ced6c7e3429b07e7b6d38ad33, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: f46b0bb8655291443ba9a7c78866b129, type: 3}
+        m_Texture: {fileID: 2800000, guid: 9cc1f2aa0d635e44b9e3fb3e6e964a5f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -84,17 +77,13 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_36f6a70b41824b0ba55d779f99244dca: 0.4
-    - Vector1_503a41ef8fd0495ca5b29e5933c617a1: 0.1
-    - Vector1_92bad5cfdf4843d3a8a3605cd8aad00a: 0
-    - Vector1_d932ecec3bfb41888ed318006bce8b99: 0.8
-    - _AlphaClip: 1
-    - _Blend: 3
+    - _AlphaClip: 0
+    - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 0
-    - _Cutoff: 0.4
+    - _Cull: 2
+    - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -107,25 +96,20 @@ Material:
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Smoothness: 0.22
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _WindSpeed: 0.32
-    - _WindStrength: 0.68
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_e20cef18848948b59070da5ccb1c6bd6: {r: 0.77046984, g: 0.7735849, b: 0.7699359, a: 1}
-    - Vector2_a394f29b1bf6421a9d0178e21278dc6c: {r: 1.06, g: 1.71, b: 3.24, a: 0}
-    - _BaseColor: {r: 0.9866245, g: 1, b: 0.6745283, a: 1}
-    - _Color: {r: 0.15395543, g: 0.4056604, b: 0, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _WindDirection: {r: 1.22, g: 1.35, b: 0.67, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &7031506296687118702
+--- !u!114 &4164913219005805064
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
