@@ -1816,7 +1816,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 0.96229696, g: 1, b: 0.5981132, a: 1}
-  m_Intensity: 3.5
+  m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2130,7 +2130,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1230389332}
-  m_RootOrder: 9
+  m_RootOrder: 27
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &339578707 stripped
 Transform:
@@ -8413,8 +8413,6 @@ Transform:
   - {fileID: 785840469}
   - {fileID: 4849183795210053641}
   - {fileID: 1384764369}
-  - {fileID: 1252049314}
-  - {fileID: 326279439}
   - {fileID: 768105383}
   - {fileID: 497449667}
   - {fileID: 1459986749}
@@ -8427,12 +8425,14 @@ Transform:
   - {fileID: 598948853}
   - {fileID: 1680813522}
   - {fileID: 1259237200}
+  - {fileID: 1252049314}
   - {fileID: 75979863}
   - {fileID: 1759702416}
   - {fileID: 1652006826}
   - {fileID: 1880891044}
   - {fileID: 1633762437}
   - {fileID: 543450652303099649}
+  - {fileID: 326279439}
   - {fileID: 546830646}
   - {fileID: 697942138}
   - {fileID: 1481649565073925433}
@@ -8977,7 +8977,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1230389332}
-  m_RootOrder: 8
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1259237199
 PrefabInstance:
@@ -17109,6 +17109,10 @@ PrefabInstance:
     - target: {fileID: 4650393343393378136, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650393343393378136, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_RootOrder
