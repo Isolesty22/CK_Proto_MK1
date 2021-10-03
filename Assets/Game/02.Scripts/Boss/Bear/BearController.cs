@@ -70,9 +70,8 @@ public class BearController : BossController
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
-
-
     private Transform myTransform;
+    private BoxCollider myCollider;
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     private BearPattern currentPattern;
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
@@ -95,7 +94,10 @@ public class BearController : BossController
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
         Init_Animator();
         bearMapInfo.Init();
+
         myTransform = transform;
+        myCollider = GetComponent<BoxCollider>();
+
         bearMapInfo.SetPhase3Position(myTransform.position);
     }
     private void Init_Animator()
@@ -217,11 +219,13 @@ public class BearController : BossController
                     if (stateInfo.phase == ePhase.Phase_1)
                     {
                         myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
+                        myCollider.size = new Vector3(myCollider.size.x, myCollider.size.y, 10f);
 
                     }
                     else if (stateInfo.phase == ePhase.Phase_2)
                     {
-                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(Vector3.zero));
+                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+                        myCollider.size = new Vector3(myCollider.size.x, myCollider.size.y, 1f);
                     }
                     else
                     {
