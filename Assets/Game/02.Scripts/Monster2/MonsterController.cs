@@ -68,6 +68,7 @@ public class MonsterController : MonoBehaviour
 
     public virtual void Initialize()
     {
+        Com.renderer.material.color = Color.white;
         Stat.hp = Stat.maxHp;
         Com.monsterModel.SetActive(false);
         state = MonsterState.WAIT;
@@ -239,7 +240,7 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
 
-        this.gameObject.SetActive(false);
+        this.Com.monsterModel.SetActive(false);
     }
 
     protected virtual void HandleAnimation()

@@ -42,11 +42,12 @@ public class RollerController : MonsterController
     private int random;
     [HideInInspector] public Vector3 moveDir;
     private float currentSpeed;
-
+    private float usingAclrt;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
+        Com.rigidbody.velocity = Vector3.zero;
         Com2.rollingCollider.gameObject.SetActive(false);
         Com.animator.SetBool("isAttack", false);
         Com.animator.SetBool("isMove", false);
@@ -58,6 +59,8 @@ public class RollerController : MonsterController
         transform.localEulerAngles = Vector3.zero;
         Com2.attackCollider.gameObject.SetActive(true);
         currentSpeed = 0f;
+        usingAclrt = Stat2.aclrt;
+        Com2.constantForce.enabled = true;
     }
 
     public override void Awake()
@@ -177,7 +180,7 @@ public class RollerController : MonsterController
     {
         base.Attack();
 
-        currentSpeed = Mathf.Clamp(currentSpeed += Stat2.aclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed += usingAclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
         Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
         var layDir = new Vector3();
 
@@ -217,9 +220,9 @@ public class RollerController : MonsterController
 
     protected override void Death()
     {
-        base.Death();
         Com.animator.SetBool("isAttack", false);
         Com2.constantForce.enabled = false;
+        base.Death();
     }
 
     protected override void HandleAnimation()

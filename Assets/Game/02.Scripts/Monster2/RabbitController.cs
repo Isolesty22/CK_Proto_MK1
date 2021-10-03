@@ -32,6 +32,9 @@ public class RabbitController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
+        Com.rigidbody.velocity = Vector3.zero;
+        transform.localEulerAngles = Vector3.zero;
+        moveTime = 0.0f;
     }
 
     public override void Awake()
@@ -128,11 +131,7 @@ public class RabbitController : MonsterController
     protected override void Death()
     {
         Com.animator.SetBool("isDeath", true);
-        if (Physics.Raycast(transform.position, Vector3.down, 0.1f, LayerMask.GetMask("Ground")))
-        {
-            Com.rigidbody.useGravity = false;
-            base.Death();
-        }
+        base.Death();
     }
 
     protected override void HandleAnimation()

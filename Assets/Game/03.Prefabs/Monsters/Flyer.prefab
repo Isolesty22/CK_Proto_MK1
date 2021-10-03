@@ -1,63 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2609224446240415098
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7953108422938240713}
-  - component: {fileID: 8420223501047165889}
-  - component: {fileID: 2016316210}
-  m_Layer: 0
-  m_Name: AttackCol
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7953108422938240713
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2609224446240415098}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5885340921890529695}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8420223501047165889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2609224446240415098}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 934955a400f006d4d9203a832ccbfd6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterController: {fileID: 5896250351852412521}
---- !u!65 &2016316210
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2609224446240415098}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 7, y: 9, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5885340921890529694
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,7 +32,6 @@ Transform:
   m_Children:
   - {fileID: 7423303237444867475}
   - {fileID: 5885340922005460020}
-  - {fileID: 7953108422938240713}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -111,10 +52,11 @@ MonoBehaviour:
     name: Bird
     hp: 2
     maxHp: 3
-    moveSpeed: 0
+    moveSpeed: 3
     isAlive: 0
     hitTime: 0.2
     fadeOutTime: 1
+    initDistance: 10
   components:
     rigidbody: {fileID: 1794512776784310942}
     collider: {fileID: 1227735245}
@@ -123,15 +65,12 @@ MonoBehaviour:
     animator: {fileID: 4773091174761930281}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+    spawnPos: {x: 0, y: 0, z: 0}
+  playerOutOfRange: 0
   flyerStatus:
     patrolRange: 6
     patrolTime: 4
-    shotSpeed: 1
-    featherRange: 81
-    attackCoolTime: 2
-    tripleShotDelay: 0.3
-    attackTime: 0
-    isAttack: 0
+    isPatrol: 0
     patrolPos1: {x: 0, y: 0, z: 0}
     patrolPos2: {x: 0, y: 0, z: 0}
 --- !u!54 &1794512776784310942

@@ -30,7 +30,7 @@ GameObject:
   - component: {fileID: 1328435132049023873}
   - component: {fileID: 1549205604327334699}
   - component: {fileID: 2636562877231805735}
-  - component: {fileID: 8948101247578799124}
+  - component: {fileID: 6583417163070019853}
   m_Layer: 8
   m_Name: Spider
   m_TagString: Monster
@@ -52,6 +52,7 @@ Transform:
   - {fileID: 794845610571269077}
   - {fileID: 2724671757251166741}
   - {fileID: 805635387455677763}
+  - {fileID: 1055634927256920797}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -76,14 +77,17 @@ MonoBehaviour:
     isAlive: 0
     hitTime: 0.2
     fadeOutTime: 1
+    initDistance: 10
   components:
     rigidbody: {fileID: 2636562877231805735}
-    collider: {fileID: 8948101247578799124}
+    collider: {fileID: 6583417163070019853}
     monsterModel: {fileID: 21404689057798511}
     renderer: {fileID: 8014414949333721081}
     animator: {fileID: 2491111682361782549}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+    spawnPos: {x: 0, y: 0, z: 0}
+  playerOutOfRange: 0
   spiderStatus:
     downTime: 0.5
     upTime: 2
@@ -91,6 +95,8 @@ MonoBehaviour:
     isPlayerInCol: 0
     upPos: {x: 0, y: 0, z: 0}
     downPos: {x: 0, y: 0, z: 0}
+  spiderComponents:
+    spiderWeb: {fileID: 7707117486117714317}
 --- !u!54 &2636562877231805735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -107,8 +113,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!136 &8948101247578799124
-CapsuleCollider:
+--- !u!65 &6583417163070019853
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -117,10 +123,9 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Size: {x: 0.78496295, y: 0.9963546, z: 0.27699572}
+  m_Center: {x: -0.002305895, y: -0.06372392, z: -0.058781717}
 --- !u!1 &6910797864250234929
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,6 +242,102 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 20, y: 10, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &7707117486117714317
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1055634927256920797}
+  - component: {fileID: 5829477792800874410}
+  - component: {fileID: 1514467791246377497}
+  - component: {fileID: 4773444193687332886}
+  m_Layer: 0
+  m_Name: SpiderWeb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1055634927256920797
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707117486117714317}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.018, y: 5.2, z: 0.018004619}
+  m_LocalScale: {x: 0.05, y: 5, z: 0.05}
+  m_Children: []
+  m_Father: {fileID: 1328435132049023873}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &5829477792800874410
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707117486117714317}
+  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1514467791246377497
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707117486117714317}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: e970683339bbac148a4f8bbf7dc2d2a5, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &4773444193687332886
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707117486117714317}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &904487549770949694
 PrefabInstance:
   m_ObjectHideFlags: 0

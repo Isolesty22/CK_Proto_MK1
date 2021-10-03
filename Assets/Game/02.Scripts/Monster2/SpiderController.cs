@@ -23,6 +23,7 @@ public class SpiderController : MonsterController
     [Serializable]
     public class SpiderComponents
     {
+        public GameObject spiderWeb;
     }
 
     [SerializeField] private SpiderStatus spiderStatus = new SpiderStatus();
@@ -33,10 +34,15 @@ public class SpiderController : MonsterController
 
     public Tween tween;
     private bool moveTrigger;
+    private Vector3 originColSize;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
+        Com2.spiderWeb.SetActive(true);
+        Com.collider.GetComponent<BoxCollider>().size = originColSize;
+        Com.rigidbody.useGravity = false;
+        Utility.KillTween(tween);
         Stat2.isPlayerInCol = false;
         Stat2.upPos = transform.position;
         Stat2.downPos = transform.position + Vector3.down * Stat2.upDownRange;
@@ -45,6 +51,7 @@ public class SpiderController : MonsterController
 
     public override void Awake()
     {
+        originColSize = Com.collider.GetComponent<BoxCollider>().size;
         base.Awake();
     }
 
@@ -119,7 +126,13 @@ public class SpiderController : MonsterController
 
     protected override void Death()
     {
+        Utility.KillTween(tween);
+
+        if (Com.collider.GetComponent<BoxCollider>().size == originColSize)
+            Com.collider.GetComponent<BoxCollider>().size = new Vector3(Com.collider.GetComponent<BoxCollider>().size.y, Com.collider.GetComponent<BoxCollider>().size.z, Com.collider.GetComponent<BoxCollider>().size.x);
+
         Com.animator.SetBool("isDeath", true);
+        Com2.spiderWeb.SetActive(false);
         base.Death();
     }
 
