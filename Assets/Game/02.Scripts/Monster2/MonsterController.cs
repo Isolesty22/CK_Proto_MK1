@@ -63,7 +63,7 @@ public class MonsterController : MonoBehaviour
     public MonsterComponents Com => components;
 
     public IEnumerator hitColor;
-    public bool trigger;
+    public bool playerOutOfRange;
     #endregion
 
     public virtual void Initialize()
@@ -92,7 +92,7 @@ public class MonsterController : MonoBehaviour
         State(state);
         HandleAnimation();
 
-        if(trigger)
+        if(playerOutOfRange)
         {
             CheckInit();
         }
@@ -210,9 +210,8 @@ public class MonsterController : MonoBehaviour
         if(Stat.isAlive)
         {
             Stat.isAlive = false;
-            Com.collider.enabled = false;
             Com.rigidbody.velocity = Vector3.zero;
-            Com.rigidbody.useGravity = false;
+            Com.rigidbody.useGravity = true;
 
             var dead = Dead();
             StartCoroutine(dead);
@@ -254,7 +253,7 @@ public class MonsterController : MonoBehaviour
         if(Math.Abs(distance) > Stat.initDistance)
         {
             Initialize();
-            trigger = false;
+            playerOutOfRange = false;
         }
     }
 }

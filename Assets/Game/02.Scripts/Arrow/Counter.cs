@@ -12,6 +12,12 @@ public class Counter : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
+            if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                return;
+        }
+
+        if (other.CompareTag("Monster"))
+        {
             other.GetComponent<MonsterController>().Hit(damage);
 
             return;
