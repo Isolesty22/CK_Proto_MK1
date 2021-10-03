@@ -533,6 +533,9 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        if (State.isHit)
+            return;
+
         if (Input.GetKey(Key.attack))
         {
             State.isAttack = true;
