@@ -14,12 +14,16 @@ public class MonsterSearchCol : MonoBehaviour
             {
                 monsterController.Com.monsterModel.SetActive(true);
                 monsterController.ChangeState(MonsterController.MonsterState.IDLE);
+                monsterController.trigger = false;
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
+        if (other.CompareTag("Player"))
+        {
+            monsterController.trigger = true;
+        }
     }
 }

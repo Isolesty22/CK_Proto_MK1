@@ -31,6 +31,8 @@ public class MonsterController : MonoBehaviour
 
         public float hitTime = 0.2f;
         public float fadeOutTime;
+
+        public float initDistance = 10f;
     }
 
     [Serializable]
@@ -61,6 +63,7 @@ public class MonsterController : MonoBehaviour
     public MonsterComponents Com => components;
 
     public IEnumerator hitColor;
+    public bool trigger;
     #endregion
 
     public virtual void Initialize()
@@ -88,6 +91,11 @@ public class MonsterController : MonoBehaviour
     {
         State(state);
         HandleAnimation();
+
+        if(trigger)
+        {
+            CheckInit();
+        }
     }
 
     public virtual void State(MonsterState state)
@@ -239,4 +247,14 @@ public class MonsterController : MonoBehaviour
     {
     }
 
+
+    public virtual void CheckInit()
+    {
+        var distance = GameManager.instance.playerController.transform.position.x - Com.spawnPos.x;
+        if(Math.Abs(distance) > Stat.initDistance)
+        {
+            Initialize();
+            trigger = false;
+        }
+    }
 }
