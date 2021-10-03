@@ -28,7 +28,8 @@ public class RollerController : MonsterController
         public ConstantForce constantForce;
         public SphereCollider sphereCollider;
         public CapsuleCollider capsuleCollider;
-        public SphereCollider attackCollider;
+        public SphereCollider rollingCollider;
+        public Collider attackCollider;
     }
 
     [SerializeField] private RollerStatus rollerStatus = new RollerStatus();
@@ -46,7 +47,7 @@ public class RollerController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
-        Com2.attackCollider.gameObject.SetActive(false);
+        Com2.rollingCollider.gameObject.SetActive(false);
         Com.animator.SetBool("isAttack", false);
         Com.animator.SetBool("isMove", false);
         Com.animator.SetBool("isJump", false);
@@ -55,6 +56,8 @@ public class RollerController : MonsterController
         Com.collider.enabled = true;
         Com2.sphereCollider.enabled = false;
         transform.localEulerAngles = Vector3.zero;
+        Com2.attackCollider.gameObject.SetActive(true);
+        currentSpeed = 0f;
     }
 
     public override void Awake()
@@ -167,7 +170,7 @@ public class RollerController : MonsterController
 
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
-        Com2.attackCollider.gameObject.SetActive(true);
+        Com2.rollingCollider.gameObject.SetActive(true);
     }
 
     protected override void Attack()

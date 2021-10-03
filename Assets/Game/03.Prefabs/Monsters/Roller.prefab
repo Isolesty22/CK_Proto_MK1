@@ -61,6 +61,7 @@ MonoBehaviour:
     isAlive: 0
     hitTime: 0.1
     fadeOutTime: 1
+    initDistance: 10
   components:
     rigidbody: {fileID: 2636562877231805735}
     collider: {fileID: 8948101247578799124}
@@ -70,6 +71,7 @@ MonoBehaviour:
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
+  trigger: 0
   rollerStatus:
     jumpPower: 7
     aclrt: 3
@@ -82,7 +84,8 @@ MonoBehaviour:
     constantForce: {fileID: 1551969497}
     sphereCollider: {fileID: 771319751876465725}
     capsuleCollider: {fileID: 8948101247578799124}
-    attackCollider: {fileID: 5715208975074954739}
+    rollingCollider: {fileID: 5715208975074954739}
+    attackCollider: {fileID: 2141422118}
   moveDir: {x: 0, y: 0, z: 0}
 --- !u!54 &2636562877231805735
 Rigidbody:
