@@ -51,8 +51,6 @@ public class MonsterController : MonoBehaviour
         public Vector3 spawnPos;
     }
 
-
-
     //field
     public MonsterState state;
 

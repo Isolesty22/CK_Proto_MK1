@@ -28,18 +28,20 @@ public class RabbitController : MonsterController
     public RabbitComponents Com2 => rabbitComponents;
 
     private float moveTime;
+    private Vector3 firstLookDir;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
         Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
-        transform.localEulerAngles = Vector3.zero;
+        transform.localEulerAngles = firstLookDir;
         moveTime = 0.0f;
     }
 
     public override void Awake()
     {
+        firstLookDir = transform.localEulerAngles;
         base.Awake();
     }
 
