@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,29 +48,36 @@ public class ClawProjectile : MonoBehaviour
     private void Despawn()
     {
         StopCoroutine(moveEnumerator);
-        CustomPoolManager.Instance.ReleaseThis(this);
+        StartCoroutine(TestDespawn());
+
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            //ÇÇ°İ °¡´ÉÇÑ »óÅÂÀÏ ¶§
-            if (!playerController.IsInvincible())
-            {
-                //ÆĞ¸µ °¡´ÉÇÑ »óÅÂ¶ó¸é
-                if (playerController.CanParry())
-                {
-                    //ÆĞ¸µ
-                    StartCoroutine(playerController.Parrying());
-                }
-                else // ÆĞ¸µ ºÒ°¡´ÉÇÑ »óÅÂ¶ó¸é
-                {
-                    //ÇÇ°İ
-                    playerController.Hit();
-                }
+            //í”¼ê²© ê°€ëŠ¥í•œ ìƒíƒœì¼ ë•Œ
+            //if (!playerController.IsInvincible())
+            //{
+            //    //íŒ¨ë§ ê°€ëŠ¥í•œ ìƒíƒœë¼ë©´
+            //    if (playerController.CanParry())
+            //    {
+            //        //íŒ¨ë§
+            //        StartCoroutine(playerController.Parrying());
+            //    }
+            //    else // íŒ¨ë§ ë¶ˆê°€ëŠ¥í•œ ìƒíƒœë¼ë©´
+            //    {
+            //        //í”¼ê²©
+            //        playerController.Hit();
+            //    }
                 Despawn();
-            }
+            //}
 
         }
+    }
+
+    IEnumerator TestDespawn()
+    {
+        yield return null;
+        CustomPoolManager.Instance.ReleaseThis(this);
     }
 }
