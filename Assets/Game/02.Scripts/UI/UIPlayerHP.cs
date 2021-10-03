@@ -47,7 +47,15 @@ public class UIPlayerHP : MonoBehaviour
 
         if (hpCount > currentHP)
         {
-            hpImageList[currentHP].gameObject.SetActive(false);
+            if (currentHP > 0)
+            {
+                hpImageList[currentHP].gameObject.SetActive(false);
+            }
+            else
+            {
+                hpImageList[0].gameObject.SetActive(false);
+                UIManager.Instance.OpenLosePopup();
+            }
         }
         else
         {

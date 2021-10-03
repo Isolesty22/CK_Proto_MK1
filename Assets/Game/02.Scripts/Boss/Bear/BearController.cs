@@ -32,6 +32,7 @@ public class BearController : BossController
         public GameObject strikeCube;
         public GameObject roarEffect;
         public GameObject claw_A_Effect;
+        public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
     }
 
@@ -70,9 +71,8 @@ public class BearController : BossController
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
-
-
     private Transform myTransform;
+    private BoxCollider myCollider;
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     private BearPattern currentPattern;
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
@@ -95,7 +95,11 @@ public class BearController : BossController
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
         Init_Animator();
         bearMapInfo.Init();
+
         myTransform = transform;
+
+        myCollider = GetComponent<BoxCollider>();
+        //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
         bearMapInfo.SetPhase3Position(myTransform.position);
     }
     private void Init_Animator()
@@ -125,6 +129,7 @@ public class BearController : BossController
         roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
         clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
 
+        Physics.IgnoreCollision(myCollider, GameManager.instance.playerController.Com.collider, false);
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
     private void Update()
@@ -203,7 +208,7 @@ public class BearController : BossController
         int i = 0;
         int length = phaseList[stateInfo].Count;
         currentPattern = new BearPattern();
-
+        myCollider.size = new Vector3(10f, myCollider.size.y, myCollider.size.z);
         while (true)
         {
             if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
@@ -217,11 +222,13 @@ public class BearController : BossController
                     if (stateInfo.phase == ePhase.Phase_1)
                     {
                         myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
+                        myCollider.size = new Vector3(1f, myCollider.size.y, 10f);
 
                     }
                     else if (stateInfo.phase == ePhase.Phase_2)
                     {
-                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(Vector3.zero));
+                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+                        myCollider.size = new Vector3(10f, myCollider.size.y, 1f);
                     }
                     else
                     {
@@ -239,7 +246,6 @@ public class BearController : BossController
                 currentPattern = phaseList[stateInfo][i];
 
                 //스테이트 변경
-
                 stateInfo.stateE = currentPattern.state;
                 stateInfo.state = currentPattern.state.ToString();
 
@@ -252,7 +258,9 @@ public class BearController : BossController
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        this.gameObject.SetActive(false);
+        stateInfo.stateE = eBossState.BearState_Die;
+        stateInfo.state = eBossState.BearState_Die.ToString();
+        ChangeState(eBossState.BearState_Die);
 
     }
     public void SetTrigger(string _paramName)
