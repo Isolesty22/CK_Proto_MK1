@@ -81,7 +81,7 @@ public class BearController : BossController
     /// <summary>
     /// 스킬 액션
     /// </summary>
-    private Action skillAction;
+    private Action skillAction = null;
 
     private void Awake()
     {
@@ -144,15 +144,15 @@ public class BearController : BossController
     }
     private bool ChangeState(eBossState _state)
     {
-        if (_state == eBossState.BearState_Random)
-        {
-            bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
-        }
-        else
-        {
+        //if (_state == eBossState.BearState_Random)
+        //{
+        //    bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
+        //}
+        //else
+        //{
             bearStateMachine.ChangeState(_state);
 
-        }
+        //}
         return false;
     }
 
@@ -245,6 +245,11 @@ public class BearController : BossController
                 //다음 패턴 가져오기
                 currentPattern = phaseList[stateInfo][i];
 
+                if (currentPattern.state == eBossState.BearState_Random)
+                {
+                    currentPattern.state = GetRandomState(stateInfo.phase);
+
+                }
                 //스테이트 변경
                 stateInfo.stateE = currentPattern.state;
                 stateInfo.state = currentPattern.state.ToString();
@@ -279,9 +284,9 @@ public class BearController : BossController
     private readonly eBossState[] patterns_phase_1
         = { eBossState.BearState_Stamp, eBossState.BearState_Strike_A, eBossState.BearState_Claw_A };
     private readonly eBossState[] patterns_phase_2
-        = { eBossState.BearState_Roar_A, eBossState.BearState_Roar_B, eBossState.BearState_Claw_B, eBossState.BearState_Strike_B };
+        = { eBossState.BearState_Roar_A, eBossState.BearState_Claw_B, eBossState.BearState_Strike_B };//,eBossState.BearState_Roar_B};
     private readonly eBossState[] patterns_phase_3
-        = { eBossState.BearState_Stamp, eBossState.BearState_Roar_A, eBossState.BearState_Strike_A, eBossState.BearState_Claw_C, eBossState.BearState_Strike_C };
+        = { eBossState.BearState_Strike_A, eBossState.BearState_Strike_C };
     private eBossState GetRandomState(ePhase _phase)
     {
         switch (_phase)
@@ -296,6 +301,7 @@ public class BearController : BossController
                 return patterns_phase_3[UnityEngine.Random.Range(0, patterns_phase_3.Length)];
 
             default:
+                Debug.LogError("GetRandomState Error");
                 return eBossState.None;
         }
     }
