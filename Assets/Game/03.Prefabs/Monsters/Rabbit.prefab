@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &75888090283175203
 Transform:
   m_ObjectHideFlags: 0
@@ -56,6 +56,7 @@ MonoBehaviour:
     isAlive: 0
     hitTime: 0.2
     fadeOutTime: 1
+    initDistance: 10
   components:
     rigidbody: {fileID: 6307346486017835251}
     collider: {fileID: 4147787381735573126}
@@ -64,9 +65,11 @@ MonoBehaviour:
     animator: {fileID: 4747638741986988936}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+    spawnPos: {x: 0, y: 0, z: 0}
+  playerOutOfRange: 0
   rabbitStatus:
-    jumpPower: 5
-    moveDelay: 1.5
+    jumpPower: 2
+    moveDelay: 1
   rabbitComponents:
     capsuleCollider: {fileID: 4147787381735573126}
 --- !u!54 &6307346486017835251

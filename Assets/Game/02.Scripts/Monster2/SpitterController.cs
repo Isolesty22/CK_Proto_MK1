@@ -28,11 +28,13 @@ public class SpitterController : MonsterController
     public SpitterComponents Com2 => spitterComponents;
 
     private bool isRunCo;
+
     #endregion
     public override void Initialize()
     {
-        base.Initialize();
+        Com.rigidbody.useGravity = false;
         isRunCo = false;
+        base.Initialize();
     }
 
     public override void Awake()
@@ -141,6 +143,7 @@ public class SpitterController : MonsterController
 
     protected override void Death()
     {
+        StopAllCoroutines();
         base.Death();
     }
 

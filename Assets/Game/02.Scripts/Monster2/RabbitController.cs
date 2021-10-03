@@ -32,6 +32,7 @@ public class RabbitController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
+        Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
         transform.localEulerAngles = Vector3.zero;
         moveTime = 0.0f;
