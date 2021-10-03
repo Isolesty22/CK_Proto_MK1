@@ -39,6 +39,8 @@ public class SpiderController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
+        Com.animator.SetBool("isAttack", false);
+        Com.animator.SetBool("isDeath", false);
         Com2.spiderWeb.SetActive(true);
         Com.collider.GetComponent<BoxCollider>().size = originColSize;
         Com.rigidbody.useGravity = false;

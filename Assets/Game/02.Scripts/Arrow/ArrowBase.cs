@@ -12,8 +12,11 @@ public class ArrowBase : MonoBehaviour
     {
         if (other.CompareTag("Monster"))
         {
-            if (!other.GetComponent<MonsterController>().Stat.isAlive)
-                return;
+            if (other.GetComponent<MonsterController>())
+            {
+                if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                    return;
+            }
         }
 
         if (other.CompareTag("Monster"))
