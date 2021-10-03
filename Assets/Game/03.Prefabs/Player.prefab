@@ -49,6 +49,7 @@ MonoBehaviour:
   crouchFirePos: {x: 0, y: 0.2, z: 0.75}
   pixyPos: {x: -2.5, y: 0, z: -7}
   pixyCounterPos: {x: -2.5, y: 0, z: 0}
+  drainTime: 0.5
   pixyMoveTime: 0.4
   counterRange: 100
   counterSpeed: 2
@@ -413,8 +414,11 @@ MonoBehaviour:
     gravity: 50
     groundNormal: {x: 0, y: 0, z: 0}
     groundedDistance: 2
+    upDistance: 0
     groundedCheck: 2
     forwardCheck: 0.15
+    upTrigger: 1
+    prevJump: 0
     knockBackPower: 8
     knockBackVelocity: {x: 0, y: 0, z: 0}
     constDecrease: 14
@@ -429,6 +433,7 @@ MonoBehaviour:
     isGrounded: 0
     isJumping: 0
     isForwardBlocked: 0
+    isUpBlocked: 0
     isCrouching: 0
     isHit: 0
     isInvincible: 0
@@ -812,7 +817,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8746005762541738957, guid: c1374cb0b82ee6f4bb4b731f95e63d39, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1374cb0b82ee6f4bb4b731f95e63d39, type: 3}

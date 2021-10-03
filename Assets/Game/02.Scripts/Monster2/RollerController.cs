@@ -16,6 +16,7 @@ public class RollerController : MonsterController
         [Header("Sub Status")]
         public float moveChangeTime;
         public float changeDelay;
+        public int rollingDamage;
     }
 
     [Serializable]
@@ -27,6 +28,7 @@ public class RollerController : MonsterController
         public ConstantForce constantForce;
         public SphereCollider sphereCollider;
         public CapsuleCollider capsuleCollider;
+        public SphereCollider attackCollider;
     }
 
     [SerializeField] private RollerStatus rollerStatus = new RollerStatus();
@@ -35,19 +37,24 @@ public class RollerController : MonsterController
     public RollerStatus Stat2 => rollerStatus;
     public RollerComponents Com2 => rollerComponents;
 
-    private IEnumerator modeChange;
     private float movePatternTime;
     private int random;
-    private Vector3 moveDir;
+    [HideInInspector] public Vector3 moveDir;
     private float currentSpeed;
 
     #endregion
     public override void Initialize()
     {
         base.Initialize();
-
+        Com2.attackCollider.gameObject.SetActive(false);
+        Com.animator.SetBool("isAttack", false);
+        Com.animator.SetBool("isMove", false);
+        Com.animator.SetBool("isJump", false);
+        Com.animator.SetFloat("AttackSpeed", 0.0f);
         movePatternTime = 10f;
+        Com.collider.enabled = true;
         Com2.sphereCollider.enabled = false;
+        transform.localEulerAngles = Vector3.zero;
     }
 
     public override void Awake()
@@ -160,6 +167,7 @@ public class RollerController : MonsterController
 
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
+        Com2.attackCollider.gameObject.SetActive(true);
     }
 
     protected override void Attack()
