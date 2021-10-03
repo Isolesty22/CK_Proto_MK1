@@ -20,5 +20,6 @@ public class MonsterSearchCol : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+
     }
 }
