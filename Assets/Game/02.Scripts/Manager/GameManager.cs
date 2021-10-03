@@ -11,11 +11,11 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (instance == null)
+        if (instance == null || instance != this)
         {
             instance = this;
 
-            GameObject.DontDestroyOnLoad(this.gameObject);
+            //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
     }
 
