@@ -32,6 +32,7 @@ public class BearController : BossController
         public GameObject strikeCube;
         public GameObject roarEffect;
         public GameObject claw_A_Effect;
+        public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
     }
 
@@ -96,6 +97,7 @@ public class BearController : BossController
         bearMapInfo.Init();
 
         myTransform = transform;
+
         myCollider = GetComponent<BoxCollider>();
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
         bearMapInfo.SetPhase3Position(myTransform.position);

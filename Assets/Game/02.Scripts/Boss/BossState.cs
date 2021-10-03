@@ -382,6 +382,11 @@ public class BearState_Claw : BearState
                 break;
 
             case eBossState.BearState_Claw_B:
+
+                Vector3 tempClawPos = bearController.skillObjects.clawUnderPosition.position;
+                //bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y + 1f, tempClawPos.z);
+                bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y, tempClawPos.z);
+
                 bearController.SetSkillAction(SkillAction_B);
                 break;
 
@@ -416,7 +421,7 @@ public class BearState_Claw : BearState
     }
     public void SkillAction_B()
     {
-        bearController.StartCoroutine(ProcessSkillAction_C());
+        bearController.StartCoroutine(ProcessSkillAction_B());
     }
     public void SkillAction_C()
     {
@@ -429,13 +434,32 @@ public class BearState_Claw : BearState
         yield return new WaitForSeconds(0.5f);
         bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
+    private float rotVal = 80f;
+    private IEnumerator ProcessSkillAction_B()
+    {
+        int random = Random.Range(0, 2);
+
+        if (random == 0)
+        {
+            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, -rotVal);
+        }
+        else
+        {
+            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, rotVal);
+
+        }
+        bearController.skillObjects.claw_B_Effect.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        bearController.skillObjects.claw_B_Effect.SetActive(false);
+    }
+
     private IEnumerator ProcessSkillAction_C()
     {
         SkillAction_A();
 
-         //Spawn Claw projectile
+        //Spawn Claw projectile
 
-         WaitForSeconds waitDelay = new WaitForSeconds(bearController.clawDelay);
+        WaitForSeconds waitDelay = new WaitForSeconds(bearController.clawDelay);
 
         int length = bearController.clawCount;
 
