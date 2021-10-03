@@ -41,12 +41,14 @@ public class PlayerController : MonoBehaviour
 
         public float parryingForce = 10f;
         public float parryingTime = 1f;
+        public float parryInvincibleTime = 0.5f;
 
         public float hitTime = 1f;
         public float invincibleTime = 1f;
 
         public float hitColorTime = 1f;
         public float hitColorDelay = 1f;
+
 
         [Header("unused")]
         public float crouchMoveSpeed = 1f;
@@ -514,8 +516,6 @@ public class PlayerController : MonoBehaviour
         Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         StopCoroutine(parry);
 
-
-
         //프레임 단위 무적
         //State.isInvincible = true;
         //yield return null;
@@ -523,7 +523,7 @@ public class PlayerController : MonoBehaviour
 
         //시간 단위 무적
         State.isInvincible = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(Stat.parryInvincibleTime);
         State.isInvincible = false;
 
 
@@ -533,6 +533,9 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        if (State.isHit)
+            return;
+
         if (Input.GetKey(Key.attack))
         {
             State.isAttack = true;

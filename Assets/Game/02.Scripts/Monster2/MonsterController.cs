@@ -45,6 +45,8 @@ public class MonsterController : MonoBehaviour
 
         public Color originalColor;
         public Color hitColor;
+
+        public Vector3 spawnPos;
     }
 
 
@@ -68,10 +70,12 @@ public class MonsterController : MonoBehaviour
         state = MonsterState.WAIT;
         Com.originalColor = Com.renderer.material.color;
         Stat.isAlive = true;
+        transform.position = Com.spawnPos;
     }
 
     public virtual void Awake()
     {
+        Com.spawnPos = transform.position;
         Initialize();
     }
 
