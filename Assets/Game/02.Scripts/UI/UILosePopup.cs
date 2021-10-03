@@ -15,6 +15,7 @@ public class UILosePopup : UIBase
     }
     public override bool Open()
     {
+        Time.timeScale = 0f;
         StartCoroutine(ProcessOpen());
         return true;
 
@@ -25,6 +26,7 @@ public class UILosePopup : UIBase
     public override bool Close()
     {
 
+        Time.timeScale = 1f;
         StartCoroutine(ProcessClose());
         return true;
         //Com.canvas.enabled = false;

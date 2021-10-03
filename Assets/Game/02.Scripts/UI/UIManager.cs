@@ -34,6 +34,9 @@ public class UIManager : MonoBehaviour
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 
+    [Tooltip("[임시] 패배 팝업")]
+    public UILosePopup losePopup;
+
     private void Awake()
     {
         if (Instance == null)
@@ -150,5 +153,14 @@ public class UIManager : MonoBehaviour
         uiPopup_new.Init_Popup(_text, _left, _right);
         OpenThis(uiPopup_new);
 
+    }
+
+
+    /// <summary>
+    /// [임시] 패배 팝업을 띄웁니다.
+    /// </summary>
+    public void OpenLosePopup()
+    {
+        OpenThis(losePopup);
     }
 }
