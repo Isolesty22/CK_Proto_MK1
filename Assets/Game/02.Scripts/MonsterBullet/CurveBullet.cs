@@ -61,7 +61,21 @@ public class CurveBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player"))
+        {
+            var despawn = Despawn();
+            StartCoroutine(despawn);
+        }
+
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-            gameObject.SetActive(false);
+        {
+            CustomPoolManager.Instance.ReleaseThis(this);
+        }
+    }
+    public IEnumerator Despawn()
+    {
+        yield return null;
+
+        CustomPoolManager.Instance.ReleaseThis(this);
     }
 }
