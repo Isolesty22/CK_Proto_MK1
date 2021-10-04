@@ -11,6 +11,7 @@ public class TriggerHitScan : MonoBehaviour
 
     public Action<Collider> hitAction;
 
+    private IEnumerator parryEnumerator = null;
 
     private void Awake()
     {
@@ -28,6 +29,7 @@ public class TriggerHitScan : MonoBehaviour
     void Start()
     {
         playerController = GameManager.instance.playerController;
+        parryEnumerator = playerController.Parrying();
     }
 
     private const string playerTag = "Player";
@@ -35,22 +37,20 @@ public class TriggerHitScan : MonoBehaviour
     {
         if (other.CompareTag(playerTag))
         {
-            //피격 가능한 상태일 때
-            if (!playerController.IsInvincible())
+            if (playerController.CanParry())
             {
-                //패링 가능한 상태라면
-                if (playerController.CanParry())
-                {
-                    //패링
-                    StartCoroutine(playerController.Parrying());
-                }
-                else // 패링 불가능한 상태라면
-                {
-                    //피격
-                    playerController.Hit();
-                }
+                StopCoroutine(parryEnumerator);
+                parryEnumerator = playerController.Parrying();
+                StartCoroutine(parryEnumerator);
+                return;
             }
 
+            if (!playerController.IsInvincible()) // 패링 불가능한 상태라면
+            {
+                //피격
+                playerController.Hit();
+
+            }
         }
     }
 

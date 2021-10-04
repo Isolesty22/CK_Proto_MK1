@@ -26,15 +26,7 @@ public class BearController : BossController
         //public Queue<eBossState> phase_03_Queue = new Queue<eBossState>();
     }
 
-    [Serializable]
-    public class SkillObjects
-    {
-        public GameObject strikeCube;
-        public GameObject roarEffect;
-        public GameObject claw_A_Effect;
-        public GameObject claw_B_Effect;
-        public Transform clawUnderPosition;
-    }
+
 
     #endregion
 
@@ -52,6 +44,17 @@ public class BearController : BossController
     public TestTextMesh testTextMesh;
     #endregion
 
+    [Serializable]
+    public class SkillObjects
+    {
+        public GameObject strikeCube;
+        public GameObject roarEffect;
+        public GameObject claw_A_Effect;
+        public GameObject claw_B_Effect;
+        public Transform clawUnderPosition;
+        public GameObject smashRock;
+    }
+
     public SkillObjects skillObjects;
 
     [Header("현재 체력")]
@@ -60,13 +63,31 @@ public class BearController : BossController
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
+
+    [Serializable]
+    public class SkillValue
+    {
+        [Tooltip("할퀴기 추가공격 개수")]
+        public int clawCount = 3;
+
+        [Tooltip("할퀴기 추가공격 간격")]
+        public float clawDelay = 0.5f;
+
+        [Tooltip("포효 투사체 개수")]
+        public int roarRandCount = 7;
+
+        [Tooltip("스매쉬 투사체 개수")]
+        public int smashRandCount = 4;
+    }
+
+    [Header("스킬 세부 값")]
+    public SkillValue skillValue;
+
+
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("할퀴기 추가공격 개수")]
-    public int clawCount = 3;
-    [Tooltip("할퀴기 추가공격 간격")]
-    public float clawDelay = 0.5f;
+
 
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
@@ -77,6 +98,7 @@ public class BearController : BossController
     private BearPattern currentPattern;
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
+    public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
     /// <summary>
     /// 스킬 액션
@@ -118,17 +140,23 @@ public class BearController : BossController
         AddAnimatorHash("Start_Strike");
         AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
+        AddAnimatorHash("Start_Smash");
         AddAnimatorHash("Start_Die");
+    }
+
+    private void Init_Pool()
+    {
+        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
+        smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
     }
     private void Start()
     {
+
         bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = true;
+        bearStateMachine.isDebugMode = false;
         bearStateMachine.StartState(eBossState.BearState_Idle);
-
-        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
-        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
-
+        Init_Pool();
         Physics.IgnoreCollision(myCollider, GameManager.instance.playerController.Com.collider, false);
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
@@ -251,9 +279,7 @@ public class BearController : BossController
 
                 }
                 //스테이트 변경
-                stateInfo.stateE = currentPattern.state;
-                stateInfo.state = currentPattern.state.ToString();
-
+                SetStateInfo(currentPattern.state);
                 ChangeState(currentPattern.state);
 
                 i += 1;
@@ -263,10 +289,16 @@ public class BearController : BossController
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        stateInfo.stateE = eBossState.BearState_Die;
-        stateInfo.state = eBossState.BearState_Die.ToString();
+
+        SetStateInfo(eBossState.BearState_Die);
         ChangeState(eBossState.BearState_Die);
 
+    }
+
+    public void SetStateInfo(eBossState _state)
+    {
+        stateInfo.stateE = _state;
+        stateInfo.state = _state.ToString();
     }
     public void SetTrigger(string _paramName)
     {

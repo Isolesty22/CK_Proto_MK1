@@ -219,7 +219,7 @@ public class BearState_Roar : BearState
     private IEnumerator ProcessSkillAction()
     {
         //Spawn Roar projectile
-        int length = bearController.bearMapInfo.projectileRandCount;
+        int length = bearController.skillValue.roarRandCount;
         for (int i = 0; i < length; i++)
         {
             Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
@@ -459,9 +459,9 @@ public class BearState_Claw : BearState
 
         //Spawn Claw projectile
 
-        WaitForSeconds waitDelay = new WaitForSeconds(bearController.clawDelay);
+        WaitForSeconds waitDelay = new WaitForSeconds(bearController.skillValue.clawDelay);
 
-        int length = bearController.clawCount;
+        int length = bearController.skillValue.clawCount;
 
         for (int i = 0; i < length; i++)
         {
@@ -479,6 +479,69 @@ public class BearState_Claw : BearState
         yield break;
     }
 }
+public class BearState_Smash : BearState
+{
+    public BearState_Smash(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+        bearController.bearMapInfo.UpdateProjectileRandArray();
+        bearController.SetSkillAction(SkillAction);
+        bearController.SetTrigger("Start_Smash");
+
+        bearController.skillObjects.smashRock.SetActive(true);
+        //bearController.StartCoroutine(ProcessUpdate());
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+    public void SkillAction()
+    {
+
+        bearController.StartCoroutine(ProcessSkillAction());
+    }
+
+    WaitForSeconds waitSec = new WaitForSeconds(1f);
+    private IEnumerator ProcessSkillAction()
+    {
+        //바위 없애기
+        bearController.skillObjects.smashRock.SetActive(false);
+
+
+        Vector3 startPos = bearController.skillObjects.smashRock.transform.position;
+
+        //바위 쿠과광
+        int length = bearController.skillValue.smashRandCount;
+        for (int i = 0; i < length; i++)
+        {
+            Vector3 midPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
+            // midPos = new Vector3(midPos.x, midPos.y, midPos.z);
+            Vector3 endPos = new Vector3(midPos.x, bearController.bearMapInfo.mapData.minPosition.y, midPos.z);
+
+            SmashProjectile smashProjectile = bearController.smashProjectilePool.SpawnThis();
+            smashProjectile.Init(startPos, midPos, endPos);
+            smashProjectile.Move();
+        }
+
+        yield break;
+    }
+}
+
 
 public class BearState_Die : BearState
 {
@@ -513,6 +576,9 @@ public class BearState_Die : BearState
         bearController.gameObject.SetActive(false);
     }
 }
+
+
+
 
 #endregion
 

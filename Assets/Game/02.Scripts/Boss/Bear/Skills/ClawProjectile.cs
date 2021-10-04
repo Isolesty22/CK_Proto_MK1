@@ -10,17 +10,23 @@ public class ClawProjectile : BearProjectile
         startPos = _start;
         endPos = _end;
 
+        SetParryMode(canParry);
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
     }
 
-    public void Move()
+    public override void Move()
     {
         StartCoroutine(moveEnumerator);
     }
-
-    private IEnumerator ProcessMove()
+    protected override IEnumerator ProcessDespawn()
+    {
+        StopCoroutine(moveEnumerator);
+        yield return null;
+        CustomPoolManager.Instance.ReleaseThis(this);
+    }
+    protected override IEnumerator ProcessMove()
     {
         float progress = 0f;
         float timer = 0;
@@ -35,12 +41,6 @@ public class ClawProjectile : BearProjectile
 
         myTransform.position = endPos;
         Despawn();
-    }
-    protected override IEnumerator ProcessDespawn()
-    {
-        StopCoroutine(moveEnumerator);
-        yield return null;
-        CustomPoolManager.Instance.ReleaseThis(this);
     }
     private void OnTriggerEnter(Collider other)
     {

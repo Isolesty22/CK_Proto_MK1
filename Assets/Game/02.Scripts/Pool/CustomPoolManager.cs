@@ -58,7 +58,7 @@ public class CustomPoolManager : MonoBehaviour
         Init_PoolObjectDictionary();
 
         curveBulletPool = CreateCustomPool<CurveBullet>();
-        seedPool = CreateCustomPool<Seed>();
+        //seedPool = CreateCustomPool<Seed>();
 
 
         basicArrowPool = CreateCustomPool<ArrowBase>();
