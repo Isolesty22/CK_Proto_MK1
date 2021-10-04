@@ -82,7 +82,6 @@ public class CustomPoolManager : MonoBehaviour
     /// <returns>생성된 CustomPool을 반환합니다.</returns>
     public CustomPool<T> CreateCustomPool<T>() where T : MonoBehaviour
     {
-
         //CustomPool 생성
         CustomPool<T> customPool = new CustomPool<T>();
 
@@ -100,10 +99,11 @@ public class CustomPoolManager : MonoBehaviour
 
             customPool.Init(poolObjectDictionary[typeName].gameObject, poolObjectDictionary[typeName].count, tempPoolTransform);
             customPool.Init_Queue();
+
+            //clearHandler에 해당 풀의 ClearPool 추가
+            clearHandler += new ClearHandler(customPool.ClearPool);
         }
 
-        //clearHandler에 해당 풀의 ClearPool 추가
-        clearHandler += new ClearHandler(customPool.ClearPool);
         return customPool;
     }
 
