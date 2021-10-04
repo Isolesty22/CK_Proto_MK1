@@ -130,6 +130,7 @@ public class SpitterController : MonsterController
         venom.endPos = GameManager.instance.playerController.transform.position + new Vector3(0,-1,0);
         venom.duration = 10 - Stat2.venomSpeed;
         venom.height = Stat2.venomHeight;
+        venom.Initialize();
         venom.isRun = true;
         yield return new WaitForSeconds(Stat2.shootDelay);
         ChangeState(MonsterState.IDLE);

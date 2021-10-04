@@ -23,11 +23,14 @@ public class CurveBullet : MonoBehaviour
 
     void Start()
     {
+    }
+
+    public void Initialize()
+    {
         startTime = Time.time;
         startHeightPos = startPos + new Vector3(0, 1, 0) * height;
         endHeightPos = endPos + new Vector3(0, 1, 0) * height;
     }
-
     void Update()
     {
         if (isRun)
@@ -63,9 +66,8 @@ public class CurveBullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //var despawn = Despawn();
-            //StartCoroutine(despawn);
-            CustomPoolManager.Instance.ReleaseThis(this);
+            var despawn = Despawn();
+            StartCoroutine(despawn);
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
