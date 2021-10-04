@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour
     public class PlayerStatus : Status
     {
         public float movementSpeed = 10f;
+        public float crouchMoveSpeed = 5f;
         public float jumpForce = 1f;
 
         public float parryingForce = 10f;
@@ -51,7 +52,6 @@ public class PlayerController : MonoBehaviour
 
 
         [Header("unused")]
-        public float crouchMoveSpeed = 1f;
         public float jumpingSpeed = 1f;
     }
 
@@ -296,9 +296,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (State.isHit)
+            if (State.isCrouching)
             {
-                Val.moveVelocity = Val.moveVector * Stat.movementSpeed * 0.5f;
+                Val.moveVelocity = Val.moveVector * Stat.crouchMoveSpeed;
             }
             else
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
@@ -357,8 +357,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = false;
 
             //instance model
-            //Com.standingModel.SetActive(true);
-            //Com.crouchModel.SetActive(false);
+            Com.standingModel.SetActive(true);
+            Com.crouchModel.SetActive(false);
 
             Com.pixy.transform.localPosition = Com.pixy.firePos;
 
@@ -377,8 +377,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = true;
 
             //instance model
-            //Com.standingModel.SetActive(false);
-            //Com.crouchModel.SetActive(true);
+            Com.standingModel.SetActive(false);
+            Com.crouchModel.SetActive(true);
 
             Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
         }
