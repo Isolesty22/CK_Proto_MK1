@@ -50,8 +50,8 @@ public class RollerController : MonsterController
         Com.rigidbody.velocity = Vector3.zero;
         Com2.rollingCollider.gameObject.SetActive(false);
         Com.animator.SetBool("isAttack", false);
-        Com.animator.SetBool("isMove", false);
         Com.animator.SetBool("isJump", false);
+        Com.animator.SetBool("isMove", false);
         Com.animator.SetFloat("AttackSpeed", 0.0f);
         movePatternTime = 10f;
         Com.collider.enabled = true;
