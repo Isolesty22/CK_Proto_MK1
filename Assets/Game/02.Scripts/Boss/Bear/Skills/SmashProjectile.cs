@@ -18,11 +18,12 @@ public class SmashProjectile : BearProjectile
         if (Random.Range(0, 2) == 1)
         {
             SetParryMode(false);
+            this.gameObject.transform.localScale = new Vector3(.8f, .8f, .8f);
         }
         else
         {
             SetParryMode(true);
-            this.gameObject.transform.localScale *= 0.5f;
+            this.gameObject.transform.localScale = new Vector3(.5f, .5f, .5f);
         }
 
         moveEnumerator = ProcessMove();
@@ -49,6 +50,7 @@ public class SmashProjectile : BearProjectile
         Vector3 p1;
         Vector3 p2;
 
+        moveTime = Random.Range(moveTime - 0.8f, moveTime);
         while (progress < 1f)
         {
             timer += Time.deltaTime;

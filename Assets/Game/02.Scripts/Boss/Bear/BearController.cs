@@ -279,9 +279,7 @@ public class BearController : BossController
 
                 }
                 //스테이트 변경
-                stateInfo.stateE = currentPattern.state;
-                stateInfo.state = currentPattern.state.ToString();
-
+                SetStateInfo(currentPattern.state);
                 ChangeState(currentPattern.state);
 
                 i += 1;
@@ -291,10 +289,16 @@ public class BearController : BossController
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        stateInfo.stateE = eBossState.BearState_Die;
-        stateInfo.state = eBossState.BearState_Die.ToString();
+
+        SetStateInfo(eBossState.BearState_Die);
         ChangeState(eBossState.BearState_Die);
 
+    }
+
+    public void SetStateInfo(eBossState _state)
+    {
+        stateInfo.stateE = _state;
+        stateInfo.state = _state.ToString();
     }
     public void SetTrigger(string _paramName)
     {
