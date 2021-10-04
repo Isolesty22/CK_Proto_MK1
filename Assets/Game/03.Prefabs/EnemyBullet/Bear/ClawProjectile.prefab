@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4241795766087002936}
   m_Layer: 0
   m_Name: ClawProjectile
-  m_TagString: Monster
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f894cf4601bddf4c88347e07d0a2b8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 6909703675965478816}
+  canParry: 1
   moveTime: 3
+  myTransform: {fileID: 6909703675965478816}
   degree: 0
 --- !u!65 &4241795766087002936
 BoxCollider:

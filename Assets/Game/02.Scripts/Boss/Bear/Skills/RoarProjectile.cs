@@ -4,23 +4,31 @@ using UnityEngine;
 
 public class RoarProjectile : BearProjectile
 {
-
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
         endPos = _end;
 
+        SetParryMode(true);
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
     }
 
-    public void Move()
+    public override void Move()
     {
         StartCoroutine(moveEnumerator);
     }
 
-    private IEnumerator ProcessMove()
+
+    protected override IEnumerator ProcessDespawn()
+    {
+        StopCoroutine(moveEnumerator);
+        yield return null;
+        CustomPoolManager.Instance.ReleaseThis(this);
+    }
+
+    protected override IEnumerator ProcessMove()
     {
         float progress = 0f;
         float timer = 0;
@@ -37,14 +45,6 @@ public class RoarProjectile : BearProjectile
         Despawn();
     }
 
-
-    protected override IEnumerator ProcessDespawn()
-    {
-        StopCoroutine(moveEnumerator);
-        yield return null;
-        CustomPoolManager.Instance.ReleaseThis(this);
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -54,4 +54,5 @@ public class RoarProjectile : BearProjectile
             //Despawn만 불러도 됨
         }
     }
+
 }

@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7527488130277419978}
   m_Layer: 0
   m_Name: RoarProjectile
-  m_TagString: Monster
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -76,8 +76,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1222557fba3d9a04b81d4448c69a184e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 7924570662816993984}
+  canParry: 1
   moveTime: 1
+  myTransform: {fileID: 7924570662816993984}
 --- !u!65 &7527488130277419978
 BoxCollider:
   m_ObjectHideFlags: 0
