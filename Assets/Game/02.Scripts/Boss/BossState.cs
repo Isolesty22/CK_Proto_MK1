@@ -479,9 +479,6 @@ public class BearState_Claw : BearState
         yield break;
     }
 }
-
-
-
 public class BearState_Smash : BearState
 {
     public BearState_Smash(BearController _bearController)
@@ -521,14 +518,18 @@ public class BearState_Smash : BearState
     {
         //Spawn Roar projectile
         int length = bearController.skillValue.smashRandCount;
+
+        Vector3 startPos = bearController.skillObjects.smashRock.transform.position;
+
         for (int i = 0; i < length; i++)
         {
-            Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
-            Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
+            Vector3 midPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
+            // midPos = new Vector3(midPos.x, midPos.y, midPos.z);
+            Vector3 endPos = new Vector3(midPos.x, bearController.bearMapInfo.mapData.minPosition.y, midPos.z);
 
-            RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
-            roarProjectile.Init(startPos, endPos);
-            roarProjectile.Move();
+            SmashProjectile smashProjectile = bearController.smashProjectilePool.SpawnThis();
+            smashProjectile.Init(startPos, midPos, endPos);
+            smashProjectile.Move();
         }
 
         yield break;

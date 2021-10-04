@@ -34,6 +34,7 @@ Transform:
   - {fileID: 4326774579042069880}
   - {fileID: 7201247473593503132}
   - {fileID: 2259104110388901649}
+  - {fileID: 7847128783815491770}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -65,10 +66,16 @@ MonoBehaviour:
     claw_A_Effect: {fileID: 7201247473593503133}
     claw_B_Effect: {fileID: 2259104110388901650}
     clawUnderPosition: {fileID: 4326774579042069880}
+    smashRock: {fileID: 7847128783815491748}
   hp: 100
   bossPhaseValue:
     phase2: 70
     phase3: 30
+  skillValue:
+    clawCount: 3
+    clawDelay: 0.5
+    roarRandCount: 7
+    smashRandCount: 4
   patterns:
     phase_01_List:
     - state: 9
@@ -83,8 +90,6 @@ MonoBehaviour:
       waitTime: 0
     - state: 2
       waitTime: 0
-  clawCount: 3
-  clawDelay: 0.3
 --- !u!95 &4326774578364781432
 Animator:
   serializedVersion: 3
@@ -303,6 +308,73 @@ GameObject:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6909703675965478816, guid: 4957f20ee2c635242a41fa01f3f50e64, type: 3}
   m_PrefabInstance: {fileID: 4326774579161356860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4544431365438398068
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4326774578364781438}
+    m_Modifications:
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6050456572973915856, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+      propertyPath: m_Name
+      value: SmashRock
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+--- !u!1 &7847128783815491748 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6050456572973915856, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+  m_PrefabInstance: {fileID: 4544431365438398068}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7847128783815491770 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+  m_PrefabInstance: {fileID: 4544431365438398068}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8015998703178260724
 PrefabInstance:

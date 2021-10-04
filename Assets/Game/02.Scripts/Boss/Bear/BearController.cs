@@ -26,15 +26,7 @@ public class BearController : BossController
         //public Queue<eBossState> phase_03_Queue = new Queue<eBossState>();
     }
 
-    [Serializable]
-    public class SkillObjects
-    {
-        public GameObject strikeCube;
-        public GameObject roarEffect;
-        public GameObject claw_A_Effect;
-        public GameObject claw_B_Effect;
-        public Transform clawUnderPosition;
-    }
+
 
     #endregion
 
@@ -51,6 +43,17 @@ public class BearController : BossController
     }
     public TestTextMesh testTextMesh;
     #endregion
+
+    [Serializable]
+    public class SkillObjects
+    {
+        public GameObject strikeCube;
+        public GameObject roarEffect;
+        public GameObject claw_A_Effect;
+        public GameObject claw_B_Effect;
+        public Transform clawUnderPosition;
+        public GameObject smashRock;
+    }
 
     public SkillObjects skillObjects;
 
@@ -95,6 +98,7 @@ public class BearController : BossController
     private BearPattern currentPattern;
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
+    public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
     /// <summary>
     /// 스킬 액션
@@ -139,14 +143,21 @@ public class BearController : BossController
         AddAnimatorHash("Start_Smash");
         AddAnimatorHash("Start_Die");
     }
+
+    private void Init_Pool()
+    {
+        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
+        smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
+    }
     private void Start()
     {
+        Init_Pool();
+
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = true;
         bearStateMachine.StartState(eBossState.BearState_Idle);
 
-        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
-        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
 
         Physics.IgnoreCollision(myCollider, GameManager.instance.playerController.Com.collider, false);
         StartCoroutine(ProcessChangeStateTestCoroutine);
