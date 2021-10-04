@@ -26,6 +26,7 @@ public class SmashProjectile : BearProjectile
             this.gameObject.transform.localScale = new Vector3(.5f, .5f, .5f);
         }
 
+        gameObject.transform.rotation = Quaternion.Euler(GetRandomVector3());
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
@@ -72,7 +73,10 @@ public class SmashProjectile : BearProjectile
         yield return waitDespawnTime;
         Despawn();
     }
-
+    private Vector3 GetRandomVector3()
+    {
+        return new Vector3(Random.Range(0f,180f), Random.Range(0f, 180f), Random.Range(0f, 180f));
+    }
     private void VoidFunc() { }
     private void OnTriggerEnter(Collider other)
     {
