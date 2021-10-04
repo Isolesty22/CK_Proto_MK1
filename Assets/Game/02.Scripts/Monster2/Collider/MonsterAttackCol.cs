@@ -10,7 +10,8 @@ public class MonsterAttackCol : MonoBehaviour
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
-            monsterController.ChangeState(MonsterController.MonsterState.DETECT);
+            if(monsterController.Stat.isAlive == true)
+                monsterController.ChangeState(MonsterController.MonsterState.DETECT);
         }
     }
 

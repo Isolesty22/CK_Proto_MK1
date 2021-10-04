@@ -10,11 +10,15 @@ public class MonsterSearchCol : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            monsterController.playerOutOfRange = false;
+
+            if (monsterController.Stat.isAlive == false)
+                return;
+
             if (monsterController.Com.monsterModel.activeSelf == false)
             {
                 monsterController.Com.monsterModel.SetActive(true);
                 monsterController.ChangeState(MonsterController.MonsterState.IDLE);
-                monsterController.playerOutOfRange = false;
             }
         }
     }

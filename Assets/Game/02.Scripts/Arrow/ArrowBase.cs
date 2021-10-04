@@ -16,14 +16,17 @@ public class ArrowBase : MonoBehaviour
             {
                 if (!other.GetComponent<MonsterController>().Stat.isAlive)
                     return;
+                else
+                {
+                    other.GetComponent<MonsterController>().Hit(damage);
+                    isActive = false;
+                    CustomPoolManager.Instance.ReleaseThis(this);
+                }
             }
-        }
-
-        if (other.CompareTag("Monster"))
-        {
-            other.GetComponent<MonsterController>().Hit(damage);
-            isActive = false;
-            CustomPoolManager.Instance.ReleaseThis(this);
+            else
+            {
+                return;
+            }
 
             return;
         }
