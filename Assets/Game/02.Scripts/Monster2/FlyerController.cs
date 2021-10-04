@@ -12,6 +12,7 @@ public class FlyerController : MonsterController
     {
         public float patrolRange;
         public float patrolTime = 2f;
+        public float nextPatrolDelay;
         public bool isPatrol;
         [Header("Sub Status")]
         [HideInInspector] public Vector3 patrolPos1;
@@ -31,7 +32,7 @@ public class FlyerController : MonsterController
     public FlyerComponents Com2 => flyerComponents;
 
     public Tween tween;
-    private bool moveTrigger;
+    private bool isRunCo;
     #endregion
 
     public override void Awake()
@@ -54,7 +55,7 @@ public class FlyerController : MonsterController
         Com.animator.SetBool("isDead", false);
         Stat2.patrolPos1 = Com.spawnPos;
         Stat2.patrolPos2 = Com.spawnPos + Vector3.left * Stat2.patrolRange;
-        moveTrigger = true;
+        isRunCo = false;
     }
 
     public override void Update()
@@ -76,8 +77,6 @@ public class FlyerController : MonsterController
     {
         base.Idle();
 
-        moveTrigger = true;
-
         ChangeState(MonsterState.MOVE);
     }
 
@@ -88,43 +87,12 @@ public class FlyerController : MonsterController
 
         if (Stat2.isPatrol)
         {
-            if (transform.position.x == Stat2.patrolPos2.x)
+            if (!isRunCo)
             {
-                Utility.KillTween(tween);
-                tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                tween.Play();
-                transform.eulerAngles = new Vector3(0, 180, 0);
+                var patrolMove = PatrolMove();
+                StartCoroutine(patrolMove);
             }
-            else if (transform.position.x == Stat2.patrolPos1.x)
-            {
-                Utility.KillTween(tween);
-                tween = transform.DOMove(Stat2.patrolPos2, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                tween.Play();
-                transform.eulerAngles = Vector3.zero;
-            }
-            else
-            {
-                if (moveTrigger)
-                {
-                    var pos1 = Mathf.Abs(transform.position.x - Stat2.patrolPos1.x);
-                    var pos2 = Mathf.Abs(transform.position.x - Stat2.patrolPos2.x);
-                    if (pos1 > pos2)
-                    {
-                        Utility.KillTween(tween);
-                        tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                        tween.Play();
-                        transform.eulerAngles = new Vector3(0, 180, 0);
-                    }
-                    else if (pos2 > pos1)
-                    {
-                        Utility.KillTween(tween);
-                        tween = transform.DOMove(Stat2.patrolPos2, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                        tween.Play();
-                        transform.eulerAngles = Vector3.zero;
-                    }
-                    moveTrigger = false;
-                }
-            }
+
         }
 
         else
@@ -132,6 +100,35 @@ public class FlyerController : MonsterController
             Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = Vector3.zero;
         }
+    }
+
+    IEnumerator PatrolMove()
+    {
+        isRunCo = true;
+        if (transform.eulerAngles == Vector3.zero)
+        {
+            Utility.KillTween(tween);
+            tween = transform.DOMove(Stat2.patrolPos2, Stat2.patrolTime).SetEase(Ease.InOutCubic);
+            tween.Play();
+        }
+        else
+        {
+            Utility.KillTween(tween);
+            tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
+            tween.Play();
+        }
+
+        yield return new WaitForSeconds(Stat2.patrolTime + Stat2.nextPatrolDelay);
+        if (transform.eulerAngles == Vector3.zero)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+
+        isRunCo = false;
     }
 
     protected override void Detect()

@@ -10,6 +10,9 @@ public class RollerInRollingCol : MonoBehaviour
     {
         if (other.transform.CompareTag("Monster"))
         {
+            if (other.GetComponent<RollerController>())
+                return;
+
             other.transform.GetComponent<MonsterController>().Hit(rollerController.Stat2.rollingDamage);
         }
 

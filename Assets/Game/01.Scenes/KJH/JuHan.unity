@@ -136,7 +136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 12.25
+      value: 16.39
       objectReference: {fileID: 0}
     - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -502,6 +502,72 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3402142530028157306, guid: b66319d4f25bfef48a6097ae6eef774a, type: 3}
   m_PrefabInstance: {fileID: 765493328}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &807594797
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 992052350}
+    m_Modifications:
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 8.79
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023886, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_Name
+      value: Roller (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328435132049023886, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+--- !u!4 &807594798 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1328435132049023873, guid: d13ac43c9dc359f4683d7fccbab0133e, type: 3}
+  m_PrefabInstance: {fileID: 807594797}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &850949199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -743,6 +809,7 @@ Transform:
   - {fileID: 1161754671}
   - {fileID: 1839150476}
   - {fileID: 2098950232}
+  - {fileID: 807594798}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1164,6 +1231,10 @@ PrefabInstance:
     - target: {fileID: 5896250351852412521, guid: 5df3823411587344a9088ecbd8de2d17, type: 3}
       propertyPath: flyerStatus.isPatrol
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896250351852412521, guid: 5df3823411587344a9088ecbd8de2d17, type: 3}
+      propertyPath: flyerStatus.nextPatrolDelay
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5df3823411587344a9088ecbd8de2d17, type: 3}
