@@ -8,9 +8,6 @@ public class BearMapInfo : MonoBehaviour
     [Range(0, 30)]
     public int projectilePosCount = 10;
 
-    [Range(0, 30)]
-    public int projectileRandCount = 10;
-
     [HideInInspector]
     public int[] projectileRandArray = new int[] { };
 
@@ -133,8 +130,9 @@ public class BearMapInfo : MonoBehaviour
         return bottomCenter;
     }
 
-
-    private readonly int exclusionRange = 4;
+    [HideInInspector]
+    [Tooltip("범위에서 제외할 수 입니다.")]
+    public readonly int exclusionRange = 4;
     private void UpdateProjectilePositions()
     {
         projectilePositions = new Vector3[projectilePosCount - exclusionRange];

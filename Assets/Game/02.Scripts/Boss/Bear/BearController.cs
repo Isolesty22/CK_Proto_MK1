@@ -60,13 +60,31 @@ public class BearController : BossController
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
+
+    [Serializable]
+    public class SkillValue
+    {
+        [Tooltip("할퀴기 추가공격 개수")]
+        public int clawCount = 3;
+
+        [Tooltip("할퀴기 추가공격 간격")]
+        public float clawDelay = 0.5f;
+
+        [Tooltip("포효 투사체 개수")]
+        public int roarRandCount = 7;
+
+        [Tooltip("스매쉬 투사체 개수")]
+        public int smashRandCount = 4;
+    }
+
+    [Header("스킬 세부 값")]
+    public SkillValue skillValue;
+
+
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("할퀴기 추가공격 개수")]
-    public int clawCount = 3;
-    [Tooltip("할퀴기 추가공격 간격")]
-    public float clawDelay = 0.5f;
+
 
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
