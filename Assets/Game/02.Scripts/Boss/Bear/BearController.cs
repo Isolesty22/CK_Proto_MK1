@@ -52,6 +52,8 @@ public class BearController : BossController
         public GameObject claw_A_Effect;
         public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
+        public Transform headParringPosition;
+        public GameObject concentrateSphere;
         public GameObject smashRock;
     }
 
@@ -78,6 +80,12 @@ public class BearController : BossController
 
         [Tooltip("스매쉬 투사체 개수")]
         public int smashRandCount = 4;
+
+        [Tooltip("집중 시간")]
+        public float concentrateTime = 3;
+
+        [Tooltip("무력화 시간")]
+        public float powerlessTime = 3;
     }
 
     [Header("스킬 세부 값")]
@@ -141,6 +149,7 @@ public class BearController : BossController
         AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
         AddAnimatorHash("Start_Smash");
+        AddAnimatorHash("Start_Powerless");
         AddAnimatorHash("Start_Die");
     }
 
