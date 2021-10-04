@@ -67,7 +67,7 @@ public class SeedShooterController : MonsterController
         }
         else
         {
-            transform.rotation = Quaternion.Euler(0, 0, 180);
+            transform.rotation = Quaternion.Euler(0, 180, 0);
             Stat2.fireDir = Vector3.right;
         }
     }
