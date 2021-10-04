@@ -514,6 +514,61 @@ public class BearState_Die : BearState
     }
 }
 
+
+public class BearState_Smash : BearState
+{
+    public BearState_Smash(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+        bearController.bearMapInfo.UpdateProjectileRandArray();
+        bearController.SetSkillAction(SkillAction);
+        bearController.SetTrigger("Start_Smash");
+        //bearController.StartCoroutine(ProcessUpdate());
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+    public void SkillAction()
+    {
+
+        bearController.StartCoroutine(ProcessSkillAction());
+    }
+
+    private IEnumerator ProcessSkillAction()
+    {
+        //Spawn Roar projectile
+        int length = bearController.bearMapInfo.projectileRandCount;
+        for (int i = 0; i < length; i++)
+        {
+            Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
+            Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
+
+            RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
+            roarProjectile.Init(startPos, endPos);
+            roarProjectile.Move();
+        }
+
+        yield break;
+    }
+}
+
+
 #endregion
 
 

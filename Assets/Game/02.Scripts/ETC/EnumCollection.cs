@@ -39,6 +39,10 @@ public enum eBossState
     BearState_Claw_B,
     [InspectorName("곰_할퀴기_C")]
     BearState_Claw_C,
+
+    [InspectorName("곰_스매쉬")]
+    BearState_Smash,
+
     [InspectorName("곰_랜덤")]
     BearState_Random,
 

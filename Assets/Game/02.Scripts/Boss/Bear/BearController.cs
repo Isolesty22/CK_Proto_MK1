@@ -118,6 +118,7 @@ public class BearController : BossController
         AddAnimatorHash("Start_Strike");
         AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
+        AddAnimatorHash("Start_Smash");
         AddAnimatorHash("Start_Die");
     }
     private void Start()

@@ -134,9 +134,10 @@ public class BearMapInfo : MonoBehaviour
     }
 
 
+    private readonly int exclusionRange = 4;
     private void UpdateProjectilePositions()
     {
-        projectilePositions= new Vector3[projectilePosCount];
+        projectilePositions = new Vector3[projectilePosCount - exclusionRange];
 
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
@@ -147,7 +148,7 @@ public class BearMapInfo : MonoBehaviour
         tempMin = new Vector3(tempMin.x + distanceX * 0.5f, mapData.maxPosition.y, mapData.position.z);
 
 
-        int length = projectilePositions.Length;
+        int length = projectilePosCount - exclusionRange;
 
         //첫번째 가운데 지점 설정
         projectilePositions[0] = tempMin;
@@ -164,7 +165,7 @@ public class BearMapInfo : MonoBehaviour
         //배열 초기화--
         projectileRandArray = new int[projectilePosCount];
 
-        int length = projectilePosCount - 1;
+        int length = projectilePosCount - exclusionRange;
 
         for (int i = 0; i < length; i++)
         {
@@ -185,7 +186,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void UpdateProjectileRandArray()
     {
-        int length = projectilePosCount - 1;
+        int length = projectilePosCount - exclusionRange;
 
         //랜덤---
         for (int i = 0; i < length; i++)
@@ -229,7 +230,7 @@ public class BearMapInfo : MonoBehaviour
 
         Gizmos.color = Color.green;
 
-        for (int i = 0; i < projectilePosCount; i++)
+        for (int i = 0; i < projectilePositions.Length; i++)
         {
             Gizmos.DrawSphere(projectilePositions[i], 0.2f);
 
