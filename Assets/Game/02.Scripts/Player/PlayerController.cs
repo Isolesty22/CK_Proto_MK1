@@ -357,8 +357,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = false;
 
             //instance model
-            Com.standingModel.SetActive(true);
-            Com.crouchModel.SetActive(false);
+            //Com.standingModel.SetActive(true);
+            //Com.crouchModel.SetActive(false);
 
             Com.pixy.transform.localPosition = Com.pixy.firePos;
 
@@ -377,8 +377,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = true;
 
             //instance model
-            Com.standingModel.SetActive(false);
-            Com.crouchModel.SetActive(true);
+            //Com.standingModel.SetActive(false);
+            //Com.crouchModel.SetActive(true);
 
             Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
         }
