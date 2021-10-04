@@ -478,7 +478,7 @@ public class PlayerController : MonoBehaviour
     public void ReadyToParry()
     {
         //패링 불가능한 상태
-        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded)
+        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded || State.isHit)
         {
             StopCoroutine(parry);
             State.canParry = false;
