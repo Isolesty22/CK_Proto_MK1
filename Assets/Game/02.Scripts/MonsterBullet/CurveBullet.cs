@@ -63,8 +63,9 @@ public class CurveBullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var despawn = Despawn();
-            StartCoroutine(despawn);
+            //var despawn = Despawn();
+            //StartCoroutine(despawn);
+            CustomPoolManager.Instance.ReleaseThis(this);
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
