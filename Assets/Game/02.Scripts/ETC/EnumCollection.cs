@@ -43,8 +43,14 @@ public enum eBossState
     [InspectorName("곰_스매쉬")]
     BearState_Smash,
 
+    [InspectorName("곰_집중")]
+    BearState_Concentrate,
+
     [InspectorName("곰_랜덤")]
     BearState_Random,
+
+    [InspectorName("곰_무력화")]
+    BearState_Powerless,
 
     [InspectorName("곰_죽음")]
     BearState_Die,

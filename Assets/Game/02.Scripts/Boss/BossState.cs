@@ -542,7 +542,101 @@ public class BearState_Smash : BearState
     }
 }
 
+public class BearState_Concentrate : BearState
+{
+    private Transform sphereTransform;
+    public BearState_Concentrate(BearController _bearController)
+    {
+        bearController = _bearController;
+        sphereTransform = bearController.skillObjects.concentrateSphere.transform;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+        bearController.SetSkillAction(SkillAction);
+        bearController.SetTrigger("Start_Concentrate");
+        bearController.skillObjects.concentrateSphere.SetActive(true);
+    }
 
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+    public void SkillAction()
+    {
+
+        bearController.StartCoroutine(ProcessSkillAction());
+    }
+
+    WaitForSeconds waitSec = new WaitForSeconds(1f);
+    private IEnumerator ProcessSkillAction()
+    {
+
+        float timer = 0f;
+        float maxTime = bearController.skillValue.concentrateTime;
+        float progress = 0f;
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / maxTime;
+
+            //점점 커지기~
+            sphereTransform.localScale = new Vector3(0.4f + progress, 0.4f + progress, 0.4f + progress);
+
+            yield return null;
+        }
+    }
+}
+public class BearState_Powerless : BearState
+{
+    public BearState_Powerless(BearController _bearController)
+    {
+        bearController = _bearController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+        // bearController.SetSkillAction(SkillAction);
+        SkillAction();
+        bearController.SetTrigger("Start_Powerless");
+    }
+
+    public override void OnUpdate()
+    {
+
+    }
+
+    public override void OnFixedUpdate()
+    {
+
+    }
+
+    public override void OnExit()
+    {
+        base.OnExit();
+    }
+    public void SkillAction()
+    {
+        bearController.StartCoroutine(ProcessSkillAction());
+    }
+    private IEnumerator ProcessSkillAction()
+    {
+        //대기
+        yield return new WaitForSeconds(3f);
+        canExit = true;
+
+    }
+}
 public class BearState_Die : BearState
 {
     public BearState_Die(BearController _bearController)

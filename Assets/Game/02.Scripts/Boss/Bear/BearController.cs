@@ -52,6 +52,8 @@ public class BearController : BossController
         public GameObject claw_A_Effect;
         public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
+        public Transform headParringPosition;
+        public GameObject concentrateSphere;
         public GameObject smashRock;
     }
 
@@ -78,6 +80,12 @@ public class BearController : BossController
 
         [Tooltip("스매쉬 투사체 개수")]
         public int smashRandCount = 4;
+
+        [Tooltip("집중 시간")]
+        public float concentrateTime = 3;
+
+        [Tooltip("무력화 시간")]
+        public float powerlessTime = 3;
     }
 
     [Header("스킬 세부 값")]
@@ -141,6 +149,7 @@ public class BearController : BossController
         AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
         AddAnimatorHash("Start_Smash");
+        AddAnimatorHash("Start_Powerless");
         AddAnimatorHash("Start_Die");
     }
 
@@ -229,11 +238,12 @@ public class BearController : BossController
     }
     private IEnumerator ProcessChangeStateTestCoroutine;
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
+    private int currentIndex = 0;
     private IEnumerator ProcessChangeStateTest()
     {
         //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
         stateInfo.phase = ePhase.Phase_1;
-        int i = 0;
+        currentIndex = 0;
         int length = phaseList[stateInfo].Count;
         currentPattern = new BearPattern();
         myCollider.size = new Vector3(10f, myCollider.size.y, myCollider.size.z);
@@ -263,7 +273,7 @@ public class BearController : BossController
                         break;
                     }
                     stateInfo.phase = stateInfo.phase + 1;
-                    i = 0;
+                    currentIndex = 0;
                     length = phaseList[stateInfo].Count;
                 }
 
@@ -271,19 +281,20 @@ public class BearController : BossController
                 yield return new WaitForSeconds(currentPattern.waitTime);
 
                 //다음 패턴 가져오기
-                currentPattern = phaseList[stateInfo][i];
+                currentPattern = phaseList[stateInfo][currentIndex];
 
                 if (currentPattern.state == eBossState.BearState_Random)
                 {
                     currentPattern.state = GetRandomState(stateInfo.phase);
 
                 }
+
                 //스테이트 변경
                 SetStateInfo(currentPattern.state);
                 ChangeState(currentPattern.state);
 
-                i += 1;
-                i = i % length;
+                currentIndex += 1;
+                currentIndex = currentIndex % length;
 
                 yield return null;
             }
@@ -293,6 +304,10 @@ public class BearController : BossController
         SetStateInfo(eBossState.BearState_Die);
         ChangeState(eBossState.BearState_Die);
 
+    }
+    public void SetNextPatten(BearPattern _b)
+    {
+        //해야함 : 함수화
     }
 
     public void SetStateInfo(eBossState _state)
