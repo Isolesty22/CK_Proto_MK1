@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &683800872778562626
 Transform:
@@ -97,7 +97,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1831281554530817139
 Transform:
@@ -171,12 +171,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5833960572392340700}
+  - component: {fileID: -8844238991943813730}
   m_Layer: 0
   m_Name: Tree_02_R_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5833960572392340700
 Transform:
@@ -185,7 +186,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6610638390924944998}
-  m_LocalRotation: {x: -0, y: -0.99057794, z: -0, w: 0.1369508}
+  m_LocalRotation: {x: 0, y: -0.99057776, z: 0, w: 0.13695185}
   m_LocalPosition: {x: 17.603193, y: -0.8758893, z: -3.3959515}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -194,3 +195,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -164.257, z: 0}
+--- !u!205 &-8844238991943813730
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6610638390924944998}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.7757585, y: 2.6778977, z: -0.023263931}
+  m_Size: 5.2849374
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.46583652
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1577381051223775641}
+    - renderer: {fileID: 8056509568558384952}
+  - screenRelativeHeight: 0.07986074
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 1577381051223775641}
+    - renderer: {fileID: 8056509568558384952}
+  - screenRelativeHeight: 0.013038333
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1

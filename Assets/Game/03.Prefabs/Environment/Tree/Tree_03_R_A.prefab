@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &4151066213745297102
 Transform:
@@ -97,7 +97,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &590880119386049055
 Transform:
@@ -171,12 +171,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5658366389386267532}
+  - component: {fileID: 8556024157958588146}
   m_Layer: 0
   m_Name: Tree_03_R_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5658366389386267532
 Transform:
@@ -194,3 +195,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &8556024157958588146
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5029780730353324342}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: -0.108887196, y: 3.6337042, z: -0.24013186}
+  m_Size: 7.266857
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.43401638
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8576319096542486948}
+    - renderer: {fileID: 7672503395264634952}
+  - screenRelativeHeight: 0.093899064
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8576319096542486948}
+    - renderer: {fileID: 7672503395264634952}
+  - screenRelativeHeight: 0.017031454
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1

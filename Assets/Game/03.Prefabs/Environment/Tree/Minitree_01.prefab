@@ -16,7 +16,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &2840405745573890654
 Transform:
@@ -98,7 +98,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1444697700240765502
 Transform:
@@ -172,12 +172,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8741607185213468109}
+  - component: {fileID: -6467330561807109801}
   m_Layer: 0
   m_Name: Minitree_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &8741607185213468109
 Transform:
@@ -195,3 +196,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &-6467330561807109801
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8222374207528826743}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.0077723265, y: 1.4128742, z: -0.004624307}
+  m_Size: 2.8257484
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.46583652
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8471537129015391924}
+    - renderer: {fileID: 329963181314974585}
+  - screenRelativeHeight: 0.111696534
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 8471537129015391924}
+    - renderer: {fileID: 329963181314974585}
+  - screenRelativeHeight: 0.020353857
+    fadeTransitionWidth: 0
+    renderers: []
+  m_Enabled: 1
