@@ -8,8 +8,7 @@ public class RoarProjectile : BearProjectile
     {
         startPos = _start;
         endPos = _end;
-
-        SetParryMode(true);
+        SetParryMode(canParry);
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
@@ -19,7 +18,6 @@ public class RoarProjectile : BearProjectile
     {
         StartCoroutine(moveEnumerator);
     }
-
 
     protected override IEnumerator ProcessDespawn()
     {
@@ -49,10 +47,8 @@ public class RoarProjectile : BearProjectile
     {
         if (other.CompareTag("Player"))
         {
-
             OnTrigger();
             //Despawn만 불러도 됨
         }
     }
-
 }

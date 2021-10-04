@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using System;
-
 public class BearProjectile : MonoBehaviour
 {
 
@@ -18,16 +17,20 @@ public class BearProjectile : MonoBehaviour
     protected IEnumerator moveEnumerator = null;
     protected IEnumerator parryEnumerator = null;
 
-    public Action OnTrigger = null;
+    public Action OnTrigger;
     public void SetParryMode(bool _canParry)
     {
+        //OnTrigger = Despawn;
+        canParry = _canParry;
         if (canParry)
         {
-            OnTrigger += OnTrigger_CanParry;
+            //OnTrigger = OnTrigger_CanParry;
+            OnTrigger = OnTrigger_Despawn;
+            gameObject.tag = "Monster";
         }
         else
         {
-            OnTrigger += OnTrigger_OnlyHit;
+            OnTrigger = OnTrigger_OnlyHit;
         }
     }
     protected virtual void Despawn()
@@ -51,13 +54,16 @@ public class BearProjectile : MonoBehaviour
     {
         yield break;
     }
+    /// <summary>
+    /// Monster 태그일 때 자동으로 Parry되므로 잘 사용되지 않을 가능성이 있음. 
+    /// </summary>
     protected void OnTrigger_CanParry()
     {
 
         if (playerController.CanParry())
         {
             StopCoroutine(parryEnumerator);
-            parryEnumerator = playerController.Parrying();
+            //parryEnumerator = playerController.Parrying();
             StartCoroutine(parryEnumerator);
             Despawn();
             return;
@@ -71,6 +77,11 @@ public class BearProjectile : MonoBehaviour
         }
     }
 
+    protected void OnTrigger_Despawn()
+    {
+        Despawn();
+    }
+
     protected void OnTrigger_OnlyHit()
     {
         //피격 가능한 상태일 때
@@ -80,5 +91,4 @@ public class BearProjectile : MonoBehaviour
             Despawn();
         }
     }
-
 }

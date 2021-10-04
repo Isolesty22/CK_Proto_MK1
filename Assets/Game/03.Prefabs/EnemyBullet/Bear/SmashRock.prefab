@@ -252,6 +252,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6050456572973915854}
+  - component: {fileID: 4913894259607602423}
+  - component: {fileID: 8433408276953657724}
   m_Layer: 0
   m_Name: SmashRock
   m_TagString: Untagged
@@ -274,6 +276,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4913894259607602423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6050456572973915856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dbd33a4849d57a4983b09f7fe8c87ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canParry: 1
+  moveTime: 2
+  myTransform: {fileID: 6050456572973915854}
+  despawnTime: 5
+--- !u!65 &8433408276953657724
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6050456572973915856}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.8943655, y: 1.3378228, z: 3.9044359}
+  m_Center: {x: -0.06776416, y: 0.040174663, z: 0}
 --- !u!1 &6050456573397905458
 GameObject:
   m_ObjectHideFlags: 0

@@ -152,13 +152,11 @@ public class BearController : BossController
     }
     private void Start()
     {
-        Init_Pool();
 
         bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = true;
+        bearStateMachine.isDebugMode = false;
         bearStateMachine.StartState(eBossState.BearState_Idle);
-
-
+        Init_Pool();
         Physics.IgnoreCollision(myCollider, GameManager.instance.playerController.Com.collider, false);
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }

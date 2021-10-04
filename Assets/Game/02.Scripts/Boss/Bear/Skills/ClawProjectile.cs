@@ -10,7 +10,7 @@ public class ClawProjectile : BearProjectile
         startPos = _start;
         endPos = _end;
 
-        SetParryMode(true);
+        SetParryMode(canParry);
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
@@ -46,7 +46,6 @@ public class ClawProjectile : BearProjectile
     {
         if (other.CompareTag("Player"))
         {
-            Debug.Log("뭐지");
             OnTrigger();
         }
     }

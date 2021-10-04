@@ -4,20 +4,10 @@ using UnityEngine;
 
 public class SmashProjectile : BearProjectile
 {
-    public Transform s;
-    public Transform m;
-    public Transform e;
-
     private Vector3 middlePos;
     public float despawnTime = 2f;
     private WaitForSeconds waitDespawnTime;
 
-
-    private void Start()
-    {
-        Init(s.position, m.position, e.position);
-        Move();
-    }
     public void Init(Vector3 _start, Vector3 _middle, Vector3 _end)
     {
         startPos = _start;
@@ -32,6 +22,7 @@ public class SmashProjectile : BearProjectile
         else
         {
             SetParryMode(true);
+            this.gameObject.transform.localScale *= 0.5f;
         }
 
         moveEnumerator = ProcessMove();
@@ -50,7 +41,6 @@ public class SmashProjectile : BearProjectile
         yield return null;
         CustomPoolManager.Instance.ReleaseThis(this);
     }
-
     protected override IEnumerator ProcessMove()
     {
         float progress = 0f;
@@ -74,8 +64,19 @@ public class SmashProjectile : BearProjectile
 
         myTransform.position = endPos;
 
+        OnTrigger = VoidFunc;
+        gameObject.tag = "Untagged";
         //사라짐 대기시간
         yield return waitDespawnTime;
         Despawn();
+    }
+
+    private void VoidFunc() { }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            OnTrigger();
+        }
     }
 }
