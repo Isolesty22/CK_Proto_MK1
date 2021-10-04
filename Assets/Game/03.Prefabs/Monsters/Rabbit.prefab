@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &75888090283175203
 Transform:
   m_ObjectHideFlags: 0
@@ -51,8 +51,8 @@ MonoBehaviour:
   monsterStatus:
     name: Rabbit
     hp: 3
-    maxHp: 3
-    moveSpeed: 2
+    maxHp: 6
+    moveSpeed: 3
     isAlive: 0
     hitTime: 0.2
     fadeOutTime: 1
@@ -68,8 +68,8 @@ MonoBehaviour:
     spawnPos: {x: 0, y: 0, z: 0}
   playerOutOfRange: 0
   rabbitStatus:
-    jumpPower: 2
-    moveDelay: 1
+    jumpPower: 5
+    moveDelay: 1.7
   rabbitComponents:
     capsuleCollider: {fileID: 4147787381735573126}
 --- !u!54 &6307346486017835251

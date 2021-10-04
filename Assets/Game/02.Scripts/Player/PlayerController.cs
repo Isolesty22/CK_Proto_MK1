@@ -345,6 +345,9 @@ public class PlayerController : MonoBehaviour
 
     private void Crouch()
     {
+        if (State.isHit)
+            return;
+
         if (State.isJumping || Input.GetKeyUp(Key.crouch) && State.isCrouching)
         {
             State.isCrouching = false;
@@ -387,6 +390,10 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         State.isHit = true;
+        State.isAttack = false;
+        State.isCrouching = false;
+        State.isLookUp = false;
+
 
         Stat.hp -= 1;
 
