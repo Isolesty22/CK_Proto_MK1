@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4326774578364781435}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 25.26, y: -1.52, z: 0.31}
+  m_LocalPosition: {x: 25.26, y: -1.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7182207455966701528}
@@ -65,6 +65,8 @@ MonoBehaviour:
   colliders:
     headCollider: {fileID: 651252968817403663}
     bodyCollider: {fileID: 4326774578364781433}
+    headColliderSize: {x: 0, y: 0, z: 0}
+    bodyColliderSize: {x: 0, y: 0, z: 0}
   skillObjects:
     strikeCube: {fileID: 8119802406978896670, guid: 7b1ccd298fe8f8544aa3f962c1cea4a1, type: 3}
     roarEffect: {fileID: 0}
@@ -166,7 +168,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4326774578364781435}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 2.563618, z: 1}
@@ -215,7 +217,7 @@ GameObject:
   - component: {fileID: 651252968817403663}
   m_Layer: 12
   m_Name: Position_HeadParring
-  m_TagString: Monster
+  m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -170,8 +170,8 @@ public class BearController : BossController
     private void Init_Collider()
     {
         //충돌하지 않게 
-        Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, false);
-        Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, false);
+        Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
+        Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
 
         colliders.headColliderSize = colliders.headCollider.size;
         colliders.bodyColliderSize = colliders.bodyCollider.size;
@@ -308,13 +308,7 @@ public class BearController : BossController
                 yield return new WaitForSeconds(currentPattern.waitTime);
 
                 //다음 패턴 가져오기
-                currentPattern = phaseList[stateInfo][currentIndex];
-
-                if (currentPattern.state == eBossState.BearState_Random)
-                {
-                    currentPattern.state = GetRandomState(stateInfo.phase);
-
-                }
+                SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
                 //스테이트 변경
                 SetStateInfo(currentPattern.state);
@@ -331,6 +325,16 @@ public class BearController : BossController
         SetStateInfo(eBossState.BearState_Die);
         ChangeState(eBossState.BearState_Die);
 
+    }
+    private void SetCurrentPattern(BearPattern _pattern)
+    {
+        currentPattern = _pattern;
+
+        if (currentPattern.state == eBossState.BearState_Random)
+        {
+            currentPattern.state = GetRandomState(stateInfo.phase);
+
+        }
     }
     public void SetStateInfo(eBossState _state)
     {
