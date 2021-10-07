@@ -132,8 +132,8 @@ public class BearMapInfo : MonoBehaviour
 
     [HideInInspector]
     [Tooltip("범위에서 제외할 수 입니다.")]
-    public readonly int exclusionRange = 4;
-    private void UpdateProjectilePositions()
+    public int exclusionRange = 0;
+    public void UpdateProjectilePositions()
     {
         projectilePositions = new Vector3[projectilePosCount - exclusionRange];
 
@@ -158,7 +158,7 @@ public class BearMapInfo : MonoBehaviour
 
     }
 
-    private void InitProjectileRandArray()
+    public void InitProjectileRandArray()
     {
         //배열 초기화--
         projectileRandArray = new int[projectilePosCount];
@@ -200,6 +200,7 @@ public class BearMapInfo : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        exclusionRange = 3;
         UpdateMapVector();
         UpdateBearBlocks();
         UpdateProjectilePositions();

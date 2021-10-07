@@ -62,6 +62,9 @@ MonoBehaviour:
     stateText: {fileID: 0}
     phaseText: {fileID: 0}
     hpText: {fileID: 0}
+  colliders:
+    headCollider: {fileID: 651252968817403663}
+    bodyCollider: {fileID: 4326774578364781433}
   skillObjects:
     strikeCube: {fileID: 8119802406978896670, guid: 7b1ccd298fe8f8544aa3f962c1cea4a1, type: 3}
     roarEffect: {fileID: 0}
@@ -69,6 +72,7 @@ MonoBehaviour:
     claw_B_Effect: {fileID: 2259104110388901650}
     clawUnderPosition: {fileID: 4326774579042069880}
     headParringPosition: {fileID: 206202227158438822}
+    concentrateSphere: {fileID: 0}
     smashRock: {fileID: 7847128783815491748}
   hp: 100
   bossPhaseValue:
@@ -77,21 +81,63 @@ MonoBehaviour:
   skillValue:
     clawCount: 3
     clawDelay: 0.5
-    roarRandCount: 7
-    smashRandCount: 4
+    roarRandCount: 6
+    smashRandCount: 10
+    concentrateTime: 3
+    powerlessTime: 3
   patterns:
     phase_01_List:
+    - state: 0
+      waitTime: 2
+    - state: 9
+      waitTime: 2
+    - state: 2
+      waitTime: 0
+    - state: 4
+      waitTime: 1
     - state: 9
       waitTime: 1
+    - state: 6
+      waitTime: 2
+    - state: 6
+      waitTime: 1
+    - state: 4
+      waitTime: 2
     phase_02_List:
+    - state: 4
+      waitTime: 0
     - state: 7
       waitTime: 0
+    - state: 10
+      waitTime: 0
+    - state: 10
+      waitTime: 0
     - state: 4
+      waitTime: 1
+    - state: 7
+      waitTime: 1
+    - state: 10
+      waitTime: 0
+    - state: 10
       waitTime: 0
     phase_03_List:
-    - state: 4
-      waitTime: 0
     - state: 2
+      waitTime: 0
+    - state: 11
+      waitTime: 1
+    - state: 8
+      waitTime: 0
+    - state: 12
+      waitTime: 3
+    - state: 11
+      waitTime: 0
+    - state: 11
+      waitTime: 2
+    - state: 2
+      waitTime: 0
+    - state: 12
+      waitTime: 0
+    - state: 8
       waitTime: 0
 --- !u!95 &4326774578364781432
 Animator:
@@ -170,7 +216,7 @@ GameObject:
   m_Layer: 12
   m_Name: Position_HeadParring
   m_TagString: Monster
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

@@ -13,6 +13,7 @@ public class BearController : BossController
     public BearMapInfo bearMapInfo;
 
     #region definitions
+
     [Serializable]
     public class Patterns
     {
@@ -26,23 +27,15 @@ public class BearController : BossController
         //public Queue<eBossState> phase_03_Queue = new Queue<eBossState>();
     }
 
-
-
-    #endregion
-
-    #region Test용
-    [Tooltip("현재 상태")]
-    public StateInfo stateInfo = new StateInfo();
-
     [Serializable]
-    public class TestTextMesh
+    public class Colliders
     {
-        public TextMesh stateText;
-        public TextMesh phaseText;
-        public TextMesh hpText;
+        public BoxCollider headCollider;
+        public BoxCollider bodyCollider;
+
+        public Vector3 headColliderSize;
+        public Vector3 bodyColliderSize;
     }
-    public TestTextMesh testTextMesh;
-    #endregion
 
     [Serializable]
     public class SkillObjects
@@ -56,15 +49,6 @@ public class BearController : BossController
         public GameObject concentrateSphere;
         public GameObject smashRock;
     }
-
-    public SkillObjects skillObjects;
-
-    [Header("현재 체력")]
-    [Range(0, 100)]
-    public float hp = 100f;
-    [Header("페이즈 전환 체력")]
-    public BossPhaseValue bossPhaseValue;
-
 
     [Serializable]
     public class SkillValue
@@ -88,6 +72,33 @@ public class BearController : BossController
         public float powerlessTime = 3;
     }
 
+    #endregion
+
+    #region Test용
+    [Tooltip("현재 상태")]
+    public StateInfo stateInfo = new StateInfo();
+
+    [Serializable]
+    public class TestTextMesh
+    {
+        public TextMesh stateText;
+        public TextMesh phaseText;
+        public TextMesh hpText;
+    }
+    public TestTextMesh testTextMesh;
+    #endregion
+
+
+    public Colliders colliders;
+    public SkillObjects skillObjects;
+
+    [Header("현재 체력")]
+    [Range(0, 100)]
+    public float hp = 100f;
+    [Header("페이즈 전환 체력")]
+    public BossPhaseValue bossPhaseValue;
+
+
     [Header("스킬 세부 값")]
     public SkillValue skillValue;
 
@@ -95,18 +106,19 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
-
-
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
     private Transform myTransform;
-    private BoxCollider myCollider;
+
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     private BearPattern currentPattern;
+
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
+
+    private IEnumerator ProcessChangeStateTestCoroutine;
 
     /// <summary>
     /// 스킬 액션
@@ -124,11 +136,13 @@ public class BearController : BossController
         phaseList.Add(patterns.phase_03_List);
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
         Init_Animator();
+
+
+        bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
 
         myTransform = transform;
 
-        myCollider = GetComponent<BoxCollider>();
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
         bearMapInfo.SetPhase3Position(myTransform.position);
     }
@@ -153,6 +167,15 @@ public class BearController : BossController
         AddAnimatorHash("Start_Die");
     }
 
+    private void Init_Collider()
+    {
+        //충돌하지 않게 
+        Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, false);
+        Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, false);
+
+        colliders.headColliderSize = colliders.headCollider.size;
+        colliders.bodyColliderSize = colliders.bodyCollider.size;
+    }
     private void Init_Pool()
     {
         roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
@@ -161,12 +184,12 @@ public class BearController : BossController
     }
     private void Start()
     {
-
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = false;
         bearStateMachine.StartState(eBossState.BearState_Idle);
+
         Init_Pool();
-        Physics.IgnoreCollision(myCollider, GameManager.instance.playerController.Com.collider, false);
+        Init_Collider();
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
     private void Update()
@@ -187,30 +210,47 @@ public class BearController : BossController
         //}
         //else
         //{
-            bearStateMachine.ChangeState(_state);
+        bearStateMachine.ChangeState(_state);
 
         //}
         return false;
     }
+    private void Init_ChangePhase(ePhase _phase)
+    {
+        switch (_phase)
+        {
+            case ePhase.Phase_1:
+                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
 
-    //해야함 : 다른 페이즈로 이동 가능한지를 체크해주는 함수
-    //private bool CanGoNextPhase(ePhase _currentPhase)
-    //{
-    //    switch (_currentPhase)
-    //    {
-    //        case ePhase.Phase_1:
-    //             bossPhaseValue.phase2;
+                SetStretchColliderSize();
 
-    //        case ePhase.Phase_2:
-    //             bossPhaseValue.phase3;
+                //투사체 위치 다시 계산
+                bearMapInfo.exclusionRange = 0;
+                bearMapInfo.UpdateProjectilePositions();
+                bearMapInfo.InitProjectileRandArray();
+                bearMapInfo.UpdateProjectileRandArray();
 
-    //        case ePhase.Phase_3:
-    //             return true
+                break;
 
-    //        default:
-    //             0;
-    //    }
-    //}
+            case ePhase.Phase_2:
+                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+
+                SetOriginalColliderSize();
+                //투사체 위치 다시 계산
+                bearMapInfo.exclusionRange = 3;
+                bearMapInfo.UpdateProjectilePositions();
+                bearMapInfo.InitProjectileRandArray();
+                bearMapInfo.UpdateProjectileRandArray();
+
+                break;
+
+            //case ePhase.Phase_3:
+            //    break;
+
+            default:
+                break;
+        }
+    }
 
     /// <summary>
     /// 다음 페이즈로 가기 위한 체력을 반환해줍니다.
@@ -232,11 +272,7 @@ public class BearController : BossController
                 return 0;
         }
     }
-    private void YeonChool_Phase2()
-    {
 
-    }
-    private IEnumerator ProcessChangeStateTestCoroutine;
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private int currentIndex = 0;
     private IEnumerator ProcessChangeStateTest()
@@ -246,7 +282,7 @@ public class BearController : BossController
         currentIndex = 0;
         int length = phaseList[stateInfo].Count;
         currentPattern = new BearPattern();
-        myCollider.size = new Vector3(10f, myCollider.size.y, myCollider.size.z);
+
         while (true)
         {
             if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
@@ -254,26 +290,17 @@ public class BearController : BossController
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
-                    //페이즈 전환
-                    //GoNextPhase(); //빈 함수임
-
-                    if (stateInfo.phase == ePhase.Phase_1)
-                    {
-                        myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
-                        myCollider.size = new Vector3(1f, myCollider.size.y, 10f);
-
-                    }
-                    else if (stateInfo.phase == ePhase.Phase_2)
-                    {
-                        myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
-                        myCollider.size = new Vector3(10f, myCollider.size.y, 1f);
-                    }
-                    else
+                    //체력이 0이하면 break;
+                    if (hp <= 0)
                     {
                         break;
                     }
-                    stateInfo.phase = stateInfo.phase + 1;
+
+                    Init_ChangePhase(stateInfo.phase);
+
+                    stateInfo.phase += 1;
                     currentIndex = 0;
+
                     length = phaseList[stateInfo].Count;
                 }
 
@@ -305,11 +332,6 @@ public class BearController : BossController
         ChangeState(eBossState.BearState_Die);
 
     }
-    public void SetNextPatten(BearPattern _b)
-    {
-        //해야함 : 함수화
-    }
-
     public void SetStateInfo(eBossState _state)
     {
         stateInfo.stateE = _state;
@@ -362,6 +384,19 @@ public class BearController : BossController
     {
         skillAction();
     }
+
+    #region Collider 관련
+    private void SetStretchColliderSize()
+    {
+        colliders.headCollider.size = new Vector3(colliders.headColliderSize.x, colliders.headColliderSize.y, 10f);
+        colliders.bodyCollider.size = new Vector3(colliders.bodyColliderSize.x, colliders.bodyColliderSize.y, 10f);
+    }
+    private void SetOriginalColliderSize()
+    {
+        colliders.headCollider.size = new Vector3(colliders.headColliderSize.x, colliders.headColliderSize.y, colliders.headColliderSize.z);
+        colliders.bodyCollider.size = new Vector3(colliders.bodyColliderSize.x, colliders.bodyColliderSize.y, colliders.bodyColliderSize.z);
+    }
+    #endregion
 
     #region Animation 관련
     private void AddAnimatorHash(string _paramName)

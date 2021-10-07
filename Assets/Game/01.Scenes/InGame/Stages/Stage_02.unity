@@ -1843,7 +1843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3240911a5d91f85449daf5b88a4880e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePosCount: 20
+  projectilePosCount: 18
   projectileRandArray: 
   mapCollider: {fileID: 193282445}
   myTransform: {fileID: 193282447}
@@ -1884,22 +1884,22 @@ MonoBehaviour:
       groundCenter: {x: 23.186146, y: -1.06, z: -0.15}
       topCenter: {x: 23.186146, y: 11.42881, z: -0.15}
   projectilePositions:
-  - {x: -2.1804183, y: 11.42881, z: -0.15}
-  - {x: -0.7309004, y: 11.42881, z: -0.15}
-  - {x: 0.71861744, y: 11.42881, z: -0.15}
-  - {x: 2.1681352, y: 11.42881, z: -0.15}
-  - {x: 3.617653, y: 11.42881, z: -0.15}
-  - {x: 5.0671706, y: 11.42881, z: -0.15}
-  - {x: 6.5166883, y: 11.42881, z: -0.15}
-  - {x: 7.966206, y: 11.42881, z: -0.15}
-  - {x: 9.415724, y: 11.42881, z: -0.15}
-  - {x: 10.865242, y: 11.42881, z: -0.15}
-  - {x: 12.31476, y: 11.42881, z: -0.15}
-  - {x: 13.764278, y: 11.42881, z: -0.15}
-  - {x: 15.213797, y: 11.42881, z: -0.15}
-  - {x: 16.663315, y: 11.42881, z: -0.15}
-  - {x: 18.112833, y: 11.42881, z: -0.15}
-  - {x: 19.562351, y: 11.42881, z: -0.15}
+  - {x: -2.0998895, y: 11.42881, z: -0.15}
+  - {x: -0.4893142, y: 11.42881, z: -0.15}
+  - {x: 1.1212611, y: 11.42881, z: -0.15}
+  - {x: 2.7318363, y: 11.42881, z: -0.15}
+  - {x: 4.3424115, y: 11.42881, z: -0.15}
+  - {x: 5.9529867, y: 11.42881, z: -0.15}
+  - {x: 7.563562, y: 11.42881, z: -0.15}
+  - {x: 9.174137, y: 11.42881, z: -0.15}
+  - {x: 10.784713, y: 11.42881, z: -0.15}
+  - {x: 12.395288, y: 11.42881, z: -0.15}
+  - {x: 14.005864, y: 11.42881, z: -0.15}
+  - {x: 15.61644, y: 11.42881, z: -0.15}
+  - {x: 17.227015, y: 11.42881, z: -0.15}
+  - {x: 18.83759, y: 11.42881, z: -0.15}
+  - {x: 20.448164, y: 11.42881, z: -0.15}
+  exclusionRange: 3
 --- !u!4 &193282447
 Transform:
   m_ObjectHideFlags: 0
@@ -4479,11 +4479,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2b2c8978ef8994f93d86e8a0ff61fe, type: 3}
---- !u!137 &477547172 stripped
-SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 4486704135858210703, guid: b4e499c0060a2ca419d1075933926606, type: 3}
-  m_PrefabInstance: {fileID: 4326774580232121915}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &483141811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9045,24 +9040,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5407032752969841571, guid: 5405c00922931cc4080731e6d1eddc49, type: 3}
   m_PrefabInstance: {fileID: 940439235}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &967559406 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
-  m_PrefabInstance: {fileID: 4326774580232121915}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &967559407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 967559406}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31704a6b53a395746bd15f9b278daba8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meshRenderer: {fileID: 477547172}
 --- !u!1001 &972382276
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20078,6 +20055,10 @@ PrefabInstance:
     - target: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_Name
       value: Bear
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: m_TagString
+      value: Monster
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_RootOrder
