@@ -16,6 +16,7 @@ public class RollerController : MonsterController
         [Header("Sub Status")]
         public float moveChangeTime;
         public float changeDelay;
+        public int rollingDamage;
     }
 
     [Serializable]
@@ -27,6 +28,8 @@ public class RollerController : MonsterController
         public ConstantForce constantForce;
         public SphereCollider sphereCollider;
         public CapsuleCollider capsuleCollider;
+        public SphereCollider rollingCollider;
+        public Collider attackCollider;
     }
 
     [SerializeField] private RollerStatus rollerStatus = new RollerStatus();
@@ -35,19 +38,29 @@ public class RollerController : MonsterController
     public RollerStatus Stat2 => rollerStatus;
     public RollerComponents Com2 => rollerComponents;
 
-    private IEnumerator modeChange;
     private float movePatternTime;
     private int random;
-    private Vector3 moveDir;
+    [HideInInspector] public Vector3 moveDir;
     private float currentSpeed;
-
+    private float usingAclrt;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
-
+        Com.rigidbody.velocity = Vector3.zero;
+        Com2.rollingCollider.gameObject.SetActive(false);
+        Com.animator.SetBool("isAttack", false);
+        Com.animator.SetBool("isJump", false);
+        Com.animator.SetBool("isMove", false);
+        Com.animator.SetFloat("AttackSpeed", 0.0f);
         movePatternTime = 10f;
+        Com.collider.enabled = true;
         Com2.sphereCollider.enabled = false;
+        transform.localEulerAngles = Vector3.zero;
+        Com2.attackCollider.gameObject.SetActive(true);
+        currentSpeed = 0f;
+        usingAclrt = Stat2.aclrt;
+        Com2.constantForce.enabled = true;
     }
 
     public override void Awake()
@@ -160,13 +173,14 @@ public class RollerController : MonsterController
 
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
+        Com2.rollingCollider.gameObject.SetActive(true);
     }
 
     protected override void Attack()
     {
         base.Attack();
 
-        currentSpeed = Mathf.Clamp(currentSpeed += Stat2.aclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
+        currentSpeed = Mathf.Clamp(currentSpeed += usingAclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
         Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
         var layDir = new Vector3();
 
@@ -206,10 +220,9 @@ public class RollerController : MonsterController
 
     protected override void Death()
     {
-        base.Death();
         Com.animator.SetBool("isAttack", false);
-        Com2.sphereCollider.enabled = false;
         Com2.constantForce.enabled = false;
+        base.Death();
     }
 
     protected override void HandleAnimation()

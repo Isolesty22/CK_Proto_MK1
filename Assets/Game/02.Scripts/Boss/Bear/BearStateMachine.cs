@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BearStateMachine : BossStateMachine
 {
-
     private BearController bearController;
     public BearStateMachine(BearController _bearController)
     {
@@ -47,8 +46,17 @@ public class BearStateMachine : BossStateMachine
             case eBossState.BearState_Claw_C:
                 return new BearState_Claw(bearController);
 
+            case eBossState.BearState_Smash:
+                return new BearState_Smash(bearController);
 
+            case eBossState.BearState_Concentrate:
+                return new BearState_Concentrate(bearController);
 
+            case eBossState.BearState_Powerless:
+                return new BearState_Powerless(bearController);
+
+            case eBossState.BearState_Die:
+                return new BearState_Die(bearController);
 
             default:
                 return new BearState_Idle(bearController);

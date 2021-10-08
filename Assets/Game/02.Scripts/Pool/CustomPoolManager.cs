@@ -13,13 +13,16 @@ public class CustomPoolManager : MonoBehaviour
 
     [Header("CustomPoolManager Transform")]
     public Transform myTransform;
-    [Tooltip("풀 오브젝트 리스트"),Space(5)]
+    [Tooltip("풀 오브젝트 리스트"), Space(5)]
     public List<CustomPoolObject> poolObjectList;
     private Dictionary<string, CustomPoolObject> poolObjectDictionary;
 
     private Dictionary<string, object> poolDictionary = new Dictionary<string, object>();
 
-    public CustomPool<Feather> featherPool;
+    public CustomPool<CurveBullet> curveBulletPool;
+    public CustomPool<Seed> seedPool;
+
+
     public CustomPool<ArrowBase> basicArrowPool;
     public CustomPool<Counter> counterPool;
 
@@ -54,7 +57,10 @@ public class CustomPoolManager : MonoBehaviour
         #endregion
         Init_PoolObjectDictionary();
 
-        featherPool = CreateCustomPool<Feather>();
+        curveBulletPool = CreateCustomPool<CurveBullet>();
+        seedPool = CreateCustomPool<Seed>();
+
+
         basicArrowPool = CreateCustomPool<ArrowBase>();
         counterPool = CreateCustomPool<Counter>();
     }
@@ -76,23 +82,28 @@ public class CustomPoolManager : MonoBehaviour
     /// <returns>생성된 CustomPool을 반환합니다.</returns>
     public CustomPool<T> CreateCustomPool<T>() where T : MonoBehaviour
     {
-        string typeName = typeof(T).Name;
-
-        GameObject pool = new GameObject("CustomPool : " + typeof(T).Name);
-        Transform tempPoolTransform = pool.transform;
-        tempPoolTransform.SetParent(myTransform);
-
         //CustomPool 생성
         CustomPool<T> customPool = new CustomPool<T>();
 
-        //딕셔너리에 넣기
-        poolDictionary.Add(typeName, customPool);
+        string typeName = typeof(T).Name;
 
-        customPool.Init(poolObjectDictionary[typeName].gameObject, poolObjectDictionary[typeName].count, tempPoolTransform);
-        customPool.Init_Queue();
+        //딕셔너리에 존재하면
+        if (poolObjectDictionary.ContainsKey(typeName))
+        {
+            GameObject pool = new GameObject("CustomPool : " + typeof(T).Name);
+            Transform tempPoolTransform = pool.transform;
+            tempPoolTransform.SetParent(myTransform);
 
-        //clearHandler에 해당 풀의 ClearPool 추가
-        clearHandler += new ClearHandler(customPool.ClearPool);
+            //딕셔너리에 넣기
+            poolDictionary.Add(typeName, customPool);
+
+            customPool.Init(poolObjectDictionary[typeName].gameObject, poolObjectDictionary[typeName].count, tempPoolTransform);
+            customPool.Init_Queue();
+
+            //clearHandler에 해당 풀의 ClearPool 추가
+            clearHandler += new ClearHandler(customPool.ClearPool);
+        }
+
         return customPool;
     }
 

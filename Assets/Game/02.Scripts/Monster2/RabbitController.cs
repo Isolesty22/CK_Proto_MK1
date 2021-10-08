@@ -28,14 +28,20 @@ public class RabbitController : MonsterController
     public RabbitComponents Com2 => rabbitComponents;
 
     private float moveTime;
+    private Vector3 firstLookDir;
     #endregion
     public override void Initialize()
     {
         base.Initialize();
+        Com.animator.SetBool("isDeath", false);
+        Com.rigidbody.velocity = Vector3.zero;
+        transform.localEulerAngles = firstLookDir;
+        moveTime = 0.0f;
     }
 
     public override void Awake()
     {
+        firstLookDir = transform.localEulerAngles;
         base.Awake();
     }
 
@@ -63,7 +69,6 @@ public class RabbitController : MonsterController
     protected override void Move()
     {
         base.Move();
-
         moveTime += Time.deltaTime;
 
         if (moveTime > Stat2.moveDelay)
@@ -108,6 +113,7 @@ public class RabbitController : MonsterController
                     layDir = Vector3.right;
                 }
             }
+            Com.animator.SetTrigger("isMove");
             moveTime = 0;
         }
     }
@@ -127,6 +133,7 @@ public class RabbitController : MonsterController
 
     protected override void Death()
     {
+        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 

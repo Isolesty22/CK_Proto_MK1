@@ -8,13 +8,33 @@ public class PlayerHitBox : MonoBehaviour
     public CapsuleCollider hitBox;
     public CapsuleCollider crouchHitBox;
 
+    public IEnumerator parry;
+
+    private void Start()
+    {
+        parry = playerController.Parrying();
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        if (playerController.State.canParry && !playerController.State.isInvincible)
+        if (other.CompareTag("Monster"))
+        {
+            if (other.GetComponent<MonsterController>())
+            {
+                if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                    return;
+            }
+        }
+
+
+        if (playerController.State.canParry)
         {
             if(other.CompareTag("Monster"))
             {
-                StartCoroutine(playerController.Parrying());
+                StopCoroutine(parry);
+
+                parry = playerController.Parrying();
+                StartCoroutine(parry);
                 return;
             }
         }

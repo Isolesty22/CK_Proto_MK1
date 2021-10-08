@@ -37,10 +37,12 @@ public class PlayerController : MonoBehaviour
     public class PlayerStatus : Status
     {
         public float movementSpeed = 10f;
+        public float crouchMoveSpeed = 5f;
         public float jumpForce = 1f;
 
         public float parryingForce = 10f;
         public float parryingTime = 1f;
+        public float parryInvincibleTime = 0.5f;
 
         public float hitTime = 1f;
         public float invincibleTime = 1f;
@@ -48,8 +50,8 @@ public class PlayerController : MonoBehaviour
         public float hitColorTime = 1f;
         public float hitColorDelay = 1f;
 
+
         [Header("unused")]
-        public float crouchMoveSpeed = 1f;
         public float jumpingSpeed = 1f;
     }
 
@@ -64,8 +66,11 @@ public class PlayerController : MonoBehaviour
         public float gravity = 1f;
         public Vector3 groundNormal;
         public float groundedDistance = 0f;
+        public float upDistance = 0f;
         public float groundedCheck = 2f;
         public float forwardCheck = 0.1f;
+        public bool upTrigger = true;
+        public bool prevJump;
         [Header("KnockBack")]
         public float knockBackPower;
         public Vector3 knockBackVelocity;
@@ -84,6 +89,7 @@ public class PlayerController : MonoBehaviour
         public bool isGrounded;
         public bool isJumping;
         public bool isForwardBlocked;
+        public bool isUpBlocked;
         public bool isCrouching;
         public bool isHit;
         public bool isInvincible;
@@ -133,6 +139,9 @@ public class PlayerController : MonoBehaviour
         Stat.Initialize();
         transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
         parry = Parry();
+        Com.mat1.color = Com.originalColor;
+        Com.mat2.color = Com.originalColor;
+        Com.mat3.color = Com.originalColor;
     }
 
     private void Start()
@@ -161,6 +170,8 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         ForwardCheck();
         UpdatePhysics();
+        UpCheck();
+
 
         Jump();
         Move();
@@ -225,6 +236,33 @@ public class PlayerController : MonoBehaviour
         //}
     }
 
+    private void UpCheck()
+    {
+        if(State.isGrounded)
+        {
+            Val.upTrigger = true;
+            return;
+        }
+
+        State.isUpBlocked = false;
+
+        int layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+        const float rayDistance = 10f;
+        const float threshold = 0.13f;
+
+        bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
+        Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
+        State.isUpBlocked = Val.upDistance <= threshold;
+
+        if(State.isUpBlocked && Val.upTrigger)
+        {
+            Val.velocityY = 0f;
+            Val.upTrigger = false;
+        }
+
+    }
+
     private void UpdatePhysics()
     {
         //gravity
@@ -258,9 +296,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if (State.isHit)
+            if (State.isCrouching)
             {
-                Val.moveVelocity = Val.moveVector * Stat.movementSpeed * 0.5f;
+                Val.moveVelocity = Val.moveVector * Stat.crouchMoveSpeed;
             }
             else
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
@@ -296,15 +334,20 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(Key.jump))
+        if (!Val.prevJump && Input.GetKey(Key.jump))
         {
             Val.velocityY = Stat.jumpForce;
             State.isJumping = true;
         }
+
+        Val.prevJump = Input.GetKey(Key.jump);
     }
 
     private void Crouch()
     {
+        if (State.isHit)
+            return;
+
         if (State.isJumping || Input.GetKeyUp(Key.crouch) && State.isCrouching)
         {
             State.isCrouching = false;
@@ -347,6 +390,10 @@ public class PlayerController : MonoBehaviour
     public void Hit()
     {
         State.isHit = true;
+        State.isAttack = false;
+        State.isCrouching = false;
+        State.isLookUp = false;
+
 
         Stat.hp -= 1;
 
@@ -431,7 +478,7 @@ public class PlayerController : MonoBehaviour
     public void ReadyToParry()
     {
         //패링 불가능한 상태
-        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded)
+        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded || State.isHit)
         {
             StopCoroutine(parry);
             State.canParry = false;
@@ -476,8 +523,6 @@ public class PlayerController : MonoBehaviour
         Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         StopCoroutine(parry);
 
-
-
         //프레임 단위 무적
         //State.isInvincible = true;
         //yield return null;
@@ -485,16 +530,19 @@ public class PlayerController : MonoBehaviour
 
         //시간 단위 무적
         State.isInvincible = true;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(Stat.parryInvincibleTime);
         State.isInvincible = false;
 
 
-        yield return new WaitForSeconds(Com.pixy.pixyMoveTime);
+        yield return new WaitForSeconds(Com.pixy.pixyMoveTime+ Com.pixy.drainTime);
         State.canCounter = true;
     }
 
     private void Attack()
     {
+        if (State.isHit)
+            return;
+
         if (Input.GetKey(Key.attack))
         {
             State.isAttack = true;

@@ -22,8 +22,8 @@ public class UIPlayerHP : MonoBehaviour
 
     private void Init()
     {
-        //playerController = GameManager.instance.playerController;
-        hpCount = testCurrentHP;
+        playerController = GameManager.instance.playerController;
+        hpCount = playerController.Stat.hp;
         UpdateCurrentHP();
     }
 
@@ -47,7 +47,15 @@ public class UIPlayerHP : MonoBehaviour
 
         if (hpCount > currentHP)
         {
-            hpImageList[currentHP].gameObject.SetActive(false);
+            if (currentHP > 0)
+            {
+                hpImageList[currentHP].gameObject.SetActive(false);
+            }
+            else
+            {
+                hpImageList[0].gameObject.SetActive(false);
+                UIManager.Instance.OpenLosePopup();
+            }
         }
         else
         {
@@ -59,10 +67,10 @@ public class UIPlayerHP : MonoBehaviour
 
     private bool CheckHP()
     {
-        return testCurrentHP == hpCount;
+        return playerController.Stat.hp == hpCount;
     }
     private void UpdateCurrentHP()
     {
-        currentHP = testCurrentHP;
+        currentHP = playerController.Stat.hp;
     }
 }

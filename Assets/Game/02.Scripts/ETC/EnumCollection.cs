@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ePhase
+{
+    Phase_1,
+    Phase_2,
+    Phase_3,
+    Phase_Finish
+}
 public enum eBossState
 {
     None,
@@ -32,6 +39,21 @@ public enum eBossState
     BearState_Claw_B,
     [InspectorName("곰_할퀴기_C")]
     BearState_Claw_C,
+
+    [InspectorName("곰_스매쉬")]
+    BearState_Smash,
+
+    [InspectorName("곰_집중")]
+    BearState_Concentrate,
+
+    [InspectorName("곰_랜덤")]
+    BearState_Random,
+
+    [InspectorName("곰_무력화")]
+    BearState_Powerless,
+
+    [InspectorName("곰_죽음")]
+    BearState_Die,
 }
 public enum eResolutionType
 {

@@ -35,6 +35,7 @@ Transform:
   - {fileID: 2724671757251166741}
   - {fileID: 805635387455677763}
   - {fileID: 6297029571871693702}
+  - {fileID: 734921194782332624}
   - {fileID: 6250088912144387427}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -55,11 +56,12 @@ MonoBehaviour:
   monsterStatus:
     name: Larva
     hp: 2
-    maxHp: 5
+    maxHp: 10
     moveSpeed: 1
     isAlive: 0
     hitTime: 0.1
     fadeOutTime: 1
+    initDistance: 10
   components:
     rigidbody: {fileID: 2636562877231805735}
     collider: {fileID: 8948101247578799124}
@@ -68,17 +70,23 @@ MonoBehaviour:
     animator: {fileID: 4437181645515385393}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
+    spawnPos: {x: 0, y: 0, z: 0}
+  playerOutOfRange: 0
   rollerStatus:
     jumpPower: 7
     aclrt: 3
     maxSpeed: 8
     moveChangeTime: 1
     changeDelay: 0.5
+    rollingDamage: 10
   rollerComponents:
     particle: {fileID: 7611530813265327115}
     constantForce: {fileID: 1551969497}
     sphereCollider: {fileID: 771319751876465725}
     capsuleCollider: {fileID: 8948101247578799124}
+    rollingCollider: {fileID: 5715208975074954739}
+    attackCollider: {fileID: 2141422118}
+  moveDir: {x: 0, y: 0, z: 0}
 --- !u!54 &2636562877231805735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4996,6 +5004,64 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!1 &6195720170641969273
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 734921194782332624}
+  - component: {fileID: 5715208975074954739}
+  - component: {fileID: 123146363222964154}
+  m_Layer: 0
+  m_Name: RollingCol
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &734921194782332624
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6195720170641969273}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1328435132049023873}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5715208975074954739
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6195720170641969273}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &123146363222964154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6195720170641969273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108e12140615e77468472f9038f3adff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollerController: {fileID: 84442913191359413}
 --- !u!95 &4437181645515385393
 Animator:
   serializedVersion: 3
@@ -5129,7 +5195,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 20, y: 10, z: 2}
+  m_Size: {x: 25, y: 10, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &5852005216349858440
 PrefabInstance:
@@ -5140,7 +5206,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_LocalScale.x

@@ -12,16 +12,9 @@ public class FlyerController : MonsterController
     {
         public float patrolRange;
         public float patrolTime = 2f;
-
-        public float shotSpeed;
-        public float featherRange;
-        public float attackCoolTime;
-        public float tripleShotDelay;
-
-        public float attackTime;
-
-        //[Header("Sub Status")]
-        [HideInInspector] public bool isAttack;
+        public float nextPatrolDelay;
+        public bool isPatrol;
+        [Header("Sub Status")]
         [HideInInspector] public Vector3 patrolPos1;
         [HideInInspector] public Vector3 patrolPos2;
     }
@@ -39,9 +32,7 @@ public class FlyerController : MonsterController
     public FlyerComponents Com2 => flyerComponents;
 
     public Tween tween;
-    private float cooltime;
-    private bool moveTrigger;
-
+    private bool isRunCo;
     #endregion
 
     public override void Awake()
@@ -56,10 +47,15 @@ public class FlyerController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
-        Stat2.patrolPos1 = transform.position;
-        Stat2.patrolPos2 = transform.position + Vector3.left * Stat2.patrolRange;
-        cooltime = 10f;
-        moveTrigger = true;
+        Utility.KillTween(tween);
+        Com.rigidbody.useGravity = false;
+        Com.rigidbody.velocity = Vector3.zero;
+        Com.animator.SetBool("isAttack", false);
+        Com.animator.SetBool("isMove", false);
+        Com.animator.SetBool("isDead", false);
+        Stat2.patrolPos1 = Com.spawnPos;
+        Stat2.patrolPos2 = Com.spawnPos + Vector3.left * Stat2.patrolRange;
+        isRunCo = false;
     }
 
     public override void Update()
@@ -81,8 +77,6 @@ public class FlyerController : MonsterController
     {
         base.Idle();
 
-        moveTrigger = true;
-
         ChangeState(MonsterState.MOVE);
     }
 
@@ -91,154 +85,62 @@ public class FlyerController : MonsterController
         base.Move();
         Com.animator.SetBool("isMove", true);
 
-        if (Stat2.isAttack)
-            return;
-
-        if (transform.position.x == Stat2.patrolPos2.x)
+        if (Stat2.isPatrol)
         {
-            Utility.KillTween(tween);
-            tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-            tween.Play();
-            transform.eulerAngles = new Vector3(0, 180, 0);
+            if (!isRunCo)
+            {
+                var patrolMove = PatrolMove();
+                StartCoroutine(patrolMove);
+            }
+
         }
-        else if (transform.position.x == Stat2.patrolPos1.x)
+
+        else
+        {
+            Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
+            transform.localEulerAngles = Vector3.zero;
+        }
+    }
+
+    IEnumerator PatrolMove()
+    {
+        isRunCo = true;
+        if (transform.eulerAngles == Vector3.zero)
         {
             Utility.KillTween(tween);
             tween = transform.DOMove(Stat2.patrolPos2, Stat2.patrolTime).SetEase(Ease.InOutCubic);
             tween.Play();
-            transform.eulerAngles = Vector3.zero;
         }
         else
         {
-            if (moveTrigger)
-            {
-                var pos1 = Mathf.Abs(transform.position.x - Stat2.patrolPos1.x);
-                var pos2 = Mathf.Abs(transform.position.x - Stat2.patrolPos2.x);
-                if (pos1 > pos2)
-                {
-                    Utility.KillTween(tween);
-                    tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                    tween.Play();
-                    transform.eulerAngles = new Vector3(0, 180, 0);
-                }
-                else if (pos2 > pos1)
-                {
-                    Utility.KillTween(tween);
-                    tween = transform.DOMove(Stat2.patrolPos2, Stat2.patrolTime).SetEase(Ease.InOutCubic);
-                    tween.Play();
-                    transform.eulerAngles = Vector3.zero;
-                }
-                moveTrigger = false;
-            }
+            Utility.KillTween(tween);
+            tween = transform.DOMove(Stat2.patrolPos1, Stat2.patrolTime).SetEase(Ease.InOutCubic);
+            tween.Play();
         }
+
+        yield return new WaitForSeconds(Stat2.patrolTime + Stat2.nextPatrolDelay);
+        if (transform.eulerAngles == Vector3.zero)
+        {
+            transform.eulerAngles = new Vector3(0, 180, 0);
+        }
+        else
+        {
+            transform.eulerAngles = Vector3.zero;
+        }
+
+        isRunCo = false;
     }
 
     protected override void Detect()
     {
         base.Detect();
-        Com.animator.SetBool("isMove", false);
-        //ready to attack
-        Utility.KillTween(tween);
-        var targetDir = transform.position.x - GameManager.instance.playerController.transform.position.x;
-        if (targetDir >= 0)
-            targetDir = 1f;
-        else
-            targetDir = -1f;
-
-        var targetPos = transform.position - new Vector3(targetDir, 0, 0) * 0.5f;
-        tween = transform.DOMove(targetPos, 0.5f).SetEase(Ease.Unset);
-
-        cooltime = Stat2.attackCoolTime -0.5f;
-
-        ChangeState(MonsterState.ATTACK);
     }
 
     protected override void Attack()
     {
         base.Attack();
-        //rotate
-        if (transform.position.x > GameManager.instance.playerController.transform.position.x)
-        {
-            transform.rotation = Quaternion.Euler(Vector3.zero);
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
-        }
-
-        //attack
-        cooltime += Time.deltaTime;
-
-        if (cooltime > Stat2.attackCoolTime)
-        {
-
-            //animation time
-            Stat2.isAttack = true;
-            var checkAttack = CheckAttack();
-            StartCoroutine(checkAttack);
-
-            int attackType = UnityEngine.Random.Range(0, 10);
-
-            var targetPos = GameManager.instance.playerController.transform.position;
-
-            if (attackType >= 0 && attackType < 7)
-            {
-                // Normal Attack
-                Com.animator.speed = 1f;
-                var normalShot = NormalShot(targetPos);
-                StartCoroutine(normalShot);
-            }
-            else
-            {
-                // Triple Attack
-                Com.animator.speed = 2.5f;
-                var tripleShot = TripleShot(targetPos);
-                StartCoroutine(tripleShot);
-            }
-
-            cooltime = 0f;
-        }
     }
 
-    public IEnumerator NormalShot(Vector3 targetPos)
-    {
-        Com.animator.SetTrigger("isAttack");
-        yield return new WaitForSeconds(0.3f);
-        var feather = CustomPoolManager.Instance.featherPool.SpawnThis(transform.position, Vector3.zero, null);
-        feather.transform.LookAt(targetPos);
-        feather.isActive = true;
-        var normalShot = feather.Shot(transform.position, Stat2.shotSpeed, Stat2.featherRange);
-        StartCoroutine(normalShot);
-    }
-    public IEnumerator TripleLastShot(Vector3 targetPos)
-    {
-        Com.animator.SetTrigger("isAttack");
-        yield return new WaitForSeconds(0.3f);
-        var feather = CustomPoolManager.Instance.featherPool.SpawnThis(transform.position, Vector3.zero, null);
-        feather.transform.LookAt(targetPos);
-        feather.isActive = true;
-        var normalShot = feather.Shot(transform.position, Stat2.shotSpeed, Stat2.featherRange);
-        StartCoroutine(normalShot);
-        Com.animator.speed = 1f;
-    }
-
-    public IEnumerator TripleShot(Vector3 targetPos)
-    {
-        StartCoroutine(NormalShot(targetPos));
-        yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        StartCoroutine(NormalShot(targetPos));
-        yield return new WaitForSeconds(Stat2.tripleShotDelay);
-        StartCoroutine(NormalShot(targetPos));
-        yield return new WaitForSeconds(0.3f);
-        Com.animator.speed = 1f;
-    }
-
-    public IEnumerator CheckAttack()
-    {
-        yield return new WaitForSeconds(Stat2.attackTime);
-
-        Stat2.isAttack = false;
-    }
 
     public override void Hit(int damage)
     {
@@ -247,13 +149,8 @@ public class FlyerController : MonsterController
 
     protected override void Death()
     {
-        StartCoroutine(Dead());
-    }
-
-    private IEnumerator Dead()
-    {
+        Utility.KillTween(tween);
         Com.animator.SetBool("isDead", true);
-        yield return new WaitForSeconds(0.2f);
         base.Death();
     }
 

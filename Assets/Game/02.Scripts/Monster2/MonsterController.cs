@@ -31,6 +31,8 @@ public class MonsterController : MonoBehaviour
 
         public float hitTime = 0.2f;
         public float fadeOutTime;
+
+        public float initDistance = 10f;
     }
 
     [Serializable]
@@ -45,9 +47,9 @@ public class MonsterController : MonoBehaviour
 
         public Color originalColor;
         public Color hitColor;
+
+        public Vector3 spawnPos;
     }
-
-
 
     //field
     public MonsterState state;
@@ -59,19 +61,23 @@ public class MonsterController : MonoBehaviour
     public MonsterComponents Com => components;
 
     public IEnumerator hitColor;
+    public bool playerOutOfRange;
     #endregion
 
     public virtual void Initialize()
     {
+        Com.renderer.material.color = Color.white;
         Stat.hp = Stat.maxHp;
         Com.monsterModel.SetActive(false);
         state = MonsterState.WAIT;
         Com.originalColor = Com.renderer.material.color;
         Stat.isAlive = true;
+        transform.position = Com.spawnPos;
     }
 
     public virtual void Awake()
     {
+        Com.spawnPos = transform.position;
         Initialize();
     }
 
@@ -84,6 +90,11 @@ public class MonsterController : MonoBehaviour
     {
         State(state);
         HandleAnimation();
+
+        if(playerOutOfRange)
+        {
+            CheckInit();
+        }
     }
 
     public virtual void State(MonsterState state)
@@ -198,9 +209,8 @@ public class MonsterController : MonoBehaviour
         if(Stat.isAlive)
         {
             Stat.isAlive = false;
-            Com.collider.enabled = false;
             Com.rigidbody.velocity = Vector3.zero;
-            Com.rigidbody.useGravity = false;
+            Com.rigidbody.useGravity = true;
 
             var dead = Dead();
             StartCoroutine(dead);
@@ -228,11 +238,21 @@ public class MonsterController : MonoBehaviour
             yield return null;
         }
 
-        this.gameObject.SetActive(false);
+        this.Com.monsterModel.SetActive(false);
     }
 
     protected virtual void HandleAnimation()
     {
     }
 
+
+    public virtual void CheckInit()
+    {
+        var distance = GameManager.instance.playerController.transform.position.x - Com.spawnPos.x;
+        if(Math.Abs(distance) > Stat.initDistance)
+        {
+            Initialize();
+            playerOutOfRange = false;
+        }
+    }
 }
