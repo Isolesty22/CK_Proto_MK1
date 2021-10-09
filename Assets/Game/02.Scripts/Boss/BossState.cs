@@ -541,14 +541,17 @@ public class BearState_Smash : BearState
         yield break;
     }
 }
-
 public class BearState_Concentrate : BearState
 {
+    private IEnumerator concentrate;
+
     private Transform sphereTransform;
+    private BearConcentrateHelper helper;
     public BearState_Concentrate(BearController _bearController)
     {
         bearController = _bearController;
         sphereTransform = bearController.skillObjects.concentrateSphere.transform;
+        helper = bearController.skillObjects.concentrateHelper;
     }
     public override void OnEnter()
     {
@@ -556,35 +559,26 @@ public class BearState_Concentrate : BearState
         bearController.SetSkillAction(SkillAction);
         bearController.SetTrigger("Start_Concentrate");
         bearController.skillObjects.concentrateSphere.SetActive(true);
+        concentrate = ProcessConcentrate();
     }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
     public override void OnExit()
     {
-        base.OnExit();
+
     }
     public void SkillAction()
     {
+        helper.StartCheck();
+        Debug.Log("StartCheck!");
 
-        bearController.StartCoroutine(ProcessSkillAction());
+        bearController.StartCoroutine(ProcessChangeSphere());
+        bearController.StartCoroutine(concentrate);
     }
-
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
-    private IEnumerator ProcessSkillAction()
+    private IEnumerator ProcessChangeSphere()
     {
-
         float timer = 0f;
         float maxTime = bearController.skillValue.concentrateTime;
         float progress = 0f;
+
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -595,6 +589,40 @@ public class BearState_Concentrate : BearState
 
             yield return null;
         }
+    }
+
+
+    private IEnumerator ProcessConcentrate()
+    {
+        float timer = 0f;
+        float maxTime = bearController.skillValue.concentrateTime + 1f;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / maxTime;
+
+            if (helper.isSucceedParry)
+            {
+                ChangeStatePowerless();
+            }
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        bearController.SetTrigger("End_Concentrate");
+        sphereTransform.gameObject.SetActive(false);
+        helper.EndCheck();
+    }
+
+    private void ChangeStatePowerless()
+    {
+        Debug.Log("Change State Powerless!");
+        bearController.StopCoroutine(concentrate);
+        sphereTransform.gameObject.SetActive(false);
+        helper.EndCheck();
+        //BearState
+        bearController.ChangeState(eBossState.BearState_Powerless);
     }
 }
 public class BearState_Powerless : BearState
@@ -607,8 +635,9 @@ public class BearState_Powerless : BearState
     {
         canExit = false;
         // bearController.SetSkillAction(SkillAction);
-        SkillAction();
         bearController.SetTrigger("Start_Powerless");
+        waitSec = new WaitForSeconds(bearController.skillValue.powerlessTime);
+        SkillAction();
     }
 
     public override void OnUpdate()
@@ -625,7 +654,7 @@ public class BearState_Powerless : BearState
     {
         base.OnExit();
     }
-    WaitForSeconds waitSec = new WaitForSeconds(3f);
+    WaitForSeconds waitSec;
     public void SkillAction()
     {
         bearController.StartCoroutine(ProcessSkillAction());
@@ -634,6 +663,7 @@ public class BearState_Powerless : BearState
     {
         //대기
         yield return waitSec;
+        Debug.Log("Wait End");
         canExit = true;
 
     }

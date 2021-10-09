@@ -170,17 +170,22 @@ public class BearController : BossController
         AddAnimatorHash("Start_Roar");
         AddAnimatorHash("Start_Claw");
         AddAnimatorHash("Start_Strike");
-        AddAnimatorHash("Phase");
         AddAnimatorHash("Start_Stamp");
         AddAnimatorHash("Start_Smash");
         AddAnimatorHash("Start_Powerless");
+
+        AddAnimatorHash("Start_Concentrate");
+
         AddAnimatorHash("Start_Die");
+        AddAnimatorHash("Phase");
+
+        AddAnimatorHash("End_Concentrate");
     }
 
     private void Init_Collider()
     {
         //충돌하지 않게 
-        Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
+       // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
         Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
 
         colliders.headColliderSize = colliders.headCollider.size;
@@ -207,7 +212,7 @@ public class BearController : BossController
     {
         return bearStateMachine.CanExit();
     }
-    private bool ChangeState(eBossState _state)
+    public bool ChangeState(eBossState _state)
     {
         //if (_state == eBossState.BearState_Random)
         //{
@@ -282,7 +287,6 @@ public class BearController : BossController
     private int currentIndex = 0;
     private IEnumerator ProcessChangeStateTest()
     {
-        //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
         int length = phaseList[stateInfo].Count;

@@ -9,8 +9,10 @@ public class GameManager : MonoBehaviour
     public CameraManager cameraManager;
     public PlayerController playerController;
 
-    private void OnLevelWasLoaded(int level)
+    //해야함 : OnLevelWasLoaded 사용하지 말기
+    private void OnLevelWasLoaded_(int level)
     {
+        Debug.Log("Test");
         if (instance == null || instance != this)
         {
             instance = this;

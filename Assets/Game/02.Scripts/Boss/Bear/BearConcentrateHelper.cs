@@ -7,25 +7,40 @@ using UnityEngine;
 /// </summary>
 public class BearConcentrateHelper : MonoBehaviour
 {
+    IEnumerator parryEnumerator;
+
+    [HideInInspector]
+    public bool isSucceedParry = false;
     public void Init()
     {
+        isSucceedParry = false;
         gameObject.SetActive(false);
     }
     public void StartCheck()
     {
+        isSucceedParry = false;
         gameObject.SetActive(true);
+        parryEnumerator = GameManager.instance.playerController.Parrying();
     }
-
+    public void EndCheck()
+    {
+        gameObject.SetActive(false);
+    }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-
-            //피격 가능한 상태일 때
-            if (!playerController.IsInvincible())
+            if (isSucceedParry)
             {
-                playerController.Hit();
-                Despawn();
+                return;
+            }
+
+            if (GameManager.instance.playerController.CanParry())
+            {
+                Debug.Log("Head Parry Succeed!");
+                StopCoroutine(parryEnumerator);
+                StartCoroutine(parryEnumerator);
+                isSucceedParry = true;
             }
         }
     }
