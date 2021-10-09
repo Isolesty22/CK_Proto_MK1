@@ -617,16 +617,18 @@ public class BearState_Concentrate : BearState
 
     private void ChangeStatePowerless()
     {
-        Debug.Log("Change State Powerless!");
         bearController.StopCoroutine(concentrate);
+
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
-        //BearState
+
         bearController.ChangeState(eBossState.BearState_Powerless);
     }
 }
 public class BearState_Powerless : BearState
 {
+    WaitForSeconds waitSecBegin;
+    WaitForSeconds waitSecEnd;
     public BearState_Powerless(BearController _bearController)
     {
         bearController = _bearController;
@@ -635,33 +637,19 @@ public class BearState_Powerless : BearState
     {
         canExit = false;
         bearController.SetSkillAction(SkillAction_WaitEnd);
-        bearController.SetTrigger("Start_Powerless");
+
         waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
         waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
-        StartPowerless();
-    }
 
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
+        bearController.SetTrigger("Start_Powerless");
+        bearController.StartCoroutine(ProcessSkillAction_Begin());
     }
 
     public override void OnExit()
     {
         base.OnExit();
     }
-    WaitForSeconds waitSecBegin;
-    WaitForSeconds waitSecEnd;
 
-    public void StartPowerless()
-    {
-        bearController.StartCoroutine(ProcessSkillAction_Begin());
-    }
     public void SkillAction_WaitEnd()
     {
         bearController.StartCoroutine(ProcessWaitTime());
@@ -692,16 +680,6 @@ public class BearState_Die : BearState
         canExit = false;
         bearController.SetSkillAction(SkillAction);
         bearController.SetTrigger("Start_Die");
-    }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
     }
 
     public override void OnExit()

@@ -321,7 +321,6 @@ public class BearController : BossController
                 SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
                 //스테이트 변경
-
                 ChangeState(currentPattern.state);
 
                 currentIndex += 1;
