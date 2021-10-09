@@ -20148,63 +20148,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4968a2fbac045c8408c4ff25f9ec1078, type: 3}
---- !u!1001 &492807795811326754
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 261375352517503826, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_Name
-      value: ConcentrateSphere
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_RootOrder
-      value: 21
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
 --- !u!1001 &4326774580232121915
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20286,15 +20229,43 @@ PrefabInstance:
       objectReference: {fileID: 420880658}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: skillValue.powerlessTime
-      value: 13.99
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: skillValue.concentrateTime
-      value: 14.29
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.size
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[0].state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[1].state
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[2].state
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[3].state
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[4].state
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[5].state
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[7].state
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[8].state
@@ -20303,6 +20274,26 @@ PrefabInstance:
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[9].state
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[2].waitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[3].waitTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[5].waitTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[6].waitTime
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_01_List.Array.data[7].waitTime
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[8].waitTime

@@ -9,6 +9,7 @@ using System.Linq;
 public class BearController : BossController
 {
     public Animator animator;
+    public Transform myTransform;
     private BearStateMachine bearStateMachine;
     public BearMapInfo bearMapInfo;
 
@@ -116,10 +117,10 @@ public class BearController : BossController
     [Tooltip("애니메이터 파라미터")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
 
-    private Transform myTransform;
 
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
-    private BearPattern currentPattern;
+    [HideInInspector]
+    public BearPattern currentPattern;
 
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
@@ -141,8 +142,6 @@ public class BearController : BossController
 
         bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
-
-        myTransform = transform;
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
         bearMapInfo.SetPhase3Position(myTransform.position);
@@ -180,6 +179,7 @@ public class BearController : BossController
         AddAnimatorHash("Phase");
 
         AddAnimatorHash("End_Concentrate");
+        AddAnimatorHash("End_Powerless");
     }
 
     private void Init_Collider()
@@ -214,6 +214,7 @@ public class BearController : BossController
     }
     public bool ChangeState(eBossState _state)
     {
+        SetStateInfo(_state);
         //if (_state == eBossState.BearState_Random)
         //{
         //    bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
@@ -231,7 +232,7 @@ public class BearController : BossController
         {
             case ePhase.Phase_1:
                 myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
-
+                myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 SetStretchColliderSize();
 
                 //투사체 위치 다시 계산
@@ -320,7 +321,7 @@ public class BearController : BossController
                 SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
                 //스테이트 변경
-                SetStateInfo(currentPattern.state);
+
                 ChangeState(currentPattern.state);
 
                 currentIndex += 1;

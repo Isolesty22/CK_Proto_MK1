@@ -634,10 +634,11 @@ public class BearState_Powerless : BearState
     public override void OnEnter()
     {
         canExit = false;
-        // bearController.SetSkillAction(SkillAction);
+        bearController.SetSkillAction(SkillAction_WaitEnd);
         bearController.SetTrigger("Start_Powerless");
-        waitSec = new WaitForSeconds(bearController.skillValue.powerlessTime);
-        SkillAction();
+        waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
+        waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
+        StartPowerless();
     }
 
     public override void OnUpdate()
@@ -654,18 +655,30 @@ public class BearState_Powerless : BearState
     {
         base.OnExit();
     }
-    WaitForSeconds waitSec;
-    public void SkillAction()
+    WaitForSeconds waitSecBegin;
+    WaitForSeconds waitSecEnd;
+
+    public void StartPowerless()
     {
-        bearController.StartCoroutine(ProcessSkillAction());
+        bearController.StartCoroutine(ProcessSkillAction_Begin());
     }
-    private IEnumerator ProcessSkillAction()
+    public void SkillAction_WaitEnd()
+    {
+        bearController.StartCoroutine(ProcessWaitTime());
+    }
+
+    private IEnumerator ProcessSkillAction_Begin()
     {
         //대기
-        yield return waitSec;
-        Debug.Log("Wait End");
-        canExit = true;
+        yield return waitSecBegin;
+        bearController.SetTrigger("End_Powerless");
+    }
 
+    private IEnumerator ProcessWaitTime()
+    {
+        //대기
+        yield return waitSecEnd;
+        canExit = true;
     }
 }
 public class BearState_Die : BearState
