@@ -74,6 +74,7 @@ MonoBehaviour:
     claw_B_Effect: {fileID: 2259104110388901650}
     clawUnderPosition: {fileID: 4326774579042069880}
     headParringPosition: {fileID: 206202227158438822}
+    concentrateHelper: {fileID: 0}
     concentrateSphere: {fileID: 0}
     smashRock: {fileID: 7847128783815491748}
   hp: 100
@@ -215,6 +216,7 @@ GameObject:
   - component: {fileID: 3208338357513281310}
   - component: {fileID: 3527088349307533553}
   - component: {fileID: 651252968817403663}
+  - component: {fileID: 3396791962380995403}
   m_Layer: 12
   m_Name: Position_HeadParring
   m_TagString: Untagged
@@ -298,6 +300,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.75639945, y: 0.5479359, z: 0.36071575}
   m_Center: {x: -0.0000076293945, y: 0.002283126, z: -0.031963453}
+--- !u!114 &3396791962380995403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5599275029689425420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687e388edccda414a9cef77772f22f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5983441600764000374
 GameObject:
   m_ObjectHideFlags: 0

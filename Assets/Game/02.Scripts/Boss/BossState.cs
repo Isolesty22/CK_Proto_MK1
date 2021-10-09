@@ -625,6 +625,7 @@ public class BearState_Powerless : BearState
     {
         base.OnExit();
     }
+    WaitForSeconds waitSec = new WaitForSeconds(3f);
     public void SkillAction()
     {
         bearController.StartCoroutine(ProcessSkillAction());
@@ -632,7 +633,7 @@ public class BearState_Powerless : BearState
     private IEnumerator ProcessSkillAction()
     {
         //대기
-        yield return new WaitForSeconds(3f);
+        yield return waitSec;
         canExit = true;
 
     }

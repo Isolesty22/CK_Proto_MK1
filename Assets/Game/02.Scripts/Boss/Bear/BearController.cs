@@ -42,11 +42,18 @@ public class BearController : BossController
     {
         public GameObject strikeCube;
         public GameObject roarEffect;
+
+        [Space(10)]
         public GameObject claw_A_Effect;
         public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
+
+        [Space(10)]
         public Transform headParringPosition;
+        public BearConcentrateHelper concentrateHelper;
         public GameObject concentrateSphere;
+
+        [Space(10)]
         public GameObject smashRock;
     }
 
@@ -125,18 +132,12 @@ public class BearController : BossController
     /// </summary>
     private Action skillAction = null;
 
-    private void Awake()
-    {
-        Init();
-    }
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
-        Init_Animator();
-
 
         bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
@@ -145,6 +146,15 @@ public class BearController : BossController
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
         bearMapInfo.SetPhase3Position(myTransform.position);
+
+        bearStateMachine = new BearStateMachine(this);
+        bearStateMachine.isDebugMode = false;
+        bearStateMachine.StartState(eBossState.BearState_Idle);
+
+        skillObjects.concentrateHelper.Init();
+        Init_Animator();
+        Init_Pool();
+        Init_Collider();
     }
     private void Init_Animator()
     {
@@ -184,12 +194,7 @@ public class BearController : BossController
     }
     private void Start()
     {
-        bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = false;
-        bearStateMachine.StartState(eBossState.BearState_Idle);
-
-        Init_Pool();
-        Init_Collider();
+        Init();
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
     private void Update()
