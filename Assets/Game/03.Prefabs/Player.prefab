@@ -273,8 +273,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: 0
   basicArrowSpeed: 4
-  basicArrowRange: 64
-  basicArrowCooldown: 0.2
+  basicArrowRange: 6
+  basicArrowCooldown: 0.15
 --- !u!95 &1531041693
 Animator:
   serializedVersion: 3
@@ -400,11 +400,11 @@ MonoBehaviour:
     maxHp: 100
     movementSpeed: 5
     crouchMoveSpeed: 1.5
-    jumpForce: 17
-    parryingForce: 15
-    parryingTime: 0.5
+    jumpForce: 13
+    parryingForce: 13
+    parryingTime: 0.3
     parryInvincibleTime: 0.5
-    hitTime: 1
+    hitTime: 0.5
     invincibleTime: 2
     hitColorTime: 0.2
     hitColorDelay: 0.3
@@ -413,7 +413,7 @@ MonoBehaviour:
     moveVector: {x: 0, y: 0, z: 0}
     moveVelocity: {x: 0, y: 0, z: 0}
     velocityY: 0
-    gravity: 60
+    gravity: 40
     groundNormal: {x: 0, y: 0, z: 0}
     groundedDistance: 2
     upDistance: 0
