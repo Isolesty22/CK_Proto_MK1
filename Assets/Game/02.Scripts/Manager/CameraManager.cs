@@ -6,6 +6,7 @@ public class CameraManager : MonoBehaviour
 {
     public Transform pivot;
     public Camera mainCam;
+    public Camera vfxCam;
 
     private float cameraHalfWidth = 0f;
     private float cameraHalfHeight = 0f;
@@ -27,6 +28,7 @@ public class CameraManager : MonoBehaviour
         mainCam = Camera.main;
 
         mainCam.transform.localPosition = offset;
+        vfxCam.transform.localPosition = offset;
 
         cameraHalfWidth = mainCam.aspect * mainCam.orthographicSize;
         cameraHalfHeight = mainCam.orthographicSize;
@@ -37,6 +39,7 @@ public class CameraManager : MonoBehaviour
         var target = GameManager.instance.playerController.transform.position;
 
         mainCam.transform.localPosition = offset;
+        vfxCam.transform.localPosition = offset;
 
         Vector3 desiredPosition = new Vector3(
             Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X

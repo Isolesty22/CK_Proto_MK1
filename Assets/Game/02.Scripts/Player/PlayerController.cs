@@ -18,7 +18,10 @@ public class PlayerController : MonoBehaviour
         public PlayerHitBox hitBox;
         public Weapon weapon;
         public Pixy pixy;
+
         public ParticleSystem parry;
+        public ParticleSystem hit;
+
         public Animator animator;
 
         public Material mat1;
@@ -307,11 +310,13 @@ public class PlayerController : MonoBehaviour
         //최종 이동속도 결정
         //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
       
-        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + (Vector3.up * Val.velocityY);
+        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0)+ Val.knockBackVelocity + (Vector3.up * Val.velocityY);
     }
 
     private void Rotate()
     {
+        if (State.isHit)
+            return;
         //if (State.isJumping)
         //    return;
 
@@ -399,6 +404,9 @@ public class PlayerController : MonoBehaviour
 
         Com.animator.SetTrigger("Hit");
 
+        //Com.hit.transform.position = transform.position;
+        //Com.hit.Play();
+
 
         var knockBack = KnockBack();
         StartCoroutine(knockBack);
@@ -408,32 +416,20 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator KnockBack()
     {
-        //Val.knockBackVelocity.x = knockBackDir * Val.knockBackPower;
-
-        //if (Val.knockBackVelocity.x >= 0)
-        //{
-        //    while (Val.knockBackVelocity.x >= 0)
-        //    {
-        //        Val.knockBackVelocity.x -= Val.constDecrease * Time.fixedDeltaTime;
-
-        //        yield return new WaitForFixedUpdate();
-        //    }
-        //}
-        //else if (Val.knockBackVelocity.x < 0)
-        //{
-        //    while (Val.knockBackVelocity.x < 0)
-        //    {
-        //        Val.knockBackVelocity.x += Val.constDecrease * Time.fixedDeltaTime;
-
-        //        yield return new WaitForFixedUpdate();
-        //    }
-        //}
-
-        //Val.knockBackVelocity.x = 0;
+        if (transform.localScale.x == -1)
+        {
+            Val.knockBackVelocity = new Vector3(Val.knockBackPower, 0, 0);
+        }
+        else if (transform.localScale.x == 1)
+        {
+            Val.knockBackVelocity = new Vector3(-Val.knockBackPower, 0, 0);
+        }
 
         yield return new WaitForSeconds(Stat.hitTime);
 
         State.isHit = false;
+
+        Val.knockBackVelocity = Vector3.zero;
 
         var hitColor = HitColor();
         StartCoroutine(hitColor);
@@ -534,7 +530,7 @@ public class PlayerController : MonoBehaviour
         State.isInvincible = false;
 
 
-        yield return new WaitForSeconds(Com.pixy.pixyMoveTime+ Com.pixy.drainTime);
+        yield return new WaitForSeconds(Com.pixy.pixyMoveTime);
         State.canCounter = true;
     }
 

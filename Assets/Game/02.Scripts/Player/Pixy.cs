@@ -26,8 +26,10 @@ public class Pixy : MonoBehaviour
 
     public void ReadyToCounter()
     {
-        var ready = Ready();
-        StartCoroutine(ready);
+        pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
+
+        //var ready = Ready();
+        //StartCoroutine(ready);
 
     }
 
