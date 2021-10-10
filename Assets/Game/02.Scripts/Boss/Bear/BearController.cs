@@ -171,9 +171,7 @@ public class BearController : BossController
 
         for (int i = 0; i < paramCount; i++)
         {
-            Debug.Log("Parameter Name: " + aniParam[i].name);
-
-            AddAnimatorHash(aniParam[i].name, aniParam[i].nameHash);
+            AddAnimatorHash(aniParam[i].name);
         }
 
         skillVarietyBlend = aniHash[str_SkillVarietyBlend];
@@ -427,10 +425,6 @@ public class BearController : BossController
     #endregion
 
     #region Animation 관련
-    private void AddAnimatorHash(string _paramName, int _paramHash)
-    {
-        aniHash.Add(_paramName, _paramHash);
-    }
     private void AddAnimatorHash(string _paramName)
     {
         aniHash.Add(_paramName, Animator.StringToHash(_paramName));
