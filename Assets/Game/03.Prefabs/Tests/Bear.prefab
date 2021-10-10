@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4326774578364781432}
+  myTransform: {fileID: 4326774578364781438}
   bearMapInfo: {fileID: 0}
   stateInfo:
     phase: 0
@@ -74,7 +75,8 @@ MonoBehaviour:
     claw_B_Effect: {fileID: 2259104110388901650}
     clawUnderPosition: {fileID: 4326774579042069880}
     headParringPosition: {fileID: 206202227158438822}
-    concentrateSphere: {fileID: 0}
+    concentrateHelper: {fileID: 3396791962380995403}
+    concentrateSphere: {fileID: 3190754067562730142}
     smashRock: {fileID: 7847128783815491748}
   hp: 100
   bossPhaseValue:
@@ -141,6 +143,9 @@ MonoBehaviour:
       waitTime: 0
     - state: 8
       waitTime: 0
+  currentPattern:
+    state: 0
+    waitTime: 0
 --- !u!95 &4326774578364781432
 Animator:
   serializedVersion: 3
@@ -215,6 +220,7 @@ GameObject:
   - component: {fileID: 3208338357513281310}
   - component: {fileID: 3527088349307533553}
   - component: {fileID: 651252968817403663}
+  - component: {fileID: 3396791962380995403}
   m_Layer: 12
   m_Name: Position_HeadParring
   m_TagString: Untagged
@@ -298,6 +304,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.75639945, y: 0.5479359, z: 0.36071575}
   m_Center: {x: -0.0000076293945, y: 0.002283126, z: -0.031963453}
+--- !u!114 &3396791962380995403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5599275029689425420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687e388edccda414a9cef77772f22f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSucceedParry: 0
 --- !u!1 &5983441600764000374
 GameObject:
   m_ObjectHideFlags: 0
@@ -401,15 +420,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.64
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.272
+      value: -2.49
       objectReference: {fileID: 0}
     - target: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
       propertyPath: m_LocalRotation.w
@@ -441,6 +460,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
+--- !u!1 &3190754067562730142 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 261375352517503826, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
+  m_PrefabInstance: {fileID: 3451800846137604556}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6450135413456545247 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8531006744079506451, guid: ee5e165b188dafc46ade4451be0c5b85, type: 3}
