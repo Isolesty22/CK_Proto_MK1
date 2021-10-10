@@ -28,11 +28,13 @@ public class MonsterController : MonoBehaviour
 
         [Header("Sub Status")]
         public bool isAlive;
+        public bool isCanSpawnMon;
 
         public float hitTime = 0.2f;
         public float fadeOutTime;
 
         public float initDistance = 10f;
+        public float respawnTime = 10f;
     }
 
     [Serializable]
@@ -62,6 +64,9 @@ public class MonsterController : MonoBehaviour
 
     public IEnumerator hitColor;
     public bool playerOutOfRange;
+    [HideInInspector] public bool inAttackCol;
+
+    private float time;
     #endregion
 
     public virtual void Initialize()
@@ -94,6 +99,29 @@ public class MonsterController : MonoBehaviour
         if(playerOutOfRange)
         {
             CheckInit();
+        }
+
+        if (!Stat.isAlive && Stat.isCanSpawnMon)
+        {
+            time += Time.deltaTime;
+            if(time >= Stat.respawnTime) // Respawn
+            {
+                Initialize();
+                time = 0;
+                if(playerOutOfRange == false)
+                {
+                    if (inAttackCol)
+                    {
+                        Com.monsterModel.SetActive(true);
+                        ChangeState(MonsterController.MonsterState.DETECT);
+                    }
+                    else
+                    {
+                        Com.monsterModel.SetActive(true);
+                        ChangeState(MonsterController.MonsterState.IDLE);
+                    }
+                }
+            }
         }
     }
 
