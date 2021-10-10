@@ -114,9 +114,10 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("애니메이터 파라미터")]
+    [Tooltip("애니메이터 파라미터 딕셔너리")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
-
+    private string str_SkillVarietyBlend = "SkillVarietyBlend";
+    private int skillVarietyBlend = 0;
 
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     [HideInInspector]
@@ -133,6 +134,7 @@ public class BearController : BossController
     /// </summary>
     private Action skillAction = null;
 
+
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
@@ -147,7 +149,7 @@ public class BearController : BossController
         bearMapInfo.SetPhase3Position(myTransform.position);
 
         bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = false;
+        bearStateMachine.isDebugMode = true;
         bearStateMachine.StartState(eBossState.BearState_Idle);
 
         skillObjects.concentrateHelper.Init();
@@ -164,28 +166,34 @@ public class BearController : BossController
             behaviours[i].bearController = this;
         }
 
-        AddAnimatorHash("Start_Idle");
-        AddAnimatorHash("Start_Rush");
-        AddAnimatorHash("Start_Roar");
-        AddAnimatorHash("Start_Claw");
-        AddAnimatorHash("Start_Strike");
-        AddAnimatorHash("Start_Stamp");
-        AddAnimatorHash("Start_Smash");
-        AddAnimatorHash("Start_Powerless");
+        int paramCount = animator.parameterCount;
+        AnimatorControllerParameter[] aniParam = animator.parameters;
 
-        AddAnimatorHash("Start_Concentrate");
+        for (int i = 0; i < paramCount; i++)
+        {
+            AddAnimatorHash(aniParam[i].name);
+        }
 
-        AddAnimatorHash("Start_Die");
-        AddAnimatorHash("Phase");
+        skillVarietyBlend = aniHash[str_SkillVarietyBlend];
 
-        AddAnimatorHash("End_Concentrate");
-        AddAnimatorHash("End_Powerless");
+        //AddAnimatorHash("Start_Idle");
+        //AddAnimatorHash("Start_Rush");
+        //AddAnimatorHash("Start_Roar");
+        //AddAnimatorHash("Start_Claw");
+        //AddAnimatorHash("Start_Strike");
+        //AddAnimatorHash("Start_Stamp");
+        //AddAnimatorHash("Start_Smash");
+        //AddAnimatorHash("Start_Powerless");
+        //AddAnimatorHash("Start_Concentrate");
+        //AddAnimatorHash("Start_Die");
+        //AddAnimatorHash("End_Concentrate");
+        //AddAnimatorHash("End_Powerless");
     }
 
     private void Init_Collider()
     {
         //충돌하지 않게 
-       // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
+        // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
         Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
 
         colliders.headColliderSize = colliders.headCollider.size;
@@ -349,6 +357,11 @@ public class BearController : BossController
     {
         stateInfo.stateE = _state;
         stateInfo.state = _state.ToString();
+    }
+
+    public void SetSkillVariety(float _v)
+    {
+        animator.SetFloat(skillVarietyBlend, _v);
     }
     public void SetTrigger(string _paramName)
     {
