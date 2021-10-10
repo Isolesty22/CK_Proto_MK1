@@ -10,6 +10,8 @@ public class MonsterAttackCol : MonoBehaviour
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
+            monsterController.inAttackCol = true;
+
             if(monsterController.Stat.isAlive == true)
                 monsterController.ChangeState(MonsterController.MonsterState.DETECT);
         }
@@ -17,6 +19,6 @@ public class MonsterAttackCol : MonoBehaviour
 
     public virtual void OnTriggerExit(Collider other)
     {
-
+        monsterController.inAttackCol = false;
     }
 }

@@ -14,4 +14,9 @@ public class RollerAttackCol : MonsterAttackCol
         }
     }
 
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+    }
+
 }
