@@ -385,6 +385,7 @@ MonoBehaviour:
     weapon: {fileID: 430571208}
     pixy: {fileID: 900562926}
     parry: {fileID: 5164562046341282987}
+    hit: {fileID: 0}
     animator: {fileID: 1531041693}
     mat1: {fileID: 2100000, guid: 62092965db29eb64594c7441cfa70cd9, type: 2}
     mat2: {fileID: 2100000, guid: 20806c8a31f89774e9d26e90d9b2672a, type: 2}
@@ -398,12 +399,12 @@ MonoBehaviour:
     hp: 0
     maxHp: 100
     movementSpeed: 5
-    crouchMoveSpeed: 2.5
+    crouchMoveSpeed: 1.5
     jumpForce: 17
-    parryingForce: 13
+    parryingForce: 15
     parryingTime: 0.5
     parryInvincibleTime: 0.5
-    hitTime: 0.5
+    hitTime: 1
     invincibleTime: 2
     hitColorTime: 0.2
     hitColorDelay: 0.3
@@ -412,7 +413,7 @@ MonoBehaviour:
     moveVector: {x: 0, y: 0, z: 0}
     moveVelocity: {x: 0, y: 0, z: 0}
     velocityY: 0
-    gravity: 50
+    gravity: 60
     groundNormal: {x: 0, y: 0, z: 0}
     groundedDistance: 2
     upDistance: 0
