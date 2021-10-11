@@ -359,14 +359,17 @@ public class BearState_Roar : BearState
         switch (bearController.stateInfo.stateE)
         {
             case eBossState.BearState_Roar_A:
+
+
+            case eBossState.BearState_Roar_B:
+
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetSkillAction(SkillAction);
                 bearController.SetSkillVariety(0);
                 break;
-
-            case eBossState.BearState_Roar_B:
-                bearController.SetSkillVariety(1);
-                break;
+            //case eBossState.BearState_Roar_B:
+            //    bearController.SetSkillVariety(1);
+            //    break;
 
             default:
                 break;
