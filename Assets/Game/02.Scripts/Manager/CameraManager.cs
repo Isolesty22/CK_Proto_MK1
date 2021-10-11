@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
 
     private void Awake()
     {
-        mainCam = Camera.main;
+        //mainCam = Camera.main;
 
         mainCam.transform.localPosition = offset;
         vfxCam.transform.localPosition = offset;
