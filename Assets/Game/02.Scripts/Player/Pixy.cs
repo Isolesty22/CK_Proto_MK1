@@ -18,6 +18,8 @@ public class Pixy : MonoBehaviour
     public float counterRange = 100f;
     public float counterSpeed = 10f;
 
+    public bool isReady = false;
+
     private void Awake()
     {
         firePos = transform.localPosition;
@@ -26,20 +28,17 @@ public class Pixy : MonoBehaviour
 
     public void ReadyToCounter()
     {
-        pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
-
-        //var ready = Ready();
-        //StartCoroutine(ready);
-
+        var ready = Ready();
+        StartCoroutine(ready); 
     }
 
     public IEnumerator Ready()
     {
-        yield return new WaitForSeconds(drainTime);
-
         pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
-    }
 
+        yield return new WaitForSeconds(pixyMoveTime);
+        isReady = true;
+    }
 
     public IEnumerator Counter()
     {

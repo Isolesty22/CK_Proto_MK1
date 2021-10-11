@@ -26,6 +26,8 @@ public class CustomPoolManager : MonoBehaviour
 
     public CustomPool<ArrowBase> basicArrowPool;
     public CustomPool<Counter> counterPool;
+    public CustomPool<Parry> parryPool;
+    public CustomPool<Fire> firePool;
 
 
     #region ClearHandler
@@ -65,6 +67,8 @@ public class CustomPoolManager : MonoBehaviour
 
         basicArrowPool = CreateCustomPool<ArrowBase>();
         counterPool = CreateCustomPool<Counter>();
+        parryPool = CreateCustomPool<Parry>();
+        firePool = CreateCustomPool<Fire>();
     }
 
     private void Init_PoolObjectDictionary()

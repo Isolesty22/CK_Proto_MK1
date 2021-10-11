@@ -14,7 +14,7 @@ public class ArrowHit : MonoBehaviour
     {
         this.GetComponent<ParticleSystem>().Play();
 
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
 
         CustomPoolManager.Instance.ReleaseThis(this);
 

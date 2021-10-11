@@ -30,10 +30,6 @@ public class PlayerController : MonoBehaviour
 
         public Color originalColor;
         public Color hitColor;
-
-        //instance
-        public GameObject standingModel;
-        public GameObject crouchModel;
     }
 
     [Serializable]
@@ -364,10 +360,6 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            //instance model
-            //Com.standingModel.SetActive(true);
-            //Com.crouchModel.SetActive(false);
-
             Com.pixy.transform.localPosition = Com.pixy.firePos;
 
             return;
@@ -383,10 +375,6 @@ public class PlayerController : MonoBehaviour
             //hit box
             Com.hitBox.hitBox.enabled = false;
             Com.hitBox.crouchHitBox.enabled = true;
-
-            //instance model
-            //Com.standingModel.SetActive(false);
-            //Com.crouchModel.SetActive(true);
 
             Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
         }
@@ -500,38 +488,37 @@ public class PlayerController : MonoBehaviour
         State.canParry = true;
 
         //effect
-        Com.parry.Play();
+        //Com.parry.Play();
 
         yield return new WaitForSeconds(Stat.parryingTime);
 
-        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        //Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         State.canParry = false;
     }
 
     public IEnumerator Parrying()
     {
         State.canParry = false;
-
-        Com.pixy.ReadyToCounter();
-
         Val.velocityY = Stat.parryingForce;
 
-        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        StopCoroutine(parry);
+        var parryVFX = CustomPoolManager.Instance.parryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
+        parryVFX.Play();
+        //parryVFX.transform.DOLocalMove(Vector3.zero, Com.pixy.pixyMoveTime).SetEase(Ease.Unset);
 
-        //프레임 단위 무적
-        //State.isInvincible = true;
-        //yield return null;
-        //State.isInvincible = false;
+        if (!State.canCounter)
+        {
+            State.canCounter = true;
+            Com.pixy.ReadyToCounter();
+        }
+
+
+        //Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        StopCoroutine(parry);
 
         //시간 단위 무적
         State.isInvincible = true;
         yield return new WaitForSeconds(Stat.parryInvincibleTime);
         State.isInvincible = false;
-
-
-        yield return new WaitForSeconds(Com.pixy.pixyMoveTime);
-        State.canCounter = true;
     }
 
     private void Attack()
@@ -577,12 +564,13 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if (!State.canCounter)
+        if (!Com.pixy.isReady)
             return;
 
         if (Input.GetKeyDown(Key.counter))
         {
             State.canCounter = false;
+            Com.pixy.isReady = false;
             var counter = Com.pixy.Counter();
             StartCoroutine(counter);
             Com.pixy.EndCounter();

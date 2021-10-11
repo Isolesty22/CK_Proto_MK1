@@ -38,13 +38,14 @@ public class Weapon : MonoBehaviour
     public IEnumerator BasicFire()
     {
         var arrow = CustomPoolManager.Instance.basicArrowPool.SpawnThis(transform.position, transform.eulerAngles, null);
-        arrow.isActive = true;
+        var fire = CustomPoolManager.Instance.firePool.SpawnThis(transform.position, Vector3.zero, null);
+        fire.Play();
 
-        Vector3 curPosition = transform.position;
+        arrow.isActive = true;
 
         while (arrow.isActive)
         {
-            if ((curPosition - arrow.transform.position).sqrMagnitude < basicArrowRange)
+            if ((transform.position - arrow.transform.position).magnitude < basicArrowRange)
             {
                 arrow.transform.Translate(Vector3.forward * basicArrowSpeed * Time.fixedDeltaTime);
 
