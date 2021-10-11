@@ -18,9 +18,6 @@ public enum eBossState
     [InspectorName("곰_발구르기")]
     BearState_Stamp,
 
-    [InspectorName("곰_돌진")]
-    BearState_Rush,
-
     [InspectorName("곰_포효_A")]
     BearState_Roar_A,
     [InspectorName("곰_포효_B")]
@@ -49,8 +46,12 @@ public enum eBossState
     [InspectorName("곰_랜덤")]
     BearState_Random,
 
-    [InspectorName("곰_무력화")]
     BearState_Powerless,
+
+    [InspectorName("곰_돌진")]
+    BearState_Rush,
+
+    BearState_FinalWalk,
 
     [InspectorName("곰_죽음")]
     BearState_Die,
