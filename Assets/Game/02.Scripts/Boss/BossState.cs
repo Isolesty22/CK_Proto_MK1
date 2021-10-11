@@ -135,6 +135,11 @@ public class BearState_Stamp : BearState
 }
 public class BearState_Rush : BearState
 {
+
+    Vector3 leftRushPos;
+    Vector3 zTelePos;
+    Vector3 phase2Pos;
+
     public BearState_Rush(BearController _bearController)
     {
         bearController = _bearController;
@@ -142,8 +147,17 @@ public class BearState_Rush : BearState
     public override void OnEnter()
     {
         canExit = false;
+
+        //왼쪽 끝까지 돌진하는 위치 설정
+        leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
+
+        //돌진 후 phase2Pos로 걸어가기위해 순간이동하는 위치 설정
+        zTelePos = new Vector3(leftRushPos.x, leftRushPos.y, bearController.bearMapInfo.mapData.maxPosition.z);
+        phase2Pos = bearController.bearMapInfo.phase2Position;
+
+        //맵의 왼쪽으로 빠르게 이동하는 함수
+        bearController.SetSkillAction(LeftRush);
         bearController.SetTrigger("Rush_Start");
-        //bearController.StartCoroutine(ProcessDoljin());
     }
 
     public override void OnUpdate()
@@ -161,8 +175,14 @@ public class BearState_Rush : BearState
         base.OnExit();
     }
 
-    private IEnumerator ProcessDoljin()
+    public void LeftRush()
     {
+        bearController.StartCoroutine(ProcessLeftRush());
+    }
+    private IEnumerator ProcessLeftRush()
+    {
+
+
         float timer = 0f;
         float doljinTime = 5f;
         while (timer < doljinTime)

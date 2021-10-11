@@ -56,6 +56,9 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject smashRock;
+
+        [Space(10)]
+        public GameObject rushPosition;
     }
 
     [Serializable]
@@ -129,11 +132,7 @@ public class BearController : BossController
 
     private IEnumerator ProcessChangeStateTestCoroutine;
 
-    /// <summary>
-    /// 스킬 액션
-    /// </summary>
     private Action skillAction = null;
-
 
     private void Init()
     {
@@ -146,7 +145,6 @@ public class BearController : BossController
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
-        bearMapInfo.SetPhase3Position(myTransform.position);
 
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = true;
@@ -234,33 +232,28 @@ public class BearController : BossController
         //}
         return false;
     }
-    private void Init_ChangePhase(ePhase _phase)
+    private void ProcessChangePhase(ePhase _phase)
     {
         switch (_phase)
         {
             case ePhase.Phase_1:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
+                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
                 myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 SetStretchColliderSize();
 
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 0;
-                bearMapInfo.UpdateProjectilePositions();
-                bearMapInfo.InitProjectileRandArray();
-                bearMapInfo.UpdateProjectileRandArray();
-
+                bearMapInfo.Init_Projectiles();
+                ChangeState(eBossState.BearState_Concentrate);
                 break;
 
             case ePhase.Phase_2:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
 
                 SetOriginalColliderSize();
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 3;
-                bearMapInfo.UpdateProjectilePositions();
-                bearMapInfo.InitProjectileRandArray();
-                bearMapInfo.UpdateProjectileRandArray();
-
+                bearMapInfo.Init_Projectiles();
                 break;
 
             //case ePhase.Phase_3:
@@ -269,6 +262,9 @@ public class BearController : BossController
             default:
                 break;
         }
+        stateInfo.phase += 1;
+        currentIndex = 0;
+
     }
 
     /// <summary>
@@ -314,27 +310,24 @@ public class BearController : BossController
                         break;
                     }
 
-                    Init_ChangePhase(stateInfo.phase);
-
-                    stateInfo.phase += 1;
-                    currentIndex = 0;
-
+                    ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
                 }
+                else
+                {
+                    //대기 시간동안 기다림
+                    yield return new WaitForSeconds(currentPattern.waitTime);
 
-                //대기 시간동안 기다림
-                yield return new WaitForSeconds(currentPattern.waitTime);
+                    //다음 패턴 가져오기
+                    SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
-                //다음 패턴 가져오기
-                SetCurrentPattern(phaseList[stateInfo][currentIndex]);
+                    //스테이트 변경
+                    ChangeState(currentPattern.state);
 
-                //스테이트 변경
-                ChangeState(currentPattern.state);
-
-                currentIndex += 1;
-                currentIndex = currentIndex % length;
-
-                yield return null;
+                    currentIndex += 1;
+                    currentIndex = currentIndex % length;
+                }
+                    yield return null;
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
