@@ -38,15 +38,18 @@ public class Weapon : MonoBehaviour
     public IEnumerator BasicFire()
     {
         var arrow = CustomPoolManager.Instance.basicArrowPool.SpawnThis(transform.position, transform.eulerAngles, null);
+        var fire = CustomPoolManager.Instance.firePool.SpawnThis(transform.position, Vector3.zero, null);
+        fire.Play();
+
         arrow.isActive = true;
 
-        Vector3 curPosition = transform.position;
 
         while (arrow.isActive)
         {
-            if ((curPosition - arrow.transform.position).sqrMagnitude < basicArrowRange)
+            if ((transform.position - arrow.transform.position).magnitude < basicArrowRange)
             {
-                arrow.transform.Translate(Vector3.forward * basicArrowSpeed * Time.fixedDeltaTime);
+                var playerSpeed = Mathf.Abs(GameManager.instance.playerController.Val.moveVelocity.x);
+                arrow.transform.Translate(Vector3.forward * (basicArrowSpeed + playerSpeed) * Time.deltaTime);
 
                 yield return null;
             }

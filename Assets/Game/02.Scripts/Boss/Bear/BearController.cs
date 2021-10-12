@@ -9,6 +9,7 @@ using System.Linq;
 public class BearController : BossController
 {
     public Animator animator;
+    public Transform myTransform;
     private BearStateMachine bearStateMachine;
     public BearMapInfo bearMapInfo;
 
@@ -42,12 +43,22 @@ public class BearController : BossController
     {
         public GameObject strikeCube;
         public GameObject roarEffect;
+
+        [Space(10)]
         public GameObject claw_A_Effect;
         public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
+
+        [Space(10)]
         public Transform headParringPosition;
+        public BearConcentrateHelper concentrateHelper;
         public GameObject concentrateSphere;
+
+        [Space(10)]
         public GameObject smashRock;
+
+        [Space(10)]
+        public GameObject rushPosition;
     }
 
     [Serializable]
@@ -106,13 +117,14 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("애니메이터 파라미터")]
+    [Tooltip("애니메이터 파라미터 딕셔너리")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
-
-    private Transform myTransform;
+    private string str_SkillVarietyBlend = "SkillVarietyBlend";
+    private int skillVarietyBlend = 0;
 
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
-    private BearPattern currentPattern;
+    [HideInInspector]
+    public BearPattern currentPattern;
 
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
@@ -120,31 +132,28 @@ public class BearController : BossController
 
     private IEnumerator ProcessChangeStateTestCoroutine;
 
-    /// <summary>
-    /// 스킬 액션
-    /// </summary>
     private Action skillAction = null;
 
-    private void Awake()
-    {
-        Init();
-    }
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
         ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
-        Init_Animator();
-
 
         bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
 
-        myTransform = transform;
-
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
-        bearMapInfo.SetPhase3Position(myTransform.position);
+
+        bearStateMachine = new BearStateMachine(this);
+        bearStateMachine.isDebugMode = true;
+        bearStateMachine.StartState(eBossState.BearState_Idle);
+
+        skillObjects.concentrateHelper.Init();
+        Init_Animator();
+        Init_Pool();
+        Init_Collider();
     }
     private void Init_Animator()
     {
@@ -155,22 +164,34 @@ public class BearController : BossController
             behaviours[i].bearController = this;
         }
 
-        AddAnimatorHash("Start_Idle");
-        AddAnimatorHash("Start_Rush");
-        AddAnimatorHash("Start_Roar");
-        AddAnimatorHash("Start_Claw");
-        AddAnimatorHash("Start_Strike");
-        AddAnimatorHash("Phase");
-        AddAnimatorHash("Start_Stamp");
-        AddAnimatorHash("Start_Smash");
-        AddAnimatorHash("Start_Powerless");
-        AddAnimatorHash("Start_Die");
+        int paramCount = animator.parameterCount;
+        AnimatorControllerParameter[] aniParam = animator.parameters;
+
+        for (int i = 0; i < paramCount; i++)
+        {
+            AddAnimatorHash(aniParam[i].name);
+        }
+
+        skillVarietyBlend = aniHash[str_SkillVarietyBlend];
+
+        //AddAnimatorHash("Start_Idle");
+        //AddAnimatorHash("Start_Rush");
+        //AddAnimatorHash("Start_Roar");
+        //AddAnimatorHash("Start_Claw");
+        //AddAnimatorHash("Start_Strike");
+        //AddAnimatorHash("Start_Stamp");
+        //AddAnimatorHash("Start_Smash");
+        //AddAnimatorHash("Start_Powerless");
+        //AddAnimatorHash("Start_Concentrate");
+        //AddAnimatorHash("Start_Die");
+        //AddAnimatorHash("End_Concentrate");
+        //AddAnimatorHash("End_Powerless");
     }
 
     private void Init_Collider()
     {
         //충돌하지 않게 
-        Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
+        // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
         Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
 
         colliders.headColliderSize = colliders.headCollider.size;
@@ -184,12 +205,7 @@ public class BearController : BossController
     }
     private void Start()
     {
-        bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = false;
-        bearStateMachine.StartState(eBossState.BearState_Idle);
-
-        Init_Pool();
-        Init_Collider();
+        Init();
         StartCoroutine(ProcessChangeStateTestCoroutine);
     }
     private void Update()
@@ -202,8 +218,9 @@ public class BearController : BossController
     {
         return bearStateMachine.CanExit();
     }
-    private bool ChangeState(eBossState _state)
+    public bool ChangeState(eBossState _state)
     {
+        SetStateInfo(_state);
         //if (_state == eBossState.BearState_Random)
         //{
         //    bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
@@ -215,33 +232,28 @@ public class BearController : BossController
         //}
         return false;
     }
-    private void Init_ChangePhase(ePhase _phase)
+    private void ProcessChangePhase(ePhase _phase)
     {
         switch (_phase)
         {
             case ePhase.Phase_1:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position.position, Quaternion.Euler(Vector3.zero));
-
+                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
+                myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 SetStretchColliderSize();
 
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 0;
-                bearMapInfo.UpdateProjectilePositions();
-                bearMapInfo.InitProjectileRandArray();
-                bearMapInfo.UpdateProjectileRandArray();
-
+                bearMapInfo.Init_Projectiles();
+                ChangeState(eBossState.BearState_Concentrate);
                 break;
 
             case ePhase.Phase_2:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position.position, Quaternion.Euler(new Vector3(0, 90, 0)));
+                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
 
                 SetOriginalColliderSize();
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 3;
-                bearMapInfo.UpdateProjectilePositions();
-                bearMapInfo.InitProjectileRandArray();
-                bearMapInfo.UpdateProjectileRandArray();
-
+                bearMapInfo.Init_Projectiles();
                 break;
 
             //case ePhase.Phase_3:
@@ -250,6 +262,9 @@ public class BearController : BossController
             default:
                 break;
         }
+        stateInfo.phase += 1;
+        currentIndex = 0;
+
     }
 
     /// <summary>
@@ -277,7 +292,6 @@ public class BearController : BossController
     private int currentIndex = 0;
     private IEnumerator ProcessChangeStateTest()
     {
-        //해야함 : 반복되는 부분 정리하고, List 3개를 Queue로 만들어서 페이즈가 지날 때마다 디큐 시켜서 자동화하기
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
         int length = phaseList[stateInfo].Count;
@@ -296,28 +310,24 @@ public class BearController : BossController
                         break;
                     }
 
-                    Init_ChangePhase(stateInfo.phase);
-
-                    stateInfo.phase += 1;
-                    currentIndex = 0;
-
+                    ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
                 }
+                else
+                {
+                    //대기 시간동안 기다림
+                    yield return new WaitForSeconds(currentPattern.waitTime);
 
-                //대기 시간동안 기다림
-                yield return new WaitForSeconds(currentPattern.waitTime);
+                    //다음 패턴 가져오기
+                    SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
-                //다음 패턴 가져오기
-                SetCurrentPattern(phaseList[stateInfo][currentIndex]);
+                    //스테이트 변경
+                    ChangeState(currentPattern.state);
 
-                //스테이트 변경
-                SetStateInfo(currentPattern.state);
-                ChangeState(currentPattern.state);
-
-                currentIndex += 1;
-                currentIndex = currentIndex % length;
-
-                yield return null;
+                    currentIndex += 1;
+                    currentIndex = currentIndex % length;
+                }
+                    yield return null;
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
@@ -340,6 +350,11 @@ public class BearController : BossController
     {
         stateInfo.stateE = _state;
         stateInfo.state = _state.ToString();
+    }
+
+    public void SetSkillVariety(float _v)
+    {
+        animator.SetFloat(skillVarietyBlend, _v);
     }
     public void SetTrigger(string _paramName)
     {

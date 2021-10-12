@@ -19,6 +19,10 @@ public class ArrowBase : MonoBehaviour
                 else
                 {
                     other.GetComponent<MonsterController>().Hit(damage);
+
+                    var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+                    hit.Play();
+
                     isActive = false;
                     CustomPoolManager.Instance.ReleaseThis(this);
                 }

@@ -29,8 +29,7 @@ public class BearStateMachine : BossStateMachine
             case eBossState.BearState_Stamp:
                 return new BearState_Stamp(bearController);
 
-            case eBossState.BearState_Rush:
-                return new BearState_Rush(bearController);
+
 
             case eBossState.BearState_Roar_A:
             case eBossState.BearState_Roar_B:
@@ -54,6 +53,12 @@ public class BearStateMachine : BossStateMachine
 
             case eBossState.BearState_Powerless:
                 return new BearState_Powerless(bearController);
+
+            case eBossState.BearState_Rush:
+                return new BearState_Rush(bearController);
+           
+            case eBossState.BearState_FinalWalk:
+                return new BearState_FinalWalk(bearController);
 
             case eBossState.BearState_Die:
                 return new BearState_Die(bearController);

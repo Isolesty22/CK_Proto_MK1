@@ -15,6 +15,7 @@ public class SpiderAttackCol : MonsterAttackCol
     {
         if (other.gameObject.transform.CompareTag("Player"))
         {
+            monsterController.inAttackCol = true;
             spiderController.Stat2.isPlayerInCol = true;
         }
     }

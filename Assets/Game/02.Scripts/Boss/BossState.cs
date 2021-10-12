@@ -57,7 +57,7 @@ public class BearState_Idle : BearState
     public override void OnEnter()
     {
         canExit = true;
-        bearController.SetTrigger("Start_Idle");
+        bearController.SetTrigger("Idle_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
 
@@ -102,7 +102,7 @@ public class BearState_Stamp : BearState
     {
         canExit = false;
         bearController.SetSkillAction(SkillAction);
-        bearController.SetTrigger("Start_Stamp");
+        bearController.SetTrigger("Stamp_Start");
     }
 
     public override void OnUpdate()
@@ -135,41 +135,100 @@ public class BearState_Stamp : BearState
 }
 public class BearState_Rush : BearState
 {
+    Vector3 startPos;
+    Vector3 leftRushPos;
+    Vector3 zTelePos;
+    Vector3 phase2Pos;
+    Quaternion zWalkRotation;
+    Quaternion phase2Rotation;
+
+    float timer;
+    float progress;
+    float rushTime = 2f;
+    float walkTime = 2f;
+    float rotateTime = 1f;
     public BearState_Rush(BearController _bearController)
     {
         bearController = _bearController;
+
+
+        startPos = bearController.myTransform.position;
+        //왼쪽 끝까지 돌진하는 위치 설정
+        leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
+
+        //돌진 후 phase2Pos로 걸어가기위해 순간이동하는 위치 설정
+        zTelePos = new Vector3(leftRushPos.x, leftRushPos.y, bearController.bearMapInfo.mapData.maxPosition.z);
+        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
+
+        //마지막 위치
+        phase2Pos = bearController.bearMapInfo.phase2Position;
+        phase2Rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetTrigger("Start_Rush");
-        //bearController.StartCoroutine(ProcessDoljin());
+
+        //맵의 왼쪽으로 빠르게 이동하는 함수
+        bearController.SetSkillAction(LeftRush);
+        bearController.SetTrigger("Rush_Start");
     }
-
-    public override void OnUpdate()
+    public void LeftRush()
     {
-
+        bearController.StartCoroutine(ProcessLeftRush());
     }
-
-    public override void OnFixedUpdate()
+    private IEnumerator ProcessLeftRush()
     {
+        timer = 0f;
+        progress = 0f;
 
-    }
-
-    public override void OnExit()
-    {
-        base.OnExit();
-    }
-
-    private IEnumerator ProcessDoljin()
-    {
-        float timer = 0f;
-        float doljinTime = 5f;
-        while (timer < doljinTime)
+        while (progress < 1f)
         {
             timer += Time.deltaTime;
+            progress = timer / rushTime;
+
+            bearController.myTransform.position = Vector3.Lerp(startPos, leftRushPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        //돌진 종료
+        bearController.SetTrigger("Rush_End");
+        //이후 자동으로 걷기 애니메이션 출력됨
+
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+        //걷기 준비
+        bearController.myTransform.SetPositionAndRotation(zTelePos, zWalkRotation);
+
+        timer = 0f;
+        progress = 0f;
+
+        //페이즈 2 포지션까지 걷기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase2Pos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //페이즈 2 포지션까지 도착 완료
+
+        timer = 0f;
+        progress = 0f;
+
+        //회전하기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / rotateTime;
+
+            bearController.myTransform.rotation = Quaternion.Lerp(zWalkRotation, phase2Rotation, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //회전 완료
+
+        bearController.myTransform.rotation = Quaternion.Euler(Vector3.zero);
+
+        bearController.SetTrigger("Rush_Walk_End");
         canExit = true;
     }
 
@@ -181,6 +240,112 @@ public class BearState_Rush : BearState
         yield break;
     }
 }
+
+public class BearState_FinalWalk : BearState
+{
+    Vector3 startPos;
+    Vector3 rightWalkPos;
+    Vector3 zTelePos;
+    Vector3 phase3Pos;
+
+    Quaternion startRotation;
+    Quaternion zWalkRotation;
+    Quaternion phase3Rotation;
+
+    float timer;
+    float progress;
+    float walkTime = 2f;
+    float rotateTime = 1f;
+    public BearState_FinalWalk(BearController _bearController)
+    {
+        bearController = _bearController;
+
+
+        startPos = bearController.myTransform.position;
+        startRotation = bearController.myTransform.rotation;
+        //오른쪽 끝으로 걷는 위치 설정
+        rightWalkPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x + 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
+
+        //걷기 후 페이즈 3 위치로 걸어가기위해 순간이동하는 위치 설정
+        zTelePos = new Vector3(rightWalkPos.x, rightWalkPos.y, bearController.bearMapInfo.mapData.minPosition.z);
+        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
+
+        //마지막 위치
+        phase3Pos = bearController.bearMapInfo.phase3Position;
+        phase3Rotation = Quaternion.Euler(new Vector3(0, 90f, 0));
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+
+        RightWalk();
+        bearController.SetTrigger("Walk_Start");
+    }
+    public void RightWalk()
+    {
+        bearController.StartCoroutine(ProcessRightWalk());
+    }
+    private IEnumerator ProcessRightWalk()
+    {
+        timer = 0f;
+        progress = 0f;
+
+        //몸 돌리기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / rotateTime;
+
+            bearController.myTransform.rotation = Quaternion.Lerp(startRotation, zWalkRotation, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //몸 돌리기 완료
+
+        timer = 0f;
+        progress = 0f;
+
+        //오른쪽으로 걸어가기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(startPos, rightWalkPos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //걸어가기 종료
+
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+        bearController.myTransform.SetPositionAndRotation(zTelePos, phase3Rotation);
+
+        timer = 0f;
+        progress = 0f;
+
+        //페이즈 3 포지션까지 걷기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase3Pos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //도착 완료
+
+        bearController.SetTrigger("Walk_End");
+        canExit = true;
+    }
+
+
+
+
+    private IEnumerator ProcessChangePhase2()
+    {
+        yield break;
+    }
+}
+
 public class BearState_Roar : BearState
 {
     public BearState_Roar(BearController _bearController)
@@ -190,29 +355,34 @@ public class BearState_Roar : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.bearMapInfo.UpdateProjectileRandArray();
-        bearController.SetSkillAction(SkillAction);
-        bearController.SetTrigger("Start_Roar");
+
+        switch (bearController.stateInfo.stateE)
+        {
+            case eBossState.BearState_Roar_A:
+
+
+            case eBossState.BearState_Roar_B:
+
+                bearController.bearMapInfo.UpdateProjectileRandArray();
+                bearController.SetSkillAction(SkillAction);
+                bearController.SetSkillVariety(0);
+                break;
+            //case eBossState.BearState_Roar_B:
+            //    bearController.SetSkillVariety(1);
+            //    break;
+
+            default:
+                break;
+        }
+        bearController.SetTrigger("Roar_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
     public override void OnExit()
     {
         base.OnExit();
     }
     public void SkillAction()
     {
-
         bearController.StartCoroutine(ProcessSkillAction());
     }
 
@@ -263,39 +433,29 @@ public class BearState_Strike : BearState
             case eBossState.BearState_Strike_A:
                 ShuffleArray();
                 bearController.SetSkillAction(SkillAction_A);
+                bearController.SetSkillVariety(0);
                 break;
 
             case eBossState.BearState_Strike_B:
                 bearController.SetSkillAction(SkillAction_B);
+                bearController.SetSkillVariety(1);
                 break;
 
             case eBossState.BearState_Strike_C:
                 bearController.SetSkillAction(SkillAction_C);
+                bearController.SetSkillVariety(0);
                 break;
 
             default:
                 break;
         }
 
-        bearController.SetTrigger("Start_Strike");
+        bearController.SetTrigger("Strike_Start");
     }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
     public override void OnExit()
     {
         base.OnExit();
     }
-
-
     private int[] strikePos;
     //랜덤
     private void ShuffleArray()
@@ -367,6 +527,7 @@ public class BearState_Strike : BearState
 }
 public class BearState_Claw : BearState
 {
+    int random = 0;
     public BearState_Claw(BearController _bearController)
     {
         bearController = _bearController;
@@ -379,6 +540,7 @@ public class BearState_Claw : BearState
         {
             case eBossState.BearState_Claw_A:
                 bearController.SetSkillAction(SkillAction_A);
+                bearController.SetSkillVariety(0);
                 break;
 
             case eBossState.BearState_Claw_B:
@@ -386,28 +548,19 @@ public class BearState_Claw : BearState
                 Vector3 tempClawPos = bearController.skillObjects.clawUnderPosition.position;
                 //bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y + 1f, tempClawPos.z);
                 bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y, tempClawPos.z);
-
+                SetRandomVariety();
                 bearController.SetSkillAction(SkillAction_B);
                 break;
 
             case eBossState.BearState_Claw_C:
+                bearController.SetSkillVariety(1);
                 bearController.SetSkillAction(SkillAction_C);
                 break;
 
             default:
                 break;
         }
-        bearController.SetTrigger("Start_Claw");
-    }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
+        bearController.SetTrigger("Claw_Start");
     }
 
     public override void OnExit()
@@ -434,10 +587,24 @@ public class BearState_Claw : BearState
         yield return new WaitForSeconds(0.5f);
         bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
+
+    private void SetRandomVariety()
+    {
+        random = Random.Range(0, 2);
+
+        if (random == 0)
+        {
+            bearController.SetSkillVariety(0);
+        }
+        else
+        {
+            bearController.SetSkillVariety(0.5f);
+
+        }
+    }
     private float rotVal = 70f;
     private IEnumerator ProcessSkillAction_B()
     {
-        int random = Random.Range(0, 2);
 
         if (random == 0)
         {
@@ -490,22 +657,11 @@ public class BearState_Smash : BearState
         canExit = false;
         bearController.bearMapInfo.UpdateProjectileRandArray();
         bearController.SetSkillAction(SkillAction);
-        bearController.SetTrigger("Start_Smash");
+        bearController.SetTrigger("Smash_Start");
 
         bearController.skillObjects.smashRock.SetActive(true);
         //bearController.StartCoroutine(ProcessUpdate());
     }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
     public override void OnExit()
     {
         base.OnExit();
@@ -541,50 +697,44 @@ public class BearState_Smash : BearState
         yield break;
     }
 }
-
 public class BearState_Concentrate : BearState
 {
+    private IEnumerator concentrate;
+
     private Transform sphereTransform;
+    private BearConcentrateHelper helper;
     public BearState_Concentrate(BearController _bearController)
     {
         bearController = _bearController;
         sphereTransform = bearController.skillObjects.concentrateSphere.transform;
+        helper = bearController.skillObjects.concentrateHelper;
     }
     public override void OnEnter()
     {
         canExit = false;
         bearController.SetSkillAction(SkillAction);
-        bearController.SetTrigger("Start_Concentrate");
+        bearController.SetTrigger("Concentrate_Start");
         bearController.skillObjects.concentrateSphere.SetActive(true);
+        concentrate = ProcessConcentrate();
     }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
-    }
-
     public override void OnExit()
     {
-        base.OnExit();
+
     }
     public void SkillAction()
     {
+        helper.StartCheck();
+        Debug.Log("StartCheck!");
 
-        bearController.StartCoroutine(ProcessSkillAction());
+        bearController.StartCoroutine(ProcessChangeSphere());
+        bearController.StartCoroutine(concentrate);
     }
-
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
-    private IEnumerator ProcessSkillAction()
+    private IEnumerator ProcessChangeSphere()
     {
-
         float timer = 0f;
         float maxTime = bearController.skillValue.concentrateTime;
         float progress = 0f;
+
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -596,9 +746,45 @@ public class BearState_Concentrate : BearState
             yield return null;
         }
     }
+
+
+    private IEnumerator ProcessConcentrate()
+    {
+        float timer = 0f;
+        float maxTime = bearController.skillValue.concentrateTime + 1f;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / maxTime;
+
+            if (helper.isSucceedParry)
+            {
+                ChangeStatePowerless();
+            }
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        bearController.SetTrigger("Concentrate_End");
+        sphereTransform.gameObject.SetActive(false);
+        helper.EndCheck();
+    }
+
+    private void ChangeStatePowerless()
+    {
+        bearController.StopCoroutine(concentrate);
+
+        sphereTransform.gameObject.SetActive(false);
+        helper.EndCheck();
+
+        bearController.ChangeState(eBossState.BearState_Powerless);
+    }
 }
 public class BearState_Powerless : BearState
 {
+    WaitForSeconds waitSecBegin;
+    WaitForSeconds waitSecEnd;
     public BearState_Powerless(BearController _bearController)
     {
         bearController = _bearController;
@@ -606,35 +792,37 @@ public class BearState_Powerless : BearState
     public override void OnEnter()
     {
         canExit = false;
-        // bearController.SetSkillAction(SkillAction);
-        SkillAction();
-        bearController.SetTrigger("Start_Powerless");
-    }
+        bearController.SetSkillAction(SkillAction_WaitEnd);
 
-    public override void OnUpdate()
-    {
+        waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
+        waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
 
-    }
-
-    public override void OnFixedUpdate()
-    {
-
+        bearController.SetTrigger("Powerless_Start");
+        bearController.StartCoroutine(ProcessSkillAction_Begin());
     }
 
     public override void OnExit()
     {
         base.OnExit();
     }
-    public void SkillAction()
+
+    public void SkillAction_WaitEnd()
     {
-        bearController.StartCoroutine(ProcessSkillAction());
+        bearController.StartCoroutine(ProcessWaitTime());
     }
-    private IEnumerator ProcessSkillAction()
+
+    private IEnumerator ProcessSkillAction_Begin()
     {
         //대기
-        yield return new WaitForSeconds(3f);
-        canExit = true;
+        yield return waitSecBegin;
+        bearController.SetTrigger("Powerless_End");
+    }
 
+    private IEnumerator ProcessWaitTime()
+    {
+        //대기
+        yield return waitSecEnd;
+        canExit = true;
     }
 }
 public class BearState_Die : BearState
@@ -647,17 +835,7 @@ public class BearState_Die : BearState
     {
         canExit = false;
         bearController.SetSkillAction(SkillAction);
-        bearController.SetTrigger("Start_Die");
-    }
-
-    public override void OnUpdate()
-    {
-
-    }
-
-    public override void OnFixedUpdate()
-    {
-
+        bearController.SetTrigger("Die_Start");
     }
 
     public override void OnExit()
@@ -670,7 +848,6 @@ public class BearState_Die : BearState
         bearController.gameObject.SetActive(false);
     }
 }
-
 
 
 
