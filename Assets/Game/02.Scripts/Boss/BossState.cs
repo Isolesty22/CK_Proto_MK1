@@ -57,7 +57,8 @@ public class BearState_Idle : BearState
     public override void OnEnter()
     {
         canExit = true;
-        bearController.SetTrigger("Idle_Start");
+        //자동으로 Idle이 되니까 한번 SetTrigger를 안해본다
+        //bearController.SetTrigger("Idle_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
 
@@ -656,7 +657,8 @@ public class BearState_Smash : BearState
     {
         canExit = false;
         bearController.bearMapInfo.UpdateProjectileRandArray();
-        bearController.SetSkillAction(SkillAction);
+        bearController.SetSkillAction(ActiveHandRock);
+        bearController.AddSkillAction(SkillAction);
         bearController.SetTrigger("Smash_Start");
 
         bearController.skillObjects.smashRock.SetActive(true);
@@ -665,6 +667,11 @@ public class BearState_Smash : BearState
     public override void OnExit()
     {
         base.OnExit();
+    }
+
+    public void ActiveHandRock()
+    {
+        bearController.skillObjects.smashRock.SetActive(true);
     }
     public void SkillAction()
     {
