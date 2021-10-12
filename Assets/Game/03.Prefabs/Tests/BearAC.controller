@@ -111,6 +111,28 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &-8316498089745942177
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 6561882171266134758}
+  m_DstState: {fileID: 0}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.4
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1102 &-7902801875398165664
 AnimatorState:
   serializedVersion: 6
@@ -208,6 +230,34 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-7179238424893800188
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Strike Blend
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -8316498089745942177}
+  m_StateMachineBehaviours:
+  - {fileID: -455955202741618907}
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -6447066502598740056}
+  m_Tag: 
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1102 &-7113226423942688086
 AnimatorState:
   serializedVersion: 6
@@ -450,6 +500,37 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!206 &-6447066502598740056
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Blend Tree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 5921546081860045816, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: SkillVarietyBlend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -4044457514187502515, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: SkillVarietyBlend
+    m_Mirror: 0
+  m_BlendParameter: SkillVarietyBlend
+  m_BlendParameterY: SkillVarietyBlend
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!1107 &-6424806956862038536
 AnimatorStateMachine:
   serializedVersion: 6
@@ -877,7 +958,7 @@ BlendTree:
   m_Name: Blend Tree
   m_Childs:
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: cd43d763cf37d884ebb2527b77e37b23, type: 2}
+    m_Motion: {fileID: -1047739918217684150, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -885,15 +966,7 @@ BlendTree:
     m_DirectBlendParameter: SkillVarietyBlend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: cd43d763cf37d884ebb2527b77e37b23, type: 2}
-    m_Threshold: 0.5
-    m_Position: {x: 0, y: 0}
-    m_TimeScale: 1
-    m_CycleOffset: 0
-    m_DirectBlendParameter: SkillVarietyBlend
-    m_Mirror: 0
-  - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: cd43d763cf37d884ebb2527b77e37b23, type: 2}
+    m_Motion: {fileID: 589720884685174733, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -1057,7 +1130,7 @@ AnimatorStateMachine:
   m_AnyStatePosition: {x: 40, y: 20, z: 0}
   m_EntryPosition: {x: 40, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
-  m_ParentStateMachinePosition: {x: 20, y: 240, z: 0}
+  m_ParentStateMachinePosition: {x: 20, y: 260, z: 0}
   m_DefaultState: {fileID: 6344573649837458384}
 --- !u!1102 &-862848516229521965
 AnimatorState:
@@ -1131,6 +1204,19 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &-455955202741618907
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aeea360cc6ac364d8f1876d4d04fd85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bearController: {fileID: 0}
 --- !u!114 &-417736394700433923
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2300,14 +2386,8 @@ AnimatorStateMachine:
   m_Name: Strike
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: 5526090385849674710}
-    m_Position: {x: 120, y: 200, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 3115721533998583229}
-    m_Position: {x: 120, y: 270, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -862848516229521965}
-    m_Position: {x: 120, y: 350, z: 0}
+    m_State: {fileID: -7179238424893800188}
+    m_Position: {x: 120, y: 220, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -2316,8 +2396,8 @@ AnimatorStateMachine:
   m_AnyStatePosition: {x: 140, y: 80, z: 0}
   m_EntryPosition: {x: 140, y: 140, z: 0}
   m_ExitPosition: {x: 130, y: 410, z: 0}
-  m_ParentStateMachinePosition: {x: 360, y: 350, z: 0}
-  m_DefaultState: {fileID: 5526090385849674710}
+  m_ParentStateMachinePosition: {x: 120, y: 330, z: 0}
+  m_DefaultState: {fileID: -7179238424893800188}
 --- !u!1102 &6105584696332231409
 AnimatorState:
   serializedVersion: 6
@@ -2403,7 +2483,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Start_Stamp
+  m_Name: Stamp
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -2418,7 +2498,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 7a10af3cc13ce0a4db8fccf11325e8a4, type: 2}
+  m_Motion: {fileID: -7356998383133946106, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
