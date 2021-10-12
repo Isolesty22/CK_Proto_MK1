@@ -52,11 +52,13 @@ MonoBehaviour:
     name: Bird
     hp: 2
     maxHp: 3
-    moveSpeed: 3
+    moveSpeed: 6
     isAlive: 0
+    isCanSpawnMon: 0
     hitTime: 0.2
     fadeOutTime: 1
     initDistance: 10
+    respawnTime: 10
   components:
     rigidbody: {fileID: 1794512776784310942}
     collider: {fileID: 1227735245}
@@ -67,6 +69,7 @@ MonoBehaviour:
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
   playerOutOfRange: 0
+  inAttackCol: 0
   flyerStatus:
     patrolRange: 6
     patrolTime: 4
