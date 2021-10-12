@@ -853,7 +853,7 @@ public class BearState_Die : BearState
 
     public void SkillAction()
     {
-        bearController.gameObject.SetActive(false);
+        bearController.animator.enabled = false;
     }
 }
 
