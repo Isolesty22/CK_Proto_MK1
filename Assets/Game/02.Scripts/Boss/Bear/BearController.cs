@@ -56,6 +56,7 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject smashRock;
+        public Transform handTransform;
 
         [Space(10)]
         public GameObject rushPosition;
@@ -395,10 +396,17 @@ public class BearController : BossController
     }
     public void SetSkillAction(Action _action)
     {
-        skillAction = null;
-        skillAction += () => Debug.Log("SkillAction!");
+        //skillAction = null;
+        //skillAction += () => Debug.Log("SkillAction!");
+        //skillAction += _action;
+        skillAction = _action;
+    }
+
+    public void AddSkillAction(Action _action)
+    {
         skillAction += _action;
     }
+
     public void SkillAction()
     {
         skillAction();

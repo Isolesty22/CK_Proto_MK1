@@ -87,7 +87,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 0
+    importAnimatedCustomProperties: 1
     importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
@@ -106,10 +106,10 @@ ModelImporter:
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -125,7 +125,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 2242
     - serializedVersion: 16
       name: walk
       takeName: walk
@@ -208,11 +208,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3840291
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 222
     - serializedVersion: 16
       name: Smash_End
       takeName: Smash_End
@@ -237,11 +244,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.21632633
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 276
     - serializedVersion: 16
       name: Roar_A
       takeName: Roar_A
