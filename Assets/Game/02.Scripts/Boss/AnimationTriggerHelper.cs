@@ -5,7 +5,7 @@ using UnityEngine;
 public class AnimationTriggerHelper : MonoBehaviour
 {
 
-    BearController controller;
+    public BearController controller;
 
     public void SkillAction()
     {

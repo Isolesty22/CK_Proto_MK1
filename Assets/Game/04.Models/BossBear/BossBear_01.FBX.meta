@@ -87,7 +87,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 0
+    importAnimatedCustomProperties: 1
     importConstraints: 1
     animationCompression: 1
     animationRotationError: 0.5
@@ -237,11 +237,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.21632633
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 276
     - serializedVersion: 16
       name: Roar_A
       takeName: Roar_A
