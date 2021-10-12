@@ -56,6 +56,7 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject smashRock;
+        public Transform handTransform;
 
         [Space(10)]
         public GameObject rushPosition;

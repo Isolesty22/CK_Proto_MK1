@@ -670,6 +670,7 @@ public class BearState_Smash : BearState
 
     public void ActiveHandRock()
     {
+        bearController.skillObjects.smashRock.transform.SetPositionAndRotation(bearController.skillObjects.handTransform.position, bearController.skillObjects.handTransform.rotation);
         bearController.skillObjects.smashRock.SetActive(true);
         bearController.SetSkillAction(SkillAction);
     }

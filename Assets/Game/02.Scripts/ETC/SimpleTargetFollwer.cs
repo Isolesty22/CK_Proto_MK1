@@ -17,6 +17,7 @@ public class SimpleTargetFollwer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //myTransform.position = target.position;
         myTransform.SetPositionAndRotation(target.position, target.rotation);
     }
 }
