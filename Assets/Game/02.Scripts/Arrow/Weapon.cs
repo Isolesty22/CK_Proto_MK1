@@ -43,11 +43,13 @@ public class Weapon : MonoBehaviour
 
         arrow.isActive = true;
 
+
         while (arrow.isActive)
         {
             if ((transform.position - arrow.transform.position).magnitude < basicArrowRange)
             {
-                arrow.transform.Translate(Vector3.forward * basicArrowSpeed * Time.fixedDeltaTime);
+                var playerSpeed = Mathf.Abs(GameManager.instance.playerController.Val.moveVelocity.x);
+                arrow.transform.Translate(Vector3.forward * (basicArrowSpeed + playerSpeed) * Time.deltaTime);
 
                 yield return null;
             }

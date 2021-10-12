@@ -50,9 +50,9 @@ MonoBehaviour:
   pixyPos: {x: -2.5, y: 0, z: -7}
   pixyCounterPos: {x: -2.5, y: 0, z: 0}
   drainTime: 0.5
-  pixyMoveTime: 1
-  counterRange: 100
-  counterSpeed: 3
+  pixyMoveTime: 0.5
+  counterRange: 10
+  counterSpeed: 5
   isReady: 0
 --- !u!1 &1040427547
 GameObject:
@@ -272,8 +272,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponState: 0
-  basicArrowSpeed: 4
-  basicArrowRange: 6
+  basicArrowSpeed: 14
+  basicArrowRange: 7
   basicArrowCooldown: 0.2
 --- !u!1 &4650393343325549109
 GameObject:
@@ -372,21 +372,21 @@ MonoBehaviour:
     mat2: {fileID: 2100000, guid: 20806c8a31f89774e9d26e90d9b2672a, type: 2}
     mat3: {fileID: 2100000, guid: cc053d0b8f7a0494e8c66a62cbef21d6, type: 2}
     originalColor: {r: 1, g: 1, b: 1, a: 0}
-    hitColor: {r: 0.5566038, g: 0.5566038, b: 0.5566038, a: 0}
+    hitColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
   playerStatus:
     name: Player
     hp: 0
     maxHp: 3
     movementSpeed: 4
     crouchMoveSpeed: 2
-    jumpForce: 13
-    parryingForce: 13
+    jumpForce: 15
+    parryingForce: 14
     parryingTime: 0.3
     parryInvincibleTime: 0.5
     hitTime: 0.3
     invincibleTime: 2
-    hitColorTime: 0.2
-    hitColorDelay: 0.3
+    hitColorTime: 0.25
+    hitColorDelay: 0.2
     jumpingSpeed: 1
   value:
     moveVector: {x: 0, y: 0, z: 0}

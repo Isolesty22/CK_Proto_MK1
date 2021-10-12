@@ -48,7 +48,7 @@ public class Pixy : MonoBehaviour
 
         while (counter.isActive)
         {
-            if ((curPosition - counter.transform.position).sqrMagnitude < counterRange)
+            if ((curPosition - counter.transform.position).magnitude < counterRange)
             {
                 counter.transform.Translate(Vector3.forward * counterSpeed * Time.fixedDeltaTime);
 

@@ -41,10 +41,15 @@ public class CameraManager : MonoBehaviour
         mainCam.transform.localPosition = offset;
         vfxCam.transform.localPosition = offset;
 
+        //Vector3 desiredPosition = new Vector3(
+        //    Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
+        //    Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
+        //    0);                                                                                // Z
+
         Vector3 desiredPosition = new Vector3(
-            Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
-            Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
-            0);                                                                                // Z
+    Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
+    0, // Y
+    0);
 
         transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
     }
