@@ -135,41 +135,100 @@ public class BearState_Stamp : BearState
 }
 public class BearState_Rush : BearState
 {
+    Vector3 startPos;
+    Vector3 leftRushPos;
+    Vector3 zTelePos;
+    Vector3 phase2Pos;
+    Quaternion zWalkRotation;
+    Quaternion phase2Rotation;
+
+    float timer;
+    float progress;
+    float rushTime = 2f;
+    float walkTime = 2f;
+    float rotateTime = 1f;
     public BearState_Rush(BearController _bearController)
     {
         bearController = _bearController;
+
+
+        startPos = bearController.myTransform.position;
+        //왼쪽 끝까지 돌진하는 위치 설정
+        leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
+
+        //돌진 후 phase2Pos로 걸어가기위해 순간이동하는 위치 설정
+        zTelePos = new Vector3(leftRushPos.x, leftRushPos.y, bearController.bearMapInfo.mapData.maxPosition.z);
+        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
+
+        //마지막 위치
+        phase2Pos = bearController.bearMapInfo.phase2Position;
+        phase2Rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
     public override void OnEnter()
     {
         canExit = false;
+
+        //맵의 왼쪽으로 빠르게 이동하는 함수
+        bearController.SetSkillAction(LeftRush);
         bearController.SetTrigger("Rush_Start");
-        //bearController.StartCoroutine(ProcessDoljin());
     }
-
-    public override void OnUpdate()
+    public void LeftRush()
     {
-
+        bearController.StartCoroutine(ProcessLeftRush());
     }
-
-    public override void OnFixedUpdate()
+    private IEnumerator ProcessLeftRush()
     {
+        timer = 0f;
+        progress = 0f;
 
-    }
-
-    public override void OnExit()
-    {
-        base.OnExit();
-    }
-
-    private IEnumerator ProcessDoljin()
-    {
-        float timer = 0f;
-        float doljinTime = 5f;
-        while (timer < doljinTime)
+        while (progress < 1f)
         {
             timer += Time.deltaTime;
+            progress = timer / rushTime;
+
+            bearController.myTransform.position = Vector3.Lerp(startPos, leftRushPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        //돌진 종료
+        bearController.SetTrigger("Rush_End");
+        //이후 자동으로 걷기 애니메이션 출력됨
+
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+        //걷기 준비
+        bearController.myTransform.SetPositionAndRotation(zTelePos, zWalkRotation);
+
+        timer = 0f;
+        progress = 0f;
+
+        //페이즈 2 포지션까지 걷기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase2Pos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //페이즈 2 포지션까지 도착 완료
+
+        timer = 0f;
+        progress = 0f;
+
+        //회전하기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / rotateTime;
+
+            bearController.myTransform.rotation = Quaternion.Lerp(zWalkRotation, phase2Rotation, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //회전 완료
+
+        bearController.myTransform.rotation = Quaternion.Euler(Vector3.zero);
+
+        bearController.SetTrigger("Rush_Walk_End");
         canExit = true;
     }
 
@@ -181,6 +240,112 @@ public class BearState_Rush : BearState
         yield break;
     }
 }
+
+public class BearState_FinalWalk : BearState
+{
+    Vector3 startPos;
+    Vector3 rightWalkPos;
+    Vector3 zTelePos;
+    Vector3 phase3Pos;
+
+    Quaternion startRotation;
+    Quaternion zWalkRotation;
+    Quaternion phase3Rotation;
+
+    float timer;
+    float progress;
+    float walkTime = 2f;
+    float rotateTime = 1f;
+    public BearState_FinalWalk(BearController _bearController)
+    {
+        bearController = _bearController;
+
+
+        startPos = bearController.myTransform.position;
+        startRotation = bearController.myTransform.rotation;
+        //오른쪽 끝으로 걷는 위치 설정
+        rightWalkPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x + 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
+
+        //걷기 후 페이즈 3 위치로 걸어가기위해 순간이동하는 위치 설정
+        zTelePos = new Vector3(rightWalkPos.x, rightWalkPos.y, bearController.bearMapInfo.mapData.minPosition.z);
+        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
+
+        //마지막 위치
+        phase3Pos = bearController.bearMapInfo.phase3Position;
+        phase3Rotation = Quaternion.Euler(new Vector3(0, 90f, 0));
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+
+        RightWalk();
+        bearController.SetTrigger("Walk_Start");
+    }
+    public void RightWalk()
+    {
+        bearController.StartCoroutine(ProcessRightWalk());
+    }
+    private IEnumerator ProcessRightWalk()
+    {
+        timer = 0f;
+        progress = 0f;
+
+        //몸 돌리기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / rotateTime;
+
+            bearController.myTransform.rotation = Quaternion.Lerp(startRotation, zWalkRotation, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //몸 돌리기 완료
+
+        timer = 0f;
+        progress = 0f;
+
+        //오른쪽으로 걸어가기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(startPos, rightWalkPos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //걸어가기 종료
+
+        yield return YieldInstructionCache.WaitForEndOfFrame;
+
+        bearController.myTransform.SetPositionAndRotation(zTelePos, phase3Rotation);
+
+        timer = 0f;
+        progress = 0f;
+
+        //페이즈 3 포지션까지 걷기
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / walkTime;
+
+            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase3Pos, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //도착 완료
+
+        bearController.SetTrigger("Walk_End");
+        canExit = true;
+    }
+
+
+
+
+    private IEnumerator ProcessChangePhase2()
+    {
+        yield break;
+    }
+}
+
 public class BearState_Roar : BearState
 {
     public BearState_Roar(BearController _bearController)
@@ -194,14 +359,17 @@ public class BearState_Roar : BearState
         switch (bearController.stateInfo.stateE)
         {
             case eBossState.BearState_Roar_A:
+
+
+            case eBossState.BearState_Roar_B:
+
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetSkillAction(SkillAction);
                 bearController.SetSkillVariety(0);
                 break;
-
-            case eBossState.BearState_Roar_B:
-                bearController.SetSkillVariety(1);
-                break;
+            //case eBossState.BearState_Roar_B:
+            //    bearController.SetSkillVariety(1);
+            //    break;
 
             default:
                 break;

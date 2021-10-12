@@ -19,10 +19,14 @@ public class BearMapInfo : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
+
+    /// <summary>
+    /// 해야함 : 포지션 mapdata가지고 계싼하기
+    /// </summary>
     [Space(10)]
-    public Transform phase1Position;
-    public Transform phase2Position;
-    public Transform phase3Position;
+    public Transform bearTransform;
+    public Vector3 phase2Position;
+    public Vector3 phase3Position;
 
 
     [System.Serializable]
@@ -63,16 +67,21 @@ public class BearMapInfo : MonoBehaviour
         //mapSize, mapPosition 계산
         UpdateMapVector();
         UpdateBearBlocks();
-
+        Init_Projectiles();
+        Init_PhasePositions();
+    }
+    public void Init_Projectiles()
+    {
         UpdateProjectilePositions();
         InitProjectileRandArray();
         UpdateProjectileRandArray();
     }
 
-    //임시
-    public void SetPhase3Position(Vector3 _pos)
+    public void Init_PhasePositions()
     {
-        phase3Position.position = _pos;
+        phase2Position = new Vector3(mapData.position.x, bearTransform.position.y, mapData.maxPosition.z);
+        phase3Position = bearTransform.position;
+
     }
     private void UpdateMapVector()
     {
