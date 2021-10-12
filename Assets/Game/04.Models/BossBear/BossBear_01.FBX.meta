@@ -69,6 +69,9 @@ ModelImporter:
   - first:
       74: 4348485665485846014
     second: Death
+  - first:
+      74: 277916300633679464
+    second: Rush_Loop
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -713,14 +716,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 0.98876405
-        functionName: SkillAction
-        data: 
-        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -749,24 +745,31 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.13156599
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1037.0001
     - serializedVersion: 16
-      name: Death
-      takeName: Death
+      name: Rush_Loop
+      takeName: Rush_Loop
       internalID: 0
-      firstFrame: 1184
-      lastFrame: 1332
+      firstFrame: 1946
+      lastFrame: 1952
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -778,18 +781,11 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events:
-      - time: 1
-        functionName: SkillAction
-        data: 
-        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
+      events: []
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1037.0001
+      additiveReferencePoseFrame: 1946
     isReadable: 0
   meshes:
     lODScreenPercentages: []
