@@ -238,23 +238,24 @@ public class BearController : BossController
         switch (_phase)
         {
             case ePhase.Phase_1:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
-                myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+                //myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
+                //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                 SetStretchColliderSize();
 
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 0;
                 bearMapInfo.Init_Projectiles();
-                ChangeState(eBossState.BearState_Concentrate);
+                ChangeState(eBossState.BearState_Rush);
                 break;
 
             case ePhase.Phase_2:
-                myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
+                //myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
 
                 SetOriginalColliderSize();
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 3;
                 bearMapInfo.Init_Projectiles();
+                ChangeState(eBossState.BearState_FinalWalk);
                 break;
 
             //case ePhase.Phase_3:
@@ -313,6 +314,7 @@ public class BearController : BossController
 
                     ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
+                    //continue;
                 }
                 else
                 {

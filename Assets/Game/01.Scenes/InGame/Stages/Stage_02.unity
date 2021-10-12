@@ -1868,7 +1868,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 19.460691, y: 12.488811, z: 2.9550338}
+  m_Size: {x: 19.460691, y: 12.488811, z: 6.0876007}
   m_Center: {x: -4.7648325, y: 5.7444053, z: 0}
 --- !u!114 &193282446
 MonoBehaviour:
@@ -1890,36 +1890,36 @@ MonoBehaviour:
   phase2Position: {x: 0, y: 0, z: 0}
   phase3Position: {x: 0, y: 0, z: 0}
   mapData:
-    size: {x: 19.460691, y: 12.488811, z: 2.9550338}
+    size: {x: 19.460691, y: 12.488811, z: 6.0876007}
     position: {x: 6.8251677, y: 5.1844053, z: 0}
-    minPosition: {x: -2.905178, y: -1.06, z: -1.4775169}
-    maxPosition: {x: 16.555513, y: 11.42881, z: 1.4775169}
-    extents: {x: 9.730346, y: 6.2444053, z: 1.4775169}
-    blockLength: {x: 3.8921382, y: 2.497762, z: 0.59100676}
+    minPosition: {x: -2.905178, y: -1.06, z: -3.0438004}
+    maxPosition: {x: 16.555513, y: 11.42881, z: 3.0438004}
+    extents: {x: 9.730346, y: 6.2444053, z: 3.0438004}
+    blockLength: {x: 3.8921382, y: 2.497762, z: 1.2175201}
   bearBlocks:
   - position:
-      min: {x: -2.905178, y: -1.06, z: -1.4775169}
-      max: {x: 0.9869602, y: 11.42881, z: 1.4775169}
+      min: {x: -2.905178, y: -1.06, z: -3.0438004}
+      max: {x: 0.9869602, y: 11.42881, z: 3.0438004}
       groundCenter: {x: -0.95910895, y: -1.06, z: 0}
       topCenter: {x: -0.95910895, y: 11.42881, z: 0}
   - position:
-      min: {x: 0.9869602, y: -1.06, z: -1.4775169}
-      max: {x: 4.8790984, y: 11.42881, z: 1.4775169}
+      min: {x: 0.9869602, y: -1.06, z: -3.0438004}
+      max: {x: 4.8790984, y: 11.42881, z: 3.0438004}
       groundCenter: {x: 2.9330292, y: -1.06, z: 0}
       topCenter: {x: 2.9330292, y: 11.42881, z: 0}
   - position:
-      min: {x: 4.8790984, y: -1.06, z: -1.4775169}
-      max: {x: 8.771236, y: 11.42881, z: 1.4775169}
+      min: {x: 4.8790984, y: -1.06, z: -3.0438004}
+      max: {x: 8.771236, y: 11.42881, z: 3.0438004}
       groundCenter: {x: 6.8251677, y: -1.06, z: 0}
       topCenter: {x: 6.8251677, y: 11.42881, z: 0}
   - position:
-      min: {x: 8.771236, y: -1.06, z: -1.4775169}
-      max: {x: 12.663375, y: 11.42881, z: 1.4775169}
+      min: {x: 8.771236, y: -1.06, z: -3.0438004}
+      max: {x: 12.663375, y: 11.42881, z: 3.0438004}
       groundCenter: {x: 10.717305, y: -1.06, z: 0}
       topCenter: {x: 10.717305, y: 11.42881, z: 0}
   - position:
-      min: {x: 12.663375, y: -1.06, z: -1.4775169}
-      max: {x: 16.555513, y: 11.42881, z: 1.4775169}
+      min: {x: 12.663375, y: -1.06, z: -3.0438004}
+      max: {x: 16.555513, y: 11.42881, z: 3.0438004}
       groundCenter: {x: 14.609444, y: -1.06, z: 0}
       topCenter: {x: 14.609444, y: 11.42881, z: 0}
   projectilePositions:
@@ -20388,11 +20388,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[0].state
-      value: 12
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[1].state
       value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_03_List.Array.data[3].state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_03_List.Array.data[7].state
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: patterns.phase_03_List.Array.data[8].state
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[0].waitTime
