@@ -17,6 +17,8 @@ public class RollerController : MonsterController
         public float moveChangeTime;
         public float changeDelay;
         public int rollingDamage;
+
+        public bool isJustMove;
     }
 
     [Serializable]
@@ -61,6 +63,9 @@ public class RollerController : MonsterController
         currentSpeed = 0f;
         usingAclrt = Stat2.aclrt;
         Com2.constantForce.enabled = true;
+
+        if (Stat2.isJustMove)
+            Com2.attackCollider.gameObject.SetActive(false);
     }
 
     public override void Awake()
@@ -99,7 +104,15 @@ public class RollerController : MonsterController
 
         if(movePatternTime > Stat2.moveChangeTime)
         {
-            random = UnityEngine.Random.Range(0, 3);
+            if(!Stat2.isJustMove)
+                random = UnityEngine.Random.Range(0, 3);
+            else
+            {
+                if (transform.localEulerAngles == Vector3.zero)
+                    random = 1;
+                else
+                    random = 2;
+            }
             movePatternTime = 0f;
         }
 
