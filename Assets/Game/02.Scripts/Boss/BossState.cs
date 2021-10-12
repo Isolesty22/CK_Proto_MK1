@@ -658,10 +658,9 @@ public class BearState_Smash : BearState
         canExit = false;
         bearController.bearMapInfo.UpdateProjectileRandArray();
         bearController.SetSkillAction(ActiveHandRock);
-        bearController.AddSkillAction(SkillAction);
         bearController.SetTrigger("Smash_Start");
 
-        bearController.skillObjects.smashRock.SetActive(true);
+        //bearController.skillObjects.smashRock.SetActive(true);
         //bearController.StartCoroutine(ProcessUpdate());
     }
     public override void OnExit()
@@ -672,6 +671,7 @@ public class BearState_Smash : BearState
     public void ActiveHandRock()
     {
         bearController.skillObjects.smashRock.SetActive(true);
+        bearController.SetSkillAction(SkillAction);
     }
     public void SkillAction()
     {

@@ -13260,6 +13260,10 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[9].count
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: poolObjectList.Array.data[6].typeName
       value: RoarProjectile
       objectReference: {fileID: 0}
@@ -13270,6 +13274,10 @@ PrefabInstance:
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: poolObjectList.Array.data[8].typeName
       value: SmashProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[9].typeName
+      value: Fire
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: poolObjectList.Array.data[6].gameObject
@@ -13283,6 +13291,10 @@ PrefabInstance:
       propertyPath: poolObjectList.Array.data[8].gameObject
       value: 
       objectReference: {fileID: 6050456572973915856, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[9].gameObject
+      value: 
+      objectReference: {fileID: 3902326867876706418, guid: 1171c002c537b6f4eb701b233856d893, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
 --- !u!1001 &1446220086
@@ -20295,12 +20307,24 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.78
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.52
+      value: -1.02
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781438, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20368,7 +20392,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: patterns.phase_01_List.Array.data[0].waitTime
-      value: 1
+      value: 5.47
       objectReference: {fileID: 0}
     - target: {fileID: 4486704135858210703, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -20436,7 +20460,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7182207455966701528, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.496
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7201247473593503133, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: m_IsActive
