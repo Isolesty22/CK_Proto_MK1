@@ -609,12 +609,11 @@ public class BearState_Claw : BearState
 
         if (random == 0)
         {
-            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, -rotVal);
+            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, rotVal);
         }
         else
         {
-            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, rotVal);
-
+            bearController.skillObjects.claw_B_Effect.transform.rotation = Quaternion.Euler(0, 0, -rotVal);
         }
         bearController.skillObjects.claw_B_Effect.SetActive(true);
         yield return new WaitForSeconds(0.5f);
