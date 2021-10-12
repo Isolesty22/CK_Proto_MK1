@@ -395,10 +395,17 @@ public class BearController : BossController
     }
     public void SetSkillAction(Action _action)
     {
-        skillAction = null;
-        skillAction += () => Debug.Log("SkillAction!");
+        //skillAction = null;
+        //skillAction += () => Debug.Log("SkillAction!");
+        //skillAction += _action;
+        skillAction = _action;
+    }
+
+    public void AddSkillAction(Action _action)
+    {
         skillAction += _action;
     }
+
     public void SkillAction()
     {
         skillAction();
