@@ -411,17 +411,17 @@ public class BearState_Roar : BearState
     {
         canExit = false;
 
-        switch (bearController.stateInfo.stateE)
+        switch ((eBearState)bearController.stateInfo.stateInt)
         {
             // 투사체
-            case eBossState.BearState_Roar_A:
+            case eBearState.Roar_A:
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetSkillAction(SkillAction_A);
                 bearController.SetSkillVariety(0);
                 break;
 
             // 중앙 공격
-            case eBossState.BearState_Roar_B:
+            case eBearState.Roar_B:
                 bearController.SetSkillAction(SkillAction_B);
                 bearController.SetSkillVariety(1);
                 break;
@@ -494,20 +494,20 @@ public class BearState_Strike : BearState
     {
         canExit = false;
 
-        switch (bearController.stateInfo.stateE)
+        switch ((eBearState)bearController.stateInfo.stateInt)
         {
-            case eBossState.BearState_Strike_A:
+            case eBearState.Strike_A:
                 ShuffleArray();
                 bearController.SetSkillAction(SkillAction_A);
                 bearController.SetSkillVariety(0);
                 break;
 
-            case eBossState.BearState_Strike_B:
+            case eBearState.Strike_B:
                 bearController.SetSkillAction(SkillAction_B);
                 bearController.SetSkillVariety(1);
                 break;
 
-            case eBossState.BearState_Strike_C:
+            case eBearState.Strike_C:
                 bearController.SetSkillAction(SkillAction_C);
                 bearController.SetSkillVariety(0);
                 break;
@@ -602,14 +602,14 @@ public class BearState_Claw : BearState
     {
         canExit = false;
 
-        switch (bearController.stateInfo.stateE)
+        switch ((eBearState)bearController.stateInfo.stateInt)
         {
-            case eBossState.BearState_Claw_A:
+            case eBearState.Claw_A:
                 bearController.SetSkillAction(SkillAction_A);
                 bearController.SetSkillVariety(0);
                 break;
 
-            case eBossState.BearState_Claw_B:
+            case eBearState.Claw_B:
 
                 Vector3 tempClawPos = bearController.skillObjects.clawUnderPosition.position;
                 //bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y + 1f, tempClawPos.z);
@@ -618,7 +618,7 @@ public class BearState_Claw : BearState
                 bearController.SetSkillAction(SkillAction_B);
                 break;
 
-            case eBossState.BearState_Claw_C:
+            case eBearState.Claw_C:
                 bearController.SetSkillVariety(1);
                 bearController.SetSkillAction(SkillAction_C);
                 break;
@@ -850,7 +850,7 @@ public class BearState_Concentrate : BearState
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
 
-        bearController.ChangeState(eBossState.BearState_Powerless);
+        bearController.ChangeState(eBearState.Powerless);
     }
 }
 public class BearState_Powerless : BearState

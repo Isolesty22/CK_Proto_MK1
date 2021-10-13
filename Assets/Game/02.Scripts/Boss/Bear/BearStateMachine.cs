@@ -57,48 +57,48 @@ public class BearStateMachine : BossStateMachine
     }
     public override BossState GetState(int _state)
     {
-        eBossState tempState = (eBossState)_state;
+        eBearState tempState = (eBearState)_state;
 
         switch (tempState)
         {
-            case eBossState.BearState_Idle:
+            case eBearState.Idle:
                 return new BearState_Idle(bearController);
 
-            case eBossState.BearState_Stamp:
+            case eBearState.Stamp:
                 return new BearState_Stamp(bearController);
 
 
 
-            case eBossState.BearState_Roar_A:
-            case eBossState.BearState_Roar_B:
+            case eBearState.Roar_A:
+            case eBearState.Roar_B:
                 return new BearState_Roar(bearController);
 
-            case eBossState.BearState_Strike_A:
-            case eBossState.BearState_Strike_B:
-            case eBossState.BearState_Strike_C:
+            case eBearState.Strike_A:
+            case eBearState.Strike_B:
+            case eBearState.Strike_C:
                 return new BearState_Strike(bearController);
 
-            case eBossState.BearState_Claw_A:
-            case eBossState.BearState_Claw_B:
-            case eBossState.BearState_Claw_C:
+            case eBearState.Claw_A:
+            case eBearState.Claw_B:
+            case eBearState.Claw_C:
                 return new BearState_Claw(bearController);
 
-            case eBossState.BearState_Smash:
+            case eBearState.Smash:
                 return new BearState_Smash(bearController);
 
-            case eBossState.BearState_Concentrate:
+            case eBearState.Concentrate:
                 return new BearState_Concentrate(bearController);
 
-            case eBossState.BearState_Powerless:
+            case eBearState.Powerless:
                 return new BearState_Powerless(bearController);
 
-            case eBossState.BearState_Rush:
+            case eBearState.Rush:
                 return new BearState_Rush(bearController);
            
-            case eBossState.BearState_FinalWalk:
+            case eBearState.FinalWalk:
                 return new BearState_FinalWalk(bearController);
 
-            case eBossState.BearState_Die:
+            case eBearState.Die:
                 return new BearState_Die(bearController);
 
             default:

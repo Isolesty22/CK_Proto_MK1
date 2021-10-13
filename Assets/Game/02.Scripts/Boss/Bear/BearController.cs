@@ -149,7 +149,7 @@ public class BearController : BossController
 
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = true;
-        bearStateMachine.StartState((int)eBossState.BearState_Idle);
+        bearStateMachine.StartState((int)eBearState.Idle);
 
         skillObjects.concentrateHelper.Init();
         Init_Animator();
@@ -219,7 +219,7 @@ public class BearController : BossController
     {
         return bearStateMachine.CanExit();
     }
-    public bool ChangeState(eBossState _state)
+    public bool ChangeState(eBearState _state)
     {
         SetStateInfo(_state);
         //if (_state == eBossState.BearState_Random)
@@ -245,7 +245,7 @@ public class BearController : BossController
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 0;
                 bearMapInfo.Init_Projectiles();
-                ChangeState(eBossState.BearState_Rush);
+                ChangeState(eBearState.Rush);
                 break;
 
             case ePhase.Phase_2:
@@ -255,7 +255,7 @@ public class BearController : BossController
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 3;
                 bearMapInfo.Init_Projectiles();
-                ChangeState(eBossState.BearState_FinalWalk);
+                ChangeState(eBearState.FinalWalk);
                 break;
 
             //case ePhase.Phase_3:
@@ -335,8 +335,8 @@ public class BearController : BossController
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        SetStateInfo(eBossState.BearState_Die);
-        ChangeState(eBossState.BearState_Die);
+        SetStateInfo(eBearState.Die);
+        ChangeState(eBearState.Die);
 
     }
     private void SetCurrentPattern(BearPattern _pattern)
@@ -349,9 +349,9 @@ public class BearController : BossController
 
         //}
     }
-    public void SetStateInfo(eBossState _state)
+    public void SetStateInfo(eBearState _state)
     {
-        stateInfo.stateE = _state;
+        stateInfo.stateInt = (int)_state;
         stateInfo.state = _state.ToString();
     }
 
@@ -372,13 +372,13 @@ public class BearController : BossController
     }
 
     //랜덤 범위------------
-    private readonly eBossState[] patterns_phase_1
-        = { eBossState.BearState_Stamp, eBossState.BearState_Strike_A, eBossState.BearState_Claw_A };
-    private readonly eBossState[] patterns_phase_2
-        = { eBossState.BearState_Roar_A, eBossState.BearState_Claw_B, eBossState.BearState_Strike_B };//,eBossState.BearState_Roar_B};
-    private readonly eBossState[] patterns_phase_3
-        = { eBossState.BearState_Strike_A, eBossState.BearState_Strike_C };
-    private eBossState GetRandomState(ePhase _phase)
+    private readonly eBearState[] patterns_phase_1
+        = { eBearState.Stamp, eBearState.Strike_A, eBearState.Claw_A };
+    private readonly eBearState[] patterns_phase_2
+        = { eBearState.Concentrate, eBearState.Claw_B, eBearState.Strike_B };//,eBossState.BearState_Roar_B};
+    private readonly eBearState[] patterns_phase_3
+        = { eBearState.Strike_A, eBearState.Strike_C };
+    private eBearState GetRandomState(ePhase _phase)
     {
         switch (_phase)
         {
@@ -393,7 +393,7 @@ public class BearController : BossController
 
             default:
                 Debug.LogError("GetRandomState Error");
-                return eBossState.None;
+                return eBearState.None;
         }
     }
     public void SetSkillAction(Action _action)
@@ -453,7 +453,7 @@ public class BearController : BossController
 public struct BearPattern
 {
     [Tooltip("실행할 패턴")]
-    public eBossState state;
+    public eBearState state;
 
     [Tooltip("실행 후 대기 시간")]
     public float waitTime;

@@ -13,120 +13,62 @@ public enum ePhase
 public enum eBearState
 {
     None,
-    [InspectorName("곰_대기")]
+    [InspectorName("대기")]
     Idle,
 
-    [InspectorName("곰_발구르기")]
+    [InspectorName("발구르기")]
     Stamp,
 
-    [InspectorName("곰_포효_A")]
+    [InspectorName("포효_A")]
     Roar_A,
-    [InspectorName("곰_포효_B")]
+    [InspectorName("포효_B")]
     Roar_B,
 
-    [InspectorName("곰_내려치기_A")]
+    [InspectorName("내려치기_A")]
     Strike_A,
-    [InspectorName("곰_내려치기_B")]
+    [InspectorName("내려치기_B")]
     Strike_B,
-    [InspectorName("곰_내려치기_C")]
+    [InspectorName("내려치기_C")]
     Strike_C,
 
-    [InspectorName("곰_할퀴기_A")]
+    [InspectorName("할퀴기_A")]
     Claw_A,
-    [InspectorName("곰_할퀴기_B")]
+    [InspectorName("할퀴기_B")]
     Claw_B,
-    [InspectorName("곰_할퀴기_C")]
+    [InspectorName("할퀴기_C")]
     Claw_C,
 
-    [InspectorName("곰_스매쉬")]
+    [InspectorName("스매쉬")]
     Smash,
 
-    [InspectorName("곰_집중")]
+    [InspectorName("집중")]
     Concentrate,
 
 
-    [InspectorName("곰_페이즈1 랜덤_1")]
+    [InspectorName("페이즈1 랜덤_1")]
     Random_Phase1_1,
-    [InspectorName("곰_페이즈1 랜덤_2")]
+    [InspectorName("페이즈1 랜덤_2")]
     Random_Phase1_2,
-    [InspectorName("곰_페이즈2 랜덤_1")]
+    [InspectorName("페이즈2 랜덤_1")]
     Random_Phase2_1,
-    [InspectorName("곰_페이즈2 랜덤_2")]
+    [InspectorName("페이즈2 랜덤_2")]
     Random_Phase2_2,
-    [InspectorName("곰_페이즈3 랜덤_1")]
+    [InspectorName("페이즈3 랜덤_1")]
     Random_Phase3_1,
-    [InspectorName("곰_페이즈3 랜덤_2")]
+    [InspectorName("페이즈3 랜덤_2")]
     Random_Phase3_2,
 
     Powerless,
 
-    [InspectorName("곰_페이즈2 전환 연출(돌진)")]
+    [InspectorName("페이즈2 전환 연출(돌진)")]
     Rush,
-    [InspectorName("곰_페이즈3 전환 연출(걷기)")]
+    [InspectorName("페이즈3 전환 연출(걷기)")]
     FinalWalk,
 
-    [InspectorName("곰_죽음")]
+    [InspectorName("죽음")]
     Die,
 }
 
-public enum eBossState
-{
-    None,
-    [InspectorName("곰_대기")]
-    BearState_Idle,
-
-    [InspectorName("곰_발구르기")]
-    BearState_Stamp,
-
-    [InspectorName("곰_포효_A")]
-    BearState_Roar_A,
-    [InspectorName("곰_포효_B")]
-    BearState_Roar_B,
-
-    [InspectorName("곰_내려치기_A")]
-    BearState_Strike_A,
-    [InspectorName("곰_내려치기_B")]
-    BearState_Strike_B,
-    [InspectorName("곰_내려치기_C")]
-    BearState_Strike_C,
-
-    [InspectorName("곰_할퀴기_A")]
-    BearState_Claw_A,
-    [InspectorName("곰_할퀴기_B")]
-    BearState_Claw_B,
-    [InspectorName("곰_할퀴기_C")]
-    BearState_Claw_C,
-
-    [InspectorName("곰_스매쉬")]
-    BearState_Smash,
-
-    [InspectorName("곰_집중")]
-    BearState_Concentrate,
-
-
-    [InspectorName("곰_페이즈1 랜덤_1")]
-    BearState_Random_Phase1_1,
-    [InspectorName("곰_페이즈1 랜덤_2")]
-    BearState_Random_Phase1_2,
-    [InspectorName("곰_페이즈2 랜덤_1")]
-    BearState_Random_Phase2_1,
-    [InspectorName("곰_페이즈2 랜덤_2")]
-    BearState_Random_Phase2_2,
-    [InspectorName("곰_페이즈3 랜덤_1")]
-    BearState_Random_Phase3_1,
-    [InspectorName("곰_페이즈3 랜덤_2")]
-    BearState_Random_Phase3_2,
-
-    BearState_Powerless,
-
-    [InspectorName("곰_페이즈2 전환 연출(돌진)")]
-    BearState_Rush,
-    [InspectorName("곰_페이즈3 전환 연출(걷기)")]
-    BearState_FinalWalk,
-
-    [InspectorName("곰_죽음")]
-    BearState_Die,
-}
 public enum eResolutionType
 {
     /// <summary>
