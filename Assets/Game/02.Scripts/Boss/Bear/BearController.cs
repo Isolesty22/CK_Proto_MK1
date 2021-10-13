@@ -59,7 +59,7 @@ public class BearController : BossController
         public Transform handTransform;
 
         [Space(10)]
-        public GameObject rushPosition;
+        public GameObject rushEffect;
     }
 
     [Serializable]
