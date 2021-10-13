@@ -37,6 +37,16 @@ public class GameManager : MonoBehaviour
 
             //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
+
+        if (cameraManager == null)
+        {
+            cameraManager = FindObjectOfType<CameraManager>();
+        }
+
+        if (playerController == null)
+        {
+            playerController = FindObjectOfType<PlayerController>();
+        }
     }
 
 }
