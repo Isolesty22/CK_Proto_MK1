@@ -45,23 +45,24 @@ public enum eBearState
     Concentrate,
 
 
-    [InspectorName("페이즈1 랜덤_1")]
-    Random_Phase1_1,
-    [InspectorName("페이즈1 랜덤_2")]
-    Random_Phase1_2,
-    [InspectorName("페이즈2 랜덤_1")]
-    Random_Phase2_1,
-    [InspectorName("페이즈2 랜덤_2")]
-    Random_Phase2_2,
-    [InspectorName("페이즈3 랜덤_1")]
-    Random_Phase3_1,
-    [InspectorName("페이즈3 랜덤_2")]
-    Random_Phase3_2,
+    [InspectorName("랜덤 1번")]
+    Random_1,
+
+    [InspectorName("랜덤 2번")]
+    Random_2,
+
+    [InspectorName("랜덤 3번")]
+    Random_3,
+
+    [InspectorName("랜덤 4번")]
+    Random_4,
+
 
     Powerless,
 
     [InspectorName("페이즈2 전환 연출(돌진)")]
     Rush,
+
     [InspectorName("페이즈3 전환 연출(걷기)")]
     FinalWalk,
 
