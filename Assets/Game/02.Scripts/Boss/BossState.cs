@@ -146,12 +146,13 @@ public class BearState_Rush : BearState
     float timer;
     float progress;
     float rushTime = 2f;
-    float walkTime = 5f;
+    float walkTime = 8f;
     float rotateTime = 1f;
+
+    bool canGo;
     public BearState_Rush(BearController _bearController)
     {
         bearController = _bearController;
-
 
         startPos = bearController.myTransform.position;
         //왼쪽 끝까지 돌진하는 위치 설정
@@ -168,7 +169,7 @@ public class BearState_Rush : BearState
     public override void OnEnter()
     {
         canExit = false;
-
+        canGo = true;
         //맵의 왼쪽으로 빠르게 이동하는 함수
         bearController.SetSkillAction(LeftRush);
         bearController.SetTrigger("Rush_Start");
@@ -177,13 +178,32 @@ public class BearState_Rush : BearState
     {
         bearController.StartCoroutine(ProcessLeftRush());
     }
+
+    public void GoMove()
+    {
+        canGo = true;
+        bearController.SetSkillAction(StopMove);
+    }
+    public void StopMove()
+    {
+        canGo = false;
+        bearController.SetSkillAction(GoMove);
+    }
     private IEnumerator ProcessLeftRush()
     {
         timer = 0f;
         progress = 0f;
 
+        bearController.SetSkillAction(StopMove);
+
+        bearController.skillObjects.rushEffect.SetActive(true);
         while (progress < 1f)
         {
+            if (!canGo)
+            {
+                yield return YieldInstructionCache.WaitForFixedUpdate;
+                continue;
+            }
             timer += Time.deltaTime;
             progress = timer / rushTime;
 
@@ -191,9 +211,12 @@ public class BearState_Rush : BearState
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         //돌진 종료
+
+        bearController.SetSkillAction(StopMove);
         bearController.SetTrigger("Rush_End");
         //이후 자동으로 걷기 애니메이션 출력됨
 
+        bearController.skillObjects.rushEffect.SetActive(false);
         yield return YieldInstructionCache.WaitForEndOfFrame;
 
         //걷기 준비
@@ -205,6 +228,11 @@ public class BearState_Rush : BearState
         //페이즈 2 포지션까지 걷기
         while (progress < 1f)
         {
+            if (!canGo)
+            {
+                yield return YieldInstructionCache.WaitForFixedUpdate;
+                continue;
+            }
             timer += Time.deltaTime;
             progress = timer / walkTime;
 
@@ -257,6 +285,8 @@ public class BearState_FinalWalk : BearState
     float progress;
     float walkTime = 2f;
     float rotateTime = 1f;
+
+    bool canGo;
     public BearState_FinalWalk(BearController _bearController)
     {
         bearController = _bearController;
@@ -278,10 +308,23 @@ public class BearState_FinalWalk : BearState
     public override void OnEnter()
     {
         canExit = false;
-
+        canGo = true;
         RightWalk();
         bearController.SetTrigger("Walk_Start");
     }
+
+
+    public void GoMove()
+    {
+        canGo = true;
+        bearController.SetSkillAction(StopMove);
+    }
+    public void StopMove()
+    {
+        canGo = false;
+        bearController.SetSkillAction(GoMove);
+    }
+
     public void RightWalk()
     {
         bearController.StartCoroutine(ProcessRightWalk());
@@ -304,10 +347,15 @@ public class BearState_FinalWalk : BearState
 
         timer = 0f;
         progress = 0f;
-
+        bearController.SetSkillAction(GoMove);
         //오른쪽으로 걸어가기
         while (progress < 1f)
         {
+            if (!canGo)
+            {
+                yield return YieldInstructionCache.WaitForFixedUpdate;
+                continue;
+            }
             timer += Time.deltaTime;
             progress = timer / walkTime;
 
@@ -322,10 +370,15 @@ public class BearState_FinalWalk : BearState
 
         timer = 0f;
         progress = 0f;
-
+        bearController.SetSkillAction(GoMove);
         //페이즈 3 포지션까지 걷기
         while (progress < 1f)
         {
+            if (!canGo)
+            {
+                yield return YieldInstructionCache.WaitForFixedUpdate;
+                continue;
+            }
             timer += Time.deltaTime;
             progress = timer / walkTime;
 
@@ -360,14 +413,14 @@ public class BearState_Roar : BearState
 
         switch (bearController.stateInfo.stateE)
         {
-                // 투사체
+            // 투사체
             case eBossState.BearState_Roar_A:
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetSkillAction(SkillAction_A);
                 bearController.SetSkillVariety(0);
                 break;
 
-                // 중앙 공격
+            // 중앙 공격
             case eBossState.BearState_Roar_B:
                 bearController.SetSkillAction(SkillAction_B);
                 bearController.SetSkillVariety(1);
