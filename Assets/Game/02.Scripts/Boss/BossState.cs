@@ -349,6 +349,7 @@ public class BearState_FinalWalk : BearState
 
 public class BearState_Roar : BearState
 {
+    WaitForSeconds waitSec = new WaitForSeconds(1f);
     public BearState_Roar(BearController _bearController)
     {
         bearController = _bearController;
@@ -359,18 +360,18 @@ public class BearState_Roar : BearState
 
         switch (bearController.stateInfo.stateE)
         {
+                // 투사체
             case eBossState.BearState_Roar_A:
-
-
-            case eBossState.BearState_Roar_B:
-
                 bearController.bearMapInfo.UpdateProjectileRandArray();
-                bearController.SetSkillAction(SkillAction);
+                bearController.SetSkillAction(SkillAction_A);
                 bearController.SetSkillVariety(0);
                 break;
-            //case eBossState.BearState_Roar_B:
-            //    bearController.SetSkillVariety(1);
-            //    break;
+
+                // 중앙 공격
+            case eBossState.BearState_Roar_B:
+                bearController.SetSkillAction(SkillAction_B);
+                bearController.SetSkillVariety(1);
+                break;
 
             default:
                 break;
@@ -382,12 +383,15 @@ public class BearState_Roar : BearState
     {
         base.OnExit();
     }
-    public void SkillAction()
+    public void SkillAction_A()
     {
-        bearController.StartCoroutine(ProcessSkillAction());
+        bearController.StartCoroutine(ProcessSkillAction_A());
     }
-
-    private IEnumerator ProcessSkillAction()
+    public void SkillAction_B()
+    {
+        bearController.StartCoroutine(ProcessSkillAction_B());
+    }
+    private IEnumerator ProcessSkillAction_A()
     {
         //Spawn Roar projectile
         int length = bearController.skillValue.roarRandCount;
@@ -402,6 +406,14 @@ public class BearState_Roar : BearState
         }
 
         yield break;
+    }
+    private IEnumerator ProcessSkillAction_B()
+    {
+        bearController.skillObjects.roarEffect.SetActive(true);
+        yield return waitSec;
+        bearController.skillObjects.roarEffect.SetActive(false);
+
+
     }
     //IEnumerator ProcessUpdate()
     //{
