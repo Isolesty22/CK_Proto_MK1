@@ -116,17 +116,17 @@ MonoBehaviour:
     clawDelay: 0.5
     roarRandCount: 6
     smashRandCount: 10
-    concentrateTime: 3
-    powerlessTime: 3
+    concentrateTime: 8
+    powerlessTime: 5
   patterns:
     phase_01_List:
     - state: 0
-      waitTime: 2
-    - state: 9
+      waitTime: 1
+    - state: 12
       waitTime: 2
     - state: 2
       waitTime: 0
-    - state: 4
+    - state: 3
       waitTime: 1
     - state: 9
       waitTime: 1
@@ -160,7 +160,7 @@ MonoBehaviour:
       waitTime: 1
     - state: 8
       waitTime: 0
-    - state: 12
+    - state: 0
       waitTime: 3
     - state: 11
       waitTime: 0
@@ -168,9 +168,9 @@ MonoBehaviour:
       waitTime: 2
     - state: 2
       waitTime: 0
-    - state: 12
+    - state: 0
       waitTime: 0
-    - state: 8
+    - state: 0
       waitTime: 0
   currentPattern:
     state: 0
@@ -744,15 +744,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5000001
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.5000001
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6050456572973915854, guid: 88fea949900ff1546bf101b6af7f0991, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1065,6 +1065,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -37.178967
       objectReference: {fileID: 0}
+    - target: {fileID: -3351392830001748101, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e285c0634b877644b439ced5119a378, type: 2}
     - target: {fileID: -2485382177163812207, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0.46283922
