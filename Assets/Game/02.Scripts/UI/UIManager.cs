@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
 
                 if (disabledPrevUI)
                 {
-                    prevUI.Com.canvas.enabled = false;
+                    prevUI.SetCanvasEnabled(false);
                 }
                 //uiStack.Peek().Com.canvasGroup.interactable = false;
                 //uiStack.Peek().Com.
@@ -130,10 +130,11 @@ public class UIManager : MonoBehaviour
                 prevUI = uiStack.Peek();
                 prevUI.Com.canvasGroup.interactable = true;
 
-                //만약 이전 UI의 캔버스가 비활성화 되어있다면
-                if (prevUI.Com.canvas.enabled == false)
+
+                if (disabledPrevUI)
                 {
-                    prevUI.Com.canvas.enabled = true;
+                    //prevUI.Open();
+                    prevUI.SetCanvasEnabled(true);
                 }
 
                 //uiStack.Peek().Com.canvasGroup.interactable = true;
