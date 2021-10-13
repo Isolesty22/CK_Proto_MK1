@@ -19,10 +19,6 @@ public class BearMapInfo : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
-
-    /// <summary>
-    /// 해야함 : 포지션 mapdata가지고 계싼하기
-    /// </summary>
     [Space(10)]
     public Transform bearTransform;
     public Vector3 phase2Position;
