@@ -69,6 +69,9 @@ ModelImporter:
   - first:
       74: 4348485665485846014
     second: Death
+  - first:
+      74: 277916300633679464
+    second: Rush_Loop
   externalObjects: {}
   materials:
     materialImportMode: 2
@@ -135,10 +138,10 @@ ModelImporter:
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -150,11 +153,39 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.35486004
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5143478
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.87043476
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 1639
     - serializedVersion: 16
       name: Stamp
       takeName: Stamp
@@ -179,11 +210,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3311987
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 127
     - serializedVersion: 16
       name: Smash_Start
       takeName: Smash_Start
@@ -245,7 +283,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.21632633
+      - time: 0.35396677
         functionName: SkillAction
         data: 
         objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
@@ -280,11 +318,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.84489775
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 346
     - serializedVersion: 16
       name: Roar_B
       takeName: Roar_B
@@ -309,11 +354,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.47973105
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 421
     - serializedVersion: 16
       name: Strike_A
       takeName: Strike_A
@@ -338,11 +390,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.66209877
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 534
     - serializedVersion: 16
       name: Strike_B
       takeName: Strike_B
@@ -367,7 +426,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.6364466
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -396,11 +462,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.59612745
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 755
     - serializedVersion: 16
       name: Claw_B_L
       takeName: Claw_B_L
@@ -425,7 +498,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.61249995
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -454,7 +534,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.571875
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -483,11 +570,18 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.9831461
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 926
     - serializedVersion: 16
       name: Concentrate_Loop
       takeName: Concentrate_Loop
@@ -497,10 +591,10 @@ ModelImporter:
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -516,7 +610,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 947
     - serializedVersion: 16
       name: Concentrate_End
       takeName: Concentrate_End
@@ -574,7 +668,7 @@ ModelImporter:
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 2242
+      additiveReferencePoseFrame: 1009
     - serializedVersion: 16
       name: Powerless_Loop
       takeName: Powerless_Loop
@@ -584,10 +678,10 @@ ModelImporter:
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -628,7 +722,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.98556876
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -637,8 +738,8 @@ ModelImporter:
       name: Rush_Start
       takeName: Rush_Start
       internalID: 0
-      firstFrame: 1760
-      lastFrame: 1804
+      firstFrame: 2438
+      lastFrame: 2514
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -657,24 +758,31 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.7591831
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1037.0001
+      additiveReferencePoseFrame: 2438
     - serializedVersion: 16
-      name: Rush_End
-      takeName: Rush_End
+      name: Rush_Loop
+      takeName: Rush_Loop
       internalID: 0
-      firstFrame: 1804
-      lastFrame: 1930.0001
+      firstFrame: 2489
+      lastFrame: 2513
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
-      cycleOffset: 0
+      cycleOffset: 1
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
@@ -686,40 +794,25 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.3149593
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 1
+        functionName: SkillAction
+        data: 
+        objectReferenceParameter: {fileID: 4326774578364781435, guid: b4e499c0060a2ca419d1075933926606, type: 3}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1037.0001
-    - serializedVersion: 16
-      name: Death
-      takeName: Death
-      internalID: 0
-      firstFrame: 1184
-      lastFrame: 1332
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 1037.0001
+      additiveReferencePoseFrame: 2489
     isReadable: 0
   meshes:
     lODScreenPercentages: []
