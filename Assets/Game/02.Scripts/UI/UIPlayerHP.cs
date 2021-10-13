@@ -7,6 +7,10 @@ public class UIPlayerHP : MonoBehaviour
 {
     [Tooltip("testCurrentHp=>playerController.Stat.hp")]
     public int testCurrentHP;
+
+    public Sprite hp_on;
+    public Sprite hp_off;
+    
     public Image[] hpImageList;
 
     private PlayerController playerController;
@@ -24,6 +28,13 @@ public class UIPlayerHP : MonoBehaviour
     {
         playerController = GameManager.instance.playerController;
         hpCount = playerController.Stat.hp;
+
+        int length = hpImageList.Length;
+        for (int i = 0; i < length; i++)
+        {
+            hpImageList[i].sprite = hp_on;
+        }
+
         UpdateCurrentHP();
     }
 
@@ -49,17 +60,17 @@ public class UIPlayerHP : MonoBehaviour
         {
             if (currentHP > 0)
             {
-                hpImageList[currentHP].gameObject.SetActive(false);
+                hpImageList[currentHP].sprite = hp_off;
             }
             else
             {
-                hpImageList[0].gameObject.SetActive(false);
+                hpImageList[0].sprite = hp_off;
                 UIManager.Instance.OpenLosePopup();
             }
         }
         else
         {
-            hpImageList[currentHP].gameObject.SetActive(true);
+            hpImageList[currentHP].sprite = hp_on;
         }
 
         hpCount = currentHP;
