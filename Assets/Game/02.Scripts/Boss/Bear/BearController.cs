@@ -149,7 +149,7 @@ public class BearController : BossController
 
         bearStateMachine = new BearStateMachine(this);
         bearStateMachine.isDebugMode = true;
-        bearStateMachine.StartState(eBossState.BearState_Idle);
+        bearStateMachine.StartState((int)eBossState.BearState_Idle);
 
         skillObjects.concentrateHelper.Init();
         Init_Animator();
@@ -228,7 +228,7 @@ public class BearController : BossController
         //}
         //else
         //{
-        bearStateMachine.ChangeState(_state);
+        bearStateMachine.ChangeState((int)_state);
 
         //}
         return false;
@@ -343,11 +343,11 @@ public class BearController : BossController
     {
         currentPattern = _pattern;
 
-        if (currentPattern.state == eBossState.BearState_Random)
-        {
-            currentPattern.state = GetRandomState(stateInfo.phase);
+        //if (currentPattern.state == eBossState.BearState)
+        //{
+        //    currentPattern.state = GetRandomState(stateInfo.phase);
 
-        }
+        //}
     }
     public void SetStateInfo(eBossState _state)
     {

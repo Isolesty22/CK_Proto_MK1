@@ -10,18 +10,56 @@ public class BearStateMachine : BossStateMachine
         bearController = _bearController;
     }
 
-    public override void StartState(eBossState _state)
+    public override void StartState(int _state)
     {
         base.StartState(_state);
     }
-    public override void ChangeState(eBossState _state)
+    public override void ChangeState(int _state)
     {
-        base.ChangeState(_state);
-    }
-    public override BossState GetState(eBossState _state)
-    {
+        BossState tempState = null;
 
-        switch (_state)
+        //딕셔너리에 있는 상태라면
+        if (stateDict.TryGetValue(_state, out tempState))
+        {
+            //if (currentState == stateDict[_state])
+            //{
+            //    LogError("같은 스테이트로는 변경할 수 없습니다.");
+            //    return;
+            //}
+        }
+        //딕셔너리에 안들어있었으면
+        else
+        {
+            //스테이트 만들어서 넣기
+            tempState = GetState(_state);
+            stateDict.Add(_state, tempState);
+        }
+
+
+        //상태 끝내기
+        if (!ReferenceEquals(currentState, null))
+        {
+            currentState.OnExit();
+            LogWarning(currentStateInt.ToString() + " - Exit");
+        }
+
+
+        //enum들 설정
+        prevStateInt = currentStateInt;
+        currentStateInt = _state;
+
+        //현재 스테이트 변경
+        currentState = stateDict[_state];
+
+        //상태 진입
+        currentState.OnEnter();
+        LogWarning(currentStateInt.ToString() + " - Enter");
+    }
+    public override BossState GetState(int _state)
+    {
+        eBossState tempState = (eBossState)_state;
+
+        switch (tempState)
         {
             case eBossState.BearState_Idle:
                 return new BearState_Idle(bearController);
@@ -67,5 +105,4 @@ public class BearStateMachine : BossStateMachine
                 return new BearState_Idle(bearController);
         }
     }
-
 }
