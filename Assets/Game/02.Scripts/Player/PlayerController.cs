@@ -267,8 +267,11 @@ public class PlayerController : MonoBehaviour
         //gravity
         if (State.isGrounded)
         {
-            Val.velocityY = 0f;
-            State.isJumping = false;
+            if (!State.isParrying)
+            {
+                Val.velocityY = 0f;
+                State.isJumping = false;
+            }
         }
         else
         {
@@ -488,11 +491,11 @@ public class PlayerController : MonoBehaviour
         State.canParry = true;
 
         //effect
-        //Com.parry.Play();
+        Com.parry.Play();
 
         yield return new WaitForSeconds(Stat.parryingTime);
 
-        //Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         State.canParry = false;
     }
 
@@ -500,6 +503,7 @@ public class PlayerController : MonoBehaviour
     {
         State.canParry = false;
         Val.velocityY = Stat.parryingForce;
+        State.isParrying = true;
 
         var parryVFX = CustomPoolManager.Instance.parryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
         parryVFX.Play();
@@ -512,13 +516,14 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        //Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         StopCoroutine(parry);
 
         //시간 단위 무적
         State.isInvincible = true;
         yield return new WaitForSeconds(Stat.parryInvincibleTime);
         State.isInvincible = false;
+        State.isParrying = false;
     }
 
     private void Attack()
