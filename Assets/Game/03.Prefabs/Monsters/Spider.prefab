@@ -75,9 +75,11 @@ MonoBehaviour:
     maxHp: 3
     moveSpeed: 2
     isAlive: 0
+    isCanSpawnMon: 0
     hitTime: 0.2
     fadeOutTime: 1
     initDistance: 10
+    respawnTime: 10
   components:
     rigidbody: {fileID: 2636562877231805735}
     collider: {fileID: 6583417163070019853}
@@ -88,6 +90,7 @@ MonoBehaviour:
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
   playerOutOfRange: 0
+  inAttackCol: 0
   spiderStatus:
     downTime: 0.5
     upTime: 1
@@ -169,7 +172,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5, y: 8, z: 1}
+  m_Size: {x: 3, y: 8, z: 1}
   m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!114 &1855166355752642674
 MonoBehaviour:
