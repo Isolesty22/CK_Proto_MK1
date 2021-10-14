@@ -37,6 +37,15 @@ public class PlayerHitBox : MonoBehaviour
                 StartCoroutine(parry);
                 return;
             }
+
+            else if (other.CompareTag("ParryingObject"))
+            {
+                StopCoroutine(parry);
+
+                parry = playerController.Parrying();
+                StartCoroutine(parry);
+                return;
+            }
         }
 
         //피격 가능
@@ -46,6 +55,15 @@ public class PlayerHitBox : MonoBehaviour
             {
                 playerController.Hit();
             }
+
+            else if (other.CompareTag("ParryingObject"))
+            {
+                if (other.GetComponent<ParryingObject>().Stat.isDamaged)
+                {
+                    playerController.Hit();
+                }
+            }
+
         }
 
     }
