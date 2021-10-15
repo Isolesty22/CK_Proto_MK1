@@ -86,6 +86,7 @@ public class PlayerController : MonoBehaviour
     {
         public bool isMoving;
         public bool isGrounded;
+        public bool prevGrounded;
         public bool isJumping;
         public bool isForwardBlocked;
         public bool isUpBlocked;
@@ -196,6 +197,8 @@ public class PlayerController : MonoBehaviour
 
     private void GroundCheck()
     {
+        State.prevGrounded = State.isGrounded;
+
         int layerMask = 1 << LayerMask.NameToLayer("Ground");
 
         const float rayDistance = 10f;
@@ -237,10 +240,9 @@ public class PlayerController : MonoBehaviour
 
     private void UpCheck()
     {
-        if(State.isGrounded)
+        if (State.isGrounded)
         {
             Val.upTrigger = true;
-            return;
         }
 
         State.isUpBlocked = false;
@@ -250,11 +252,20 @@ public class PlayerController : MonoBehaviour
         const float rayDistance = 10f;
         const float threshold = 0.13f;
 
-        bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
-        Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
-        State.isUpBlocked = Val.upDistance <= threshold;
+        if(!State.isCrouching)
+        {
+            bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
+            Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
+            State.isUpBlocked = Val.upDistance <= threshold;
+        }
+        else
+        {
+            bool cast = Physics.SphereCast(transform.position +Vector3.down * 0.25f, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
+            Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
+            State.isUpBlocked = Val.upDistance <= threshold;
+        }
 
-        if(State.isUpBlocked && Val.upTrigger)
+        if (State.isUpBlocked && Val.upTrigger)
         {
             Val.velocityY = 0f;
             Val.upTrigger = false;
@@ -265,12 +276,12 @@ public class PlayerController : MonoBehaviour
     private void UpdatePhysics()
     {
         //gravity
-        if (State.isGrounded)
+        if (State.isGrounded && State.prevGrounded)
         {
-            if (!State.isParrying)
+            if(!State.isParrying)
             {
-                Val.velocityY = 0f;
                 State.isJumping = false;
+                Val.velocityY = 0f;
             }
         }
         else
@@ -352,8 +363,11 @@ public class PlayerController : MonoBehaviour
         if (State.isHit)
             return;
 
-        if (State.isJumping || Input.GetKeyUp(Key.crouch) && State.isCrouching)
+        if (State.isJumping || !Input.GetKey(Key.crouch) && State.isCrouching )
         {
+            if (State.isUpBlocked)
+                return;
+
             State.isCrouching = false;
 
             Com.collider.enabled = true;
@@ -504,6 +518,10 @@ public class PlayerController : MonoBehaviour
         State.canParry = false;
         Val.velocityY = Stat.parryingForce;
         State.isParrying = true;
+        Val.upTrigger = true;
+
+        var delay = DelayGrounded();
+        StartCoroutine(delay);
 
         var parryVFX = CustomPoolManager.Instance.parryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
         parryVFX.Play();
@@ -523,6 +541,11 @@ public class PlayerController : MonoBehaviour
         State.isInvincible = true;
         yield return new WaitForSeconds(Stat.parryInvincibleTime);
         State.isInvincible = false;
+    }
+
+    IEnumerator DelayGrounded()
+    {
+        yield return new WaitForSeconds(0.1f);
         State.isParrying = false;
     }
 

@@ -16,6 +16,8 @@ public class CameraManager : MonoBehaviour
     public float limitMinY;
     public float limitMaxY;
 
+    public float followUp;
+
     public float smoothSpeed =1f;
     public Vector3 curVelocity;
 
@@ -43,14 +45,31 @@ public class CameraManager : MonoBehaviour
 
         Vector3 desiredPosition = new Vector3(
             Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
-            Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
+            0, // Y
             0);                                                                                // Z
 
+        Vector3 desiredPositionUp = new Vector3(
+            0,   // X
+            Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
+            0);
         //    Vector3 desiredPosition = new Vector3(
         //Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
         //0, // Y
         //0);
 
-        transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
+        Vector3 finalPosition = desiredPosition;
+
+        transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
+
+        //if (target.y > transform.position.y + followUp)
+        //{
+        //    Debug.Log("work");
+        //    transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
+        //}
+        //else
+        //{
+        //    transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
+        //}
+
     }
 }
