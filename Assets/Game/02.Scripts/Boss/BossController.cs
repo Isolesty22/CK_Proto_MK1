@@ -5,23 +5,28 @@ using System;
 
 public class BossController : MonoBehaviour
 {
-    protected Action skillAction = null;
-    public void SetSkillAction(Action _action)
+    public Animator animator;
+    public Transform myTransform;
+
+    [Tooltip("애니메이션 이벤트를 위해 사용합니다." +
+        "\n애니메이터 컴포넌트가 있는 오브젝트와 동일한 오브젝트에 있어야 합니다.")]
+    public AnimationEventListener animationEventListener;
+    public void SetAnimEvent(Action _event)
     {
         //skillAction = null;
         //skillAction += () => Debug.Log("SkillAction!");
         //skillAction += _action;
-        skillAction = _action;
+        animationEventListener.SetEvent(_event);
     }
 
-    public void AddSkillAction(Action _action)
+    public void AddAnimEvent(Action _event)
     {
-        skillAction += _action;
+        animationEventListener.AddEvent(_event);
     }
 
-    public void SkillAction()
+    public void CallAnimEvent()
     {
-        skillAction();
+        animationEventListener.CallEvent();
     }
 }
 

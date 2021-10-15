@@ -8,8 +8,7 @@ using System.Linq;
 [SelectionBase]
 public class BearController : BossController
 {
-    public Animator animator;
-    public Transform myTransform;
+
     private BearStateMachine bearStateMachine;
     public BearMapInfo bearMapInfo;
 
@@ -131,14 +130,14 @@ public class BearController : BossController
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
-    private IEnumerator ProcessChangeStateTestCoroutine;
+    private IEnumerator ExecutePatternCoroutine;
 
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
-        ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
+        ExecutePatternCoroutine = ExecutePattern();
 
         bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
@@ -205,7 +204,7 @@ public class BearController : BossController
     private void Start()
     {
         Init();
-        StartCoroutine(ProcessChangeStateTestCoroutine);
+        StartCoroutine(ExecutePatternCoroutine);
     }
     private void Update()
     {
@@ -290,7 +289,7 @@ public class BearController : BossController
 
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private int currentIndex = 0;
-    private IEnumerator ProcessChangeStateTest()
+    private IEnumerator ExecutePattern()
     {
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
