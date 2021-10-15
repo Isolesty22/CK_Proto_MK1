@@ -5,17 +5,20 @@ using System;
 
 public class BossController : MonoBehaviour
 {
-    public Animator animator;
     public Transform myTransform;
 
-    public BossStateMachine stateMachine;
-
-    [Tooltip("현재 상태")]
-    public StateInfo stateInfo = new StateInfo();
+    public Animator animator;
 
     [Tooltip("애니메이션 이벤트를 위해 사용합니다." +
         "\n애니메이터 컴포넌트가 있는 오브젝트와 동일한 오브젝트에 있어야 합니다.")]
     public AnimationEventListener animationEventListener;
+
+    public BossStateMachine stateMachine;
+
+    [Space(10)]
+    [Tooltip("현재 상태")]
+    public StateInfo stateInfo = new StateInfo();
+
 
     [Tooltip("애니메이터 파라미터 딕셔너리")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
