@@ -117,10 +117,7 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("애니메이터 파라미터 딕셔너리")]
-    public Dictionary<string, int> aniHash = new Dictionary<string, int>();
-    private string str_SkillVarietyBlend = "SkillVarietyBlend";
-    private int skillVarietyBlend = 0;
+
 
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     [HideInInspector]
@@ -130,7 +127,7 @@ public class BearController : BossController
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
-    private IEnumerator ExecutePatternCoroutine;
+
 
     private void Init()
     {
@@ -408,16 +405,10 @@ public class BearController : BossController
     }
     #endregion
 
-    #region Animation 관련
-    private void AddAnimatorHash(string _paramName)
-    {
-        aniHash.Add(_paramName, Animator.StringToHash(_paramName));
-    }
-    public void OnAnimStateExit()
+    public override void OnAnimStateExit()
     {
         bearStateMachine.currentState.canExit = true;
     }
-    #endregion
 
     private readonly string str_Arrow = "Arrow";
 
