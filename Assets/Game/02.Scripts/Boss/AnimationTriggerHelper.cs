@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class AnimationTriggerHelper : MonoBehaviour
 {
-
-    public BearController controller;
+    public BossController controller;
 
     public void SkillAction()
     {

@@ -133,8 +133,6 @@ public class BearController : BossController
 
     private IEnumerator ProcessChangeStateTestCoroutine;
 
-    private Action skillAction = null;
-
     private void Init()
     {
         phaseList.Add(patterns.phase_01_List);
@@ -396,23 +394,7 @@ public class BearController : BossController
                 return eBearState.None;
         }
     }
-    public void SetSkillAction(Action _action)
-    {
-        //skillAction = null;
-        //skillAction += () => Debug.Log("SkillAction!");
-        //skillAction += _action;
-        skillAction = _action;
-    }
 
-    public void AddSkillAction(Action _action)
-    {
-        skillAction += _action;
-    }
-
-    public void SkillAction()
-    {
-        skillAction();
-    }
 
     #region Collider 관련
     private void SetStretchColliderSize()

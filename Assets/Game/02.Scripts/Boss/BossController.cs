@@ -5,7 +5,24 @@ using System;
 
 public class BossController : MonoBehaviour
 {
+    protected Action skillAction = null;
+    public void SetSkillAction(Action _action)
+    {
+        //skillAction = null;
+        //skillAction += () => Debug.Log("SkillAction!");
+        //skillAction += _action;
+        skillAction = _action;
+    }
 
+    public void AddSkillAction(Action _action)
+    {
+        skillAction += _action;
+    }
+
+    public void SkillAction()
+    {
+        skillAction();
+    }
 }
 
 
@@ -14,6 +31,7 @@ public class StateInfo
 {
     [Tooltip("현재 페이즈")]
     public ePhase phase;
+
     [Tooltip("현재 상태")]
     public string state = "";
 

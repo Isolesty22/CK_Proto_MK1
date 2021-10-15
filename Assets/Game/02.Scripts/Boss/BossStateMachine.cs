@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BossStateMachine
 {
+
     [Tooltip("현재 스테이트")]
     public BossState currentState = null;
 
@@ -57,7 +58,7 @@ public class BossStateMachine
     {
         //switch _state...
 
-        return new BossState();
+        return null;
     }
 
     public string GetCurrentStateName()
