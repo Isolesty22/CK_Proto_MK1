@@ -75,12 +75,10 @@ public class BearStateMachine : BossStateMachine
 
             case eBearState.Strike_A:
             case eBearState.Strike_B:
-            case eBearState.Strike_C:
                 return new BearState_Strike(bearController);
 
             case eBearState.Claw_A:
             case eBearState.Claw_B:
-            case eBearState.Claw_C:
                 return new BearState_Claw(bearController);
 
             case eBearState.Smash:
@@ -95,9 +93,6 @@ public class BearStateMachine : BossStateMachine
             case eBearState.Rush:
                 return new BearState_Rush(bearController);
            
-            case eBearState.FinalWalk:
-                return new BearState_FinalWalk(bearController);
-
             case eBearState.Die:
                 return new BearState_Die(bearController);
 
