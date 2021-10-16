@@ -79,14 +79,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073bf542edf304042bb9afea901316ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationEventListener: {fileID: 6852019225570319218}
-  animator: {fileID: 5283914769549063802}
   myTransform: {fileID: 4326774578364781438}
-  bearMapInfo: {fileID: 0}
+  animator: {fileID: 5283914769549063802}
+  animationEventListener: {fileID: 6852019225570319218}
   stateInfo:
     phase: 0
     state: 
     stateInt: 0
+  bearMapInfo: {fileID: 0}
   testTextMesh:
     stateText: {fileID: 0}
     phaseText: {fileID: 0}
@@ -108,10 +108,12 @@ MonoBehaviour:
     smashRock: {fileID: 7847128783815491748}
     handTransform: {fileID: 2205962364324008682}
     rushEffect: {fileID: 659122110842458978}
-  hp: 100
+  hp: 400
   bossPhaseValue:
-    phase2: 70
-    phase3: 30
+    phase2Per: 0.55
+    phase3Per: 0
+    phase2Hp: 0
+    phase3Hp: 0
   skillValue:
     clawCount: 3
     clawDelay: 0.5
@@ -153,25 +155,6 @@ MonoBehaviour:
     - state: 10
       waitTime: 0
     - state: 10
-      waitTime: 0
-    phase_03_List:
-    - state: 2
-      waitTime: 0
-    - state: 11
-      waitTime: 1
-    - state: 8
-      waitTime: 0
-    - state: 0
-      waitTime: 3
-    - state: 11
-      waitTime: 0
-    - state: 11
-      waitTime: 2
-    - state: 2
-      waitTime: 0
-    - state: 0
-      waitTime: 0
-    - state: 0
       waitTime: 0
   currentPattern:
     state: 0

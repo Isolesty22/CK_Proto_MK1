@@ -112,6 +112,23 @@ public class StateInfo
 [Serializable]
 public class BossPhaseValue
 {
-    public float phase2;
-    public float phase3;
+    //[Range(0,1)]
+    //public float phase1Per;
+    [Range(0,1)]
+    public float phase2Per;
+    [Range(0,1)]
+    public float phase3Per;
+
+    //[HideInInspector]
+    //public float phase1Hp;
+    [ReadOnly]
+    public float phase2Hp;
+    [ReadOnly]
+    public float phase3Hp;
+
+    public void Init(float _maxHP)
+    {
+        phase2Hp = _maxHP * phase2Per;
+        phase3Hp = _maxHP * phase3Per;
+    }
 }

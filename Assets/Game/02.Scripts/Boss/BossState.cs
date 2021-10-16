@@ -138,16 +138,13 @@ public class BearState_Rush : BearState
 {
     Vector3 startPos;
     Vector3 leftRushPos;
-    Vector3 zTelePos;
     Vector3 phase2Pos;
-    Quaternion zWalkRotation;
     Quaternion phase2Rotation;
 
     float timer;
     float progress;
     float rushTime = 2f;
     float walkTime = 8f;
-    float rotateTime = 1f;
 
     bool canGo;
     public BearState_Rush(BearController _bearController)
@@ -156,15 +153,13 @@ public class BearState_Rush : BearState
 
         startPos = bearController.myTransform.position;
         //왼쪽 끝까지 돌진하는 위치 설정
-        leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
-
-        //돌진 후 phase2Pos로 걸어가기위해 순간이동하는 위치 설정
-        zTelePos = new Vector3(leftRushPos.x, leftRushPos.y, bearController.bearMapInfo.mapData.maxPosition.z);
-        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
+        leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f,
+            bearController.myTransform.position.y,
+            bearController.myTransform.position.z);
 
         //마지막 위치
+        phase2Rotation = Quaternion.Euler(new Vector3(0, -90f, 0));
         phase2Pos = bearController.bearMapInfo.phase2Position;
-        phase2Rotation = Quaternion.Euler(new Vector3(0, 0, 0));
     }
     public override void OnEnter()
     {
@@ -219,8 +214,8 @@ public class BearState_Rush : BearState
         bearController.skillObjects.rushEffect.SetActive(false);
         yield return YieldInstructionCache.WaitForEndOfFrame;
 
-        //걷기 준비
-        bearController.myTransform.SetPositionAndRotation(zTelePos, zWalkRotation);
+        //회전
+        bearController.myTransform.rotation = phase2Rotation;
 
         timer = 0f;
         progress = 0f;
@@ -236,158 +231,12 @@ public class BearState_Rush : BearState
             timer += Time.deltaTime;
             progress = timer / walkTime;
 
-            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase2Pos, progress);
+            bearController.myTransform.position = Vector3.Lerp(leftRushPos, phase2Pos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         //페이즈 2 포지션까지 도착 완료
 
-        timer = 0f;
-        progress = 0f;
-
-        //회전하기
-        while (progress < 1f)
-        {
-            timer += Time.deltaTime;
-            progress = timer / rotateTime;
-
-            bearController.myTransform.rotation = Quaternion.Lerp(zWalkRotation, phase2Rotation, progress);
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
-        //회전 완료
-
-        bearController.myTransform.rotation = Quaternion.Euler(Vector3.zero);
-
         bearController.SetTrigger("Rush_Walk_End");
-        canExit = true;
-    }
-
-
-
-
-    private IEnumerator ProcessChangePhase2()
-    {
-        yield break;
-    }
-}
-
-public class BearState_FinalWalk : BearState
-{
-    Vector3 startPos;
-    Vector3 rightWalkPos;
-    Vector3 zTelePos;
-    Vector3 phase3Pos;
-
-    Quaternion startRotation;
-    Quaternion zWalkRotation;
-    Quaternion phase3Rotation;
-
-    float timer;
-    float progress;
-    float walkTime = 2f;
-    float rotateTime = 1f;
-
-    bool canGo;
-    public BearState_FinalWalk(BearController _bearController)
-    {
-        bearController = _bearController;
-
-
-        startPos = bearController.myTransform.position;
-        startRotation = bearController.myTransform.rotation;
-        //오른쪽 끝으로 걷는 위치 설정
-        rightWalkPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x + 3f, bearController.myTransform.position.y, bearController.myTransform.position.z);
-
-        //걷기 후 페이즈 3 위치로 걸어가기위해 순간이동하는 위치 설정
-        zTelePos = new Vector3(rightWalkPos.x, rightWalkPos.y, bearController.bearMapInfo.mapData.minPosition.z);
-        zWalkRotation = Quaternion.Euler(new Vector3(0, -90f, 0));
-
-        //마지막 위치
-        phase3Pos = bearController.bearMapInfo.phase3Position;
-        phase3Rotation = Quaternion.Euler(new Vector3(0, 90f, 0));
-    }
-    public override void OnEnter()
-    {
-        canExit = false;
-        canGo = true;
-        RightWalk();
-        bearController.SetTrigger("Walk_Start");
-    }
-
-
-    public void GoMove()
-    {
-        canGo = true;
-        bearController.SetAnimEvent(StopMove);
-    }
-    public void StopMove()
-    {
-        canGo = false;
-        bearController.SetAnimEvent(GoMove);
-    }
-
-    public void RightWalk()
-    {
-        bearController.StartCoroutine(ProcessRightWalk());
-    }
-    private IEnumerator ProcessRightWalk()
-    {
-        timer = 0f;
-        progress = 0f;
-
-        //몸 돌리기
-        while (progress < 1f)
-        {
-            timer += Time.deltaTime;
-            progress = timer / rotateTime;
-
-            bearController.myTransform.rotation = Quaternion.Lerp(startRotation, zWalkRotation, progress);
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
-        //몸 돌리기 완료
-
-        timer = 0f;
-        progress = 0f;
-        bearController.SetAnimEvent(GoMove);
-        //오른쪽으로 걸어가기
-        while (progress < 1f)
-        {
-            if (!canGo)
-            {
-                yield return YieldInstructionCache.WaitForFixedUpdate;
-                continue;
-            }
-            timer += Time.deltaTime;
-            progress = timer / walkTime;
-
-            bearController.myTransform.position = Vector3.Lerp(startPos, rightWalkPos, progress);
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
-        //걸어가기 종료
-
-        yield return YieldInstructionCache.WaitForEndOfFrame;
-
-        bearController.myTransform.SetPositionAndRotation(zTelePos, phase3Rotation);
-
-        timer = 0f;
-        progress = 0f;
-        bearController.SetAnimEvent(GoMove);
-        //페이즈 3 포지션까지 걷기
-        while (progress < 1f)
-        {
-            if (!canGo)
-            {
-                yield return YieldInstructionCache.WaitForFixedUpdate;
-                continue;
-            }
-            timer += Time.deltaTime;
-            progress = timer / walkTime;
-
-            bearController.myTransform.position = Vector3.Lerp(zTelePos, phase3Pos, progress);
-            yield return YieldInstructionCache.WaitForFixedUpdate;
-        }
-        //도착 완료
-
-        bearController.SetTrigger("Walk_End");
         canExit = true;
     }
 
@@ -507,11 +356,6 @@ public class BearState_Strike : BearState
                 bearController.SetSkillVariety(1);
                 break;
 
-            case eBearState.Strike_C:
-                bearController.SetAnimEvent(AnimEvent_C);
-                bearController.SetSkillVariety(0);
-                break;
-
             default:
                 break;
         }
@@ -524,7 +368,20 @@ public class BearState_Strike : BearState
     }
     private int[] strikePos;
     //랜덤
+
+    #region ShuffleArray
     private void ShuffleArray()
+    {
+        if (bearController.stateInfo.phase == ePhase.Phase_1)
+        {
+            ShuffleArray_Phase1();
+        }
+        else
+        {
+            ShuffleArray_Phase2();
+        }
+    }
+    private void ShuffleArray_Phase1()
     {
         strikePos = new int[4] { 0, 1, 2, 3 };
 
@@ -539,6 +396,22 @@ public class BearState_Strike : BearState
             strikePos[randIndex] = tempPos;
         }
     }
+    private void ShuffleArray_Phase2()
+    {
+        strikePos = new int[4] { 1, 2, 3, 4 };
+
+        int length = strikePos.Length;
+
+        for (int i = 0; i < length; i++)
+        {
+            int randIndex = Random.Range(i, length);
+
+            int tempPos = strikePos[i];
+            strikePos[i] = strikePos[randIndex];
+            strikePos[randIndex] = tempPos;
+        }
+    }
+    #endregion
 
     private void CloneStrikeCube(int _bearBlockIndex)
     {
@@ -552,42 +425,22 @@ public class BearState_Strike : BearState
         CloneStrikeCube(strikePos[2]);
     }
 
-    //퍼지기
+    //왼쪽부터 오른쪽까지
     private void AnimEvent_B()
     {
         //strikePos = new int[5] { 0, 1, 2, 3, 4};
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
 
-    //우다다
-    private void AnimEvent_C()
-    {
-        bearController.StartCoroutine(ProcessAnimEvent_C());
-    }
-
-
     WaitForSeconds waitBSec = new WaitForSeconds(0.3f);
-    WaitForSeconds waitCSec = new WaitForSeconds(0.3f);
     private IEnumerator ProcessAnimEvent_B()
     {
-
-        CloneStrikeCube(1);
-        CloneStrikeCube(3);
-        yield return waitBSec;
-        CloneStrikeCube(0);
-        CloneStrikeCube(4);
-    }
-
-    private IEnumerator ProcessAnimEvent_C()
-    {
-
-        for (int i = 3; i > -1; i--)
+        for (int i = 1; i < 5; i++)
         {
             CloneStrikeCube(i);
-            yield return waitCSec;
+            yield return waitBSec;
 
         }
-
     }
 
 }
@@ -610,17 +463,8 @@ public class BearState_Claw : BearState
                 break;
 
             case eBearState.Claw_B:
-
-                Vector3 tempClawPos = bearController.skillObjects.clawUnderPosition.position;
-                //bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y + 1f, tempClawPos.z);
-                bearController.skillObjects.claw_B_Effect.transform.position = new Vector3(tempClawPos.x, tempClawPos.y, tempClawPos.z);
-                SetRandomVariety();
-                bearController.SetAnimEvent(AnimEvent_B);
-                break;
-
-            case eBearState.Claw_C:
                 bearController.SetSkillVariety(1);
-                bearController.SetAnimEvent(AnimEvent_C);
+                bearController.SetAnimEvent(AnimEvent_B);
                 break;
 
             default:
@@ -641,10 +485,6 @@ public class BearState_Claw : BearState
     public void AnimEvent_B()
     {
         bearController.StartCoroutine(ProcessAnimEvent_B());
-    }
-    public void AnimEvent_C()
-    {
-        bearController.StartCoroutine(ProcessAnimEvent_C());
     }
 
     private IEnumerator ProcessAnimEvent_A()
@@ -669,7 +509,7 @@ public class BearState_Claw : BearState
         }
     }
     private float rotVal = 70f;
-    private IEnumerator ProcessAnimEvent_B()
+    private IEnumerator ProcessAnimEvent_B_Legacy()
     {
 
         if (random == 0)
@@ -685,7 +525,7 @@ public class BearState_Claw : BearState
         bearController.skillObjects.claw_B_Effect.SetActive(false);
     }
 
-    private IEnumerator ProcessAnimEvent_C()
+    private IEnumerator ProcessAnimEvent_B()
     {
         AnimEvent_A();
 

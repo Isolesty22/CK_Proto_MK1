@@ -5,26 +5,7 @@ using UnityEngine;
 [RequireComponent((typeof(BoxCollider)))]
 public class BearMapInfo : MonoBehaviour
 {
-    [Range(0, 30)]
-    public int projectilePosCount = 10;
-
-    [HideInInspector]
-    public int[] projectileRandArray = new int[] { };
-
-    [Space(20)]
-
-    [Tooltip("맵 상의 블록 개수")]
-    private const int blockCount = 5;
-
-    public BoxCollider mapCollider;
-    public Transform myTransform;
-
-    [Space(10)]
-    public Transform bearTransform;
-    public Vector3 phase2Position;
-    public Vector3 phase3Position;
-
-
+    #region MapDataClass
     [System.Serializable]
     public class MapData
     {
@@ -46,6 +27,30 @@ public class BearMapInfo : MonoBehaviour
         [ReadOnly, Tooltip("블록 하나당 길이")]
         public Vector3 blockLength;
     }
+    #endregion
+
+    [Range(0, 30)]
+    public int projectilePosCount = 10;
+
+    [HideInInspector]
+    public int[] projectileRandArray = new int[] { };
+
+    [Space(20)]
+
+    [Tooltip("맵 상의 블록 개수")]
+    private const int blockCount = 5;
+
+    public BoxCollider mapCollider;
+    public Transform myTransform;
+
+    [Space(10)]
+    public Transform bearTransform;
+    public Vector3 phase2Position;
+    public Vector3 phase3Position;
+
+    [Space(10)]
+    public BoxColliderInfo phase1Size;
+
     [Space(10)]
     [BeginReadOnlyGroup]
     public MapData mapData = new MapData();
@@ -53,8 +58,6 @@ public class BearMapInfo : MonoBehaviour
     [BeginReadOnlyGroup]
     public BearBlock[] bearBlocks = new BearBlock[blockCount];
     [EndReadOnlyGroup]
-
-
 
     [HideInInspector]
     public Vector3[] projectilePositions;
@@ -75,7 +78,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init_PhasePositions()
     {
-        phase2Position = new Vector3(mapData.position.x, bearTransform.position.y, mapData.maxPosition.z);
+        phase2Position = new Vector3(bearBlocks[0].position.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
         phase3Position = bearTransform.position;
 
     }
@@ -134,13 +137,9 @@ public class BearMapInfo : MonoBehaviour
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.groundCenter.x, _bearBlockPosition.max.y, mapData.position.z);
         return bottomCenter;
     }
-
-    [Range(0, 5)]
-    [Tooltip("범위에서 제외할 수 입니다.")]
-    public int exclusionRange = 0;
     public void UpdateProjectilePositions()
     {
-        projectilePositions = new Vector3[projectilePosCount - exclusionRange];
+        projectilePositions = new Vector3[projectilePosCount];
 
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
@@ -151,7 +150,7 @@ public class BearMapInfo : MonoBehaviour
         tempMin = new Vector3(tempMin.x + distanceX * 0.5f, mapData.maxPosition.y, mapData.position.z);
 
 
-        int length = projectilePosCount - exclusionRange;
+        int length = projectilePosCount;
 
         //첫번째 가운데 지점 설정
         projectilePositions[0] = tempMin;
@@ -168,7 +167,7 @@ public class BearMapInfo : MonoBehaviour
         //배열 초기화--
         projectileRandArray = new int[projectilePosCount];
 
-        int length = projectilePosCount - exclusionRange;
+        int length = projectilePosCount;
 
         for (int i = 0; i < length; i++)
         {
@@ -189,7 +188,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void UpdateProjectileRandArray()
     {
-        int length = projectilePosCount - exclusionRange;
+        int length = projectileRandArray.Length;
 
         //랜덤---
         for (int i = 0; i < length; i++)
@@ -271,6 +270,13 @@ public class BearBlock
     {
         position.topCenter = _topCenter;
     }
+}
+
+[System.Serializable]
+public class BoxColliderInfo
+{
+    public Vector3 center;
+    public Vector3 size;
 }
 
 

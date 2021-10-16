@@ -19,11 +19,6 @@ public class BearController : BossController
 
         public List<BearPattern> phase_01_List = new List<BearPattern>();
         public List<BearPattern> phase_02_List = new List<BearPattern>();
-        public List<BearPattern> phase_03_List = new List<BearPattern>();
-
-        //public Queue<eBossState> phase_01_Queue = new Queue<eBossState>();
-        //public Queue<eBossState> phase_02_Queue = new Queue<eBossState>();
-        //public Queue<eBossState> phase_03_Queue = new Queue<eBossState>();
     }
 
     [Serializable]
@@ -102,8 +97,9 @@ public class BearController : BossController
     public SkillObjects skillObjects;
 
     [Header("현재 체력")]
-    [Range(0, 100)]
-    public float hp = 100f;
+    [Range(0, 400)]
+    public float hp = 400f;
+
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
@@ -128,10 +124,7 @@ public class BearController : BossController
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
-        phaseList.Add(patterns.phase_03_List);
         ExecutePatternCoroutine = ExecutePattern();
-
-        bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
@@ -141,6 +134,7 @@ public class BearController : BossController
         stateMachine.StartState((int)eBearState.Idle);
 
         skillObjects.concentrateHelper.Init();
+        bossPhaseValue.Init(hp);
         Init_Animator();
         Init_Pool();
         Init_Collider();
@@ -215,19 +209,17 @@ public class BearController : BossController
                 //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
                 //투사체 위치 다시 계산
-                bearMapInfo.exclusionRange = 0;
                 bearMapInfo.Init_Projectiles();
                 ChangeState((int)eBearState.Rush);
                 break;
 
-            case ePhase.Phase_2:
-                //myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
+            //case ePhase.Phase_2:
+            //    myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
 
-                //투사체 위치 다시 계산
-                bearMapInfo.exclusionRange = 3;
-                bearMapInfo.Init_Projectiles();
-                ChangeState((int)eBearState.FinalWalk);
-                break;
+            //    //투사체 위치 다시 계산
+            //    bearMapInfo.Init_Projectiles();
+            //    ChangeState((int)eBearState.FinalWalk);
+            //    break;
 
             //case ePhase.Phase_3:
             //    break;
@@ -248,13 +240,7 @@ public class BearController : BossController
         switch (_currentPhase)
         {
             case ePhase.Phase_1:
-                return bossPhaseValue.phase2;
-
-            case ePhase.Phase_2:
-                return bossPhaseValue.phase3;
-
-            case ePhase.Phase_3:
-                return 0;
+                return bossPhaseValue.phase2Hp;
 
             default:
                 return 0;
@@ -263,20 +249,7 @@ public class BearController : BossController
 
     public override void ChangeState(int _state)
     {
-        eBearState tempState = (eBearState)_state;
-        switch (tempState)
-        {
-            case eBearState.Random_1:
-            case eBearState.Random_2:
-            case eBearState.Random_3:
-            case eBearState.Random_4:
-                tempState = GetRandomState(tempState);
-                break;
-
-            default:
-                break;
-        }
-
+        eBearState tempState = GetRandomState((eBearState)_state);
         SetStateInfo((int)tempState);
         stateMachine.ChangeState((int)tempState);
     }
@@ -350,13 +323,13 @@ public class BearController : BossController
     #region Random State 관련
     private readonly eBearState[] random_1 = new eBearState[] { eBearState.Stamp, eBearState.Strike_A };
     private readonly eBearState[] random_2 = new eBearState[] { eBearState.Roar_A, eBearState.Strike_A };
-    private readonly eBearState[] random_3 = new eBearState[] { eBearState.Strike_A, eBearState.Strike_C };
+    private readonly eBearState[] random_3 = new eBearState[] { eBearState.Strike_A, eBearState.Strike_B };
     private readonly eBearState[] random_4 = new eBearState[] { eBearState.Smash, eBearState.Roar_A };
-    private eBearState GetRandomState(eBearState _randomState)
+    private eBearState GetRandomState(eBearState _state)
     {
         int rand = UnityEngine.Random.Range(0, 2);
 
-        switch (_randomState)
+        switch (_state)
         {
             case eBearState.Random_1:
                 return random_1[rand];
@@ -371,7 +344,8 @@ public class BearController : BossController
                 return random_4[rand];
 
             default:
-                return eBearState.None;
+                //그냥 _state 반환
+                return _state;
         }
     }
 
