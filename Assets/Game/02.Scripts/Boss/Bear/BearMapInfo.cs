@@ -49,8 +49,12 @@ public class BearMapInfo : MonoBehaviour
     public Vector3 phase3Position;
 
     [Space(10)]
-    public int rightPadding;
-    public int leftPadding;
+    [HideInInspector]
+    public int paddingSize = 4;
+    [HideInInspector]
+    public int rightPadding = 0;
+    [HideInInspector]
+    public int leftPadding = 4;
 
 
     [Space(10)]
@@ -63,6 +67,7 @@ public class BearMapInfo : MonoBehaviour
 
     [HideInInspector]
     public Vector3[] projectilePositions;
+
     public void Init()
     {
         //mapSize, mapPosition 계산
@@ -116,7 +121,7 @@ public class BearMapInfo : MonoBehaviour
         bearBlocks[0].SetTopCenter(CalcTopCenter(bearBlocks[0].position));
 
         //나머지 블록 포지션 계산
-        for (int i =  1; i < blockCount; i++)
+        for (int i = 1; i < blockCount; i++)
         {
             tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
             tempMax = new Vector3(mapData.minPosition.x + (mapData.blockLength.x * (i + 1)), mapData.maxPosition.y, mapData.maxPosition.z);
@@ -141,7 +146,7 @@ public class BearMapInfo : MonoBehaviour
     }
     public void UpdateProjectilePositions()
     {
-        projectilePositions = new Vector3[projectilePosCount];
+        projectilePositions = new Vector3[projectilePosCount - paddingSize];
 
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
@@ -149,7 +154,7 @@ public class BearMapInfo : MonoBehaviour
         float distanceX = (Mathf.Abs(tempMax.x - tempMin.x)) / projectilePosCount;
 
         //첫번째 가운데 지점 계산
-        tempMin = new Vector3(tempMin.x + distanceX * 0.5f, mapData.maxPosition.y, mapData.position.z);
+        tempMin = new Vector3((tempMin.x + distanceX * 0.5f) + distanceX * rightPadding, mapData.maxPosition.y, mapData.position.z);
 
 
         int length = projectilePositions.Length;
@@ -167,7 +172,7 @@ public class BearMapInfo : MonoBehaviour
     public void InitProjectileRandArray()
     {
         //배열 초기화--
-        projectileRandArray = new int[projectilePosCount];
+        projectileRandArray = new int[projectilePosCount - paddingSize];
 
         int length = projectileRandArray.Length;
 

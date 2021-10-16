@@ -125,6 +125,8 @@ public class BearController : BossController
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         ExecutePatternCoroutine = ExecutePattern();
+        bearMapInfo.paddingSize = 4;
+        bearMapInfo.leftPadding = bearMapInfo.paddingSize;
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
@@ -209,6 +211,8 @@ public class BearController : BossController
                 //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
                 //투사체 위치 다시 계산
+                bearMapInfo.leftPadding = 0;
+                bearMapInfo.rightPadding = bearMapInfo.paddingSize;
                 bearMapInfo.Init_Projectiles();
                 ChangeState((int)eBearState.Rush);
                 break;
