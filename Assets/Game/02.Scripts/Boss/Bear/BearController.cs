@@ -213,22 +213,20 @@ public class BearController : BossController
             case ePhase.Phase_1:
                 //myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
                 //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
-                SetStretchColliderSize();
 
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 0;
                 bearMapInfo.Init_Projectiles();
-                ChangeState(eBearState.Rush);
+                ChangeState((int)eBearState.Rush);
                 break;
 
             case ePhase.Phase_2:
                 //myTransform.SetPositionAndRotation(bearMapInfo.phase3Position, Quaternion.Euler(new Vector3(0, 90, 0)));
 
-                SetOriginalColliderSize();
                 //투사체 위치 다시 계산
                 bearMapInfo.exclusionRange = 3;
                 bearMapInfo.Init_Projectiles();
-                ChangeState(eBearState.FinalWalk);
+                ChangeState((int)eBearState.FinalWalk);
                 break;
 
             //case ePhase.Phase_3:
@@ -262,6 +260,27 @@ public class BearController : BossController
                 return 0;
         }
     }
+
+    public override void ChangeState(int _state)
+    {
+        eBearState tempState = (eBearState)_state;
+        switch (tempState)
+        {
+            case eBearState.Random_1:
+            case eBearState.Random_2:
+            case eBearState.Random_3:
+            case eBearState.Random_4:
+                tempState = GetRandomState(tempState);
+                break;
+
+            default:
+                break;
+        }
+
+        SetStateInfo((int)tempState);
+        stateMachine.ChangeState((int)tempState);
+    }
+
 
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private int currentIndex = 0;
@@ -298,18 +317,18 @@ public class BearController : BossController
                     SetCurrentPattern(phaseList[stateInfo][currentIndex]);
 
                     //스테이트 변경
-                    ChangeState(currentPattern.state);
+                    ChangeState((int)currentPattern.state);
 
                     currentIndex += 1;
                     currentIndex = currentIndex % length;
                 }
-                    yield return null;
+                yield return null;
             }
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
         SetStateInfo((int)eBearState.Die);
-        ChangeState(eBearState.Die);
+        ChangeState((int)eBearState.Die);
 
     }
     private void SetCurrentPattern(BearPattern _pattern)
@@ -323,49 +342,39 @@ public class BearController : BossController
         //}
     }
 
-    public override string GetStateToString(int _state) 
-    { 
+    public override string GetStateToString(int _state)
+    {
         return ((eBearState)_state).ToString();
     }
 
-    //랜덤 범위------------
-    private readonly eBearState[] patterns_phase_1
-        = { eBearState.Stamp, eBearState.Strike_A, eBearState.Claw_A };
-    private readonly eBearState[] patterns_phase_2
-        = { eBearState.Concentrate, eBearState.Claw_B, eBearState.Strike_B };//,eBossState.BearState_Roar_B};
-    private readonly eBearState[] patterns_phase_3
-        = { eBearState.Strike_A, eBearState.Strike_C };
-    private eBearState GetRandomState(ePhase _phase)
+    #region Random State 관련
+    private readonly eBearState[] random_1 = new eBearState[] { eBearState.Stamp, eBearState.Strike_A };
+    private readonly eBearState[] random_2 = new eBearState[] { eBearState.Roar_A, eBearState.Strike_A };
+    private readonly eBearState[] random_3 = new eBearState[] { eBearState.Strike_A, eBearState.Strike_C };
+    private readonly eBearState[] random_4 = new eBearState[] { eBearState.Smash, eBearState.Roar_A };
+    private eBearState GetRandomState(eBearState _randomState)
     {
-        switch (_phase)
+        int rand = UnityEngine.Random.Range(0, 2);
+
+        switch (_randomState)
         {
-            case ePhase.Phase_1:
-                return patterns_phase_1[UnityEngine.Random.Range(0, patterns_phase_1.Length)];
+            case eBearState.Random_1:
+                return random_1[rand];
 
-            case ePhase.Phase_2:
-                return patterns_phase_2[UnityEngine.Random.Range(0, patterns_phase_2.Length)];
+            case eBearState.Random_2:
+                return random_2[rand];
 
-            case ePhase.Phase_3:
-                return patterns_phase_3[UnityEngine.Random.Range(0, patterns_phase_3.Length)];
+            case eBearState.Random_3:
+                return random_3[rand];
+
+            case eBearState.Random_4:
+                return random_4[rand];
 
             default:
-                Debug.LogError("GetRandomState Error");
                 return eBearState.None;
         }
     }
 
-
-    #region Collider 관련
-    private void SetStretchColliderSize()
-    {
-        colliders.headCollider.size = new Vector3(colliders.headColliderSize.x, colliders.headColliderSize.y, 10f);
-        colliders.bodyCollider.size = new Vector3(colliders.bodyColliderSize.x, colliders.bodyColliderSize.y, 10f);
-    }
-    private void SetOriginalColliderSize()
-    {
-        colliders.headCollider.size = new Vector3(colliders.headColliderSize.x, colliders.headColliderSize.y, colliders.headColliderSize.z);
-        colliders.bodyCollider.size = new Vector3(colliders.bodyColliderSize.x, colliders.bodyColliderSize.y, colliders.bodyColliderSize.z);
-    }
     #endregion
 
 

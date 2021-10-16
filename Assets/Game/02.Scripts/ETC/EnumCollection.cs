@@ -70,6 +70,11 @@ public enum eBearState
     Die,
 }
 
+public enum eGloomState
+{
+
+}
+
 public enum eResolutionType
 {
     /// <summary>

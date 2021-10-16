@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DarkSpiritController : BossController
+public class GloomController : BossController
 {
 
 }
 
 
 [Serializable]
-public struct DarkSpiritPattern
+public struct GloomPattern
 {
     //[Tooltip("실행할 패턴")]
     //public eBearState state;

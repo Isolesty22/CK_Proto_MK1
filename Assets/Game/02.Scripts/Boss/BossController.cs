@@ -32,18 +32,11 @@ public class BossController : MonoBehaviour
     protected virtual void Init() { }
 
     #region State 관련
-    public void ChangeState(eBearState _state)
+    public virtual void ChangeState(int _state)
     {
-        SetStateInfo((int)_state);
-        //if (_state == eBossState.BearState_Random)
-        //{
-        //    bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
-        //}
-        //else
-        //{
-        stateMachine.ChangeState((int)_state);
 
-        //}
+        SetStateInfo((int)_state);
+        stateMachine.ChangeState((int)_state);
     }
 
     public void SetStateInfo(int _state)

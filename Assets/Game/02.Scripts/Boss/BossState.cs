@@ -850,7 +850,7 @@ public class BearState_Concentrate : BearState
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
 
-        bearController.ChangeState(eBearState.Powerless);
+        bearController.ChangeState((int)eBearState.Powerless);
     }
 }
 public class BearState_Powerless : BearState
