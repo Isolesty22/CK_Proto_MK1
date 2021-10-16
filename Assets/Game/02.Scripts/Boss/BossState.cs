@@ -343,10 +343,10 @@ public class BearState_Strike : BearState
     {
         canExit = false;
 
+        ShuffleArray();
         switch ((eBearState)bearController.stateInfo.stateInt)
         {
             case eBearState.Strike_A:
-                ShuffleArray();
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
                 break;
