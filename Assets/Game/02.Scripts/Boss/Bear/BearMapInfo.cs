@@ -49,7 +49,9 @@ public class BearMapInfo : MonoBehaviour
     public Vector3 phase3Position;
 
     [Space(10)]
-    public BoxColliderInfo phase1Size;
+    public int rightPadding;
+    public int leftPadding;
+
 
     [Space(10)]
     [BeginReadOnlyGroup]
@@ -114,7 +116,7 @@ public class BearMapInfo : MonoBehaviour
         bearBlocks[0].SetTopCenter(CalcTopCenter(bearBlocks[0].position));
 
         //나머지 블록 포지션 계산
-        for (int i = 1; i < blockCount; i++)
+        for (int i =  1; i < blockCount; i++)
         {
             tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
             tempMax = new Vector3(mapData.minPosition.x + (mapData.blockLength.x * (i + 1)), mapData.maxPosition.y, mapData.maxPosition.z);
@@ -150,7 +152,7 @@ public class BearMapInfo : MonoBehaviour
         tempMin = new Vector3(tempMin.x + distanceX * 0.5f, mapData.maxPosition.y, mapData.position.z);
 
 
-        int length = projectilePosCount;
+        int length = projectilePositions.Length;
 
         //첫번째 가운데 지점 설정
         projectilePositions[0] = tempMin;
@@ -167,7 +169,7 @@ public class BearMapInfo : MonoBehaviour
         //배열 초기화--
         projectileRandArray = new int[projectilePosCount];
 
-        int length = projectilePosCount;
+        int length = projectileRandArray.Length;
 
         for (int i = 0; i < length; i++)
         {
