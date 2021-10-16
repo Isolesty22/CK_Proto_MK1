@@ -79,13 +79,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073bf542edf304042bb9afea901316ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animationEventListener: {fileID: 6852019225570319218}
   animator: {fileID: 5283914769549063802}
   myTransform: {fileID: 4326774578364781438}
   bearMapInfo: {fileID: 0}
   stateInfo:
     phase: 0
     state: 
-    stateE: 0
+    stateInt: 0
   testTextMesh:
     stateText: {fileID: 0}
     phaseText: {fileID: 0}
@@ -377,7 +378,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1575997042806190173
+--- !u!114 &6852019225570319218
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -386,10 +387,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7735141064707881707}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e405fb5fb67d72342908e22be619efc9, type: 3}
+  m_Script: {fileID: 11500000, guid: 3940e3f8f2b38be4096a9d4d49d06663, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 4326774578364781439}
 --- !u!114 &7061210842209291099
 MonoBehaviour:
   m_ObjectHideFlags: 0

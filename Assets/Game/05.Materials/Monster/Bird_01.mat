@@ -36,6 +36,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: fbd96b347af988a4f9a750093a57d63c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _AlphaTex:
+        m_Texture: {fileID: 2800000, guid: d61e835424befdc498e0511da7eac687, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -73,7 +77,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: d61e835424befdc498e0511da7eac687, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -110,6 +114,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _AlphaClip: 0
+    - _Amount: 0
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -123,11 +128,13 @@ Material:
     - _Di_NoiseScale: 1000
     - _Di_NoiseTextureScale: 2.46
     - _DstBlend: 0
+    - _EdgeWidth: 0.5
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _Metallic: 0
+    - _NoiseScale: 45
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
@@ -144,6 +151,8 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Di_EdgeColor: {r: 0, g: 0.6370607, b: 3.389163, a: 0}
     - _Di_TextureColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 0}
+    - _EdgeColor: {r: 0, g: 0.18521397, b: 1.8418499, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TexColor: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -75,7 +75,7 @@ public class MonsterController : MonoBehaviour
         Stat.hp = Stat.maxHp;
         Com.monsterModel.SetActive(false);
         state = MonsterState.WAIT;
-        Com.originalColor = Com.renderer.material.color;
+        Com.originalColor = Com.renderer.material.GetColor("_TexColor");
         Stat.isAlive = true;
         transform.position = Com.spawnPos;
     }
@@ -247,22 +247,24 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator HitColor()
     {
-        Com.renderer.material.color = Com.hitColor;
+        Com.renderer.material.SetColor("_TexColor", Com.hitColor);
         yield return new WaitForSeconds(Stat.hitTime);
-        Com.renderer.material.color = Com.originalColor;
+        Com.renderer.material.SetColor("_TexColor", Com.originalColor);
     }
 
     IEnumerator Dead()
     {
-        var fadecolor = Com.renderer.material.color;
+        var amount = 0f;
 
         float time = 0f;
 
-        while (fadecolor.a > 0f)
+        Com.renderer.material.SetColor("_TexColor", Com.originalColor);
+
+        while (amount < 1f)
         {
             time += Time.deltaTime / Stat.fadeOutTime;
-            fadecolor.a = Mathf.Lerp(255/255f, 0, time);
-            Com.renderer.material.color = fadecolor;
+            amount = Mathf.Lerp(0, 1, time);
+            Com.renderer.material.SetFloat("_Amount", amount);
             yield return null;
         }
 

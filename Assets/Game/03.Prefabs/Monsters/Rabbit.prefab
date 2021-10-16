@@ -54,9 +54,11 @@ MonoBehaviour:
     maxHp: 6
     moveSpeed: 3
     isAlive: 0
+    isCanSpawnMon: 0
     hitTime: 0.2
-    fadeOutTime: 1
+    fadeOutTime: 1.5
     initDistance: 10
+    respawnTime: 10
   components:
     rigidbody: {fileID: 6307346486017835251}
     collider: {fileID: 4147787381735573126}
@@ -67,6 +69,7 @@ MonoBehaviour:
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
   playerOutOfRange: 0
+  inAttackCol: 0
   rabbitStatus:
     jumpPower: 5
     moveDelay: 1.7

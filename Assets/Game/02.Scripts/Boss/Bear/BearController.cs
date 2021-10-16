@@ -8,9 +8,7 @@ using System.Linq;
 [SelectionBase]
 public class BearController : BossController
 {
-    public Animator animator;
-    public Transform myTransform;
-    private BearStateMachine bearStateMachine;
+
     public BearMapInfo bearMapInfo;
 
     #region definitions
@@ -87,8 +85,7 @@ public class BearController : BossController
     #endregion
 
     #region Test용
-    [Tooltip("현재 상태")]
-    public StateInfo stateInfo = new StateInfo();
+
 
     [Serializable]
     public class TestTextMesh
@@ -118,11 +115,6 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
-    [Tooltip("애니메이터 파라미터 딕셔너리")]
-    public Dictionary<string, int> aniHash = new Dictionary<string, int>();
-    private string str_SkillVarietyBlend = "SkillVarietyBlend";
-    private int skillVarietyBlend = 0;
-
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
     [HideInInspector]
     public BearPattern currentPattern;
@@ -131,25 +123,22 @@ public class BearController : BossController
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
-    private IEnumerator ProcessChangeStateTestCoroutine;
-
-    private Action skillAction = null;
-
-    private void Init()
+    #region Init 관련
+    protected override void Init()
     {
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         phaseList.Add(patterns.phase_03_List);
-        ProcessChangeStateTestCoroutine = ProcessChangeStateTest();
+        ExecutePatternCoroutine = ExecutePattern();
 
         bearMapInfo.exclusionRange = 3;
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
 
-        bearStateMachine = new BearStateMachine(this);
-        bearStateMachine.isDebugMode = true;
-        bearStateMachine.StartState((int)eBearState.Idle);
+        stateMachine = new BearStateMachine(this);
+        stateMachine.isDebugMode = true;
+        stateMachine.StartState((int)eBearState.Idle);
 
         skillObjects.concentrateHelper.Init();
         Init_Animator();
@@ -188,7 +177,6 @@ public class BearController : BossController
         //AddAnimatorHash("End_Concentrate");
         //AddAnimatorHash("End_Powerless");
     }
-
     private void Init_Collider()
     {
         //충돌하지 않게 
@@ -204,10 +192,12 @@ public class BearController : BossController
         clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
         smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
     }
+
+    #endregion
     private void Start()
     {
         Init();
-        StartCoroutine(ProcessChangeStateTestCoroutine);
+        StartCoroutine(ExecutePatternCoroutine);
     }
     private void Update()
     {
@@ -215,24 +205,7 @@ public class BearController : BossController
         testTextMesh.hpText.text = hp.ToString();
         testTextMesh.phaseText.text = stateInfo.phase.ToString();
     }
-    private bool CanChangeState()
-    {
-        return bearStateMachine.CanExit();
-    }
-    public bool ChangeState(eBearState _state)
-    {
-        SetStateInfo(_state);
-        //if (_state == eBossState.BearState_Random)
-        //{
-        //    bearStateMachine.ChangeState(GetRandomState(stateInfo.phase));
-        //}
-        //else
-        //{
-        bearStateMachine.ChangeState((int)_state);
 
-        //}
-        return false;
-    }
     private void ProcessChangePhase(ePhase _phase)
     {
         switch (_phase)
@@ -292,7 +265,7 @@ public class BearController : BossController
 
     WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private int currentIndex = 0;
-    private IEnumerator ProcessChangeStateTest()
+    private IEnumerator ExecutePattern()
     {
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
@@ -301,7 +274,7 @@ public class BearController : BossController
 
         while (true)
         {
-            if (CanChangeState()) //패턴을 바꿀 수 있는 상태라면
+            if (stateMachine.CanExit()) //패턴을 바꿀 수 있는 상태라면
             {
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
@@ -335,7 +308,7 @@ public class BearController : BossController
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        SetStateInfo(eBearState.Die);
+        SetStateInfo((int)eBearState.Die);
         ChangeState(eBearState.Die);
 
     }
@@ -349,26 +322,10 @@ public class BearController : BossController
 
         //}
     }
-    public void SetStateInfo(eBearState _state)
-    {
-        stateInfo.stateInt = (int)_state;
-        stateInfo.state = _state.ToString();
-    }
 
-    public void SetSkillVariety(float _v)
-    {
-        animator.SetFloat(skillVarietyBlend, _v);
-    }
-    public void SetTrigger(string _paramName)
-    {
-        animator.SetTrigger(aniHash[_paramName]);
-    }
-    /// <summary>
-    /// 현재 상태의 canExit를 설정합니다.
-    /// </summary>
-    public void SetCanExit(bool _canExit)
-    {
-        bearStateMachine.currentState.canExit = _canExit;
+    public override string GetStateToString(int _state) 
+    { 
+        return ((eBearState)_state).ToString();
     }
 
     //랜덤 범위------------
@@ -396,23 +353,7 @@ public class BearController : BossController
                 return eBearState.None;
         }
     }
-    public void SetSkillAction(Action _action)
-    {
-        //skillAction = null;
-        //skillAction += () => Debug.Log("SkillAction!");
-        //skillAction += _action;
-        skillAction = _action;
-    }
 
-    public void AddSkillAction(Action _action)
-    {
-        skillAction += _action;
-    }
-
-    public void SkillAction()
-    {
-        skillAction();
-    }
 
     #region Collider 관련
     private void SetStretchColliderSize()
@@ -427,16 +368,6 @@ public class BearController : BossController
     }
     #endregion
 
-    #region Animation 관련
-    private void AddAnimatorHash(string _paramName)
-    {
-        aniHash.Add(_paramName, Animator.StringToHash(_paramName));
-    }
-    public void OnAnimStateExit()
-    {
-        bearStateMachine.currentState.canExit = true;
-    }
-    #endregion
 
     private readonly string str_Arrow = "Arrow";
 
