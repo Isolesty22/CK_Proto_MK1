@@ -103,7 +103,8 @@ public class SpitterController : MonsterController
 
             else
             {
-                ChangeState(MonsterState.IDLE);
+                if(state != MonsterState.DEATH)
+                    ChangeState(MonsterState.IDLE);
             }
         }
         else
@@ -116,7 +117,8 @@ public class SpitterController : MonsterController
 
             else
             {
-                ChangeState(MonsterState.IDLE);
+                if (state != MonsterState.DEATH)
+                    ChangeState(MonsterState.IDLE);
             }
         }
 
@@ -124,7 +126,9 @@ public class SpitterController : MonsterController
 
     private IEnumerator Shoot()
     {
+        Com.animator.SetTrigger("isAttack");
         isRunCo = true;
+        yield return new WaitForSeconds(0.8f);
         var venom = CustomPoolManager.Instance.curveBulletPool.SpawnThis(transform.position, Vector3.zero, null);
         venom.startPos = transform.position;
         venom.endPos = GameManager.instance.playerController.transform.position + new Vector3(0,-1,0);
@@ -133,7 +137,8 @@ public class SpitterController : MonsterController
         venom.Initialize();
         venom.isRun = true;
         yield return new WaitForSeconds(Stat2.shootDelay);
-        ChangeState(MonsterState.IDLE);
+        if (state != MonsterState.DEATH)
+            ChangeState(MonsterState.IDLE);
         isRunCo = false;
     }
 
@@ -144,7 +149,6 @@ public class SpitterController : MonsterController
 
     protected override void Death()
     {
-        StopAllCoroutines();
         base.Death();
     }
 

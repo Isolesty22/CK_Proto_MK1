@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8948101247578799124}
   - component: {fileID: 1551969497}
   m_Layer: 8
-  m_Name: Roller
+  m_Name: DarkRoller
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,11 +32,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6250088912144387427}
   - {fileID: 2724671757251166741}
   - {fileID: 805635387455677763}
   - {fileID: 6297029571871693702}
   - {fileID: 734921194782332624}
+  - {fileID: 6250088912144387427}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -176,7 +176,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &7611530813265327115
 ParticleSystem:
@@ -5038,7 +5038,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &5715208975074954739
 SphereCollider:
@@ -5115,7 +5115,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &665742862641234100
 MonoBehaviour:
@@ -5173,7 +5173,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1328435132049023873}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5193724165224165096
 MonoBehaviour:
@@ -5210,7 +5210,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_LocalScale.x
@@ -5267,7 +5267,7 @@ PrefabInstance:
     - target: {fileID: -8153585764430668034, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: f0981985ce5205149802229bfe23d5be, type: 2}
+      objectReference: {fileID: 2100000, guid: d79a610a483f14c41bbde23cfaeae280, type: 2}
     - target: {fileID: 919132149155446097, guid: 9f2d7e4baee55074fb545bbd496d02f2, type: 3}
       propertyPath: m_Name
       value: IDLE
