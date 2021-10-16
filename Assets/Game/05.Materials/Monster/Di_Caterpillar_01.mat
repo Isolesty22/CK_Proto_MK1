@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Di_Bird_01
+  m_Name: Di_Caterpillar_01
   m_Shader: {fileID: -6465566751694194690, guid: 89b84ba8d01efae499a28e7427cc9638, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -32,6 +32,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 2800000, guid: 100b503587aff704487ebe10f8984498, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Di_Texture:
         m_Texture: {fileID: 2800000, guid: d61e835424befdc498e0511da7eac687, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -42,6 +46,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _Di_Texture_A:
         m_Texture: {fileID: 2800000, guid: d61e835424befdc498e0511da7eac687, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 0c5a1fa6bab92814c8b074646c62a8a3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -59,11 +67,16 @@ Material:
     m_Floats:
     - Vector1_0ab3ff57cd874d5da05e9dcad3333b01: 0.02
     - Vector1_8f4dbae8ce234c2da6988ab4a05741e8: 50
+    - _Amount: 0
     - _Di_Amount: 0
     - _Di_EdgeWidth: -0.3
     - _Di_NoiseScale: 30
+    - _EdgeWidth: 0.3
+    - _NoiseScale: 45
     m_Colors:
     - Color_1a0f9586e78b4de2b09452f8d4072537: {r: 0, g: 0.32987252, b: 1.750158, a: 0}
     - _Di_EdgeColor: {r: 0, g: 5.992157, b: 4.2352943, a: 0}
     - _Di_EdgeWidth: {r: -40, g: 0, b: 0, a: 0}
+    - _EdgeColor: {r: 0, g: 1.608629, b: 0.33192655, a: 0}
+    - _TexColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
