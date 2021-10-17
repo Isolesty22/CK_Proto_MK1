@@ -540,7 +540,7 @@ public class BearState_Claw : BearState
             ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
-            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x, startPos.y, startPos.z);
+            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x, startPos.y, startPos.z);
 
             clawProjectile.Init(startPos, endPos);
             clawProjectile.Move();
