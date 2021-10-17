@@ -8,17 +8,19 @@ public class ArrowBase : MonoBehaviour
 
     public bool isActive;
 
+    private MonsterController currentMonster;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Monster"))
         {
-            if (other.GetComponent<MonsterController>())
+            if (currentMonster = other.GetComponent<MonsterController>())
             {
-                if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                if (!currentMonster.Stat.isAlive)
                     return;
                 else
                 {
-                    other.GetComponent<MonsterController>().Hit(damage);
+                    currentMonster.Hit(damage);
 
                     var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
                     hit.Play();
@@ -29,7 +31,11 @@ public class ArrowBase : MonoBehaviour
             }
             else
             {
-                return;
+                var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+                hit.Play();
+
+                isActive = false;
+                CustomPoolManager.Instance.ReleaseThis(this);
             }
 
             return;
