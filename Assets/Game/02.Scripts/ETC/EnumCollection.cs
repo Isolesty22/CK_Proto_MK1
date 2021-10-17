@@ -6,8 +6,8 @@ public enum ePhase
 {
     Phase_1,
     Phase_2,
-    Phase_3,
-    Phase_Finish
+  //  Phase_3,
+  //  Phase_Finish
 }
 
 public enum eBearState
@@ -28,15 +28,11 @@ public enum eBearState
     Strike_A,
     [InspectorName("내려치기_B")]
     Strike_B,
-    [InspectorName("내려치기_C")]
-    Strike_C,
 
     [InspectorName("할퀴기_A")]
     Claw_A,
     [InspectorName("할퀴기_B")]
     Claw_B,
-    [InspectorName("할퀴기_C")]
-    Claw_C,
 
     [InspectorName("스매쉬")]
     Smash,
@@ -63,11 +59,13 @@ public enum eBearState
     [InspectorName("페이즈2 전환 연출(돌진)")]
     Rush,
 
-    [InspectorName("페이즈3 전환 연출(걷기)")]
-    FinalWalk,
-
     [InspectorName("죽음")]
     Die,
+}
+
+public enum eGloomState
+{
+
 }
 
 public enum eResolutionType
