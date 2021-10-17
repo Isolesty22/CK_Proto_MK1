@@ -34,7 +34,6 @@ public class BossController : MonoBehaviour
     #region State 관련
     public virtual void ChangeState(int _state)
     {
-
         SetStateInfo((int)_state);
         stateMachine.ChangeState((int)_state);
     }

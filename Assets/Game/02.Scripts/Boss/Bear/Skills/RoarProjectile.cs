@@ -47,8 +47,8 @@ public class RoarProjectile : BearProjectile
     {
         if (other.CompareTag("Player"))
         {
-            OnTrigger();
-            //Despawn만 불러도 됨
+            //OnTrigger();
+            Despawn();//만 불러도 됨
         }
     }
 }
