@@ -70,7 +70,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init()
     {
-        Physics.IgnoreLayerCollision(Physics.AllLayers, gameObject.layer);
+       // Physics.IgnoreLayerCollision(Physics.AllLayers, gameObject.layer);
 
         //mapSize, mapPosition 계산
         UpdateMapVector();

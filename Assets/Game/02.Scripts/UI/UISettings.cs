@@ -153,7 +153,7 @@ public void UpdateUI(Data_Settings _data)
         if (!(data_current.IsEquals(data_saved)))
         {
             //팝업 띄우기
-            uiManager.OpenPopup(str_changes,
+            uiManager.OpenPopup(eUIText.DataSave,
                 Button_ChangesSave, Button_ChangesClose);
         }
         else //없다면

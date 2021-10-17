@@ -41,10 +41,9 @@ public class UIMainMenu : UIBase
         return true;
 
     }
-    private readonly string str_startNewGame = "게임을 새로 시작하시겠습니까? \n 기존에 있던 데이터는 모두 삭제됩니다.";
     public void Button_StartNewGame()
     {
-        UIManager.Instance.OpenPopup(str_startNewGame,
+        UIManager.Instance.OpenPopup(eUIText.StartNewGame,
             StartNewGame, UIManager.Instance.CloseTop);
     }
     private void StartNewGame()
@@ -57,12 +56,11 @@ public class UIMainMenu : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
-    private readonly string str_noPlayerData = "<b>저장된 데이터가 없습니다.</b> \n <size=30>새로운 게임을 시작합니다.</size>";
     public void Button_ContinueGame()
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            UIManager.Instance.OpenPopup(str_noPlayerData,
+            UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
                 Button_Continue_OK,
                 Button_Continue_Close);
         }
@@ -93,7 +91,7 @@ public class UIMainMenu : UIBase
 
     public void Button_QuitGame()
     {
-        UIManager.Instance.OpenPopup("게임을 종료하시겠습니까?",
+        UIManager.Instance.OpenPopup(eUIText.Exit,
             QuitGame, 
             UIManager.Instance.CloseTop);
     }

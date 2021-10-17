@@ -6,9 +6,12 @@ using UnityEngine.Events;
 
 public class UIPopup_New : UIBase
 {
+    public GameObject[] textImages;
+    public Dictionary<eUIText, GameObject> textImageDict = new Dictionary<eUIText, GameObject>();
 
+    [HideInInspector]
+    public GameObject currentTextImage = null;
     [Header("팝업 관련")]
-    public Text message;
     public Button button_left;
     public Button button_right;
 
@@ -18,9 +21,19 @@ public class UIPopup_New : UIBase
     /// <param name="_text">내용(\n등은 제대로 적용됨)</param>
     /// <param name="_yes">왼쪽 버튼에 적용되는 이벤트</param>
     /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
-    public void Init_Popup(string _text, UnityAction _left, UnityAction _right)
+    public void Init_Popup(eUIText _uiText, UnityAction _left, UnityAction _right)
     {
-        message.text = _text;
+        if (currentTextImage != null)
+        {
+            currentTextImage.SetActive(false);
+        }
+
+        textImageDict.TryGetValue(_uiText, out currentTextImage);
+
+        if (currentTextImage != null)
+        {
+            currentTextImage.SetActive(true);
+        }
         button_left.onClick.AddListener(_left);
         button_right.onClick.AddListener(_right);
     }
@@ -29,6 +42,10 @@ public class UIPopup_New : UIBase
         Init();
     }
 
+    public override void Init()
+    {
+        base.Init();
+    }
     protected override void CheckOpen()
     {
         isOpen = Com.canvas.enabled;

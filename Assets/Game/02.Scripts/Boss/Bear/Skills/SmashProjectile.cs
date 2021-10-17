@@ -82,7 +82,8 @@ public class SmashProjectile : BearProjectile
     {
         if (other.CompareTag("Player"))
         {
-            OnTrigger();
+            //Despawn();
+            //OnTrigger();
         }
     }
 }

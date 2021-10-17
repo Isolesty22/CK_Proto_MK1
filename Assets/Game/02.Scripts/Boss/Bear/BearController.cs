@@ -16,7 +16,6 @@ public class BearController : BossController
     [Serializable]
     public class Patterns
     {
-
         public List<BearPattern> phase_01_List = new List<BearPattern>();
         public List<BearPattern> phase_02_List = new List<BearPattern>();
     }
@@ -97,8 +96,11 @@ public class BearController : BossController
     public SkillObjects skillObjects;
 
     [Header("현재 체력")]
-    [Range(0, 400)]
-    public float hp = 400f;
+    [Range(0, 450)]
+    public float hp = 450f;
+
+    [Tooltip("곰이 받는 데미지")]
+    private float damage = 1f;
 
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
@@ -362,8 +364,13 @@ public class BearController : BossController
     {
         if (other.CompareTag(str_Arrow))
         {
-            hp -= 1f;
+            hp -= damage;
         }
+    }
+
+    public void SetDamage(float _value)
+    {
+        damage = _value;
     }
 }
 
