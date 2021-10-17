@@ -21,24 +21,19 @@ public class ArrowBase : MonoBehaviour
                 else
                 {
                     currentMonster.Hit(damage);
-
-                    var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
-                    hit.Play();
-
-                    isActive = false;
-                    CustomPoolManager.Instance.ReleaseThis(this);
+                    PlayHitAndRelease();
                 }
             }
             else
             {
-                var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
-                hit.Play();
-
-                isActive = false;
-                CustomPoolManager.Instance.ReleaseThis(this);
+                PlayHitAndRelease();
             }
 
             return;
+        }
+        if (other.CompareTag("Boss"))
+        {
+            PlayHitAndRelease();
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -46,5 +41,14 @@ public class ArrowBase : MonoBehaviour
             isActive = false;
             CustomPoolManager.Instance.ReleaseThis(this);
         }
+    }
+
+    private void PlayHitAndRelease()
+    {
+        var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+        hit.Play();
+
+        isActive = false;
+        CustomPoolManager.Instance.ReleaseThis(this);
     }
 }
