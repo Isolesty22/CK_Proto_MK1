@@ -67,6 +67,16 @@ public enum eGloomState
 {
 
 }
+public enum eUIText
+{
+    StartNewGame,
+    NoPlayerData,
+    DataDelete,
+    DataSave,
+    Exit,
+    
+
+}
 
 public enum eResolutionType
 {

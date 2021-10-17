@@ -66,7 +66,7 @@ public class UIPause : UIBase
     private readonly string str_quitGame = "게임을 종료하시겠습니까?";
     public void Button_QuitGame()
     {
-        UIManager.Instance.OpenPopup(str_quitGame,
+        UIManager.Instance.OpenPopup(eUIText.Exit,
             QuitGame, UIManager.Instance.CloseTop);
     }
     public void Button_Restart()

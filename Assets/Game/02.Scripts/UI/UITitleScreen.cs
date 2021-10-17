@@ -10,11 +10,11 @@ public class UITitleScreen : UIBase
 {
 
     [Space(10)]
-    [SerializeField,Tooltip("현재 load 중 뭘 하고 있는지 표시하는 텍스트")]
-    private Text text_load;
+    [Tooltip("현재 load 중 뭘 하고 있는지 표시하는 텍스트")]
+    public Text text_load;
 
-    [SerializeField, Tooltip("아무 키나 누르세요 텍스트")]
-    private Text text_pressKey;
+    [Tooltip("아무 키나 누르세요 텍스트")]
+    public GameObject text_pressKey;
     public override void Init()
     {
         base.Init();
