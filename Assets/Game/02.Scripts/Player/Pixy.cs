@@ -37,7 +37,10 @@ public class Pixy : MonoBehaviour
         pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
 
         yield return new WaitForSeconds(pixyMoveTime);
-        isReady = true;
+
+        var counter = Counter();
+        StartCoroutine(counter);
+        EndCounter();
     }
 
     public IEnumerator Counter()

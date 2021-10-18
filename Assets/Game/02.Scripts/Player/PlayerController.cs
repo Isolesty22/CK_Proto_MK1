@@ -49,6 +49,9 @@ public class PlayerController : MonoBehaviour
         public float hitColorTime = 1f;
         public float hitColorDelay = 1f;
 
+        public float pixyEnerge = 0f;
+        public float parryingEnerge = 1f;
+        public float attackEnerge = 0.1f;
 
         [Header("unused")]
         public float jumpingSpeed = 1f;
@@ -142,6 +145,8 @@ public class PlayerController : MonoBehaviour
         Com.mat1.color = Com.originalColor;
         Com.mat2.color = Com.originalColor;
         Com.mat3.color = Com.originalColor;
+
+        Stat.pixyEnerge = 0f;
     }
 
     private void Start()
@@ -517,6 +522,10 @@ public class PlayerController : MonoBehaviour
     {
         State.canParry = false;
         Val.velocityY = Stat.parryingForce;
+        Com.animator.SetTrigger("Parrying");
+
+        Stat.pixyEnerge += Stat.parryingEnerge;
+
         State.isParrying = true;
         Val.upTrigger = true;
 
@@ -527,11 +536,11 @@ public class PlayerController : MonoBehaviour
         parryVFX.Play();
         //parryVFX.transform.DOLocalMove(Vector3.zero, Com.pixy.pixyMoveTime).SetEase(Ease.Unset);
 
-        if (!State.canCounter)
-        {
-            State.canCounter = true;
-            Com.pixy.ReadyToCounter();
-        }
+        //if (!State.canCounter)
+        //{
+        //    State.canCounter = true;
+        //    Com.pixy.ReadyToCounter();
+        //}
 
 
         Com.parry.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -592,16 +601,22 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if (!Com.pixy.isReady)
+        if(Stat.pixyEnerge < 10f)
+        {
             return;
+        }
 
         if (Input.GetKeyDown(Key.counter))
         {
-            State.canCounter = false;
-            Com.pixy.isReady = false;
-            var counter = Com.pixy.Counter();
-            StartCoroutine(counter);
-            Com.pixy.EndCounter();
+            Stat.pixyEnerge -= 10f;
+
+            Com.pixy.ReadyToCounter();
+
+            //State.canCounter = false;
+            //Com.pixy.isReady = false;
+            //var counter = Com.pixy.Counter();
+            //StartCoroutine(counter);
+            //Com.pixy.EndCounter();
         }
     }
 
