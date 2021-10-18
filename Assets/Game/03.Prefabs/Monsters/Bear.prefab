@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 4326774578364781433}
   m_Layer: 0
   m_Name: Bear
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
     smashRock: {fileID: 7847128783815491748}
     handTransform: {fileID: 2205962364324008682}
     rushEffect: {fileID: 659122110842458978}
-  hp: 400
+  hp: 450
   bossPhaseValue:
     phase2Per: 0.55
     phase3Per: 0
@@ -117,44 +117,78 @@ MonoBehaviour:
   skillValue:
     clawCount: 3
     clawDelay: 0.5
-    roarRandCount: 6
+    roarRandCount: 5
     smashRandCount: 10
     concentrateTime: 8
     powerlessTime: 5
   patterns:
     phase_01_List:
     - state: 0
-      waitTime: 1
-    - state: 12
+      waitTime: 5
+    - state: 7
       waitTime: 2
     - state: 2
+      waitTime: 2
+    - state: 4
+      waitTime: 2
+    - state: 7
+      waitTime: 1
+    - state: 5
+      waitTime: 2
+    - state: 3
       waitTime: 0
+    - state: 2
+      waitTime: 2
+    - state: 4
+      waitTime: 3
+    - state: 10
+      waitTime: 1
+    - state: 11
+      waitTime: 2
+    - state: 4
+      waitTime: 2
+    - state: 11
+      waitTime: 2
+    - state: 12
+      waitTime: 1
+    - state: 3
+      waitTime: 0
+    phase_02_List:
+    - state: 0
+      waitTime: 2
+    - state: 9
+      waitTime: 2
+    - state: 8
+      waitTime: 2
+    - state: 6
+      waitTime: 1
+    - state: 8
+      waitTime: 2
+    - state: 3
+      waitTime: 1
+    - state: 5
+      waitTime: 1
+    - state: 9
+      waitTime: 2
+    - state: 8
+      waitTime: 2
+    - state: 14
+      waitTime: 1
+    - state: 13
+      waitTime: 0
+    - state: 13
+      waitTime: 2
+    - state: 10
+      waitTime: 1
     - state: 3
       waitTime: 1
     - state: 9
+      waitTime: 0
+    - state: 8
       waitTime: 1
-    - state: 6
-      waitTime: 2
-    - state: 6
-      waitTime: 1
-    - state: 4
-      waitTime: 2
-    phase_02_List:
-    - state: 4
+    - state: 13
       waitTime: 0
-    - state: 7
-      waitTime: 0
-    - state: 10
-      waitTime: 0
-    - state: 10
-      waitTime: 0
-    - state: 4
-      waitTime: 1
-    - state: 7
-      waitTime: 1
-    - state: 10
-      waitTime: 0
-    - state: 10
+    - state: 14
       waitTime: 0
   currentPattern:
     state: 0
@@ -170,8 +204,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.563618, z: 1}
-  m_Center: {x: 0, y: 1.281809, z: 0}
+  m_Size: {x: 1, y: 2.2692013, z: 1}
+  m_Center: {x: 0, y: 1.1346006, z: 0}
 --- !u!1 &4326774579042069881
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,7 +264,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5599275029689425420}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.527, z: -0.563}
+  m_LocalPosition: {x: 0, y: 1.607, z: -0.922}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4326774578364781438}
@@ -656,7 +690,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6909703675965478816, guid: 4957f20ee2c635242a41fa01f3f50e64, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.07999993
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 6909703675965478816, guid: 4957f20ee2c635242a41fa01f3f50e64, type: 3}
       propertyPath: m_LocalPosition.y
@@ -664,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6909703675965478816, guid: 4957f20ee2c635242a41fa01f3f50e64, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -4.6600013
+      value: -0.74
       objectReference: {fileID: 0}
     - target: {fileID: 6909703675965478816, guid: 4957f20ee2c635242a41fa01f3f50e64, type: 3}
       propertyPath: m_LocalRotation.w

@@ -41,10 +41,11 @@ GameObject:
   m_Component:
   - component: {fileID: 7924570662816993984}
   - component: {fileID: 7924570662816993985}
+  - component: {fileID: 3027828826527335268}
   - component: {fileID: 7527488130277419978}
   m_Layer: 12
   m_Name: RoarProjectile
-  m_TagString: Untagged
+  m_TagString: ParryingObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,6 +80,30 @@ MonoBehaviour:
   canParry: 1
   moveTime: 1.5
   myTransform: {fileID: 7924570662816993984}
+--- !u!114 &3027828826527335268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924570662816993986}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3bddda31cff884a9a36039f3e8b577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status:
+    isdisable: 0
+    isMove: 0
+    isDamaged: 1
+    isUpDown: 0
+    moveDistance: 0
+    moveSpeed: 0
+  components:
+    collider: {fileID: 7527488130277419978}
+    objectModel: {fileID: 7924570662816993986}
+    renderer: {fileID: 1698980865717000641}
+  isParried: 0
 --- !u!65 &7527488130277419978
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -164,5 +189,10 @@ PrefabInstance:
 --- !u!4 &565433493180424878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4386816051052463499, guid: a70fd6e599df8094484c84ba100b0119, type: 3}
+  m_PrefabInstance: {fileID: 4267665532835489573}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1698980865717000641 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 3218443331468607204, guid: a70fd6e599df8094484c84ba100b0119, type: 3}
   m_PrefabInstance: {fileID: 4267665532835489573}
   m_PrefabAsset: {fileID: 0}

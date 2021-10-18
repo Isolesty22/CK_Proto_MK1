@@ -144,7 +144,7 @@ public class BearState_Rush : BearState
     float timer;
     float progress;
     float rushTime = 2f;
-    float walkTime = 8f;
+    float walkTime = 5f;
 
     bool canGo;
     public BearState_Rush(BearController _bearController)
@@ -164,11 +164,18 @@ public class BearState_Rush : BearState
     public override void OnEnter()
     {
         canExit = false;
+        bearController.SetDamage(0f);
+
         canGo = true;
         //맵의 왼쪽으로 빠르게 이동하는 함수
         bearController.SetAnimEvent(LeftRush);
         bearController.SetTrigger("Rush_Start");
     }
+    public override void OnExit()
+    {
+        bearController.SetDamage(1f);
+    }
+
     public void LeftRush()
     {
         bearController.StartCoroutine(ProcessLeftRush());
@@ -540,7 +547,7 @@ public class BearState_Claw : BearState
             ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
-            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x, startPos.y, startPos.z);
+            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x, startPos.y, startPos.z);
 
             clawProjectile.Init(startPos, endPos);
             clawProjectile.Move();
@@ -624,6 +631,8 @@ public class BearState_Concentrate : BearState
     public override void OnEnter()
     {
         canExit = false;
+        bearController.SetDamage(0f);
+
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
         bearController.skillObjects.concentrateSphere.SetActive(true);
@@ -631,7 +640,7 @@ public class BearState_Concentrate : BearState
     }
     public override void OnExit()
     {
-
+        bearController.SetDamage(1f);
     }
     public void AnimEvent()
     {
@@ -748,6 +757,7 @@ public class BearState_Die : BearState
         canExit = false;
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
+        bearController.SetDamage(0f);
     }
 
     public override void OnExit()

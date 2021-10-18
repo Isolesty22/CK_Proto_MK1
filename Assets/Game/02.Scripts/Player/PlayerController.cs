@@ -409,8 +409,8 @@ public class PlayerController : MonoBehaviour
 
         Com.animator.SetTrigger("Hit");
 
-        //Com.hit.transform.position = transform.position;
-        //Com.hit.Play();
+        Com.hit.transform.position = transform.position;
+        Com.hit.Play();
 
 
         var knockBack = KnockBack();

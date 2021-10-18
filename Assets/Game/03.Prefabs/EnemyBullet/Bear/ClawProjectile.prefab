@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6909703675766222078}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.45036, y: 0, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 6372184039347564846}
   m_Father: {fileID: 6909703675965478816}
@@ -42,9 +42,10 @@ GameObject:
   - component: {fileID: 6909703675965478816}
   - component: {fileID: -4735913956643832485}
   - component: {fileID: 4241795766087002936}
+  - component: {fileID: 459386202656871781}
   m_Layer: 12
   m_Name: ClawProjectile
-  m_TagString: Untagged
+  m_TagString: ParryingObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,8 +92,32 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.7832345, y: 1.0563049, z: 1.5803108}
-  m_Center: {x: 0, y: 0, z: -0.29015553}
+  m_Size: {x: 0.8477081, y: 1.3383862, z: 1.5803108}
+  m_Center: {x: 0.2842698, y: -0.38721234, z: -0.29015553}
+--- !u!114 &459386202656871781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6909703675965478817}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3bddda31cff884a9a36039f3e8b577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status:
+    isdisable: 0
+    isMove: 0
+    isDamaged: 1
+    isUpDown: 0
+    moveDistance: 0
+    moveSpeed: 0
+  components:
+    collider: {fileID: 4241795766087002936}
+    objectModel: {fileID: 6909703675965478817}
+    renderer: {fileID: 5198745255111182913}
+  isParried: 0
 --- !u!1001 &6909703675107923653
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,5 +190,10 @@ PrefabInstance:
 --- !u!4 &6372184039347564846 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b0eb096786b2ed446a4a28b0abe2cb6c, type: 3}
+  m_PrefabInstance: {fileID: 6909703675107923653}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &5198745255111182913 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: b0eb096786b2ed446a4a28b0abe2cb6c, type: 3}
   m_PrefabInstance: {fileID: 6909703675107923653}
   m_PrefabAsset: {fileID: 0}

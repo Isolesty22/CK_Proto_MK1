@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +6,41 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public CameraManager cameraManager;
-    public PlayerController playerController;
+    public CameraManager cameraManager
+    {
+        get
+        {
+            if (_cameraManager == null)
+            {
+                _cameraManager = FindObjectOfType<CameraManager>();
+            }
+            return _cameraManager;
+        }
+        set
+        {
+            _cameraManager = value;
+        }
+    }
+    private CameraManager _cameraManager; 
+    public PlayerController playerController
+    {
+        get
+        {
+            if (_playerController == null)
+            {
+                _playerController = FindObjectOfType<PlayerController>();
+            }
+            return _playerController;
+        }
+        set
+        {
+            _playerController = value;
+        }
 
-    //ÇØ¾ßÇÔ : OnLevelWasLoaded »ç¿ëÇÏÁö ¸»±â
+    }
+    private PlayerController _playerController; 
+
+    //í•´ì•¼í•¨ : OnLevelWasLoaded ì‚¬ìš©í•˜ì§€ ë§ê¸°
     private void OnLevelWasLoaded_(int level)
     {
         Debug.Log("Test");
@@ -26,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         if (playerController == null)
         {
-            playerController = FindObjectOfType<PlayerController>();   
+            playerController = FindObjectOfType<PlayerController>();
         }
     }
     private void Awake()

@@ -46,7 +46,8 @@ public class ClawProjectile : BearProjectile
     {
         if (other.CompareTag("Player"))
         {
-            OnTrigger();
+            Despawn();
+           // OnTrigger();
         }
     }
 
