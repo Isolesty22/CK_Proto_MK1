@@ -143,7 +143,7 @@ public class BearState_Rush : BearState
 
     float timer;
     float progress;
-    float rushTime = 2f;
+    float rushTime = 1.5f;
     float walkTime = 5f;
 
     bool canGo;
@@ -184,11 +184,13 @@ public class BearState_Rush : BearState
     public void GoMove()
     {
         canGo = true;
+        bearController.skillObjects.rushEffect.SetActive(true);
         bearController.SetAnimEvent(StopMove);
     }
     public void StopMove()
     {
         canGo = false;
+        bearController.skillObjects.rushEffect.SetActive(false);
         bearController.SetAnimEvent(GoMove);
     }
     private IEnumerator ProcessLeftRush()
@@ -730,8 +732,9 @@ public class BearState_Powerless : BearState
         waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
         waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
 
-        bearController.SetTrigger("Powerless_Start");
+        bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
+        bearController.SetTrigger("Powerless_Start");
     }
 
     public override void OnExit()
@@ -748,6 +751,7 @@ public class BearState_Powerless : BearState
     {
         //대기
         yield return waitSecBegin;
+        bearController.EmissionOn();
         bearController.SetTrigger("Powerless_End");
     }
 

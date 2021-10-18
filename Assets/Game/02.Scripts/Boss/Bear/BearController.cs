@@ -121,6 +121,8 @@ public class BearController : BossController
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
 
+
+    private BearEmissionController emissionController;
     #region Init 관련
     protected override void Init()
     {
@@ -133,6 +135,7 @@ public class BearController : BossController
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
 
+        emissionController = GetComponent<BearEmissionController>();
         stateMachine = new BearStateMachine(this);
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eBearState.Idle);
@@ -356,6 +359,16 @@ public class BearController : BossController
     }
 
     #endregion
+
+    public void EmissionOn()
+    {
+        emissionController.EmissionOn();
+    }
+    public void EmissionOff()
+    {
+        emissionController.EmissionOff();
+
+    }
 
 
     private readonly string str_Arrow = "Arrow";
