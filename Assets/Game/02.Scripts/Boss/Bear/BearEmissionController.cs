@@ -10,7 +10,7 @@ public class BearEmissionController : MonoBehaviour
 
     private void Awake()
     {
-        material = meshRenderer.sharedMaterial;
+        material = meshRenderer.material;
 
     }
     Color baseColor = Color.red;
@@ -20,12 +20,25 @@ public class BearEmissionController : MonoBehaviour
     //{
     //    material.SetColor("_EmissionColor", Color.red * 255f);
     //}
-    private void Update()
+    //private void Update()
+    //{
+    //    //float emission = Mathf.PingPong(Time.time * 0.5f, 1f);
+    //    float intensity = Mathf.PingPong(Time.time * 500f, 255f);
+    //    Color finalColor = baseColor;// * Mathf.LinearToGammaSpace(emission);
+    //    //material.SetColor("_EmissionColor", finalColor * (1f + intensity));
+    //    material.SetColor("_EmissionColor", finalColor * 10f);
+    //}
+
+    public void EmissionOn()
     {
-        //float emission = Mathf.PingPong(Time.time * 0.5f, 1f);
-        float intensity = Mathf.PingPong(Time.time * 500f, 255f);
-        Color finalColor = baseColor;// * Mathf.LinearToGammaSpace(emission);
-        material.SetColor("_EmissionColor", finalColor * (1f + intensity));
+
+        Debug.Log("O!");
+        material.SetColor("_EmissionColor", baseColor * 10f);
+    }
+    public void EmissionOff()
+    {
+        Debug.Log("Off!");
+        material.SetColor("_EmissionColor", baseColor * 0f);
     }
 
 }
