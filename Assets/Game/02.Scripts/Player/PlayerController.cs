@@ -524,7 +524,7 @@ public class PlayerController : MonoBehaviour
         Val.velocityY = Stat.parryingForce;
         Com.animator.SetTrigger("Parrying");
 
-        Stat.pixyEnerge += Stat.parryingEnerge;
+        Stat.pixyEnerge = Mathf.Clamp(Stat.pixyEnerge += Stat.parryingEnerge, 0, 30);
 
         State.isParrying = true;
         Val.upTrigger = true;
