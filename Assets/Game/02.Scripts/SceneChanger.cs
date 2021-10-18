@@ -75,9 +75,11 @@ public class SceneChanger : MonoBehaviour
         uiLoading.ipiaTransform.anchoredPosition
             = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, uiLoading.startPosY);
 
-        uiLoading.Open();
 
-        yield return new WaitUntil(() =>uiLoading.isOpen);
+        yield return StartCoroutine(uiLoading.OpenThis());
+        //uiLoading.Open();
+
+        //yield return new WaitUntil(() =>uiLoading.isOpen);
         //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
@@ -163,9 +165,9 @@ public class SceneChanger : MonoBehaviour
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");
             return;
         }
-        SceneManager.sceneLoaded -= LoadSceneEnd;
-        Debug.Log("LoadSceneEnd 함수 호출!!");
 
+        Debug.Log("LoadSceneEnd 함수 호출!!");
         uiLoading.Close();
+        SceneManager.sceneLoaded -= LoadSceneEnd;
     }
 }
