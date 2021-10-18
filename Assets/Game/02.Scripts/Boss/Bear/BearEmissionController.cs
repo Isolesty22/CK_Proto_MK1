@@ -8,12 +8,14 @@ public class BearEmissionController : MonoBehaviour
     public SkinnedMeshRenderer meshRenderer;
     Material material;
 
+    Color baseColor = Color.red;
+    Color originalColor;
+    Color hitColor = new Color(0.8f,0.8f,0.8f,1f);
     private void Awake()
     {
         material = meshRenderer.material;
-
+        originalColor = material.GetColor("_BaseColor");
     }
-    Color baseColor = Color.red;
 
 
     //private void Start()
@@ -38,4 +40,24 @@ public class BearEmissionController : MonoBehaviour
         material.SetColor("_EmissionColor", baseColor * 0f);
     }
 
+    private IEnumerator hitColorCoroutine = null;
+    public void OnHit()
+    {
+        if (hitColorCoroutine == null)
+        {
+            hitColorCoroutine = HitColor();
+            StartCoroutine(hitColorCoroutine);
+        }
+    }
+
+    WaitForSeconds waitTime = new WaitForSeconds(0.1f);
+    
+    public IEnumerator HitColor()
+    {
+        material.SetColor("_BaseColor", hitColor);
+        yield return waitTime;
+        material.SetColor("_BaseColor", originalColor);
+
+        hitColorCoroutine = null;
+    }
 }

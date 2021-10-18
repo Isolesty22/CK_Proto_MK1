@@ -35,6 +35,7 @@ public class BearController : BossController
     {
         public GameObject strikeCube;
         public GameObject roarEffect;
+        public GameObject roarGroundEffect;
 
         [Space(10)]
         public GameObject claw_A_Effect;
@@ -379,6 +380,10 @@ public class BearController : BossController
     {
         if (other.CompareTag(str_Arrow))
         {
+            if (damage > 0f)
+            {
+                emissionController.OnHit();
+            }
             hp -= damage;
         }
     }

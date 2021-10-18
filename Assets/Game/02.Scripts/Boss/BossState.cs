@@ -187,13 +187,13 @@ public class BearState_Rush : BearState
     public void GoMove()
     {
         canGo = true;
-        bearController.skillObjects.rushEffect.SetActive(true);
+        //bearController.skillObjects.rushEffect.SetActive(true);
         bearController.SetAnimEvent(StopMove);
     }
     public void StopMove()
     {
         canGo = false;
-        bearController.skillObjects.rushEffect.SetActive(false);
+        //bearController.skillObjects.rushEffect.SetActive(false);
         bearController.SetAnimEvent(GoMove);
     }
     private IEnumerator ProcessLeftRush()
@@ -279,6 +279,7 @@ public class BearState_Roar : BearState
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
+                bearController.skillObjects.roarGroundEffect.SetActive(true);
                 break;
 
             // 중앙 공격
@@ -290,6 +291,7 @@ public class BearState_Roar : BearState
             default:
                 break;
         }
+
         bearController.SetTrigger("Roar_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
@@ -307,6 +309,7 @@ public class BearState_Roar : BearState
     }
     private IEnumerator ProcessAnimEvent_A()
     {
+
         //Spawn Roar projectile
         int length = bearController.skillValue.roarRandCount;
         for (int i = 0; i < length; i++)
@@ -319,6 +322,7 @@ public class BearState_Roar : BearState
             roarProjectile.Move();
         }
 
+        bearController.skillObjects.roarGroundEffect.SetActive(false);
         yield break;
     }
     private IEnumerator ProcessAnimEvent_B()
@@ -652,7 +656,7 @@ public class BearState_Concentrate : BearState
 
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
-        bearController.skillObjects.concentrateSphere.SetActive(true);
+
         concentrate = ProcessConcentrate();
     }
     public override void OnExit()
@@ -664,8 +668,7 @@ public class BearState_Concentrate : BearState
     {
         helper.StartCheck();
         Debug.Log("StartCheck!");
-
-        bearController.StartCoroutine(ProcessChangeSphere());
+        bearController.skillObjects.concentrateSphere.SetActive(true);
         bearController.StartCoroutine(concentrate);
     }
     private IEnumerator ProcessChangeSphere()
