@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
             _cameraManager = value;
         }
     }
-    private CameraManager _cameraManager; 
+    private CameraManager _cameraManager;
     public PlayerController playerController
     {
         get
@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
         }
 
     }
-    private PlayerController _playerController; 
+    private PlayerController _playerController;
 
     //해야함 : OnLevelWasLoaded 사용하지 말기
     private void OnLevelWasLoaded_(int level)
@@ -80,4 +80,41 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            StageClear();
+        }
+    }
+    /// <summary>
+    /// [임시] 다음 스테이지로 넘어갑니다.
+    /// </summary>
+    public void GoNextStage()
+    {
+        Data_Player data = new Data_Player();
+        data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
+        data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber);
+        data.finalStageNumber = data.currentStageNumber;
+        data.finalStageName = data.currentStageName;
+
+        DataManager.Instance.currentData_player.CopyData(data);
+        SceneChanger.Instance.LoadThisScene(DataManager.Instance.currentData_player.currentStageName);
+        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+
+    }
+
+    /// <summary>
+    /// [임시] 다음 스테이지를 열고 필드맵으로 돌아갑니다.
+    /// </summary>
+    public void StageClear()
+    {
+        DataManager.Instance.currentData_player.finalStageNumber += 1;
+        DataManager.Instance.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.finalStageNumber);
+
+        SceneChanger.Instance.LoadThisScene(DataManager.Instance.currentData_player.finalStageName);
+        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+
+    }
 }

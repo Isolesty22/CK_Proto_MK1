@@ -146,7 +146,6 @@ public void UpdateUI(Data_Settings _data)
 
     #region Button---
 
-    private readonly string str_changes = "변경사항을 저장하시겠습니까?";
     public void Button_Close()
     {
         //변경사항이 있다면

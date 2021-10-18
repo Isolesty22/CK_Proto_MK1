@@ -39,6 +39,7 @@ public class UILoading : UIBase
 
     public override bool Open()
     {
+        isOpen = false;
         fadeDuration = 0.3f;
         StartCoroutine(ProcessOpen());
         return true;
@@ -46,9 +47,17 @@ public class UILoading : UIBase
 
     public override bool Close()
     {
+        Debug.Log("Close!");
         fadeDuration = 0.5f;
         StartCoroutine(ProcessClose());
         return true;
+    }
+
+    public IEnumerator OpenThis()
+    {
+        fadeDuration = 0.3f;
+        yield return StartCoroutine(ProcessOpen());
+        isOpen = true;
     }
 
     protected override IEnumerator ProcessClose()
