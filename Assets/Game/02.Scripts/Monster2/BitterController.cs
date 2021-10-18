@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using DG.Tweening;
 
 public class BitterController : MonsterController
 {
@@ -23,12 +24,15 @@ public class BitterController : MonsterController
 
     public BitterStatus Stat2 => bitterStatus;
     public BitterComponents Com2 => bitterComponents;
+
+    public Tween tween;
+
     #endregion
     public override void Initialize()
     {
         base.Initialize();
+        Utility.KillTween(tween);
         Com.animator.SetBool("isDeath", false);
-        Com.rigidbody.velocity = Vector3.zero;
     }
 
     public override void Awake()
@@ -54,7 +58,13 @@ public class BitterController : MonsterController
     protected override void Idle()
     {
         base.Idle();
-        ChangeState(MonsterState.MOVE);
+
+        if(gameObject.transform.position.y != Com.spawnPos.y)
+        {
+            Utility.KillTween(tween);
+            tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
+            tween.Play();
+        }
     }
 
     protected override void Move()
@@ -64,12 +74,23 @@ public class BitterController : MonsterController
     protected override void Detect()
     {
         base.Detect();
-        ChangeState(MonsterState.ATTACK);
     }
     protected override void Attack()
     {
         base.Attack();
 
+        if(gameObject.transform.position.y == Com.spawnPos.y)
+        {
+            Utility.KillTween(tween);
+            tween = transform.DOMove(new Vector3(Com.spawnPos.x, Com.spawnPos.y + Stat2.upRange, Com.spawnPos.z), Stat2.upDownSpeed).SetEase(Ease.OutCubic);
+            tween.Play();
+        }
+        else if(gameObject.transform.position.y == Com.spawnPos.y + Stat2.upRange)
+        {
+            Utility.KillTween(tween);
+            tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
+            tween.Play();
+        }
     }
 
     public override void Hit(int damage)
