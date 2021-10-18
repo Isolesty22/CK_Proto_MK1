@@ -6,14 +6,14 @@ using UnityEngine.Events;
 
 public class UIPopup_New : UIBase
 {
-    public GameObject[] textImages;
-    public Dictionary<eUIText, GameObject> textImageDict = new Dictionary<eUIText, GameObject>();
+    public Dictionary<eUIText, Sprite> textImageDict = new Dictionary<eUIText, Sprite>();
 
-    [HideInInspector]
-    public GameObject currentTextImage = null;
+    public Image textImage = null;
+    private Sprite currentSprite;
     [Header("팝업 관련")]
     public Button button_left;
     public Button button_right;
+    public UIPopupTextImages[] textImageArray;
 
     /// <summary>
     /// 팝업창의 내용, 버튼 이벤트를 초기화합니다.
@@ -23,16 +23,14 @@ public class UIPopup_New : UIBase
     /// <param name="_no">오른쪽 버튼에 적용되는 이벤트</param>
     public void Init_Popup(eUIText _uiText, UnityAction _left, UnityAction _right)
     {
-        if (currentTextImage != null)
+        if (textImageDict.TryGetValue(_uiText, out currentSprite))
         {
-            currentTextImage.SetActive(false);
+            textImage.sprite = currentSprite;
+            textImage.SetNativeSize();
         }
-
-        textImageDict.TryGetValue(_uiText, out currentTextImage);
-
-        if (currentTextImage != null)
+        else
         {
-            currentTextImage.SetActive(true);
+            textImage.sprite = null;
         }
         button_left.onClick.AddListener(_left);
         button_right.onClick.AddListener(_right);
@@ -45,6 +43,12 @@ public class UIPopup_New : UIBase
     public override void Init()
     {
         base.Init();
+
+        int length = textImageArray.Length;
+        for (int i = 0; i < length; i++)
+        {
+            textImageDict.Add(textImageArray[i].uiText, textImageArray[i].textSprite);
+        }
     }
     protected override void CheckOpen()
     {
@@ -62,7 +66,6 @@ public class UIPopup_New : UIBase
 
     public override bool Close()
     {
-
         //RemoveListeners
         button_right.onClick.RemoveAllListeners();
         button_left.onClick.RemoveAllListeners();
@@ -78,4 +81,12 @@ public class UIPopup_New : UIBase
     {
         UIManager.Instance.CloseTop();
     }
+}
+
+[System.Serializable]
+public class UIPopupTextImages
+{
+    public eUIText uiText;
+    public Sprite textSprite;
+    
 }

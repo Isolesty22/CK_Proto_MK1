@@ -60,13 +60,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Escape))
-    //    {
-    //        CloseTop();
-    //    }
-    //}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseTop();
+        }
+    }
 
     /// <summary>
     /// Stack에서, 현재 UI 이전에 있는 UI
