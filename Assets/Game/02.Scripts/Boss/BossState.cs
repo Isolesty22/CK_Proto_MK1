@@ -119,10 +119,13 @@ public class BearState_Stamp : BearState
     public override void OnExit()
     {
         base.OnExit();
+        bearController.skillObjects.stampShockEffect.SetActive(false);
     }
 
     public void AnimEvent()
     {
+        bearController.skillObjects.stampShockEffect.SetActive(true);
+
         //땅에 있을 경우
         if (GameManager.instance.playerController.State.isGrounded == true)
         {
@@ -143,7 +146,7 @@ public class BearState_Rush : BearState
 
     float timer;
     float progress;
-    float rushTime = 2f;
+    float rushTime = 1.5f;
     float walkTime = 5f;
 
     bool canGo;
@@ -184,11 +187,13 @@ public class BearState_Rush : BearState
     public void GoMove()
     {
         canGo = true;
+        bearController.skillObjects.rushEffect.SetActive(true);
         bearController.SetAnimEvent(StopMove);
     }
     public void StopMove()
     {
         canGo = false;
+        bearController.skillObjects.rushEffect.SetActive(false);
         bearController.SetAnimEvent(GoMove);
     }
     private IEnumerator ProcessLeftRush()
@@ -454,6 +459,7 @@ public class BearState_Strike : BearState
 public class BearState_Claw : BearState
 {
     int random = 0;
+    float projectileEndPosX;
     public BearState_Claw(BearController _bearController)
     {
         bearController = _bearController;
@@ -474,6 +480,18 @@ public class BearState_Claw : BearState
                 bearController.SetAnimEvent(AnimEvent_B);
                 break;
 
+            default:
+                break;
+        }
+
+        switch (bearController.stateInfo.phase)
+        {
+            case ePhase.Phase_1:
+                projectileEndPosX = bearController.bearMapInfo.mapData.minPosition.x;
+                break;
+            case ePhase.Phase_2:
+                projectileEndPosX = bearController.bearMapInfo.mapData.maxPosition.x;
+                break;
             default:
                 break;
         }
@@ -534,12 +552,11 @@ public class BearState_Claw : BearState
 
     private IEnumerator ProcessAnimEvent_B()
     {
-        AnimEvent_A();
-
-        //Spawn Claw projectile
-
         WaitForSeconds waitDelay = new WaitForSeconds(bearController.skillValue.clawDelay);
 
+        bearController.skillObjects.claw_B_Effect.SetActive(true);
+
+        //Spawn Claw projectile
         int length = bearController.skillValue.clawCount;
 
         for (int i = 0; i < length; i++)
@@ -547,14 +564,14 @@ public class BearState_Claw : BearState
             ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
-            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x, startPos.y, startPos.z);
+            Vector3 endPos = new Vector3(projectileEndPosX, startPos.y, startPos.z);
 
             clawProjectile.Init(startPos, endPos);
             clawProjectile.Move();
 
             yield return waitDelay;
         }
-
+        bearController.skillObjects.claw_B_Effect.SetActive(false);
         yield break;
     }
 }
@@ -641,6 +658,7 @@ public class BearState_Concentrate : BearState
     public override void OnExit()
     {
         bearController.SetDamage(1f);
+        bearController.EmissionOff();
     }
     public void AnimEvent()
     {
@@ -675,10 +693,13 @@ public class BearState_Concentrate : BearState
         float maxTime = bearController.skillValue.concentrateTime + 1f;
         float progress = 0f;
 
+        bearController.EmissionOn(60f);
         while (progress < 1f)
         {
             timer += Time.deltaTime;
             progress = timer / maxTime;
+
+            bearController.EmissionOn(50f + (Mathf.Sin(timer*5f)) * 30f);
 
             if (helper.isSucceedParry)
             {
@@ -688,6 +709,7 @@ public class BearState_Concentrate : BearState
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         bearController.SetTrigger("Concentrate_End");
+        bearController.EmissionOn(10f);
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
     }
@@ -718,8 +740,9 @@ public class BearState_Powerless : BearState
         waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
         waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
 
-        bearController.SetTrigger("Powerless_Start");
+        bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
+        bearController.SetTrigger("Powerless_Start");
     }
 
     public override void OnExit()
@@ -736,6 +759,7 @@ public class BearState_Powerless : BearState
     {
         //대기
         yield return waitSecBegin;
+        bearController.EmissionOn(10f);
         bearController.SetTrigger("Powerless_End");
     }
 

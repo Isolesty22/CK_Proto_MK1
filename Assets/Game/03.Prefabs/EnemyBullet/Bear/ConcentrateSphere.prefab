@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4237447075270967321}
   - component: {fileID: 3167070358329922143}
   - component: {fileID: 5734777825877793903}
+  - component: {fileID: 7697013184784633889}
   m_Layer: 12
   m_Name: ConcentrateSphere
   m_TagString: ParryingObject
@@ -95,3 +96,27 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7697013184784633889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 261375352517503826}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f3bddda31cff884a9a36039f3e8b577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status:
+    isdisable: 0
+    isMove: 0
+    isDamaged: 0
+    isUpDown: 0
+    moveDistance: 0
+    moveSpeed: 0
+  components:
+    collider: {fileID: 0}
+    objectModel: {fileID: 0}
+    renderer: {fileID: 0}
+  isParried: 0
