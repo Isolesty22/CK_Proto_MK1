@@ -37,6 +37,9 @@ public class UIManager : MonoBehaviour
     [Tooltip("[임시] 패배 팝업")]
     public UILosePopup losePopup;
 
+    [Tooltip("[임시] 일시정지 팝업")]
+    public UIPause uiPause;
+
     private void Awake()
     {
         if (Instance == null)
@@ -64,7 +67,16 @@ public class UIManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            CloseTop();
+            if (openUIcount == 0)
+            {
+
+                OpenThis(uiPause);
+            }
+            else
+            {
+                CloseTop();
+            }
+
         }
     }
 

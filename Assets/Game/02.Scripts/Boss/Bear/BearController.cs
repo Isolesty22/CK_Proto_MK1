@@ -8,7 +8,9 @@ using System.Linq;
 [SelectionBase]
 public class BearController : BossController
 {
-
+    [Header("임시 포탈")]
+    public TestStagePotal testPotal;
+    [Space(20)]
     public BearMapInfo bearMapInfo;
 
     #region definitions
@@ -314,7 +316,7 @@ public class BearController : BossController
 
         SetStateInfo((int)eBearState.Die);
         ChangeState((int)eBearState.Die);
-
+        testPotal.Active();
     }
     private void SetCurrentPattern(BearPattern _pattern)
     {

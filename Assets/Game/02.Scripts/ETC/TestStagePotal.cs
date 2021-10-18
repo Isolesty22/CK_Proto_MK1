@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class TestStagePotal : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    public void Active()
     {
-        
+        gameObject.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.CompareTag("Player"))
+        {
+            GameManager.instance.GoNextStage();
+        }
     }
 }

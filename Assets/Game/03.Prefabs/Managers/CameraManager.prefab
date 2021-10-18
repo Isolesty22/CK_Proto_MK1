@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 151147728}
   - component: {fileID: 151147731}
   - component: {fileID: 151147729}
+  - component: {fileID: 8044450050227766867}
   m_Layer: 0
   m_Name: cm
   m_TagString: Untagged
@@ -87,6 +88,23 @@ MonoBehaviour:
   m_MaximumFOV: 60
   m_MinimumOrthoSize: 1
   m_MaximumOrthoSize: 5000
+--- !u!114 &8044450050227766867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151147727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68bb026fafb42b14791938953eaace77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_NoiseProfile: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
+  m_PivotOffset: {x: 0, y: 0, z: 0}
+  m_AmplitudeGain: 0
+  m_FrequencyGain: 1
+  mNoiseOffsets: {x: 190.69373, y: 610.11456, z: 838.1102}
 --- !u!1 &314361431
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,6 +595,11 @@ MonoBehaviour:
   smoothSpeed: 10
   curVelocity: {x: 0, y: 0, z: 0}
   offset: {x: 0, y: 7, z: -42.32}
+  shakeValue:
+    time: 0.5
+    amplitude: 2
+    frequency: 2
+  vcam: {fileID: 314361433}
 --- !u!1 &7656030522470876870
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +629,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7656030522470876870}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.3922186, y: 1.79989, z: -31}
+  m_LocalPosition: {x: -8.86, y: 3.2252321, z: -31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7656030521935732525}

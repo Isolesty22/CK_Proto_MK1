@@ -422,6 +422,9 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(knockBack);
         var invincible = Invincible();
         StartCoroutine(invincible);
+
+        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
     }
 
     private IEnumerator KnockBack()

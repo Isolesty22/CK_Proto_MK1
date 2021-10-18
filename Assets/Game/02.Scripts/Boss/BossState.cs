@@ -125,7 +125,8 @@ public class BearState_Stamp : BearState
     public void AnimEvent()
     {
         bearController.skillObjects.stampShockEffect.SetActive(true);
-
+        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
         //땅에 있을 경우
         if (GameManager.instance.playerController.State.isGrounded == true)
         {
@@ -309,7 +310,8 @@ public class BearState_Roar : BearState
     }
     private IEnumerator ProcessAnimEvent_A()
     {
-
+        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
         //Spawn Roar projectile
         int length = bearController.skillValue.roarRandCount;
         for (int i = 0; i < length; i++)
@@ -327,6 +329,7 @@ public class BearState_Roar : BearState
     }
     private IEnumerator ProcessAnimEvent_B()
     {
+
         bearController.skillObjects.roarEffect.SetActive(true);
         yield return waitSec;
         bearController.skillObjects.roarEffect.SetActive(false);
@@ -435,7 +438,8 @@ public class BearState_Strike : BearState
     }
     //랜덤
     private void AnimEvent_A()
-    {
+    {        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
         CloneStrikeCube(strikePos[0]);
         CloneStrikeCube(strikePos[1]);
         CloneStrikeCube(strikePos[2]);
@@ -443,7 +447,8 @@ public class BearState_Strike : BearState
 
     //왼쪽부터 오른쪽까지
     private void AnimEvent_B()
-    {
+    {        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
         //strikePos = new int[5] { 0, 1, 2, 3, 4};
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }

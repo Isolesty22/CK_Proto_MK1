@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class CameraManager : MonoBehaviour
 {
@@ -18,13 +19,23 @@ public class CameraManager : MonoBehaviour
 
     public float followUp;
 
-    public float smoothSpeed =1f;
+    public float smoothSpeed = 1f;
     public Vector3 curVelocity;
 
     public Vector3 offset = new Vector3(0, 1, -8);
 
+    [System.Serializable]
+    public class CameraShakeValue
+    {
+        public float time;
+        public float amplitude;
+        public float frequency;
+    }
+    public CameraShakeValue shakeValue;
+    public CinemachineVirtualCamera vcam;
+    private CinemachineBasicMultiChannelPerlin vcamNoise;
 
-
+    private IEnumerator shakeCoroutine = null;
     private void Awake()
     {
         //mainCam = Camera.main;
@@ -34,6 +45,8 @@ public class CameraManager : MonoBehaviour
 
         cameraHalfWidth = mainCam.aspect * mainCam.orthographicSize;
         cameraHalfHeight = mainCam.orthographicSize;
+
+        vcamNoise = vcam.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
     }
 
     private void FixedUpdate()
@@ -72,4 +85,38 @@ public class CameraManager : MonoBehaviour
         //}
 
     }
+
+    float timer = 0f;
+    private IEnumerator ProcessCameraShake()
+    {
+        vcamNoise.m_AmplitudeGain = shakeValue.amplitude;
+        vcamNoise.m_FrequencyGain = shakeValue.frequency;
+
+        timer = 0f;
+        float progress = 0f;
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / shakeValue.time;
+            yield return YieldInstructionCache.WaitForEndOfFrame;
+        }
+        vcamNoise.m_AmplitudeGain = 0f;
+        vcamNoise.m_FrequencyGain = 0f;
+        shakeCoroutine = null;
+    }
+
+    public void ShakeCamera()
+    {
+        if (shakeCoroutine == null)
+        {
+            shakeCoroutine = ProcessCameraShake();
+            StartCoroutine(shakeCoroutine);
+        }
+        else
+        {
+            timer = 0f;
+        }
+    }
+
 }
+

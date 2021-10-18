@@ -10,22 +10,22 @@ public class UIPause : UIBase
         Init();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (UIManager.Instance.openUIcount == 0)
-            {
+    //void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Escape))
+    //    {
+    //        if (UIManager.Instance.openUIcount == 0)
+    //        {
 
-                UIManager.Instance.OpenThis(this);
-            }
-            else
-            {
-                UIManager.Instance.CloseTop();
-            }
+    //            UIManager.Instance.OpenThis(this);
+    //        }
+    //        else
+    //        {
+    //            UIManager.Instance.CloseTop();
+    //        }
 
-        }
-    }
+    //    }
+    //}
 
     public override bool Open()
     {
