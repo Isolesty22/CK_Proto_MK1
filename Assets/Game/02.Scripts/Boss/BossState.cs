@@ -454,6 +454,7 @@ public class BearState_Strike : BearState
 public class BearState_Claw : BearState
 {
     int random = 0;
+    float projectileEndPosX;
     public BearState_Claw(BearController _bearController)
     {
         bearController = _bearController;
@@ -474,6 +475,18 @@ public class BearState_Claw : BearState
                 bearController.SetAnimEvent(AnimEvent_B);
                 break;
 
+            default:
+                break;
+        }
+
+        switch (bearController.stateInfo.phase)
+        {
+            case ePhase.Phase_1:
+                projectileEndPosX = bearController.bearMapInfo.mapData.minPosition.x;
+                break;
+            case ePhase.Phase_2:
+                projectileEndPosX = bearController.bearMapInfo.mapData.maxPosition.x;
+                break;
             default:
                 break;
         }
@@ -534,12 +547,11 @@ public class BearState_Claw : BearState
 
     private IEnumerator ProcessAnimEvent_B()
     {
-        AnimEvent_A();
-
-        //Spawn Claw projectile
-
         WaitForSeconds waitDelay = new WaitForSeconds(bearController.skillValue.clawDelay);
 
+        bearController.skillObjects.claw_B_Effect.SetActive(true);
+
+        //Spawn Claw projectile
         int length = bearController.skillValue.clawCount;
 
         for (int i = 0; i < length; i++)
@@ -547,14 +559,14 @@ public class BearState_Claw : BearState
             ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
-            Vector3 endPos = new Vector3(bearController.bearMapInfo.mapData.maxPosition.x, startPos.y, startPos.z);
+            Vector3 endPos = new Vector3(projectileEndPosX, startPos.y, startPos.z);
 
             clawProjectile.Init(startPos, endPos);
             clawProjectile.Move();
 
             yield return waitDelay;
         }
-
+        bearController.skillObjects.claw_B_Effect.SetActive(false);
         yield break;
     }
 }
