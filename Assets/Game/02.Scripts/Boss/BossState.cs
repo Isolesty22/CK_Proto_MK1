@@ -119,10 +119,13 @@ public class BearState_Stamp : BearState
     public override void OnExit()
     {
         base.OnExit();
+        bearController.skillObjects.stampShockEffect.SetActive(false);
     }
 
     public void AnimEvent()
     {
+        bearController.skillObjects.stampShockEffect.SetActive(true);
+
         //땅에 있을 경우
         if (GameManager.instance.playerController.State.isGrounded == true)
         {
@@ -655,6 +658,7 @@ public class BearState_Concentrate : BearState
     public override void OnExit()
     {
         bearController.SetDamage(1f);
+        bearController.EmissionOff();
     }
     public void AnimEvent()
     {
@@ -689,10 +693,13 @@ public class BearState_Concentrate : BearState
         float maxTime = bearController.skillValue.concentrateTime + 1f;
         float progress = 0f;
 
+        bearController.EmissionOn(60f);
         while (progress < 1f)
         {
             timer += Time.deltaTime;
             progress = timer / maxTime;
+
+            bearController.EmissionOn(50f + (Mathf.Sin(timer*5f)) * 30f);
 
             if (helper.isSucceedParry)
             {
@@ -702,6 +709,7 @@ public class BearState_Concentrate : BearState
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         bearController.SetTrigger("Concentrate_End");
+        bearController.EmissionOn(10f);
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
     }
@@ -751,7 +759,7 @@ public class BearState_Powerless : BearState
     {
         //대기
         yield return waitSecBegin;
-        bearController.EmissionOn();
+        bearController.EmissionOn(10f);
         bearController.SetTrigger("Powerless_End");
     }
 

@@ -29,15 +29,12 @@ public class BearEmissionController : MonoBehaviour
     //    material.SetColor("_EmissionColor", finalColor * 10f);
     //}
 
-    public void EmissionOn()
+    public void EmissionOn(float _value)
     {
-
-        Debug.Log("O!");
-        material.SetColor("_EmissionColor", baseColor * 10f);
+        material.SetColor("_EmissionColor", baseColor * _value);
     }
     public void EmissionOff()
     {
-        Debug.Log("Off!");
         material.SetColor("_EmissionColor", baseColor * 0f);
     }
 

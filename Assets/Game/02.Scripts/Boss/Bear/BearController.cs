@@ -52,6 +52,8 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject rushEffect;
+        [Space(10)]
+        public GameObject stampShockEffect;
     }
 
     [Serializable]
@@ -360,9 +362,9 @@ public class BearController : BossController
 
     #endregion
 
-    public void EmissionOn()
+    public void EmissionOn(float _value)
     {
-        emissionController.EmissionOn();
+        emissionController.EmissionOn(_value);
     }
     public void EmissionOff()
     {
