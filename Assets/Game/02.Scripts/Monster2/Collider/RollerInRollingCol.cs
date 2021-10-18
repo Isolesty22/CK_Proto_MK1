@@ -13,7 +13,8 @@ public class RollerInRollingCol : MonoBehaviour
             if (other.GetComponent<RollerController>())
                 return;
 
-            other.transform.GetComponent<MonsterController>().Hit(rollerController.Stat2.rollingDamage);
+            if(other.transform.GetComponent<MonsterController>())
+                other.transform.GetComponent<MonsterController>().Hit(rollerController.Stat2.rollingDamage);
         }
 
         else if (other.transform.name == "PlayerHitBox")
