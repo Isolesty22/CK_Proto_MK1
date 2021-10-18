@@ -379,6 +379,10 @@ public class BearController : BossController
     {
         if (other.CompareTag(str_Arrow))
         {
+            if (damage > 0f)
+            {
+                emissionController.OnHit();
+            }
             hp -= damage;
         }
     }
