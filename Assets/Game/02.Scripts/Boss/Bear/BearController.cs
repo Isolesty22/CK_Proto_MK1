@@ -35,6 +35,7 @@ public class BearController : BossController
     {
         public GameObject strikeCube;
         public GameObject roarEffect;
+        public GameObject roarGroundEffect;
 
         [Space(10)]
         public GameObject claw_A_Effect;

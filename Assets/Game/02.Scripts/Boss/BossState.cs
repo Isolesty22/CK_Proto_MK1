@@ -279,6 +279,7 @@ public class BearState_Roar : BearState
                 bearController.bearMapInfo.UpdateProjectileRandArray();
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
+                bearController.skillObjects.roarGroundEffect.SetActive(true);
                 break;
 
             // 중앙 공격
@@ -290,6 +291,7 @@ public class BearState_Roar : BearState
             default:
                 break;
         }
+
         bearController.SetTrigger("Roar_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
@@ -307,6 +309,7 @@ public class BearState_Roar : BearState
     }
     private IEnumerator ProcessAnimEvent_A()
     {
+
         //Spawn Roar projectile
         int length = bearController.skillValue.roarRandCount;
         for (int i = 0; i < length; i++)
@@ -319,6 +322,7 @@ public class BearState_Roar : BearState
             roarProjectile.Move();
         }
 
+        bearController.skillObjects.roarGroundEffect.SetActive(false);
         yield break;
     }
     private IEnumerator ProcessAnimEvent_B()
