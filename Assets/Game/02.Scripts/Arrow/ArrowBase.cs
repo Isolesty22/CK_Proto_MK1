@@ -38,6 +38,9 @@ public class ArrowBase : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
+            var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+            hit.Play();
+
             isActive = false;
             CustomPoolManager.Instance.ReleaseThis(this);
         }
@@ -47,6 +50,10 @@ public class ArrowBase : MonoBehaviour
     {
         var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
         hit.Play();
+
+        var player = GameManager.instance.playerController;
+        player.Stat.pixyEnerge += player.Stat.attackEnerge;
+        
 
         isActive = false;
         CustomPoolManager.Instance.ReleaseThis(this);
