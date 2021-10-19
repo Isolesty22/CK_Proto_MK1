@@ -2,15 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[System.Serializable]
 public class KeyOption
 {
     //default
+  
+    [ReadOnly]
     public KeyCode moveRight = KeyCode.RightArrow;
+    [ReadOnly]
     public KeyCode moveLeft = KeyCode.LeftArrow;
+    [ReadOnly]
     public KeyCode crouch = KeyCode.DownArrow;
+    [ReadOnly]
     public KeyCode lookUp = KeyCode.UpArrow;
+    [ReadOnly]
     public KeyCode attack = KeyCode.Z;
+    [ReadOnly]
     public KeyCode jump = KeyCode.X;
+    [ReadOnly]
     public KeyCode counter = KeyCode.C;
 
     public KeyOption(KeyOption _data)

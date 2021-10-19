@@ -1,13 +1,37 @@
-ï»¿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using UnityEngine.UI;
 using System.Reflection;
-//using UnityEngine.Events;
 
-public class JiwonTestRoutine : MonoBehaviour
+public class UIKeySetting : UIBase
 {
+    #region UIBase
+    protected override void CheckOpen()
+    {
+        isOpen = Com.canvas.enabled;
+    }
+
+    public override bool Open()
+    {
+        StartCoroutine(ProcessOpen());
+        return true; ;
+    }
+
+    public override bool Close()
+    {
+        StartCoroutine(ProcessClose());
+        return true;
+    }
+
+
+    public void CloseMe()
+    {
+        UIManager.Instance.CloseTop();
+    }
+
+    #endregion
+
     public KeyInputDetector keyInputDetector;
 
     public KeyCode changedKey;
@@ -23,23 +47,38 @@ public class JiwonTestRoutine : MonoBehaviour
     /// </summary>
     private Dictionary<KeyCode, string> keyInfoDict = new Dictionary<KeyCode, string>();
 
-    public void Init()
+    /// <summary>
+    /// Å°¸¦ º¯°æÇÏ°í ÀÖ´Â ÁßÀÎ°¡?
+    /// </summary>
+    private bool isChangingKey = false;
+    private void Start()
+    {
+        Init();
+    }
+
+    public override void Init()
+    {
+        Init_Dict();
+        CheckOpen();
+    }
+
+    private void Init_Dict()
     {
         int length = keyButtonList.Count;
 
-        //keyButtonDict ìƒì„±
+        //keyButtonDict »ı¼º
         for (int i = 0; i < length; i++)
         {
             keyButtonDict.Add(keyButtonList[i].keyType, keyButtonList[i]);
         }
 
-        //keyButtonListì— ë“±ë¡ëœ Buttonë“¤ì˜ OnClick()ì— Button_InputChangeKey() ì¶”ê°€
+        //keyButtonList¿¡ µî·ÏµÈ ButtonµéÀÇ OnClick()¿¡ Button_InputChangeKey() Ãß°¡
         for (int i = 0; i < length; i++)
         {
             int index = i;
             keyButtonList[index].button.onClick.AddListener(delegate { Button_InputChangeKey(keyButtonList[index].keyType); });
         }
-        //keyInfoDict ìƒì„±
+        //keyInfoDict »ı¼º
         for (int i = 0; i < length; i++)
         {
             FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
@@ -47,16 +86,11 @@ public class JiwonTestRoutine : MonoBehaviour
 
             keyInfoDict.Add((KeyCode)_testField.GetValue(data_keyOption), _testField.Name);
         }
-        //Key Text ì—…ë°ì´íŠ¸
+        //Key Text ¾÷µ¥ÀÌÆ®
         UpdateAllKeyText();
+
     }
 
-    private void Start()
-    {
-        Init();
-    }
-
-    private bool isChangingKey = false;
 
     public void Button_InputChangeKey(string _keyType)
     {
@@ -68,8 +102,9 @@ public class JiwonTestRoutine : MonoBehaviour
         StartChangingKey();
         StartCoroutine(WaitInputKey(_keyType));
     }
+
     /// <summary>
-    /// í‚¤ ì…ë ¥ì„ ê¸°ë‹¤ë¦¬ê³ , í‚¤ê°€ ì…ë ¥ë˜ì—ˆìœ¼ë©´ ChangeThisKey()ë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤.
+    /// Å° ÀÔ·ÂÀ» ±â´Ù¸®°í, Å°°¡ ÀÔ·ÂµÇ¾úÀ¸¸é ChangeThisKey()¸¦ È£ÃâÇÕ´Ï´Ù.
     /// </summary>
     private IEnumerator WaitInputKey(string _keyType)
     {
@@ -90,43 +125,69 @@ public class JiwonTestRoutine : MonoBehaviour
 
     public void ChangeThisKey(string _keyType)
     {
-        //ì‚¬ìš©í•˜ê³  ìˆëŠ” í‚¤ë¼ë©´ return
+        //»ç¿ëÇÏ°í ÀÖ´Â Å°¶ó¸é
         if (IsUsedKey(keyInputDetector.currentKeyCode))
         {
             EndChangingKey();
+
+            //´Ù½Ã Å° ÀÔ·Â ¹Ş±â
+            StartChangingKey();
+            StartCoroutine(WaitInputKey(_keyType));
             return;
         }
 
-        //_keyType ì´ë¦„ì˜ ë³€ìˆ˜ ë°›ì•„ì˜¤ê¸°
+        //_keyType ÀÌ¸§ÀÇ º¯¼ö ¹Ş¾Æ¿À±â
         FieldInfo _testField = data_keyOption.GetType().GetField(_keyType, BindingFlags.Public | BindingFlags.Instance);
 
-        //í•´ë‹¹ ì´ë¦„ì˜ ë³€ìˆ˜ê°€ ì—†ìœ¼ë©´ return
+        //ÇØ´ç ÀÌ¸§ÀÇ º¯¼ö°¡ ¾øÀ¸¸é return
         if (ReferenceEquals(_testField, null))
         {
-            Debug.LogError("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” KeyTypeì…ë‹ˆë‹¤(" + _keyType + "). ë²„íŠ¼ OnClickì„ í™•ì¸í•˜ì„¸ìš”.");
+            Debug.LogError("Á¸ÀçÇÏÁö ¾Ê´Â KeyTypeÀÔ´Ï´Ù(" + _keyType + "). ¹öÆ° OnClickÀ» È®ÀÎÇÏ¼¼¿ä.");
 
             EndChangingKey();
             return;
         }
 
-        //ë³€ê²½ ì „ì˜ í‚¤ì½”ë“œ
+        //º¯°æ ÀüÀÇ Å°ÄÚµå
         KeyCode prevKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
         keyInfoDict.Remove(prevKeyCode);
 
-        //í•´ë‹¹ _keyTypeì˜ í‚¤ì½”ë“œ ë³€ê²½
+        //ÇØ´ç _keyTypeÀÇ Å°ÄÚµå º¯°æ
         _testField.SetValue(data_keyOption, keyInputDetector.currentKeyCode);
 
-        //ë³€ê²½ëœ í˜„ì¬ í‚¤ì½”ë“œ
+        //º¯°æµÈ ÇöÀç Å°ÄÚµå
         KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
 
-        //í…ìŠ¤íŠ¸ ì—…ë°ì´íŠ¸
+        //ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
         //UpdateAllKeyText();
-        UpdateKeyText(_keyType, currentKeyCode.ToString());
-        keyInfoDict.Add(currentKeyCode, _keyType);
+        string tempStr = TryReturnArrowKeyString(currentKeyCode);
 
+        UpdateKeyText(_keyType, tempStr);
+        keyInfoDict.Add(currentKeyCode, tempStr);
         EndChangingKey();
     }
 
+
+    private string TryReturnArrowKeyString(KeyCode _keyCode)
+    {
+        switch (_keyCode)
+        {
+            case KeyCode.RightArrow:
+                return "¡æ";
+
+            case KeyCode.UpArrow:
+                return "¡è";
+
+            case KeyCode.DownArrow:
+                return "¡é";
+
+            case KeyCode.LeftArrow:
+                return "¡ç";
+
+            default:
+                return _keyCode.ToString();
+        }
+    }
     public void StartChangingKey()
     {
         isChangingKey = true;
@@ -136,24 +197,24 @@ public class JiwonTestRoutine : MonoBehaviour
         isChangingKey = false;
     }
     /// <summary>
-    /// ì´ë¯¸ ì‚¬ìš©í•˜ê³  ìˆëŠ” í‚¤ì¸ê°€?
+    /// ÀÌ¹Ì »ç¿ëÇÏ°í ÀÖ´Â Å°ÀÎ°¡?
     /// </summary>
     public bool IsUsedKey(KeyCode _inputKey)
     {
         string tempKeyType;
 
 
-        //ì´ë¯¸ í‚¤ê°€ ì¡´ì¬í• ê²½ìš°
+        //ÀÌ¹Ì Å°°¡ Á¸ÀçÇÒ°æ¿ì
         if (keyInfoDict.TryGetValue(_inputKey, out tempKeyType))
         {
-            Debug.LogError("í•´ë‹¹ í‚¤ëŠ” ì´ë¯¸ " + tempKeyType + "ì— í• ë‹¹ë˜ì–´ìˆìŠµë‹ˆë‹¤.");
+            Debug.LogError("ÇØ´ç Å°´Â ÀÌ¹Ì " + tempKeyType + "¿¡ ÇÒ´çµÇ¾îÀÖ½À´Ï´Ù.");
             return true;
         }
-        else //ì¡´ì¬í•˜ì§€ ì•Šì„ê²½ìš°
+        else //Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì
         {
             if (_inputKey == KeyCode.Escape)
             {
-                Debug.LogError(_inputKey.ToString() + "í‚¤ëŠ” ì‚¬ìš©í•˜ì‹¤ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
+                Debug.LogError(_inputKey.ToString() + "Å°´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
                 return true;
             }
 
@@ -162,7 +223,7 @@ public class JiwonTestRoutine : MonoBehaviour
     }
 
     /// <summary>
-    /// /UIì˜ Key Textë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
+    /// /UIÀÇ Key Text¸¦ º¯°æÇÕ´Ï´Ù.
     /// </summary>
     public void UpdateKeyText(string _keyType, string _changedKey)
     {
@@ -170,7 +231,7 @@ public class JiwonTestRoutine : MonoBehaviour
     }
 
     /// <summary>
-    /// /UIì˜ Key Textë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
+    /// /UIÀÇ Key Text¸¦ º¯°æÇÕ´Ï´Ù.
     /// </summary>
     public void UpdateAllKeyText()
     {
@@ -181,15 +242,12 @@ public class JiwonTestRoutine : MonoBehaviour
         }
     }
 
-
-    //private KeyCode SetKeyCode(string _keyType, KeyCode _keyCode)
-    //{
-    //}
-
-    //private KeyCode GetKeyCode(string _keyType)
-    //{
-    //    return null;
-    //}
 }
 
-
+[System.Serializable]
+public class KeyChangeButton
+{
+    public string keyType;
+    public Button button;
+    public Text text;
+}

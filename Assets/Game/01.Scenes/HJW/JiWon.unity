@@ -334,7 +334,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &91839140
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +349,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   keyInputDetector: {fileID: 1692246799}
   changedKey: 0
-  data_keySetting:
+  data_keyOption:
     moveRight: 275
     moveLeft: 276
     crouch: 274
@@ -844,6 +844,8 @@ MonoBehaviour:
   dontDestroyOnLoad: 0
   disabledPrevUI: 0
   openUIcount: 0
+  losePopup: {fileID: 0}
+  uiPause: {fileID: 0}
 --- !u!4 &369808694
 Transform:
   m_ObjectHideFlags: 0
@@ -1070,7 +1072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &637029901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,6 +1086,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCurrentHP: 3
+  hp_on: {fileID: 0}
+  hp_off: {fileID: 0}
   hpImageList:
   - {fileID: 1440713201}
   - {fileID: 1081838738}
@@ -1187,7 +1191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &882455113
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2494,7 +2498,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1382808115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2507,26 +2511,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 073bf542edf304042bb9afea901316ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myTransform: {fileID: 0}
   animator: {fileID: 1382808117}
-  bearMapInfo: {fileID: 0}
+  animationEventListener: {fileID: 0}
   stateInfo:
-    phase: 
+    phase: 0
     state: 
+    stateInt: 0
+  testPotal: {fileID: 0}
+  bearMapInfo: {fileID: 0}
   testTextMesh:
     stateText: {fileID: 0}
     phaseText: {fileID: 0}
     hpText: {fileID: 0}
+  colliders:
+    headCollider: {fileID: 0}
+    bodyCollider: {fileID: 0}
+    headColliderSize: {x: 0, y: 0, z: 0}
+    bodyColliderSize: {x: 0, y: 0, z: 0}
   skillObjects:
     strikeCube: {fileID: 0}
-    roarCube: {fileID: 0}
+    roarEffect: {fileID: 0}
+    roarGroundEffect: {fileID: 0}
+    claw_A_Effect: {fileID: 0}
+    claw_B_Effect: {fileID: 0}
+    clawUnderPosition: {fileID: 0}
+    headParringPosition: {fileID: 0}
+    concentrateHelper: {fileID: 0}
+    concentrateSphere: {fileID: 0}
+    smashRock: {fileID: 0}
+    handTransform: {fileID: 0}
+    rushEffect: {fileID: 0}
+    stampShockEffect: {fileID: 0}
   hp: 100
   bossPhaseValue:
-    phase2: 0
-    phase3: 0
+    phase2Per: 0
+    phase3Per: 0
+    phase2Hp: 0
+    phase3Hp: 0
+  skillValue:
+    clawCount: 3
+    clawDelay: 0.5
+    roarRandCount: 7
+    smashRandCount: 4
+    concentrateTime: 3
+    powerlessTime: 3
   patterns:
-    phase_01_List: 
-    phase_02_List: 
-    phase_03_List: 
+    phase_01_List: []
+    phase_02_List: []
+  currentPattern:
+    state: 0
+    waitTime: 0
 --- !u!4 &1382808116
 Transform:
   m_ObjectHideFlags: 0
@@ -2927,7 +2962,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1692246799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3667,6 +3702,10 @@ PrefabInstance:
     - target: {fileID: 3423979152047302667, guid: e05564ef11a90414d8a6b992a7223cb4, type: 3}
       propertyPath: m_Name
       value: UILosePopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3423979152047302667, guid: e05564ef11a90414d8a6b992a7223cb4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3839364712363381948, guid: e05564ef11a90414d8a6b992a7223cb4, type: 3}
       propertyPath: m_Pivot.x
