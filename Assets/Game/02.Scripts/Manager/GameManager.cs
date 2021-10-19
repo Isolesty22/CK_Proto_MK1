@@ -40,26 +40,6 @@ public class GameManager : MonoBehaviour
     }
     private PlayerController _playerController;
 
-    //해야함 : OnLevelWasLoaded 사용하지 말기
-    private void OnLevelWasLoaded_(int level)
-    {
-        Debug.Log("Test");
-        if (instance == null || instance != this)
-        {
-            instance = this;
-            //   GameObject.DontDestroyOnLoad(this.gameObject);
-        }
-
-        if (cameraManager == null)
-        {
-            cameraManager = FindObjectOfType<CameraManager>();
-        }
-
-        if (playerController == null)
-        {
-            playerController = FindObjectOfType<PlayerController>();
-        }
-    }
     private void Awake()
     {
         if (instance == null || instance != this)
@@ -69,15 +49,15 @@ public class GameManager : MonoBehaviour
             //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
 
-        if (cameraManager == null)
-        {
+        //if (cameraManager == null)
+        //{
             cameraManager = FindObjectOfType<CameraManager>();
-        }
+        //}
 
-        if (playerController == null)
-        {
+        //if (playerController == null)
+        //{
             playerController = FindObjectOfType<PlayerController>();
-        }
+        //}
     }
 
 

@@ -168,6 +168,7 @@ public class SceneChanger : MonoBehaviour
 
         Debug.Log("LoadSceneEnd 함수 호출!!");
         uiLoading.Close();
+        Time.timeScale = 1f;
         SceneManager.sceneLoaded -= LoadSceneEnd;
     }
 }
