@@ -52,7 +52,7 @@ public class ArrowBase : MonoBehaviour
         hit.Play();
 
         var player = GameManager.instance.playerController;
-        player.Stat.pixyEnerge = Mathf.Clamp(player.Stat.pixyEnerge += player.Stat.parryingEnerge, 0, 30);
+        player.Stat.pixyEnerge = Mathf.Clamp(player.Stat.pixyEnerge += player.Stat.attackEnerge, 0, 30);
 
 
         isActive = false;
