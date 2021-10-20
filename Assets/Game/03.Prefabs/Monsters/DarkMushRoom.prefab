@@ -9,11 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 75888090283175203}
-  - component: {fileID: 492337635536134117}
+  - component: {fileID: 3607113228258920149}
   - component: {fileID: 6307346486017835251}
   - component: {fileID: 4147787381735573126}
   m_Layer: 8
-  m_Name: Rabbit
+  m_Name: DarkMushRoom
   m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,12 +30,12 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 2032446345510884426}
+  - {fileID: 6318074158838004859}
   - {fileID: 4731958819456654202}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &492337635536134117
+--- !u!114 &3607113228258920149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,14 +44,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 75888090283175202}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc0317fb7c633de44b3854d7c1be849e, type: 3}
+  m_Script: {fileID: 11500000, guid: 687b9986e33d3304dacb500bff0b9b77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
   monsterStatus:
-    name: Rabbit
-    hp: 3
-    maxHp: 4
+    name: mushroom
+    hp: 0
+    maxHp: 2
     moveSpeed: 3
     isAlive: 0
     isCanSpawnMon: 0
@@ -62,19 +62,14 @@ MonoBehaviour:
   components:
     rigidbody: {fileID: 6307346486017835251}
     collider: {fileID: 4147787381735573126}
-    monsterModel: {fileID: 1693181396178685680}
-    renderer: {fileID: 5009027528736834122}
-    animator: {fileID: 4747638741986988936}
+    monsterModel: {fileID: 6693930511559911105}
+    renderer: {fileID: 6587882596094639221}
+    animator: {fileID: 0}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
   playerOutOfRange: 0
   inAttackCol: 0
-  rabbitStatus:
-    jumpPower: 5
-    moveDelay: 1.7
-  rabbitComponents:
-    capsuleCollider: {fileID: 4147787381735573126}
 --- !u!54 &6307346486017835251
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -101,29 +96,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.4
-  m_Height: 0.8
+  m_Radius: 0.25
+  m_Height: 1
   m_Direction: 1
-  m_Center: {x: 0, y: 0.37, z: 0}
---- !u!95 &4747638741986988936
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693181396178685680}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 757c65347d22d9347ba5c8fa8aa89e33, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6450163429204945786
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterController: {fileID: 492337635536134117}
+  monsterController: {fileID: 3607113228258920149}
 --- !u!65 &6409304293795793507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -180,93 +156,81 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 25, y: 18, z: 18}
+  m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1001 &1999046639142761377
+--- !u!1001 &5775012770393119632
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 75888090283175203}
     m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.5
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-      propertyPath: m_Name
-      value: Rabbit_01
-      objectReference: {fileID: 0}
-    - target: {fileID: 6790770370267443691, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
+    - target: {fileID: 812947928087963621, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 099565c80a7472b438f07156fbbf375a, type: 2}
+      objectReference: {fileID: 2100000, guid: 794399035f322ae47b81276f2231f7db, type: 2}
+    - target: {fileID: 919132149155446097, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
+      propertyPath: m_Name
+      value: Mushroom_ani
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
---- !u!1 &1693181396178685680 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
+--- !u!1 &6693930511559911105 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-  m_PrefabInstance: {fileID: 1999046639142761377}
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
+  m_PrefabInstance: {fileID: 5775012770393119632}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2032446345510884426 stripped
+--- !u!4 &6318074158838004859 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-  m_PrefabInstance: {fileID: 1999046639142761377}
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
+  m_PrefabInstance: {fileID: 5775012770393119632}
   m_PrefabAsset: {fileID: 0}
---- !u!137 &5009027528736834122 stripped
+--- !u!137 &6587882596094639221 stripped
 SkinnedMeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 6790770370267443691, guid: 66c81c62151c16e4eb90afb3962b93ae, type: 3}
-  m_PrefabInstance: {fileID: 1999046639142761377}
+  m_CorrespondingSourceObject: {fileID: 812947928087963621, guid: d2a13fb44c359044490ba3f10adbf87e, type: 3}
+  m_PrefabInstance: {fileID: 5775012770393119632}
   m_PrefabAsset: {fileID: 0}

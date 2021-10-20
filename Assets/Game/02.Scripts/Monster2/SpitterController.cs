@@ -32,6 +32,7 @@ public class SpitterController : MonsterController
     #endregion
     public override void Initialize()
     {
+        Com.animator.SetBool("isDeath", false);
         Com.rigidbody.useGravity = false;
         isRunCo = false;
         base.Initialize();
@@ -149,6 +150,7 @@ public class SpitterController : MonsterController
 
     protected override void Death()
     {
+        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 
