@@ -6,6 +6,8 @@ using System.Reflection;
 
 public class UIKeySetting : UIBase
 {
+
+    //해야함 : 초기화 후 오류 발생함. 딕셔너리 등등 정리를 좀 해야할듯.....
     #region UIBase
     protected override void CheckOpen()
     {
@@ -20,6 +22,11 @@ public class UIKeySetting : UIBase
 
     public override bool Close()
     {
+        if (!CanSave())
+        {
+            Debug.Log("Cant Save!");
+            return false;
+        }
         StartCoroutine(ProcessClose());
         return true;
     }
@@ -32,15 +39,32 @@ public class UIKeySetting : UIBase
 
     #endregion
 
+
+    [Header("키 입력 감지")]
     public KeyInputDetector keyInputDetector;
 
+    [Header("실패 문구")]
+    public Image failedImage;
+
+    [Header("기본/실패 스프라이트")]
+    public Sprite basicBoxSprite;
+    public Sprite failedBoxSprite;
+
+    [HideInInspector]
     public KeyCode changedKey;
 
+    [HideInInspector]
     public KeyOption data_keyOption;
+    //public KeyOption data_keyOption_current;
+
+    [HideInInspector]
+    public KeyOption data_keyOption_saved;
 
     public List<KeyChangeButton> keyButtonList = new List<KeyChangeButton>();
 
     private Dictionary<string, KeyChangeButton> keyButtonDict = new Dictionary<string, KeyChangeButton>();
+
+    private Dictionary<string, FieldInfo> fieldInfoDict = new Dictionary<string, FieldInfo>();
 
     /// <summary>
     /// ex: <A, "moveLeft">
@@ -51,6 +75,12 @@ public class UIKeySetting : UIBase
     /// 키를 변경하고 있는 중인가?
     /// </summary>
     private bool isChangingKey = false;
+
+
+    private void Awake()
+    {
+        Init_KeyButtonListAndDict();
+    }
     private void Start()
     {
         Init();
@@ -58,11 +88,36 @@ public class UIKeySetting : UIBase
 
     public override void Init()
     {
-        Init_Dict();
         CheckOpen();
+
+        if (DataManager.Instance == null)
+        {
+            data_keyOption = new KeyOption();
+            data_keyOption_saved = new KeyOption();
+        }
+        else
+        {
+            data_keyOption = new KeyOption(DataManager.Instance.currentData_settings.keySetting);
+            data_keyOption_saved = new KeyOption(DataManager.Instance.currentData_settings.keySetting);
+
+
+        }
+
+        int length = keyButtonList.Count;
+
+        //keyInfoDict 생성
+        for (int i = 0; i < length; i++)
+        {
+            FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
+            Debug.Log("TestField String : " + _testField.Name);
+            fieldInfoDict.Add(_testField.Name, _testField);
+            keyInfoDict.Add((KeyCode)_testField.GetValue(data_keyOption), _testField.Name);
+        }
+        //Key Text 업데이트
+        UpdateAllKeyText();
     }
 
-    private void Init_Dict()
+    private void Init_KeyButtonListAndDict()
     {
         int length = keyButtonList.Count;
 
@@ -78,16 +133,7 @@ public class UIKeySetting : UIBase
             int index = i;
             keyButtonList[index].button.onClick.AddListener(delegate { Button_InputChangeKey(keyButtonList[index].keyType); });
         }
-        //keyInfoDict 생성
-        for (int i = 0; i < length; i++)
-        {
-            FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
-            Debug.Log("TestField String : " + _testField.Name);
 
-            keyInfoDict.Add((KeyCode)_testField.GetValue(data_keyOption), _testField.Name);
-        }
-        //Key Text 업데이트
-        UpdateAllKeyText();
 
     }
 
@@ -128,16 +174,36 @@ public class UIKeySetting : UIBase
         //사용하고 있는 키라면
         if (IsUsedKey(keyInputDetector.currentKeyCode))
         {
-            EndChangingKey();
+            failedImage.gameObject.SetActive(true);
+
+            KeyChangeButton button = keyButtonDict[_keyType];
+            button.button.image.sprite = failedBoxSprite;
+            button.isFailed = true;
 
             //다시 키 입력 받기
-            StartChangingKey();
             StartCoroutine(WaitInputKey(_keyType));
             return;
         }
+        else
+        {
+
+            failedImage.gameObject.SetActive(false);
+
+            KeyChangeButton button = keyButtonDict[_keyType];
+            button.button.image.sprite = basicBoxSprite;
+            button.isFailed = false;
+
+            keyInputDetector.EndDetect();
+            EndChangingKey();
+
+        }
+
+
 
         //_keyType 이름의 변수 받아오기
-        FieldInfo _testField = data_keyOption.GetType().GetField(_keyType, BindingFlags.Public | BindingFlags.Instance);
+        // FieldInfo _testField = data_keyOption.GetType().GetField(_keyType, BindingFlags.Public | BindingFlags.Instance);
+        FieldInfo _testField = null;
+        fieldInfoDict.TryGetValue(_keyType, out _testField);
 
         //해당 이름의 변수가 없으면 return
         if (ReferenceEquals(_testField, null))
@@ -147,6 +213,8 @@ public class UIKeySetting : UIBase
             EndChangingKey();
             return;
         }
+
+
 
         //변경 전의 키코드
         KeyCode prevKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
@@ -237,10 +305,122 @@ public class UIKeySetting : UIBase
     {
         for (int i = 0; i < keyButtonList.Count; i++)
         {
-            FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
-            keyButtonList[i].text.text = _testField.GetValue(data_keyOption).ToString();
+            FieldInfo _testField = fieldInfoDict[keyButtonList[i].keyType];
+            keyButtonList[i].text.text = TryReturnArrowKeyString((KeyCode)_testField.GetValue(data_keyOption));
+
         }
     }
+    public void Button_Save()
+    {
+        if (isSaving || !CanSave())
+        {
+            return;
+        }
+
+        StartCoroutine(ProcessSaveCurrentData());
+
+    }
+    private bool isSaving = false;
+    private IEnumerator ProcessSaveCurrentData()
+    {
+        isSaving = true;
+
+        EndChangingKey();
+        keyInputDetector.EndDetect();
+
+        //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
+        DataManager.Instance.currentData_settings.keySetting.CopyData(data_keyOption);
+
+        //변경된 데이터 저장
+        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+
+        data_keyOption_saved.CopyData(data_keyOption);
+        isSaving = false;
+    }
+
+
+    public void Button_SetDefaultData()
+    {
+        if (isSaving)
+        {
+            return;
+        }
+
+
+        StartCoroutine(ProcessSetDefaultData());
+
+    }
+
+    private IEnumerator ProcessSetDefaultData()
+    {
+        isSaving = true;
+        EndChangingKey();
+        keyInputDetector.EndDetect();
+
+        keyInfoDict.Clear();
+        data_keyOption = new KeyOption();
+
+        yield return StartCoroutine(ProcessSaveCurrentData());
+
+        for (int i = 0; i < keyButtonList.Count; i++)
+        {
+            FieldInfo fieldInfo = fieldInfoDict[keyButtonList[i].keyType];
+            keyInfoDict.Add(((KeyCode)fieldInfo.GetValue(data_keyOption)), fieldInfo.Name);
+        }
+        UpdateAllKeyText();
+
+        UpdateAllFailedState();
+        isSaving = false;
+
+    }
+
+    private void UpdateAllFailedState()
+    {
+        int length = keyButtonList.Count;
+
+        bool activeFailedImage = false;
+        for (int i = 0; i < length; i++)
+        {
+
+            KeyChangeButton tempButton = keyButtonList[i];
+
+            if (tempButton.isFailed)
+            {
+                tempButton.image.sprite = failedBoxSprite;
+                activeFailedImage = true;
+            }
+            else
+            {
+                tempButton.image.sprite = basicBoxSprite;
+            }
+
+        }
+
+        if (!activeFailedImage)
+        {
+            failedImage.gameObject.SetActive(false);
+        }
+    }
+    private bool CanSave()
+    {
+        int length = keyButtonList.Count;
+
+        for (int i = 0; i < length; i++)
+        {
+            if (keyButtonList[i].isFailed)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void OnDestroy()
+    {
+        keyInputDetector.EndDetect();
+    }
+
 
 }
 
@@ -249,5 +429,9 @@ public class KeyChangeButton
 {
     public string keyType;
     public Button button;
+    public Image image;
     public Text text;
+
+    [HideInInspector]
+    public bool isFailed = false;
 }

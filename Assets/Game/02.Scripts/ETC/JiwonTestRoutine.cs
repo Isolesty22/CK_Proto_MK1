@@ -90,10 +90,12 @@ public class JiwonTestRoutine : MonoBehaviour
 
     public void ChangeThisKey(string _keyType)
     {
-        //사용하고 있는 키라면 return
+        //사용하고 있는 키라면 return, 아니면 다시 키입력 받기
         if (IsUsedKey(keyInputDetector.currentKeyCode))
         {
             EndChangingKey();
+            StartChangingKey();
+            StartCoroutine(WaitInputKey(_keyType));
             return;
         }
 
@@ -119,14 +121,37 @@ public class JiwonTestRoutine : MonoBehaviour
         //변경된 현재 키코드
         KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
 
+
         //텍스트 업데이트
         //UpdateAllKeyText();
-        UpdateKeyText(_keyType, currentKeyCode.ToString());
-        keyInfoDict.Add(currentKeyCode, _keyType);
+        string tempStr = TryReturnArrowKeyString(currentKeyCode);
 
+        UpdateKeyText(_keyType, tempStr);
+        keyInfoDict.Add(currentKeyCode, tempStr);
         EndChangingKey();
     }
 
+
+    private string TryReturnArrowKeyString(KeyCode _keyCode)
+    {
+        switch (_keyCode)
+        {
+            case KeyCode.RightArrow:
+                return "→";
+
+            case KeyCode.UpArrow:
+                return "↑";
+
+            case KeyCode.DownArrow:
+                return "↓";
+
+            case KeyCode.LeftArrow:
+                return "←";
+
+            default:
+                return _keyCode.ToString();
+        }
+    }
     public void StartChangingKey()
     {
         isChangingKey = true;
@@ -177,7 +202,7 @@ public class JiwonTestRoutine : MonoBehaviour
         for (int i = 0; i < keyButtonList.Count; i++)
         {
             FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
-            keyButtonList[i].text.text = _testField.GetValue(data_keyOption).ToString();
+            keyButtonList[i].text.text = TryReturnArrowKeyString((KeyCode)_testField.GetValue(data_keyOption));
         }
     }
 

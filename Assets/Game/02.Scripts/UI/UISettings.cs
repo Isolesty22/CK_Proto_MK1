@@ -107,8 +107,10 @@ public class UISettings : UIBase
     }
     #endregion
 
+    private bool isSaving = false;
     private IEnumerator ProcessSaveCurrentData()
     {
+        isSaving = true;
         //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
         dataManager.currentData_settings.CopyData(data_current);
 
@@ -117,6 +119,7 @@ public class UISettings : UIBase
 
         //변경된 데이터를 '저장된 데이터'로 변경
         data_saved.CopyData(data_current);
+        isSaving = false;
     }
 
 
@@ -164,11 +167,20 @@ public void UpdateUI(Data_Settings _data)
 
     public void Button_Save()
     {
+        if (isSaving)
+        {
+            return;
+        }
         StartCoroutine(ProcessSaveCurrentData());
     }
 
     private void Button_ChangesSave()
     {
+        if (isSaving)
+        {
+            return;
+        }
+
         StartCoroutine(ProcessSaveCurrentData());
 
         //닫기

@@ -23,7 +23,12 @@ public class KeyInputDetector : MonoBehaviour
     public void StartDetect()
     {
         isDetecting = true;
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
+    }
+    public void EndDetect()
+    {
+        isDetecting = false;
+        gameObject.SetActive(false);
     }
     private void OnGUI()
     {

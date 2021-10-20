@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class UIPause : UIBase
 {
-
+    public GameObject blurVolume;
     void Start()
     {
         Init();
+        blurVolume.SetActive(false);
     }
 
     //void Update()
@@ -29,6 +30,7 @@ public class UIPause : UIBase
 
     public override bool Open()
     {
+        blurVolume.SetActive(true);
         StartCoroutine(ProcessOpen());
         Time.timeScale = 0f;
         return true;
@@ -37,6 +39,7 @@ public class UIPause : UIBase
 
     public override bool Close()
     {
+        blurVolume.SetActive(false);
         StartCoroutine(ProcessClose());
         Time.timeScale = 1f;
         return true;
