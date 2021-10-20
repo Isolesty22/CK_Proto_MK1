@@ -110,40 +110,7 @@ public class SeedShooterController : MonsterController
             cooltime = 0f;
         }
 
-        // triple fire
-
-        //if (cooltime > Stat2.fireCoolTime)
-        //{
-        //    int attackType = UnityEngine.Random.Range(0, 10);
-
-        //    if (attackType >= 0 && attackType < 7)
-        //    {
-        //        // Normal Attack
-        //        var seed = CustomPoolManager.Instance.seedPool.SpawnThis(transform.position, new Vector3(0, 0, 0), null);
-        //        seed.fireSpeed = Stat2.fireSpeed;
-        //    }
-        //    else
-        //    {
-        //        // Triple Attack
-        //        var tripleShot = TripleShot();
-        //        StartCoroutine(tripleShot);
-        //    }
-
-        //    cooltime = 0f;
-        //}
     }
-
-    //public IEnumerator TripleShot()
-    //{
-    //    var seed1 = CustomPoolManager.Instance.seedPool.SpawnThis(transform.position, new Vector3(0, 0, 0), null);
-    //    seed1.fireSpeed = Stat2.fireSpeed;
-    //    yield return new WaitForSeconds(Stat2.tripleFireDelay);
-    //    var seed2 = CustomPoolManager.Instance.seedPool.SpawnThis(transform.position, new Vector3(0, 0, 0), null);
-    //    seed2.fireSpeed = Stat2.fireSpeed;
-    //    yield return new WaitForSeconds(Stat2.tripleFireDelay);
-    //    var seed3 = CustomPoolManager.Instance.seedPool.SpawnThis(transform.position, new Vector3(0, 0, 0), null);
-    //    seed3.fireSpeed = Stat2.fireSpeed;
-    //}
 
     public override void Hit(int damage)
     {

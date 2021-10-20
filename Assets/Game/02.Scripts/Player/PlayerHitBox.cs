@@ -35,6 +35,12 @@ public class PlayerHitBox : MonoBehaviour
 
                 parry = playerController.Parrying();
                 StartCoroutine(parry);
+
+                if (other.GetComponent<ArmadiloController>())
+                {
+                    other.GetComponent<ArmadiloController>().ChangeToOverturn();
+                }
+
                 return;
             }
 
