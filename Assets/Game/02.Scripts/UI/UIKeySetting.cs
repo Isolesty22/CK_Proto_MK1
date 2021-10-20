@@ -39,11 +39,16 @@ public class UIKeySetting : UIBase
 
     #endregion
 
-    public Image failedImage;
-    public Sprite failedBoxSprite;
-    public Sprite basicBoxSprite;
 
+    [Header("키 입력 감지")]
     public KeyInputDetector keyInputDetector;
+
+    [Header("실패 문구")]
+    public Image failedImage;
+
+    [Header("기본/실패 스프라이트")]
+    public Sprite basicBoxSprite;
+    public Sprite failedBoxSprite;
 
     [HideInInspector]
     public KeyCode changedKey;
@@ -51,6 +56,8 @@ public class UIKeySetting : UIBase
     [HideInInspector]
     public KeyOption data_keyOption;
     //public KeyOption data_keyOption_current;
+
+    [HideInInspector]
     public KeyOption data_keyOption_saved;
 
     public List<KeyChangeButton> keyButtonList = new List<KeyChangeButton>();
@@ -58,6 +65,7 @@ public class UIKeySetting : UIBase
     private Dictionary<string, KeyChangeButton> keyButtonDict = new Dictionary<string, KeyChangeButton>();
 
     private Dictionary<string, FieldInfo> fieldInfoDict = new Dictionary<string, FieldInfo>();
+
     /// <summary>
     /// ex: <A, "moveLeft">
     /// </summary>
@@ -426,7 +434,4 @@ public class KeyChangeButton
 
     [HideInInspector]
     public bool isFailed = false;
-
-
-
 }
