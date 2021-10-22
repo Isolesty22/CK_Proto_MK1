@@ -7,11 +7,12 @@ public class UILightGauge : MonoBehaviour
 {
     public Slider lightGaugeSlider;
 
-    
+
     private PlayerController playerController;
     private void Start()
     {
         playerController = GameManager.instance.playerController;
+        lightGaugeSlider.onValueChanged.AddListener(delegate { OnValueChanged(); });
         //lightGaugeSlider.interactable = false;
     }
     private void Update()
@@ -24,9 +25,9 @@ public class UILightGauge : MonoBehaviour
     }
     public void OnValueChanged()
     {
-        if (lightGaugeSlider.value != playerController.Stat.pixyEnerge)
-        {
-            playerController.Stat.pixyEnerge = lightGaugeSlider.value;
-        }
+        //if (lightGaugeSlider.value != playerController.Stat.pixyEnerge)
+        //{
+        //    playerController.Stat.pixyEnerge = lightGaugeSlider.value;
+        //}
     }
 }
