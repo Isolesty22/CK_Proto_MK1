@@ -45,7 +45,7 @@ public class UIPause : UIBase
         return true;
     }
 
-    public void Button_OpenSettings(UIBase _uiBase)
+    public void Button_OpenUI(UIBase _uiBase)
     {
         UIManager.Instance.OpenThis(_uiBase);
     }

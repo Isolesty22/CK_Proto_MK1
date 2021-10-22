@@ -10,10 +10,6 @@ using UnityEngine.Audio;
 /// </summary>
 public class UISettings : UIBase
 {
-    [Header("키입력 감지기")]
-    public KeyInputDetector keyInputDetector;
-
-
     /// <summary>
     /// 현재 저장되어있는 데이터. DataManager의 Data_Settings와 동일해야합니다.
     /// </summary>
