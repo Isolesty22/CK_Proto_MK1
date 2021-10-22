@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +20,7 @@ public class UIPlayerHP : MonoBehaviour
         public Sprite hp_on;
         public Sprite hp_off;
 
-        [Header("ÇÃ·¹ÀÌ¾î »óÅÂ Sprite")]
+        [Header("í”Œë ˆì´ì–´ ìƒíƒœ Sprite")]
         public Sprite basicBG;
         public Sprite hurtBG;
     }
