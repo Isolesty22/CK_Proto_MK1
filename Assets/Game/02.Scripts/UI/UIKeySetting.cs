@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,8 +6,6 @@ using System.Reflection;
 
 public class UIKeySetting : UIBase
 {
-
-    //ÇØ¾ßÇÔ : ÃÊ±âÈ­ ÈÄ ¿À·ù ¹ß»ıÇÔ. µñ¼Å³Ê¸® µîµî Á¤¸®¸¦ Á» ÇØ¾ßÇÒµí.....
     #region UIBase
     protected override void CheckOpen()
     {
@@ -40,276 +38,292 @@ public class UIKeySetting : UIBase
     #endregion
 
 
-    [Header("Å° ÀÔ·Â °¨Áö")]
+    [Header("ì…ë ¥ ê°ì§€ê¸°")]
     public KeyInputDetector keyInputDetector;
 
-    [Header("½ÇÆĞ ¹®±¸")]
-    public Image failedImage;
+    [Header("í‚¤ì„¸íŒ… ì‹¤íŒ¨ ë¬¸êµ¬")]
+    public GameObject failedImage;
 
-    [Header("±âº»/½ÇÆĞ ½ºÇÁ¶óÀÌÆ®")]
+    [Header("ê¸°ë³¸/ì‹¤íŒ¨ ìŠ¤í”„ë¼ì´íŠ¸")]
     public Sprite basicBoxSprite;
     public Sprite failedBoxSprite;
 
-    [HideInInspector]
-    public KeyCode changedKey;
 
-    [HideInInspector]
-    public KeyOption data_keyOption;
-    //public KeyOption data_keyOption_current;
 
-    [HideInInspector]
-    public KeyOption data_keyOption_saved;
+    [Tooltip("ì‹¤ì œ ì €ì¥ëœ ë°ì´í„°ì™€ëŠ” ê´€ë ¨ì—†ëŠ”, ì €ì¥ë˜ê¸° ì „ì˜ í˜„ì¬ ë°ì´í„°ì…ë‹ˆë‹¤.")]
+    private KeyOption currentData_keyOption = new KeyOption();
 
-    public List<KeyChangeButton> keyButtonList = new List<KeyChangeButton>();
+    [Tooltip("í‚¤ì„¸íŒ…ì— ì‚¬ìš©ë˜ëŠ” ë²„íŠ¼ë“¤ì…ë‹ˆë‹¤.")]
+    public KeyChangeButton[] keyChangeButtons;
 
-    private Dictionary<string, KeyChangeButton> keyButtonDict = new Dictionary<string, KeyChangeButton>();
+    [Tooltip("keyTypeì„ keyë¡œ ê°–ëŠ” ë”•ì…”ë„ˆë¦¬.")]
+    private Dictionary<string, KeyChangeButton> keyChangeButtonDict;
 
-    private Dictionary<string, FieldInfo> fieldInfoDict = new Dictionary<string, FieldInfo>();
+    private int length;
 
-    /// <summary>
-    /// ex: <A, "moveLeft">
-    /// </summary>
-    private Dictionary<KeyCode, string> keyInfoDict = new Dictionary<KeyCode, string>();
-
-    /// <summary>
-    /// Å°¸¦ º¯°æÇÏ°í ÀÖ´Â ÁßÀÎ°¡?
-    /// </summary>
+    [Tooltip("í‚¤ ë³€ê²½ì„ ìœ„í•´ ì…ë ¥ì„ ë°›ê³ ìˆëŠ” ìƒíƒœì¸ê°€?")]
     private bool isChangingKey = false;
+    private bool isSaving;
+    private IEnumerator waitInputChangeKey;
 
-
-    private void Awake()
-    {
-        Init_KeyButtonListAndDict();
-    }
     private void Start()
     {
-        Init();
-    }
+        currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
 
-    public override void Init()
-    {
-        CheckOpen();
+        Init_Dict();
+        Init_KeyChangeButtons();
 
-        if (DataManager.Instance == null)
-        {
-            data_keyOption = new KeyOption();
-            data_keyOption_saved = new KeyOption();
-        }
-        else
-        {
-            data_keyOption = new KeyOption(DataManager.Instance.currentData_settings.keySetting);
-            data_keyOption_saved = new KeyOption(DataManager.Instance.currentData_settings.keySetting);
-
-
-        }
-
-        int length = keyButtonList.Count;
-
-        //keyInfoDict »ı¼º
-        for (int i = 0; i < length; i++)
-        {
-            FieldInfo _testField = data_keyOption.GetType().GetField(keyButtonList[i].keyType, BindingFlags.Public | BindingFlags.Instance);
-            Debug.Log("TestField String : " + _testField.Name);
-            fieldInfoDict.Add(_testField.Name, _testField);
-            keyInfoDict.Add((KeyCode)_testField.GetValue(data_keyOption), _testField.Name);
-        }
-        //Key Text ¾÷µ¥ÀÌÆ®
-        UpdateAllKeyText();
-    }
-
-    private void Init_KeyButtonListAndDict()
-    {
-        int length = keyButtonList.Count;
-
-        //keyButtonDict »ı¼º
-        for (int i = 0; i < length; i++)
-        {
-            keyButtonDict.Add(keyButtonList[i].keyType, keyButtonList[i]);
-        }
-
-        //keyButtonList¿¡ µî·ÏµÈ ButtonµéÀÇ OnClick()¿¡ Button_InputChangeKey() Ãß°¡
-        for (int i = 0; i < length; i++)
-        {
-            int index = i;
-            keyButtonList[index].button.onClick.AddListener(delegate { Button_InputChangeKey(keyButtonList[index].keyType); });
-        }
-
-
-    }
-
-
-    public void Button_InputChangeKey(string _keyType)
-    {
-        if (isChangingKey)
-        {
-            return;
-        }
-
-        StartChangingKey();
-        StartCoroutine(WaitInputKey(_keyType));
+        UpdateUI_Text();
     }
 
     /// <summary>
-    /// Å° ÀÔ·ÂÀ» ±â´Ù¸®°í, Å°°¡ ÀÔ·ÂµÇ¾úÀ¸¸é ChangeThisKey()¸¦ È£ÃâÇÕ´Ï´Ù.
+    /// keyChangeButtonDictì— keyChangeButtonsë¥¼ ì¶”ê°€í•©ë‹ˆë‹¤.
     /// </summary>
-    private IEnumerator WaitInputKey(string _keyType)
+    public void Init_Dict()
     {
-        keyInputDetector.StartDetect();
-        Debug.LogWarning("Wait Input Key...");
-        while (true)
+        keyChangeButtonDict = new Dictionary<string, KeyChangeButton>();
+
+        length = keyChangeButtons.Length;
+
+        //keyChangeButtonsë¥¼ ë”•ì…”ë„ˆë¦¬ì— ì¶”ê°€
+        for (int i = 0; i < length; i++)
         {
-            if (!keyInputDetector.isDetecting)
+            keyChangeButtonDict.Add(keyChangeButtons[i].keyType, keyChangeButtons[i]);
+        }
+    }
+
+    /// <summary>
+    /// keyChangeButtonsì— ë“±ë¡ëœ ë²„íŠ¼ë“¤ì„ ì´ˆê¸°í™”í•©ë‹ˆë‹¤.
+    /// </summary>
+    public void Init_KeyChangeButtons()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            KeyChangeButton tempButton = keyChangeButtons[i];
+
+            tempButton.Init();
+            tempButton.field = currentData_keyOption.GetType().GetField(tempButton.keyType, BindingFlags.Public | BindingFlags.Instance);
+            tempButton.keyCode = (KeyCode)tempButton.field.GetValue(currentData_keyOption);
+            tempButton.button.onClick.AddListener(delegate { Button_InputChangeKey(tempButton.keyType); });
+        }
+    }
+
+
+    /// <summary>
+    /// í‚¤ ì…ë ¥ì„ ê¸°ë‹¤ë¦¬ê³ , ì…ë ¥ë˜ì—ˆì„ ê²½ìš° í‚¤ ë³€ê²½ì„ ì‹œë„í•©ë‹ˆë‹¤.
+    /// </summary>
+    private IEnumerator WaitInputChangeKey(string _keyType)
+    {
+        isChangingKey = true;
+
+        //ê°ì§€ ì‹œì‘
+        keyInputDetector.StartDetect();
+
+        yield return null;
+
+        //ê°ì§€ê°€ ëë‚  ë•Œ ê¹Œì§€ ëŒ€ê¸°
+        yield return new WaitWhile(() => keyInputDetector.isDetecting);
+
+        //ê°ì§€ ë˜ì—ˆìœ¼ë©´ ê°ì§€ ëë‚´ê¸°
+        keyInputDetector.EndDetect();
+
+        //ê°ì§€ ë˜ì—ˆìœ¼ë©´ í‚¤ ë³€ê²½ ì‹œë„
+        TryChangeThisKey(_keyType);
+    }
+
+    private void InputChangeKey(string _keyType)
+    {
+        //ì´ë¯¸ ë‹¤ë¥¸ í‚¤ë¥¼ ë³€ê²½ ì¤‘ì´ì—ˆì„ ê²½ìš°ì—ëŠ”, í•´ë‹¹ í‚¤ë¥¼ ë³€ê²½í•  ìˆ˜ ìˆë„ë¡ Stopí›„ ì¬ì‹œì‘
+        if (isChangingKey)
+        {
+            Debug.Log("Stop!");
+            StopCoroutine(waitInputChangeKey);
+            keyInputDetector.EndDetect();
+            isChangingKey = false;
+        }
+
+        waitInputChangeKey = WaitInputChangeKey(_keyType);
+
+        Debug.Log("KeyChange Button! : " + _keyType);
+
+        StartCoroutine(waitInputChangeKey);
+    }
+
+    /// <summary>
+    /// í•´ë”© í‚¤ ë³€ê²½ì„ ì‹œë„í•˜ê³ , ì‹¤íŒ¨í–ˆì„ ê²½ìš° ë‹¤ì‹œ í‚¤ ì…ë ¥ì„ ë°›ìŠµë‹ˆë‹¤.
+    /// </summary>
+    private void TryChangeThisKey(string _keyType)
+    {
+        KeyChangeButton currentButton = keyChangeButtonDict[_keyType];
+        KeyCode currentKeyCode = keyInputDetector.currentKeyCode;
+
+        ////ê°™ì€ í‚¤ë¡œ ë³€ê²½ì„ ì‹œë„í–ˆì„ ê²½ìš°
+        //if (currentButton.keyCode == currentKeyCode)
+        //{
+        //    //ê·¸ëƒ¥ ì•„ë¬´ê²ƒë„ í•˜ì§€ ì•Šê³  ì¢…ë£Œ
+        //    isChangingKey = false;
+        //    return;
+        //}
+
+        bool isFailed = false;
+
+
+        for (int i = 0; i < length; i++)
+        {
+            //ê°™ì€ í‚¤ì½”ë“œê°€ ìˆì„ ê²½ìš° ì‹¤íŒ¨ íŒì •
+            if (keyChangeButtons[i].keyCode == currentKeyCode)
             {
+                if (keyChangeButtons[i] == currentButton)
+                {
+                    continue;
+                }
+                isFailed = true;
                 break;
             }
-            yield return null;
         }
 
-        ChangeThisKey(_keyType);
+        //ì‹¤íŒ¨ íŒì •ì´ ë‚¬ì„ ê²½ìš° ë‹¤ì‹œ ê°ì§€
+        if (isFailed)
+        {
+            Debug.Log("ì‹¤íŒ¨ íŒì •ì…ë‹ˆë‹¤.");
+            SetFailed(true);
 
+            InputChangeKey(_keyType);
+
+            //ì‹¤íŒ¨ ì´ë¯¸ì§€ë¡œ ë³€ê²½
+            currentButton.image.sprite = failedBoxSprite;
+            currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
+            currentButton.isFailed = true;
+
+            return;
+        }
+        else // ì„±ê³µ íŒì •ì´ ë‚¬ì„ ê²½ìš°
+        {
+            // ì›ë˜ ì‹¤íŒ¨ ìƒíƒœì˜€ì„ ê²½ìš°
+            if (currentButton.isFailed)
+            {
+                //ê¸°ë³¸ ì´ë¯¸ì§€ë¡œ ë³€ê²½
+                currentButton.image.sprite = basicBoxSprite;
+                currentButton.isFailed = false;
+                SetFailed(false);
+            }
+        }
+
+        //í‚¤ ë³€ê²½ì„ í•  ìˆ˜ ìˆëŠ” ìƒíƒœë¼ë©´ fieldInfoë¥¼ í†µí•´ ê°’ ë³€ê²½
+        currentButton.field.SetValue(currentData_keyOption, keyInputDetector.currentKeyCode);
+
+        //ë²„íŠ¼ì˜ í‚¤ì½”ë“œ ë³€ê²½
+        currentButton.keyCode = keyInputDetector.currentKeyCode;
+
+        //í…ìŠ¤íŠ¸ ë³€ê²½
+        currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
+
+        isChangingKey = false;
     }
-
-    public void ChangeThisKey(string _keyType)
+    private void SetFailed(bool _active)
     {
-        //»ç¿ëÇÏ°í ÀÖ´Â Å°¶ó¸é
-        if (IsUsedKey(keyInputDetector.currentKeyCode))
-        {
-            failedImage.gameObject.SetActive(true);
-
-            KeyChangeButton button = keyButtonDict[_keyType];
-            button.button.image.sprite = failedBoxSprite;
-            button.isFailed = true;
-
-            //´Ù½Ã Å° ÀÔ·Â ¹Ş±â
-            StartCoroutine(WaitInputKey(_keyType));
-            return;
-        }
-        else
-        {
-
-            failedImage.gameObject.SetActive(false);
-
-            KeyChangeButton button = keyButtonDict[_keyType];
-            button.button.image.sprite = basicBoxSprite;
-            button.isFailed = false;
-
-            keyInputDetector.EndDetect();
-            EndChangingKey();
-
-        }
-
-
-
-        //_keyType ÀÌ¸§ÀÇ º¯¼ö ¹Ş¾Æ¿À±â
-        // FieldInfo _testField = data_keyOption.GetType().GetField(_keyType, BindingFlags.Public | BindingFlags.Instance);
-        FieldInfo _testField = null;
-        fieldInfoDict.TryGetValue(_keyType, out _testField);
-
-        //ÇØ´ç ÀÌ¸§ÀÇ º¯¼ö°¡ ¾øÀ¸¸é return
-        if (ReferenceEquals(_testField, null))
-        {
-            Debug.LogError("Á¸ÀçÇÏÁö ¾Ê´Â KeyTypeÀÔ´Ï´Ù(" + _keyType + "). ¹öÆ° OnClickÀ» È®ÀÎÇÏ¼¼¿ä.");
-
-            EndChangingKey();
-            return;
-        }
-
-
-
-        //º¯°æ ÀüÀÇ Å°ÄÚµå
-        KeyCode prevKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
-        keyInfoDict.Remove(prevKeyCode);
-
-        //ÇØ´ç _keyTypeÀÇ Å°ÄÚµå º¯°æ
-        _testField.SetValue(data_keyOption, keyInputDetector.currentKeyCode);
-
-        //º¯°æµÈ ÇöÀç Å°ÄÚµå
-        KeyCode currentKeyCode = (KeyCode)_testField.GetValue(data_keyOption);
-
-        //ÅØ½ºÆ® ¾÷µ¥ÀÌÆ®
-        //UpdateAllKeyText();
-        string tempStr = TryReturnArrowKeyString(currentKeyCode);
-
-        UpdateKeyText(_keyType, tempStr);
-        keyInfoDict.Add(currentKeyCode, tempStr);
-        EndChangingKey();
+        failedImage.gameObject.SetActive(_active);
     }
 
 
-    private string TryReturnArrowKeyString(KeyCode _keyCode)
+    private void UpdateAllUI()
     {
+        UpdateUI_Text();
+        UpdateUI_Box();
+    }
+
+
+    private void UpdateUI_Text()
+    {
+        for (int i = 0; i < length; i++)
+        {
+            keyChangeButtons[i].text.text = TryConvertString(keyChangeButtons[i].keyCode);
+        }
+    }
+
+    /// <summary>
+    /// Box UIë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
+    /// </summary>
+    private void UpdateUI_Box()
+    {
+
+        for (int i = 0; i < length; i++)
+        {
+            if (keyChangeButtons[i].isFailed)
+            {
+                keyChangeButtons[i].image.sprite = failedBoxSprite;
+            }
+            else
+            {
+                keyChangeButtons[i].image.sprite = basicBoxSprite;
+            }
+        }
+    }
+
+    /// <summary>
+    /// isFailedì¸ í‚¤ê°€ ìˆì„ ê²½ìš° ì €ì¥í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.
+    /// </summary>
+    /// <returns></returns>
+    public bool CanSave()
+    {
+
+        for (int i = 0; i < length; i++)
+        {
+            if (keyChangeButtons[i].isFailed)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    private string TryConvertString(KeyCode _keyCode)
+    {
+
         switch (_keyCode)
         {
             case KeyCode.RightArrow:
-                return "¡æ";
+                return "â†’";
 
             case KeyCode.UpArrow:
-                return "¡è";
+                return "â†‘";
 
             case KeyCode.DownArrow:
-                return "¡é";
+                return "â†“";
 
             case KeyCode.LeftArrow:
-                return "¡ç";
+                return "â†";
 
             default:
                 return _keyCode.ToString();
         }
     }
-    public void StartChangingKey()
-    {
-        isChangingKey = true;
-    }
-    public void EndChangingKey()
-    {
-        isChangingKey = false;
-    }
+
     /// <summary>
-    /// ÀÌ¹Ì »ç¿ëÇÏ°í ÀÖ´Â Å°ÀÎ°¡?
+    /// í‚¤ ë³€ê²½ ë²„íŠ¼ í•¨ìˆ˜
     /// </summary>
-    public bool IsUsedKey(KeyCode _inputKey)
+    private void Button_InputChangeKey(string _keyType)
     {
-        string tempKeyType;
+        InputChangeKey(_keyType);
 
-
-        //ÀÌ¹Ì Å°°¡ Á¸ÀçÇÒ°æ¿ì
-        if (keyInfoDict.TryGetValue(_inputKey, out tempKeyType))
-        {
-            Debug.LogError("ÇØ´ç Å°´Â ÀÌ¹Ì " + tempKeyType + "¿¡ ÇÒ´çµÇ¾îÀÖ½À´Ï´Ù.");
-            return true;
-        }
-        else //Á¸ÀçÇÏÁö ¾ÊÀ»°æ¿ì
-        {
-            if (_inputKey == KeyCode.Escape)
-            {
-                Debug.LogError(_inputKey.ToString() + "Å°´Â »ç¿ëÇÏ½Ç ¼ö ¾ø½À´Ï´Ù.");
-                return true;
-            }
-
-            return false;
-        }
     }
 
     /// <summary>
-    /// /UIÀÇ Key Text¸¦ º¯°æÇÕ´Ï´Ù.
+    /// ì´ˆê¸°í™” ë²„íŠ¼ í•¨ìˆ˜
     /// </summary>
-    public void UpdateKeyText(string _keyType, string _changedKey)
+    public void Button_SetDefault()
     {
-        keyButtonDict[_keyType].text.text = _changedKey;
+        currentData_keyOption = new KeyOption();
+        Init_KeyChangeButtons();
+        SetFailed(false);
+        UpdateAllUI();
     }
+
 
     /// <summary>
-    /// /UIÀÇ Key Text¸¦ º¯°æÇÕ´Ï´Ù.
+    /// ì ìš© ë²„íŠ¼ í•¨ìˆ˜
     /// </summary>
-    public void UpdateAllKeyText()
-    {
-        for (int i = 0; i < keyButtonList.Count; i++)
-        {
-            FieldInfo _testField = fieldInfoDict[keyButtonList[i].keyType];
-            keyButtonList[i].text.text = TryReturnArrowKeyString((KeyCode)_testField.GetValue(data_keyOption));
-
-        }
-    }
     public void Button_Save()
     {
         if (isSaving || !CanSave())
@@ -317,121 +331,20 @@ public class UIKeySetting : UIBase
             return;
         }
 
-        StartCoroutine(ProcessSaveCurrentData());
-
+        StartCoroutine(ProcessSave());
     }
-    private bool isSaving = false;
-    private IEnumerator ProcessSaveCurrentData()
+
+    private IEnumerator ProcessSave()
     {
         isSaving = true;
 
-        EndChangingKey();
-        keyInputDetector.EndDetect();
+        DataManager.Instance.currentData_settings.keySetting.CopyData(currentData_keyOption);
 
-        //µ¥ÀÌÅÍ ¸Å´ÏÀúÀÇ ÇöÀç µ¥ÀÌÅÍ¸¦ º¯°æµÈ µ¥ÀÌÅÍ·Î ¼³Á¤
-        DataManager.Instance.currentData_settings.keySetting.CopyData(data_keyOption);
-
-        //º¯°æµÈ µ¥ÀÌÅÍ ÀúÀå
         yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
-
-        data_keyOption_saved.CopyData(data_keyOption);
+        Debug.Log("Save ì™„ë£Œ");
         isSaving = false;
     }
 
-
-    public void Button_SetDefaultData()
-    {
-        if (isSaving)
-        {
-            return;
-        }
-
-
-        StartCoroutine(ProcessSetDefaultData());
-
-    }
-
-    private IEnumerator ProcessSetDefaultData()
-    {
-        isSaving = true;
-        EndChangingKey();
-        keyInputDetector.EndDetect();
-
-        keyInfoDict.Clear();
-        data_keyOption = new KeyOption();
-
-        yield return StartCoroutine(ProcessSaveCurrentData());
-
-        for (int i = 0; i < keyButtonList.Count; i++)
-        {
-            FieldInfo fieldInfo = fieldInfoDict[keyButtonList[i].keyType];
-            keyInfoDict.Add(((KeyCode)fieldInfo.GetValue(data_keyOption)), fieldInfo.Name);
-        }
-        UpdateAllKeyText();
-
-        UpdateAllFailedState();
-        isSaving = false;
-
-    }
-
-    private void UpdateAllFailedState()
-    {
-        int length = keyButtonList.Count;
-
-        bool activeFailedImage = false;
-        for (int i = 0; i < length; i++)
-        {
-
-            KeyChangeButton tempButton = keyButtonList[i];
-
-            if (tempButton.isFailed)
-            {
-                tempButton.image.sprite = failedBoxSprite;
-                activeFailedImage = true;
-            }
-            else
-            {
-                tempButton.image.sprite = basicBoxSprite;
-            }
-
-        }
-
-        if (!activeFailedImage)
-        {
-            failedImage.gameObject.SetActive(false);
-        }
-    }
-    private bool CanSave()
-    {
-        int length = keyButtonList.Count;
-
-        for (int i = 0; i < length; i++)
-        {
-            if (keyButtonList[i].isFailed)
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private void OnDestroy()
-    {
-        keyInputDetector.EndDetect();
-    }
-
-
 }
 
-[System.Serializable]
-public class KeyChangeButton
-{
-    public string keyType;
-    public Button button;
-    public Image image;
-    public Text text;
 
-    [HideInInspector]
-    public bool isFailed = false;
-}

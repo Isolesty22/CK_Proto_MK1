@@ -14,6 +14,7 @@ public class KeyInputDetector : MonoBehaviour
     public bool isDetecting = false;
 
     [HideInInspector]
+    [Tooltip("현재 입력된 키코드")]
     public KeyCode currentKeyCode = KeyCode.None;
 
 
@@ -25,6 +26,10 @@ public class KeyInputDetector : MonoBehaviour
         isDetecting = true;
         gameObject.SetActive(true);
     }
+
+    /// <summary>
+    /// 키 입력 감지를 종료합니다.
+    /// </summary>
     public void EndDetect()
     {
         isDetecting = false;
@@ -51,6 +56,10 @@ public class KeyInputDetector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 해당하는 KeyCode를 리턴해줍니다.
+    /// </summary>
+    /// <param name="_keyCode">string 타입의 키코드</param>
     public KeyCode GetKeyCode(string _keyCode)
     {
         KeyCode tempKeyCode = (KeyCode)Enum.Parse(typeof(KeyCode), _keyCode);
