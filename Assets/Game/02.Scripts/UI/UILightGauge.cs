@@ -6,10 +6,13 @@ using UnityEngine.UI;
 public class UILightGauge : MonoBehaviour
 {
     public Slider lightGaugeSlider;
-    public PlayerController playerController;
+
+    
+    private PlayerController playerController;
     private void Start()
     {
         playerController = GameManager.instance.playerController;
+        //lightGaugeSlider.interactable = false;
     }
     private void Update()
     {
