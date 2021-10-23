@@ -64,7 +64,7 @@ public class UIKeySetting : UIBase
     [Tooltip("키 변경을 위해 입력을 받고있는 상태인가?")]
     private bool isChangingKey = false;
     private bool isSaving;
-    private IEnumerator waitInputChangeKey;
+    private IEnumerator waitInputKey;
 
     private void Start()
     {
@@ -112,7 +112,7 @@ public class UIKeySetting : UIBase
     /// <summary>
     /// 키 입력을 기다리고, 입력되었을 경우 키 변경을 시도합니다.
     /// </summary>
-    private IEnumerator WaitInputChangeKey(string _keyType)
+    private IEnumerator WaitInputKey(string _keyType)
     {
         isChangingKey = true;
 
@@ -137,16 +137,16 @@ public class UIKeySetting : UIBase
         if (isChangingKey)
         {
             Debug.Log("Stop!");
-            StopCoroutine(waitInputChangeKey);
+            StopCoroutine(waitInputKey);
             keyInputDetector.EndDetect();
             isChangingKey = false;
         }
 
-        waitInputChangeKey = WaitInputChangeKey(_keyType);
+        waitInputKey = WaitInputKey(_keyType);
 
         Debug.Log("KeyChange Button! : " + _keyType);
 
-        StartCoroutine(waitInputChangeKey);
+        StartCoroutine(waitInputKey);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public class UIKeySetting : UIBase
 
             InputChangeKey(_keyType);
 
-            //실패 이미지로 변경
+            //실패 상태로 변경
             currentButton.image.sprite = failedBoxSprite;
             currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
             currentButton.isFailed = true;
@@ -262,7 +262,6 @@ public class UIKeySetting : UIBase
     /// <returns></returns>
     private bool CanSave()
     {
-
         for (int i = 0; i < length; i++)
         {
             if (keyChangeButtons[i].isFailed)
@@ -330,7 +329,6 @@ public class UIKeySetting : UIBase
     private void Button_InputChangeKey(string _keyType)
     {
         InputChangeKey(_keyType);
-
     }
 
     /// <summary>
@@ -352,6 +350,7 @@ public class UIKeySetting : UIBase
     {
         if (isSaving || !CanSave())
         {
+            Debug.Log("키 변경 중에는 저장할 수 없습니다.");
             return;
         }
 
