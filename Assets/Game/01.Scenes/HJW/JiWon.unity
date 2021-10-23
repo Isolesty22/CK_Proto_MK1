@@ -1072,12 +1072,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testCurrentHP: 3
-  hp_on: {fileID: 0}
-  hp_off: {fileID: 0}
-  hpImageList:
-  - {fileID: 1440713201}
-  - {fileID: 1081838738}
-  - {fileID: 598232550}
+  additiveImages:
+    backgroundImage: {fileID: 0}
+    hpImageList: []
+    hp_on: {fileID: 0}
+    hp_off: {fileID: 0}
+    basicBG: {fileID: 0}
+    hurtBG: {fileID: 0}
 --- !u!4 &637029902
 Transform:
   m_ObjectHideFlags: 0
@@ -1256,7 +1257,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3312123709858948863, guid: 5aa39d0321aea924e87eea07b7b55182, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5aa39d0321aea924e87eea07b7b55182, type: 3}

@@ -26,6 +26,10 @@ public class SmashProjectile : BearProjectile
             this.gameObject.transform.localScale = new Vector3(.5f, .5f, .5f);
         }
 
+        if (moveEnumerator != null)
+        {
+            StopCoroutine(moveEnumerator);
+        }
         gameObject.transform.rotation = Quaternion.Euler(GetRandomVector3());
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
@@ -75,14 +79,24 @@ public class SmashProjectile : BearProjectile
     }
     private Vector3 GetRandomVector3()
     {
-        return new Vector3(Random.Range(0f,180f), Random.Range(0f, 180f), Random.Range(0f, 180f));
+        return new Vector3(Random.Range(0f, 180f), Random.Range(0f, 180f), Random.Range(0f, 180f));
     }
     private void VoidFunc() { }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.CompareTag("Arrow"))
+        {
+            Despawn();
+            //OnTrigger();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Arrow"))
         {
-            //Despawn();
+            Despawn();
             //OnTrigger();
         }
     }
