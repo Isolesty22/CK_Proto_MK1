@@ -76,11 +76,8 @@ public class UIPopup_New : UIBase
         //return !(isOpen = Com.canvas.enabled);
     }
 
+    public void CloseMe() => UIManager.Instance.CloseTop();
 
-    public void CloseMe()
-    {
-        UIManager.Instance.CloseTop();
-    }
 }
 
 [System.Serializable]

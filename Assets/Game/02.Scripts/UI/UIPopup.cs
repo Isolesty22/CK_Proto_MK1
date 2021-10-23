@@ -32,7 +32,6 @@ public class UIPopup : UIBase
 
     public override bool Close()
     {
-
         StartCoroutine(ProcessClose());
         return true;
         //Com.canvas.enabled = false;

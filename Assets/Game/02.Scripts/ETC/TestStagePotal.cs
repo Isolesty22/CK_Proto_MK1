@@ -5,10 +5,7 @@ using UnityEngine;
 public class TestStagePotal : MonoBehaviour
 {
 
-    public void Active()
-    {
-        gameObject.SetActive(true);
-    }
+    public void Active() => gameObject.SetActive(true);
 
     private void OnTriggerEnter(Collider other)
     {

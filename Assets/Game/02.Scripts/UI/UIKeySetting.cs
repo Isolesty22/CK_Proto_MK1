@@ -73,7 +73,7 @@ public class UIKeySetting : UIBase
         Init_Dict();
         Init_KeyChangeButtons();
 
-        UpdateUI_Text();
+        UpdateAllUI();
     }
 
     /// <summary>
@@ -174,16 +174,15 @@ public class UIKeySetting : UIBase
             if (keyChangeButtons[i].keyCode == currentKeyCode)
             {
                 if (keyChangeButtons[i] == currentButton)
-                {
                     continue;
-                }
+
                 isFailed = true;
                 break;
             }
         }
 
         //실패 판정이 났을 경우 다시 감지
-        if (isFailed)
+        if (isFailed || !IsPossibleKey(currentKeyCode))
         {
             Debug.Log("실패 판정입니다.");
             SetFailed(true);
@@ -220,11 +219,8 @@ public class UIKeySetting : UIBase
 
         isChangingKey = false;
     }
-    private void SetFailed(bool _active)
-    {
-        failedImage.gameObject.SetActive(_active);
-    }
 
+    private void SetFailed(bool _active) => failedImage.gameObject.SetActive(_active);
 
     private void UpdateAllUI()
     {
@@ -264,7 +260,7 @@ public class UIKeySetting : UIBase
     /// isFailed인 키가 있을 경우 저장할 수 없습니다.
     /// </summary>
     /// <returns></returns>
-    public bool CanSave()
+    private bool CanSave()
     {
 
         for (int i = 0; i < length; i++)
@@ -277,6 +273,34 @@ public class UIKeySetting : UIBase
         return true;
     }
 
+
+
+    //해야함 : LINQ로 변경할 수 있을 것 같으니 실험해보기
+    /// <summary>
+    /// 키 설정이 가능한 키인지 체크합니다.
+    /// </summary>
+    private bool IsPossibleKey(KeyCode _keyCode)
+    {
+        switch (_keyCode)
+        {
+            case KeyCode.Backspace:
+                return false;
+            case KeyCode.Return:
+                return false;
+            case KeyCode.Escape:
+                return false;
+            case KeyCode.Semicolon:
+                return false;
+            case KeyCode.BackQuote:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    /// <summary>
+    /// KeyCode를 String으로 변환합니다. 특정 KeyCode의 경우에는 지정된 문자로 변환횝니다.
+    /// </summary>
 
     private string TryConvertString(KeyCode _keyCode)
     {

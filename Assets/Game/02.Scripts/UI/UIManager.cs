@@ -171,8 +171,6 @@ public class UIManager : MonoBehaviour
     /// <summary>
     /// [임시] 패배 팝업을 띄웁니다.
     /// </summary>
-    public void OpenLosePopup()
-    {
-        OpenThis(losePopup);
-    }
+    public void OpenLosePopup() => OpenThis(losePopup);
+
 }
