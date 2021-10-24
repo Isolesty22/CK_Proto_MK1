@@ -30,11 +30,6 @@ public class WhiskersHead : MonoBehaviour
     private void FixedUpdate()
     {
         GoRotate(); //헐 짱 편한데 델리게이트??? 뭐임이게?? 와...
-        GoMove(target.position);
-    }
-    void GoMove(Vector3 target)
-    {
-        //rigidBody.MovePosition(target);
     }
 
     void GoRotate()
@@ -42,10 +37,13 @@ public class WhiskersHead : MonoBehaviour
         Vector3 targetPosition = target.position;
         dirtection = targetPosition - rigidBody.position;
         float angle = Mathf.Atan2(dirtection.y, dirtection.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle - 180f, Vector3.forward);
-        //rigidBody.transform.rotation = 
-        //rigidBody.transform.SetPositionAndRotation(, Quaternion.Slerp(rigidBody.transform.rotation, rotation, rotationSpeed * Time.smoothDeltaTime));
-        rigidBody.rotation = Quaternion.Slerp(rigidBody.transform.rotation, rotation, rotationSpeed * Time.smoothDeltaTime);
+
+        //이쪽을 적절하게 조절해서 방향 변경-----
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //rigidBody.rotation = Quaternion.Slerp(rigidBody.transform.rotation, rotation, rotationSpeed * Time.smoothDeltaTime);
+        //------
+
+
         rigidBody.position = target.position;
     }
 
