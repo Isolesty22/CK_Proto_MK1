@@ -68,7 +68,7 @@ public class UIPause : UIBase
     public void Button_QuitGame()
     {
         UIManager.Instance.OpenPopup(eUIText.Exit,
-            QuitGame, UIManager.Instance.CloseTop);
+              GameManager.instance.QuitGame, UIManager.Instance.CloseTop);
     }
     public void Button_Restart()
     {
@@ -76,16 +76,6 @@ public class UIPause : UIBase
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
-    }
-
-
     protected override IEnumerator ProcessOpen()
     {
         //처음부터 열려있는 판정(연속입력방지)

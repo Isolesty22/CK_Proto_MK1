@@ -32,15 +32,17 @@ public class UIPopup : UIBase
 
     public override bool Close()
     {
-
         StartCoroutine(ProcessClose());
         return true;
         //Com.canvas.enabled = false;
         //return !(isOpen = Com.canvas.enabled);
     }
 
-
-    public void CloseMe()
+    public void Button_OpenThis(UIBase _uiBase)
+    {
+        UIManager.Instance.OpenThis(_uiBase);
+    }
+    public void Button_CloseTop()
     {
         UIManager.Instance.CloseTop();
     }

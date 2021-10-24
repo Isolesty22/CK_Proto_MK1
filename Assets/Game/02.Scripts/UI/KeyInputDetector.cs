@@ -43,6 +43,7 @@ public class KeyInputDetector : MonoBehaviour
         }
 
         currentEvent = Event.current;
+
         //isDetecting
         if (currentEvent.isKey)
         {
@@ -52,7 +53,7 @@ public class KeyInputDetector : MonoBehaviour
             currentKeyCode = GetKeyCode(currentKeyCode.ToString());
 
             isDetecting = false;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 
@@ -60,7 +61,7 @@ public class KeyInputDetector : MonoBehaviour
     /// 해당하는 KeyCode를 리턴해줍니다.
     /// </summary>
     /// <param name="_keyCode">string 타입의 키코드</param>
-    public KeyCode GetKeyCode(string _keyCode)
+    private KeyCode GetKeyCode(string _keyCode)
     {
         KeyCode tempKeyCode = (KeyCode)Enum.Parse(typeof(KeyCode), _keyCode);
         return tempKeyCode;
