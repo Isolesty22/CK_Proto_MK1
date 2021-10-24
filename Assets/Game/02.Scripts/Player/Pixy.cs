@@ -5,14 +5,15 @@ using DG.Tweening;
 
 public class Pixy : MonoBehaviour
 {
-    public Transform pixyModel;
+    public PlayerController pc;
+    public Transform firePos;
 
-    public Vector3 firePos;
-    public Vector3 crouchFirePos;
+    public bool isAttack;
+    public bool isUlt;
+
     public Vector3 pixyPos;
-    public Vector3 pixyCounterPos;
-
-    public float drainTime = .5f;
+    public Vector3 courchPixyPos;
+    public Vector3 ultPos;
 
     public float pixyMoveTime = 0.2f;
     public float counterRange = 100f;
@@ -20,10 +21,18 @@ public class Pixy : MonoBehaviour
 
     public bool isReady = false;
 
+    public List<GameObject> enemyList;
+
+    public float ultDelay = 0.2f;
+    public float ultTime = 10f;
+
+
+
     private void Awake()
     {
-        firePos = transform.localPosition;
-        pixyModel.localPosition = pixyPos;
+        //firePos = transform.localPosition;
+        transform.localPosition = pixyPos;
+        //pixyModel.localPosition = pixyPos;
     }
 
     public void ReadyToCounter()
@@ -34,7 +43,11 @@ public class Pixy : MonoBehaviour
 
     public IEnumerator Ready()
     {
-        pixyModel.DOLocalMove(pixyCounterPos, pixyMoveTime).SetEase(Ease.Unset);
+        isAttack = true;
+
+        transform.parent = null;
+
+        transform.DOMove(firePos.position, pixyMoveTime).SetEase(Ease.Unset);
 
         yield return new WaitForSeconds(pixyMoveTime);
 
@@ -67,6 +80,90 @@ public class Pixy : MonoBehaviour
 
     public void EndCounter()
     {
-        pixyModel.DOLocalMove(pixyPos, pixyMoveTime).SetEase(Ease.Unset);
+        isAttack = false;   
+
+        transform.parent = pc.transform;
+        transform.DOLocalMove(pixyPos, pixyMoveTime).SetEase(Ease.Unset);
+        transform.DOLocalRotate(Vector3.zero, pixyMoveTime).SetEase(Ease.Unset);
+    }
+
+    public void Ult()
+    {
+        var ult = UltReady();
+        StartCoroutine(ult);
+    }
+
+    public IEnumerator UltReady()
+    {
+        isAttack = true;
+
+        transform.DOLocalMove(ultPos, pixyMoveTime).SetEase(Ease.Unset);
+
+        yield return new WaitForSeconds(pixyMoveTime);
+
+        float cooltime = 10f;
+
+        var ult = CheckUltTime();
+        StartCoroutine(ult);
+
+        while(isUlt)
+        {
+            cooltime += Time.deltaTime;
+
+            if (cooltime > ultDelay)
+            {
+                UltShot();
+                cooltime = 0;
+            }
+
+            yield return null;
+        }
+
+        EndCounter();
+    }
+
+    IEnumerator CheckUltTime()
+    {
+        isUlt = true;
+
+        yield return new WaitForSeconds(ultTime);
+
+        isUlt = false;
+    }
+
+    public void UltShot()
+    {
+        var ult = CustomPoolManager.Instance.bezierPool.SpawnThis(transform.position, transform.eulerAngles, null);
+
+        ult.master = this.gameObject;
+
+        float shortDist = 100f;
+        for(int i =0;i<enemyList.Count;i++)
+        {
+            var dist = (transform.position - enemyList[i].transform.position).sqrMagnitude;
+            if (dist < shortDist)
+            {
+                shortDist = dist;
+                ult.enemy = enemyList[i];
+            }
+        }
+
+        ult.Initialize();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Monster") || other.CompareTag("Boss"))
+        {
+            enemyList.Add(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Monster") || other.CompareTag("Boss"))
+        {
+            enemyList.Remove(other.gameObject);
+        }
     }
 }
