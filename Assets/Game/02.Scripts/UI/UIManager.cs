@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 /// <summary>
 /// UI를 작동/관리하는 매니저 클래스
@@ -9,6 +10,12 @@ using UnityEngine.Events;
 
 public class UIManager : MonoBehaviour
 {
+    #region Instance
+    private static UIManager instance;
+
+    public static UIManager Instance;
+    #endregion
+
     [Header("팝업창")]
     public UIPopup_New uiPopup_new;
 
@@ -18,15 +25,15 @@ public class UIManager : MonoBehaviour
     [Header("OpenThis호출 시 이전 UI가 꺼짐")]
     public bool disabledPrevUI;
 
-    #region Instance
-    private static UIManager instance;
-
-    public static UIManager Instance;
-    #endregion
-
     [Tooltip("현재 열려있는 UI 개수")]
     public int openUIcount;
     [Space(10)]
+
+    [Tooltip("[임시] 패배 팝업")]
+    public UILosePopup losePopup;
+
+    [Tooltip("[임시] 일시정지 팝업")]
+    public UIPause uiPause;
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
@@ -34,11 +41,7 @@ public class UIManager : MonoBehaviour
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 
-    [Tooltip("[임시] 패배 팝업")]
-    public UILosePopup losePopup;
-
-    [Tooltip("[임시] 일시정지 팝업")]
-    public UIPause uiPause;
+    private Action detectingCloseKey;
 
     private void Awake()
     {
@@ -61,23 +64,14 @@ public class UIManager : MonoBehaviour
             }
 
         }
+
+
+        StartDetectingCloseKey();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (openUIcount == 0)
-            {
-
-                OpenThis(uiPause);
-            }
-            else
-            {
-                CloseTop();
-            }
-
-        }
+        detectingCloseKey();
     }
 
     /// <summary>
@@ -169,8 +163,49 @@ public class UIManager : MonoBehaviour
 
 
     /// <summary>
+    /// 닫기 키를 감지합니다. 닫기 키를 누르면 CloseTop이 호출됩니다.
+    /// </summary>
+    public void StartDetectingCloseKey()
+    {
+        detectingCloseKey = DetectingCloseKey;
+    }
+
+    /// <summary>
+    /// 닫기 키 감지를 멈춥니다.
+    /// </summary>
+    public void StopDetectingCloseKey()
+    {
+        detectingCloseKey = VoidFunc;
+    }
+
+    private void DetectingCloseKey()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (openUIcount == 0)
+            {
+
+                OpenThis(uiPause);
+            }
+            else
+            {
+                CloseTop();
+            }
+
+        }
+    }
+    
+    private void VoidFunc() { }
+    /// <summary>
     /// [임시] 패배 팝업을 띄웁니다.
     /// </summary>
     public void OpenLosePopup() => OpenThis(losePopup);
 
+
+    public void OpenQuitPopup()
+    {
+        UIManager.Instance.OpenPopup(eUIText.Exit,
+            GameManager.instance.QuitGame,
+            CloseTop);
+    }
 }

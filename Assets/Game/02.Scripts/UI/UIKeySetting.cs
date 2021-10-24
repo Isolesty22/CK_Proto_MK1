@@ -186,13 +186,14 @@ public class UIKeySetting : UIBase
         {
             Debug.Log("실패 판정입니다.");
             SetFailed(true);
-
-            InputChangeKey(_keyType);
-
             //실패 상태로 변경
             currentButton.image.sprite = failedBoxSprite;
             currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
             currentButton.isFailed = true;
+
+            keyInputDetector.EndDetect();
+            InputChangeKey(_keyType);
+
 
             return;
         }
@@ -222,6 +223,9 @@ public class UIKeySetting : UIBase
 
     private void SetFailed(bool _active) => failedImage.gameObject.SetActive(_active);
 
+    /// <summary>
+    /// 모든 UpdateUI를 호출합니다.
+    /// </summary>
     private void UpdateAllUI()
     {
         UpdateUI_Text();
@@ -229,6 +233,9 @@ public class UIKeySetting : UIBase
     }
 
 
+    /// <summary>
+    /// 키 Text UI를 업데이트합니다.
+    /// </summary>
     private void UpdateUI_Text()
     {
         for (int i = 0; i < length; i++)
