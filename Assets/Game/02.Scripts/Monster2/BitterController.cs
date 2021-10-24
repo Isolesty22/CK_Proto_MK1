@@ -12,6 +12,8 @@ public class BitterController : MonsterController
     {
         public float upRange;
         public float upDownSpeed;
+
+        public int attackAnimNum;
     }
 
     [Serializable]
@@ -32,7 +34,7 @@ public class BitterController : MonsterController
     {
         base.Initialize();
         Utility.KillTween(tween);
-        Com.animator.SetBool("isDeath", false);
+        Com.animator.SetInteger("attackNum", Stat2.attackAnimNum);
     }
 
     public override void Awake()
@@ -61,6 +63,7 @@ public class BitterController : MonsterController
 
         if(gameObject.transform.position.y != Com.spawnPos.y)
         {
+            Com.animator.SetBool("isAttack", false);
             Utility.KillTween(tween);
             tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
             tween.Play();
@@ -79,14 +82,16 @@ public class BitterController : MonsterController
     {
         base.Attack();
 
-        if(gameObject.transform.position.y == Com.spawnPos.y)
+        if (gameObject.transform.position.y == Com.spawnPos.y)
         {
+            Com.animator.SetBool("isAttack", true);
             Utility.KillTween(tween);
             tween = transform.DOMove(new Vector3(Com.spawnPos.x, Com.spawnPos.y + Stat2.upRange, Com.spawnPos.z), Stat2.upDownSpeed).SetEase(Ease.OutCubic);
             tween.Play();
         }
         else if(gameObject.transform.position.y == Com.spawnPos.y + Stat2.upRange)
         {
+            Com.animator.SetBool("isAttack", false);
             Utility.KillTween(tween);
             tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
             tween.Play();
@@ -100,7 +105,6 @@ public class BitterController : MonsterController
 
     protected override void Death()
     {
-        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 
