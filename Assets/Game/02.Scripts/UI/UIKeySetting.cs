@@ -14,6 +14,7 @@ public class UIKeySetting : UIBase
 
     public override bool Open()
     {
+        UpdateAllUI();
         StartCoroutine(ProcessOpen());
         return true; ;
     }
@@ -157,14 +158,6 @@ public class UIKeySetting : UIBase
         KeyChangeButton currentButton = keyChangeButtonDict[_keyType];
         KeyCode currentKeyCode = keyInputDetector.currentKeyCode;
 
-        ////같은 키로 변경을 시도했을 경우
-        //if (currentButton.keyCode == currentKeyCode)
-        //{
-        //    //그냥 아무것도 하지 않고 종료
-        //    isChangingKey = false;
-        //    return;
-        //}
-
         bool isFailed = false;
 
 
@@ -290,13 +283,9 @@ public class UIKeySetting : UIBase
         switch (_keyCode)
         {
             case KeyCode.Backspace:
-                return false;
             case KeyCode.Return:
-                return false;
             case KeyCode.Escape:
-                return false;
             case KeyCode.Semicolon:
-                return false;
             case KeyCode.BackQuote:
                 return false;
             default:

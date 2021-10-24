@@ -33,7 +33,7 @@ public class UIManager : MonoBehaviour
     public UILosePopup losePopup;
 
     [Tooltip("[임시] 일시정지 팝업")]
-    public UIPause uiPause;
+    public UIBase uiPause;
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
@@ -207,5 +207,10 @@ public class UIManager : MonoBehaviour
         UIManager.Instance.OpenPopup(eUIText.Exit,
             GameManager.instance.QuitGame,
             CloseTop);
+    }
+
+    public void QuitGame()
+    {
+        GameManager.instance.QuitGame();
     }
 }
