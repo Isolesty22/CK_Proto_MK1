@@ -5,7 +5,23 @@ using UnityEngine;
 
 public class GloomController : BossController
 {
+    public override void ChangeState(int _state)
+    {
+        base.ChangeState(_state);
+    }
+    public override string GetStateToString(int _state)
+    {
+        return base.GetStateToString(_state);
+    }
 
+    public override void OnAnimStateExit()
+    {
+        base.OnAnimStateExit();
+    }
+    protected override void Init()
+    {
+        base.Init();
+    }
 }
 
 
