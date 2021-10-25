@@ -76,7 +76,7 @@ public class FieldMapManager : MonoBehaviour
         //StageGrayScale_Legacy();
         //StartCoroutine(ProcessInputMoveKey());
 
-        if (maxStageNumber >= 1)
+        if (maxStageNumber > 1)
         {
             Stage02Road.SetActive(true);
         }

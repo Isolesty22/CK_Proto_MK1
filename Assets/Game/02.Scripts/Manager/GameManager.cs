@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            StageClear();
+            GoNextStage();
         }
     }
     /// <summary>
@@ -74,10 +74,10 @@ public class GameManager : MonoBehaviour
     public void GoNextStage()
     {
         Data_Player data = new Data_Player();
-        data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
-        data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber);
-        data.finalStageNumber = data.currentStageNumber;
-        data.finalStageName = data.currentStageName;
+        //data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
+        //data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
+        data.finalStageNumber = data.currentStageNumber + 1;
+        data.finalStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
 
         DataManager.Instance.currentData_player.CopyData(data);
         //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
