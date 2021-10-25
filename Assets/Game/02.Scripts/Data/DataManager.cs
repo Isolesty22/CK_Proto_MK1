@@ -264,7 +264,14 @@ public class DataManager : MonoBehaviour
         {
             case fileName_settings:
                 currentData = currentData_settings;
-                GameManager.instance.playerController.Key.CopyData(currentData_settings.keySetting);
+                if (GameManager.instance != null)
+                {
+                    if (GameManager.instance.playerController != null)
+                    {
+                        GameManager.instance.playerController.Key.CopyData(currentData_settings.keySetting);
+
+                    }
+                }
                 break;
 
             case fileName_player:
