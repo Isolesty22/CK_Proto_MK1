@@ -94,6 +94,8 @@ public class UIVolumeSetting : UIBase
         //변경된 데이터 저장
         yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
         isSaving = false;
+
+        UIManager.Instance.CloseTop();
     }
 
 
