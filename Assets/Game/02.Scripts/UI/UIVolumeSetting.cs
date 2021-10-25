@@ -91,9 +91,23 @@ public class UIVolumeSetting : UIBase
         //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
         dataManager.currentData_settings.CopyData(currentData_settings);
 
+        AudioManager.Instance.Audios.audioSource_BGM.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_bgm) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_EVM.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_bgm) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_SFX.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PAttack.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PHit.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PJump.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PLand.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PParrying.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PRun.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PWalk.volume = AudioManager.Instance.Audios.audioSource_BGM.volume * GetFloat(currentData_settings.volume_sfx) * GetFloat(currentData_settings.volume_master);
+
         //변경된 데이터 저장
         yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
+
         isSaving = false;
+
+        UIManager.Instance.CloseTop();
     }
 
 
