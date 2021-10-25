@@ -38,6 +38,7 @@ public class ArrowBase : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
+            AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clips.arrowHit);
             var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
             hit.Play();
 
@@ -48,6 +49,7 @@ public class ArrowBase : MonoBehaviour
 
     private void PlayHitAndRelease()
     {
+        AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clips.arrowHit);
         var hit = CustomPoolManager.Instance.arrowHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
         hit.Play();
 
