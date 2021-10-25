@@ -8,19 +8,27 @@ public class PlayerHitBox : MonoBehaviour
     public CapsuleCollider hitBox;
     public CapsuleCollider crouchHitBox;
 
+    public ParticleSystem spawn;
+
     public IEnumerator parry;
 
     private void Start()
     {
         parry = playerController.Parrying();
+        spawn.gameObject.SetActive(false);
     }
 
     IEnumerator Fall(Vector3 spawnPos)
     {
         playerController.Hit();
 
+        spawn.gameObject.SetActive(true);
+        spawn.transform.position = spawnPos + Vector3.down * .95f;
+        spawn.Play();
+
         yield return new WaitForSeconds(playerController.Stat.spawnTime);
         playerController.transform.position = spawnPos;
+
     }
 
     private void OnTriggerEnter(Collider other)

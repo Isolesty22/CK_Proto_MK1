@@ -75,25 +75,28 @@ public class Bezier : MonoBehaviour
                 else
                 {
                     currentMonster.Hit(damage);
-                    CustomPoolManager.Instance.ReleaseThis(this);
+                    PlayHitAndRelease();
                 }
             }
             else
             {
-                CustomPoolManager.Instance.ReleaseThis(this);
+                PlayHitAndRelease();
             }
 
             return;
         }
         if (other.CompareTag("Boss"))
         {
-            CustomPoolManager.Instance.ReleaseThis(this);
+            PlayHitAndRelease();
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            CustomPoolManager.Instance.ReleaseThis(this);
-        }
     }
 
+    private void PlayHitAndRelease()
+    {
+        var hit = CustomPoolManager.Instance.ultHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+        hit.Play();
+
+        CustomPoolManager.Instance.ReleaseThis(this);
+    }
 }
