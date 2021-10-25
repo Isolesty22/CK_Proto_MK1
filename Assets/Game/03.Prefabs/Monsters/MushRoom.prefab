@@ -64,7 +64,7 @@ MonoBehaviour:
     collider: {fileID: 4147787381735573126}
     monsterModel: {fileID: 6693930511559911105}
     renderer: {fileID: 6587882596094639221}
-    animator: {fileID: 0}
+    animator: {fileID: 9219132484490836784}
     originalColor: {r: 1, g: 1, b: 1, a: 1}
     hitColor: {r: 0.60784316, g: 0.60784316, b: 0.60784316, a: 1}
     spawnPos: {x: 0, y: 0, z: 0}
@@ -109,8 +109,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4731958819456654202}
-  - component: {fileID: 7534666789265414101}
   - component: {fileID: 6409304293795793507}
+  - component: {fileID: 1845703989729231777}
   m_Layer: 0
   m_Name: SearchCol
   m_TagString: Untagged
@@ -132,19 +132,6 @@ Transform:
   m_Father: {fileID: 75888090283175203}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7534666789265414101
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6450163429204945786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 773a5959f1b2e8746af08144e9f98788, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monsterController: {fileID: 3607113228258920149}
 --- !u!65 &6409304293795793507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -158,6 +145,38 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 10, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1845703989729231777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6450163429204945786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 175f156351f8be54b8df8d0aaee0c01f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  monsterController: {fileID: 3607113228258920149}
+--- !u!95 &9219132484490836784
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6693930511559911105}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7b99b862bfff5ff48a5b24bdbb58dd3d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &5775012770393119632
 PrefabInstance:
   m_ObjectHideFlags: 0

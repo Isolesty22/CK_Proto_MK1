@@ -76,6 +76,8 @@ public class UIPlayerHP : MonoBehaviour
         {
             if (currentHP > 0)
             {
+                if (currentHP > 3)
+                    return;
                 Images.hpImageList[currentHP].sprite = Images.hp_off;
                 StartCoroutine(ProcessHurt());
             }

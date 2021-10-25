@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         public float parryingEnerge = 1f;
         public float attackEnerge = 0.1f;
 
+        public float spawnTime = 0.5f;
+
         [Header("unused")]
         public float jumpingSpeed = 1f;
     }
@@ -135,6 +137,9 @@ public class PlayerController : MonoBehaviour
     private Vector3 crouchCapsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.crouchCollier.height / 2 - Com.crouchCollier.radius, 0);
 
     private IEnumerator parry;
+
+    private AudioSource playerSFX;
+    private AudioSource playerAttackSound;
     #endregion
 
     private void Awake()
@@ -151,7 +156,8 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-
+        playerSFX = AudioManager.Instance.Audios.audioSource_PSFX;
+        playerAttackSound = AudioManager.Instance.Audios.audioSource_PAttack;
     }
 
     private void Update()
@@ -322,6 +328,24 @@ public class PlayerController : MonoBehaviour
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
         }
 
+        if(Val.moveVelocity != Vector3.zero)
+        {
+            if (!State.isCrouching)
+            {
+                playerSFX.clip = AudioManager.Instance.clips.ipeaRun;
+                playerSFX.Play();
+            }
+            else
+            {
+                playerSFX.clip = AudioManager.Instance.clips.ipeaWalk;
+                playerSFX.Play();
+            }
+        }
+        else
+        {
+            playerSFX.Stop();
+        }
+
         //최종 이동속도 결정
         //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
       
@@ -356,6 +380,8 @@ public class PlayerController : MonoBehaviour
 
         if (!Val.prevJump && Input.GetKey(Key.jump))
         {
+            playerSFX.clip = AudioManager.Instance.clips.ipeajump;
+            playerSFX.Play();
             Val.velocityY = Stat.jumpForce;
             State.isJumping = true;
         }
@@ -382,7 +408,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            Com.pixy.transform.localPosition = Com.pixy.firePos;
+            Com.pixy.transform.localPosition = Com.pixy.pixyPos;
 
             return;
         }
@@ -398,7 +424,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = false;
             Com.hitBox.crouchHitBox.enabled = true;
 
-            Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
+            Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
         }
     }
 
@@ -408,6 +434,9 @@ public class PlayerController : MonoBehaviour
         State.isAttack = false;
         State.isCrouching = false;
         State.isLookUp = false;
+
+        playerSFX.clip = AudioManager.Instance.clips.ipeaHit;
+        playerSFX.Play();
 
 
         Stat.hp -= 1;
@@ -527,6 +556,10 @@ public class PlayerController : MonoBehaviour
         Val.velocityY = Stat.parryingForce;
         Com.animator.SetTrigger("Parrying");
 
+        playerSFX.clip = AudioManager.Instance.clips.ipeaParrying;
+        playerSFX.Play();
+
+
         Stat.pixyEnerge = Mathf.Clamp(Stat.pixyEnerge += Stat.parryingEnerge, 0, 30);
 
         State.isParrying = true;
@@ -570,6 +603,10 @@ public class PlayerController : MonoBehaviour
         {
             State.isAttack = true;
             Com.weapon.Fire();
+            playerAttackSound.Stop();
+            playerAttackSound.clip = AudioManager.Instance.clips.ipeaShoot;
+            playerAttackSound.Play();
+
         }
         else
             State.isAttack = false;
@@ -604,22 +641,24 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if(Stat.pixyEnerge < 10f)
+        if(Stat.pixyEnerge < 10f || Com.pixy.isAttack)
         {
             return;
         }
 
         if (Input.GetKeyDown(Key.counter))
         {
-            Stat.pixyEnerge -= 10f;
+            if(Stat.pixyEnerge >= 30f)
+            {
+                Stat.pixyEnerge -= 30f;
+                Com.pixy.Ult();
+            }
+            else
+            {
+                Stat.pixyEnerge -= 10f;
 
-            Com.pixy.ReadyToCounter();
-
-            //State.canCounter = false;
-            //Com.pixy.isReady = false;
-            //var counter = Com.pixy.Counter();
-            //StartCoroutine(counter);
-            //Com.pixy.EndCounter();
+                Com.pixy.ReadyToCounter();
+            }
         }
     }
 
