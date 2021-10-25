@@ -43,7 +43,10 @@ public class SmashProjectile : BearProjectile
 
     protected override IEnumerator ProcessDespawn()
     {
-        StopCoroutine(moveEnumerator);
+        if (moveEnumerator != null)
+        {
+            StopCoroutine(moveEnumerator);
+        }
         yield return null;
         CustomPoolManager.Instance.ReleaseThis(this);
     }
@@ -84,21 +87,21 @@ public class SmashProjectile : BearProjectile
     }
     private void VoidFunc() { }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.CompareTag("Arrow"))
-        {
-            Despawn();
-            //OnTrigger();
-        }
-    }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.collider.CompareTag("Arrow"))
+    //    {
+    //        Despawn();
+    //        //OnTrigger();
+    //    }
+    //}
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Arrow"))
-        {
-            Despawn();
-            //OnTrigger();
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.CompareTag("Arrow"))
+    //    {
+    //        Despawn();
+    //        //OnTrigger();
+    //    }
+    //}
 }
