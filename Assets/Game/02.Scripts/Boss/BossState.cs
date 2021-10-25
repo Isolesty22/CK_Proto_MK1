@@ -322,6 +322,7 @@ public class BearState_Roar : BearState
             RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
             roarProjectile.Init(startPos, endPos);
             roarProjectile.Move();
+            yield return new WaitForSeconds(Random.Range(0f, 0.3f));
         }
 
         bearController.skillObjects.roarGroundEffect.SetActive(false);
@@ -710,7 +711,7 @@ public class BearState_Concentrate : BearState
             timer += Time.deltaTime;
             progress = timer / maxTime;
 
-            bearController.EmissionOn(50f + (Mathf.Sin(timer*5f)) * 30f);
+            bearController.EmissionOn(50f + (Mathf.Sin(timer * 5f)) * 30f);
 
             if (helper.isSucceedParry)
             {
