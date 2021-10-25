@@ -28,6 +28,7 @@ public class CustomPoolManager : MonoBehaviour
     public CustomPool<Counter> counterPool;
     public CustomPool<Parry> parryPool;
     public CustomPool<Fire> firePool;
+    public CustomPool<Bezier> bezierPool;
 
 
     #region ClearHandler
@@ -69,6 +70,7 @@ public class CustomPoolManager : MonoBehaviour
         counterPool = CreateCustomPool<Counter>();
         parryPool = CreateCustomPool<Parry>();
         firePool = CreateCustomPool<Fire>();
+        bezierPool = CreateCustomPool<Bezier>();
     }
 
     private void Init_PoolObjectDictionary()

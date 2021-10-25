@@ -15,6 +15,23 @@ public class PlayerHitBox : MonoBehaviour
         parry = playerController.Parrying();
     }
 
+    IEnumerator Fall(Vector3 spawnPos)
+    {
+        playerController.Hit();
+
+        yield return new WaitForSeconds(playerController.Stat.spawnTime);
+        playerController.transform.position = spawnPos;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Fall"))
+        {
+            var fall = Fall(other.GetComponent<FallController>().spawnPos.position);
+            StartCoroutine(fall);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Monster"))
@@ -25,7 +42,6 @@ public class PlayerHitBox : MonoBehaviour
                     return;
             }
         }
-
 
         if (playerController.State.canParry)
         {
@@ -52,6 +68,15 @@ public class PlayerHitBox : MonoBehaviour
                 StartCoroutine(parry);
                 return;
             }
+
+            else if (other.CompareTag("EnemyBullet"))
+            {
+                StopCoroutine(parry);
+
+                parry = playerController.Parrying();
+                StartCoroutine(parry);
+                return;
+            }
         }
 
         //피격 가능
@@ -68,6 +93,11 @@ public class PlayerHitBox : MonoBehaviour
                 {
                     playerController.Hit();
                 }
+            }
+
+            else if (other.CompareTag("EnemyBullet"))
+            {
+                playerController.Hit();
             }
 
         }
