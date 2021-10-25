@@ -12,6 +12,7 @@ public class RoarProjectile : BearProjectile
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
+        moveTime = Random.Range(2.5f, 3.5f);
     }
 
     public override void Move()
