@@ -520,8 +520,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 391676058}
-  - component: {fileID: 391676057}
   - component: {fileID: 391676056}
+  - component: {fileID: 391676057}
   m_Layer: 0
   m_Name: StageSelector
   m_TagString: Untagged
@@ -544,6 +544,10 @@ MonoBehaviour:
   _components:
     rigidBody: {fileID: 391676057}
     animator: {fileID: 548487199}
+  timer: 0
+  progress: 0
+  moveTime: 1
+  state: 0
 --- !u!54 &391676057
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1301,12 +1305,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageSelector: {fileID: 391676056}
   currentStageNumber: 0
+  maxStageNumber: 0
+  moveStageNumber: 0
+  prevStageNumber: 0
   stagePlates:
   - {fileID: 1660476178}
   - {fileID: 785549820}
   - {fileID: 2098432573}
   - {fileID: 398345914}
   - {fileID: 1982512275}
+  keyOption:
+    moveRight: 275
+    moveLeft: 276
+    crouch: 274
+    lookUp: 273
+    attack: 122
+    jump: 120
+    counter: 99
 --- !u!1 &1483941537
 GameObject:
   m_ObjectHideFlags: 0
