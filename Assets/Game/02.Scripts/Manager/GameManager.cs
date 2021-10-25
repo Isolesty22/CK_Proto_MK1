@@ -80,8 +80,9 @@ public class GameManager : MonoBehaviour
         data.finalStageName = data.currentStageName;
 
         DataManager.Instance.currentData_player.CopyData(data);
-        SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
+        //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
         DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
 
     }
 
