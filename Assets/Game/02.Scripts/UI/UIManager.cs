@@ -194,7 +194,7 @@ public class UIManager : MonoBehaviour
 
         }
     }
-    
+
     private void VoidFunc() { }
     /// <summary>
     /// [임시] 패배 팝업을 띄웁니다.
@@ -204,13 +204,16 @@ public class UIManager : MonoBehaviour
 
     public void OpenQuitPopup()
     {
-        UIManager.Instance.OpenPopup(eUIText.Exit,
-            GameManager.instance.QuitGame,
+        OpenPopup(eUIText.Exit,
+            QuitGame,
             CloseTop);
     }
 
     public void QuitGame()
     {
-        GameManager.instance.QuitGame();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
     }
 }

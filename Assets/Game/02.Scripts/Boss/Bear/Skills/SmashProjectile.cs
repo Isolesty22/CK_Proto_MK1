@@ -55,7 +55,7 @@ public class SmashProjectile : BearProjectile
         Vector3 p1;
         Vector3 p2;
 
-        moveTime = Random.Range(moveTime - 0.8f, moveTime);
+        moveTime = Random.Range(moveTime - 1f, moveTime);
         while (progress < 1f)
         {
             timer += Time.deltaTime;
