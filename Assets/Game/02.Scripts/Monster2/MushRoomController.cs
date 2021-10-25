@@ -30,7 +30,8 @@ public class MushRoomController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
-        //Com.animator.SetBool("isDeath", false);
+        Com.monsterModel.SetActive(true);
+        Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
         transform.localEulerAngles = firstLookDir;
     }
@@ -76,7 +77,7 @@ public class MushRoomController : MonsterController
 
         if(moveDir == Vector3.left)
         {
-            //Com.animator.SetBool("isMove", true);
+            Com.animator.SetBool("isMove", true);
             Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = Vector3.zero;
             layDir = Vector3.left;
@@ -84,7 +85,7 @@ public class MushRoomController : MonsterController
 
         else
         {
-            //Com.animator.SetBool("isMove", true);
+            Com.animator.SetBool("isMove", true);
             Com.rigidbody.velocity = new Vector3(Stat.moveSpeed, Com.rigidbody.velocity.y, 0);
             transform.localEulerAngles = new Vector3(0, 180, 0);
             layDir = Vector3.right;
@@ -121,7 +122,7 @@ public class MushRoomController : MonsterController
 
     protected override void Death()
     {
-        //Com.animator.SetBool("isDeath", true);
+        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 
