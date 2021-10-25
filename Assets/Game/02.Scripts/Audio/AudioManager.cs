@@ -35,6 +35,7 @@ public class AudioManager : MonoBehaviour
         public AudioClip stage1BGM;
         public AudioClip stage1AmbientSound;
         public AudioClip stage2BGM;
+        public AudioClip arrowHit;
     }
 
 
