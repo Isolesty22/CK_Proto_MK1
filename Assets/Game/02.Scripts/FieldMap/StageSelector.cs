@@ -32,8 +32,8 @@ public class StageSelector : MonoBehaviour
     public float timer = 0f;
     [HideInInspector]
     public float progress = 0f;
-    [HideInInspector]
-    public float moveTime = 3f;
+
+    public float moveTime = 5f;
 
     public eState state;
 
@@ -42,6 +42,8 @@ public class StageSelector : MonoBehaviour
 
     public void StartProcessMove()
     {
+        timer = 0f;
+        progress = 0f;
         StartCoroutine(ProcessMove());
     }
     private IEnumerator ProcessMove()
@@ -58,7 +60,8 @@ public class StageSelector : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         Debug.Log("Finish Move!");
-
+        timer = 0f;
+        progress = 0;
         state = eState.Wait;
     }
 
@@ -70,6 +73,7 @@ public class StageSelector : MonoBehaviour
         startPosition = Com.rigidBody.position;
         destPosition = position;
         timer = 0f;
+        progress = 0f;
     }
 
     public void SetStartPos(Vector3 position) => startPosition = position;
