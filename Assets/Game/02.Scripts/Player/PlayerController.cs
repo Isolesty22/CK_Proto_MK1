@@ -138,8 +138,6 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator parry;
 
-    private AudioSource playerSFX;
-    private AudioSource playerAttackSound;
     #endregion
 
     private void Awake()
@@ -156,8 +154,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        playerSFX = AudioManager.Instance.Audios.audioSource_PSFX;
-        playerAttackSound = AudioManager.Instance.Audios.audioSource_PAttack;
     }
 
     private void Update()
@@ -330,21 +326,35 @@ public class PlayerController : MonoBehaviour
 
         if (Val.moveVelocity != Vector3.zero)
         {
-            if (!State.isCrouching)
+            if (State.isGrounded)
             {
-                playerSFX.clip = AudioManager.Instance.clips.ipeaRun;
-                playerSFX.Play();
-            }
-            else
-            {
-                playerSFX.clip = AudioManager.Instance.clips.ipeaWalk;
-                playerSFX.Play();
+                if (!State.isCrouching)
+                {
+                    if (!AudioManager.Instance.Audios.audioSource_PRun.isPlaying)
+                    {
+                        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+                        AudioManager.Instance.Audios.audioSource_PRun.Play();
+                    }
+                }
+                else
+                {
+                    if (!AudioManager.Instance.Audios.audioSource_PWalk.isPlaying)
+                    {
+                        AudioManager.Instance.Audios.audioSource_PRun.Stop();
+                        AudioManager.Instance.Audios.audioSource_PWalk.Play();
+                    }
+                }
             }
         }
         else
         {
-            playerSFX.Stop();
+            AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+            AudioManager.Instance.Audios.audioSource_PRun.Stop();
         }
+        //else
+        //{
+        //    playerSFX.Stop();
+        //}
 
         //최종 이동속도 결정
         //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
@@ -380,8 +390,7 @@ public class PlayerController : MonoBehaviour
 
         if (!Val.prevJump && Input.GetKey(Key.jump))
         {
-            playerSFX.clip = AudioManager.Instance.clips.ipeajump;
-            playerSFX.Play();
+            AudioManager.Instance.Audios.audioSource_PJump.PlayOneShot(AudioManager.Instance.Audios.audioSource_PJump.clip);
             Val.velocityY = Stat.jumpForce;
             State.isJumping = true;
         }
@@ -437,8 +446,7 @@ public class PlayerController : MonoBehaviour
 
 
         Stat.hp -= 1;
-        playerSFX.clip = AudioManager.Instance.clips.ipeaHit;
-        playerSFX.Play();
+        AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
         Com.animator.SetTrigger("Hit");
 
         Com.hit.transform.position = transform.position;
@@ -550,8 +558,7 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Parrying()
     {
-        playerSFX.clip = AudioManager.Instance.clips.ipeaParrying;
-        playerSFX.Play();
+        AudioManager.Instance.Audios.audioSource_PParrying.PlayOneShot(AudioManager.Instance.Audios.audioSource_PParrying.clip);
 
         State.canParry = false;
         Val.velocityY = Stat.parryingForce;
@@ -598,9 +605,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(Key.attack))
         {
-            playerAttackSound.Stop();
-            playerAttackSound.clip = AudioManager.Instance.clips.ipeaShoot;
-            playerAttackSound.Play();
             State.isAttack = true;
             Com.weapon.Fire();
         }

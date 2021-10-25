@@ -21,8 +21,13 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
-        public AudioSource audioSource_PSFX;
         public AudioSource audioSource_PAttack;
+        public AudioSource audioSource_PParrying;
+        public AudioSource audioSource_PWalk;
+        public AudioSource audioSource_PRun;
+        public AudioSource audioSource_PJump;
+        public AudioSource audioSource_PLand;
+        public AudioSource audioSource_PHit;
     }
     [Serializable]
     public class AudioClips
@@ -30,13 +35,6 @@ public class AudioManager : MonoBehaviour
         public AudioClip stage1BGM;
         public AudioClip stage1AmbientSound;
         public AudioClip stage2BGM;
-        public AudioClip ipeaShoot;
-        public AudioClip ipeaWalk;
-        public AudioClip ipeaRun;
-        public AudioClip ipeajump;
-        public AudioClip ipeaLanding;
-        public AudioClip ipeaParrying;
-        public AudioClip ipeaHit;
     }
 
 
@@ -69,6 +67,10 @@ public class AudioManager : MonoBehaviour
             }
 
         }
+    }
+
+    private void Start()
+    {
     }
 
     public IEnumerator Init()
