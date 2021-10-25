@@ -8,6 +8,9 @@ using System.Linq;
 [SelectionBase]
 public class BearController : BossController
 {
+
+    public BoxCollider col1;
+    public BoxCollider col2;
     [Header("임시 포탈")]
     public TestStagePotal testPotal;
     [Space(20)]
@@ -125,6 +128,7 @@ public class BearController : BossController
     public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
     public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
     public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
+    public CustomPool<RollerController> rollerPool = new CustomPool<RollerController>();
 
 
     private BearEmissionController emissionController;
@@ -197,6 +201,7 @@ public class BearController : BossController
         roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
         clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
         smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
+        rollerPool = CustomPoolManager.Instance.CreateCustomPool<RollerController>();
     }
 
     #endregion
@@ -204,6 +209,9 @@ public class BearController : BossController
     {
         Init();
         StartCoroutine(ExecutePatternCoroutine);
+
+        Physics.IgnoreCollision(colliders.bodyCollider, col1,true);
+        Physics.IgnoreCollision(colliders.bodyCollider, col2,true);
     }
     private void Update()
     {

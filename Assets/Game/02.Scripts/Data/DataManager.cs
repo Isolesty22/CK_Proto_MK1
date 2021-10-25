@@ -264,6 +264,14 @@ public class DataManager : MonoBehaviour
         {
             case fileName_settings:
                 currentData = currentData_settings;
+                if (GameManager.instance != null)
+                {
+                    if (GameManager.instance.playerController != null)
+                    {
+                        GameManager.instance.playerController.Key.CopyData(currentData_settings.keySetting);
+
+                    }
+                }
                 break;
 
             case fileName_player:
@@ -278,6 +286,7 @@ public class DataManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(currentData, true);
         yield return StartCoroutine(fileManager.WriteText(_fileName, jsonData, dataFilePath));
 
+
         SetCurrentState(eDataManagerState.FINISH);
     }
 
@@ -288,7 +297,7 @@ public class DataManager : MonoBehaviour
         if (currentState != _state)
         {
             currentState = _state;
-           // Debug.Log("DataManager : " + "상태 변경! " + currentState.ToString());
+            // Debug.Log("DataManager : " + "상태 변경! " + currentState.ToString());
         }
 
     }

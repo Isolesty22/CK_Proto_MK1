@@ -8,6 +8,8 @@ public class Pixy : MonoBehaviour
     public PlayerController pc;
     public Transform firePos;
 
+    public Animator anim;
+
     public bool isAttack;
     public bool isUlt;
 
@@ -69,6 +71,8 @@ public class Pixy : MonoBehaviour
         transform.DOMove(firePos.position, pixyMoveTime).SetEase(Ease.Unset);
 
         yield return new WaitForSeconds(pixyMoveTime);
+
+        anim.SetTrigger("attack");
 
         var counter = Counter();
         StartCoroutine(counter);

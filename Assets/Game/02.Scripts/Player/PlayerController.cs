@@ -417,7 +417,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            Com.pixy.transform.localPosition = Com.pixy.pixyPos;
+            if(!Com.pixy.isAttack)
+                Com.pixy.transform.localPosition = Com.pixy.pixyPos;
 
             return;
         }
@@ -433,7 +434,8 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = false;
             Com.hitBox.crouchHitBox.enabled = true;
 
-            Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
+            if (!Com.pixy.isAttack)
+                Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
         }
     }
 
@@ -641,23 +643,26 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if(Stat.pixyEnerge < 10f || Com.pixy.isAttack)
+        if(Com.pixy.isAttack)
         {
             return;
         }
 
         if (Input.GetKeyDown(Key.counter))
         {
-            if(Stat.pixyEnerge >= 30f)
-            {
-                Stat.pixyEnerge -= 30f;
-                Com.pixy.Ult();
-            }
-            else
+            if (Stat.pixyEnerge > 9.95f)
             {
                 Stat.pixyEnerge -= 10f;
-
                 Com.pixy.ReadyToCounter();
+            }
+        }
+
+        if (Input.GetKeyDown(Key.ult))
+        {
+            if (Stat.pixyEnerge > 29.95f)
+            {
+                Stat.pixyEnerge = 0f;
+                Com.pixy.Ult();
             }
         }
     }

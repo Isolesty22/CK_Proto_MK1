@@ -26,9 +26,9 @@ public class UILosePopup : UIBase
     public override bool Close()
     {
 
-        Time.timeScale = 1f;
-        StartCoroutine(ProcessClose());
-        return true;
+        //Time.timeScale = 1f;
+        //StartCoroutine(ProcessClose());
+        return false;
         //Com.canvas.enabled = false;
         //return !(isOpen = Com.canvas.enabled);
     }

@@ -44,6 +44,9 @@ public class UIVolumeSetting : UIBase
 
         currentData_settings = new Data_Settings();
 
+
+        dataManager = DataManager.Instance;
+
         if (!ReferenceEquals(dataManager, null))//null이 아닐 경우에만
         {
             //데이터매니저에서 데이터를 가져옴
@@ -91,9 +94,23 @@ public class UIVolumeSetting : UIBase
         //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
         dataManager.currentData_settings.CopyData(currentData_settings);
 
+        AudioManager.Instance.Audios.audioSource_BGM.volume = 1 * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_EVM.volume = 0.3f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_SFX.volume = 0.5f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PAttack.volume = 0.4f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PHit.volume = 1 * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PJump.volume = 0.5f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PLand.volume = 1 * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PParrying.volume = 0.3f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PRun.volume = 0.3f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.Audios.audioSource_PWalk.volume = 0.3f * GetFloat(currentData_settings.volume_master);
+
         //변경된 데이터 저장
         yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
+
         isSaving = false;
+
+        UIManager.Instance.CloseTop();
     }
 
 
@@ -150,7 +167,8 @@ public class UIVolumeSetting : UIBase
     public void Button_SetDefault()
     {
         //현재 데이터를 저장된 데이터로 변경(폐기)
-        currentData_settings.CopyData(dataManager.currentData_settings);
+        //currentData_settings.CopyData(DataManager.Instance.currentData_settings);
+        currentData_settings = new Data_Settings();
 
         //UI 업데이트
         UpdateUI();

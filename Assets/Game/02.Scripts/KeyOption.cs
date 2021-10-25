@@ -21,7 +21,9 @@ public class KeyOption
     [ReadOnly]
     public KeyCode jump = KeyCode.X;
     [ReadOnly]
-    public KeyCode counter = KeyCode.C;
+    public KeyCode counter = KeyCode.C; 
+    [ReadOnly]
+    public KeyCode ult = KeyCode.V;
 
     public KeyOption(KeyOption _data)
     {
@@ -32,6 +34,7 @@ public class KeyOption
         this.attack = _data.attack;
         this.jump = _data.jump;
         this.counter = _data.counter;
+        this.ult = _data.ult;
     }
 
     public KeyOption()
@@ -43,6 +46,7 @@ public class KeyOption
         attack = KeyCode.Z;
         jump = KeyCode.X;
         counter = KeyCode.C;
+        ult = KeyCode.V;
     }
 
     public void CopyData(KeyOption _data)
@@ -54,6 +58,7 @@ public class KeyOption
         this.attack = _data.attack;
         this.jump = _data.jump;
         this.counter = _data.counter;
+        this.ult = _data.ult;
     }
 
     public bool IsEquals(KeyOption _data)
@@ -64,6 +69,7 @@ public class KeyOption
                lookUp == _data.lookUp &&
                attack == _data.attack &&
                jump == _data.jump &&
-               counter == _data.counter;
+               counter == _data.counter &&
+               ult == _data.ult;
     }
 }
