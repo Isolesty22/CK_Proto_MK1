@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class PlayerFollow : MonoBehaviour
 {
-    private GameObject player;
 
-
-    void Awake()
+    void Start()
     {
-        player = GameManager.instance.playerController.gameObject;
     }
     void Update()
     {
-        gameObject.transform.position = player.transform.position;
+        //if(GameManager.instance.playerController)
+        //    gameObject.transform.position = GameManager.instance.playerController.transform.position;
     }
 }

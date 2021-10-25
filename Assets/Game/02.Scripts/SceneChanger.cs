@@ -143,30 +143,6 @@ public class SceneChanger : MonoBehaviour
 
         Debug.Log("씬을 활성화했습니다.");
 
-        #region BGMSet
-
-        switch (GetNowSceneName())
-        {
-            case "Stage_00":
-                break;
-            case "Stage_01":
-                AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clips.stage1BGM;
-                AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clips.stage1AmbientSound;
-                AudioManager.Instance.Audios.audioSource_BGM.Play();
-                AudioManager.Instance.Audios.audioSource_EVM.Play();
-                break;
-            case "Stage_02":
-                break;
-            case "Stage_03":
-                break;
-            case "Stage_04":
-                break;
-            default:
-                break;
-        }
-
-        #endregion
-
         //if (Instance == null)
         //{
         //    instance = this;
@@ -195,5 +171,32 @@ public class SceneChanger : MonoBehaviour
         uiLoading.Close();
         Time.timeScale = 1f;
         SceneManager.sceneLoaded -= LoadSceneEnd;
+        #region BGMSet
+
+        switch (GetNowSceneName())
+        {
+            case "Stage_00":
+                break;
+            case "Stage_01":
+                AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clips.stage1BGM;
+                AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clips.stage1AmbientSound;
+                AudioManager.Instance.Audios.audioSource_BGM.Play();
+                AudioManager.Instance.Audios.audioSource_EVM.Play();
+                break;
+            case "Stage_02":
+                AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clips.stage2BGM;
+                AudioManager.Instance.Audios.audioSource_BGM.Play();
+                AudioManager.Instance.Audios.audioSource_EVM.Stop();
+                break;
+            case "Stage_03":
+                break;
+            case "Stage_04":
+                break;
+            default:
+                break;
+        }
+
+        #endregion
+
     }
 }
