@@ -51,12 +51,12 @@ public class GameManager : MonoBehaviour
 
         //if (cameraManager == null)
         //{
-            cameraManager = FindObjectOfType<CameraManager>();
+        cameraManager = FindObjectOfType<CameraManager>();
         //}
 
         //if (playerController == null)
         //{
-            playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
         //}
     }
 
@@ -80,9 +80,17 @@ public class GameManager : MonoBehaviour
         data.finalStageName = data.currentStageName;
 
         DataManager.Instance.currentData_player.CopyData(data);
-        SceneChanger.Instance.LoadThisScene(DataManager.Instance.currentData_player.currentStageName);
+        SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
         DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
 
+    }
+
+    /// <summary>
+    /// [임시] 그냥 필드맵으로 넘어갑니다.
+    /// </summary>
+    public void ReturnFieldMap()
+    {
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
     /// <summary>
