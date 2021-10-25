@@ -23,10 +23,10 @@ public class Counter : MonoBehaviour
             return;
         }
 
-        if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        {
-            isActive = false;
-            CustomPoolManager.Instance.ReleaseThis(this);
-        }
+        //if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        //{
+        //    isActive = false;
+        //    CustomPoolManager.Instance.ReleaseThis(this);
+        //}
     }
 }

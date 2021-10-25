@@ -52,8 +52,8 @@ MonoBehaviour:
   isUlt: 0
   pixyPos: {x: -0.5, y: 0.5, z: -0.7}
   courchPixyPos: {x: -0.5, y: 0.3, z: -0.7}
-  ultPos: {x: 0, y: 0, z: 0}
-  pixyMoveTime: 0.3
+  ultPos: {x: 0, y: 0.5, z: 0.7}
+  pixyMoveTime: 0.4
   counterRange: 10
   counterSpeed: 5
   isReady: 0
@@ -71,7 +71,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 10, z: 10}
+  m_Size: {x: 1, y: 20, z: 20}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &980963266
 GameObject:
@@ -376,7 +376,7 @@ MonoBehaviour:
     invincibleTime: 2
     hitColorTime: 0.25
     hitColorDelay: 0.2
-    pixyEnerge: 10
+    pixyEnerge: 5252
     parryingEnerge: 1
     attackEnerge: 0.1
     spawnTime: 0.5
@@ -426,6 +426,7 @@ MonoBehaviour:
     attack: 122
     jump: 120
     counter: 99
+    ult: 118
 --- !u!136 &4650393343393378142
 CapsuleCollider:
   m_ObjectHideFlags: 0
