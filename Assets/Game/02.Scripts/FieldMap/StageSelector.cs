@@ -37,9 +37,13 @@ public class StageSelector : MonoBehaviour
 
     public eState state;
 
-    private Vector3 currentPosition;
+    private Vector3 startPosition;
     private Vector3 destPosition;
 
+    public void StartProcessMove()
+    {
+        StartCoroutine(ProcessMove());
+    }
     private IEnumerator ProcessMove()
     {
         state = eState.Move;
@@ -49,9 +53,7 @@ public class StageSelector : MonoBehaviour
             timer += Time.deltaTime;
             progress = timer / moveTime;
 
-            currentPosition = Vector3.Lerp(Com.rigidBody.position, destPosition, progress);
-
-            SetPosition(currentPosition);
+            SetPosition(Vector3.Lerp(startPosition, destPosition, progress));
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
@@ -60,7 +62,18 @@ public class StageSelector : MonoBehaviour
         state = eState.Wait;
     }
 
-    public void SetDestination(Vector3 position) => destPosition = position;
+    /// <summary>
+    /// ProcessMove가 실행되는 도중에 목적지를 바꿉니다.
+    /// </summary>
+    public void ChangeDestinationPos(Vector3 position)
+    {
+        startPosition = Com.rigidBody.position;
+        destPosition = position;
+        timer = 0f;
+    }
+
+    public void SetStartPos(Vector3 position) => startPosition = position;
+    public void SetDestinationPos(Vector3 position) => destPosition = position;
     public void SetPosition(Vector3 position) => Com.rigidBody.position = position;
 
 }

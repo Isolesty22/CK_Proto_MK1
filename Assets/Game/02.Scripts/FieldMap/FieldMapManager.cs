@@ -17,6 +17,8 @@ public class FieldMapManager : MonoBehaviour
     [Header("발판 배열"), Tooltip("StageSelector는 해당 발판들의 위치로 이동합니다.")]
     public StagePlate[] stagePlates;
 
+    public KeyOption keyOption;
+
     private void Start()
     {
         Init();
@@ -29,12 +31,14 @@ public class FieldMapManager : MonoBehaviour
         {
             dataManager = DataManager.Instance;
             currentStageNumber = dataManager.currentData_player.currentStageNumber;
+            keyOption = dataManager.currentData_settings.keySetting;
         }
         else
         {
             //못가져오면 0
             Debug.LogError("DataManager Instance가 null입니다. currentStageNumber Set 0");
             currentStageNumber = 0;
+            keyOption = new KeyOption();
         }
 
 
@@ -44,13 +48,22 @@ public class FieldMapManager : MonoBehaviour
         //StageGrayScale_Legacy();
         //StartCoroutine(ProcessInputMoveKey());
     }
+   
 
-    public void MoveStage()
+    public void DetectMoveKey()
+    {
+
+    }
+    public void MoveStage(int stageNumber)
     {
         //이미 움직이고 있는 상태라면
         if (stageSelector.state == eState.Move)
         {
-
+            stageSelector.ChangeDestinationPos(stagePlates[stageNumber].GetPosition());
+        }
+        else
+        {
+            stageSelector.StartProcessMove();
         }
     }
 }
