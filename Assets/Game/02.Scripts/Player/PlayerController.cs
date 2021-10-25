@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         public float parryingEnerge = 1f;
         public float attackEnerge = 0.1f;
 
+        public float spawnTime = 0.5f;
+
         [Header("unused")]
         public float jumpingSpeed = 1f;
     }
@@ -382,7 +384,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            Com.pixy.transform.localPosition = Com.pixy.firePos;
+            Com.pixy.transform.localPosition = Com.pixy.pixyPos;
 
             return;
         }
@@ -398,7 +400,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = false;
             Com.hitBox.crouchHitBox.enabled = true;
 
-            Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
+            Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
         }
     }
 
@@ -604,22 +606,24 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if(Stat.pixyEnerge < 10f)
+        if(Stat.pixyEnerge < 10f || Com.pixy.isAttack)
         {
             return;
         }
 
         if (Input.GetKeyDown(Key.counter))
         {
-            Stat.pixyEnerge -= 10f;
+            if(Stat.pixyEnerge >= 30f)
+            {
+                Stat.pixyEnerge -= 30f;
+                Com.pixy.Ult();
+            }
+            else
+            {
+                Stat.pixyEnerge -= 10f;
 
-            Com.pixy.ReadyToCounter();
-
-            //State.canCounter = false;
-            //Com.pixy.isReady = false;
-            //var counter = Com.pixy.Counter();
-            //StartCoroutine(counter);
-            //Com.pixy.EndCounter();
+                Com.pixy.ReadyToCounter();
+            }
         }
     }
 
