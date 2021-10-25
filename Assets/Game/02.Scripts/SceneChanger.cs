@@ -62,6 +62,8 @@ public class SceneChanger : MonoBehaviour
     }
     public IEnumerator LoadThisScene_Joke(string _sceneName)
     {
+        AudioManager.Instance.Audios.audioSource_BGM.Stop();
+        AudioManager.Instance.Audios.audioSource_EVM.Stop();
         isLoading = true;
 
         moveSceneName = _sceneName;
@@ -197,6 +199,8 @@ public class SceneChanger : MonoBehaviour
             case "Stage_04":
                 break;
             default:
+                AudioManager.Instance.Audios.audioSource_BGM.Stop();
+                AudioManager.Instance.Audios.audioSource_EVM.Stop();
                 break;
         }
 
