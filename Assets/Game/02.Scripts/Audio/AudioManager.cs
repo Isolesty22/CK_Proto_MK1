@@ -21,9 +21,29 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
+        public AudioSource audioSource_PSFX;
+        public AudioSource audioSource_PAttack;
     }
-    [SerializeField] private AudioSources audioSources = new AudioSources();
+    [Serializable]
+    public class AudioClips
+    {
+        public AudioClip stage1BGM;
+        public AudioClip stage1AmbientSound;
+        public AudioClip stage2BGM;
+        public AudioClip ipeaShoot;
+        public AudioClip ipeaWalk;
+        public AudioClip ipeaRun;
+        public AudioClip ipeajump;
+        public AudioClip ipeaLanding;
+        public AudioClip ipeaParrying;
+        public AudioClip ipeaHit;
+    }
 
+
+    [SerializeField] private AudioSources audioSources = new AudioSources();
+    [SerializeField] private AudioClips audioClips = new AudioClips();
+
+    public AudioClips clips => audioClips;
     public AudioSources Audios => audioSources;
 
     public Dictionary<string, AudioClip> clipDict_BGM = new Dictionary<string, AudioClip>();
