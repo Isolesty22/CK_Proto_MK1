@@ -53,6 +53,8 @@ public class PlayerController : MonoBehaviour
         public float parryingEnerge = 1f;
         public float attackEnerge = 0.1f;
 
+        public float spawnTime = 0.5f;
+
         [Header("unused")]
         public float jumpingSpeed = 1f;
     }
@@ -135,6 +137,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 crouchCapsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.crouchCollier.height / 2 - Com.crouchCollier.radius, 0);
 
     private IEnumerator parry;
+
     #endregion
 
     private void Awake()
@@ -151,7 +154,6 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-
     }
 
     private void Update()
@@ -322,9 +324,41 @@ public class PlayerController : MonoBehaviour
                 Val.moveVelocity = Val.moveVector * Stat.movementSpeed;
         }
 
+        if (Val.moveVelocity != Vector3.zero)
+        {
+            if (State.isGrounded)
+            {
+                if (!State.isCrouching)
+                {
+                    if (!AudioManager.Instance.Audios.audioSource_PRun.isPlaying)
+                    {
+                        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+                        AudioManager.Instance.Audios.audioSource_PRun.Play();
+                    }
+                }
+                else
+                {
+                    if (!AudioManager.Instance.Audios.audioSource_PWalk.isPlaying)
+                    {
+                        AudioManager.Instance.Audios.audioSource_PRun.Stop();
+                        AudioManager.Instance.Audios.audioSource_PWalk.Play();
+                    }
+                }
+            }
+        }
+        else
+        {
+            AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+            AudioManager.Instance.Audios.audioSource_PRun.Stop();
+        }
+        //else
+        //{
+        //    playerSFX.Stop();
+        //}
+
         //최종 이동속도 결정
         //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
-      
+
         Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0)+ Val.knockBackVelocity + (Vector3.up * Val.velocityY);
     }
 
@@ -356,6 +390,7 @@ public class PlayerController : MonoBehaviour
 
         if (!Val.prevJump && Input.GetKey(Key.jump))
         {
+            AudioManager.Instance.Audios.audioSource_PJump.PlayOneShot(AudioManager.Instance.Audios.audioSource_PJump.clip);
             Val.velocityY = Stat.jumpForce;
             State.isJumping = true;
         }
@@ -382,7 +417,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            Com.pixy.transform.localPosition = Com.pixy.firePos;
+            Com.pixy.transform.localPosition = Com.pixy.pixyPos;
 
             return;
         }
@@ -398,7 +433,7 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = false;
             Com.hitBox.crouchHitBox.enabled = true;
 
-            Com.pixy.transform.localPosition = Com.pixy.crouchFirePos;
+            Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
         }
     }
 
@@ -411,7 +446,7 @@ public class PlayerController : MonoBehaviour
 
 
         Stat.hp -= 1;
-
+        AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
         Com.animator.SetTrigger("Hit");
 
         Com.hit.transform.position = transform.position;
@@ -523,6 +558,8 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator Parrying()
     {
+        AudioManager.Instance.Audios.audioSource_PParrying.PlayOneShot(AudioManager.Instance.Audios.audioSource_PParrying.clip);
+
         State.canParry = false;
         Val.velocityY = Stat.parryingForce;
         Com.animator.SetTrigger("Parrying");
@@ -604,22 +641,24 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if(Stat.pixyEnerge < 10f)
+        if(Stat.pixyEnerge < 10f || Com.pixy.isAttack)
         {
             return;
         }
 
         if (Input.GetKeyDown(Key.counter))
         {
-            Stat.pixyEnerge -= 10f;
+            if(Stat.pixyEnerge >= 30f)
+            {
+                Stat.pixyEnerge -= 30f;
+                Com.pixy.Ult();
+            }
+            else
+            {
+                Stat.pixyEnerge -= 10f;
 
-            Com.pixy.ReadyToCounter();
-
-            //State.canCounter = false;
-            //Com.pixy.isReady = false;
-            //var counter = Com.pixy.Counter();
-            //StartCoroutine(counter);
-            //Com.pixy.EndCounter();
+                Com.pixy.ReadyToCounter();
+            }
         }
     }
 

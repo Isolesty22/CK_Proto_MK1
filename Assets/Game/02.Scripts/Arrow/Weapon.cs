@@ -28,6 +28,7 @@ public class Weapon : MonoBehaviour
         {
             if (weaponState == State.Basic)
             {
+                AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.Audios.audioSource_PAttack.clip);
                 var fire = BasicFire();
                 StartCoroutine(fire);
             }

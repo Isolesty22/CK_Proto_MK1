@@ -5,13 +5,22 @@ using UnityEngine;
 public class TestStagePotal : MonoBehaviour
 {
 
+    public bool noSaveReturnFieldMap;
     public void Active() => gameObject.SetActive(true);
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.instance.GoNextStage();
+            if (noSaveReturnFieldMap)
+            {
+                GameManager.instance.ReturnFieldMap();
+            }
+            else
+            {
+                GameManager.instance.GoNextStage();
+            }
+
         }
     }
 }

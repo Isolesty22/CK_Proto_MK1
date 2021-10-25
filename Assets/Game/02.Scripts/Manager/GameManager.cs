@@ -51,12 +51,12 @@ public class GameManager : MonoBehaviour
 
         //if (cameraManager == null)
         //{
-            cameraManager = FindObjectOfType<CameraManager>();
+        cameraManager = FindObjectOfType<CameraManager>();
         //}
 
         //if (playerController == null)
         //{
-            playerController = FindObjectOfType<PlayerController>();
+        playerController = FindObjectOfType<PlayerController>();
         //}
     }
 
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            StageClear();
+            GoNextStage();
         }
     }
     /// <summary>
@@ -74,15 +74,24 @@ public class GameManager : MonoBehaviour
     public void GoNextStage()
     {
         Data_Player data = new Data_Player();
-        data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
-        data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber);
-        data.finalStageNumber = data.currentStageNumber;
-        data.finalStageName = data.currentStageName;
+        //data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
+        //data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
+        data.finalStageNumber = data.currentStageNumber + 1;
+        data.finalStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
 
         DataManager.Instance.currentData_player.CopyData(data);
-        SceneChanger.Instance.LoadThisScene(DataManager.Instance.currentData_player.currentStageName);
+        //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
         DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
 
+    }
+
+    /// <summary>
+    /// [임시] 그냥 필드맵으로 넘어갑니다.
+    /// </summary>
+    public void ReturnFieldMap()
+    {
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
     /// <summary>
