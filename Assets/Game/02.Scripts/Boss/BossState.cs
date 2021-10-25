@@ -136,6 +136,17 @@ public class BearState_Stamp : BearState
                 GameManager.instance.playerController.Hit();
             }
         }
+
+        if (bearController.stateInfo.phase == ePhase.Phase_1)
+        {
+            GameObject.Instantiate(bearController.skillObjects.mushrooms, bearController.skillObjects.mushroomPoint_Left.position, Quaternion.identity);
+
+        }
+        else
+        {
+            GameObject.Instantiate(bearController.skillObjects.mushrooms, bearController.skillObjects.mushroomPoint_Right.position, Quaternion.identity);
+
+        }
     }
 }
 public class BearState_Rush : BearState
@@ -173,6 +184,11 @@ public class BearState_Rush : BearState
         canGo = true;
         //맵의 왼쪽으로 빠르게 이동하는 함수
         bearController.SetAnimEvent(LeftRush);
+
+        //거미 등장
+        bearController.skillObjects.spiders.SetActive(true);
+
+        //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");
     }
     public override void OnExit()

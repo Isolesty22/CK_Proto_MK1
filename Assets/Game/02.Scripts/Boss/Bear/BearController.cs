@@ -9,8 +9,6 @@ using System.Linq;
 public class BearController : BossController
 {
 
-    public BoxCollider col1;
-    public BoxCollider col2;
     [Header("임시 포탈")]
     public TestStagePotal testPotal;
     [Space(20)]
@@ -58,8 +56,13 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject rushEffect;
+        public GameObject spiders;
+
         [Space(10)]
         public GameObject stampShockEffect;
+        public GameObject mushrooms;
+        public Transform mushroomPoint_Left;
+        public Transform mushroomPoint_Right;
     }
 
     [Serializable]
@@ -209,9 +212,6 @@ public class BearController : BossController
     {
         Init();
         StartCoroutine(ExecutePatternCoroutine);
-
-        Physics.IgnoreCollision(colliders.bodyCollider, col1,true);
-        Physics.IgnoreCollision(colliders.bodyCollider, col2,true);
     }
     private void Update()
     {

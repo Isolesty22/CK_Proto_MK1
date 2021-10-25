@@ -67,9 +67,10 @@ public class UIPause : UIBase
     }
     public void Button_QuitGame()
     {
-        UIManager.Instance.OpenPopup(eUIText.Exit,
-              GameManager.instance.QuitGame, UIManager.Instance.CloseTop);
+
+        UIManager.Instance.OpenQuitPopup();
     }
+
     public void Button_Restart()
     {
         SceneChanger.Instance.LoadThisScene(SceneChanger.Instance.GetNowSceneName());
