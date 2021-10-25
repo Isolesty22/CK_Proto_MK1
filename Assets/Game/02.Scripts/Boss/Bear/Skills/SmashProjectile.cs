@@ -76,6 +76,7 @@ public class SmashProjectile : BearProjectile
         //사라짐 대기시간
         yield return waitDespawnTime;
         Despawn();
+
     }
     private Vector3 GetRandomVector3()
     {
