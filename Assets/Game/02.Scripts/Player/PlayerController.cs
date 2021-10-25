@@ -613,7 +613,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(Key.counter))
         {
-            if(Stat.pixyEnerge ==30f)
+            if(Stat.pixyEnerge >= 30f)
             {
                 Stat.pixyEnerge -= 30f;
                 Com.pixy.Ult();

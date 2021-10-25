@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 900562925}
   - component: {fileID: 900562926}
   - component: {fileID: 1510949537}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Pixy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 900562924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0.75}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2028246054}
   m_Father: {fileID: 4650393343393378140}
@@ -70,7 +70,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 100, z: 100}
+  m_Size: {x: 1, y: 10, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &980963266
 GameObject:
@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 1069043604}
   - component: {fileID: 1069043606}
   - component: {fileID: 1069043605}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: model (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 2028246054}
   - component: {fileID: 2028246056}
   - component: {fileID: 2028246055}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ Transform:
   m_GameObject: {fileID: 2028246053}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_Children:
   - {fileID: 1069043604}
   m_Father: {fileID: 900562925}
@@ -521,6 +521,7 @@ MonoBehaviour:
     pixyEnerge: 0
     parryingEnerge: 1
     attackEnerge: 0.1
+    spawnTime: 0.5
     jumpingSpeed: 1
   value:
     moveVector: {x: 0, y: 0, z: 0}

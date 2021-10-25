@@ -6,7 +6,7 @@ public class Bezier : MonoBehaviour
 {
     Vector2[] point = new Vector2[4];
 
-    [SerializeField] [Range(0, 1)] private float t = 0;
+    [SerializeField] [Range(0, 1)] public float t = 0;
     public int damage = 1;
     public float spd = 5;
     [SerializeField] public float posA = 0.55f;
@@ -27,8 +27,12 @@ public class Bezier : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (t > 1) return;
-        t += Time.deltaTime * spd;
+        if (t > 1)
+        {
+            CustomPoolManager.Instance.ReleaseThis(this);
+            return;
+        }
+            t += Time.deltaTime * spd;
         DrawTrajectory();
     }
 

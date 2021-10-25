@@ -35,6 +35,25 @@ public class Pixy : MonoBehaviour
         //pixyModel.localPosition = pixyPos;
     }
 
+    private void Update()
+    {
+        if (enemyList.Count > 0)
+        {
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                if (enemyList[i].GetComponent<MonsterController>() != null)
+                {
+                    if (!enemyList[i].GetComponent<MonsterController>().Stat.isAlive)
+                    {
+                        enemyList.Remove(enemyList[i]);
+                    }
+                }
+            }
+        }
+
+        
+    }
+
     public void ReadyToCounter()
     {
         var ready = Ready();
@@ -133,7 +152,12 @@ public class Pixy : MonoBehaviour
 
     public void UltShot()
     {
+        if (enemyList.Count <= 0)
+            return;
+
         var ult = CustomPoolManager.Instance.bezierPool.SpawnThis(transform.position, transform.eulerAngles, null);
+
+        ult.t = 0f;
 
         ult.master = this.gameObject;
 
