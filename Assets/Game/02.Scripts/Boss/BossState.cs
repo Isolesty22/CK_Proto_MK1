@@ -432,6 +432,9 @@ public class BearState_Strike : BearState
     }
     #endregion
 
+
+    //해야함 : Clone 말고 풀링
+
     private void CloneStrikeCube(int _bearBlockIndex)
     {
         GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[_bearBlockIndex].position.groundCenter, Quaternion.identity);
