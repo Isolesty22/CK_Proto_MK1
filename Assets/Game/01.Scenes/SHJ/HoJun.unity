@@ -1722,19 +1722,18 @@ MonoBehaviour:
     audioSource_BGM: {fileID: 1341798770}
     audioSource_EVM: {fileID: 1314647986}
     audioSource_SFX: {fileID: 1314784253}
-    audioSource_PSFX: {fileID: 1471034522}
     audioSource_PAttack: {fileID: 949553405}
+    audioSource_PParrying: {fileID: 0}
+    audioSource_PWalk: {fileID: 0}
+    audioSource_PRun: {fileID: 0}
+    audioSource_PJump: {fileID: 0}
+    audioSource_PLand: {fileID: 0}
+    audioSource_PHit: {fileID: 0}
   audioClips:
     stage1BGM: {fileID: 0}
     stage1AmbientSound: {fileID: 8300000, guid: a807c1f268a265f4fabf526ef0ee17ac, type: 3}
     stage2BGM: {fileID: 0}
-    ipeaShoot: {fileID: 8300000, guid: 77d0f10ba67c3134d8aa8518ee66cc2d, type: 3}
-    ipeaWalk: {fileID: 8300000, guid: 46d65ba3d6cfabc4bacec07baedbb9c3, type: 3}
-    ipeaRun: {fileID: 8300000, guid: d3b27f99221c7bd4abd3acc2b8ae57fc, type: 3}
-    ipeajump: {fileID: 8300000, guid: 071b78b3a9e70b740afaecd5192eba91, type: 3}
-    ipeaLanding: {fileID: 8300000, guid: 9fd8be62855caac48990cb67695c33d6, type: 3}
-    ipeaParrying: {fileID: 0}
-    ipeaHit: {fileID: 0}
+    arrowHit: {fileID: 0}
 --- !u!4 &1100413390
 Transform:
   m_ObjectHideFlags: 0
@@ -3881,38 +3880,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 900562926, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: ultPos.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 900562926, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: ultPos.z
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 900562926, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: pixyMoveTime
-      value: 0.4
-      objectReference: {fileID: 0}
     - target: {fileID: 1040427550, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: spawn
       value: 
       objectReference: {fileID: 1100599725}
-    - target: {fileID: 1510949537, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: m_Size.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510949537, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: m_Size.z
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 530129016779064691, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2500037466687523336, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378136, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_Name
       value: Player
@@ -3965,33 +3936,5 @@ PrefabInstance:
       propertyPath: components.hit
       value: 
       objectReference: {fileID: 611703467}
-    - target: {fileID: 4650393343393378141, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playerStatus.pixyEnerge
-      value: 5252
-      objectReference: {fileID: 0}
-    - target: {fileID: 5201629355422488684, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.726
-      objectReference: {fileID: 0}
-    - target: {fileID: 5977713834974782972, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6801548360653735415, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6801548360653735415, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6801548360653735415, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: InitialModule.startLifetime.minScalar
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8641312290832502899, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: playOnAwake
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
