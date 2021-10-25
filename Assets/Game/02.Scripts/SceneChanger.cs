@@ -179,12 +179,16 @@ public class SceneChanger : MonoBehaviour
                 break;
             case "Stage_01":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clips.stage1BGM;
+                AudioManager.Instance.Audios.audioSource_BGM.volume = 1;
+                AudioManager.Instance.Audios.audioSource_BGM.pitch = 1;
                 AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clips.stage1AmbientSound;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Play();
                 break;
             case "Stage_02":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clips.stage2BGM;
+                AudioManager.Instance.Audios.audioSource_BGM.volume = 0.5f;
+                AudioManager.Instance.Audios.audioSource_BGM.pitch = 0.8f;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Stop();
                 break;
