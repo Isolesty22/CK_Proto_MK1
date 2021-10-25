@@ -14,6 +14,7 @@ public class UIKeySetting : UIBase
 
     public override bool Open()
     {
+        UpdateAllUI();
         StartCoroutine(ProcessOpen());
         return true; ;
     }
@@ -64,7 +65,7 @@ public class UIKeySetting : UIBase
     [Tooltip("키 변경을 위해 입력을 받고있는 상태인가?")]
     private bool isChangingKey = false;
     private bool isSaving;
-    private IEnumerator waitInputChangeKey;
+    private IEnumerator waitInputKey;
 
     private void Start()
     {
@@ -73,7 +74,7 @@ public class UIKeySetting : UIBase
         Init_Dict();
         Init_KeyChangeButtons();
 
-        UpdateUI_Text();
+        UpdateAllUI();
     }
 
     /// <summary>
@@ -112,7 +113,7 @@ public class UIKeySetting : UIBase
     /// <summary>
     /// 키 입력을 기다리고, 입력되었을 경우 키 변경을 시도합니다.
     /// </summary>
-    private IEnumerator WaitInputChangeKey(string _keyType)
+    private IEnumerator WaitInputKey(string _keyType)
     {
         isChangingKey = true;
 
@@ -137,16 +138,16 @@ public class UIKeySetting : UIBase
         if (isChangingKey)
         {
             Debug.Log("Stop!");
-            StopCoroutine(waitInputChangeKey);
+            StopCoroutine(waitInputKey);
             keyInputDetector.EndDetect();
             isChangingKey = false;
         }
 
-        waitInputChangeKey = WaitInputChangeKey(_keyType);
+        waitInputKey = WaitInputKey(_keyType);
 
         Debug.Log("KeyChange Button! : " + _keyType);
 
-        StartCoroutine(waitInputChangeKey);
+        StartCoroutine(waitInputKey);
     }
 
     /// <summary>
@@ -157,14 +158,6 @@ public class UIKeySetting : UIBase
         KeyChangeButton currentButton = keyChangeButtonDict[_keyType];
         KeyCode currentKeyCode = keyInputDetector.currentKeyCode;
 
-        ////같은 키로 변경을 시도했을 경우
-        //if (currentButton.keyCode == currentKeyCode)
-        //{
-        //    //그냥 아무것도 하지 않고 종료
-        //    isChangingKey = false;
-        //    return;
-        //}
-
         bool isFailed = false;
 
 
@@ -174,26 +167,26 @@ public class UIKeySetting : UIBase
             if (keyChangeButtons[i].keyCode == currentKeyCode)
             {
                 if (keyChangeButtons[i] == currentButton)
-                {
                     continue;
-                }
+
                 isFailed = true;
                 break;
             }
         }
 
         //실패 판정이 났을 경우 다시 감지
-        if (isFailed)
+        if (isFailed || !IsPossibleKey(currentKeyCode))
         {
             Debug.Log("실패 판정입니다.");
             SetFailed(true);
-
-            InputChangeKey(_keyType);
-
-            //실패 이미지로 변경
+            //실패 상태로 변경
             currentButton.image.sprite = failedBoxSprite;
             currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
             currentButton.isFailed = true;
+
+            keyInputDetector.EndDetect();
+            InputChangeKey(_keyType);
+
 
             return;
         }
@@ -220,12 +213,12 @@ public class UIKeySetting : UIBase
 
         isChangingKey = false;
     }
-    private void SetFailed(bool _active)
-    {
-        failedImage.gameObject.SetActive(_active);
-    }
 
+    private void SetFailed(bool _active) => failedImage.gameObject.SetActive(_active);
 
+    /// <summary>
+    /// 모든 UpdateUI를 호출합니다.
+    /// </summary>
     private void UpdateAllUI()
     {
         UpdateUI_Text();
@@ -233,6 +226,9 @@ public class UIKeySetting : UIBase
     }
 
 
+    /// <summary>
+    /// 키 Text UI를 업데이트합니다.
+    /// </summary>
     private void UpdateUI_Text()
     {
         for (int i = 0; i < length; i++)
@@ -264,9 +260,8 @@ public class UIKeySetting : UIBase
     /// isFailed인 키가 있을 경우 저장할 수 없습니다.
     /// </summary>
     /// <returns></returns>
-    public bool CanSave()
+    private bool CanSave()
     {
-
         for (int i = 0; i < length; i++)
         {
             if (keyChangeButtons[i].isFailed)
@@ -277,6 +272,30 @@ public class UIKeySetting : UIBase
         return true;
     }
 
+
+
+    //해야함 : LINQ로 변경할 수 있을 것 같으니 실험해보기
+    /// <summary>
+    /// 키 설정이 가능한 키인지 체크합니다.
+    /// </summary>
+    private bool IsPossibleKey(KeyCode _keyCode)
+    {
+        switch (_keyCode)
+        {
+            case KeyCode.Backspace:
+            case KeyCode.Return:
+            case KeyCode.Escape:
+            case KeyCode.Semicolon:
+            case KeyCode.BackQuote:
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    /// <summary>
+    /// KeyCode를 String으로 변환합니다. 특정 KeyCode의 경우에는 지정된 문자로 변환횝니다.
+    /// </summary>
 
     private string TryConvertString(KeyCode _keyCode)
     {
@@ -306,7 +325,6 @@ public class UIKeySetting : UIBase
     private void Button_InputChangeKey(string _keyType)
     {
         InputChangeKey(_keyType);
-
     }
 
     /// <summary>
@@ -328,6 +346,7 @@ public class UIKeySetting : UIBase
     {
         if (isSaving || !CanSave())
         {
+            Debug.Log("키 변경 중에는 저장할 수 없습니다.");
             return;
         }
 

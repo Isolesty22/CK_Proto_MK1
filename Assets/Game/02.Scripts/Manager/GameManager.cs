@@ -97,4 +97,13 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
 
     }
+
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
 }

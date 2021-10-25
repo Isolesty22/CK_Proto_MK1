@@ -453,7 +453,7 @@ public class BearState_Strike : BearState
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
 
-    WaitForSeconds waitBSec = new WaitForSeconds(0.3f);
+    WaitForSeconds waitBSec = new WaitForSeconds(1.5f);
     private IEnumerator ProcessAnimEvent_B()
     {
         for (int i = 1; i < 5; i++)

@@ -92,14 +92,7 @@ public class UIMainMenu : UIBase
     public void Button_QuitGame()
     {
         UIManager.Instance.OpenPopup(eUIText.Exit,
-            QuitGame, 
+            GameManager.instance.QuitGame,
             UIManager.Instance.CloseTop);
-    }
-    private void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
     }
 }

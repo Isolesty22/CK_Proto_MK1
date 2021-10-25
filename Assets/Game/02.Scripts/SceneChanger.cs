@@ -163,6 +163,7 @@ public class SceneChanger : MonoBehaviour
         if (_scene.name != moveSceneName)
         {
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");
+            Debug.LogError("현재 씬 이름 : "+_scene.name + "/ 이동하려고 헀던 씬 이름 : " + moveSceneName );
             return;
         }
 

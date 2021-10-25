@@ -49,7 +49,7 @@ public class SeedShooterController : MonsterController
     public override void Initialize()
     {
         base.Initialize();
-
+        Com.animator.SetBool("isDeath", false);
         transform.rotation = Quaternion.Euler(0, 0, 0);
         cooltime = 10f;
         Stat2.fireDir = Vector3.left;
@@ -101,6 +101,7 @@ public class SeedShooterController : MonsterController
 
         if (cooltime > Stat2.fireCoolTime)
         {
+            Com.animator.SetTrigger("isAttack");
             var seed = CustomPoolManager.Instance.seedPool.SpawnThis(Stat2.firePos.position, new Vector3(0, 0, 0), null);
             seed.firePos = Stat2.firePos.position;
             seed.fireDir = Stat2.fireDir;
@@ -119,6 +120,7 @@ public class SeedShooterController : MonsterController
 
     protected override void Death()
     {
+        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 }
