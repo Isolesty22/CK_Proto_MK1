@@ -687,7 +687,7 @@ public class BearState_Concentrate : BearState
     public override void OnExit()
     {
         bearController.SetDamage(1f);
-        bearController.EmissionOff();
+        bearController.EmissionOn(10f);
     }
     public void AnimEvent()
     {
@@ -727,7 +727,7 @@ public class BearState_Concentrate : BearState
             timer += Time.deltaTime;
             progress = timer / maxTime;
 
-            bearController.EmissionOn(50f + (Mathf.Sin(timer * 5f)) * 30f);
+            bearController.EmissionOn(50f + (Mathf.Sin(timer * 10f)) * 30f);
 
             if (helper.isSucceedParry)
             {
@@ -775,6 +775,7 @@ public class BearState_Powerless : BearState
 
     public override void OnExit()
     {
+        bearController.EmissionOn(10f);
         base.OnExit();
     }
 
