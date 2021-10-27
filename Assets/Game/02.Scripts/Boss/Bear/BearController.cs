@@ -219,7 +219,7 @@ public class BearController : BossController
     private void Start()
     {
         Init();
-        StartCoroutine(ExecutePatternCoroutine);
+       StartCoroutine(ExecutePatternCoroutine);
     }
     private void Update()
     {
