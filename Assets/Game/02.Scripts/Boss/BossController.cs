@@ -5,6 +5,7 @@ using System;
 
 public class BossController : MonoBehaviour
 {
+
     public Transform myTransform;
 
     public Animator animator;
@@ -14,6 +15,10 @@ public class BossController : MonoBehaviour
     public AnimationEventListener animationEventListener;
 
     public BossStateMachine stateMachine;
+
+    [Header("현재 체력")]
+    [Range(0, 450)]
+    public float hp = 450f;
 
     [Space(10)]
     [Tooltip("현재 상태")]
@@ -25,6 +30,9 @@ public class BossController : MonoBehaviour
 
     protected readonly string str_SkillVarietyBlend = "SkillVarietyBlend";
     protected int skillVarietyBlend = 0;
+
+
+    protected float damage = 1f;
 
     [Tooltip("패턴 전환 코루틴")]
     protected IEnumerator ExecutePatternCoroutine;
@@ -88,6 +96,22 @@ public class BossController : MonoBehaviour
         animationEventListener.CallEvent();
     }
     #endregion
+
+
+    /// <summary>
+    /// 공격에 맞았을 때 실행합니다.
+    /// </summary>
+    public Action OnHitHandler;
+
+    /// <summary>
+    /// 데미지만큼 데미지를 받습니다.
+    /// </summary>
+    protected void ReceiveDamage()
+    {
+        hp -= damage;
+
+    }
+
 }
 
 
@@ -111,9 +135,9 @@ public class BossPhaseValue
 {
     //[Range(0,1)]
     //public float phase1Per;
-    [Range(0,1)]
+    [Range(0, 1)]
     public float phase2Per;
-    [Range(0,1)]
+    [Range(0, 1)]
     public float phase3Per;
 
     //[HideInInspector]

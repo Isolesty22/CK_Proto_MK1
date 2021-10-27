@@ -5,7 +5,6 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-
     public CameraManager cameraManager
     {
         get
@@ -21,7 +20,6 @@ public class GameManager : MonoBehaviour
             _cameraManager = value;
         }
     }
-    private CameraManager _cameraManager;
     public PlayerController playerController
     {
         get
@@ -38,7 +36,26 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public TimelineManager timelineManager
+    {
+        get
+        {
+            if (_timelineManager == null)
+            {
+                _timelineManager = GetComponent<TimelineManager>();
+            }
+            return _timelineManager;
+        }
+        set
+        {
+            _timelineManager = value;
+        }
+    }
+
+    private CameraManager _cameraManager;
     private PlayerController _playerController;
+    private TimelineManager _timelineManager;
 
     private void Awake()
     {
@@ -49,15 +66,15 @@ public class GameManager : MonoBehaviour
             //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
 
-        //if (cameraManager == null)
-        //{
-        cameraManager = FindObjectOfType<CameraManager>();
-        //}
+        ////if (cameraManager == null)
+        ////{
+        //cameraManager = FindObjectOfType<CameraManager>();
+        ////}
 
-        //if (playerController == null)
-        //{
-        playerController = FindObjectOfType<PlayerController>();
-        //}
+        ////if (playerController == null)
+        ////{
+        //playerController = FindObjectOfType<PlayerController>();
+        ////}
     }
 
 
@@ -68,6 +85,22 @@ public class GameManager : MonoBehaviour
             GoNextStage();
         }
     }
+
+
+    /// <summary>
+    /// Application.Quit;
+    /// </summary>
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+        Application.Quit();
+    }
+
+
+    #region 임시 함수들
+
     /// <summary>
     /// [임시] 다음 스테이지로 넘어갑니다.
     /// </summary>
@@ -106,13 +139,5 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
 
     }
-
-
-    public void QuitGame()
-    {
-#if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        Application.Quit();
-    }
+    #endregion
 }

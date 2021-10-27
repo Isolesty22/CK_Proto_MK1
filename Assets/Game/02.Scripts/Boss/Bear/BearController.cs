@@ -106,13 +106,6 @@ public class BearController : BossController
     public Colliders colliders;
     public SkillObjects skillObjects;
 
-    [Header("현재 체력")]
-    [Range(0, 450)]
-    public float hp = 450f;
-
-    [Tooltip("곰이 받는 데미지")]
-    private float damage = 1f;
-
     [Header("페이즈 전환 체력")]
     public BossPhaseValue bossPhaseValue;
 
@@ -138,22 +131,32 @@ public class BearController : BossController
     #region Init 관련
     protected override void Init()
     {
+        //패턴 관련 초기화
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
         ExecutePatternCoroutine = ExecutePattern();
+
+        //맵 관련 초기화
         bearMapInfo.paddingSize = 4;
         bearMapInfo.leftPadding = bearMapInfo.paddingSize;
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
-
         emissionController = GetComponent<BearEmissionController>();
+
+
+        //스테이트 머신 관련 초기화
         stateMachine = new BearStateMachine(this);
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eBearState.Idle);
 
+        //공격 받았을 때 해야할 일들
+        OnHitHandler = ReceiveDamage;
+        OnHitHandler += emissionController.OnHit;
+
         skillObjects.concentrateHelper.Init();
         bossPhaseValue.Init(hp);
+
         Init_Animator();
         Init_Pool();
         Init_Collider();
@@ -208,6 +211,11 @@ public class BearController : BossController
     }
 
     #endregion
+
+    private void Awake()
+    {
+        OnHitHandler = () => { };
+    }
     private void Start()
     {
         Init();
@@ -276,8 +284,6 @@ public class BearController : BossController
         stateMachine.ChangeState((int)tempState);
     }
 
-
-    WaitForSecondsRealtime waitOneSec = new WaitForSecondsRealtime(1f);
     private int currentIndex = 0;
     private IEnumerator ExecutePattern()
     {
@@ -386,15 +392,16 @@ public class BearController : BossController
 
     private readonly string str_Arrow = "Arrow";
 
+
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(str_Arrow))
         {
             if (damage > 0f)
             {
-                emissionController.OnHit();
+                OnHitHandler();
             }
-            hp -= damage;
         }
     }
 
