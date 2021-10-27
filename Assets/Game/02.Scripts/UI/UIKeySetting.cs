@@ -69,7 +69,15 @@ public class UIKeySetting : UIBase
 
     private void Start()
     {
-        currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
+        if (DataManager.Instance == null)
+        {
+            Debug.LogError("데이터매니저가 존재하지 않아서 키세팅 데이터를 가져올 수 없었습니다.");
+        }
+        else
+        {
+            currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
+        }
+
 
         Init_Dict();
         Init_KeyChangeButtons();
