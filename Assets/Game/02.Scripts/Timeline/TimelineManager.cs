@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -13,17 +13,17 @@ public class TimelineManager : MonoBehaviour
 
     private IEnumerator Start()
     {
-        //·ÎµùÀÌ ³¡³¯ ¶§ ±îÁö ´ë±â
+        //ë¡œë”©ì´ ëë‚  ë•Œ ê¹Œì§€ ëŒ€ê¸°
         yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
 
-        //·ÎµùÀÌ ³¡³ª¸é Å¸ÀÓ¶óÀÎ Àç»ı ½ÃÀÛ
+        //ë¡œë”©ì´ ëë‚˜ë©´ íƒ€ì„ë¼ì¸ ì¬ìƒ ì‹œì‘
         Play();
 
     }
 
 
     /// <summary>
-    /// Å¸ÀÓ¶óÀÎ Àç»ıÀÌ ³¡³¯ ¶§ ±îÁö ±â´Ù¸³´Ï´Ù.
+    /// íƒ€ì„ë¼ì¸ ì¬ìƒì´ ëë‚  ë•Œ ê¹Œì§€ ê¸°ë‹¤ë¦½ë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     private IEnumerator WaitTimelineEnd()
@@ -32,7 +32,7 @@ public class TimelineManager : MonoBehaviour
 
         Debug.LogWarning("[TimelineManager] End Timeline : " + director.name + "." + director.playableAsset.name);
 
-        //OnTileLineEnded È£Ãâ
+        //OnTileLineEnded í˜¸ì¶œ
         OnTimelineEnded.Invoke();
     }
 
