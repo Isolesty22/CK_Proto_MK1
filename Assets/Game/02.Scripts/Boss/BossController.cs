@@ -9,6 +9,7 @@ public class BossController : MonoBehaviour
     public Transform myTransform;
 
     public Animator animator;
+    public RuntimeAnimatorController runtimeAnimator;
 
     [Tooltip("애니메이션 이벤트를 위해 사용합니다." +
         "\n애니메이터 컴포넌트가 있는 오브젝트와 동일한 오브젝트에 있어야 합니다.")]

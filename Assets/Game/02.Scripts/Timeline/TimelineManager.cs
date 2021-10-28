@@ -7,11 +7,36 @@ using System;
 
 public class TimelineManager : MonoBehaviour
 {
+
+    [Tooltip("true일 경우, 로딩이 끝나면 지정된 타임라인을 플레이합니다.")]
+    public bool playOnLoadingEnded;
     public PlayableDirector director;
 
     public Action OnTimelineEnded;
+    private void Awake()
+    {
+        if (!playOnLoadingEnded)
+        {
+            director.gameObject.SetActive(false);
+        }
+    }
 
-    private IEnumerator Start()
+    private void Start()
+    {
+        if (SceneChanger.Instance == null)
+        {
+            Debug.LogWarning("SceneChanger가 null입니다. 로딩 대기 없이 타임라인을 그냥 Play합니다.");
+            director.Play();
+            StartCoroutine(WaitTimelineEnd());
+            return;
+        }
+        if (playOnLoadingEnded)
+        {
+            StartCoroutine(ProcessPlayTimeline());
+        }
+    }
+
+    private IEnumerator ProcessPlayTimeline()
     {
         //로딩이 끝날 때 까지 대기
         yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
@@ -20,17 +45,19 @@ public class TimelineManager : MonoBehaviour
         Play();
 
     }
-
-
     /// <summary>
     /// 타임라인 재생이 끝날 때 까지 기다립니다.
     /// </summary>
     /// <returns></returns>
     private IEnumerator WaitTimelineEnd()
     {
+        yield return null;
         yield return new WaitUntil(() => director.state != PlayState.Playing);
 
         Debug.LogWarning("[TimelineManager] End Timeline : " + director.name + "." + director.playableAsset.name);
+
+        //타임라인이 달린 오브젝트 비활성화
+        director.gameObject.SetActive(false);
 
         //OnTileLineEnded 호출
         OnTimelineEnded.Invoke();

@@ -218,14 +218,19 @@ public class BearController : BossController
     }
     private void Start()
     {
-        Init();
-       StartCoroutine(ExecutePatternCoroutine);
+        GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
     }
     private void Update()
     {
         testTextMesh.stateText.text = stateInfo.state;
         testTextMesh.hpText.text = hp.ToString();
         testTextMesh.phaseText.text = stateInfo.phase.ToString();
+    }
+    private void OnTimelineEnded()
+    {
+        animator.runtimeAnimatorController = runtimeAnimator;
+        Init();
+        StartCoroutine(ExecutePatternCoroutine);
     }
 
     private void ProcessChangePhase(ePhase _phase)
