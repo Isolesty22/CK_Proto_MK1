@@ -10,23 +10,29 @@ public class TimelineManager : MonoBehaviour
     public PlayableDirector director;
 
     public Action OnTimelineEnded;
-    private void Awake()
+
+    private IEnumerator Start()
     {
+        //로딩이 끝날 때 까지 대기
+        yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
+
+        //로딩이 끝나면 타임라인 재생 시작
+        Play();
 
     }
 
-    private void Start()
-    {
-    }
 
     /// <summary>
     /// 타임라인 재생이 끝날 때 까지 기다립니다.
     /// </summary>
     /// <returns></returns>
-    IEnumerator WaitTimelineEnd()
+    private IEnumerator WaitTimelineEnd()
     {
         yield return new WaitUntil(() => director.state != PlayState.Playing);
+
         Debug.LogWarning("[TimelineManager] End Timeline : " + director.name + "." + director.playableAsset.name);
+
+        //OnTileLineEnded 호출
         OnTimelineEnded.Invoke();
     }
 
