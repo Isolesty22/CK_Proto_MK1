@@ -13,10 +13,13 @@ public class TimelineManager : MonoBehaviour
     public PlayableDirector director;
 
     public Action OnTimelineEnded;
+
     private void Awake()
     {
+        //로딩 후 영상 재생에 체크가 안되어있을 경우
         if (!playOnLoadingEnded)
         {
+            //디렉터가 달린 게임 오브젝트를 비활성화
             director.gameObject.SetActive(false);
         }
     }
@@ -48,10 +51,8 @@ public class TimelineManager : MonoBehaviour
     /// <summary>
     /// 타임라인 재생이 끝날 때 까지 기다립니다.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator WaitTimelineEnd()
     {
-        yield return null;
         yield return new WaitUntil(() => director.state != PlayState.Playing);
 
         Debug.LogWarning("[TimelineManager] End Timeline : " + director.name + "." + director.playableAsset.name);
