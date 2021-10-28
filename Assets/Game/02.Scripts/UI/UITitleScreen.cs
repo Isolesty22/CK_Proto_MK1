@@ -14,7 +14,7 @@ public class UITitleScreen : UIBase
     public Text text_load;
 
     [Tooltip("아무 키나 누르세요 텍스트")]
-    public GameObject text_pressKey;
+    public Image text_pressKey;
     public override void Init()
     {
         base.Init();
@@ -29,6 +29,9 @@ public class UITitleScreen : UIBase
         text_pressKey.gameObject.SetActive(_isActive);
     }
 
+    [Header("Press Any Key가 깜빡이는 속도")]
+    public float blinkSpeed = 3f;
+    private float runningTime = 0f;
     public IEnumerator ProcessWaitPressAnyKey()
     {
         while (true)
@@ -39,9 +42,11 @@ public class UITitleScreen : UIBase
                 break;
             }
 
+            runningTime += Time.deltaTime * blinkSpeed;
+            text_pressKey.color = new Color(1f, 1f, 1f, Mathf.PingPong(runningTime, 1f));
             yield return null;
         }
-
+        text_pressKey.color = new Color(1f, 1f, 1f, 1f);
         yield break;
     }
 
