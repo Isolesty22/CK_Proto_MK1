@@ -5,6 +5,16 @@ using UnityEngine;
 
 public class GloomController : BossController
 {
+
+    #region definitions
+    [Serializable]
+    public class Patterns
+    {
+        public List<GloomPattern> phase_01_List = new List<GloomPattern>();
+        public List<GloomPattern> phase_02_List = new List<GloomPattern>();
+    }
+
+    #endregion
     [Header("이동 시 사용하는 강체")]
     [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
     public Rigidbody myRigidbody;
@@ -13,12 +23,15 @@ public class GloomController : BossController
     public BossPhaseValue bossPhaseValue;
 
 
-
-
-
-    private List<List<GloomPattern>> phaseList = new List<List<GloomPattern>>();
     [HideInInspector]
     public GloomPattern currentPattern;
+
+    [Header("패턴 관련")]
+    public Patterns patterns;
+
+    private List<List<GloomPattern>> phaseList = new List<List<GloomPattern>>();
+
+
     private void Awake()
     {
         //데미지 받았을때 할 행동 
@@ -41,11 +54,19 @@ public class GloomController : BossController
     protected override void Init()
     {
         base.Init();
+
+        //패턴 관련 초기화
+        phaseList.Add(patterns.phase_01_List);
+        phaseList.Add(patterns.phase_02_List);
+
         bossPhaseValue.Init(hp);
-        stateMachine = new GloomStateMachine(this);
-        stateMachine.StartState((int)eGloomState.Idle);
 
         ExecutePatternCoroutine = ExecutePattern();
+
+        stateMachine = new GloomStateMachine(this);
+        stateMachine.isDebugMode = true;
+        stateMachine.StartState((int)eGloomState.Idle);
+
         Init_Animator();
     }
     private void Init_Animator()
@@ -91,6 +112,7 @@ public class GloomController : BossController
                     {
                         break;
                     }
+
 
                     ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
@@ -161,7 +183,7 @@ public class GloomController : BossController
 
     public override void ChangeState(int _state)
     {
-        base.ChangeState(_state);
+        base.ChangeState(_state);   
     }
     public override string GetStateToString(int _state)
     {

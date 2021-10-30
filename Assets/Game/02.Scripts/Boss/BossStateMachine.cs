@@ -65,7 +65,7 @@ public class BossStateMachine
         if (!ReferenceEquals(currentState, null))
         {
             currentState.OnExit();
-            LogWarning(currentStateInt.ToString() + " - Exit");
+            LogWarning(currentState.ToString() + " - Exit");
         }
 
 
@@ -78,7 +78,7 @@ public class BossStateMachine
 
         //상태 진입
         currentState.OnEnter();
-        LogWarning(currentStateInt.ToString() + " - Enter");
+        LogWarning(currentState.ToString() + " - Enter");
     }
 
     public void Update()
