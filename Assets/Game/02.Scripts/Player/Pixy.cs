@@ -159,6 +159,8 @@ public class Pixy : MonoBehaviour
         if (enemyList.Count <= 0)
             return;
 
+        Debug.Log("work");
+
         var ult = CustomPoolManager.Instance.bezierPool.SpawnThis(transform.position, transform.eulerAngles, null);
 
         ult.t = 0f;
