@@ -71,7 +71,7 @@ public enum eGloomState
     Threat,
     Obstruct,
     Chase,
-
+    Berserk,
     Die
 
 }

@@ -30,6 +30,9 @@ public class GloomStateMachine : BossStateMachine
             eGloomState.Idle  => new GloomState_Idle(gloomController),
             eGloomState.Obstruct => new GloomState_Obstruct(gloomController),
             eGloomState.Chase => new GloomState_Chase(gloomController),
+            eGloomState.Berserk => new GloomState_Berserk(gloomController),
+            eGloomState.Die => new GloomState_Die(gloomController),
+
             _ => new GloomState_Idle(gloomController)
         };
 

@@ -42,3 +42,28 @@ public class GloomState_Chase : GloomState
         canExit = false;
     }
 }
+
+public class GloomState_Berserk : GloomState
+{
+    public GloomState_Berserk(GloomController _gloomController)
+    {
+        gloomController = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
+
+public class GloomState_Die : GloomState
+{
+    public GloomState_Die(GloomController _gloomController)
+    {
+        gloomController = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
+
