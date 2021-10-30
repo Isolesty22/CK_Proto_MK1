@@ -9,6 +9,8 @@ public class GloomController : BossController
     [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
     public Rigidbody myRigidbody;
 
+    [Header("페이즈가 전환되는 HP")]
+    public BossPhaseValue bossPhaseValue;
     private void Start()
     {
         Init();
@@ -17,7 +19,7 @@ public class GloomController : BossController
     protected override void Init()
     {
         base.Init();
-
+        bossPhaseValue.Init(hp);
         stateMachine = new GloomStateMachine(this);
         stateMachine.StartState((int)eGloomState.Idle);
     }
@@ -53,10 +55,6 @@ public class GloomController : BossController
         return base.GetStateToString(_state);
     }
 
-    public override void OnAnimStateExit()
-    {
-        base.OnAnimStateExit();
-    }
 }
 
 

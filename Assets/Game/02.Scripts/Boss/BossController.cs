@@ -9,6 +9,8 @@ public class BossController : MonoBehaviour
     public Transform myTransform;
 
     public Animator animator;
+
+    [Tooltip("타임라인 재생이 끝나면 사용될 애니메이터 컨트롤러입니다.")]
     public RuntimeAnimatorController runtimeAnimator;
 
     [Tooltip("애니메이션 이벤트를 위해 사용합니다." +
@@ -18,7 +20,7 @@ public class BossController : MonoBehaviour
     public BossStateMachine stateMachine;
 
     [Header("현재 체력")]
-    [Range(0, 450)]
+    [Range(0, 600)]
     public float hp = 450f;
 
     [Space(10)]
@@ -35,7 +37,9 @@ public class BossController : MonoBehaviour
 
     protected float damage = 1f;
 
-    [Tooltip("패턴 전환 코루틴")]
+    /// <summary>
+    /// 패턴 전환 코루틴. 보스가 죽기 전까지 패턴을 실행합니다.
+    /// </summary>
     protected IEnumerator ExecutePatternCoroutine;
 
     protected virtual void Init() { }
@@ -43,8 +47,8 @@ public class BossController : MonoBehaviour
     #region State 관련
     public virtual void ChangeState(int _state)
     {
-        SetStateInfo((int)_state);
-        stateMachine.ChangeState((int)_state);
+        SetStateInfo(_state);
+        stateMachine.ChangeState(_state);
     }
 
     public void SetStateInfo(int _state)
@@ -73,7 +77,11 @@ public class BossController : MonoBehaviour
     {
         animator.SetTrigger(aniHash[_paramName]);
     }
-    public virtual void OnAnimStateExit()
+
+    /// <summary>
+    /// 애니메이션State가 종료되었을 때 호출됩니다.
+    /// </summary>
+    public void OnAnimStateExit()
     {
         stateMachine.currentState.canExit = true;
     }
@@ -84,9 +92,7 @@ public class BossController : MonoBehaviour
     }
     public void SetAnimEvent(Action _event)
     {
-        //skillAction = null;
-        //skillAction += () => Debug.Log("SkillAction!");
-        //skillAction += _action;
+
         animationEventListener.SetEvent(_event);
     }
 
@@ -108,7 +114,7 @@ public class BossController : MonoBehaviour
     public Action OnHitHandler;
 
     /// <summary>
-    /// 데미지만큼 데미지를 받습니다.
+    /// damage만큼 hp를 깎습니다.
     /// </summary>
     protected void ReceiveDamage()
     {
