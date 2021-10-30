@@ -1,41 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6428182928029037872
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
-  m_Name: Vignette
-  m_EditorClassIdentifier: 
-  active: 0
-  m_AdvancedMode: 0
-  color:
-    m_OverrideState: 1
-    m_Value: {r: 0.496351, g: 0.51834565, b: 0.735849, a: 1}
-    hdr: 0
-    showAlpha: 0
-    showEyeDropper: 1
-  center:
-    m_OverrideState: 1
-    m_Value: {x: 0.5, y: 0.34}
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.48
-    min: 0
-    max: 1
-  smoothness:
-    m_OverrideState: 1
-    m_Value: 0.29
-    min: 0.01
-    max: 1
-  rounded:
-    m_OverrideState: 1
-    m_Value: 0
 --- !u!114 &-6399936039399045493
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -188,30 +152,6 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 0
     min: 0
---- !u!114 &-1092451145276203304
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
-  m_Name: WhiteBalance
-  m_EditorClassIdentifier: 
-  active: 0
-  m_AdvancedMode: 0
-  temperature:
-    m_OverrideState: 0
-    m_Value: 30.04
-    min: -100
-    max: 100
-  tint:
-    m_OverrideState: 0
-    m_Value: 0
-    min: -100
-    max: 100
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,8 +169,6 @@ MonoBehaviour:
   - {fileID: -5252366504716226953}
   - {fileID: -5766088565218717189}
   - {fileID: 3073933791431799258}
-  - {fileID: -6428182928029037872}
-  - {fileID: -1092451145276203304}
   - {fileID: -6399936039399045493}
   - {fileID: 6796903330359355181}
 --- !u!114 &3073933791431799258
