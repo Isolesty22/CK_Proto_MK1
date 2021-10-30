@@ -12,6 +12,7 @@ public class GloomController : BossController
     private void Start()
     {
         Init();
+        Init_Animator();
     }
     protected override void Init()
     {
@@ -20,7 +21,26 @@ public class GloomController : BossController
         stateMachine = new GloomStateMachine(this);
         stateMachine.StartState((int)eGloomState.Idle);
     }
+    private void Init_Animator()
+    {
+        GloomStateMachineBehaviour[] behaviours = animator.GetBehaviours<GloomStateMachineBehaviour>();
 
+        for (int i = 0; i < behaviours.Length; i++)
+        {
+            behaviours[i].gloomController = this;
+        }
+
+        int paramCount = animator.parameterCount;
+        AnimatorControllerParameter[] aniParam = animator.parameters;
+
+        for (int i = 0; i < paramCount; i++)
+        {
+            AddAnimatorHash(aniParam[i].name);
+        }
+
+        skillVarietyBlend = aniHash[str_SkillVarietyBlend];
+
+    }
 
 
 
