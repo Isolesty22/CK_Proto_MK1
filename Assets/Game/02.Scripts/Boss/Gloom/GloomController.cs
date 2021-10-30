@@ -117,7 +117,7 @@ public class GloomController : BossController
 
         SetStateInfo((int)eGloomState.Die);
         ChangeState((int)eGloomState.Die);
-        //testPotal.Active();
+
     }
 
 
@@ -129,13 +129,7 @@ public class GloomController : BossController
         switch (_phase)
         {
             case ePhase.Phase_1:
-                //myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
-                //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
-                //투사체 위치 다시 계산
-                //bearMapInfo.leftPadding = 0;
-                //bearMapInfo.rightPadding = bearMapInfo.paddingSize;
-                //bearMapInfo.Init_Projectiles();
                 ChangeState((int)eGloomState.Berserk);
                 break;
 
@@ -162,12 +156,6 @@ public class GloomController : BossController
     private void SetCurrentPattern(GloomPattern _pattern)
     {
         currentPattern = _pattern;
-
-        //if (currentPattern.state == eBossState.BearState)
-        //{
-        //    currentPattern.state = GetRandomState(stateInfo.phase);
-
-        //}
     }
 
 
