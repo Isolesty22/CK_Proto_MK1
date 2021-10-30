@@ -143,6 +143,8 @@ public class StateInfo
 [Serializable]
 public class BossPhaseValue
 {
+
+    [Header("전환되는 HP 퍼센트")]
     //[Range(0,1)]
     //public float phase1Per;
     [Range(0, 1)]
@@ -150,6 +152,7 @@ public class BossPhaseValue
     [Range(0, 1)]
     public float phase3Per;
 
+    [Header("실제 전환되는 HP")]
     //[HideInInspector]
     //public float phase1Hp;
     [ReadOnly]
