@@ -27,7 +27,7 @@ public class Bezier : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (t > 1)
+        if (t > 1f)
         {
             CustomPoolManager.Instance.ReleaseThis(this);
             return;
