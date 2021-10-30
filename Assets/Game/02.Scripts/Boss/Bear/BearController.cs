@@ -86,6 +86,13 @@ public class BearController : BossController
         [Tooltip("무력화 시간")]
         public float powerlessTime = 3;
     }
+    public class Pools
+    {
+        public CustomPool<RoarProjectile> roarProjectile = new CustomPool<RoarProjectile>();
+        public CustomPool<ClawProjectile> clawProjectile = new CustomPool<ClawProjectile>();
+        public CustomPool<SmashProjectile> smashProjectile = new CustomPool<SmashProjectile>();
+        public CustomPool<RoarRollerHelper> rollerProjectile = new CustomPool<RoarRollerHelper>();
+    }
 
     #endregion
 
@@ -121,11 +128,8 @@ public class BearController : BossController
     [HideInInspector]
     public BearPattern currentPattern;
 
-    public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
-    public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
-    public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
-    public CustomPool<RollerController> rollerPool = new CustomPool<RollerController>();
 
+    public Pools pools = new Pools();
 
     private BearEmissionController emissionController;
     #region Init 관련
@@ -204,10 +208,10 @@ public class BearController : BossController
     }
     private void Init_Pool()
     {
-        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
-        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
-        smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
-        rollerPool = CustomPoolManager.Instance.CreateCustomPool<RollerController>();
+        pools.roarProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+        pools.clawProjectile = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
+        pools.smashProjectile = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
+        pools.rollerProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarRollerHelper>();
     }
 
     #endregion

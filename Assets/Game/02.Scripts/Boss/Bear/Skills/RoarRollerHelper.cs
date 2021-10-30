@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoarProjectile : BearProjectile
+public class RoarRollerHelper : BearProjectile
 {
+    public RollerController rollerController;
+    public Rigidbody rb;
+
     public void Init(Vector3 _start, Vector3 _end)
     {
+        rollerController.Initialize();
+        rollerController.enabled = false;
+
         startPos = _start;
         endPos = _end;
         SetParryMode(canParry);
@@ -36,20 +42,22 @@ public class RoarProjectile : BearProjectile
             timer += Time.deltaTime;
 
             progress = timer / moveTime;
-            myTransform.position = Vector3.Lerp(startPos, endPos, progress);
+            rb.position = Vector3.Lerp(startPos, endPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        myTransform.position = endPos;
-        Despawn();
+        rb.position = endPos;
+        rollerController.enabled = true;
+        //Despawn();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            //OnTrigger();
-            Despawn();//만 불러도 됨
-        }
+        //if (other.CompareTag("Player"))
+        //{
+        //    //OnTrigger();
+        //    Despawn();//만 불러도 됨
+        //}
     }
+
 }
