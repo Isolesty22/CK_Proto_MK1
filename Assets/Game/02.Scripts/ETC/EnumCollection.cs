@@ -60,11 +60,19 @@ public enum eBearState
     Rush,
 
     [InspectorName("죽음")]
-    Die,
+    Die
 }
 
 public enum eGloomState
 {
+    None,
+    Idle,
+    //Leap,
+    Threat,
+    Obstruct,
+    Chase,
+
+    Die
 
 }
 public enum eUIText

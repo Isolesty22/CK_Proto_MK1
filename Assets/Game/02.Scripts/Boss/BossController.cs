@@ -57,6 +57,9 @@ public class BossController : MonoBehaviour
     /// </summary>
     public void SetCanExit(bool _canExit) => stateMachine.currentState.canExit = _canExit;
 
+    /// <summary>
+    /// state를 String으로 반환해줍니다.
+    /// </summary>
     public virtual string GetStateToString(int _state) { return string.Empty; }
 
     #endregion
