@@ -185,8 +185,14 @@ public class BearState_Rush : BearState
         //맵의 왼쪽으로 빠르게 이동하는 함수
         bearController.SetAnimEvent(LeftRush);
 
-        //거미 등장
-        bearController.skillObjects.spiders.SetActive(true);
+
+        if (bearController.skillValue.summonRushSpider)
+        {
+            //거미 등장
+            GameObject.Instantiate(bearController.skillObjects.spiderHelper.gameObject);
+        }
+
+
 
         //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");
@@ -280,7 +286,12 @@ public class BearState_Rush : BearState
 
 public class BearState_Roar : BearState
 {
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
+
+    /// <summary>
+    /// 투사체 중 애벌레가 섞여나오는 갯수입니다.
+    /// </summary>
+    private int rollerCount;
+    private WaitForSeconds waitSec = new WaitForSeconds(1f);
     public BearState_Roar(BearController _bearController)
     {
         bearController = _bearController;
@@ -294,9 +305,13 @@ public class BearState_Roar : BearState
             // 투사체
             case eBearState.Roar_A:
                 bearController.bearMapInfo.UpdateProjectileRandArray();
+
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
+
                 bearController.skillObjects.roarGroundEffect.SetActive(true);
+
+                rollerCount = 1;
                 break;
 
             // 중앙 공격
@@ -308,7 +323,6 @@ public class BearState_Roar : BearState
             default:
                 break;
         }
-
         bearController.SetTrigger("Roar_Start");
         //bearController.StartCoroutine(ProcessUpdate());
     }
@@ -324,10 +338,15 @@ public class BearState_Roar : BearState
     {
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
+
+    //위에서 뭔가 떨어짐
     private IEnumerator ProcessAnimEvent_A()
     {
+
+        int currentRollerCount = rollerCount;
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
+
         //Spawn Roar projectile
         int length = bearController.skillValue.roarRandCount;
         for (int i = 0; i < length; i++)
@@ -335,15 +354,30 @@ public class BearState_Roar : BearState
             Vector3 startPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
             Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
 
-            RoarProjectile roarProjectile = bearController.roarProjectilePool.SpawnThis();
-            roarProjectile.Init(startPos, endPos);
-            roarProjectile.Move();
+
+            if (currentRollerCount > 0)
+            {
+                RoarRollerHelper roller = bearController.pools.rollerProjectile.SpawnThis();
+
+                roller.Init(startPos, endPos);
+                roller.Move();
+                currentRollerCount -= 1;
+            }
+            else
+            {
+                RoarProjectile roarProjectile = bearController.pools.roarProjectile.SpawnThis();
+                roarProjectile.Init(startPos, endPos);
+                roarProjectile.Move();
+
+            }
             yield return new WaitForSeconds(Random.Range(0f, 0.3f));
         }
 
         bearController.skillObjects.roarGroundEffect.SetActive(false);
         yield break;
     }
+
+    //숙여서 공격
     private IEnumerator ProcessAnimEvent_B()
     {
 
@@ -590,7 +624,7 @@ public class BearState_Claw : BearState
 
         for (int i = 0; i < length; i++)
         {
-            ClawProjectile clawProjectile = bearController.clawProjectilePool.SpawnThis();
+            ClawProjectile clawProjectile = bearController.pools.clawProjectile.SpawnThis();
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
             Vector3 endPos = new Vector3(projectileEndPosX, startPos.y, startPos.z);
@@ -654,7 +688,7 @@ public class BearState_Smash : BearState
             // midPos = new Vector3(midPos.x, midPos.y, midPos.z);
             Vector3 endPos = new Vector3(midPos.x, bearController.bearMapInfo.mapData.minPosition.y, midPos.z);
 
-            SmashProjectile smashProjectile = bearController.smashProjectilePool.SpawnThis();
+            SmashProjectile smashProjectile = bearController.pools.smashProjectile.SpawnThis();
             smashProjectile.Init(startPos, midPos, endPos);
             smashProjectile.Move();
         }

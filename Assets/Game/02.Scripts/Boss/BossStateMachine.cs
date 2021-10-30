@@ -41,7 +41,44 @@ public class BossStateMachine
 
     public virtual void ChangeState(int _state)
     {
+        BossState tempState = null;
 
+        //딕셔너리에 있는 상태라면
+        if (stateDict.TryGetValue(_state, out tempState))
+        {
+            //if (currentState == stateDict[_state])
+            //{
+            //    LogError("같은 스테이트로는 변경할 수 없습니다.");
+            //    return;
+            //}
+        }
+        //딕셔너리에 안들어있었으면
+        else
+        {
+            //스테이트 만들어서 넣기
+            tempState = GetState(_state);
+            stateDict.Add(_state, tempState);
+        }
+
+
+        //상태 끝내기
+        if (!ReferenceEquals(currentState, null))
+        {
+            currentState.OnExit();
+            LogWarning(currentState.ToString() + " - Exit");
+        }
+
+
+        //enum들 설정
+        prevStateInt = currentStateInt;
+        currentStateInt = _state;
+
+        //현재 스테이트 변경
+        currentState = stateDict[_state];
+
+        //상태 진입
+        currentState.OnEnter();
+        LogWarning(currentState.ToString() + " - Enter");
     }
 
     public void Update()

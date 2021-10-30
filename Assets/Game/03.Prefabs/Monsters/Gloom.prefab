@@ -869,9 +869,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6044616918622172977}
   - component: {fileID: 6044616918622172976}
+  - component: {fileID: 7888774080316941161}
   m_Layer: 0
   m_Name: Gloom
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -904,13 +905,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bafbf2bb0cb526b40bc966976fd363bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myTransform: {fileID: 0}
-  animator: {fileID: 0}
-  animationEventListener: {fileID: 0}
+  myTransform: {fileID: 6044616918622172977}
+  animator: {fileID: 6044616918742463136}
+  runtimeAnimator: {fileID: 9100000, guid: d41977d244bdcfb42b7a9652eccef081, type: 2}
+  animationEventListener: {fileID: 4055458780364317648}
+  hp: 450
   stateInfo:
     phase: 0
     state: 
     stateInt: 0
+  myRigidbody: {fileID: 7888774080316941161}
+  bossPhaseValue:
+    phase2Per: 0.5
+    phase3Per: 0
+    phase2Hp: 0
+    phase3Hp: 0
+  currentPattern:
+    state: 0
+    waitTime: 0
+  patterns:
+    phase_01_List:
+    - state: 0
+      waitTime: 2
+    - state: 0
+      waitTime: 0
+    - state: 0
+      waitTime: 0
+    phase_02_List:
+    - state: 0
+      waitTime: 0
+    - state: 0
+      waitTime: 0
+--- !u!54 &7888774080316941161
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044616918622172978}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &6044616918742463137
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,8 +962,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6044616918742463151}
   - component: {fileID: 6044616918742463136}
+  - component: {fileID: 4055458780364317648}
   m_Layer: 0
-  m_Name: DarkSpirit
+  m_Name: GloomModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -965,6 +1007,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &4055458780364317648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6044616918742463137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3940e3f8f2b38be4096a9d4d49d06663, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4187199494718337950
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -19659,6 +19659,7 @@ GameObject:
   - component: {fileID: 4326774578364781439}
   - component: {fileID: 4326774578364781433}
   - component: {fileID: 9207664240085070165}
+  - component: {fileID: 4602982802679293733}
   m_Layer: 0
   m_Name: Bear
   m_TagString: Boss
@@ -19729,7 +19730,7 @@ MonoBehaviour:
     smashRock: {fileID: 7847128783815491748}
     handTransform: {fileID: 2205962364324008682}
     rushEffect: {fileID: 659122110842458978}
-    spiders: {fileID: 0}
+    spiderHelper: {fileID: 5840542580970876135, guid: cc25de4599ab0b34f8176c2ce5a72b6f, type: 3}
     stampShockEffect: {fileID: 3011116939229183000}
     mushrooms: {fileID: 5410033348385875436, guid: 118e6ef09e83da6448d83a748e847a49, type: 3}
     mushroomPoint_Left: {fileID: 0}
@@ -19746,6 +19747,7 @@ MonoBehaviour:
     smashRandCount: 6
     concentrateTime: 8
     powerlessTime: 5
+    summonRushSpider: 0
   patterns:
     phase_01_List:
     - state: 0
@@ -19844,6 +19846,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 3955464474253222081}
+--- !u!95 &4602982802679293733
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4326774578364781435}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &4326774579042069881
 GameObject:
   m_ObjectHideFlags: 0
@@ -50385,11 +50406,6 @@ SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -3351392830001748101, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
   m_PrefabInstance: {fileID: 7465230959135033274}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2205962364324008682 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -503009990796651184, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
-  m_PrefabInstance: {fileID: 7465230959135033274}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6922997432678834257 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
@@ -50398,6 +50414,11 @@ Transform:
 --- !u!1 &7735141064707881707 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
+  m_PrefabInstance: {fileID: 7465230959135033274}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2205962364324008682 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -503009990796651184, guid: 12f51b5e38d3478439de9ca56a7aa930, type: 3}
   m_PrefabInstance: {fileID: 7465230959135033274}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7606434856509113494

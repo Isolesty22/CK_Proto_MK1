@@ -56,7 +56,7 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject rushEffect;
-        public GameObject spiders;
+        public RushSpiderHelper spiderHelper;
 
         [Space(10)]
         public GameObject stampShockEffect;
@@ -85,6 +85,16 @@ public class BearController : BossController
 
         [Tooltip("무력화 시간")]
         public float powerlessTime = 3;
+
+        [Tooltip("러쉬 때 거미를 소환하는가?")]
+        public bool summonRushSpider = false;
+    }
+    public class Pools
+    {
+        public CustomPool<RoarProjectile> roarProjectile = new CustomPool<RoarProjectile>();
+        public CustomPool<ClawProjectile> clawProjectile = new CustomPool<ClawProjectile>();
+        public CustomPool<SmashProjectile> smashProjectile = new CustomPool<SmashProjectile>();
+        public CustomPool<RoarRollerHelper> rollerProjectile = new CustomPool<RoarRollerHelper>();
     }
 
     #endregion
@@ -121,11 +131,8 @@ public class BearController : BossController
     [HideInInspector]
     public BearPattern currentPattern;
 
-    public CustomPool<RoarProjectile> roarProjectilePool = new CustomPool<RoarProjectile>();
-    public CustomPool<ClawProjectile> clawProjectilePool = new CustomPool<ClawProjectile>();
-    public CustomPool<SmashProjectile> smashProjectilePool = new CustomPool<SmashProjectile>();
-    public CustomPool<RollerController> rollerPool = new CustomPool<RollerController>();
 
+    public Pools pools = new Pools();
 
     private BearEmissionController emissionController;
     #region Init 관련
@@ -180,18 +187,6 @@ public class BearController : BossController
 
         skillVarietyBlend = aniHash[str_SkillVarietyBlend];
 
-        //AddAnimatorHash("Start_Idle");
-        //AddAnimatorHash("Start_Rush");
-        //AddAnimatorHash("Start_Roar");
-        //AddAnimatorHash("Start_Claw");
-        //AddAnimatorHash("Start_Strike");
-        //AddAnimatorHash("Start_Stamp");
-        //AddAnimatorHash("Start_Smash");
-        //AddAnimatorHash("Start_Powerless");
-        //AddAnimatorHash("Start_Concentrate");
-        //AddAnimatorHash("Start_Die");
-        //AddAnimatorHash("End_Concentrate");
-        //AddAnimatorHash("End_Powerless");
     }
     private void Init_Collider()
     {
@@ -204,10 +199,10 @@ public class BearController : BossController
     }
     private void Init_Pool()
     {
-        roarProjectilePool = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
-        clawProjectilePool = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
-        smashProjectilePool = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
-        rollerPool = CustomPoolManager.Instance.CreateCustomPool<RollerController>();
+        pools.roarProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
+        pools.clawProjectile = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
+        pools.smashProjectile = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
+        pools.rollerProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarRollerHelper>();
     }
 
     #endregion
