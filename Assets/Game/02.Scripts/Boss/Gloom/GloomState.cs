@@ -42,6 +42,7 @@ public class GloomState_Obstruct : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        gloom.SetTrigger("Obstruct_Start");
     }
 }
 
