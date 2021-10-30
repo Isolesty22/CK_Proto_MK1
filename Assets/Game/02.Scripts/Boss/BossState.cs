@@ -185,8 +185,14 @@ public class BearState_Rush : BearState
         //맵의 왼쪽으로 빠르게 이동하는 함수
         bearController.SetAnimEvent(LeftRush);
 
-        //거미 등장
-        bearController.skillObjects.spiders.SetActive(true);
+
+        if (bearController.skillValue.summonRushSpider)
+        {
+            //거미 등장
+            GameObject.Instantiate(bearController.skillObjects.spiderHelper.gameObject);
+        }
+
+
 
         //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");

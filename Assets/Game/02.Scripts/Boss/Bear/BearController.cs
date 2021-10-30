@@ -56,7 +56,7 @@ public class BearController : BossController
 
         [Space(10)]
         public GameObject rushEffect;
-        public GameObject spiders;
+        public RushSpiderHelper spiderHelper;
 
         [Space(10)]
         public GameObject stampShockEffect;
@@ -85,6 +85,9 @@ public class BearController : BossController
 
         [Tooltip("무력화 시간")]
         public float powerlessTime = 3;
+
+        [Tooltip("러쉬 때 거미를 소환하는가?")]
+        public bool summonRushSpider = false;
     }
     public class Pools
     {
@@ -184,18 +187,6 @@ public class BearController : BossController
 
         skillVarietyBlend = aniHash[str_SkillVarietyBlend];
 
-        //AddAnimatorHash("Start_Idle");
-        //AddAnimatorHash("Start_Rush");
-        //AddAnimatorHash("Start_Roar");
-        //AddAnimatorHash("Start_Claw");
-        //AddAnimatorHash("Start_Strike");
-        //AddAnimatorHash("Start_Stamp");
-        //AddAnimatorHash("Start_Smash");
-        //AddAnimatorHash("Start_Powerless");
-        //AddAnimatorHash("Start_Concentrate");
-        //AddAnimatorHash("Start_Die");
-        //AddAnimatorHash("End_Concentrate");
-        //AddAnimatorHash("End_Powerless");
     }
     private void Init_Collider()
     {
