@@ -185,6 +185,13 @@ public class Pixy : MonoBehaviour
     {
         if (other.CompareTag("Monster") || other.CompareTag("Boss"))
         {
+            for (int i = 0; i < enemyList.Count; i++)
+            {
+                if (other.gameObject == enemyList[i])
+                {
+                    return;
+                }
+            }
             enemyList.Add(other.gameObject);
         }
     }
