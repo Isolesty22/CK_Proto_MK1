@@ -76,8 +76,10 @@ public class MonsterController : MonoBehaviour
         Com.monsterModel.SetActive(false);
         state = MonsterState.WAIT;
         Com.originalColor = Com.renderer.material.GetColor("_TexColor");
+        Com.renderer.material.SetColor("_TexColor", Com.originalColor);
         Stat.isAlive = true;
         transform.position = Com.spawnPos;
+        Com.renderer.material.SetFloat("_Amount", 0);
     }
 
     public virtual void Awake()
