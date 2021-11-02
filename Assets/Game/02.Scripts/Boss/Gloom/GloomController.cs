@@ -8,6 +8,15 @@ public class GloomController : BossController
 
     #region definitions
     [Serializable]
+    public class Components
+    {
+        [Header("이동 시 사용하는 강체")]
+        [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
+        public Rigidbody rigidbody;
+        public GloomMap gloomMap;
+    }
+
+    [Serializable]
     public class Patterns
     {
         public List<GloomPattern> phase_01_List = new List<GloomPattern>();
@@ -31,12 +40,8 @@ public class GloomController : BossController
 
     #endregion
 
-
-    [Header("이동 시 사용하는 강체")]
-    [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
-    public Rigidbody myRigidbody;
-
-    public GloomMap gloomMap;
+    [SerializeField]
+    private Components _components;
 
     [SerializeField]
     private SkillObjects _skillObjects;
@@ -52,6 +57,7 @@ public class GloomController : BossController
     public GloomPattern currentPattern;
     public Patterns patterns => _patterns;
     public SkillObjects Skills => _skillObjects;
+    public Components Com => _components;
 
     [HideInInspector]
     public Pools Pool;
@@ -259,7 +265,7 @@ public class GloomController : BossController
         {
             case eUsableBlockMode.Default:
 
-                for (int i = gloomMap.mapLength.min; i < gloomMap.mapLength.max; i++)
+                for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
                 {
                     tempList.Add(i);
                 }
@@ -267,9 +273,9 @@ public class GloomController : BossController
                 break;
 
             case eUsableBlockMode.ExcludeVine:
-                for (int i = gloomMap.mapLength.min; i < gloomMap.mapLength.max; i++)
+                for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
                 {
-                    if (gloomMap.mapBlocks[i].type == MapBlock.eType.Used)
+                    if (Com.gloomMap.mapBlocks[i].type == MapBlock.eType.Used)
                     {
                         continue;
                     }
