@@ -56,8 +56,7 @@ public class GloomMap : MonoBehaviour
     [Tooltip("보스의 위치에 따라서 양 옆에 있는 블록을 사용하지 않는데, " +
         "그 때 몇 개 만큼 제외할지의 개수입니다. " +
         "기즈모로 표현되지는 않습니다.")]
-    [SerializeField]
-    private int exclusiveCount = 1;
+    public int exclusiveCount = 1;
 
 
     [Header("투사체 등 위치 개수")]
@@ -307,4 +306,5 @@ public class GloomMap : MonoBehaviour
 
     }
 }
+
 

@@ -36,6 +36,8 @@ public class GloomController : BossController
     [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
     public Rigidbody myRigidbody;
 
+    public GloomMap gloomMap;
+
     [SerializeField]
     private SkillObjects _skillObjects;
 
@@ -231,6 +233,56 @@ public class GloomController : BossController
     public override string GetStateToString(int _state)
     {
         return base.GetStateToString(_state);
+    }
+
+    public enum eUsableBlockMode
+    {
+        /// <summary>
+        /// length만 고려된 상태입니다. 
+        /// </summary>
+        Default,
+
+        /// <summary>
+        /// Vine이 자라는 위치를 제외합니다.
+        /// </summary>
+        ExcludeVine
+    }
+
+    /// <summary>
+    /// 사용할 수 있는 mapBlock의 인덱스를 리턴합니다.
+    /// </summary>
+    public List<int> GetUsableBlockList(eUsableBlockMode _mode)
+    {
+        List<int> tempList = new List<int>();
+
+        switch (_mode)
+        {
+            case eUsableBlockMode.Default:
+
+                for (int i = gloomMap.mapLength.min; i < gloomMap.mapLength.max; i++)
+                {
+                    tempList.Add(i);
+                }
+
+                break;
+
+            case eUsableBlockMode.ExcludeVine:
+                for (int i = gloomMap.mapLength.min; i < gloomMap.mapLength.max; i++)
+                {
+                    if (gloomMap.mapBlocks[i].type == MapBlock.eType.Used)
+                    {
+                        continue;
+                    }
+
+                    tempList.Add(i);
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        return tempList;
     }
 
 }

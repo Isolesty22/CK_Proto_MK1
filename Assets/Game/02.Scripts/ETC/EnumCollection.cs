@@ -65,13 +65,26 @@ public enum eBearState
 
 public enum eGloomState
 {
+    [InspectorName("대기/(None)")]
     None,
+
+    [InspectorName("대기/(Idle_사용금지)")]
     Idle,
+
     //Leap,
+    [InspectorName("위협")]
     Threat,
+
+    [InspectorName("방해")]
     Obstruct,
+
+    [InspectorName("추격")]
     Chase,
+
+    [InspectorName("광폭화(사용금지)")]
     Berserk,
+
+    [InspectorName("죽음(사용금지)")]
     Die
 
 }
@@ -180,7 +193,7 @@ public class MapBlock
     {
         None,
         Empty,
-        Ignore,
+        Used,
     }
 
     [ReadOnly]
