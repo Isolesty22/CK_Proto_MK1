@@ -44,7 +44,7 @@ public class GloomController : BossController
     [Header("페이즈가 전환되는 HP")]
     public BossPhaseValue bossPhaseValue;
 
-    [Header("패턴 관련")]
+    [Header("패턴-----------------------")]
     [SerializeField]
     private Patterns _patterns;
 
@@ -294,6 +294,40 @@ public class GloomController : BossController
         }
 
         return tempList;
+    }
+
+    /// <summary>
+    /// 해당 인덱스의 블록이 사용 중이면 true를 반환합니다.
+    /// </summary>
+    public bool IsUsedBlock(int _index)
+    {
+        if (Com.gloomMap.mapBlocks[_index].type == MapBlock.eType.Used)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// 해당 블록의 타입을 지정합니다.
+    /// </summary>
+    public void SetBlockType(int _index, MapBlock.eType _type)
+    {
+        Com.gloomMap.mapBlocks[_index].SetType(_type);
+
+    }
+
+    /// <summary>
+    /// 해당 블록의 타입을 반환합니다.
+    /// </summary>
+    public MapBlock.eType GetBlockType(int _index, MapBlock.eType _type)
+    {
+        return Com.gloomMap.mapBlocks[_index].type;
+
+
     }
 
 }
