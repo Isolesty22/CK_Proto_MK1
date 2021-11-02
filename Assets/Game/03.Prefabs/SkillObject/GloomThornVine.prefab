@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 581348514339492556}
-  - component: {fileID: 581348514339492557}
   - component: {fileID: 3873030954767874606}
+  - component: {fileID: 581348514339492557}
+  - component: {fileID: 5020666236961735782}
+  - component: {fileID: 5613605432768840352}
   m_Layer: 0
   m_Name: GloomThornVine
   m_TagString: Boss
@@ -33,19 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &581348514339492557
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 581348514339492559}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.7398133, y: 3.9964104, z: 1.7799044}
-  m_Center: {x: 0, y: -2.2012672, z: 0}
 --- !u!114 &3873030954767874606
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,15 +48,70 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  currentBlock:
+    currentType: 0
+    position:
+      min: {x: 0, y: 0, z: 0}
+      max: {x: 0, y: 0, z: 0}
+      groundCenter: {x: 0, y: 0, z: 0}
+      topCenter: {x: 0, y: 0, z: 0}
   currentState: 0
   _values:
     growTime: 1
     fadeOutTime: 1
     originalColor: {r: 0, g: 0, b: 0, a: 1}
     hitColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
+    startPosition: {x: 0, y: 0, z: 0}
+    endPosition: {x: 0, y: 0, z: 0}
   _components:
     renderer: {fileID: 2176834085856315936}
     material: {fileID: 0}
+    rigidbody: {fileID: 5020666236961735782}
+    collider: {fileID: 581348514339492557}
+  _effects:
+    thornSign: {fileID: 0}
+--- !u!65 &581348514339492557
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581348514339492559}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7398133, y: 3.9964104, z: 1.7799044}
+  m_Center: {x: 0, y: -2.2012672, z: 0}
+--- !u!54 &5020666236961735782
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581348514339492559}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &5613605432768840352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581348514339492559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 544950ed9c9c79e46acf39ce79448555, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canParry: 0
 --- !u!1 &581348514928568789
 GameObject:
   m_ObjectHideFlags: 0

@@ -84,6 +84,7 @@ public class GloomMap : MonoBehaviour
         UpdateMapVector();
         UpdateMapBlocks();
         Init_Projectiles();
+        Init_MapBlocksType();
 
     }
     public void Init_Projectiles()
@@ -124,7 +125,6 @@ public class GloomMap : MonoBehaviour
         mapBlocks[0].SetMinMax(tempMin, tempMax);
         mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].position));
         mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].position));
-        mapBlocks[0].SetType(MapBlock.eType.None);
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
@@ -136,20 +136,29 @@ public class GloomMap : MonoBehaviour
             mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
             mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
 
-            mapBlocks[i].SetType(MapBlock.eType.None);
+        }
+    }
+
+
+    private void Init_MapBlocksType()
+    {
+        for (int i = 0; i < blockCount; i ++)
+        {
+
+            mapBlocks[i].SetOriginType(MapBlock.eType.None);
+            mapBlocks[i].SetCurrentTypeToOrigin();
         }
 
         if (emptyIndex < blockCount && emptyIndex >= 0)
         {
-            mapBlocks[emptyIndex].type = MapBlock.eType.Empty;
+            mapBlocks[emptyIndex].SetOriginType(MapBlock.eType.Empty);
+            mapBlocks[emptyIndex].SetCurrentTypeToOrigin();
         }
         else
         {
             Debug.LogWarning("낭떠러지는 블록의 범위 내여야 합니다. 설정하지 못했습니다.");
         }
-
     }
-
     private Vector3 CalcGroundCenter(MapBlock.Position _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.min.x + mapData.blockLength.x * 0.5f, _bearBlockPosition.min.y, mapData.position.z);
@@ -256,7 +265,7 @@ public class GloomMap : MonoBehaviour
 
             for (int i = 0; i < blockCount; i++)
             {
-                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                if (mapBlocks[i].currentType == MapBlock.eType.Empty)
                 {
                     Gizmos.color = Color.black;
                 }
@@ -280,7 +289,7 @@ public class GloomMap : MonoBehaviour
             for (int i = 0; i < blockCount; i++)
             {
                 //만약 빈공간이면
-                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                if (mapBlocks[i].currentType == MapBlock.eType.Empty)
                 {
                     Gizmos.color = Color.black;
                 }

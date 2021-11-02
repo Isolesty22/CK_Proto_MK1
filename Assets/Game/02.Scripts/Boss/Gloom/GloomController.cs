@@ -27,7 +27,7 @@ public class GloomController : BossController
     {
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
     }
-    [System.Serializable]
+    [Serializable]
     public class SkillObjects
     {
         [Header("방해 발사 위치")]
@@ -36,7 +36,23 @@ public class GloomController : BossController
         [HideInInspector]
         public Vector3[] obstructPositions;
     }
+    [Serializable]
+    public class SkillValues
+    {
+        #region Struct
 
+        [Serializable]
+        public struct ThornForest
+        {
+            [Tooltip("가시숲의 가시덩쿨은 hp 만큼의 체력을 갖습니다.")]
+            public int hp;
+            [Tooltip("이펙트 발생 이후 waitTime만큼 대기하고 덩쿨을 생성합니다.")]
+            public float waitTime;
+        }
+        #endregion
+
+        public ThornForest thornForest;
+    }
 
     #endregion
 
@@ -44,12 +60,19 @@ public class GloomController : BossController
     [Header("페이즈가 전환되는 HP")]
     public BossPhaseValue bossPhaseValue;
 
-    [Header("패턴-----------------------")]
+    [Header("스킬 세부 값")]
+    [SerializeField]
+    private SkillValues _skillValues;
+
+    [Header("패턴")]
     [SerializeField]
     private Patterns _patterns;
 
 
-    [Header("ETC-----------------------")]
+    [Header("ETC")]
+
+    [Tooltip("현재 보스의 위치")]
+    public eDiretion diretion;
 
     [SerializeField]
     private Components _components;
@@ -61,8 +84,10 @@ public class GloomController : BossController
     [HideInInspector]
     public GloomPattern currentPattern;
     public Patterns patterns => _patterns;
-    public SkillObjects Skills => _skillObjects;
+    public SkillObjects SkillObj => _skillObjects;
     public Components Com => _components;
+
+    public SkillValues SkillVal => _skillValues;
 
     [HideInInspector]
     public Pools Pool;
@@ -98,6 +123,8 @@ public class GloomController : BossController
         stateMachine = new GloomStateMachine(this);
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eGloomState.Idle);
+
+        ChangeDirection(eDiretion.Left);
 
         Init_Animator();
         Init_Pools();
@@ -139,11 +166,11 @@ public class GloomController : BossController
     /// </summary>
     public void UpdateObstructPositions()
     {
-        int length = Skills.obstructTransforms.Length;
-        Skills.obstructPositions = new Vector3[length];
+        int length = SkillObj.obstructTransforms.Length;
+        SkillObj.obstructPositions = new Vector3[length];
         for (int i = 0; i < length; i++)
         {
-            Skills.obstructPositions[i] = Skills.obstructTransforms[i].localPosition;
+            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].localPosition;
         }
     }
 
@@ -241,9 +268,14 @@ public class GloomController : BossController
     {
         base.ChangeState(_state);
     }
-    public override string GetStateToString(int _state)
+
+    /// <summary>
+    /// 보스의 방향을 바꿉니다. (왼쪽/오른쪽)
+    /// </summary>
+    public void ChangeDirection(eDiretion _direction)
     {
-        return base.GetStateToString(_state);
+        diretion = _direction;
+        Com.gloomMap.ChangeDirection(_direction);
     }
 
     public enum eUsableBlockMode
@@ -280,7 +312,8 @@ public class GloomController : BossController
             case eUsableBlockMode.ExcludeVine:
                 for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
                 {
-                    if (Com.gloomMap.mapBlocks[i].type == MapBlock.eType.Used)
+                    //사용 중인 블록이라면
+                    if (Com.gloomMap.mapBlocks[i].currentType == MapBlock.eType.Used)
                     {
                         continue;
                     }
@@ -297,18 +330,12 @@ public class GloomController : BossController
     }
 
     /// <summary>
-    /// 해당 인덱스의 블록이 사용 중이면 true를 반환합니다.
+    /// 해당 블록의 타입을 지정합니다.
     /// </summary>
-    public bool IsUsedBlock(int _index)
+    public void SetBlockTypeToOrigin(int _index)
     {
-        if (Com.gloomMap.mapBlocks[_index].type == MapBlock.eType.Used)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        Com.gloomMap.mapBlocks[_index].SetCurrentTypeToOrigin();
+
     }
 
     /// <summary>
@@ -316,7 +343,7 @@ public class GloomController : BossController
     /// </summary>
     public void SetBlockType(int _index, MapBlock.eType _type)
     {
-        Com.gloomMap.mapBlocks[_index].SetType(_type);
+        Com.gloomMap.mapBlocks[_index].SetCurrentType(_type);
 
     }
 
@@ -325,8 +352,13 @@ public class GloomController : BossController
     /// </summary>
     public MapBlock.eType GetBlockType(int _index, MapBlock.eType _type)
     {
-        return Com.gloomMap.mapBlocks[_index].type;
+        return Com.gloomMap.mapBlocks[_index].currentType;
     }
+    public override string GetStateToString(int _state)
+    {
+        return base.GetStateToString(_state);
+    }
+
 
 }
 

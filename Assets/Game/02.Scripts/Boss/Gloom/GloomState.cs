@@ -55,6 +55,8 @@ public class GloomState_Threat : GloomState
 }
 public class GloomState_ThornForest : GloomState
 {
+    private eDiretion diretion;
+    private int[] blockArr;
     public GloomState_ThornForest(GloomController _gloomController)
     {
         gloom = _gloomController;
@@ -147,6 +149,8 @@ public class GloomState_Obstruct : GloomState
 }
 public class GloomState_ThornPath : GloomState
 {
+    private eDiretion diretion;
+    private int[] blockArr;
     public GloomState_ThornPath(GloomController _gloomController)
     {
         gloom = _gloomController;
@@ -154,6 +158,84 @@ public class GloomState_ThornPath : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+        //현재 보스의 방향을 가져옴
+        diretion = gloom.diretion;
+
+        //사용할 수 있는 블록 리스트를 가져옴
+        blockArr = gloom.GetUsableBlockList(GloomController.eUsableBlockMode.Default).ToArray();
+
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("ThornPath_Start");
+    }
+
+
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(ProcessAnimEvent());
+    }
+    private IEnumerator ProcessAnimEvent()
+    {
+        int length;
+        //보스가 오른쪽에 있으면
+        if (diretion == eDiretion.Right)
+        {
+            length = blockArr.Length;
+            for (int i = 0; i < 3; i++)
+            {
+                // MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
+                MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
+
+                //사용 중이라면 아무것도 안함
+                if (block.currentType == MapBlock.eType.Used)
+                {
+                    continue;
+                }
+
+
+                //사용 중이 아니라면
+
+                //풀에서 꺼냄
+                GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
+
+                //초기화
+                thornVine.Init();
+                thornVine.SetValues(block, gloom.SkillVal.thornForest.hp, gloom.SkillVal.thornForest.waitTime, block.position.groundCenter);
+                thornVine.UpdateEndPosition();
+
+                thornVine.StartGrow();
+                yield return null;
+            }
+        }
+        //왼쪽일때
+        else
+        {
+            length = blockArr.Length-1;
+            for (int i = length; i > length - 3; i--)
+            {
+                // MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
+                MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
+
+                //사용 중이라면 아무것도 안함
+                if (block.currentType == MapBlock.eType.Used)
+                {
+                    continue;
+                }
+
+                //사용 중이 아니라면
+
+                //풀에서 꺼냄
+                GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
+
+                //초기화
+                thornVine.Init();
+                thornVine.SetValues(block, gloom.SkillVal.thornForest.hp, gloom.SkillVal.thornForest.waitTime, block.position.groundCenter);
+                thornVine.UpdateEndPosition();
+
+                thornVine.StartGrow();
+                yield return null;
+            }
+        }
     }
 }
 public class GloomState_Summon : GloomState

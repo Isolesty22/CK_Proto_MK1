@@ -205,12 +205,16 @@ public class MapBlock
         Empty,
         Used,
     }
-
+    private eType originType;
     [ReadOnly]
-    public eType type;
+    public eType currentType;
 
     public Position position = new Position();
 
+    public void SetOriginType(eType _type)
+    {
+        originType = _type;
+    }
     public void SetMinMax(Vector3 _min, Vector3 _max)
     {
         position.min = _min;
@@ -226,9 +230,13 @@ public class MapBlock
         position.topCenter = _topCenter;
     }
 
-    public void SetType(eType _type)
+    public void SetCurrentType(eType _type)
     {
-        type = _type;
+        currentType = _type;
+    }
+    public void SetCurrentTypeToOrigin()
+    {
+        currentType = originType;
     }
 
 }

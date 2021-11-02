@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent((typeof(Rigidbody)))]
 public class GloomThornVine : MonoBehaviour, IDamageable
 {
 
@@ -10,6 +11,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     [System.Serializable]
     public class Values
     {
+        [HideInInspector]
+        public WaitForSeconds waitTime = null;
+
         [Header("생기는 시간")]
         public float growTime;
 
@@ -18,6 +22,12 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         public Color originalColor = Color.white;
         public Color hitColor = new Color(0.3f, 0.3f, 0.3f);
+
+        [HideInInspector]
+        public Vector3 startPosition;
+
+        [HideInInspector]
+        public Vector3 endPosition;
     }
 
     [System.Serializable]
@@ -27,11 +37,15 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         [HideInInspector]
         public Material material = null;
+
+        public Rigidbody rigidbody;
+        public BoxCollider collider;
     }
 
     [System.Serializable]
-    public class SkillObjects
+    public class Effects
     {
+        public GameObject thornSign;
     }
 
     public enum eState
@@ -43,8 +57,16 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
 
     #endregion
+
+    #region field
     [Header("현재 체력")]
     public int hp;
+
+    [HideInInspector]
+    public MapBlock currentBlock;
+
+    [HideInInspector]
+    public int currentIndex;
 
     [ReadOnly]
     [Header("현재 상태")]
@@ -57,12 +79,12 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private Components _components = new Components();
 
     [SerializeField]
-    private SkillObjects _skillObjects = new SkillObjects();
+    private Effects _effects = new Effects();
 
     public Values Val => _values;
     public Components Com => _components;
-    public SkillObjects Skills => _skillObjects;
-
+    public Effects Effect => _effects;
+    #endregion
 
     private IEnumerator hitCoroutine = null;
     private WaitForSeconds hitTime = new WaitForSeconds(0.1f);
@@ -72,13 +94,8 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private string str_Arrow = "Arrow";
 
     private int damage = 1;
-    
 
-    private void Start()
-    {
-        Init();
-        StartGrow();
-    }
+
     public void Init()
     {
         if (Com.material == null)
@@ -88,18 +105,50 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         Com.material.SetFloat(str_Amount, 0f);
         Com.material.SetColor(str_TexColor, Val.originalColor);
 
+        Com.collider.enabled = true;
         hitCoroutine = null;
 
         currentState = eState.Idle;
     }
+    public void SetValues(MapBlock _block, int _hp, float _waitTime, Vector3 _startPos)
+    {
+        currentBlock = _block;
+        hp = _hp;
+        Val.waitTime = new WaitForSeconds(_waitTime);
+
+        Val.startPosition = _startPos;
+        gameObject.transform.position = _startPos;
+
+    }
+
     public void StartGrow()
     {
+        currentBlock.SetCurrentType(MapBlock.eType.Used);
         StartCoroutine(ProcessGrow());
     }
     private IEnumerator ProcessGrow()
     {
+
+        Vector3 testRotation = new Vector3(0f, 300f, 0f);
+
         currentState = eState.Grow;
-        yield return null;
+
+        float timer = 0f;
+        float progress = 0f;
+
+        //대기시간만큼 기다린 다음에 생성 시작
+        yield return Val.waitTime;
+
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / Val.growTime;
+            Com.rigidbody.position = Vector3.Lerp(Val.startPosition, Val.endPosition, progress);
+            Com.rigidbody.rotation = Quaternion.Euler((Vector3.Lerp(Vector3.zero, testRotation, progress)));
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        Com.rigidbody.position = Val.endPosition;
         currentState = eState.Idle;
     }
     private IEnumerator ProcessHit()
@@ -112,20 +161,42 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     }
     private IEnumerator ProcessDie()
     {
+        if (Val.fadeOutTime <= 0f)
+        {
+            Val.fadeOutTime = 1f;
+        }
+
+        //충돌처리 끄기
+        Com.collider.enabled = false;
+
         currentState = eState.Die;
         float amount = 0f;
         float timer = 0f;
 
+
         while (amount < 1f)
         {
-            timer += Time.deltaTime / 1f;
+            timer += Time.deltaTime / Val.fadeOutTime;
             amount = Mathf.Lerp(0f, 1f, timer);
             Com.material.SetFloat(str_Amount, amount);
 
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
 
+        //원래 타입으로 돌리기
+        currentBlock.SetCurrentTypeToOrigin();
+
         CustomPoolManager.Instance.GetPool<GloomThornVine>().ReleaseThis(this);
+    }
+
+
+    public void UpdateEndPosition()
+    {
+        Vector3 colSize = Com.collider.size;
+
+        Val.endPosition = new Vector3(Val.startPosition.x,
+            Val.startPosition.y + colSize.y,
+            Val.startPosition.z);
     }
     public void ReceiveDamage()
     {
