@@ -48,9 +48,11 @@ public class GloomMap : MonoBehaviour
     [HideInInspector]
     public eDiretion mapDirection;
 
-    [Header("낭떠러지 인덱스")]
+    [Header("낭떠러지 관련")]
+    [Tooltip("낭떠러지로 지정할 블록의 인덱스")]
     public int emptyIndex;
-
+    [Tooltip("낭떠러지로 지정할 블록의 땅 판정 위치")]
+    public float emptyGroundPosY;
 
     [Header("양 옆 제외할 블록 개수")]
     [Tooltip("보스의 위치에 따라서 양 옆에 있는 블록을 사용하지 않는데, " +
@@ -135,8 +137,9 @@ public class GloomMap : MonoBehaviour
             mapBlocks[i].SetMinMax(tempMin, tempMax);
             mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
             mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
-
         }
+        Vector3 originPos = mapBlocks[emptyIndex].position.groundCenter;
+        mapBlocks[emptyIndex].SetGroundCenter(new Vector3(originPos.x, originPos.y+emptyGroundPosY, originPos.z));
     }
 
 
@@ -256,7 +259,8 @@ public class GloomMap : MonoBehaviour
         }
 
     }
-    private void OnDrawGizmos()
+
+    private void OnDrawGizmosSelected()
     {
         UpdateMapVector();
         UpdateMapBlocks();

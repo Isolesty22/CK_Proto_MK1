@@ -42,16 +42,16 @@ public class GloomController : BossController
         #region Struct
 
         [Serializable]
-        public struct ThornForest
+        public struct ThornPattern
         {
-            [Tooltip("가시숲의 가시덩쿨은 hp 만큼의 체력을 갖습니다.")]
+            [Tooltip("가시덩쿨은 hp 만큼의 체력을 갖습니다.")]
             public int hp;
             [Tooltip("이펙트 발생 이후 waitTime만큼 대기하고 덩쿨을 생성합니다.")]
             public float waitTime;
         }
         #endregion
 
-        public ThornForest thornForest;
+        public ThornPattern thornPattern;
     }
 
     #endregion
@@ -72,6 +72,7 @@ public class GloomController : BossController
     [Header("ETC")]
 
     [Tooltip("현재 보스의 위치")]
+    [ReadOnly]
     public eDiretion diretion;
 
     [SerializeField]

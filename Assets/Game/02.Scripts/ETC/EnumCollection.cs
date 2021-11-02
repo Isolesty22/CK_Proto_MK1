@@ -86,7 +86,7 @@ public enum eGloomState
     [InspectorName("방해")]
     Obstruct,
 
-    //[InspectorName("가시밭길")]
+    [InspectorName("가시밭길")]
     ThornPath,
 
     //[InspectorName("소환")]

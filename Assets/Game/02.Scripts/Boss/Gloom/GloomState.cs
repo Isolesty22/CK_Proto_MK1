@@ -64,6 +64,89 @@ public class GloomState_ThornPath : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+        //현재 보스의 방향을 가져옴
+        diretion = gloom.diretion;
+
+        //사용할 수 있는 블록 리스트를 가져옴
+        blockArr = gloom.GetUsableBlockList(GloomController.eUsableBlockMode.ExcludeVine).ToArray();
+
+        //블록 인덱스를 랜덤하게 섞음
+        ShuffleArray();
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("ThornPath_Start");
+    }
+
+    public void AnimEvent()
+    {
+        //가져온게 없으면
+        if (blockArr.Length == 0)
+        {
+            //아무것도 안함
+            return;
+        }
+        gloom.StartCoroutine(ProcessAnimEvent());
+    }
+    private IEnumerator ProcessAnimEvent()
+    {
+        //2개 이상 있다면 for문으로 돌리기 
+        if (blockArr.Length > 1)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+
+                MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
+
+                //풀에서 꺼냄
+                GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
+
+                //초기화
+                thornVine.Init();
+                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.UpdateEndPosition();
+
+                thornVine.StartGrow();
+                yield return null;
+            }
+        }
+        //1개 밖에 없다면 그냥 지정해서 소환
+        else
+        {
+            MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[0]];
+
+            //풀에서 꺼냄
+            GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
+
+            //초기화
+            thornVine.Init();
+            thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+            thornVine.UpdateEndPosition();
+
+            thornVine.StartGrow();
+            yield return null;
+        }
+
+
+    }
+
+    private void ShuffleArray()
+    {
+        //남은 칸이 두 칸 이하라서 섞을 필요가 없으면 아무것도 안함
+        if (blockArr.Length <= 2)
+        {
+            return;
+        }
+
+        int length = blockArr.Length;
+
+        for (int i = 0; i < length; i++)
+        {
+            int randIndex = Random.Range(i, length);
+
+            int tempPos = blockArr[i];
+            blockArr[i] = blockArr[randIndex];
+            blockArr[randIndex] = tempPos;
+        }
     }
 }
 public class GloomState_Obstruct : GloomState
@@ -200,7 +283,7 @@ public class GloomState_ThornForest : GloomState
 
                 //초기화
                 thornVine.Init();
-                thornVine.SetValues(block, gloom.SkillVal.thornForest.hp, gloom.SkillVal.thornForest.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
@@ -210,7 +293,7 @@ public class GloomState_ThornForest : GloomState
         //왼쪽일때
         else
         {
-            length = blockArr.Length-1;
+            length = blockArr.Length - 1;
             for (int i = length; i > length - 3; i--)
             {
                 // MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
@@ -229,7 +312,7 @@ public class GloomState_ThornForest : GloomState
 
                 //초기화
                 thornVine.Init();
-                thornVine.SetValues(block, gloom.SkillVal.thornForest.hp, gloom.SkillVal.thornForest.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
