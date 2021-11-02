@@ -192,7 +192,7 @@ GameObject:
   - component: {fileID: 260065561}
   - component: {fileID: 260065560}
   m_Layer: 0
-  m_Name: GloomMapInfo
+  m_Name: GloomMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,51 +224,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8172aa5f0b22d06438dbf4bfd28392f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePosCount: 10
-  projectileRandArray: 
   mapCollider: {fileID: 260065561}
   myTransform: {fileID: 260065559}
-  paddingSize: 4
-  rightPadding: 0
-  leftPadding: 4
+  mapDirection: 0
+  emptyIndex: 2
+  exclusiveCount: 1
+  projectilePosCount: 6
+  projectileRandArray: 
   mapData:
     size: {x: 24.863749, y: 7.625083, z: 3.0291817}
     position: {x: 2.3333547, y: 2.3032854, z: 0.5412283}
     minPosition: {x: -10.098519, y: -1.5092561, z: -0.97336257}
     maxPosition: {x: 14.765229, y: 6.1158266, z: 2.055819}
     extents: {x: 12.431874, y: 3.8125415, z: 1.5145909}
-    blockLength: {x: 4.9727497, y: 1.5250165, z: 0.6058363}
+    blockLength: {x: 2.4863749, y: 0.7625083, z: 0.30291814}
   mapBlocks:
-  - blockType: 0
+  - type: 0
     position:
       min: {x: -10.098519, y: -1.5092561, z: -0.97336257}
+      max: {x: -7.6121445, y: 6.1158266, z: 2.055819}
+      groundCenter: {x: -8.855331, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: -8.855331, y: 6.1158266, z: 0.5412283}
+  - type: 0
+    position:
+      min: {x: -7.6121445, y: -1.5092561, z: -0.97336257}
       max: {x: -5.1257696, y: 6.1158266, z: 2.055819}
-      groundCenter: {x: -7.6121445, y: -1.5092561, z: 0.5412283}
-      topCenter: {x: -7.6121445, y: 6.1158266, z: 0.5412283}
-  - blockType: 0
+      groundCenter: {x: -6.368957, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: -6.368957, y: 6.1158266, z: 0.5412283}
+  - type: 0
     position:
       min: {x: -5.1257696, y: -1.5092561, z: -0.97336257}
+      max: {x: -2.6393948, y: 6.1158266, z: 2.055819}
+      groundCenter: {x: -3.8825822, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: -3.8825822, y: 6.1158266, z: 0.5412283}
+  - type: 0
+    position:
+      min: {x: -2.6393948, y: -1.5092561, z: -0.97336257}
       max: {x: -0.1530199, y: 6.1158266, z: 2.055819}
-      groundCenter: {x: -2.6393948, y: -1.5092561, z: 0.5412283}
-      topCenter: {x: -2.6393948, y: 6.1158266, z: 0.5412283}
-  - blockType: 0
+      groundCenter: {x: -1.3962073, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: -1.3962073, y: 6.1158266, z: 0.5412283}
+  - type: 0
     position:
       min: {x: -0.1530199, y: -1.5092561, z: -0.97336257}
+      max: {x: 2.333355, y: 6.1158266, z: 2.055819}
+      groundCenter: {x: 1.0901675, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: 1.0901675, y: 6.1158266, z: 0.5412283}
+  - type: 0
+    position:
+      min: {x: 2.333355, y: -1.5092561, z: -0.97336257}
       max: {x: 4.81973, y: 6.1158266, z: 2.055819}
-      groundCenter: {x: 2.333355, y: -1.5092561, z: 0.5412283}
-      topCenter: {x: 2.333355, y: 6.1158266, z: 0.5412283}
-  - blockType: 0
-    position:
-      min: {x: 4.81973, y: -1.5092561, z: -0.97336257}
-      max: {x: 9.7924795, y: 6.1158266, z: 2.055819}
-      groundCenter: {x: 7.3061047, y: -1.5092561, z: 0.5412283}
-      topCenter: {x: 7.3061047, y: 6.1158266, z: 0.5412283}
-  - blockType: 0
-    position:
-      min: {x: 9.7924795, y: -1.5092561, z: -0.97336257}
-      max: {x: 14.765229, y: 6.1158266, z: 2.055819}
-      groundCenter: {x: 12.278854, y: -1.5092561, z: 0.5412283}
-      topCenter: {x: 12.278854, y: 6.1158266, z: 0.5412283}
+      groundCenter: {x: 3.5765424, y: -1.5092561, z: 0.5412283}
+      topCenter: {x: 3.5765424, y: 6.1158266, z: 0.5412283}
   projectilePositions:
   - {x: -8.855331, y: 6.1158266, z: 0.5412283}
   - {x: -6.3689566, y: 6.1158266, z: 0.5412283}
@@ -276,6 +282,10 @@ MonoBehaviour:
   - {x: -1.3962069, y: 6.1158266, z: 0.5412283}
   - {x: 1.090168, y: 6.1158266, z: 0.5412283}
   - {x: 3.5765429, y: 6.1158266, z: 0.5412283}
+  - {x: 6.0629177, y: 6.1158266, z: 0.5412283}
+  - {x: 8.549293, y: 6.1158266, z: 0.5412283}
+  - {x: 11.035667, y: 6.1158266, z: 0.5412283}
+  - {x: 13.522042, y: 6.1158266, z: 0.5412283}
 --- !u!65 &260065561
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -430,7 +440,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1339026650
 GameObject:
@@ -472,6 +482,10 @@ PrefabInstance:
     - target: {fileID: 4650393343393378136, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4650393343393378136, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_RootOrder

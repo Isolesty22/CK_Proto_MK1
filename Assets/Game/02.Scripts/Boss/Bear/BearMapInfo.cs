@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BlockType = MapBlock.Type;
 
 [RequireComponent((typeof(BoxCollider)))]
 public class BearMapInfo : MonoBehaviour

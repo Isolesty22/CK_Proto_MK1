@@ -6,8 +6,8 @@ public enum ePhase
 {
     Phase_1,
     Phase_2,
-  //  Phase_3,
-  //  Phase_Finish
+    //  Phase_3,
+    //  Phase_Finish
 }
 
 public enum eBearState
@@ -82,7 +82,7 @@ public enum eUIText
     DataDelete,
     DataSave,
     Exit,
-    
+
 
 }
 
@@ -141,6 +141,16 @@ public enum eDataManagerState
 
 }
 
+
+public enum eDiretion
+{
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+
 [System.Serializable]
 public class BoxColliderInfo
 {
@@ -154,20 +164,28 @@ public class MapBlock
     [System.Serializable]
     public class Position
     {
+        [ReadOnly]
         public Vector3 min;
+
+        [ReadOnly]
         public Vector3 max;
 
+        [ReadOnly]
         public Vector3 groundCenter;
 
+        [ReadOnly]
         public Vector3 topCenter;
     }
-    public enum Type
+    public enum eType
     {
         None,
         Empty,
+        Ignore,
     }
 
-    public Type blockType;
+    [ReadOnly]
+    public eType type;
+
     public Position position = new Position();
 
     public void SetMinMax(Vector3 _min, Vector3 _max)
@@ -184,6 +202,12 @@ public class MapBlock
     {
         position.topCenter = _topCenter;
     }
+
+    public void SetType(eType _type)
+    {
+        type = _type;
+    }
+
 }
 
 

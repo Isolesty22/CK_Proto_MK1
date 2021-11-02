@@ -1,12 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using BlockType = MapBlock.Type;
 
 [RequireComponent((typeof(BoxCollider)))]
 public class GloomMap : MonoBehaviour
 {
-    #region MapDataClass
+    #region Class
     [System.Serializable]
     public class MapData
     {
@@ -28,50 +27,65 @@ public class GloomMap : MonoBehaviour
         [ReadOnly, Tooltip("블록 하나당 길이")]
         public Vector3 blockLength;
     }
+
+    public class Length
+    {
+        public int min;
+        public int max;
+    }
     #endregion
 
+
+    [Space(20)]
+
+    [Tooltip("맵 상의 블록 개수")]
+    private const int blockCount = 6;
+
+    public BoxCollider mapCollider;
+    public Transform myTransform;
+
+    [Tooltip("맵의 방향")]
+    [HideInInspector]
+    public eDiretion mapDirection;
+
+    [Header("낭떠러지 인덱스")]
+    public int emptyIndex;
+
+
+    [Header("양 옆 제외할 블록 개수")]
+    [Tooltip("보스의 위치에 따라서 양 옆에 있는 블록을 사용하지 않는데, " +
+        "그 때 몇 개 만큼 제외할지의 개수입니다. " +
+        "기즈모로 표현되지는 않습니다.")]
+    [SerializeField]
+    private int exclusiveCount = 1;
+
+
+    [Header("투사체 등 위치 개수")]
     [Range(0, 30)]
     public int projectilePosCount = 10;
 
     [HideInInspector]
     public int[] projectileRandArray = new int[] { };
 
-    [Space(20)]
-
-    [Tooltip("맵 상의 블록 개수")]
-    private const int blockCount = 5;
-
-    public BoxCollider mapCollider;
-    public Transform myTransform;
-
     [Space(10)]
-    [HideInInspector]
-    public int paddingSize = 4;
-    [HideInInspector]
-    public int rightPadding = 0;
-    [HideInInspector]
-    public int leftPadding = 4;
-
-
-    [Space(10)]
-    [BeginReadOnlyGroup]
     public MapData mapData = new MapData();
-    
-    [BeginReadOnlyGroup]
+    public Length mapLength = new Length();
+
     public MapBlock[] mapBlocks = new MapBlock[blockCount];
-    [EndReadOnlyGroup]
 
     [HideInInspector]
     public Vector3[] projectilePositions;
 
     public void Init()
     {
-        // Physics.IgnoreLayerCollision(Physics.AllLayers, gameObject.layer);
+        //오른쪽 방향으로
+        ChangeDirection(eDiretion.Right);
 
         //mapSize, mapPosition 계산
         UpdateMapVector();
-        UpdatemapBlocks();
+        UpdateMapBlocks();
         Init_Projectiles();
+
     }
     public void Init_Projectiles()
     {
@@ -91,16 +105,18 @@ public class GloomMap : MonoBehaviour
 
         mapData.minPosition = new Vector3(mapData.position.x - mapData.extents.x, mapData.position.y - mapData.extents.y, mapData.position.z - mapData.extents.z);
         mapData.maxPosition = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
-    }
 
-    private void UpdatemapBlocks()
-    {
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
 
         mapData.blockLength = new Vector3(Mathf.Abs(tempMax.x - tempMin.x), Mathf.Abs(tempMax.y - tempMin.y), Mathf.Abs(tempMax.z - tempMin.z));
         mapData.blockLength = mapData.blockLength / blockCount;
+    }
 
+    private void UpdateMapBlocks()
+    {
+        Vector3 tempMin = mapData.minPosition;
+        Vector3 tempMax = mapData.maxPosition;
 
         //첫번째 블록 포지션 계산
         tempMin = new Vector3(tempMin.x, mapData.minPosition.y, mapData.minPosition.z);
@@ -109,6 +125,7 @@ public class GloomMap : MonoBehaviour
         mapBlocks[0].SetMinMax(tempMin, tempMax);
         mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].position));
         mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].position));
+        mapBlocks[0].SetType(MapBlock.eType.None);
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
@@ -119,6 +136,17 @@ public class GloomMap : MonoBehaviour
             mapBlocks[i].SetMinMax(tempMin, tempMax);
             mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
             mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
+
+            mapBlocks[i].SetType(MapBlock.eType.None);
+        }
+
+        if (emptyIndex < blockCount && emptyIndex >= 0)
+        {
+            mapBlocks[emptyIndex].type = MapBlock.eType.Empty;
+        }
+        else
+        {
+            Debug.LogWarning("낭떠러지는 블록의 범위 내여야 합니다. 설정하지 못했습니다.");
         }
 
     }
@@ -136,7 +164,7 @@ public class GloomMap : MonoBehaviour
     }
     public void UpdateProjectilePositions()
     {
-        projectilePositions = new Vector3[projectilePosCount - paddingSize];
+        projectilePositions = new Vector3[projectilePosCount];
 
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
@@ -144,7 +172,7 @@ public class GloomMap : MonoBehaviour
         float distanceX = (Mathf.Abs(tempMax.x - tempMin.x)) / projectilePosCount;
 
         //첫번째 가운데 지점 계산
-        tempMin = new Vector3((tempMin.x + distanceX * 0.5f) + distanceX * rightPadding, mapData.maxPosition.y, mapData.position.z);
+        tempMin = new Vector3((tempMin.x + distanceX * 0.5f), mapData.maxPosition.y, mapData.position.z);
 
 
         int length = projectilePositions.Length;
@@ -162,7 +190,7 @@ public class GloomMap : MonoBehaviour
     public void InitProjectileRandArray()
     {
         //배열 초기화--
-        projectileRandArray = new int[projectilePosCount - paddingSize];
+        projectileRandArray = new int[projectilePosCount];
 
         int length = projectileRandArray.Length;
 
@@ -199,15 +227,45 @@ public class GloomMap : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// 맵의 방향을 바꿉니다. 보스의 현재 위치를 받습니다.
+    /// </summary>
+    /// <param name="_dir">보스의 현재 위치</param>
+    public void ChangeDirection(eDiretion _dir)
+    {
+        switch (_dir)
+        {
+            case eDiretion.Left:
+                mapLength.min = exclusiveCount;
+                mapLength.max = blockCount;
+                break;
+
+            case eDiretion.Right:
+                mapLength.min = 0;
+                mapLength.max = blockCount - exclusiveCount;
+
+                break;
+        }
+
+    }
     private void OnDrawGizmos()
     {
         UpdateMapVector();
-        UpdatemapBlocks();
+        UpdateMapBlocks();
         UpdateProjectilePositions();
         {
-            Gizmos.color = Color.red;
+
             for (int i = 0; i < blockCount; i++)
             {
+                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                {
+                    Gizmos.color = Color.black;
+                }
+                else
+                {
+                    Gizmos.color = Color.red;
+                }
+
                 Gizmos.DrawLine(mapBlocks[i].position.min, mapBlocks[i].position.max);
             }
 
@@ -220,17 +278,29 @@ public class GloomMap : MonoBehaviour
                 Gizmos.DrawSphere(mapBlocks[i].position.groundCenter, 0.1f);
             }
 
-            Gizmos.color = Color.white;
             for (int i = 0; i < blockCount; i++)
             {
+                //만약 빈공간이면
+                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                {
+                    Gizmos.color = Color.black;
+                }
+                else
+                {
+                    Gizmos.color = Color.white;
+                }
                 Gizmos.DrawLine(mapBlocks[i].position.groundCenter, mapBlocks[i].position.topCenter);
             }
         }
 
-        Gizmos.color = Color.green;
+
 
         for (int i = 0; i < projectilePositions.Length; i++)
-        {
+        {             
+
+                Gizmos.color = Color.green;
+
+
             Gizmos.DrawSphere(projectilePositions[i], 0.2f);
 
         }
