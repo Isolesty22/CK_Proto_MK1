@@ -39,7 +39,7 @@ public class GloomMap : MonoBehaviour
     [Space(20)]
 
     [Tooltip("맵 상의 블록 개수")]
-    private const int blockCount = 6;
+    private const int blockCount = 7;
 
     public BoxCollider mapCollider;
     public Transform myTransform;
