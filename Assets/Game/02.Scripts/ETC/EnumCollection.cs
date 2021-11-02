@@ -141,6 +141,52 @@ public enum eDataManagerState
 
 }
 
+[System.Serializable]
+public class BoxColliderInfo
+{
+    public Vector3 center;
+    public Vector3 size;
+}
+
+[System.Serializable]
+public class MapBlock
+{
+    [System.Serializable]
+    public class Position
+    {
+        public Vector3 min;
+        public Vector3 max;
+
+        public Vector3 groundCenter;
+
+        public Vector3 topCenter;
+    }
+    public enum Type
+    {
+        None,
+        Empty,
+    }
+
+    public Type blockType;
+    public Position position = new Position();
+
+    public void SetMinMax(Vector3 _min, Vector3 _max)
+    {
+        position.min = _min;
+        position.max = _max;
+    }
+
+    public void SetGroundCenter(Vector3 _groundCenter)
+    {
+        position.groundCenter = _groundCenter;
+    }
+    public void SetTopCenter(Vector3 _topCenter)
+    {
+        position.topCenter = _topCenter;
+    }
+}
+
+
 public class EnumCollection : MonoBehaviour
 {
 

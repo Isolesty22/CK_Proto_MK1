@@ -488,7 +488,7 @@ public class BearState_Strike : BearState
 
     private void CloneStrikeCube(int _bearBlockIndex)
     {
-        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.bearBlocks[_bearBlockIndex].position.groundCenter, Quaternion.identity);
+        GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.mapBlocks[_bearBlockIndex].position.groundCenter, Quaternion.identity);
     }
     //랜덤
     private void AnimEvent_A()

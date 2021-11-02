@@ -4,7 +4,7 @@ using UnityEngine;
 using BlockType = MapBlock.Type;
 
 [RequireComponent((typeof(BoxCollider)))]
-public class BearMapInfo : MonoBehaviour
+public class GloomMap : MonoBehaviour
 {
     #region MapDataClass
     [System.Serializable]
@@ -45,11 +45,6 @@ public class BearMapInfo : MonoBehaviour
     public Transform myTransform;
 
     [Space(10)]
-    public Transform bearTransform;
-    public Vector3 phase2Position;
-    public Vector3 phase3Position;
-
-    [Space(10)]
     [HideInInspector]
     public int paddingSize = 4;
     [HideInInspector]
@@ -61,7 +56,7 @@ public class BearMapInfo : MonoBehaviour
     [Space(10)]
     [BeginReadOnlyGroup]
     public MapData mapData = new MapData();
-
+    
     [BeginReadOnlyGroup]
     public MapBlock[] mapBlocks = new MapBlock[blockCount];
     [EndReadOnlyGroup]
@@ -71,26 +66,18 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init()
     {
-       // Physics.IgnoreLayerCollision(Physics.AllLayers, gameObject.layer);
+        // Physics.IgnoreLayerCollision(Physics.AllLayers, gameObject.layer);
 
         //mapSize, mapPosition 계산
         UpdateMapVector();
         UpdatemapBlocks();
         Init_Projectiles();
-        Init_PhasePositions();
     }
     public void Init_Projectiles()
     {
         UpdateProjectilePositions();
         InitProjectileRandArray();
         UpdateProjectileRandArray();
-    }
-
-    public void Init_PhasePositions()
-    {
-        phase2Position = new Vector3(mapBlocks[0].position.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
-        phase3Position = bearTransform.position;
-
     }
     private void UpdateMapVector()
     {
@@ -250,3 +237,4 @@ public class BearMapInfo : MonoBehaviour
 
     }
 }
+
