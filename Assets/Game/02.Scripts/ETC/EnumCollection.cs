@@ -71,15 +71,25 @@ public enum eGloomState
     [InspectorName("대기/(Idle_사용금지)")]
     Idle,
 
-    //Leap,
+    //[InspectorName("추격")]
+    Chase,
+
+    //[InspectorName("도약")]
+    Leap,
+
     [InspectorName("위협")]
     Threat,
+    //[InspectorName("가시숲")]
+    ThornForest,
 
     [InspectorName("방해")]
     Obstruct,
 
-    [InspectorName("추격")]
-    Chase,
+    //[InspectorName("가시밭길")]
+    ThornPath,
+
+    //[InspectorName("소환")]
+    Summon,
 
     [InspectorName("광폭화(사용금지)")]
     Berserk,

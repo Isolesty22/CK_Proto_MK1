@@ -18,7 +18,28 @@ public class GloomState_Idle : GloomState
         canExit = true;
     }
 }
-
+public class GloomState_Chase : GloomState
+{
+    public GloomState_Chase(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
+public class GloomState_Leap : GloomState
+{
+    public GloomState_Leap(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
 public class GloomState_Threat : GloomState
 {
     public GloomState_Threat(GloomController _gloomController)
@@ -32,7 +53,17 @@ public class GloomState_Threat : GloomState
         gloom.SetTrigger("Threat_Start");
     }
 }
-
+public class GloomState_ThornForest : GloomState
+{
+    public GloomState_ThornForest(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
 public class GloomState_Obstruct : GloomState
 {
     /// <summary>
@@ -114,10 +145,9 @@ public class GloomState_Obstruct : GloomState
     }
 
 }
-
-public class GloomState_Chase : GloomState
+public class GloomState_ThornPath : GloomState
 {
-    public GloomState_Chase(GloomController _gloomController)
+    public GloomState_ThornPath(GloomController _gloomController)
     {
         gloom = _gloomController;
     }
@@ -126,7 +156,17 @@ public class GloomState_Chase : GloomState
         canExit = false;
     }
 }
-
+public class GloomState_Summon : GloomState
+{
+    public GloomState_Summon(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
 public class GloomState_Berserk : GloomState
 {
     public GloomState_Berserk(GloomController _gloomController)
@@ -138,7 +178,6 @@ public class GloomState_Berserk : GloomState
         canExit = false;
     }
 }
-
 public class GloomState_Die : GloomState
 {
     public GloomState_Die(GloomController _gloomController)

@@ -326,8 +326,6 @@ public class GloomController : BossController
     public MapBlock.eType GetBlockType(int _index, MapBlock.eType _type)
     {
         return Com.gloomMap.mapBlocks[_index].type;
-
-
     }
 
 }
