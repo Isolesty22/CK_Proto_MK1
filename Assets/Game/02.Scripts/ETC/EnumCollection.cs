@@ -210,7 +210,11 @@ public class MapBlock
 
 }
 
-
+public interface IDamageable
+{
+    public void OnHit();
+    public void ReceiveDamage();
+}
 public class EnumCollection : MonoBehaviour
 {
 
