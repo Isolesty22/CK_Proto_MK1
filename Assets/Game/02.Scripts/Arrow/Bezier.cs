@@ -19,6 +19,11 @@ public class Bezier : MonoBehaviour
 
     public void Initialize()
     {
+        if (enemy == null)
+        {
+            CustomPoolManager.Instance.ReleaseThis(this);
+        }
+
         point[0] = master.transform.position; // P0
         point[1] = PointSetting(master.transform.position); // P1
         point[2] = PointSetting(enemy.transform.position); // P2
@@ -27,6 +32,13 @@ public class Bezier : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(enemy == null)
+        {
+            CustomPoolManager.Instance.ReleaseThis(this);
+        }
+
+        point[3] = enemy.transform.position; // P3
+
         if (t > 1f)
         {
             CustomPoolManager.Instance.ReleaseThis(this);
