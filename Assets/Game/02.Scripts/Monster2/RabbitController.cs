@@ -85,7 +85,7 @@ public class RabbitController : MonsterController
                 layDir = Vector3.right;
             }
 
-            if (Physics.Raycast(transform.position, layDir, Com2.capsuleCollider.radius + 0.1f, LayerMask.GetMask("Ground")))
+            if (Physics.Raycast(transform.position, layDir * 2, Com2.capsuleCollider.radius + 0.1f, LayerMask.GetMask("Ground")))
             {
                 if (transform.localEulerAngles == Vector3.zero)
                 {
