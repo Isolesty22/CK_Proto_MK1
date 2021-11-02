@@ -79,7 +79,8 @@ public enum eGloomState
 
     [InspectorName("위협")]
     Threat,
-    //[InspectorName("가시숲")]
+
+    [InspectorName("가시숲")]
     ThornForest,
 
     [InspectorName("방해")]

@@ -11,6 +11,7 @@ public class WhiskersHead : MonoBehaviour
     public float moveSpeed;
     public Transform target; //바라볼 타겟
     public Rigidbody rigidBody;
+    private Transform myTransform;
 
     private Vector2 dirtection;
 
@@ -25,12 +26,17 @@ public class WhiskersHead : MonoBehaviour
         {
             rigidBody = GetComponent<Rigidbody>();
         }
+        myTransform = GetComponent<Transform>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        GoRotate(); //헐 짱 편한데 델리게이트??? 뭐임이게?? 와...
+        GoRotate();
     }
+    //private void FixedUpdate()
+    //{
+    //    GoRotate();
+    //}
 
     void GoRotate()
     {
@@ -44,7 +50,8 @@ public class WhiskersHead : MonoBehaviour
         //------
 
 
-        rigidBody.position = target.position;
+        myTransform.position = target.position;
+       // rigidBody.position = target.position;
     }
 
 

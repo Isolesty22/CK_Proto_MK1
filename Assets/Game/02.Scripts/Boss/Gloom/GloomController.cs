@@ -124,7 +124,7 @@ public class GloomController : BossController
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eGloomState.Idle);
 
-        ChangeDirection(eDiretion.Left);
+        ChangeDirection(eDiretion.Right);
 
         Init_Animator();
         Init_Pools();

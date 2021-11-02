@@ -53,11 +53,11 @@ public class GloomState_Threat : GloomState
         gloom.SetTrigger("Threat_Start");
     }
 }
-public class GloomState_ThornForest : GloomState
+public class GloomState_ThornPath : GloomState
 {
     private eDiretion diretion;
     private int[] blockArr;
-    public GloomState_ThornForest(GloomController _gloomController)
+    public GloomState_ThornPath(GloomController _gloomController)
     {
         gloom = _gloomController;
     }
@@ -147,11 +147,11 @@ public class GloomState_Obstruct : GloomState
     }
 
 }
-public class GloomState_ThornPath : GloomState
+public class GloomState_ThornForest : GloomState
 {
     private eDiretion diretion;
     private int[] blockArr;
-    public GloomState_ThornPath(GloomController _gloomController)
+    public GloomState_ThornForest(GloomController _gloomController)
     {
         gloom = _gloomController;
     }
@@ -166,7 +166,7 @@ public class GloomState_ThornPath : GloomState
         blockArr = gloom.GetUsableBlockList(GloomController.eUsableBlockMode.Default).ToArray();
 
         gloom.SetAnimEvent(AnimEvent);
-        gloom.SetTrigger("ThornPath_Start");
+        gloom.SetTrigger("ThornForest_Start");
     }
 
 
