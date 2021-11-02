@@ -157,10 +157,6 @@ public class BearController : BossController
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eBearState.Idle);
 
-        //공격 받았을 때 해야할 일들
-        OnHitHandler = ReceiveDamage;
-        OnHitHandler += emissionController.OnHit;
-
         skillObjects.concentrateHelper.Init();
         bossPhaseValue.Init(hp);
 
@@ -207,10 +203,6 @@ public class BearController : BossController
 
     #endregion
 
-    private void Awake()
-    {
-        OnHitHandler = () => { };
-    }
     private void Start()
     {
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
@@ -390,18 +382,22 @@ public class BearController : BossController
     }
 
 
+    public override void OnHit()
+    {
+        ReceiveDamage();
+        emissionController.OnHit();
+    }
+
     private readonly string str_Arrow = "Arrow";
-
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(str_Arrow))
-        {
-            if (damage > 0f)
-            {
-                OnHitHandler();
-            }
+        {          
+            // damage = other.GetComponent<ArrowBase>().damage;
+
+            OnHit();
+
         }
     }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class BossController : MonoBehaviour
+public class BossController : MonoBehaviour, IDamageable
 {
 
     public Transform myTransform;
@@ -108,18 +108,18 @@ public class BossController : MonoBehaviour
     #endregion
 
 
-    /// <summary>
-    /// 공격에 맞았을 때 실행합니다.
-    /// </summary>
-    public Action OnHitHandler;
+    public virtual void OnHit()
+    {
+
+    }
 
     /// <summary>
     /// damage만큼 hp를 깎습니다.
     /// </summary>
-    protected void ReceiveDamage()
+    public virtual void ReceiveDamage()
     {
-        hp -= damage;
 
+        hp -= damage;
     }
 
 }

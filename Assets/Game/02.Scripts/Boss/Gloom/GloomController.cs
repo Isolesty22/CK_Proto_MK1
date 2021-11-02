@@ -13,30 +13,49 @@ public class GloomController : BossController
         public List<GloomPattern> phase_01_List = new List<GloomPattern>();
         public List<GloomPattern> phase_02_List = new List<GloomPattern>();
     }
+    [Serializable]
+    public class Pools
+    {
+        public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
+    }
+    [System.Serializable]
+    public class SkillObjects
+    {
+        [Header("방해 발사 위치")]
+        public Transform[] obstructTransforms;
+
+        [HideInInspector]
+        public Vector3[] obstructPositions;
+    }
+
 
     #endregion
+
+
     [Header("이동 시 사용하는 강체")]
     [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
     public Rigidbody myRigidbody;
 
+    [SerializeField]
+    private SkillObjects _skillObjects;
+
     [Header("페이즈가 전환되는 HP")]
     public BossPhaseValue bossPhaseValue;
 
+    [Header("패턴 관련")]
+    [SerializeField]
+    private Patterns _patterns;
 
     [HideInInspector]
     public GloomPattern currentPattern;
+    public Patterns patterns => _patterns;
+    public SkillObjects Skills => _skillObjects;
 
-    [Header("패턴 관련")]
-    public Patterns patterns;
+    [HideInInspector]
+    public Pools Pool;
 
     private List<List<GloomPattern>> phaseList = new List<List<GloomPattern>>();
 
-
-    private void Awake()
-    {
-        //데미지 받았을때 할 행동 
-        OnHitHandler = () => { };
-    }
     private void Start()
     {
         OnTimelineEnded();
@@ -68,6 +87,8 @@ public class GloomController : BossController
         stateMachine.StartState((int)eGloomState.Idle);
 
         Init_Animator();
+        Init_Pools();
+        Init_Skills();
     }
     private void Init_Animator()
     {
@@ -90,6 +111,28 @@ public class GloomController : BossController
 
     }
 
+    private void Init_Pools()
+    {
+        Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
+    }
+
+    private void Init_Skills()
+    {
+        UpdateObstructPositions();
+    }
+
+    /// <summary>
+    /// 방해 스킬의 위치를 재설정합니다.
+    /// </summary>
+    public void UpdateObstructPositions()
+    {
+        int length = Skills.obstructTransforms.Length;
+        Skills.obstructPositions = new Vector3[length];
+        for (int i = 0; i < length; i++)
+        {
+            Skills.obstructPositions[i] = Skills.obstructTransforms[i].localPosition;
+        }
+    }
 
 
     private int currentIndex = 0;
@@ -183,7 +226,7 @@ public class GloomController : BossController
 
     public override void ChangeState(int _state)
     {
-        base.ChangeState(_state);   
+        base.ChangeState(_state);
     }
     public override string GetStateToString(int _state)
     {

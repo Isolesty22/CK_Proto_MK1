@@ -6,8 +6,8 @@ public enum ePhase
 {
     Phase_1,
     Phase_2,
-  //  Phase_3,
-  //  Phase_Finish
+    //  Phase_3,
+    //  Phase_Finish
 }
 
 public enum eBearState
@@ -82,7 +82,7 @@ public enum eUIText
     DataDelete,
     DataSave,
     Exit,
-    
+
 
 }
 
@@ -141,6 +141,80 @@ public enum eDataManagerState
 
 }
 
+
+public enum eDiretion
+{
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+
+[System.Serializable]
+public class BoxColliderInfo
+{
+    public Vector3 center;
+    public Vector3 size;
+}
+
+[System.Serializable]
+public class MapBlock
+{
+    [System.Serializable]
+    public class Position
+    {
+        [ReadOnly]
+        public Vector3 min;
+
+        [ReadOnly]
+        public Vector3 max;
+
+        [ReadOnly]
+        public Vector3 groundCenter;
+
+        [ReadOnly]
+        public Vector3 topCenter;
+    }
+    public enum eType
+    {
+        None,
+        Empty,
+        Ignore,
+    }
+
+    [ReadOnly]
+    public eType type;
+
+    public Position position = new Position();
+
+    public void SetMinMax(Vector3 _min, Vector3 _max)
+    {
+        position.min = _min;
+        position.max = _max;
+    }
+
+    public void SetGroundCenter(Vector3 _groundCenter)
+    {
+        position.groundCenter = _groundCenter;
+    }
+    public void SetTopCenter(Vector3 _topCenter)
+    {
+        position.topCenter = _topCenter;
+    }
+
+    public void SetType(eType _type)
+    {
+        type = _type;
+    }
+
+}
+
+public interface IDamageable
+{
+    public void OnHit();
+    public void ReceiveDamage();
+}
 public class EnumCollection : MonoBehaviour
 {
 

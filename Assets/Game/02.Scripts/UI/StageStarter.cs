@@ -10,7 +10,6 @@ public class StageStarter : MonoBehaviour
     [Header("Null Check")]
     public bool isDebug;
 
-    [Header("Fade Out이전 대기 시간")]
     [Tooltip("스테이지 시작 후 출력되는 시작 UI가 출력되어있는 시간")]
     public float waitTime;
 
@@ -18,30 +17,16 @@ public class StageStarter : MonoBehaviour
     public UIStageStart uiStageStart;
     public void Start()
     {
-        StartCoroutine(WaitSceneLoading());
+        GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+
     }
 
-    private IEnumerator WaitSceneLoading()
+    public void OpenStageStarter()
     {
-        if (isDebug)
-        {
-            Debug.LogWarning("StageStarter : Debug Mode!! 빌드 시에는 isDebug를 꺼주세요.");
-            if (SceneChanger.Instance != null)
-            {
-                while (SceneChanger.Instance.isLoading)
-                {
-                    yield return null;
-                }
-            }
-        }
-        else
-        {
-            while (SceneChanger.Instance.isLoading)
-            {
-                yield return null;
-            }
-        }
-        //로딩이 끝날 때 까지 대기
+        StartCoroutine(OpenUI());
+    }
+    private IEnumerator OpenUI()
+    {
 
         yield return new WaitForSeconds(0.5f);
         //StageStart 열기.
@@ -57,6 +42,30 @@ public class StageStarter : MonoBehaviour
         yield return new WaitForSeconds(totalWaitTime);
 
         uiStageStart.Close();
-
     }
+    
+    //    private IEnumerator WaitSceneLoading()
+    //{
+    //    if (isDebug)
+    //    {
+    //        Debug.LogWarning("StageStarter : Debug Mode!! 빌드 시에는 isDebug를 꺼주세요.");
+    //        if (SceneChanger.Instance != null)
+    //        {
+    //            while (SceneChanger.Instance.isLoading)
+    //            {
+    //                yield return null;
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        while (SceneChanger.Instance.isLoading)
+    //        {
+    //            yield return null;
+    //        }
+    //    }
+    //    //로딩이 끝날 때 까지 대기
+
+
+    //}
 }

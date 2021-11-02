@@ -62,7 +62,7 @@ public class BearMapInfo : MonoBehaviour
     public MapData mapData = new MapData();
 
     [BeginReadOnlyGroup]
-    public BearBlock[] bearBlocks = new BearBlock[blockCount];
+    public MapBlock[] mapBlocks = new MapBlock[blockCount];
     [EndReadOnlyGroup]
 
     [HideInInspector]
@@ -74,7 +74,7 @@ public class BearMapInfo : MonoBehaviour
 
         //mapSize, mapPosition 계산
         UpdateMapVector();
-        UpdateBearBlocks();
+        UpdatemapBlocks();
         Init_Projectiles();
         Init_PhasePositions();
     }
@@ -87,7 +87,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init_PhasePositions()
     {
-        phase2Position = new Vector3(bearBlocks[0].position.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
+        phase2Position = new Vector3(mapBlocks[0].position.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
         phase3Position = bearTransform.position;
 
     }
@@ -105,7 +105,7 @@ public class BearMapInfo : MonoBehaviour
         mapData.maxPosition = new Vector3(mapData.position.x + mapData.extents.x, mapData.position.y + mapData.extents.y, mapData.position.z + mapData.extents.z);
     }
 
-    private void UpdateBearBlocks()
+    private void UpdatemapBlocks()
     {
         Vector3 tempMin = mapData.minPosition;
         Vector3 tempMax = mapData.maxPosition;
@@ -118,30 +118,30 @@ public class BearMapInfo : MonoBehaviour
         tempMin = new Vector3(tempMin.x, mapData.minPosition.y, mapData.minPosition.z);
         tempMax = new Vector3(tempMin.x + mapData.blockLength.x, mapData.maxPosition.y, mapData.maxPosition.z);
 
-        bearBlocks[0].SetMinMax(tempMin, tempMax);
-        bearBlocks[0].SetGroundCenter(CalcGroundCenter(bearBlocks[0].position));
-        bearBlocks[0].SetTopCenter(CalcTopCenter(bearBlocks[0].position));
+        mapBlocks[0].SetMinMax(tempMin, tempMax);
+        mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].position));
+        mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].position));
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
         {
-            tempMin = new Vector3(bearBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
+            tempMin = new Vector3(mapBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
             tempMax = new Vector3(mapData.minPosition.x + (mapData.blockLength.x * (i + 1)), mapData.maxPosition.y, mapData.maxPosition.z);
 
-            bearBlocks[i].SetMinMax(tempMin, tempMax);
-            bearBlocks[i].SetGroundCenter(CalcGroundCenter(bearBlocks[i].position));
-            bearBlocks[i].SetTopCenter(CalcTopCenter(bearBlocks[i].position));
+            mapBlocks[i].SetMinMax(tempMin, tempMax);
+            mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
+            mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
         }
 
     }
 
-    private Vector3 CalcGroundCenter(BearBlock.Position _bearBlockPosition)
+    private Vector3 CalcGroundCenter(MapBlock.Position _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.min.x + mapData.blockLength.x * 0.5f, _bearBlockPosition.min.y, mapData.position.z);
         return bottomCenter;
     }
 
-    private Vector3 CalcTopCenter(BearBlock.Position _bearBlockPosition)
+    private Vector3 CalcTopCenter(MapBlock.Position _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.groundCenter.x, _bearBlockPosition.max.y, mapData.position.z);
         return bottomCenter;
@@ -214,13 +214,13 @@ public class BearMapInfo : MonoBehaviour
     private void OnDrawGizmos()
     {
         UpdateMapVector();
-        UpdateBearBlocks();
+        UpdatemapBlocks();
         UpdateProjectilePositions();
         {
             Gizmos.color = Color.red;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawLine(bearBlocks[i].position.min, bearBlocks[i].position.max);
+                Gizmos.DrawLine(mapBlocks[i].position.min, mapBlocks[i].position.max);
             }
 
             Gizmos.color = Color.blue;
@@ -229,13 +229,13 @@ public class BearMapInfo : MonoBehaviour
             Gizmos.color = Color.grey;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawSphere(bearBlocks[i].position.groundCenter, 0.1f);
+                Gizmos.DrawSphere(mapBlocks[i].position.groundCenter, 0.1f);
             }
 
             Gizmos.color = Color.white;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawLine(bearBlocks[i].position.groundCenter, bearBlocks[i].position.topCenter);
+                Gizmos.DrawLine(mapBlocks[i].position.groundCenter, mapBlocks[i].position.topCenter);
             }
         }
 
@@ -249,43 +249,3 @@ public class BearMapInfo : MonoBehaviour
 
     }
 }
-
-[System.Serializable]
-public class BearBlock
-{
-    [System.Serializable]
-    public class Position
-    {
-        public Vector3 min;
-        public Vector3 max;
-
-        public Vector3 groundCenter;
-
-        public Vector3 topCenter;
-    }
-    public Position position = new Position();
-
-    public void SetMinMax(Vector3 _min, Vector3 _max)
-    {
-        position.min = _min;
-        position.max = _max;
-    }
-
-    public void SetGroundCenter(Vector3 _groundCenter)
-    {
-        position.groundCenter = _groundCenter;
-    }
-    public void SetTopCenter(Vector3 _topCenter)
-    {
-        position.topCenter = _topCenter;
-    }
-}
-
-[System.Serializable]
-public class BoxColliderInfo
-{
-    public Vector3 center;
-    public Vector3 size;
-}
-
-
