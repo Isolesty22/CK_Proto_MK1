@@ -909,33 +909,31 @@ MonoBehaviour:
   animator: {fileID: 6044616918742463136}
   runtimeAnimator: {fileID: 9100000, guid: d41977d244bdcfb42b7a9652eccef081, type: 2}
   animationEventListener: {fileID: 4055458780364317648}
-  hp: 450
+  hp: 500
   stateInfo:
     phase: 0
     state: 
     stateInt: 0
-  myRigidbody: {fileID: 7888774080316941161}
   bossPhaseValue:
     phase2Per: 0.5
     phase3Per: 0
     phase2Hp: 0
     phase3Hp: 0
+  _patterns:
+    phase_01_List: []
+    phase_02_List: []
+  _components:
+    rigidbody: {fileID: 7888774080316941161}
+    gloomMap: {fileID: 0}
+  _skillObjects:
+    obstructTransforms:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    obstructPositions: []
   currentPattern:
     state: 0
     waitTime: 0
-  patterns:
-    phase_01_List:
-    - state: 0
-      waitTime: 2
-    - state: 2
-      waitTime: 0
-    - state: 3
-      waitTime: 0
-    phase_02_List:
-    - state: 0
-      waitTime: 0
-    - state: 0
-      waitTime: 0
 --- !u!54 &7888774080316941161
 Rigidbody:
   m_ObjectHideFlags: 0

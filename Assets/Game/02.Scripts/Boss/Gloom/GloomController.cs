@@ -6,7 +6,7 @@ using UnityEngine;
 public class GloomController : BossController
 {
 
-    #region definitions
+    #region definitions---
     [Serializable]
     public class Components
     {
@@ -40,11 +40,6 @@ public class GloomController : BossController
 
     #endregion
 
-    [SerializeField]
-    private Components _components;
-
-    [SerializeField]
-    private SkillObjects _skillObjects;
 
     [Header("페이즈가 전환되는 HP")]
     public BossPhaseValue bossPhaseValue;
@@ -52,6 +47,16 @@ public class GloomController : BossController
     [Header("패턴 관련")]
     [SerializeField]
     private Patterns _patterns;
+
+
+    [Header("ETC-----------------------")]
+
+    [SerializeField]
+    private Components _components;
+
+    [SerializeField]
+    private SkillObjects _skillObjects;
+
 
     [HideInInspector]
     public GloomPattern currentPattern;
