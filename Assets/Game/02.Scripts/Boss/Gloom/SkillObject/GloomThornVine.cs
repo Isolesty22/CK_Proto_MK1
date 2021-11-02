@@ -105,6 +105,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         Com.material.SetFloat(str_Amount, 0f);
         Com.material.SetColor(str_TexColor, Val.originalColor);
 
+        Effect.thornSign.SetActive(false);
         Com.collider.enabled = true;
         hitCoroutine = null;
 
@@ -136,8 +137,10 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         float timer = 0f;
         float progress = 0f;
 
+        Effect.thornSign.SetActive(true);
         //대기시간만큼 기다린 다음에 생성 시작
         yield return Val.waitTime;
+        Effect.thornSign.SetActive(false);
 
         while (progress < 1f)
         {
