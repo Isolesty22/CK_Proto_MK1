@@ -132,7 +132,15 @@ public class GloomState_Leap : GloomState
         gloom.myTransform.position = pos.startTop;
         //점프가 끝나면 착지 이벤트 실행
         //gloom.SetAnimEvent(AnimEvent_Fall);
+
+        yield return new WaitForSeconds(1f);
         gloom.StartCoroutine(ProcessAnimEvent_Fall());
+    }
+
+    private IEnumerator DelayLeapEndAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        gloom.SetTrigger("Leap_End");
     }
     private IEnumerator ProcessAnimEvent_Fall()
     {
@@ -158,7 +166,7 @@ public class GloomState_Leap : GloomState
         float timer = 0f;
         float progress = 0f;
 
-        gloom.SetTrigger("Leap_End");
+        gloom.StartCoroutine(DelayLeapEndAnimation());
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -173,6 +181,7 @@ public class GloomState_Leap : GloomState
         }
 
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
+        //gloom.SetTrigger("Leap_End");
 
         canExit = true;
         yield break;
