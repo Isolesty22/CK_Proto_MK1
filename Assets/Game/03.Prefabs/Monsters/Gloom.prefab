@@ -1078,12 +1078,19 @@ MonoBehaviour:
     thornPattern:
       hp: 5
       waitTime: 1.5
+    leapPattern:
+      upTime: 1.08
+      downTime: 1.54
+      leapEffectDuration: 0
+      upPosValue: 30.08
   _patterns:
     phase_01_List:
     - state: 0
-      waitTime: 1
-    - state: 7
       waitTime: 0
+    - state: 7
+      waitTime: 1
+    - state: 3
+      waitTime: 1
     phase_02_List: []
   diretion: 0
   _components:
