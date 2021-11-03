@@ -48,6 +48,8 @@ public class GloomState_Leap : GloomState
     }
     #endregion
 
+    private eDiretion endDirection;
+
     private Position pos = new Position();
     private Rotation rot = new Rotation();
 
@@ -73,6 +75,7 @@ public class GloomState_Leap : GloomState
             rot.end = Quaternion.Euler(new Vector3(0f, -90, 0f));
 
             gloom.ChangeDirection(eDiretion.Left);
+            endDirection = eDiretion.Left;
 
         }
         //왼쪽이면
@@ -86,6 +89,7 @@ public class GloomState_Leap : GloomState
             rot.end = Quaternion.Euler(new Vector3(0f, 90f, 0f));
 
             gloom.ChangeDirection(eDiretion.Right);
+            endDirection = eDiretion.Right;
         }
 
         //상승 위치 설정
@@ -139,7 +143,7 @@ public class GloomState_Leap : GloomState
         while (progress < 1f)
         {
             timer += Time.deltaTime;
-            progress = timer / leapValue.upTime;
+            progress = timer / leapValue.downTime;
 
             gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
                 Quaternion.Lerp(rot.start, rot.end, progress));
@@ -151,6 +155,22 @@ public class GloomState_Leap : GloomState
 
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
 
+        if (endDirection == eDiretion.Right)
+        {
+            if (gloom.ContainsThornVineDict(6))
+            {
+                gloom.SkillObj.aliveThornVineDict[6].StartDie();
+            }
+        }
+        else
+        {
+            if (gloom.ContainsThornVineDict(0))
+            {
+                gloom.SkillObj.aliveThornVineDict[0].StartDie();
+            }
+        }
+
+        canExit = true;
         yield break;
     }
 }
@@ -215,8 +235,9 @@ public class GloomState_ThornPath : GloomState
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
                 //초기화
+                thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
@@ -232,8 +253,9 @@ public class GloomState_ThornPath : GloomState
             GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
             //초기화
+            thornVine.gloom = gloom;
             thornVine.Init();
-            thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+            thornVine.SetValues(block, blockArr[0], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
             thornVine.UpdateEndPosition();
 
             thornVine.StartGrow();
@@ -394,10 +416,10 @@ public class GloomState_ThornForest : GloomState
 
                 //풀에서 꺼냄
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
-
                 //초기화
+                thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
@@ -425,8 +447,10 @@ public class GloomState_ThornForest : GloomState
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
                 //초기화
+                thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();

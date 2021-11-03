@@ -29,6 +29,10 @@ public class GloomController : BossController
     [Serializable]
     public class SkillObjects
     {
+        /// <summary>
+        /// int = 소환될 당시의 인덱스 값
+        /// </summary>
+        public Dictionary<int,GloomThornVine> aliveThornVineDict = new Dictionary<int, GloomThornVine>();
         [Header("방해 발사 위치")]
         public Transform[] obstructTransforms;
 
@@ -383,6 +387,19 @@ public class GloomController : BossController
         return base.GetStateToString(_state);
     }
 
+    public void AddThornVineDict(int _index, GloomThornVine _thornVine)
+    {
+        Debug.Log("Add! : " + _index);
+        SkillObj.aliveThornVineDict.Add(_index, _thornVine);
+    }
+    public void RemoveThornVineDict(int _index)
+    {
+        SkillObj.aliveThornVineDict.Remove(_index);
+    }
+    public bool ContainsThornVineDict(int _index)
+    {
+        return SkillObj.aliveThornVineDict.ContainsKey(_index);
+    }
 
 }
 

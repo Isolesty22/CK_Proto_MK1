@@ -84,6 +84,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     public Values Val => _values;
     public Components Com => _components;
     public Effects Effect => _effects;
+
+    [HideInInspector]
+    public GloomController gloom;
     #endregion
 
     private IEnumerator hitCoroutine = null;
@@ -111,8 +114,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         currentState = eState.Idle;
     }
-    public void SetValues(MapBlock _block, int _hp, float _waitTime, Vector3 _startPos)
+    public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
     {
+        currentIndex = _index;
         currentBlock = _block;
         hp = _hp;
         Val.waitTime = new WaitForSeconds(_waitTime);
@@ -129,7 +133,11 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     }
     private IEnumerator ProcessGrow()
     {
-
+        //딕셔너리에 들어가있지 않으면 추가
+        if (!gloom.ContainsThornVineDict(currentIndex))
+        {
+            gloom.AddThornVineDict(currentIndex, this);
+        }
         Vector3 testRotation = new Vector3(0f, 300f, 0f);
 
         currentState = eState.Grow;
@@ -162,8 +170,19 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         hitCoroutine = null;
     }
+
+    public void StartDie()
+    {
+        StartCoroutine(ProcessDie());
+    }
     private IEnumerator ProcessDie()
     {
+        //딕셔너리에 들어가있으면 삭제
+        if (gloom.ContainsThornVineDict(currentIndex))
+        {
+            gloom.RemoveThornVineDict(currentIndex);
+        }
+
         if (Val.fadeOutTime <= 0f)
         {
             Val.fadeOutTime = 1f;
@@ -189,7 +208,8 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         //원래 타입으로 돌리기
         currentBlock.SetCurrentTypeToOrigin();
 
-        CustomPoolManager.Instance.GetPool<GloomThornVine>().ReleaseThis(this);
+        gloom.Pool.thornVine.ReleaseThis(this);
+
     }
 
 
