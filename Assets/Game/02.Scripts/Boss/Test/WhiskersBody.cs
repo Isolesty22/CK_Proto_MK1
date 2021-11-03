@@ -74,7 +74,7 @@ public class WhiskersBody : MonoBehaviour
     }
 
 
-    private void Update()
+    private void LateUpdate()
     {
         MoveLines();
         

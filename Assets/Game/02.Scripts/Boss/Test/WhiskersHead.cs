@@ -45,7 +45,7 @@ public class WhiskersHead : MonoBehaviour
         float angle = Mathf.Atan2(dirtection.y, dirtection.x) * Mathf.Rad2Deg;
 
         //이쪽을 적절하게 조절해서 방향 변경-----
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         //rigidBody.rotation = Quaternion.Slerp(rigidBody.transform.rotation, rotation, rotationSpeed * Time.smoothDeltaTime);
         //------
 
