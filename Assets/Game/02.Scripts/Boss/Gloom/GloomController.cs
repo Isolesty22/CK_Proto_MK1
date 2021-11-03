@@ -10,8 +10,7 @@ public class GloomController : BossController
     [Serializable]
     public class Components
     {
-        [Header("이동 시 사용하는 강체")]
-        [Tooltip("글룸은 이동할 때 트랜스폼을 사용하지 않고, \n리지드바디를 사용합니다.")]
+        [Header("이동 시 사용하는 강체(자주 사용하지 않음)")]
         public Rigidbody rigidbody;
         public GloomMap gloomMap;
     }
@@ -49,9 +48,25 @@ public class GloomController : BossController
             [Tooltip("이펙트 발생 이후 waitTime만큼 대기하고 덩쿨을 생성합니다.")]
             public float waitTime;
         }
+        [Serializable]
+        public struct LeapPattern
+        {
+            [Tooltip("점프 시 위로 상승하는 시간입니다. 값이 적을수록 더 빠르게 상승합니다.")]
+            public float upTime;
+            [Tooltip("착지 시 아래로 하강하는 시간입니다. 값이 적을수록 더 빠르게 하강합니다.")]
+            public float downTime;
+
+            [Tooltip("도약으로 인해 생긴 불꽃의 지속 시간입니다.")]
+            public float leapEffectDuration;
+            [Space(10)]
+            [Tooltip("화면 밖으로 상승하기 위해 더하는 값입니다.")]
+            public float upPosValue;
+        }
+
         #endregion
 
         public ThornPattern thornPattern;
+        public LeapPattern leapPattern;
     }
 
     #endregion
@@ -179,6 +194,14 @@ public class GloomController : BossController
     private int currentIndex = 0;
     private IEnumerator ExecutePattern()
     {
+        if (diretion==eDiretion.Right)
+        {
+            myTransform.position = Com.gloomMap.gloomPos_Right.position;
+        }
+        else
+        {
+            myTransform.position = Com.gloomMap.gloomPos_Left.position;
+        }
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
         int length = phaseList[stateInfo].Count;

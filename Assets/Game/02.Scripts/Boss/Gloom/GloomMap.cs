@@ -44,6 +44,9 @@ public class GloomMap : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
+    public Transform gloomPos_Left;
+    public Transform gloomPos_Right;
+
     [Tooltip("맵의 방향")]
     [HideInInspector]
     public eDiretion mapDirection;
@@ -260,7 +263,7 @@ public class GloomMap : MonoBehaviour
 
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
         UpdateMapVector();
         UpdateMapBlocks();

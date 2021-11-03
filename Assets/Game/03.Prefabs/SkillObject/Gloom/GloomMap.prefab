@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6930997278882272316
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2502134414525930805}
+  m_Layer: 2
+  m_Name: GloomPos_Right
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2502134414525930805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6930997278882272316}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.61, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7065911887380484440}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7065911887380484441
 GameObject:
   m_ObjectHideFlags: 0
@@ -28,7 +58,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.07, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 3094607623710824548}
+  - {fileID: 2502134414525930805}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -59,6 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mapCollider: {fileID: 7065911887380484442}
   myTransform: {fileID: 7065911887380484440}
+  gloomPos_Left: {fileID: 3094607623710824548}
+  gloomPos_Right: {fileID: 2502134414525930805}
   mapDirection: 0
   emptyIndex: 3
   emptyGroundPosY: -2.35
@@ -67,59 +101,89 @@ MonoBehaviour:
   projectileRandArray: 
   mapData:
     size: {x: 22.575954, y: 6.5574822, z: 5.3757963}
-    position: {x: 2.07, y: 2.0387404, z: 0}
-    minPosition: {x: -9.217978, y: -1.2400007, z: -2.6878982}
-    maxPosition: {x: 13.357977, y: 5.3174815, z: 2.6878982}
+    position: {x: 2.01, y: 2.0387404, z: 0}
+    minPosition: {x: -9.277977, y: -1.2400007, z: -2.6878982}
+    maxPosition: {x: 13.297977, y: 5.3174815, z: 2.6878982}
     extents: {x: 11.287977, y: 3.2787411, z: 2.6878982}
     blockLength: {x: 3.2251363, y: 0.9367832, z: 0.7679709}
   mapBlocks:
   - currentType: 0
     position:
-      min: {x: -9.217978, y: -1.2400007, z: -2.6878982}
-      max: {x: -5.9928412, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: -7.6054096, y: -1.2400007, z: 0}
-      topCenter: {x: -7.6054096, y: 5.3174815, z: 0}
+      min: {x: -9.277977, y: -1.2400007, z: -2.6878982}
+      max: {x: -6.0528407, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: -7.665409, y: -1.2400007, z: 0}
+      topCenter: {x: -7.665409, y: 5.3174815, z: 0}
   - currentType: 0
     position:
-      min: {x: -5.9928412, y: -1.2400007, z: -2.6878982}
-      max: {x: -2.767705, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: -4.380273, y: -1.2400007, z: 0}
-      topCenter: {x: -4.380273, y: 5.3174815, z: 0}
+      min: {x: -6.0528407, y: -1.2400007, z: -2.6878982}
+      max: {x: -2.8277044, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: -4.4402723, y: -1.2400007, z: 0}
+      topCenter: {x: -4.4402723, y: 5.3174815, z: 0}
   - currentType: 0
     position:
-      min: {x: -2.767705, y: -1.2400007, z: -2.6878982}
-      max: {x: 0.45743132, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: -1.1551368, y: -1.2400007, z: 0}
-      topCenter: {x: -1.1551368, y: 5.3174815, z: 0}
+      min: {x: -2.8277044, y: -1.2400007, z: -2.6878982}
+      max: {x: 0.39743185, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: -1.2151363, y: -1.2400007, z: 0}
+      topCenter: {x: -1.2151363, y: 5.3174815, z: 0}
   - currentType: 1
     position:
-      min: {x: 0.45743132, y: -1.2400007, z: -2.6878982}
-      max: {x: 3.6825676, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: 2.0699995, y: -1.2400007, z: 0}
-      topCenter: {x: 2.0699995, y: 5.3174815, z: 0}
+      min: {x: 0.39743185, y: -1.2400007, z: -2.6878982}
+      max: {x: 3.6225681, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: 2.01, y: -3.5900006, z: 0}
+      topCenter: {x: 2.01, y: 5.3174815, z: 0}
   - currentType: 0
     position:
-      min: {x: 3.6825676, y: -1.2400007, z: -2.6878982}
-      max: {x: 6.907704, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: 5.2951355, y: -1.2400007, z: 0}
-      topCenter: {x: 5.2951355, y: 5.3174815, z: 0}
+      min: {x: 3.6225681, y: -1.2400007, z: -2.6878982}
+      max: {x: 6.8477044, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: 5.235136, y: -1.2400007, z: 0}
+      topCenter: {x: 5.235136, y: 5.3174815, z: 0}
   - currentType: 0
     position:
-      min: {x: 6.907704, y: -1.2400007, z: -2.6878982}
-      max: {x: 10.13284, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: 8.520272, y: -1.2400007, z: 0}
-      topCenter: {x: 8.520272, y: 5.3174815, z: 0}
+      min: {x: 6.8477044, y: -1.2400007, z: -2.6878982}
+      max: {x: 10.072841, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: 8.460273, y: -1.2400007, z: 0}
+      topCenter: {x: 8.460273, y: 5.3174815, z: 0}
   - currentType: 0
     position:
-      min: {x: 10.13284, y: -1.2400007, z: -2.6878982}
-      max: {x: 13.357977, y: 5.3174815, z: 2.6878982}
-      groundCenter: {x: 11.745408, y: -1.2400007, z: 0}
-      topCenter: {x: 11.745408, y: 5.3174815, z: 0}
+      min: {x: 10.072841, y: -1.2400007, z: -2.6878982}
+      max: {x: 13.297977, y: 5.3174815, z: 2.6878982}
+      groundCenter: {x: 11.685409, y: -1.2400007, z: 0}
+      topCenter: {x: 11.685409, y: 5.3174815, z: 0}
   projectilePositions:
-  - {x: -7.6054096, y: 5.3174815, z: 0}
-  - {x: -4.3802733, y: 5.3174815, z: 0}
-  - {x: -1.1551371, y: 5.3174815, z: 0}
-  - {x: 2.0699992, y: 5.3174815, z: 0}
-  - {x: 5.2951355, y: 5.3174815, z: 0}
-  - {x: 8.520271, y: 5.3174815, z: 0}
-  - {x: 11.745407, y: 5.3174815, z: 0}
+  - {x: -7.665409, y: 5.3174815, z: 0}
+  - {x: -4.440273, y: 5.3174815, z: 0}
+  - {x: -1.2151365, y: 5.3174815, z: 0}
+  - {x: 2.0099998, y: 5.3174815, z: 0}
+  - {x: 5.235136, y: 5.3174815, z: 0}
+  - {x: 8.460272, y: 5.3174815, z: 0}
+  - {x: 11.685408, y: 5.3174815, z: 0}
+--- !u!1 &9146678528733560474
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3094607623710824548}
+  m_Layer: 2
+  m_Name: GloomPos_Left
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3094607623710824548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9146678528733560474}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.7, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7065911887380484440}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

@@ -31,13 +31,127 @@ public class GloomState_Chase : GloomState
 }
 public class GloomState_Leap : GloomState
 {
+
+    #region definition
+    private class Position
+    {
+        public Vector3 start;
+        public Vector3 end;
+
+        public Vector3 startTop;
+        public Vector3 endTop;
+    }
+    private class Rotation
+    {
+        public Quaternion start;
+        public Quaternion end;
+    }
+    #endregion
+
+    private Position pos = new Position();
+    private Rotation rot = new Rotation();
+
+    private GloomController.SkillValues.LeapPattern leapValue;
     public GloomState_Leap(GloomController _gloomController)
     {
         gloom = _gloomController;
+        leapValue = gloom.SkillVal.leapPattern;
     }
     public override void OnEnter()
     {
         canExit = false;
+
+
+        //현재 위치가 오른쪽이면
+        if (gloom.diretion == eDiretion.Right)
+        {
+            //오른쪽에서 왼쪽으로 이동하게 설정
+            pos.start = gloom.Com.gloomMap.gloomPos_Right.position;
+            pos.end = gloom.Com.gloomMap.gloomPos_Left.position;
+
+            rot.start = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+            rot.end = Quaternion.Euler(new Vector3(0f, -90, 0f));
+
+            gloom.ChangeDirection(eDiretion.Left);
+
+        }
+        //왼쪽이면
+        else
+        {
+            //왼쪽에서 오른쪽으로 이동하게 설정
+            pos.start = gloom.Com.gloomMap.gloomPos_Left.position;
+            pos.end = gloom.Com.gloomMap.gloomPos_Right.position;
+
+            rot.start = Quaternion.Euler(new Vector3(0f, -90f, 0f));
+            rot.end = Quaternion.Euler(new Vector3(0f, 90f, 0f));
+
+            gloom.ChangeDirection(eDiretion.Right);
+        }
+
+        //상승 위치 설정
+        pos.startTop = new Vector3(pos.start.x, pos.start.y + leapValue.upPosValue, pos.start.z);
+        pos.endTop = new Vector3(pos.end.x, pos.end.y + leapValue.upPosValue, pos.end.z);
+
+        gloom.SetTrigger("Leap_Start");
+        gloom.SetAnimEvent(AnimEvent_Jump);
+    }
+
+    public void AnimEvent_Jump()
+    {
+        gloom.StartCoroutine(ProcessAnimEvent_Jump());
+
+    }
+    //public void AnimEvent_Fall()
+    //{
+    //    gloom.StartCoroutine(ProcessAnimEvent_Fall());
+    //}
+    private IEnumerator ProcessAnimEvent_Jump()
+    {
+        float timer = 0f;
+        float progress = 0f;
+
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / leapValue.upTime;
+
+            //gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.start, pos.startTop, progress),
+            //    Quaternion.Lerp(rot.start, rot.end, progress));
+
+            gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
+            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
+            yield return null;
+        }
+
+        //gloom.myTransform.SetPositionAndRotation(pos.startTop, rot.start);
+
+        gloom.myTransform.position = pos.startTop;
+        //점프가 끝나면 착지 이벤트 실행
+        //gloom.SetAnimEvent(AnimEvent_Fall);
+        gloom.StartCoroutine(ProcessAnimEvent_Fall());
+    }
+    private IEnumerator ProcessAnimEvent_Fall()
+    {
+        float timer = 0f;
+        float progress = 0f;
+
+        gloom.SetTrigger("Leap_End");
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / leapValue.upTime;
+
+            gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
+                Quaternion.Lerp(rot.start, rot.end, progress));
+
+            //gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
+            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
+            yield return null;
+        }
+
+        gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
+
+        yield break;
     }
 }
 public class GloomState_Threat : GloomState

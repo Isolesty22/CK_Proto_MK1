@@ -208,7 +208,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
     public void OnHit()
     {
-        if (currentState == eState.Idle && hp <= 0)
+        if (currentState == eState.Idle && hp <= 1)
         {
             currentState = eState.Die;
             StartCoroutine(ProcessDie());
