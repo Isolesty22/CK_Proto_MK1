@@ -52,12 +52,14 @@ public class GloomState_Leap : GloomState
 
     private Position pos = new Position();
     private Rotation rot = new Rotation();
+    private WaitForSeconds downAnimTime = null;
 
     private GloomController.SkillValues.LeapPattern leapValue;
     public GloomState_Leap(GloomController _gloomController)
     {
         gloom = _gloomController;
         leapValue = gloom.SkillVal.leapPattern;
+        downAnimTime = new WaitForSeconds(leapValue.downTime - leapValue.downAnimTime);
     }
     public override void OnEnter()
     {
@@ -134,15 +136,18 @@ public class GloomState_Leap : GloomState
         //gloom.SetAnimEvent(AnimEvent_Fall);
 
         yield return new WaitForSeconds(1f);
-        gloom.StartCoroutine(ProcessAnimEvent_Fall());
+        gloom.StartCoroutine(ProcessAnimEvent_Fall_DelayAnimation());
     }
 
     private IEnumerator DelayLeapEndAnimation()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return downAnimTime;
         gloom.SetTrigger("Leap_End");
     }
-    private IEnumerator ProcessAnimEvent_Fall()
+    /// <summary>
+    /// End애니메이션을 시간조절로 실행
+    /// </summary>
+    private IEnumerator ProcessAnimEvent_Fall_DelayAnimation()
     {
 
 
@@ -182,6 +187,54 @@ public class GloomState_Leap : GloomState
 
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
         //gloom.SetTrigger("Leap_End");
+
+        canExit = true;
+        yield break;
+    }
+
+    /// <summary>
+    /// End애니메이션을 착지 이동이 끝난 후에 실행
+    /// </summary>
+    private IEnumerator ProcessAnimEvent_Fall()
+    {
+
+
+        //착지 자리에 있는 덩쿨 없애기 
+        if (endDirection == eDiretion.Right)
+        {
+            if (gloom.ContainsThornVineDict(6))
+            {
+                gloom.SkillObj.aliveThornVineDict[6].StartDelayDie();
+            }
+        }
+        else
+        {
+            if (gloom.ContainsThornVineDict(0))
+            {
+                gloom.SkillObj.aliveThornVineDict[0].StartDelayDie();
+            }
+        }
+
+
+        float timer = 0f;
+        float progress = 0f;
+
+        //gloom.StartCoroutine(DelayLeapEndAnimation());
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / leapValue.downTime;
+
+            gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
+                Quaternion.Lerp(rot.start, rot.end, progress));
+
+            //gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
+            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
+            yield return null;
+        }
+
+        gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
+        gloom.SetTrigger("Leap_End");
 
         canExit = true;
         yield break;

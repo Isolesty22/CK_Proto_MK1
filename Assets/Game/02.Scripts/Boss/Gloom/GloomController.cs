@@ -59,6 +59,8 @@ public class GloomController : BossController
             public float upTime;
             [Tooltip("착지 시 아래로 하강하는 시간입니다. 값이 적을수록 더 빠르게 하강합니다.")]
             public float downTime;
+            [Tooltip("착지 애니메이션의 실행 시간입니다. 착지가 끝나기 downAnimTime초 전에 애니메이션이 실행됩니다.")]
+            public float downAnimTime;
 
             [Tooltip("도약으로 인해 생긴 불꽃의 지속 시간입니다.")]
             public float leapEffectDuration;
