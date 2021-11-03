@@ -136,6 +136,25 @@ public class GloomState_Leap : GloomState
     }
     private IEnumerator ProcessAnimEvent_Fall()
     {
+
+
+        //ÂøÁö ÀÚ¸®¿¡ ÀÖ´Â µ¢Äð ¾ø¾Ö±â 
+        if (endDirection == eDiretion.Right)
+        {
+            if (gloom.ContainsThornVineDict(6))
+            {
+                gloom.SkillObj.aliveThornVineDict[6].StartDelayDie();
+            }
+        }
+        else
+        {
+            if (gloom.ContainsThornVineDict(0))
+            {
+                gloom.SkillObj.aliveThornVineDict[0].StartDelayDie();
+            }
+        }
+
+
         float timer = 0f;
         float progress = 0f;
 
@@ -154,21 +173,6 @@ public class GloomState_Leap : GloomState
         }
 
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
-
-        if (endDirection == eDiretion.Right)
-        {
-            if (gloom.ContainsThornVineDict(6))
-            {
-                gloom.SkillObj.aliveThornVineDict[6].StartDie();
-            }
-        }
-        else
-        {
-            if (gloom.ContainsThornVineDict(0))
-            {
-                gloom.SkillObj.aliveThornVineDict[0].StartDie();
-            }
-        }
 
         canExit = true;
         yield break;

@@ -28,6 +28,13 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         [HideInInspector]
         public Vector3 endPosition;
+
+        [Space(10)]
+        [Tooltip("글룸이 도약을 사용헀을 때, 해당 위치에 존재할 경우 gloomAttackDelayTime 이후에 사망 처리 됩니다.")]
+        public float gloomAttackDelayTime;
+
+        [HideInInspector]
+        public WaitForSeconds gloomDelayTime = null;
     }
 
     [System.Serializable]
@@ -111,8 +118,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         Effect.thornSign.SetActive(false);
         Com.collider.enabled = true;
         hitCoroutine = null;
-
         currentState = eState.Idle;
+
+        Val.gloomDelayTime = new WaitForSeconds(Val.gloomAttackDelayTime);
     }
     public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
     {
@@ -171,8 +179,16 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         hitCoroutine = null;
     }
 
-    public void StartDie()
+    public void StartDelayDie()
     {
+        StartCoroutine(DelayDie());
+    }
+
+
+    private IEnumerator DelayDie()
+    {
+       yield return Val.gloomDelayTime;
+        //대기 후 죽음
         StartCoroutine(ProcessDie());
     }
     private IEnumerator ProcessDie()
