@@ -28,7 +28,7 @@ public class BearProjectile : MonoBehaviour
         {
             //OnTrigger = OnTrigger_CanParry;
             OnTrigger = OnTrigger_Despawn;
-            gameObject.tag = "Monster";
+            gameObject.tag = "ParryingObject";
         }
         else
         {

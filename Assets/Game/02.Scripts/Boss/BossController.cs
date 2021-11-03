@@ -23,7 +23,8 @@ public class BossController : MonoBehaviour, IDamageable
     [Range(0, 600)]
     public float hp = 450f;
 
-    [Space(10)]
+
+    [HideInInspector]
     [Tooltip("현재 상태")]
     public StateInfo stateInfo = new StateInfo();
 

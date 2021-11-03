@@ -65,13 +65,37 @@ public enum eBearState
 
 public enum eGloomState
 {
+    [InspectorName("대기/(None)")]
     None,
+
+    [InspectorName("대기/(Idle_사용금지)")]
     Idle,
-    //Leap,
-    Threat,
-    Obstruct,
+
+    //[InspectorName("추격")]
     Chase,
+
+    //[InspectorName("도약")]
+    Leap,
+
+    [InspectorName("위협")]
+    Threat,
+
+    [InspectorName("가시숲")]
+    ThornForest,
+
+    [InspectorName("방해")]
+    Obstruct,
+
+    [InspectorName("가시밭길")]
+    ThornPath,
+
+    //[InspectorName("소환")]
+    Summon,
+
+    [InspectorName("광폭화(사용금지)")]
     Berserk,
+
+    [InspectorName("죽음(사용금지)")]
     Die
 
 }
@@ -180,14 +204,18 @@ public class MapBlock
     {
         None,
         Empty,
-        Ignore,
+        Used,
     }
-
+    private eType originType;
     [ReadOnly]
-    public eType type;
+    public eType currentType;
 
     public Position position = new Position();
 
+    public void SetOriginType(eType _type)
+    {
+        originType = _type;
+    }
     public void SetMinMax(Vector3 _min, Vector3 _max)
     {
         position.min = _min;
@@ -203,9 +231,13 @@ public class MapBlock
         position.topCenter = _topCenter;
     }
 
-    public void SetType(eType _type)
+    public void SetCurrentType(eType _type)
     {
-        type = _type;
+        currentType = _type;
+    }
+    public void SetCurrentTypeToOrigin()
+    {
+        currentType = originType;
     }
 
 }

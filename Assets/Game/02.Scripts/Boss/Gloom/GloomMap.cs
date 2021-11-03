@@ -44,20 +44,24 @@ public class GloomMap : MonoBehaviour
     public BoxCollider mapCollider;
     public Transform myTransform;
 
+    public Transform gloomPos_Left;
+    public Transform gloomPos_Right;
+
     [Tooltip("맵의 방향")]
     [HideInInspector]
     public eDiretion mapDirection;
 
-    [Header("낭떠러지 인덱스")]
+    [Header("낭떠러지 관련")]
+    [Tooltip("낭떠러지로 지정할 블록의 인덱스")]
     public int emptyIndex;
-
+    [Tooltip("낭떠러지로 지정할 블록의 땅 판정 위치")]
+    public float emptyGroundPosY;
 
     [Header("양 옆 제외할 블록 개수")]
     [Tooltip("보스의 위치에 따라서 양 옆에 있는 블록을 사용하지 않는데, " +
         "그 때 몇 개 만큼 제외할지의 개수입니다. " +
         "기즈모로 표현되지는 않습니다.")]
-    [SerializeField]
-    private int exclusiveCount = 1;
+    public int exclusiveCount = 1;
 
 
     [Header("투사체 등 위치 개수")]
@@ -85,6 +89,7 @@ public class GloomMap : MonoBehaviour
         UpdateMapVector();
         UpdateMapBlocks();
         Init_Projectiles();
+        Init_MapBlocksType();
 
     }
     public void Init_Projectiles()
@@ -125,7 +130,6 @@ public class GloomMap : MonoBehaviour
         mapBlocks[0].SetMinMax(tempMin, tempMax);
         mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].position));
         mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].position));
-        mapBlocks[0].SetType(MapBlock.eType.None);
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
@@ -136,21 +140,31 @@ public class GloomMap : MonoBehaviour
             mapBlocks[i].SetMinMax(tempMin, tempMax);
             mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
             mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
+        }
+        Vector3 originPos = mapBlocks[emptyIndex].position.groundCenter;
+        mapBlocks[emptyIndex].SetGroundCenter(new Vector3(originPos.x, originPos.y+emptyGroundPosY, originPos.z));
+    }
 
-            mapBlocks[i].SetType(MapBlock.eType.None);
+
+    private void Init_MapBlocksType()
+    {
+        for (int i = 0; i < blockCount; i ++)
+        {
+
+            mapBlocks[i].SetOriginType(MapBlock.eType.None);
+            mapBlocks[i].SetCurrentTypeToOrigin();
         }
 
         if (emptyIndex < blockCount && emptyIndex >= 0)
         {
-            mapBlocks[emptyIndex].type = MapBlock.eType.Empty;
+            mapBlocks[emptyIndex].SetOriginType(MapBlock.eType.Empty);
+            mapBlocks[emptyIndex].SetCurrentTypeToOrigin();
         }
         else
         {
             Debug.LogWarning("낭떠러지는 블록의 범위 내여야 합니다. 설정하지 못했습니다.");
         }
-
     }
-
     private Vector3 CalcGroundCenter(MapBlock.Position _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.min.x + mapData.blockLength.x * 0.5f, _bearBlockPosition.min.y, mapData.position.z);
@@ -248,6 +262,7 @@ public class GloomMap : MonoBehaviour
         }
 
     }
+
     private void OnDrawGizmos()
     {
         UpdateMapVector();
@@ -257,7 +272,7 @@ public class GloomMap : MonoBehaviour
 
             for (int i = 0; i < blockCount; i++)
             {
-                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                if (mapBlocks[i].currentType == MapBlock.eType.Empty)
                 {
                     Gizmos.color = Color.black;
                 }
@@ -281,7 +296,7 @@ public class GloomMap : MonoBehaviour
             for (int i = 0; i < blockCount; i++)
             {
                 //만약 빈공간이면
-                if (mapBlocks[i].type == MapBlock.eType.Empty)
+                if (mapBlocks[i].currentType == MapBlock.eType.Empty)
                 {
                     Gizmos.color = Color.black;
                 }
@@ -307,4 +322,5 @@ public class GloomMap : MonoBehaviour
 
     }
 }
+
 
