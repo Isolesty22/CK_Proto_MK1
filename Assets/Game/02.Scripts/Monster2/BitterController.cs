@@ -12,8 +12,6 @@ public class BitterController : MonsterController
     {
         public float upRange;
         public float upDownSpeed;
-
-        public int attackAnimNum;
     }
 
     [Serializable]
@@ -34,7 +32,6 @@ public class BitterController : MonsterController
     {
         base.Initialize();
         Utility.KillTween(tween);
-        Com.animator.SetInteger("attackNum", Stat2.attackAnimNum);
     }
 
     public override void Awake()

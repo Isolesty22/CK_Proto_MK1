@@ -10,6 +10,10 @@ public class DarkJinnDustController : MonsterController
     public class DarkJinnDustStatus
     {
         public float blinkTime;
+        [Header("Sub Status")]
+        public bool isNonChaseP = false;
+
+        public string shootDir = "NULL";
     }
 
     [Serializable]
@@ -44,7 +48,7 @@ public class DarkJinnDustController : MonsterController
     {
         base.Update();
 
-        if(Vector3.Distance(gameObject.transform.position, GameManager.instance.playerController.transform.position) > 30 && state == MonsterState.ATTACK)
+        if (Vector3.Distance(gameObject.transform.position, GameManager.instance.playerController.transform.position) > 30 && state == MonsterState.ATTACK)
         {
             ChangeState(MonsterState.DEATH);
         }
@@ -82,7 +86,7 @@ public class DarkJinnDustController : MonsterController
             var shoot = Shoot();
             StartCoroutine(shoot);
         }
-            
+
     }
 
     IEnumerator Shoot()
@@ -91,13 +95,58 @@ public class DarkJinnDustController : MonsterController
         //blink Particle Play
         yield return new WaitForSeconds(Stat2.blinkTime);
         //Shoot Particle Play
-        shootDir = GameManager.instance.playerController.transform.position - gameObject.transform.position;
+        if (!Stat2.isNonChaseP)
+        {
+            shootDir = GameManager.instance.playerController.transform.position - gameObject.transform.position;
+        }
+        else
+        {
+            switch (Stat2.shootDir)
+            {
+                case "N":
+                    shootDir = Vector3.up;
+                    break;
+
+                case "S":
+                    shootDir = Vector3.down;
+                    break;
+
+                case "E":
+                    shootDir = Vector3.right;
+                    break;
+
+                case "W":
+                    shootDir = Vector3.left;
+                    break;
+
+                case "NW":
+                    shootDir = new Vector3(-1, 1, 0);
+                    break;
+
+                case "NE":
+                    shootDir = new Vector3(1, 1, 0);
+                    break;
+
+                case "SW":
+                    shootDir = new Vector3(-1, -1, 0);
+                    break;
+
+                case "SE":
+                    shootDir = new Vector3(1, -1, 0);
+                    break;
+
+                default:
+                    shootDir = GameManager.instance.playerController.transform.position - gameObject.transform.position;
+                    break;
+            }
+
+        }
 
         Debug.Log(shootDir);
 
         while (state != MonsterState.DEATH)
         {
-            Com.rigidbody.velocity = shootDir * Stat.moveSpeed * Time.deltaTime;
+            Com.rigidbody.velocity = shootDir.normalized * Stat.moveSpeed * Time.deltaTime * 1000;
             yield return null;
         }
 
@@ -122,9 +171,17 @@ public class DarkJinnDustController : MonsterController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             ChangeState(MonsterState.DEATH);
         }
+    }
+
+    public void SetStatus(float waitTime, string Dir = "NULL", float speed = 1f)
+    {
+        Stat2.isNonChaseP = true;
+        Stat2.shootDir = Dir;
+        Stat.moveSpeed = speed;
+        Stat2.blinkTime = waitTime;
     }
 }
