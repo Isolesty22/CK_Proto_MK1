@@ -71,7 +71,7 @@ public enum eGloomState
     [InspectorName("대기/Idle(사용금지)")]
     Idle,
 
-    [InspectorName("사용금지/추격")]
+    [InspectorName("추격")]
     Chase,
 
     [InspectorName("도약")]
