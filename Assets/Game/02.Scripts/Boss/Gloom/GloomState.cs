@@ -572,6 +572,18 @@ public class GloomState_ThornForest : GloomState
         }
     }
 }
+public class GloomState_Wave : GloomState
+{
+    public GloomState_Wave(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+
+    public override void OnEnter()
+    {
+        canExit = false;
+    }
+}
 public class GloomState_Summon : GloomState
 {
     public GloomState_Summon(GloomController _gloomController)

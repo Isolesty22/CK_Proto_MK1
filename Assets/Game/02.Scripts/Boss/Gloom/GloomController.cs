@@ -26,6 +26,7 @@ public class GloomController : BossController
     {
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
         public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
+        public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
     }
     [Serializable]
     public class SkillObjects
@@ -199,6 +200,7 @@ public class GloomController : BossController
     {
         Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
         Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
+        Pool.waveBullet = CustomPoolManager.Instance.CreateCustomPool<GloomWaveBullet>();
     }
 
     private void Init_Skills()

@@ -89,6 +89,9 @@ public enum eGloomState
     [InspectorName("가시밭길")]
     ThornPath,
 
+    [InspectorName("사용금지/파동")]
+    Wave,
+
     [InspectorName("사용금지/소환")]
     Summon,
 
