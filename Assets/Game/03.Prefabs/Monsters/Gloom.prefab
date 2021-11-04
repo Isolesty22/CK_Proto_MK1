@@ -553,15 +553,43 @@ MonoBehaviour:
     phase2Hp: 0
     phase3Hp: 0
   _skillValues:
-    thornPattern:
-      hp: 5
-      waitTime: 1.5
-    leapPattern:
-      upTime: 0.7
-      downTime: 0.9
+    thorn:
+      hp: 0
+      waitTime: 0
+    leap:
+      upTime: 1
+      downTime: 1
       downAnimTime: 0.2
-      upPosValue: 30.08
+      upPosValue: 30
       leapImpactDuration: 5
+    obstruct:
+      curve:
+        serializedVersion: 2
+        m_Curve:
+        - serializedVersion: 3
+          time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        - serializedVersion: 3
+          time: 1
+          value: 1
+          inSlope: 2
+          outSlope: 2
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0
+          outWeight: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      createInterval: 1
+      waitTime: 1
+      moveTime: 3
   _patterns:
     phase_01_List:
     - state: 0

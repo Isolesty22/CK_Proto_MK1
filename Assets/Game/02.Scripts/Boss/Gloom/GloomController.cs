@@ -25,6 +25,7 @@ public class GloomController : BossController
     public class Pools
     {
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
+        public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
     }
     [Serializable]
     public class SkillObjects
@@ -58,6 +59,7 @@ public class GloomController : BossController
         {
 
             [Header("[Leap]")]
+
             [Tooltip("점프 시 위로 상승하는 시간입니다. 값이 적을수록 더 빠르게 상승합니다.")]
             public float upTime;
             [Tooltip("착지 시 아래로 하강하는 시간입니다. 값이 적을수록 더 빠르게 하강합니다.")]
@@ -72,10 +74,19 @@ public class GloomController : BossController
             [Tooltip("리프임팩트의 지속 시간입니다.")]
             public float leapImpactDuration;
         }
+
         [Serializable]
         public struct ObstructPattern
         {
+            [Tooltip("투사체의 이동에 참조하는 커브입니다.")]
+            public AnimationCurve curve;
 
+            [Tooltip("투사체의 생성 간격입니다.")]
+            public float createInterval;
+            [Tooltip("투사체가 생성된 후 waitTime만큼 대기 후 이동을 시작합니다.")]
+            public float waitTime;
+            [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
         }
 
         #endregion
@@ -186,6 +197,7 @@ public class GloomController : BossController
     private void Init_Pools()
     {
         Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
+        Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
     }
 
     private void Init_Skills()
