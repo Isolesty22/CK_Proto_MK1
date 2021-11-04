@@ -27,6 +27,7 @@ public class GloomController : BossController
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
         public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
         public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
+        public CustomPool<GloomChaseBullet> chaseBullet = new CustomPool<GloomChaseBullet>();
     }
     [Serializable]
     public class SkillObjects
@@ -37,12 +38,17 @@ public class GloomController : BossController
         /// <summary>
         /// int = 소환될 당시의 인덱스 값
         /// </summary>
-        public Dictionary<int,GloomThornVine> aliveThornVineDict = new Dictionary<int, GloomThornVine>();
+        public Dictionary<int, GloomThornVine> aliveThornVineDict = new Dictionary<int, GloomThornVine>();
+
+        [Header("추격 발사 위치")]
+        public Transform chaseTransform;
+
         [Header("방해 발사 위치")]
         public Transform[] obstructTransforms;
 
         [Header("파동 발사 위치")]
         public Transform waveTransform;
+
 
     }
     [Serializable]
@@ -54,7 +60,7 @@ public class GloomController : BossController
         public struct ChasePattern
         {
             [Tooltip("투사체를 count개 만큼 발사합니다.")]
-            public float count;
+            public int count;
 
             [Tooltip("투사체가 생성되는 간격입니다.")]
             public float intevar;
@@ -66,6 +72,9 @@ public class GloomController : BossController
 
             [Tooltip("투사체 이동 시, curvedValue만큼 더 굽은 선을 그리게 됩니다. 0에 가까울수록 직선이 됩니다.")]
             public float curvedValue;
+
+            [HideInInspector]
+            public Vector3 curvedPosition;
         }
 
         [Serializable]
@@ -246,11 +255,13 @@ public class GloomController : BossController
         Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
         Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
         Pool.waveBullet = CustomPoolManager.Instance.CreateCustomPool<GloomWaveBullet>();
+        Pool.chaseBullet = CustomPoolManager.Instance.CreateCustomPool<GloomChaseBullet>();
     }
 
     private void Init_Skills()
     {
-        SkillVal.extendEndPos = new Vector3(SkillVal.extendMapSize, 0, 0);
+        SkillVal.extendEndPos = new Vector3(SkillVal.extendMapSize, 0f, 0f);
+        SkillVal.chase.curvedPosition = new Vector3(0f, SkillVal.chase.curvedValue, 0f);
 
         UpdateObstructPositions();
         UpdateWavePosition();
@@ -283,7 +294,7 @@ public class GloomController : BossController
     private int currentIndex = 0;
     private IEnumerator ExecutePattern()
     {
-        if (diretion==eDiretion.Right)
+        if (diretion == eDiretion.Right)
         {
             myTransform.position = Com.gloomMap.gloomPos_Right.position;
         }

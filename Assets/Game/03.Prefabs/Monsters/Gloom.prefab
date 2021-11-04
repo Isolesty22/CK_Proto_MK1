@@ -584,15 +584,21 @@ MonoBehaviour:
     phase2Hp: 0
     phase3Hp: 0
   _skillValues:
-    thorn:
-      hp: 6
-      waitTime: 2
+    chase:
+      count: 20
+      intevar: 0.3
+      moveTime: 0.9
+      curvedValue: 7
+      curvedPosition: {x: 0, y: 0, z: 0}
     leap:
       upTime: 0.5
       downTime: 1
       downAnimTime: 0.2
       upPosValue: 30
       leapImpactDuration: 2
+    thorn:
+      hp: 6
+      waitTime: 2
     obstruct:
       curve:
         serializedVersion: 2
@@ -644,6 +650,7 @@ MonoBehaviour:
   _skillObjects:
     leapImpact: {fileID: 6067118809198291161}
     threat: {fileID: 2669273889241688411}
+    chaseTransform: {fileID: 6791360718746773128}
     obstructTransforms:
     - {fileID: 6547527282831105069}
     - {fileID: 3093906954722709631}

@@ -20,13 +20,46 @@ public class GloomState_Idle : GloomState
 }
 public class GloomState_Chase : GloomState
 {
+    private int count;
+    private WaitForSeconds waitSec;
+
+    private Vector3 startPos;
+    private Rigidbody playerRB;
     public GloomState_Chase(GloomController _gloomController)
     {
         gloom = _gloomController;
+        count = gloom.SkillVal.chase.count;
+        waitSec = new WaitForSeconds(gloom.SkillVal.chase.intevar);
+        playerRB = GameManager.instance.playerController.Com.rigidbody;
     }
     public override void OnEnter()
     {
         canExit = false;
+
+        startPos = gloom.SkillObj.chaseTransform.position;
+
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("Chase_Start");
+    }
+
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(ProcessSkill());
+    }
+
+    private IEnumerator ProcessSkill()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(startPos);
+
+            bullet.Init(gloom);
+            bullet.SetPosition(startPos,playerRB.position);
+            bullet.Move();
+
+            yield return waitSec;
+        }
+        canExit = true;
     }
 }
 public class GloomState_Leap : GloomState
