@@ -74,7 +74,7 @@ public enum eGloomState
     //[InspectorName("추격")]
     Chase,
 
-    //[InspectorName("도약")]
+    [InspectorName("도약")]
     Leap,
 
     [InspectorName("위협")]
@@ -92,10 +92,10 @@ public enum eGloomState
     //[InspectorName("소환")]
     Summon,
 
-    [InspectorName("광폭화(사용금지)")]
+    //[InspectorName("광폭화(사용금지)")]
     Berserk,
 
-    [InspectorName("죽음(사용금지)")]
+    //[InspectorName("죽음(사용금지)")]
     Die
 
 }
