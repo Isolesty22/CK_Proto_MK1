@@ -91,12 +91,23 @@ public class GloomController : BossController
             [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
             public float moveTime;
         }
+        [Serializable]
+        public struct WavePattern
+        {
+            [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
+            [Tooltip("오락가락~파동의 속도입니다. 값이 높을수록 오락가락의 속도가 빨라집니다.")]
+            public float frequency;
+            [Tooltip("파동의 크기입니다. 값이 높을수록 오락가락의 정도가 심해집니다.")]
+            public float magnitude;
+        }
 
         #endregion
 
         public ThornPattern thorn;
         public LeapPattern leap;
         public ObstructPattern obstruct;
+        public WavePattern wave;
     }
 
     #endregion
