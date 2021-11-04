@@ -154,7 +154,7 @@ public class BearController : BossController
 
         //스테이트 머신 관련 초기화
         stateMachine = new BearStateMachine(this);
-        stateMachine.isDebugMode = true;
+        //stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eBearState.Idle);
 
         skillObjects.concentrateHelper.Init();

@@ -26,6 +26,7 @@ public class GloomController : BossController
     {
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
         public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
+        public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
     }
     [Serializable]
     public class SkillObjects
@@ -40,8 +41,9 @@ public class GloomController : BossController
         [Header("방해 발사 위치")]
         public Transform[] obstructTransforms;
 
-        [HideInInspector]
-        public Vector3[] obstructPositions;
+        [Header("파동 발사 위치")]
+        public Transform waveTransform;
+
     }
     [Serializable]
     public class SkillValues
@@ -89,6 +91,21 @@ public class GloomController : BossController
             public float waitTime;
             [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
             public float moveTime;
+
+            [HideInInspector]
+            public Vector3[] positions;
+        }
+        [Serializable]
+        public struct WavePattern
+        {
+            [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
+            [Tooltip("오락가락~파동의 속도입니다. 값이 높을수록 오락가락의 속도가 빨라집니다.")]
+            public float frequency;
+            [Tooltip("파동의 크기입니다. 값이 높을수록 오락가락의 정도가 심해집니다.")]
+            public float magnitude;
+            [HideInInspector]
+            public Vector3 startPosition;
         }
 
         #endregion
@@ -96,6 +113,15 @@ public class GloomController : BossController
         public ThornPattern thorn;
         public LeapPattern leap;
         public ObstructPattern obstruct;
+        public WavePattern wave;
+
+        [Space(5)]
+        [Tooltip("맵 끝에서 사라져야하는 투사체들은, 실제 맵 사이즈에서 extendMapSize만큼 추가된 위치에서 사라지게 됩니다.")]
+        public float extendMapSize;
+
+        [HideInInspector]
+        [Tooltip("맵 끝에서 사라져야하는 투사체들은 endPos에 해당 값을 더해야합니다.")]
+        public Vector3 extendEndPos;
     }
 
     #endregion
@@ -166,7 +192,7 @@ public class GloomController : BossController
         ExecutePatternCoroutine = ExecutePattern();
 
         stateMachine = new GloomStateMachine(this);
-        stateMachine.isDebugMode = true;
+        //stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eGloomState.Idle);
 
         ChangeDirection(eDiretion.Right);
@@ -199,12 +225,17 @@ public class GloomController : BossController
     {
         Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
         Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
+        Pool.waveBullet = CustomPoolManager.Instance.CreateCustomPool<GloomWaveBullet>();
     }
 
     private void Init_Skills()
     {
+        SkillVal.extendEndPos = new Vector3(SkillVal.extendMapSize, 0, 0);
+
         UpdateObstructPositions();
+        UpdateWavePosition();
         SkillObj.threat.SetActive(false);
+
     }
 
     /// <summary>
@@ -213,11 +244,19 @@ public class GloomController : BossController
     public void UpdateObstructPositions()
     {
         int length = SkillObj.obstructTransforms.Length;
-        SkillObj.obstructPositions = new Vector3[length];
+        SkillVal.obstruct.positions = new Vector3[length];
         for (int i = 0; i < length; i++)
         {
-            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].position;
+            SkillVal.obstruct.positions[i] = SkillObj.obstructTransforms[i].position;
         }
+    }
+
+    /// <summary>
+    /// 파동 스킬의 위치를 재설정합니다.
+    /// </summary>
+    public void UpdateWavePosition()
+    {
+        SkillVal.wave.startPosition = SkillObj.waveTransform.position;
     }
 
 
@@ -329,6 +368,7 @@ public class GloomController : BossController
         diretion = _direction;
         Com.gloomMap.ChangeDirection(_direction);
         UpdateObstructPositions();
+        UpdateWavePosition();
     }
 
     public enum eUsableBlockMode
@@ -440,7 +480,6 @@ public class GloomController : BossController
 
         }
     }
-
 }
 
 

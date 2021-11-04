@@ -407,7 +407,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7590714162926917450
 Transform:
   m_ObjectHideFlags: 0
@@ -553,6 +553,7 @@ Transform:
   - {fileID: 6044616918293076080}
   - {fileID: 6186094751007026041}
   - {fileID: 8146476680536633474}
+  - {fileID: 6791360718746773128}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -620,6 +621,14 @@ MonoBehaviour:
       createInterval: 1.3
       waitTime: 1
       moveTime: 2
+      positions: []
+    wave:
+      moveTime: 5
+      frequency: 3
+      magnitude: 3
+      startPosition: {x: 0, y: 0, z: 0}
+    extendMapSize: 6
+    extendEndPos: {x: 0, y: 0, z: 0}
   _patterns:
     phase_01_List:
     - state: 0
@@ -639,7 +648,7 @@ MonoBehaviour:
     - {fileID: 6547527282831105069}
     - {fileID: 3093906954722709631}
     - {fileID: 2699130365630318717}
-    obstructPositions: []
+    waveTransform: {fileID: 5956764160810981497}
   currentPattern:
     state: 0
     waitTime: 0
@@ -848,6 +857,36 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &8993710784313752932
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6791360718746773128}
+  m_Layer: 0
+  m_Name: WavePosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6791360718746773128
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993710784313752932}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 2.75, z: -1.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6044616918622172977}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &597811592892973682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -928,6 +967,11 @@ PrefabInstance:
 --- !u!137 &3805168225187457740 stripped
 SkinnedMeshRenderer:
   m_CorrespondingSourceObject: {fileID: -4862350278976214850, guid: d749d3c0b69cea440a2c9f896a33ad2c, type: 3}
+  m_PrefabInstance: {fileID: 597811592892973682}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5956764160810981497 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2674725826043995637, guid: d749d3c0b69cea440a2c9f896a33ad2c, type: 3}
   m_PrefabInstance: {fileID: 597811592892973682}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &245503560542568947 stripped

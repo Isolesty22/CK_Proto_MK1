@@ -65,10 +65,10 @@ public enum eBearState
 
 public enum eGloomState
 {
-    [InspectorName("대기/(None)")]
+    [InspectorName("대기/None")]
     None,
 
-    [InspectorName("대기/(Idle_사용금지)")]
+    [InspectorName("대기/Idle(사용금지)")]
     Idle,
 
     [InspectorName("사용금지/추격")]
@@ -88,6 +88,9 @@ public enum eGloomState
 
     [InspectorName("가시밭길")]
     ThornPath,
+
+    [InspectorName("파동")]
+    Wave,
 
     [InspectorName("사용금지/소환")]
     Summon,
@@ -256,9 +259,11 @@ public static class TagName
     public static readonly string Player = "Player";
     public static readonly string Arrow = "Arrow";
     public static readonly string ParryingObject = "ParryingObject";
-   // public static readonly string  = "FieldMap";
+    public static readonly string Monster = "Monster";
+    public static readonly string Boss = "Boss";
+    // public static readonly string  = "FieldMap";
 }
-    public class EnumCollection : MonoBehaviour
+public class EnumCollection : MonoBehaviour
 {
 
 }

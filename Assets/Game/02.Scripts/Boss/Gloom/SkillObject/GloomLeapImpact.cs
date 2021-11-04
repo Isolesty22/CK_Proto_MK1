@@ -51,12 +51,7 @@ public class GloomLeapImpact : MonoBehaviour
 
     private void Awake()
     {
-        myCollider.enabled = false;
-        effectsCount = effects.Length;
-        for (int i = 0; i < effectsCount; i++)
-        {
-            effects[i].SetActive(false);
-        }
+
     }
     private void Start()
     {
@@ -64,7 +59,12 @@ public class GloomLeapImpact : MonoBehaviour
         Val.duration = gloom.SkillVal.leap.leapImpactDuration;
         Val.waitDuration = new WaitForSeconds(Val.duration);
 
-        gameObject.SetActive(false);
+        myCollider.enabled = false;
+        effectsCount = effects.Length;
+        for (int i = 0; i < effectsCount; i++)
+        {
+            effects[i].SetActive(false);
+        }
     }
 
     //public void Init()
@@ -79,11 +79,11 @@ public class GloomLeapImpact : MonoBehaviour
     }
     private IEnumerator ProcessImpact()
     {
-
         for (int i = 0; i < effectsCount; i++)
         {
             effects[i].SetActive(true);
         }
+
         myCollider.enabled = true;
 
         yield return Val.waitDuration;
@@ -94,6 +94,7 @@ public class GloomLeapImpact : MonoBehaviour
         }
 
         myCollider.enabled = false;
+
         gameObject.SetActive(false);
     }
 
