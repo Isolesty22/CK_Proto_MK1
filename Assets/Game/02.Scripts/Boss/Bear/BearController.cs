@@ -388,11 +388,9 @@ public class BearController : BossController
         emissionController.OnHit();
     }
 
-    private readonly string str_Arrow = "Arrow";
-
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(str_Arrow))
+        if (other.CompareTag(TagName.Arrow))
         {          
             // damage = other.GetComponent<ArrowBase>().damage;
 

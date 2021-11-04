@@ -101,7 +101,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
     private string str_Amount = "_Amount";
     private string str_TexColor = "_TexColor";
-    private string str_Arrow = "Arrow";
 
     private int damage = 1;
 
@@ -267,7 +266,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private void OnTriggerEnter(Collider other)
     {
 
-        if (other.CompareTag(str_Arrow))
+        if (other.CompareTag(TagName.Arrow))
         {
             // damage = other.GetComponent<ArrowBase>().damage;
             OnHit();

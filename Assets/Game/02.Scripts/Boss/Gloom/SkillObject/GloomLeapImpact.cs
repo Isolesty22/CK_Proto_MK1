@@ -98,10 +98,9 @@ public class GloomLeapImpact : MonoBehaviour
     }
 
     private PlayerController player;
-    private const string str_Player = "Player";
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag(str_Player))
+        if (other.CompareTag(TagName.Player))
         {
             if (!player.IsInvincible())
             {

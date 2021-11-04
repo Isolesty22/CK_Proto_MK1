@@ -46,7 +46,7 @@ public class RoarProjectile : BearProjectile
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(TagName.Player))
         {
             //OnTrigger();
             Despawn();//만 불러도 됨
