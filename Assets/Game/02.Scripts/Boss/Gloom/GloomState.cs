@@ -76,7 +76,6 @@ public class GloomState_Leap : GloomState
             rot.start = Quaternion.Euler(new Vector3(0f, 90f, 0f));
             rot.end = Quaternion.Euler(new Vector3(0f, -90, 0f));
 
-            gloom.ChangeDirection(eDiretion.Left);
             endDirection = eDiretion.Left;
 
         }
@@ -90,7 +89,6 @@ public class GloomState_Leap : GloomState
             rot.start = Quaternion.Euler(new Vector3(0f, -90f, 0f));
             rot.end = Quaternion.Euler(new Vector3(0f, 90f, 0f));
 
-            gloom.ChangeDirection(eDiretion.Right);
             endDirection = eDiretion.Right;
         }
 
@@ -190,6 +188,9 @@ public class GloomState_Leap : GloomState
 
         //리프 임팩트 실행
         gloom.SkillObj.leapImpact.StartImpact();
+
+        //방향 바꿈 판정
+        gloom.ChangeDirection(endDirection);
         canExit = true;
     }
 
@@ -365,29 +366,60 @@ public class GloomState_Obstruct : GloomState
     private List<int> usedIndex;
 
     private int currentIndex;
+
+    private Vector3 endPos;
+    private Vector3[] endPosArr = null;
+    private WaitForSeconds waitSec = null;
     public GloomState_Obstruct(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(gloom.SkillVal.obstruct.createInterval);
     }
     public override void OnEnter()
     {
         canExit = false;
+
         currentIndex = -1;
         usableIndex = new List<int> { 0, 1, 2 };
         usedIndex = new List<int>();
+
+        //방향에 따라 투사체 endPos 설정
+        if (gloom.diretion == eDiretion.Right)
+            endPos = gloom.Com.gloomMap.mapData.minPosition;
+        else
+            endPos = gloom.Com.gloomMap.mapData.maxPosition;
+
+        endPosArr = new Vector3[] {
+                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[0].y,gloom.SkillObj.obstructPositions[0].z),
+                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[1].y,gloom.SkillObj.obstructPositions[1].z),
+                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[2].y,gloom.SkillObj.obstructPositions[2].z)
+            };
+
         gloom.SetTrigger("Obstruct_Start");
-        gloom.StartCoroutine(ProcessSkill());
+        gloom.SetAnimEvent(AnimEvent);
     }
 
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(ProcessSkill());
+    }
     private IEnumerator ProcessSkill()
     {
         yield return null;
 
         for (int i = 0; i < 9; i++)
         {
-            Vector3 startPos = gloom.SkillObj.obstructPositions[GetUsablePositionIndex()];
-            gloom.Pool.obstructBullet.SpawnThis(, Vector3.zero, null);
+            int index = GetUsablePositionIndex();
+            Vector3 startPos = gloom.SkillObj.obstructPositions[index];
+
+            GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
+            bullet.Init(gloom, startPos, endPosArr[index]);
+            bullet.Move();
+
+            yield return waitSec;
         }
+
+        canExit = true;
     }
 
     /// <summary>

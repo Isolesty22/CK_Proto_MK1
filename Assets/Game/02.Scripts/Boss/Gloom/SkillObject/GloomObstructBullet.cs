@@ -20,6 +20,7 @@ public class GloomObstructBullet : MonoBehaviour
     private Vector3 endPos;
 
     private PlayerController player;
+    private IEnumerator moveCoroutine = null;
 
     private void Start()
     {
@@ -27,16 +28,18 @@ public class GloomObstructBullet : MonoBehaviour
     }
     public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
     {
-        myTransform.position = _startPos;
+        moveCoroutine = ProcessMove();
         gloom = _gloom;
         curve = _gloom.SkillVal.obstruct.curve;
         startPos = _startPos;
         endPos = _endPos;
+        moveTime = gloom.SkillVal.obstruct.moveTime;
+        waitTime = gloom.SkillVal.obstruct.waitTime;
     }
 
     public void Move()
     {
-        StartCoroutine(ProcessMove());
+        StartCoroutine(moveCoroutine);
     }
 
     private IEnumerator ProcessMove()
@@ -48,17 +51,20 @@ public class GloomObstructBullet : MonoBehaviour
 
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+            timer += Time.deltaTime * curve.Evaluate(progress);
             progress = timer / moveTime;
-            myTransform.position = Vector3.Lerp(startPos, endPos, curve.Evaluate(progress));
+            //Debug.Log(curve.Evaluate(progress));
+            myTransform.position = Vector3.Lerp(startPos, endPos, progress);
 
             yield return null;
         }
 
         myTransform.position = endPos;
+        Despawn();
     }
     public void Despawn()
     {
+        StopCoroutine(moveCoroutine);
         StartCoroutine(ProcessDespawn());
     }
 

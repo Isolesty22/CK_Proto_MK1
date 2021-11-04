@@ -118,7 +118,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 918784448867689052}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.48000002, z: -3.2399998}
+  m_LocalPosition: {x: 1.4210855e-14, y: -0.48000002, z: -2.2200003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1933470006984498205}
@@ -275,7 +275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2412439561768651022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.14, z: -3.2399998}
+  m_LocalPosition: {x: -0, y: -1.14, z: -2.22}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1933470006984498205}
@@ -454,7 +454,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5349035931716284466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.14, z: -3.24}
+  m_LocalPosition: {x: 1.4210855e-14, y: 0.14, z: -2.2200003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1933470006984498205}
@@ -561,43 +561,43 @@ MonoBehaviour:
       downTime: 1
       downAnimTime: 0.2
       upPosValue: 30
-      leapImpactDuration: 5
+      leapImpactDuration: 2
     obstruct:
       curve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: 0
-          outSlope: 0
+          time: 0.1
+          value: 0.4
+          inSlope: 9.292971
+          outSlope: 9.292971
           tangentMode: 0
           weightedMode: 0
           inWeight: 0
-          outWeight: 0
+          outWeight: 0.04270235
         - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 2
-          outSlope: 2
+          time: 0.5
+          value: 1.5
+          inSlope: 0.8243163
+          outSlope: 0.8243163
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.10762319
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
       createInterval: 1
       waitTime: 1
-      moveTime: 3
+      moveTime: 1.5
   _patterns:
     phase_01_List:
     - state: 0
       waitTime: 0
-    - state: 7
-      waitTime: 0
     - state: 3
-      waitTime: 1
+      waitTime: 2.45
+    - state: 6
+      waitTime: 2.45
     phase_02_List: []
   diretion: 0
   _components:

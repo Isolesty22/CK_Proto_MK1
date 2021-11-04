@@ -214,7 +214,7 @@ public class GloomController : BossController
         SkillObj.obstructPositions = new Vector3[length];
         for (int i = 0; i < length; i++)
         {
-            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].localPosition;
+            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].position;
         }
     }
 
@@ -297,8 +297,6 @@ public class GloomController : BossController
         currentIndex = 0;
 
     }
-
-
     private float GetNextPhaseHP(ePhase _currentPhase)
     {
         switch (_currentPhase)
@@ -328,6 +326,7 @@ public class GloomController : BossController
     {
         diretion = _direction;
         Com.gloomMap.ChangeDirection(_direction);
+        UpdateObstructPositions();
     }
 
     public enum eUsableBlockMode
