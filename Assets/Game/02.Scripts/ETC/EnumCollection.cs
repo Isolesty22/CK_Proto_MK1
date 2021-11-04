@@ -71,7 +71,7 @@ public enum eGloomState
     [InspectorName("대기/(Idle_사용금지)")]
     Idle,
 
-    //[InspectorName("추격")]
+    [InspectorName("사용금지/추격")]
     Chase,
 
     [InspectorName("도약")]
@@ -89,13 +89,13 @@ public enum eGloomState
     [InspectorName("가시밭길")]
     ThornPath,
 
-    //[InspectorName("소환")]
+    [InspectorName("사용금지/소환")]
     Summon,
 
-    //[InspectorName("광폭화(사용금지)")]
+    [InspectorName("사용금지/광폭화")]
     Berserk,
 
-    //[InspectorName("죽음(사용금지)")]
+    [InspectorName("사용금지/죽음")]
     Die
 
 }
