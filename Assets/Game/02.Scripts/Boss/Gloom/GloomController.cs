@@ -51,6 +51,24 @@ public class GloomController : BossController
         #region Struct
 
         [Serializable]
+        public struct ChasePattern
+        {
+            [Tooltip("투사체를 count개 만큼 발사합니다.")]
+            public float count;
+
+            [Tooltip("투사체가 생성되는 간격입니다.")]
+            public float intevar;
+
+            [Tooltip("투사체가 목표물에게 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
+
+            [Space(5)]
+
+            [Tooltip("투사체 이동 시, curvedValue만큼 더 굽은 선을 그리게 됩니다. 0에 가까울수록 직선이 됩니다.")]
+            public float curvedValue;
+        }
+
+        [Serializable]
         public struct ThornPattern
         {
             [Tooltip("가시덩쿨은 hp 만큼의 체력을 갖습니다.")]
@@ -104,14 +122,16 @@ public class GloomController : BossController
             public float frequency;
             [Tooltip("파동의 크기입니다. 값이 높을수록 오락가락의 정도가 심해집니다.")]
             public float magnitude;
+
             [HideInInspector]
             public Vector3 startPosition;
         }
 
         #endregion
 
-        public ThornPattern thorn;
+        public ChasePattern chase;
         public LeapPattern leap;
+        public ThornPattern thorn;
         public ObstructPattern obstruct;
         public WavePattern wave;
 
