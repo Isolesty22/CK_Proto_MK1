@@ -31,7 +31,6 @@ public class GloomState_Chase : GloomState
 }
 public class GloomState_Leap : GloomState
 {
-
     #region definition
     private class Position
     {
@@ -96,8 +95,8 @@ public class GloomState_Leap : GloomState
         pos.startTop = new Vector3(pos.start.x, pos.start.y + leapValue.upPosValue, pos.start.z);
         pos.endTop = new Vector3(pos.end.x, pos.end.y + leapValue.upPosValue, pos.end.z);
 
-        gloom.SetTrigger("Leap_Start");
         gloom.SetAnimEvent(AnimEvent_Jump);
+        gloom.SetTrigger("Leap_Start");
     }
 
     public void AnimEvent_Jump()
