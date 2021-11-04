@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,13 +6,13 @@ public class GloomObstructBullet : MonoBehaviour
 {
 
 
-    [Tooltip("Åõ»çÃ¼°¡ »ı¼ºµÈ ÈÄ waitTime¸¸Å­ ´ë±â ÈÄ ÀÌµ¿À» ½ÃÀÛÇÕ´Ï´Ù.")]
+    [Tooltip("íˆ¬ì‚¬ì²´ê°€ ìƒì„±ëœ í›„ waitTimeë§Œí¼ ëŒ€ê¸° í›„ ì´ë™ì„ ì‹œì‘í•©ë‹ˆë‹¤.")]
     public float waitTime;
-    [Tooltip("Åõ»çÃ¼°¡ ¸Ê ³¡À¸·Î ÀÌµ¿ÇÒ ¶§±îÁö °É¸®´Â ½Ã°£ÀÔ´Ï´Ù.")]
+    [Tooltip("íˆ¬ì‚¬ì²´ê°€ ë§µ ëìœ¼ë¡œ ì´ë™í•  ë•Œê¹Œì§€ ê±¸ë¦¬ëŠ” ì‹œê°„ì…ë‹ˆë‹¤.")]
     public float moveTime;
 
-    //[HideInInspector]
-    //public GloomController gloom;
+    [HideInInspector]
+    public GloomController gloom;
     private AnimationCurve curve;
 
     public Transform myTransform;
@@ -26,8 +26,9 @@ public class GloomObstructBullet : MonoBehaviour
     {
         player = GameManager.instance.playerController;
     }
-    public void Init(GloomController _gloom ,Vector3 _startPos,Vector3 _endPos)
+    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
     {
+        gloom = _gloom;
         curve = _gloom.SkillVal.obstruct.curve;
         startPos = _startPos;
         endPos = _endPos;
@@ -40,35 +41,41 @@ public class GloomObstructBullet : MonoBehaviour
 
     private IEnumerator ProcessMove()
     {
-
         yield return new WaitForSeconds(waitTime);
 
         float timer = 0f;
         float progress = 0f;
-        while (true)
+
+        while (progress < 1f)
         {
             timer += Time.deltaTime;
             progress = timer / moveTime;
-            myTransform.position = Vector3.Lerp();
+            myTransform.position = Vector3.Lerp(startPos, endPos, curve.Evaluate(progress));
+
+            yield return null;
         }
+
+        myTransform.position = endPos;
     }
     public void Despawn()
     {
-
+        StartCoroutine(ProcessDespawn());
     }
 
     private IEnumerator ProcessDespawn()
     {
+        yield return null;
+        gloom.Pool.obstructBullet.ReleaseThis(this);
 
-    }    
+    }
 
-    
+
     private void OnTriggerEnter(Collider other)
     {
 
         if (other.CompareTag(TagName.Player))
         {
-
+            Despawn();
         }
     }
 }
