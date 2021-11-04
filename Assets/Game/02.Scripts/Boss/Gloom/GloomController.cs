@@ -10,9 +10,9 @@ public class GloomController : BossController
     [Serializable]
     public class Components
     {
-        [Header("이동 시 사용하는 강체(자주 사용하지 않음)")]
         public Rigidbody rigidbody;
         public GloomMap gloomMap;
+        public EmissionHelper emissionHelper;
     }
 
     [Serializable]
@@ -31,6 +31,8 @@ public class GloomController : BossController
     public class SkillObjects
     {
         public GloomLeapImpact leapImpact;
+
+        public GameObject threat;
         /// <summary>
         /// int = 소환될 당시의 인덱스 값
         /// </summary>
@@ -168,7 +170,6 @@ public class GloomController : BossController
         stateMachine.StartState((int)eGloomState.Idle);
 
         ChangeDirection(eDiretion.Right);
-
         Init_Animator();
         Init_Pools();
         Init_Skills();
@@ -203,6 +204,7 @@ public class GloomController : BossController
     private void Init_Skills()
     {
         UpdateObstructPositions();
+        SkillObj.threat.SetActive(false);
     }
 
     /// <summary>
@@ -422,6 +424,21 @@ public class GloomController : BossController
     public bool ContainsThornVineDict(int _index)
     {
         return SkillObj.aliveThornVineDict.ContainsKey(_index);
+    }
+
+    public override void OnHit()
+    {
+        ReceiveDamage();
+        Com.emissionHelper.OnHit();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(TagName.Arrow))
+        {
+            OnHit();
+
+        }
     }
 
 }

@@ -253,6 +253,20 @@ public class GloomState_Threat : GloomState
         canExit = false;
 
         gloom.SetTrigger("Threat_Start");
+        gloom.SetAnimEvent(AnimEvent);
+    }
+
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(ProcessSkill());
+
+    }
+
+    private IEnumerator ProcessSkill()
+    {
+        gloom.SkillObj.threat.SetActive(true);
+        yield return new WaitForSeconds(0.6f);
+        gloom.SkillObj.threat.SetActive(false);
     }
 }
 public class GloomState_ThornPath : GloomState
