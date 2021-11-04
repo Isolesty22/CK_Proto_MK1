@@ -242,6 +242,9 @@ public class MapBlock
 
 }
 
+/// <summary>
+/// 데미지를 받을 수 있는 오브젝트에게 상속합니다.
+/// </summary>
 public interface IDamageable
 {
     public void OnHit();

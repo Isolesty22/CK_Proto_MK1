@@ -29,6 +29,7 @@ public class GloomController : BossController
     [Serializable]
     public class SkillObjects
     {
+        public GloomLeapImpact leapImpact;
         /// <summary>
         /// int = 소환될 당시의 인덱스 값
         /// </summary>
@@ -69,12 +70,19 @@ public class GloomController : BossController
             [Header("[LeapImpact]")]
 
             [Tooltip("리프임팩트의 지속 시간입니다.")]
-            public float leapEffectDuration;
+            public float leapImpactDuration;
         }
+        [Serializable]
+        public struct ObstructPattern
+        {
+
+        }
+
         #endregion
 
-        public ThornPattern thornPattern;
-        public LeapPattern leapPattern;
+        public ThornPattern thorn;
+        public LeapPattern leap;
+        public ObstructPattern obstruct;
     }
 
     #endregion

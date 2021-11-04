@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -58,7 +58,7 @@ public class GloomState_Leap : GloomState
     public GloomState_Leap(GloomController _gloomController)
     {
         gloom = _gloomController;
-        leapValue = gloom.SkillVal.leapPattern;
+        leapValue = gloom.SkillVal.leap;
         downAnimTime = new WaitForSeconds(leapValue.downTime - leapValue.downAnimTime);
     }
     public override void OnEnter()
@@ -66,10 +66,10 @@ public class GloomState_Leap : GloomState
         canExit = false;
 
 
-        //ÇöÀç À§Ä¡°¡ ¿À¸¥ÂÊÀÌ¸é
+        //í˜„ì¬ ìœ„ì¹˜ê°€ ì˜¤ë¥¸ìª½ì´ë©´
         if (gloom.diretion == eDiretion.Right)
         {
-            //¿À¸¥ÂÊ¿¡¼­ ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÏ°Ô ¼³Á¤
+            //ì˜¤ë¥¸ìª½ì—ì„œ ì™¼ìª½ìœ¼ë¡œ ì´ë™í•˜ê²Œ ì„¤ì •
             pos.start = gloom.Com.gloomMap.gloomPos_Right.position;
             pos.end = gloom.Com.gloomMap.gloomPos_Left.position;
 
@@ -80,10 +80,10 @@ public class GloomState_Leap : GloomState
             endDirection = eDiretion.Left;
 
         }
-        //¿ŞÂÊÀÌ¸é
+        //ì™¼ìª½ì´ë©´
         else
         {
-            //¿ŞÂÊ¿¡¼­ ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÏ°Ô ¼³Á¤
+            //ì™¼ìª½ì—ì„œ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™í•˜ê²Œ ì„¤ì •
             pos.start = gloom.Com.gloomMap.gloomPos_Left.position;
             pos.end = gloom.Com.gloomMap.gloomPos_Right.position;
 
@@ -94,7 +94,7 @@ public class GloomState_Leap : GloomState
             endDirection = eDiretion.Right;
         }
 
-        //»ó½Â À§Ä¡ ¼³Á¤
+        //ìƒìŠ¹ ìœ„ì¹˜ ì„¤ì •
         pos.startTop = new Vector3(pos.start.x, pos.start.y + leapValue.upPosValue, pos.start.z);
         pos.endTop = new Vector3(pos.end.x, pos.end.y + leapValue.upPosValue, pos.end.z);
 
@@ -132,7 +132,7 @@ public class GloomState_Leap : GloomState
         //gloom.myTransform.SetPositionAndRotation(pos.startTop, rot.start);
 
         gloom.myTransform.position = pos.startTop;
-        //Á¡ÇÁ°¡ ³¡³ª¸é ÂøÁö ÀÌº¥Æ® ½ÇÇà
+        //ì í”„ê°€ ëë‚˜ë©´ ì°©ì§€ ì´ë²¤íŠ¸ ì‹¤í–‰
         //gloom.SetAnimEvent(AnimEvent_Fall);
 
         yield return new WaitForSeconds(1f);
@@ -145,13 +145,13 @@ public class GloomState_Leap : GloomState
         gloom.SetTrigger("Leap_End");
     }
     /// <summary>
-    /// End¾Ö´Ï¸ŞÀÌ¼ÇÀ» ½Ã°£Á¶Àı·Î ½ÇÇà
+    /// Endì• ë‹ˆë©”ì´ì…˜ì„ ì‹œê°„ì¡°ì ˆë¡œ ì‹¤í–‰
     /// </summary>
     private IEnumerator ProcessAnimEvent_Fall_DelayAnimation()
     {
 
 
-        //ÂøÁö ÀÚ¸®¿¡ ÀÖ´Â µ¢Äğ ¾ø¾Ö±â 
+        //ì°©ì§€ ìë¦¬ì— ìˆëŠ” ë©ì¿¨ ì—†ì• ê¸° 
         if (endDirection == eDiretion.Right)
         {
             if (gloom.ContainsThornVineDict(6))
@@ -188,18 +188,19 @@ public class GloomState_Leap : GloomState
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
         //gloom.SetTrigger("Leap_End");
 
+        //ë¦¬í”„ ì„íŒ©íŠ¸ ì‹¤í–‰
+        gloom.SkillObj.leapImpact.StartImpact();
         canExit = true;
-        yield break;
     }
 
     /// <summary>
-    /// End¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÂøÁö ÀÌµ¿ÀÌ ³¡³­ ÈÄ¿¡ ½ÇÇà
+    /// Endì• ë‹ˆë©”ì´ì…˜ì„ ì°©ì§€ ì´ë™ì´ ëë‚œ í›„ì— ì‹¤í–‰
     /// </summary>
     private IEnumerator ProcessAnimEvent_Fall()
     {
 
 
-        //ÂøÁö ÀÚ¸®¿¡ ÀÖ´Â µ¢Äğ ¾ø¾Ö±â 
+        //ì°©ì§€ ìë¦¬ì— ìˆëŠ” ë©ì¿¨ ì—†ì• ê¸° 
         if (endDirection == eDiretion.Right)
         {
             if (gloom.ContainsThornVineDict(6))
@@ -265,13 +266,13 @@ public class GloomState_ThornPath : GloomState
     {
         canExit = false;
 
-        //ÇöÀç º¸½ºÀÇ ¹æÇâÀ» °¡Á®¿È
+        //í˜„ì¬ ë³´ìŠ¤ì˜ ë°©í–¥ì„ ê°€ì ¸ì˜´
         diretion = gloom.diretion;
 
-        //»ç¿ëÇÒ ¼ö ÀÖ´Â ºí·Ï ¸®½ºÆ®¸¦ °¡Á®¿È
+        //ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ë¸”ë¡ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜´
         blockArr = gloom.GetUsableBlockList(GloomController.eUsableBlockMode.ExcludeVine).ToArray();
 
-        //ºí·Ï ÀÎµ¦½º¸¦ ·£´ıÇÏ°Ô ¼¯À½
+        //ë¸”ë¡ ì¸ë±ìŠ¤ë¥¼ ëœë¤í•˜ê²Œ ì„ìŒ
         ShuffleArray();
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("ThornPath_Start");
@@ -279,17 +280,17 @@ public class GloomState_ThornPath : GloomState
 
     public void AnimEvent()
     {
-        //°¡Á®¿Â°Ô ¾øÀ¸¸é
+        //ê°€ì ¸ì˜¨ê²Œ ì—†ìœ¼ë©´
         if (blockArr.Length == 0)
         {
-            //¾Æ¹«°Íµµ ¾ÈÇÔ
+            //ì•„ë¬´ê²ƒë„ ì•ˆí•¨
             return;
         }
         gloom.StartCoroutine(ProcessAnimEvent());
     }
     private IEnumerator ProcessAnimEvent()
     {
-        //2°³ ÀÌ»ó ÀÖ´Ù¸é for¹®À¸·Î µ¹¸®±â 
+        //2ê°œ ì´ìƒ ìˆë‹¤ë©´ forë¬¸ìœ¼ë¡œ ëŒë¦¬ê¸° 
         if (blockArr.Length > 1)
         {
             for (int i = 0; i < 2; i++)
@@ -297,31 +298,31 @@ public class GloomState_ThornPath : GloomState
 
                 MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
 
-                //Ç®¿¡¼­ ²¨³¿
+                //í’€ì—ì„œ êº¼ëƒ„
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
-                //ÃÊ±âÈ­
+                //ì´ˆê¸°í™”
                 thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
                 yield return null;
             }
         }
-        //1°³ ¹Û¿¡ ¾ø´Ù¸é ±×³É ÁöÁ¤ÇØ¼­ ¼ÒÈ¯
+        //1ê°œ ë°–ì— ì—†ë‹¤ë©´ ê·¸ëƒ¥ ì§€ì •í•´ì„œ ì†Œí™˜
         else
         {
             MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[0]];
 
-            //Ç®¿¡¼­ ²¨³¿
+            //í’€ì—ì„œ êº¼ëƒ„
             GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
-            //ÃÊ±âÈ­
+            //ì´ˆê¸°í™”
             thornVine.gloom = gloom;
             thornVine.Init();
-            thornVine.SetValues(block, blockArr[0], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+            thornVine.SetValues(block, blockArr[0], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
             thornVine.UpdateEndPosition();
 
             thornVine.StartGrow();
@@ -333,7 +334,7 @@ public class GloomState_ThornPath : GloomState
 
     private void ShuffleArray()
     {
-        //³²Àº Ä­ÀÌ µÎ Ä­ ÀÌÇÏ¶ó¼­ ¼¯À» ÇÊ¿ä°¡ ¾øÀ¸¸é ¾Æ¹«°Íµµ ¾ÈÇÔ
+        //ë‚¨ì€ ì¹¸ì´ ë‘ ì¹¸ ì´í•˜ë¼ì„œ ì„ì„ í•„ìš”ê°€ ì—†ìœ¼ë©´ ì•„ë¬´ê²ƒë„ ì•ˆí•¨
         if (blockArr.Length <= 2)
         {
             return;
@@ -354,12 +355,12 @@ public class GloomState_ThornPath : GloomState
 public class GloomState_Obstruct : GloomState
 {
     /// <summary>
-    /// »ç¿ë °¡´ÉÇÑ ÀÎµ¦½ºµéÀÌ ´ã±ä ¸®½ºÆ®
+    /// ì‚¬ìš© ê°€ëŠ¥í•œ ì¸ë±ìŠ¤ë“¤ì´ ë‹´ê¸´ ë¦¬ìŠ¤íŠ¸
     /// </summary>
     private List<int> usableIndex;
 
     /// <summary>
-    /// ÀÌ¹Ì »ç¿ëÇÑ ÀÎµ¦½ºµéÀÌ ´ã±ä ¸®½ºÆ®
+    /// ì´ë¯¸ ì‚¬ìš©í•œ ì¸ë±ìŠ¤ë“¤ì´ ë‹´ê¸´ ë¦¬ìŠ¤íŠ¸
     /// </summary>
     private List<int> usedIndex;
 
@@ -384,13 +385,13 @@ public class GloomState_Obstruct : GloomState
 
         for (int i = 0; i < 9; i++)
         {
-            Debug.Log("¹æÇØ ÀÎµ¦½º : " + GetUsablePositionIndex());
+            Debug.Log("ë°©í•´ ì¸ë±ìŠ¤ : " + GetUsablePositionIndex());
             yield return null;
         }
     }
 
     /// <summary>
-    /// »ç¿ë °¡´ÉÇÑ ÀÎµ¦½º¸¦ ¹İÈ¯ÇÏ°í, ÇØ´ç ÀÎµ¦½º¸¦ 'ÀÌ¹Ì »ç¿ëÇÑ ÀÎµ¦½º ¸®½ºÆ®'¿¡ ³Ö½À´Ï´Ù.
+    /// ì‚¬ìš© ê°€ëŠ¥í•œ ì¸ë±ìŠ¤ë¥¼ ë°˜í™˜í•˜ê³ , í•´ë‹¹ ì¸ë±ìŠ¤ë¥¼ 'ì´ë¯¸ ì‚¬ìš©í•œ ì¸ë±ìŠ¤ ë¦¬ìŠ¤íŠ¸'ì— ë„£ìŠµë‹ˆë‹¤.
     /// </summary>
     /// <returns></returns>
     private int GetUsablePositionIndex()
@@ -398,33 +399,33 @@ public class GloomState_Obstruct : GloomState
         int currentPosIndex = -1;
         if (usableIndex.Count > 1)
         {
-            //·£´ıÇÑ ÀÎµ¦½º¸¦ °¡Á®¿È
+            //ëœë¤í•œ ì¸ë±ìŠ¤ë¥¼ ê°€ì ¸ì˜´
             currentIndex = Random.Range(0, usableIndex.Count);
 
-            //usableIndex ¼ÓÀÇ °ªÀ» PosIndex¿¡ ³ÖÀ½
+            //usableIndex ì†ì˜ ê°’ì„ PosIndexì— ë„£ìŒ
             currentPosIndex = usableIndex[currentIndex];
 
             usedIndex.Add(currentPosIndex);
             usableIndex.RemoveAt(currentIndex);
         }
-        else // »ç¿ëÇÒ ¼ö ÀÖ´Â ÀÎµ¦½º°¡ ÇÏ³ª¹Û¿¡ ¾øÀ¸¸é
+        else // ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ì¸ë±ìŠ¤ê°€ í•˜ë‚˜ë°–ì— ì—†ìœ¼ë©´
         {
 
-            //ÀÏ´Ü ³²Àº ÇÏ³ª¸¦ ÇÒ´ç½ÃÄÑÁÜ 
+            //ì¼ë‹¨ ë‚¨ì€ í•˜ë‚˜ë¥¼ í• ë‹¹ì‹œì¼œì¤Œ 
             currentPosIndex = usableIndex[0];
             currentIndex = 0;
 
-            //»ç¿ëÇÑ ÀÎµ¦½º¿¡ Ãß°¡
+            //ì‚¬ìš©í•œ ì¸ë±ìŠ¤ì— ì¶”ê°€
             usedIndex.Add(currentPosIndex);
 
-            //»ç¿ë ºÒ°¡´ÉÇÏ°Ô ¼³Á¤
+            //ì‚¬ìš© ë¶ˆê°€ëŠ¥í•˜ê²Œ ì„¤ì •
             usableIndex.RemoveAt(0);
 
-            //usedIndex¿¡ ¸ÕÀú ´ã°ÜÀÖ´ø µÎ °³ÀÇ ÀÎµ¦½º¸¦ »ç¿ë °¡´ÉÇÏ°Ô º¯°æ
+            //usedIndexì— ë¨¼ì € ë‹´ê²¨ìˆë˜ ë‘ ê°œì˜ ì¸ë±ìŠ¤ë¥¼ ì‚¬ìš© ê°€ëŠ¥í•˜ê²Œ ë³€ê²½
             usableIndex.Add(usedIndex[0]);
             usableIndex.Add(usedIndex[1]);
 
-            //usedIndex¿¡ ¸ÕÀú ´ã°ÜÀÖ´ø µÎ °³ÀÇ ÀÎµ¦½º¸¦ »èÁ¦
+            //usedIndexì— ë¨¼ì € ë‹´ê²¨ìˆë˜ ë‘ ê°œì˜ ì¸ë±ìŠ¤ë¥¼ ì‚­ì œ
             usedIndex.RemoveRange(0, 2);
         }
 
@@ -444,10 +445,10 @@ public class GloomState_ThornForest : GloomState
     {
         canExit = false;
 
-        //ÇöÀç º¸½ºÀÇ ¹æÇâÀ» °¡Á®¿È
+        //í˜„ì¬ ë³´ìŠ¤ì˜ ë°©í–¥ì„ ê°€ì ¸ì˜´
         diretion = gloom.diretion;
 
-        //»ç¿ëÇÒ ¼ö ÀÖ´Â ºí·Ï ¸®½ºÆ®¸¦ °¡Á®¿È
+        //ì‚¬ìš©í•  ìˆ˜ ìˆëŠ” ë¸”ë¡ ë¦¬ìŠ¤íŠ¸ë¥¼ ê°€ì ¸ì˜´
         blockArr = gloom.GetUsableBlockList(GloomController.eUsableBlockMode.Default).ToArray();
 
         gloom.SetAnimEvent(AnimEvent);
@@ -462,7 +463,7 @@ public class GloomState_ThornForest : GloomState
     private IEnumerator ProcessAnimEvent()
     {
         int length;
-        //º¸½º°¡ ¿À¸¥ÂÊ¿¡ ÀÖÀ¸¸é
+        //ë³´ìŠ¤ê°€ ì˜¤ë¥¸ìª½ì— ìˆìœ¼ë©´
         if (diretion == eDiretion.Right)
         {
             length = blockArr.Length;
@@ -471,28 +472,28 @@ public class GloomState_ThornForest : GloomState
                 // MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
                 MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
 
-                //»ç¿ë ÁßÀÌ¶ó¸é ¾Æ¹«°Íµµ ¾ÈÇÔ
+                //ì‚¬ìš© ì¤‘ì´ë¼ë©´ ì•„ë¬´ê²ƒë„ ì•ˆí•¨
                 if (block.currentType == MapBlock.eType.Used)
                 {
                     continue;
                 }
 
 
-                //»ç¿ë ÁßÀÌ ¾Æ´Ï¶ó¸é
+                //ì‚¬ìš© ì¤‘ì´ ì•„ë‹ˆë¼ë©´
 
-                //Ç®¿¡¼­ ²¨³¿
+                //í’€ì—ì„œ êº¼ëƒ„
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
-                //ÃÊ±âÈ­
+                //ì´ˆê¸°í™”
                 thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
                 yield return null;
             }
         }
-        //¿ŞÂÊÀÏ¶§
+        //ì™¼ìª½ì¼ë•Œ
         else
         {
             length = blockArr.Length - 1;
@@ -501,22 +502,22 @@ public class GloomState_ThornForest : GloomState
                 // MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
                 MapBlock block = gloom.Com.gloomMap.mapBlocks[blockArr[i]];
 
-                //»ç¿ë ÁßÀÌ¶ó¸é ¾Æ¹«°Íµµ ¾ÈÇÔ
+                //ì‚¬ìš© ì¤‘ì´ë¼ë©´ ì•„ë¬´ê²ƒë„ ì•ˆí•¨
                 if (block.currentType == MapBlock.eType.Used)
                 {
                     continue;
                 }
 
-                //»ç¿ë ÁßÀÌ ¾Æ´Ï¶ó¸é
+                //ì‚¬ìš© ì¤‘ì´ ì•„ë‹ˆë¼ë©´
 
-                //Ç®¿¡¼­ ²¨³¿
+                //í’€ì—ì„œ êº¼ëƒ„
                 GloomThornVine thornVine = gloom.Pool.thornVine.SpawnThis();
 
-                //ÃÊ±âÈ­
+                //ì´ˆê¸°í™”
                 thornVine.gloom = gloom;
                 thornVine.Init();
 
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thornPattern.hp, gloom.SkillVal.thornPattern.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
