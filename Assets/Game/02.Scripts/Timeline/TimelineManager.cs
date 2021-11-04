@@ -12,7 +12,7 @@ public class TimelineManager : MonoBehaviour
     public bool playOnLoadingEnded;
     public PlayableDirector director;
 
-    public Action OnTimelineEnded;
+    public Action OnTimelineEnded = null;
 
     private void Awake()
     {
@@ -61,7 +61,11 @@ public class TimelineManager : MonoBehaviour
         director.gameObject.SetActive(false);
 
         //OnTileLineEnded 호출
-        OnTimelineEnded.Invoke();
+        if (OnTimelineEnded != null)
+        {
+            OnTimelineEnded.Invoke();
+
+        }
     }
 
     public void SetTimeline(TimelineAsset _timeline)

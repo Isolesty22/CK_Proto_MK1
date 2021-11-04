@@ -68,11 +68,11 @@ public class Pixy : MonoBehaviour
 
         transform.parent = null;
 
+        anim.SetTrigger("Attack");
+
         transform.DOMove(firePos.position, pixyMoveTime).SetEase(Ease.Unset);
 
         yield return new WaitForSeconds(pixyMoveTime);
-
-        anim.SetTrigger("attack");
 
         var counter = Counter();
         StartCoroutine(counter);
@@ -108,6 +108,7 @@ public class Pixy : MonoBehaviour
         transform.parent = pc.transform;
         transform.DOLocalMove(pixyPos, pixyMoveTime).SetEase(Ease.Unset);
         transform.DOLocalRotate(Vector3.zero, pixyMoveTime).SetEase(Ease.Unset);
+        transform.localScale = new Vector3(1, 1, 1);
     }
 
     public void Ult()
@@ -133,11 +134,16 @@ public class Pixy : MonoBehaviour
         {
             cooltime += Time.deltaTime;
 
-            if (cooltime > ultDelay)
+            if (enemyList.Count > 0)
             {
-                UltShot();
-                cooltime = 0;
+                if (cooltime > ultDelay)
+                {
+                    UltShot();
+                    cooltime = 0;
+                }
+
             }
+           
 
             yield return null;
         }
@@ -156,7 +162,7 @@ public class Pixy : MonoBehaviour
 
     public void UltShot()
     {
-        if (enemyList.Count <= 0)
+        if (enemyList.Count < 1)
             return;
 
         Debug.Log("work");
@@ -166,6 +172,9 @@ public class Pixy : MonoBehaviour
         ult.t = 0f;
 
         ult.master = this.gameObject;
+
+        ult.enemy = null;
+
 
         float shortDist = 100f;
         for(int i =0;i<enemyList.Count;i++)
@@ -178,7 +187,15 @@ public class Pixy : MonoBehaviour
             }
         }
 
-        ult.Initialize();
+        if(ult.enemy == null)
+        {
+            CustomPoolManager.Instance.ReleaseThis(ult);
+        }
+        else
+        {
+            ult.Initialize();
+
+        }
     }
 
     private void OnTriggerEnter(Collider other)

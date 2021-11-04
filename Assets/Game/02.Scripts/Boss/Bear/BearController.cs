@@ -134,7 +134,7 @@ public class BearController : BossController
 
     public Pools pools = new Pools();
 
-    private BearEmissionController emissionController;
+    private EmissionHelper emissionHelper;
     #region Init 관련
     protected override void Init()
     {
@@ -149,17 +149,13 @@ public class BearController : BossController
         bearMapInfo.Init();
 
         //int layerMask = 1 << LayerMask.NameToLayer(str_Arrow);
-        emissionController = GetComponent<BearEmissionController>();
+        emissionHelper = GetComponent<EmissionHelper>();
 
 
         //스테이트 머신 관련 초기화
         stateMachine = new BearStateMachine(this);
         stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eBearState.Idle);
-
-        //공격 받았을 때 해야할 일들
-        OnHitHandler = ReceiveDamage;
-        OnHitHandler += emissionController.OnHit;
 
         skillObjects.concentrateHelper.Init();
         bossPhaseValue.Init(hp);
@@ -207,10 +203,6 @@ public class BearController : BossController
 
     #endregion
 
-    private void Awake()
-    {
-        OnHitHandler = () => { };
-    }
     private void Start()
     {
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
@@ -381,27 +373,29 @@ public class BearController : BossController
 
     public void EmissionOn(float _value)
     {
-        emissionController.EmissionOn(_value);
+        emissionHelper.EmissionOn(_value);
     }
     public void EmissionOff()
     {
-        emissionController.EmissionOff();
+        emissionHelper.EmissionOff();
 
     }
 
 
-    private readonly string str_Arrow = "Arrow";
-
-
+    public override void OnHit()
+    {
+        ReceiveDamage();
+        emissionHelper.OnHit();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(str_Arrow))
-        {
-            if (damage > 0f)
-            {
-                OnHitHandler();
-            }
+        if (other.CompareTag(TagName.Arrow))
+        {          
+            // damage = other.GetComponent<ArrowBase>().damage;
+
+            OnHit();
+
         }
     }
 

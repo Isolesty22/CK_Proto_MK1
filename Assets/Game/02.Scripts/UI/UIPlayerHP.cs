@@ -104,7 +104,7 @@ public class UIPlayerHP : MonoBehaviour
         currentHP = playerController.Stat.hp;
     }
 
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
+    WaitForSeconds waitSec = new WaitForSeconds(0.5f);
     private IEnumerator ProcessHurt()
     {
         Images.backgroundImage.sprite = Images.hurtBG;

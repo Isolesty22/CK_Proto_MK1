@@ -74,10 +74,15 @@ public class WhiskersBody : MonoBehaviour
     }
 
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         MoveLines();
+        
     }
+    //private void FixedUpdate()
+    //{
+    //    MoveLines();
+    //}
     private void MoveLines()
     {
         Com.waveDirection.localRotation = Quaternion.Euler(0, 0, Mathf.Sin(Time.time * Val.waveSpeed) * Val.waveMagnitude);

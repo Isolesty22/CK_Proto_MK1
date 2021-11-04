@@ -11,6 +11,7 @@ public class WhiskersHead : MonoBehaviour
     public float moveSpeed;
     public Transform target; //바라볼 타겟
     public Rigidbody rigidBody;
+    private Transform myTransform;
 
     private Vector2 dirtection;
 
@@ -25,12 +26,17 @@ public class WhiskersHead : MonoBehaviour
         {
             rigidBody = GetComponent<Rigidbody>();
         }
+        myTransform = GetComponent<Transform>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        GoRotate(); //헐 짱 편한데 델리게이트??? 뭐임이게?? 와...
+        GoRotate();
     }
+    //private void FixedUpdate()
+    //{
+    //    GoRotate();
+    //}
 
     void GoRotate()
     {
@@ -39,12 +45,13 @@ public class WhiskersHead : MonoBehaviour
         float angle = Mathf.Atan2(dirtection.y, dirtection.x) * Mathf.Rad2Deg;
 
         //이쪽을 적절하게 조절해서 방향 변경-----
-        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        //Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         //rigidBody.rotation = Quaternion.Slerp(rigidBody.transform.rotation, rotation, rotationSpeed * Time.smoothDeltaTime);
         //------
 
 
-        rigidBody.position = target.position;
+        myTransform.position = target.position;
+       // rigidBody.position = target.position;
     }
 
 

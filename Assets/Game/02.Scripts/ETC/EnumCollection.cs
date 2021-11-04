@@ -6,8 +6,8 @@ public enum ePhase
 {
     Phase_1,
     Phase_2,
-  //  Phase_3,
-  //  Phase_Finish
+    //  Phase_3,
+    //  Phase_Finish
 }
 
 public enum eBearState
@@ -65,13 +65,37 @@ public enum eBearState
 
 public enum eGloomState
 {
+    [InspectorName("대기/(None)")]
     None,
+
+    [InspectorName("대기/(Idle_사용금지)")]
     Idle,
-    //Leap,
-    Threat,
-    Obstruct,
+
+    [InspectorName("사용금지/추격")]
     Chase,
+
+    [InspectorName("도약")]
+    Leap,
+
+    [InspectorName("위협")]
+    Threat,
+
+    [InspectorName("가시숲")]
+    ThornForest,
+
+    [InspectorName("방해")]
+    Obstruct,
+
+    [InspectorName("가시밭길")]
+    ThornPath,
+
+    [InspectorName("사용금지/소환")]
+    Summon,
+
+    [InspectorName("사용금지/광폭화")]
     Berserk,
+
+    [InspectorName("사용금지/죽음")]
     Die
 
 }
@@ -82,7 +106,7 @@ public enum eUIText
     DataDelete,
     DataSave,
     Exit,
-    
+
 
 }
 
@@ -141,7 +165,100 @@ public enum eDataManagerState
 
 }
 
-public class EnumCollection : MonoBehaviour
+
+public enum eDiretion
+{
+    Left,
+    Right,
+    Up,
+    Down
+}
+
+
+[System.Serializable]
+public class BoxColliderInfo
+{
+    public Vector3 center;
+    public Vector3 size;
+}
+
+[System.Serializable]
+public class MapBlock
+{
+    [System.Serializable]
+    public class Position
+    {
+        [ReadOnly]
+        public Vector3 min;
+
+        [ReadOnly]
+        public Vector3 max;
+
+        [ReadOnly]
+        public Vector3 groundCenter;
+
+        [ReadOnly]
+        public Vector3 topCenter;
+    }
+    public enum eType
+    {
+        None,
+        Empty,
+        Used,
+    }
+    private eType originType;
+    [ReadOnly]
+    public eType currentType;
+
+    public Position position = new Position();
+
+    public void SetOriginType(eType _type)
+    {
+        originType = _type;
+    }
+    public void SetMinMax(Vector3 _min, Vector3 _max)
+    {
+        position.min = _min;
+        position.max = _max;
+    }
+
+    public void SetGroundCenter(Vector3 _groundCenter)
+    {
+        position.groundCenter = _groundCenter;
+    }
+    public void SetTopCenter(Vector3 _topCenter)
+    {
+        position.topCenter = _topCenter;
+    }
+
+    public void SetCurrentType(eType _type)
+    {
+        currentType = _type;
+    }
+    public void SetCurrentTypeToOrigin()
+    {
+        currentType = originType;
+    }
+
+}
+
+/// <summary>
+/// 데미지를 받을 수 있는 오브젝트에게 상속합니다.
+/// </summary>
+public interface IDamageable
+{
+    public void OnHit();
+    public void ReceiveDamage();
+}
+
+public static class TagName
+{
+    public static readonly string Player = "Player";
+    public static readonly string Arrow = "Arrow";
+    public static readonly string ParryingObject = "ParryingObject";
+   // public static readonly string  = "FieldMap";
+}
+    public class EnumCollection : MonoBehaviour
 {
 
 }

@@ -28,7 +28,7 @@ public class BearConcentrateHelper : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(TagName.Player))
         {
             if (isSucceedParry)
             {

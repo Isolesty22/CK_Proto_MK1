@@ -23,15 +23,29 @@ public class GloomStateMachine : BossStateMachine
     {
         eGloomState tempState = (eGloomState)_state;
 
-
         BossState bossState = tempState switch
         {
+
             eGloomState.None => new GloomState_Idle(gloomController),
-            eGloomState.Idle  => new GloomState_Idle(gloomController),
-            eGloomState.Threat  => new GloomState_Threat(gloomController),
-            eGloomState.Obstruct => new GloomState_Obstruct(gloomController),
+
+            eGloomState.Idle => new GloomState_Idle(gloomController),
+
             eGloomState.Chase => new GloomState_Chase(gloomController),
+
+            eGloomState.Leap => new GloomState_Leap(gloomController),
+
+            eGloomState.Threat => new GloomState_Threat(gloomController),
+
+            eGloomState.ThornForest => new GloomState_ThornForest(gloomController),
+
+            eGloomState.Obstruct => new GloomState_Obstruct(gloomController),
+
+            eGloomState.ThornPath => new GloomState_ThornPath(gloomController),
+
+            eGloomState.Summon => new GloomState_Summon(gloomController),
+
             eGloomState.Berserk => new GloomState_Berserk(gloomController),
+
             eGloomState.Die => new GloomState_Die(gloomController),
 
             _ => new GloomState_Idle(gloomController)
