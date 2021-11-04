@@ -71,10 +71,10 @@ public enum eGloomState
     [InspectorName("대기/(Idle_사용금지)")]
     Idle,
 
-    //[InspectorName("추격")]
+    [InspectorName("사용금지/추격")]
     Chase,
 
-    //[InspectorName("도약")]
+    [InspectorName("도약")]
     Leap,
 
     [InspectorName("위협")]
@@ -89,13 +89,13 @@ public enum eGloomState
     [InspectorName("가시밭길")]
     ThornPath,
 
-    //[InspectorName("소환")]
+    [InspectorName("사용금지/소환")]
     Summon,
 
-    [InspectorName("광폭화(사용금지)")]
+    [InspectorName("사용금지/광폭화")]
     Berserk,
 
-    [InspectorName("죽음(사용금지)")]
+    [InspectorName("사용금지/죽음")]
     Die
 
 }
@@ -242,12 +242,23 @@ public class MapBlock
 
 }
 
+/// <summary>
+/// 데미지를 받을 수 있는 오브젝트에게 상속합니다.
+/// </summary>
 public interface IDamageable
 {
     public void OnHit();
     public void ReceiveDamage();
 }
-public class EnumCollection : MonoBehaviour
+
+public static class TagName
+{
+    public static readonly string Player = "Player";
+    public static readonly string Arrow = "Arrow";
+    public static readonly string ParryingObject = "ParryingObject";
+   // public static readonly string  = "FieldMap";
+}
+    public class EnumCollection : MonoBehaviour
 {
 
 }

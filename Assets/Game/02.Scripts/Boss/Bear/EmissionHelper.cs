@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BearEmissionController : MonoBehaviour
+public class EmissionHelper : MonoBehaviour
 {
 
     public SkinnedMeshRenderer meshRenderer;
@@ -10,6 +10,8 @@ public class BearEmissionController : MonoBehaviour
 
     Color baseColor = Color.red;
     Color originalColor;
+
+    [SerializeField]
     Color hitColor = new Color(0.8f,0.8f,0.8f,1f);
     private void Awake()
     {

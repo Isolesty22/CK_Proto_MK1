@@ -10,9 +10,9 @@ public class GloomController : BossController
     [Serializable]
     public class Components
     {
-        [Header("이동 시 사용하는 강체(자주 사용하지 않음)")]
         public Rigidbody rigidbody;
         public GloomMap gloomMap;
+        public EmissionHelper emissionHelper;
     }
 
     [Serializable]
@@ -25,10 +25,14 @@ public class GloomController : BossController
     public class Pools
     {
         public CustomPool<GloomThornVine> thornVine = new CustomPool<GloomThornVine>();
+        public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
     }
     [Serializable]
     public class SkillObjects
     {
+        public GloomLeapImpact leapImpact;
+
+        public GameObject threat;
         /// <summary>
         /// int = 소환될 당시의 인덱스 값
         /// </summary>
@@ -55,24 +59,43 @@ public class GloomController : BossController
         [Serializable]
         public struct LeapPattern
         {
+
+            [Header("[Leap]")]
+
             [Tooltip("점프 시 위로 상승하는 시간입니다. 값이 적을수록 더 빠르게 상승합니다.")]
             public float upTime;
             [Tooltip("착지 시 아래로 하강하는 시간입니다. 값이 적을수록 더 빠르게 하강합니다.")]
             public float downTime;
             [Tooltip("착지 애니메이션의 실행 시간입니다. 착지가 끝나기 downAnimTime초 전에 애니메이션이 실행됩니다.")]
             public float downAnimTime;
-
-            [Tooltip("도약으로 인해 생긴 불꽃의 지속 시간입니다.")]
-            public float leapEffectDuration;
-            [Space(10)]
             [Tooltip("화면 밖으로 상승하기 위해 더하는 값입니다.")]
             public float upPosValue;
+
+            [Header("[LeapImpact]")]
+
+            [Tooltip("리프임팩트의 지속 시간입니다.")]
+            public float leapImpactDuration;
+        }
+
+        [Serializable]
+        public struct ObstructPattern
+        {
+            [Tooltip("투사체의 이동에 참조하는 커브입니다.")]
+            public AnimationCurve curve;
+
+            [Tooltip("투사체의 생성 간격입니다.")]
+            public float createInterval;
+            [Tooltip("투사체가 생성된 후 waitTime만큼 대기 후 이동을 시작합니다.")]
+            public float waitTime;
+            [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
         }
 
         #endregion
 
-        public ThornPattern thornPattern;
-        public LeapPattern leapPattern;
+        public ThornPattern thorn;
+        public LeapPattern leap;
+        public ObstructPattern obstruct;
     }
 
     #endregion
@@ -147,7 +170,6 @@ public class GloomController : BossController
         stateMachine.StartState((int)eGloomState.Idle);
 
         ChangeDirection(eDiretion.Right);
-
         Init_Animator();
         Init_Pools();
         Init_Skills();
@@ -176,11 +198,13 @@ public class GloomController : BossController
     private void Init_Pools()
     {
         Pool.thornVine = CustomPoolManager.Instance.CreateCustomPool<GloomThornVine>();
+        Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
     }
 
     private void Init_Skills()
     {
         UpdateObstructPositions();
+        SkillObj.threat.SetActive(false);
     }
 
     /// <summary>
@@ -192,7 +216,7 @@ public class GloomController : BossController
         SkillObj.obstructPositions = new Vector3[length];
         for (int i = 0; i < length; i++)
         {
-            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].localPosition;
+            SkillObj.obstructPositions[i] = SkillObj.obstructTransforms[i].position;
         }
     }
 
@@ -275,8 +299,6 @@ public class GloomController : BossController
         currentIndex = 0;
 
     }
-
-
     private float GetNextPhaseHP(ePhase _currentPhase)
     {
         switch (_currentPhase)
@@ -306,6 +328,7 @@ public class GloomController : BossController
     {
         diretion = _direction;
         Com.gloomMap.ChangeDirection(_direction);
+        UpdateObstructPositions();
     }
 
     public enum eUsableBlockMode
@@ -401,6 +424,21 @@ public class GloomController : BossController
     public bool ContainsThornVineDict(int _index)
     {
         return SkillObj.aliveThornVineDict.ContainsKey(_index);
+    }
+
+    public override void OnHit()
+    {
+        ReceiveDamage();
+        Com.emissionHelper.OnHit();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag(TagName.Arrow))
+        {
+            OnHit();
+
+        }
     }
 
 }
