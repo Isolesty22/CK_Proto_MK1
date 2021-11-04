@@ -65,10 +65,10 @@ public enum eBearState
 
 public enum eGloomState
 {
-    [InspectorName("대기/(None)")]
+    [InspectorName("대기/None")]
     None,
 
-    [InspectorName("대기/(Idle_사용금지)")]
+    [InspectorName("대기/Idle(사용금지)")]
     Idle,
 
     [InspectorName("사용금지/추격")]
@@ -89,7 +89,7 @@ public enum eGloomState
     [InspectorName("가시밭길")]
     ThornPath,
 
-    [InspectorName("사용금지/파동")]
+    [InspectorName("파동")]
     Wave,
 
     [InspectorName("사용금지/소환")]

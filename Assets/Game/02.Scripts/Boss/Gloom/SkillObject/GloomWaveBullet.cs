@@ -13,7 +13,6 @@ public class GloomWaveBullet : MonoBehaviour
         Down
     }
 
-
     public Rigidbody rigidBody;
 
     [ReadOnly]
@@ -22,11 +21,8 @@ public class GloomWaveBullet : MonoBehaviour
     [ReadOnly]
     public Values Val;
 
-    [HideInInspector]
-    public Vector3 startPosition;
-
-    [HideInInspector]
-    public Vector3 endPosition;
+    private Vector3 startPosition;
+    private Vector3 endPosition;
 
     private Vector3 currentPosition;
 
@@ -36,6 +32,19 @@ public class GloomWaveBullet : MonoBehaviour
         gloom = _gloom;
         Val = _gloom.SkillVal.wave;
         mode = _mode;
+
+        Val.magnitude = Mathf.Abs(Val.magnitude);
+        if (_mode == eMode.Down)
+        {
+            Val.magnitude *= -1f;
+        }
+
+    }
+
+    public void SetPosition(Vector3 _start, Vector3 _end)
+    {
+        startPosition = _start;
+        endPosition = _end;
     }
     public void Move()
     {
@@ -47,6 +56,7 @@ public class GloomWaveBullet : MonoBehaviour
         float timer = 0f;
         float progress = 0f;
         float posZ = rigidBody.position.z;
+        float posY = rigidBody.position.y;
 
         while (progress < 1f)
         {
@@ -55,7 +65,7 @@ public class GloomWaveBullet : MonoBehaviour
 
             currentPosition = new Vector3(
                 Mathf.Lerp(startPosition.x, endPosition.x, progress),
-                Mathf.Sin(timer * Val.frequency) * Val.magnitude,
+                posY + Mathf.Sin(timer * Val.frequency) * Val.magnitude,
                 posZ
                 );
 
@@ -63,6 +73,8 @@ public class GloomWaveBullet : MonoBehaviour
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
+        gloom.Pool.waveBullet.ReleaseThis(this);
     }
 
 }

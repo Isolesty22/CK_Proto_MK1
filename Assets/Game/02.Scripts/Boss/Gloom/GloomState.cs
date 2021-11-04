@@ -383,6 +383,7 @@ public class GloomState_Obstruct : GloomState
 
     private Vector3 endPos;
     private Vector3[] endPosArr = null;
+
     private WaitForSeconds waitSec = null;
     public GloomState_Obstruct(GloomController _gloomController)
     {
@@ -399,14 +400,20 @@ public class GloomState_Obstruct : GloomState
 
         //방향에 따라 투사체 endPos 설정
         if (gloom.diretion == eDiretion.Right)
+        {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
+            endPos -= gloom.SkillVal.extendEndPos;
+        }
         else
+        {
             endPos = gloom.Com.gloomMap.mapData.maxPosition;
+            endPos += gloom.SkillVal.extendEndPos;
+        }
 
         endPosArr = new Vector3[] {
-                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[0].y,gloom.SkillObj.obstructPositions[0].z),
-                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[1].y,gloom.SkillObj.obstructPositions[1].z),
-                new Vector3(endPos.x,gloom.SkillObj.obstructPositions[2].y,gloom.SkillObj.obstructPositions[2].z)
+                new Vector3(endPos.x,gloom. SkillVal.obstruct.positions[0].y,gloom.SkillVal.obstruct.positions[0].z),
+                new Vector3(endPos.x,gloom. SkillVal.obstruct.positions[1].y,gloom.SkillVal.obstruct.positions[1].z),
+                new Vector3(endPos.x,gloom.SkillVal.obstruct.positions[2].y,gloom.SkillVal.obstruct.positions[2].z)
             };
 
         gloom.SetTrigger("Obstruct_Start");
@@ -424,7 +431,7 @@ public class GloomState_Obstruct : GloomState
         for (int i = 0; i < 9; i++)
         {
             int index = GetUsablePositionIndex();
-            Vector3 startPos = gloom.SkillObj.obstructPositions[index];
+            Vector3 startPos = gloom.SkillVal.obstruct.positions[index];
 
             GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
             bullet.Init(gloom, startPos, endPosArr[index]);
@@ -574,6 +581,10 @@ public class GloomState_ThornForest : GloomState
 }
 public class GloomState_Wave : GloomState
 {
+
+    private Vector3 startPos;
+    private Vector3 endPos;
+
     public GloomState_Wave(GloomController _gloomController)
     {
         gloom = _gloomController;
@@ -582,7 +593,50 @@ public class GloomState_Wave : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+        startPos = gloom.SkillVal.wave.startPosition;
+        if (gloom.diretion == eDiretion.Right)
+        {
+            endPos = gloom.Com.gloomMap.mapData.minPosition;
+            endPos -= gloom.SkillVal.extendEndPos;
+        }
+        else
+        {
+            endPos = gloom.Com.gloomMap.mapData.maxPosition;
+            endPos += gloom.SkillVal.extendEndPos;
+        }
+
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("Wave_Start");
     }
+
+    public void AnimEvent()
+    {
+        GloomWaveBullet upBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
+        GloomWaveBullet downBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
+
+        upBullet.Init(gloom, GloomWaveBullet.eMode.Up);
+        upBullet.SetPosition(startPos, endPos);
+
+        downBullet.Init(gloom, GloomWaveBullet.eMode.Down);
+        downBullet.SetPosition(startPos, endPos);
+
+        upBullet.Move();
+        downBullet.Move();
+
+        //gloom.StartCoroutine(ProcessSkill());
+    }
+
+    //private IEnumerator ProcessSkill()
+    //{
+    //    GloomWaveBullet upBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
+    //    GloomWaveBullet downBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
+
+    //    upBullet.Init(gloom, GloomWaveBullet.eMode.Up);
+    //    downBullet.Init(gloom, GloomWaveBullet.eMode.Down);
+    //    upBullet.Move();
+    //    downBullet.Move();
+    //}
 }
 public class GloomState_Summon : GloomState
 {
