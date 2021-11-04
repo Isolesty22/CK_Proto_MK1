@@ -2614,16 +2614,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 397551998}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
-      propertyPath: _skillObjects.waveTransform
-      value: 
-      objectReference: {fileID: 2031352654}
+      propertyPath: _skillValues.chase.curvedValue
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.size
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[1].state
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[2].state
@@ -4162,11 +4162,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!4 &2031352654 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6791360718746773128, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
-  m_PrefabInstance: {fileID: 1369393120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7065911887056353317
 PrefabInstance:
   m_ObjectHideFlags: 0
