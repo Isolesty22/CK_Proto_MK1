@@ -55,18 +55,21 @@ public class GloomController : BossController
         [Serializable]
         public struct LeapPattern
         {
+
+            [Header("[Leap]")]
             [Tooltip("점프 시 위로 상승하는 시간입니다. 값이 적을수록 더 빠르게 상승합니다.")]
             public float upTime;
             [Tooltip("착지 시 아래로 하강하는 시간입니다. 값이 적을수록 더 빠르게 하강합니다.")]
             public float downTime;
             [Tooltip("착지 애니메이션의 실행 시간입니다. 착지가 끝나기 downAnimTime초 전에 애니메이션이 실행됩니다.")]
             public float downAnimTime;
-
-            [Tooltip("도약으로 인해 생긴 불꽃의 지속 시간입니다.")]
-            public float leapEffectDuration;
-            [Space(10)]
             [Tooltip("화면 밖으로 상승하기 위해 더하는 값입니다.")]
             public float upPosValue;
+
+            [Header("[LeapImpact]")]
+
+            [Tooltip("리프임팩트의 지속 시간입니다.")]
+            public float leapEffectDuration;
         }
         #endregion
 
