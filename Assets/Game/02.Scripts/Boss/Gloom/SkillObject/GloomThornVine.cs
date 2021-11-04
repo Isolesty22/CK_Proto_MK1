@@ -260,7 +260,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
             ReceiveDamage();
         }
 
-
     }
 
     private void OnTriggerEnter(Collider other)

@@ -5,11 +5,10 @@ using UnityEngine;
 public class GloomObstructBullet : MonoBehaviour
 {
 
-
     [Tooltip("투사체가 생성된 후 waitTime만큼 대기 후 이동을 시작합니다.")]
-    public float waitTime;
+    private float waitTime;
     [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
-    public float moveTime;
+    private float moveTime;
 
     [HideInInspector]
     public GloomController gloom;
@@ -28,6 +27,7 @@ public class GloomObstructBullet : MonoBehaviour
     }
     public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
     {
+        myTransform.position = _startPos;
         gloom = _gloom;
         curve = _gloom.SkillVal.obstruct.curve;
         startPos = _startPos;
@@ -64,7 +64,9 @@ public class GloomObstructBullet : MonoBehaviour
 
     private IEnumerator ProcessDespawn()
     {
+        // yield return YieldInstructionCache.WaitForFixedUpdate;
         yield return null;
+
         gloom.Pool.obstructBullet.ReleaseThis(this);
 
     }
@@ -72,7 +74,6 @@ public class GloomObstructBullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-
         if (other.CompareTag(TagName.Player))
         {
             Despawn();

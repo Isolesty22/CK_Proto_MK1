@@ -385,8 +385,8 @@ public class GloomState_Obstruct : GloomState
 
         for (int i = 0; i < 9; i++)
         {
-            Debug.Log("방해 인덱스 : " + GetUsablePositionIndex());
-            yield return null;
+            Vector3 startPos = gloom.SkillObj.obstructPositions[GetUsablePositionIndex()];
+            gloom.Pool.obstructBullet.SpawnThis(, Vector3.zero, null);
         }
     }
 

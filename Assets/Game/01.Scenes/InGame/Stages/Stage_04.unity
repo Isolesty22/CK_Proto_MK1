@@ -2687,8 +2687,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 397551998}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+      propertyPath: _patterns.phase_01_List.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[3].state
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[4].state
@@ -2699,8 +2703,16 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+      propertyPath: _patterns.phase_01_List.Array.data[1].waitTime
+      value: 1.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+      propertyPath: _patterns.phase_01_List.Array.data[2].waitTime
+      value: 2.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[3].waitTime
-      value: 2.5
+      value: 2.45
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[4].waitTime
@@ -2849,6 +2861,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: poolObjectList.Array.data[1].count
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[2].count
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
@@ -2856,41 +2872,109 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[8].count
+      propertyPath: poolObjectList.Array.data[4].count
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[5].count
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[6].count
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[9].count
+      propertyPath: poolObjectList.Array.data[8].count
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[1].typeName
-      value: Seed
+      propertyPath: poolObjectList.Array.data[9].count
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[7].typeName
+      propertyPath: poolObjectList.Array.data[10].count
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[1].typeName
+      value: Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[2].typeName
+      value: CurveBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[3].typeName
+      value: ArrowHit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[4].typeName
+      value: Parry
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[5].typeName
+      value: Fire
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[6].typeName
       value: Bezier
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[8].typeName
+      propertyPath: poolObjectList.Array.data[7].typeName
       value: UltHit
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[9].typeName
+      propertyPath: poolObjectList.Array.data[8].typeName
       value: GloomThornVine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[9].typeName
+      value: GloomObstructBullet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[10].typeName
+      value: GloomObstructBullet
       objectReference: {fileID: 0}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: poolObjectList.Array.data[1].gameObject
       value: 
-      objectReference: {fileID: 8557715749195325809, guid: 18f31c51768d34840836697fbe72128a, type: 3}
+      objectReference: {fileID: 213205833186364788, guid: 1979c495d85c03448b52bcfbff0c8c74, type: 3}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[8].gameObject
+      propertyPath: poolObjectList.Array.data[2].gameObject
+      value: 
+      objectReference: {fileID: 1613952194714899423, guid: 5413f7482da227d408b710e28674539c, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[3].gameObject
+      value: 
+      objectReference: {fileID: 6467704461450193245, guid: 9dd01f6b9434dad4cbe58ee18241e7b0, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[4].gameObject
+      value: 
+      objectReference: {fileID: 6354597705838841496, guid: 1570dd77822aa294483596edf64ae938, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[5].gameObject
+      value: 
+      objectReference: {fileID: 3902326867876706418, guid: 1171c002c537b6f4eb701b233856d893, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[6].gameObject
+      value: 
+      objectReference: {fileID: 8383360388433189441, guid: b40e4040351e8fd46a2ce4415b99951b, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[7].gameObject
       value: 
       objectReference: {fileID: 5426059495871040865, guid: 60e708d6543446b43bbec888b7a90904, type: 3}
     - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
-      propertyPath: poolObjectList.Array.data[9].gameObject
+      propertyPath: poolObjectList.Array.data[8].gameObject
       value: 
       objectReference: {fileID: 581348514339492559, guid: cc680dcfe0b0b0646882fe626820ab90, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[9].gameObject
+      value: 
+      objectReference: {fileID: 5141234070958707158, guid: a9030c0febd5773479dd572dcb077836, type: 3}
+    - target: {fileID: 3497438511134749181, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+      propertyPath: poolObjectList.Array.data[10].gameObject
+      value: 
+      objectReference: {fileID: 5141234070958707158, guid: a9030c0febd5773479dd572dcb077836, type: 3}
     - target: {fileID: 8919521404435474334, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
       propertyPath: m_IsActive
       value: 1
