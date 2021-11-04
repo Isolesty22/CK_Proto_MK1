@@ -68,7 +68,6 @@ public class GloomController : BossController
             [Tooltip("화면 밖으로 상승하기 위해 더하는 값입니다.")]
             public float upPosValue;
         }
-
         #endregion
 
         public ThornPattern thornPattern;
