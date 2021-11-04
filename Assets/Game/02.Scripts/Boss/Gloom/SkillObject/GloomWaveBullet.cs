@@ -66,10 +66,10 @@ public class GloomWaveBullet : MonoBehaviour
             currentPosition = new Vector3(
                 Mathf.Lerp(startPosition.x, endPosition.x, progress),
                 posY + Mathf.Sin(timer * Val.frequency) * Val.magnitude,
-                posZ
-                );
+                posZ);
 
-            rigidBody.position = currentPosition;
+            rigidBody.MoveRotation(Quaternion.LookRotation(currentPosition - rigidBody.position, Vector3.up));
+            rigidBody.MovePosition(currentPosition);
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
