@@ -20,7 +20,7 @@ public class BearProjectile : MonoBehaviour
     public Action OnTrigger;
     public void SetParryMode(bool _canParry)
     {
-        Physics.IgnoreLayerCollision(LayerMask.NameToLayer("Arrow"), LayerMask.NameToLayer("SkillEffect"));
+        Physics.IgnoreLayerCollision(LayerMask.NameToLayer(TagName.Arrow), LayerMask.NameToLayer("SkillEffect"));
 
         //OnTrigger = Despawn;
         canParry = _canParry;
@@ -28,7 +28,7 @@ public class BearProjectile : MonoBehaviour
         {
             //OnTrigger = OnTrigger_CanParry;
             OnTrigger = OnTrigger_Despawn;
-            gameObject.tag = "ParryingObject";
+            gameObject.tag = TagName.ParryingObject;
         }
         else
         {
