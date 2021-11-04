@@ -256,6 +256,7 @@ public static class TagName
     public static readonly string Player = "Player";
     public static readonly string Arrow = "Arrow";
     public static readonly string ParryingObject = "ParryingObject";
+    public static readonly string Monster = "Monster";
    // public static readonly string  = "FieldMap";
 }
     public class EnumCollection : MonoBehaviour

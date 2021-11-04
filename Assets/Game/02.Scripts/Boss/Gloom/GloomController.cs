@@ -440,7 +440,6 @@ public class GloomController : BossController
 
         }
     }
-
 }
 
 
