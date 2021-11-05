@@ -21,6 +21,8 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
+
+        [Header("PlayerSFX")]
         public AudioSource audioSource_PAttack;
         public AudioSource audioSource_PParrying;
         public AudioSource audioSource_PWalk;
@@ -28,6 +30,8 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_PJump;
         public AudioSource audioSource_PLand;
         public AudioSource audioSource_PHit;
+        [Header("PlayerClip")]
+        public List<AudioSource> audioSources_MonsterDead = new List<AudioSource>();
     }
     [Serializable]
     public class AudioClips
@@ -50,6 +54,7 @@ public class AudioManager : MonoBehaviour
     public Dictionary<string, AudioClip> clipDict_SFX = new Dictionary<string, AudioClip>();
 
     #endregion
+
     private void Awake()
     {
         if (Instance == null)
@@ -235,5 +240,22 @@ public class AudioManager : MonoBehaviour
         return keepBgmClip;
     }
 
+    #endregion
+
+    #region Setting
+
+    public void SettingVolume(float masterVolume, float bgmVolume, float sfxVolume)
+    {
+        Audios.audioSource_BGM.volume = 1 * masterVolume * bgmVolume;
+        Audios.audioSource_EVM.volume = 0.3f * masterVolume * bgmVolume;
+        Audios.audioSource_SFX.volume = 0.5f * masterVolume* sfxVolume;
+        Audios.audioSource_PAttack.volume = 0.4f * masterVolume * sfxVolume;
+        Audios.audioSource_PHit.volume = 1 * masterVolume * sfxVolume;
+        Audios.audioSource_PJump.volume = 0.5f * masterVolume * sfxVolume;
+        Audios.audioSource_PLand.volume = 1 * masterVolume * sfxVolume;
+        Audios.audioSource_PParrying.volume = 0.3f * masterVolume * sfxVolume;
+        Audios.audioSource_PRun.volume = 0.3f * masterVolume * sfxVolume;
+        Audios.audioSource_PWalk.volume = 0.3f * masterVolume * sfxVolume;
+    }
     #endregion
 }

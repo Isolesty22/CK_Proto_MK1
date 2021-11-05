@@ -94,16 +94,7 @@ public class UIVolumeSetting : UIBase
         //데이터 매니저의 현재 데이터를 변경된 데이터로 설정
         dataManager.currentData_settings.CopyData(currentData_settings);
 
-        AudioManager.Instance.Audios.audioSource_BGM.volume = 1 * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_EVM.volume = 0.3f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_SFX.volume = 0.5f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PAttack.volume = 0.4f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PHit.volume = 1 * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PJump.volume = 0.5f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PLand.volume = 1 * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PParrying.volume = 0.3f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PRun.volume = 0.3f * GetFloat(currentData_settings.volume_master);
-        AudioManager.Instance.Audios.audioSource_PWalk.volume = 0.3f * GetFloat(currentData_settings.volume_master);
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
 
         //변경된 데이터 저장
         yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));

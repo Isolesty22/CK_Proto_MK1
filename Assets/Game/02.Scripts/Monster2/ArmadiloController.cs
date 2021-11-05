@@ -15,9 +15,6 @@ public class ArmadiloController : MonsterController
     [Serializable]
     public class ArmadiloComponents
     {
-        public GameObject normalModel;
-        public GameObject defenceModel;
-        public GameObject overturnModel;
     }
 
     enum ArmadiloState
@@ -40,6 +37,8 @@ public class ArmadiloController : MonsterController
     {
         ChangeToNormal();
         base.Initialize();
+        Com.animator.SetBool("isDefence", false);
+        Com.animator.SetBool("isOverturn", false);
         Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
     }
@@ -73,14 +72,6 @@ public class ArmadiloController : MonsterController
     protected override void Move()
     {
         base.Move();
-        if(GameManager.instance.playerController.transform.position.x < transform.position.x)
-        {
-            transform.localEulerAngles = Vector3.zero;
-        }
-        else
-        {
-            transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
     }
     protected override void Detect()
     {
@@ -121,11 +112,8 @@ public class ArmadiloController : MonsterController
     public void ChangeToOverturn()
     {
         armaState = ArmadiloState.Overturn;
-        Com2.normalModel.SetActive(false);
-        Com2.defenceModel.SetActive(false);
-        Com2.overturnModel.SetActive(true);
-        Com.monsterModel = Com2.overturnModel;
-        Com.renderer = Com2.overturnModel.GetComponent<Renderer>();
+        Com.animator.SetBool("isOverturn", true);
+        Com.animator.SetBool("isDefence", false);
 
         var changeToDefence = ChangeToDefence();
         StartCoroutine(changeToDefence);
@@ -135,31 +123,22 @@ public class ArmadiloController : MonsterController
     {
         yield return new WaitForSeconds(Stat2.overturnTime);
         armaState = ArmadiloState.Defence;
-        Com2.overturnModel.SetActive(false);
-        Com2.normalModel.SetActive(false);
-        Com2.defenceModel.SetActive(true);
-        Com.monsterModel = Com2.defenceModel;
-        Com.renderer = Com2.defenceModel.GetComponent<Renderer>();
+        Com.animator.SetBool("isDefence", true);
+        Com.animator.SetBool("isOverturn", false);
     }
 
     private void ChangeToDefenceImmedeately()
     {
         armaState = ArmadiloState.Defence;
-        Com2.overturnModel.SetActive(false);
-        Com2.normalModel.SetActive(false);
-        Com2.defenceModel.SetActive(true);
-        Com.monsterModel = Com2.defenceModel;
-        Com.renderer = Com2.defenceModel.GetComponent<Renderer>();
+        Com.animator.SetBool("isDefence", true);
+        Com.animator.SetBool("isOverturn", false);
     }
 
 
     private void ChangeToNormal()
     {
         armaState = ArmadiloState.Normal;
-        Com2.overturnModel.SetActive(false);
-        Com2.defenceModel.SetActive(false);
-        Com2.normalModel.SetActive(true);
-        Com.monsterModel = Com2.normalModel;
-        Com.renderer = Com2.normalModel.GetComponent<Renderer>();
+        Com.animator.SetBool("isDefence", false);
+        Com.animator.SetBool("isOverturn", false);
     }
 }
