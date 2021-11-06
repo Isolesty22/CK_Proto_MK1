@@ -49,7 +49,7 @@ public class GameStarter : MonoBehaviour
         uiTitleScreen.Close();
 
         //타이틀 화면이 닫힐 때 까지 대기
-        yield return new WaitUntil(() => !uiTitleScreen.isOpen);
+        yield return new WaitWhile(() => uiTitleScreen.isOpen);
 
         yield return new WaitForSecondsRealtime(1f);
 
@@ -57,7 +57,7 @@ public class GameStarter : MonoBehaviour
         StartCoroutine(SceneChanger.Instance.LoadThisSceneToName(SceneNames.mainMenu));
 
         //로딩이 끝날 때 까지 대기
-        yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
+        yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
 
         yield return null;
 

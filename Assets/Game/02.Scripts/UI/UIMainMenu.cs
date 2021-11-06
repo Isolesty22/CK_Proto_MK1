@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class UIMainMenu : UIBase
 {
+
+    public UIMovieScreen movieScreen;
+
     private void Start()
     {
         Init();
@@ -56,6 +59,20 @@ public class UIMainMenu : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
+
+    private IEnumerator ProcessStartNewGame()
+    {
+        DataManager.Instance.currentData_player = new Data_Player();
+        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        StartCoroutine(movieScreen.openAndPlayCoroutine);
+
+        UIManager.Instance.StopDetectingCloseKey();
+
+        while (true)
+        {
+
+        }
+    }
     public void Button_ContinueGame()
     {
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
