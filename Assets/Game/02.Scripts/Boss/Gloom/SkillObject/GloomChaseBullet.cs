@@ -32,7 +32,7 @@ public class GloomChaseBullet : MonoBehaviour
     {
         startPosition = _start;
         endPosition = _end;
-        midPosition = _end + gloom.SkillVal.chase.curvedPosition;
+        midPosition = gloom.SkillVal.chase.curvedPosition + (_end * 0.3f);
     }
     public void Move()
     {
