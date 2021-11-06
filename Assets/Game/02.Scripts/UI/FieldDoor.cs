@@ -53,7 +53,6 @@ public class FieldDoor : MonoBehaviour
     /// <summary>
     /// 렉트트랜스폼의 포지션을 반환합니다.
     /// </summary>
-    /// <returns></returns>
     public Vector3 GetPosition()
     {
         return rectTransform.position;

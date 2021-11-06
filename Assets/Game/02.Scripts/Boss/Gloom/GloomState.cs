@@ -36,7 +36,6 @@ public class GloomState_Chase : GloomState
     {
         canExit = false;
 
-        startPos = gloom.SkillObj.chaseTransform.position;
 
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Chase_Start");
@@ -49,17 +48,20 @@ public class GloomState_Chase : GloomState
 
     private IEnumerator ProcessSkill()
     {
+
+        // startPos = gloom.SkillObj.chaseTransform.position,playerRB.position
         for (int i = 0; i < count; i++)
         {
-            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(startPos);
+            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.chaseTransform.position);
 
             bullet.Init(gloom);
-            bullet.SetPosition(startPos,playerRB.position);
+            bullet.SetPosition(gloom.SkillObj.chaseTransform.position,playerRB.position);
             bullet.Move();
 
             yield return waitSec;
         }
-        canExit = true;
+        gloom.SetTrigger("Chase_End");
+        //canExit = true;
     }
 }
 public class GloomState_Leap : GloomState
