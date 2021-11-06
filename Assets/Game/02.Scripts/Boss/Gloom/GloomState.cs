@@ -321,6 +321,8 @@ public class GloomState_ThornPath : GloomState
 
         //블록 인덱스를 랜덤하게 섞음
         ShuffleArray();
+
+        //애니메이션 설정
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("ThornPath_Start");
     }

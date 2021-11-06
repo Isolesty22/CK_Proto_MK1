@@ -10,7 +10,7 @@ public class UISkillGauge : MonoBehaviour
     //public Slider lightGaugeSlider;
 
     private float maxGauge;
-    private float currentGauge;
+    public float currentGauge;
     private float currentAmount;
     private PlayerController playerController;
     private void Start()
@@ -39,7 +39,7 @@ public class UISkillGauge : MonoBehaviour
     {
         currentGauge = playerController.Stat.pixyEnerge;
 
-        currentAmount = playerController.Stat.pixyEnerge / maxGauge;
+        currentAmount = currentGauge / maxGauge;
         skillGaugeBar.fillAmount = currentAmount;
 
         for (int i = 0; i < 3; i++)

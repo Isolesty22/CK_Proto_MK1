@@ -426,12 +426,10 @@ public class GloomController : BossController
         switch (_mode)
         {
             case eUsableBlockMode.Default:
-
                 for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
                 {
                     tempList.Add(i);
                 }
-
                 break;
 
             case eUsableBlockMode.ExcludeVine:
@@ -442,15 +440,12 @@ public class GloomController : BossController
                     {
                         continue;
                     }
-
                     tempList.Add(i);
                 }
                 break;
-
             default:
                 break;
         }
-
         return tempList;
     }
 
