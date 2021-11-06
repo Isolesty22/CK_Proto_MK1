@@ -36,7 +36,7 @@ public class Pixy : MonoBehaviour
 
     private void Awake()
     {
-
+        getPixy = true;
     }
 
     private void Start()
