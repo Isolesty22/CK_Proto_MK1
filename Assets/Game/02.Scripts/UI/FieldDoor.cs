@@ -14,7 +14,7 @@ public class FieldDoor : MonoBehaviour
 
     [Space(5)]
     public Image lockImage;
-    public Sprite lockSprite_Defalut;
+    public Sprite lockSprite_Default;
     public Sprite lockSprite_Open;
     public Image blackPanel;
 
@@ -60,7 +60,6 @@ public class FieldDoor : MonoBehaviour
 
     private IEnumerator ProcessOpen()
     {
-        lockImage.sprite = lockSprite_Defalut;
         yield return new WaitForSeconds(0.5f);
         lockImage.sprite = lockSprite_Open;
         yield return new WaitForSeconds(0.4f);
@@ -76,7 +75,7 @@ public class FieldDoor : MonoBehaviour
             timer += Time.deltaTime;
 
             progress = timer / fadeTime;
-            lockImage.color = Color.Lerp(startColor, endColor, progress);
+            canvasGroup.alpha = Mathf.Lerp(1f, 0f, progress);
             yield return null;
         }
 
