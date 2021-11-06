@@ -2255,7 +2255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.9647059}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.9137255}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2700,7 +2700,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777982467}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2862,6 +2862,11 @@ MonoBehaviour:
   rectTransform: {fileID: 0}
   doorImage_Default: {fileID: 0}
   doorImage_Open: {fileID: 0}
+  lockImage: {fileID: 0}
+  lockSprite_Defalut: {fileID: 0}
+  lockSprite_Open: {fileID: 0}
+  blackPanel: {fileID: 0}
+  canvasGroup: {fileID: 0}
   mode: 0
 --- !u!4 &1989344695
 Transform:
@@ -2961,6 +2966,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2105198156}
+  - component: {fileID: 2105198157}
   m_Layer: 5
   m_Name: FieldDoor (1)
   m_TagString: Untagged
@@ -2989,6 +2995,28 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 3096, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2105198157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2105198155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2580c762b5b982349a719470f3fc2fe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageName: Stage_01
+  rectTransform: {fileID: 677761125}
+  doorImage_Default: {fileID: 0}
+  doorImage_Open: {fileID: 0}
+  lockImage: {fileID: 1777982469}
+  lockSprite_Defalut: {fileID: 21300000, guid: 9742cafa38e9a3641ac15ff03c237553, type: 3}
+  lockSprite_Open: {fileID: 21300000, guid: f65fb66aa91f3bf48929dbf3a9f53d6b, type: 3}
+  blackPanel: {fileID: 1452191208}
+  canvasGroup: {fileID: 534226285}
+  mode: 0
 --- !u!1001 &4475997075043373911
 PrefabInstance:
   m_ObjectHideFlags: 0
