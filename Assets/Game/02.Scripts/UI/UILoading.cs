@@ -63,7 +63,7 @@ public class UILoading : UIBase
     private IEnumerator ProcessRotateCircle()
     {
         float timer = 0f;
-        Vector3 rot = new Vector3(0f, 5f, 0f);
+        Vector3 rot = new Vector3(0f, 0f, -5f);
         while (true)
         {
             timer += Time.fixedUnscaledDeltaTime;

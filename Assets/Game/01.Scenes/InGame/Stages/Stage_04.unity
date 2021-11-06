@@ -2230,6 +2230,7 @@ MonoBehaviour:
     audioSource_PJump: {fileID: 1038083610}
     audioSource_PLand: {fileID: 1259258720}
     audioSource_PHit: {fileID: 1574360615}
+    audioSources_MonsterDead: []
   audioClips:
     stage1BGM: {fileID: 8300000, guid: 48152c986ff54b64d8f2e9e666574a95, type: 3}
     stage1AmbientSound: {fileID: 8300000, guid: e075bfb0c724f1645a1e15974f6a8d2d, type: 3}
@@ -2615,7 +2616,15 @@ PrefabInstance:
       objectReference: {fileID: 397551998}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.size
-      value: 4
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+      propertyPath: _patterns.phase_01_List.Array.data[1].state
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+      propertyPath: _patterns.phase_01_List.Array.data[2].state
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6044616918622172976, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
       propertyPath: _patterns.phase_01_List.Array.data[3].state
@@ -2919,7 +2928,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 314361432, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.3
+      value: -6.97
       objectReference: {fileID: 0}
     - target: {fileID: 314361432, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3127,7 +3136,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9181137522029671492, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.3
+      value: -6.97
       objectReference: {fileID: 0}
     - target: {fileID: 9181137522029671492, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3425,7 +3434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.3
+      value: -6.97
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_LocalPosition.y
