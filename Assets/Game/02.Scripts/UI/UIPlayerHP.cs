@@ -45,8 +45,8 @@ public class UIPlayerHP : MonoBehaviour
     {
         playerController = GameManager.instance.playerController;
 
-        currentHP = playerController.Stat.hp;
-        uiHP = currentHP;
+        currentHP = 3;
+        uiHP = 3;
 
         int length = Images.hpImageArr.Length;
 
@@ -70,6 +70,11 @@ public class UIPlayerHP : MonoBehaviour
     {
         UpdateCurrentHP();
 
+        //해야함 : 디버그용 예외처리. 실제 빌드 시 지울 것 
+        if (currentHP > 3)
+        {
+            return;
+        }
         //UI상의 HP와 현재 HP가 같으면 return
         if (currentHP == uiHP)
         {

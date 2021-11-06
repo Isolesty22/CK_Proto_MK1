@@ -52,7 +52,6 @@ public class SceneChanger : MonoBehaviour
                 Debug.Log(this + " : 더 이상, 이 세계선에서는 존재할 수 없을 것 같아... 안녕.");
                 Destroy(this.gameObject);
             }
-
         }
     }
 
@@ -240,6 +239,7 @@ public class SceneChanger : MonoBehaviour
     }
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
+        SceneManager.sceneLoaded -= LoadSceneEnd;
         if (_scene.name != moveSceneName)
         {
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");
@@ -250,7 +250,6 @@ public class SceneChanger : MonoBehaviour
         Debug.Log("LoadSceneEnd 함수 호출");
         uiLoading.Close();
         Time.timeScale = 1f;
-        SceneManager.sceneLoaded -= LoadSceneEnd;
         #region BGMSet
 
         switch (GetNowSceneName())

@@ -219,6 +219,7 @@ public class BearController : BossController
     }
     private void OnTimelineEnded()
     {
+        GameManager.instance.timelineManager.OnTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
         Init();
         StartCoroutine(ExecutePatternCoroutine);
@@ -395,7 +396,7 @@ public class BearController : BossController
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TagName.Arrow))
-        {          
+        {
             // damage = other.GetComponent<ArrowBase>().damage;
 
             OnHit();

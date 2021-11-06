@@ -1,18 +1,28 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
 public class UIMovieScreen : UIBase
 {
-
     public VideoPlayer videoPlayer;
 
-    public IEnumerator openAndPlayCoroutine;
+    public IEnumerator playingCoroutine;
+
+    public Action OnMovieEnded = null;
+
+    private bool isSkip = false;
     private void Awake()
     {
-        openAndPlayCoroutine = ProcessOpen();
+        playingCoroutine = Playing();
+        isSkip = false;
+        //OnMovieEnded +=  delegate{ Close(); };
     }
+    //private void Start()
+    //{
+    //    StartCoroutine(playingCoroutine);
+    //}
     public override void Init()
     {
         CheckOpen();
@@ -20,7 +30,7 @@ public class UIMovieScreen : UIBase
     public override bool Open()
     {
         isOpen = true;
-        fadeDuration = 0.3f;
+        fadeDuration = 0.5f;
         StartCoroutine(ProcessOpen());
         return true;
     }
@@ -32,28 +42,40 @@ public class UIMovieScreen : UIBase
     }
     public void Play()
     {
-        videoPlayer.Play();
-        StartCoroutine(EndPlaying());
+
+        StartCoroutine(Playing());
     }
     public void OnPressSkip()
     {
+        isSkip = true;
+    }
+
+    WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
+    private IEnumerator Playing()
+    {
+        videoPlayer.Play();
+        StartCoroutine(ProcessOpen());
+        long frameCount = Convert.ToInt64(videoPlayer.frameCount) - 1;
+
+       UIManager.Instance?.StopDetectingCloseKey();
+
+        while (true)
+        {
+
+            if (Input.GetKeyDown(KeyCode.Escape) ||
+                Input.GetKeyDown(KeyCode.Return) ||
+                Input.GetKeyDown(KeyCode.Z) || isSkip)
+            {
+                break;
+            }
+            if (videoPlayer.frame == frameCount)
+            {
+                break;
+            }
+
+            yield return null;
+        }
         videoPlayer.Stop();
-    }
-
-    private IEnumerator EndPlaying()
-    {
-        yield return null;
-        yield return new WaitUntil(() => videoPlayer.isPlaying);
-        Debug.Log("end");
-    }
-    protected override IEnumerator ProcessOpen()
-    {
-        yield return base.ProcessOpen();
-        Play();
-    }
-
-    protected override IEnumerator ProcessClose()
-    {
-        return base.ProcessClose();
+        OnMovieEnded?.Invoke();
     }
 }

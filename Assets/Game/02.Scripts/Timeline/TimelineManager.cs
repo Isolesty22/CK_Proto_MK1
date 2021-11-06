@@ -64,11 +64,9 @@ public class TimelineManager : MonoBehaviour
         director.gameObject.SetActive(false);
 
         //OnTileLineEnded 호출
-        if (OnTimelineEnded != null)
-        {
-            OnTimelineEnded.Invoke();
 
-        }
+        OnTimelineEnded?.Invoke();
+
     }
 
     public void SetTimeline(TimelineAsset _timeline)

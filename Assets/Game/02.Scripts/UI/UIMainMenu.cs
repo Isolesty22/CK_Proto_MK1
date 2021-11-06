@@ -54,24 +54,32 @@ public class UIMainMenu : UIBase
         //상호작용 불가
         Com.canvasGroup.interactable = false;
 
+        Debug.Log("Start New Game...");
+        //DataManager.Instance.currentData_player = new Data_Player();
+        //StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+        movieScreen.OnMovieEnded += OnMovieEnded;
+        StartCoroutine(movieScreen.playingCoroutine);
+    }
+
+    private void OnMovieEnded()
+    {
+        movieScreen.OnMovieEnded -= OnMovieEnded;
         DataManager.Instance.currentData_player = new Data_Player();
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
-
     private IEnumerator ProcessStartNewGame()
     {
-        DataManager.Instance.currentData_player = new Data_Player();
-        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
-        StartCoroutine(movieScreen.openAndPlayCoroutine);
+        //Com.canvasGroup.interactable = false;
 
-        UIManager.Instance.StopDetectingCloseKey();
+        //DataManager.Instance.currentData_player = new Data_Player();
+        //yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        //StartCoroutine(movieScreen.playingCoroutine);
+        //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
 
-        while (true)
-        {
-
-        }
+        yield break;
     }
     public void Button_ContinueGame()
     {

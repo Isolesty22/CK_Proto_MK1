@@ -202,6 +202,7 @@ public class GloomController : BossController
 
     private void OnTimelineEnded()
     {
+        GameManager.instance.timelineManager.OnTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
 
         Init();
