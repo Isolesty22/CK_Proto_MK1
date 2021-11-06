@@ -20,6 +20,8 @@ public class StrikeHelper : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         box.enabled = true;
+        yield return new WaitForSeconds(0.3f);
+        box.enabled = false;
         yield return new WaitForSeconds(1f);
         Destroy(gameObject);
     }

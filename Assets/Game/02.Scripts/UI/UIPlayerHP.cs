@@ -13,7 +13,8 @@ public class UIPlayerHP : MonoBehaviour
     public class AdditiveImages
     {
         public Image backgroundImage;
-        public Image[] hpImageList;
+
+        public Image[] hpImageArr;
 
 
         [Header("HP Sprite")]
@@ -31,9 +32,9 @@ public class UIPlayerHP : MonoBehaviour
 
     private PlayerController playerController;
 
-    private int hpCount;
-
     private int currentHP;
+
+    private int uiHP;
     private void Start()
     {
         Init();
@@ -43,12 +44,15 @@ public class UIPlayerHP : MonoBehaviour
     private void Init()
     {
         playerController = GameManager.instance.playerController;
-        hpCount = playerController.Stat.hp;
 
-        int length = Images.hpImageList.Length;
+        currentHP = playerController.Stat.hp;
+        uiHP = currentHP;
+
+        int length = Images.hpImageArr.Length;
+
         for (int i = 0; i < length; i++)
         {
-            Images.hpImageList[i].sprite = Images.hp_on;
+            Images.hpImageArr[i].sprite = Images.hp_on;
         }
 
         UpdateCurrentHP();
@@ -56,49 +60,56 @@ public class UIPlayerHP : MonoBehaviour
 
     private void Update()
     {
-        if (CheckHP())
+        if (IsHpChanged())
         {
-            return;
+            UpdateUI();
         }
-        UpdateUI();
     }
 
     private void UpdateUI()
     {
         UpdateCurrentHP();
 
-        if (hpCount == currentHP)
+        //UI상의 HP와 현재 HP가 같으면 return
+        if (currentHP == uiHP)
         {
             return;
         }
 
-        if (hpCount > currentHP)
+        if (currentHP < uiHP)
         {
             if (currentHP > 0)
             {
                 if (currentHP > 3)
                     return;
-                Images.hpImageList[currentHP].sprite = Images.hp_off;
+                Images.hpImageArr[currentHP].sprite = Images.hp_off;
                 StartCoroutine(ProcessHurt());
             }
             else
             {
-                Images.hpImageList[0].sprite = Images.hp_off;
-                UIManager.Instance.OpenLosePopup();
+                Images.hpImageArr[0].sprite = Images.hp_off;
+                StartCoroutine(ProcessOpenLosePopup());
             }
         }
         else
         {
-            Images.hpImageList[currentHP].sprite = Images.hp_on;
+            Images.hpImageArr[currentHP].sprite = Images.hp_on;
         }
-
-        hpCount = currentHP;
+        uiHP = currentHP;
     }
 
-    private bool CheckHP()
+    /// <summary>
+    ///ui상의 HP와 플레이어의 HP가 다르면 True를 반환합니다.
+    /// </summary>
+
+    private bool IsHpChanged()
     {
-        return playerController.Stat.hp == hpCount;
+        return playerController.Stat.hp != uiHP;
     }
+
+    /// <summary>
+    /// 플레이어의 HP를 받아서 currentHP에 저장합니다.
+    /// </summary>
     private void UpdateCurrentHP()
     {
         currentHP = playerController.Stat.hp;
@@ -110,6 +121,15 @@ public class UIPlayerHP : MonoBehaviour
         Images.backgroundImage.sprite = Images.hurtBG;
         yield return waitSec;
         Images.backgroundImage.sprite = Images.basicBG;
+    }
+
+    /// <summary>
+    /// 특정 시간이 지나면 패배 팝업을 띄웁니다. 
+    /// </summary>
+    private IEnumerator ProcessOpenLosePopup()
+    {
+        yield return new WaitForSeconds(1f);
+        UIManager.Instance.OpenLosePopup();
 
     }
 }
