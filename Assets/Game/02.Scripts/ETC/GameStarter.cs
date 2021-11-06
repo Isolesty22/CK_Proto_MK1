@@ -54,7 +54,7 @@ public class GameStarter : MonoBehaviour
         yield return new WaitForSecondsRealtime(1f);
 
         //메인 화면으로 이동
-        StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke(SceneNames.mainMenu));
+        StartCoroutine(SceneChanger.Instance.LoadThisSceneToName(SceneNames.mainMenu));
 
         //로딩이 끝날 때 까지 대기
         yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);

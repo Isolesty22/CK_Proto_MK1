@@ -19,8 +19,11 @@ public class TimelineManager : MonoBehaviour
         //로딩 후 영상 재생에 체크가 안되어있을 경우
         if (!playOnLoadingEnded)
         {
-            //디렉터가 달린 게임 오브젝트를 비활성화
-            director.gameObject.SetActive(false);
+            if (director != null)
+            {
+                //디렉터가 달린 게임 오브젝트를 비활성화
+                director.gameObject.SetActive(false);
+            }
         }
     }
 
@@ -74,7 +77,10 @@ public class TimelineManager : MonoBehaviour
     }
     public void Play()
     {
-        director.Play();
-        StartCoroutine(WaitTimelineEnd());
+        if (director != null)
+        {
+            director.Play();
+            StartCoroutine(WaitTimelineEnd());
+        }
     }
 }

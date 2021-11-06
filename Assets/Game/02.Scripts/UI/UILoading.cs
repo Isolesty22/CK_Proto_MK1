@@ -8,19 +8,10 @@ public class UILoading : UIBase
 
     public Image backgroundImage;
     public Image loadingBarImage;
+    public RectTransform circleTransform;
 
+    private IEnumerator RotateCircle;
 
-
-    #region Joke
-    public RectTransform ipiaTransform;
-
-    public float startPosY;
-
-    public void CalcStartPosY()
-    {
-        startPosY = 0f - ipiaTransform.rect.height;
-    }
-    #endregion
 
     private void Start()
     {
@@ -55,7 +46,9 @@ public class UILoading : UIBase
 
     public IEnumerator OpenThis()
     {
+        RotateCircle = ProcessRotateCircle();
         fadeDuration = 0.3f;
+        StartCoroutine(RotateCircle);
         yield return StartCoroutine(ProcessOpen());
         isOpen = true;
     }
@@ -63,7 +56,20 @@ public class UILoading : UIBase
     protected override IEnumerator ProcessClose()
     {
         yield return StartCoroutine(base.ProcessClose());
+        StopCoroutine(RotateCircle);
         SceneChanger.Instance.isLoading = false;
+    }
+
+    private IEnumerator ProcessRotateCircle()
+    {
+        float timer = 0f;
+        Vector3 rot = new Vector3(0f, 5f, 0f);
+        while (true)
+        {
+            timer += Time.fixedUnscaledDeltaTime;
+            circleTransform.Rotate(rot);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
     }
 
 }

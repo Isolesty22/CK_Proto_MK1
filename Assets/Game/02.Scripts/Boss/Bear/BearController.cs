@@ -186,6 +186,7 @@ public class BearController : BossController
     }
     private void Init_Collider()
     {
+        colliders.bodyCollider.enabled = true;
         //충돌하지 않게 
         // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
         Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
@@ -202,7 +203,10 @@ public class BearController : BossController
     }
 
     #endregion
-
+    private void Awake()
+    {
+        colliders.bodyCollider.enabled = false;
+    }
     private void Start()
     {
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;

@@ -16,7 +16,7 @@ public class UIMainMenu : UIBase
             Debug.LogWarning("SceneChanger is Null");
         }
 
-        StartCoroutine(SceneChanger.Instance.LoadThisScene_Joke(SceneNames.mainMenu));
+        StartCoroutine(SceneChanger.Instance.LoadThisSceneToName(SceneNames.mainMenu));
     }
 
     public override void Init()

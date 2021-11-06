@@ -86,7 +86,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     /// <summary>
     /// Application.Quit;
     /// </summary>
