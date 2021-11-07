@@ -34,6 +34,8 @@ public class GloomStateMachine : BossStateMachine
 
             eGloomState.Leap => new GloomState_Leap(gloomController),
 
+            eGloomState.Resonance => new GloomState_Resonance(gloomController),
+
             eGloomState.Threat => new GloomState_Threat(gloomController),
 
             eGloomState.ThornForest => new GloomState_ThornForest(gloomController),
@@ -47,6 +49,8 @@ public class GloomStateMachine : BossStateMachine
             eGloomState.Summon => new GloomState_Summon(gloomController),
 
             eGloomState.Berserk => new GloomState_Berserk(gloomController),
+
+            eGloomState.Powerless => new GloomState_Powerless(gloomController),
 
             eGloomState.Die => new GloomState_Die(gloomController),
 

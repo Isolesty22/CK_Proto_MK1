@@ -276,6 +276,28 @@ public class GloomState_Leap : GloomState
         yield break;
     }
 }
+public class GloomState_Resonance : GloomState
+{
+    public GloomState_Resonance(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+
+    }
+
+    public override void OnEnter()
+    {
+        canExit = false;
+        gloom.SetTrigger("Resonance_Start");
+        gloom.SetAnimEvent(AnimEvent);
+    }
+
+    public void AnimEvent()
+    {
+
+    }
+
+
+}
 public class GloomState_Threat : GloomState
 {
     public GloomState_Threat(GloomController _gloomController)
@@ -721,6 +743,26 @@ public class GloomState_Berserk : GloomState
     public override void OnEnter()
     {
         canExit = false;
+    }
+}
+
+public class GloomState_Powerless : GloomState
+{
+    public GloomState_Powerless(GloomController _gloomController)
+    {
+        gloom = _gloomController;
+    }
+
+    public override void OnEnter()
+    {
+        canExit = false;
+        gloom.SetTrigger("Powerless_Start");
+        gloom.SetAnimEvent(AnimEvent);
+    }
+
+    public void AnimEvent()
+    {
+
     }
 }
 public class GloomState_Die : GloomState
