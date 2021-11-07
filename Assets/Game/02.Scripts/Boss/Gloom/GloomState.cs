@@ -748,21 +748,32 @@ public class GloomState_Berserk : GloomState
 
 public class GloomState_Powerless : GloomState
 {
+
+    private WaitForSeconds waitSec;
     public GloomState_Powerless(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(gloom.SkillVal.resonance.powerlessTime);   
     }
 
     public override void OnEnter()
     {
         canExit = false;
         gloom.SetTrigger("Powerless_Start");
-        gloom.SetAnimEvent(AnimEvent);
+        //gloom.SetAnimEvent(AnimEvent);
+        gloom.StartCoroutine(ProcessPowerless());
     }
 
     public void AnimEvent()
     {
 
+    }
+
+
+    private IEnumerator ProcessPowerless()
+    {
+        yield return waitSec;
+        gloom.SetTrigger("Powerless_End");
     }
 }
 public class GloomState_Die : GloomState

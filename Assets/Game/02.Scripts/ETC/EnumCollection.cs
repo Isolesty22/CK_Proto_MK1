@@ -77,6 +77,9 @@ public enum eGloomState
     [InspectorName("도약")]
     Leap,
 
+    [InspectorName("공명")]
+    Resonance,
+
     [InspectorName("위협")]
     Threat,
 
@@ -97,6 +100,9 @@ public enum eGloomState
 
     [InspectorName("사용금지/광폭화")]
     Berserk,
+
+    [InspectorName("사용금지/무력화")]
+    Powerless,
 
     [InspectorName("사용금지/죽음")]
     Die

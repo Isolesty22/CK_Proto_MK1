@@ -137,6 +137,12 @@ public class GloomController : BossController
             public Vector3 startPosition;
         }
 
+        [Serializable]
+        public struct ResonancePattern
+        {
+            [Tooltip("무력화의 지속시간입니다.")]
+            public float powerlessTime;
+        }
         #endregion
 
         public ChasePattern chase;
@@ -144,6 +150,7 @@ public class GloomController : BossController
         public ThornPattern thorn;
         public ObstructPattern obstruct;
         public WavePattern wave;
+        public ResonancePattern resonance;
 
         [Space(5)]
         [Tooltip("맵 끝에서 사라져야하는 투사체들은, 실제 맵 사이즈에서 extendMapSize만큼 추가된 위치에서 사라지게 됩니다.")]
