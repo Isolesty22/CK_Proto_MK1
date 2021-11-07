@@ -745,7 +745,6 @@ public class GloomState_Berserk : GloomState
         canExit = false;
     }
 }
-
 public class GloomState_Powerless : GloomState
 {
 

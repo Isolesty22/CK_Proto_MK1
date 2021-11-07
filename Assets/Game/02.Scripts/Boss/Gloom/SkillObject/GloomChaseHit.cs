@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class GloomChaseHit : MonoBehaviour
 {
+    private CustomPool<GloomChaseHit> hitPool = new CustomPool<GloomChaseHit>();
+
+    private void Awake()
+    {
+        hitPool = CustomPoolManager.Instance.GetPool<GloomChaseHit>();
+    }
     private WaitForSeconds waitSec = new WaitForSeconds(1f);
     private void Start()
     {
@@ -13,6 +19,6 @@ public class GloomChaseHit : MonoBehaviour
     private IEnumerator ProcessDespawn()
     {
         yield return waitSec;
-        CustomPoolManager.Instance.GetPool<GloomChaseHit>().ReleaseThis(this);
+        hitPool.ReleaseThis(this);
     }
 }
