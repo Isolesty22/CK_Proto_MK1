@@ -25,7 +25,7 @@ public class GloomChaseBullet : MonoBehaviour
         gloom = _gloom;
         moveCoroutine = ProcessMove();
         Val = gloom.SkillVal.chase;
-        gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+        //gameObject.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
     }
 
     public void SetPosition(Vector3 _start, Vector3 _end)
@@ -60,8 +60,6 @@ public class GloomChaseBullet : MonoBehaviour
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        gameObject.transform.localScale = Vector3.one;
-        yield return new WaitForSeconds(0.3f);
         Despawn();
     }
 
@@ -76,7 +74,7 @@ public class GloomChaseBullet : MonoBehaviour
 
         // yield return YieldInstructionCache.WaitForFixedUpdate;
         yield return null;
-
+        gloom.Pool.chaseHit.SpawnThis(rigidBody.position);
         gloom.Pool.chaseBullet.ReleaseThis(this);
 
     }

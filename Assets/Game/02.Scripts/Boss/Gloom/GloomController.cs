@@ -28,6 +28,7 @@ public class GloomController : BossController
         public CustomPool<GloomObstructBullet> obstructBullet = new CustomPool<GloomObstructBullet>();
         public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
         public CustomPool<GloomChaseBullet> chaseBullet = new CustomPool<GloomChaseBullet>();
+        public CustomPool<GloomChaseHit> chaseHit = new CustomPool<GloomChaseHit>();
     }
     [Serializable]
     public class SkillObjects
@@ -257,6 +258,7 @@ public class GloomController : BossController
         Pool.obstructBullet = CustomPoolManager.Instance.CreateCustomPool<GloomObstructBullet>();
         Pool.waveBullet = CustomPoolManager.Instance.CreateCustomPool<GloomWaveBullet>();
         Pool.chaseBullet = CustomPoolManager.Instance.CreateCustomPool<GloomChaseBullet>();
+        Pool.chaseHit = CustomPoolManager.Instance.CreateCustomPool<GloomChaseHit>();
     }
 
     private void Init_Skills()
