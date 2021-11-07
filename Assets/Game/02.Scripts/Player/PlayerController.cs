@@ -168,7 +168,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        MoveSystem(new Vector3(6,0,0));
+        //MoveSystem(new Vector3(6,0,0));
         //MoveSystem(Vector3.zero, 3f);
     }
 
@@ -603,7 +603,8 @@ public class PlayerController : MonoBehaviour
 
         var parryVFX = CustomPoolManager.Instance.parryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
         parryVFX.Play();
-        //parryVFX.transform.DOLocalMove(Vector3.zero, Com.pixy.pixyMoveTime).SetEase(Ease.Unset);
+        //var getParryVFX = CustomPoolManager.Instance.getParryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
+        //getParryVFX.Play();
 
         //if (!State.canCounter)
         //{
