@@ -299,7 +299,7 @@ public class GloomState_Threat : GloomState
     private IEnumerator ProcessSkill()
     {
         gloom.SkillObj.threat.SetActive(true);
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.4f);
         gloom.SkillObj.threat.SetActive(false);
     }
 }
