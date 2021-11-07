@@ -177,7 +177,7 @@ public class DarkJinnDustController : MonsterController
         }
     }
 
-    public void SetStatus(float waitTime, string Dir = "NULL", float speed = 1f)
+    public void SetStatus(float waitTime = 1f, string Dir = "NULL", float speed = 1f)
     {
         Stat2.isNonChaseP = true;
         Stat2.shootDir = Dir;
