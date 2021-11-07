@@ -55,7 +55,7 @@ public class GloomState_Chase : GloomState
             GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.chaseTransform.position);
 
             bullet.Init(gloom);
-            bullet.SetPosition(gloom.SkillObj.chaseTransform.position,playerRB.position);
+            bullet.SetPosition(gloom.SkillObj.chaseTransform.position, playerRB.position);
             bullet.Move();
 
             yield return waitSec;
@@ -307,9 +307,12 @@ public class GloomState_ThornPath : GloomState
 {
     private eDiretion diretion;
     private int[] blockArr;
+
+    private WaitForSeconds waitSec;
     public GloomState_ThornPath(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
     }
     public override void OnEnter()
     {
@@ -334,10 +337,12 @@ public class GloomState_ThornPath : GloomState
         //가져온게 없으면
         if (blockArr.Length == 0)
         {
-            //아무것도 안함
+            //바로 End
+            gloom.SetTrigger("ThornPath_End");
             return;
         }
         gloom.StartCoroutine(ProcessAnimEvent());
+        gloom.StartCoroutine(ProcessAnimEnd());
     }
     private IEnumerator ProcessAnimEvent()
     {
@@ -381,6 +386,12 @@ public class GloomState_ThornPath : GloomState
         }
 
 
+    }
+
+    private IEnumerator ProcessAnimEnd()
+    {
+        yield return waitSec;
+        gloom.SetTrigger("ThornPath_End");
     }
 
     private void ShuffleArray()
@@ -526,9 +537,12 @@ public class GloomState_ThornForest : GloomState
 {
     private eDiretion diretion;
     private int[] blockArr;
+
+    private WaitForSeconds waitSec;
     public GloomState_ThornForest(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
     }
     public override void OnEnter()
     {
@@ -547,7 +561,15 @@ public class GloomState_ThornForest : GloomState
 
     public void AnimEvent()
     {
+        //가져온게 없으면
+        if (blockArr.Length == 0)
+        {
+            //바로 End
+            gloom.SetTrigger("ThornForest_End");
+            return;
+        }
         gloom.StartCoroutine(ProcessAnimEvent());
+        gloom.StartCoroutine(ProcessAnimEnd());
     }
     private IEnumerator ProcessAnimEvent()
     {
@@ -614,6 +636,11 @@ public class GloomState_ThornForest : GloomState
             }
         }
     }
+    private IEnumerator ProcessAnimEnd()
+    {
+        yield return waitSec;
+        gloom.SetTrigger("ThornForest_End");
+    }
 }
 public class GloomState_Wave : GloomState
 {
@@ -630,7 +657,6 @@ public class GloomState_Wave : GloomState
     {
         canExit = false;
 
-        startPos = gloom.SkillVal.wave.startPosition;
         if (gloom.diretion == eDiretion.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
@@ -648,6 +674,7 @@ public class GloomState_Wave : GloomState
 
     public void AnimEvent()
     {
+        startPos = gloom.SkillObj.waveTransform.position;
         GloomWaveBullet upBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
         GloomWaveBullet downBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
 
