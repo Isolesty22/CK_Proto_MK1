@@ -630,7 +630,6 @@ public class GloomState_Wave : GloomState
     {
         canExit = false;
 
-        startPos = gloom.SkillVal.wave.startPosition;
         if (gloom.diretion == eDiretion.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
@@ -648,6 +647,7 @@ public class GloomState_Wave : GloomState
 
     public void AnimEvent()
     {
+        startPos = gloom.SkillObj.waveTransform.position;
         GloomWaveBullet upBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
         GloomWaveBullet downBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
 
