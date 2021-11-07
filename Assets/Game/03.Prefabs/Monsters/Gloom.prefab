@@ -598,7 +598,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       createInterval: 1.3
-      waitTime: 1
+      waitTime: 0.5
       moveTime: 2
       positions: []
     wave:
@@ -606,6 +606,8 @@ MonoBehaviour:
       frequency: 3
       magnitude: 3
       startPosition: {x: 0, y: 0, z: 0}
+    resonance:
+      powerlessTime: 0
     extendMapSize: 10
     extendEndPos: {x: 0, y: 0, z: 0}
   _patterns:

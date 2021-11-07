@@ -453,6 +453,8 @@ public class GloomState_Obstruct : GloomState
     private Vector3 endPos;
     private Vector3[] endPosArr = null;
 
+    private Vector3 rot;
+
     private WaitForSeconds waitSec = null;
     public GloomState_Obstruct(GloomController _gloomController)
     {
@@ -467,16 +469,18 @@ public class GloomState_Obstruct : GloomState
         usableIndex = new List<int> { 0, 1, 2 };
         usedIndex = new List<int>();
 
-        //방향에 따라 투사체 endPos 설정
+        //방향에 따라 투사체 설정
         if (gloom.diretion == eDiretion.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
             endPos -= gloom.SkillVal.extendEndPos;
+            rot = new Vector3(0f, -50f, 0f);
         }
         else
         {
             endPos = gloom.Com.gloomMap.mapData.maxPosition;
             endPos += gloom.SkillVal.extendEndPos;
+            rot = new Vector3(0f, 50f, 0f);
         }
 
         endPosArr = new Vector3[] {
@@ -502,9 +506,12 @@ public class GloomState_Obstruct : GloomState
             int index = GetUsablePositionIndex();
             Vector3 startPos = gloom.SkillVal.obstruct.positions[index];
 
-            GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
-            bullet.Init(gloom, startPos, endPosArr[index]);
-            bullet.Move();
+
+            GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(startPos, rot, null); ;
+            sign.Init(gloom, startPos, endPosArr[index]);
+            //GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
+            //bullet.Init(gloom, startPos, endPosArr[index]);
+            //bullet.Move();
 
             yield return waitSec;
         }
@@ -752,7 +759,7 @@ public class GloomState_Powerless : GloomState
     public GloomState_Powerless(GloomController _gloomController)
     {
         gloom = _gloomController;
-        waitSec = new WaitForSeconds(gloom.SkillVal.resonance.powerlessTime);   
+        waitSec = new WaitForSeconds(gloom.SkillVal.resonance.powerlessTime);
     }
 
     public override void OnEnter()

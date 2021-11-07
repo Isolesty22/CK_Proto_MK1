@@ -4,21 +4,33 @@ using UnityEngine;
 
 public class GloomObstructSign : MonoBehaviour
 {
+    public ParticleSystem particle;
+
+    private WaitForSeconds waitSec = null;
+    private void Awake()
+    {
+        waitSec = new WaitForSeconds(1f);
+    }
     public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
     {
+
+        particle.Play();
         StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos));
+
     }
 
     private IEnumerator ProcessSummonBullet(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
     {
         //절반씩 나눠서 기다리기
-        yield return new WaitForSeconds(_gloom.SkillVal.obstruct.waitTime * 0.5f);
-        GloomObstructBullet bullet = _gloom.Pool.obstructBullet.SpawnThis(_startPos);
 
+        yield return waitSec;
+        GloomObstructBullet bullet = _gloom.Pool.obstructBullet.SpawnThis(_startPos);
         bullet.Init(_gloom, _startPos, _endPos);
         bullet.Move();
 
-        yield return new WaitForSeconds(_gloom.SkillVal.obstruct.waitTime * 0.5f);
+
+        yield return waitSec;
+
         _gloom.Pool.obstructSign.ReleaseThis(this);
 
     }
