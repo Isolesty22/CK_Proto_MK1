@@ -6,6 +6,12 @@ using eState = StageSelector.eState;
 public class FieldMapManager : MonoBehaviour
 {
 
+    public FieldDoor[] fieldDoors;
+
+    [Tooltip("현재 선택된 문")]
+    public FieldDoor selectedDoor;
+
+    #region Legacy(3D Field)
     [Header("이피아")]
     public StageSelector stageSelector;
 
@@ -172,5 +178,7 @@ public class FieldMapManager : MonoBehaviour
             currentStageNumber = moveStageNumber;
         }
     }
+
+    #endregion
 }
 

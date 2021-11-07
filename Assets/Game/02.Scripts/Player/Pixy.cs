@@ -6,16 +6,20 @@ using DG.Tweening;
 public class Pixy : MonoBehaviour
 {
     public PlayerController pc;
-    public Transform firePos;
-
     public Animator anim;
+    public ParticleSystem charge;
+    public ParticleSystem ultEnerge;
+
+    public bool getPixy;
 
     public bool isAttack;
     public bool isUlt;
 
-    public Vector3 pixyPos;
-    public Vector3 courchPixyPos;
-    public Vector3 ultPos;
+    public float smoothSpeed;
+
+    public Transform firePos;
+    public Transform ultPos;
+    [HideInInspector] public Vector3 targetPos;
 
     public float pixyMoveTime = 0.2f;
     public float counterRange = 100f;
@@ -32,13 +36,25 @@ public class Pixy : MonoBehaviour
 
     private void Awake()
     {
-        //firePos = transform.localPosition;
-        transform.localPosition = pixyPos;
-        //pixyModel.localPosition = pixyPos;
+        getPixy = true;
+    }
+
+    private void Start()
+    {
+        pc = GameManager.instance.playerController;
+        targetPos = pc.Com.pixyTargetPos.position;
+        firePos = pc.Com.pixyFirePos;
+        ultPos = pc.Com.pixyUltPos;
+
+
+        transform.position = targetPos;
+        transform.eulerAngles = new Vector3(0, 90, 0);
     }
 
     private void Update()
     {
+        HandleAni();
+
         if (enemyList.Count > 0)
         {
             for (int i = 0; i < enemyList.Count; i++)
@@ -52,8 +68,56 @@ public class Pixy : MonoBehaviour
                 }
             }
         }
+    }
 
-        
+    private void FixedUpdate()
+    {
+        if(getPixy)
+        {
+            if (isUlt)
+            {
+                targetPos = pc.Com.pixyUltPos.position;
+                Move();
+                Rotate();
+            }
+            else
+            {
+                targetPos = pc.Com.pixyTargetPos.position;
+                if (!isAttack)
+                {
+                    Rotate();
+                    Move();
+                }
+            }
+        }
+    }
+
+    public void Move()
+    {
+        transform.position = Vector3.Lerp(transform.position, targetPos, Time.deltaTime * smoothSpeed);
+    }
+
+    public void Rotate()
+    {
+        if (!pc.State.isLeft)
+        {
+            //see right;
+            transform.localScale = new Vector3(1, 1, 1);
+            transform.eulerAngles = new Vector3(0, 90, 0);
+        }
+        else
+        {
+            //see left
+            transform.localScale = new Vector3(-1, 1, 1);
+            transform.eulerAngles = new Vector3(0, -90, 0);
+
+        }
+
+    }
+
+    public void HandleAni()
+    {
+        anim.SetBool("IsMoving", pc.State.isMoving);
     }
 
     public void ReadyToCounter()
@@ -66,9 +130,8 @@ public class Pixy : MonoBehaviour
     {
         isAttack = true;
 
-        transform.parent = null;
-
         anim.SetTrigger("Attack");
+        charge.Play();
 
         transform.DOMove(firePos.position, pixyMoveTime).SetEase(Ease.Unset);
 
@@ -76,7 +139,8 @@ public class Pixy : MonoBehaviour
 
         var counter = Counter();
         StartCoroutine(counter);
-        EndCounter();
+
+        isAttack = false;
     }
 
     public IEnumerator Counter()
@@ -101,16 +165,6 @@ public class Pixy : MonoBehaviour
         }
     }
 
-    public void EndCounter()
-    {
-        isAttack = false;   
-
-        transform.parent = pc.transform;
-        transform.DOLocalMove(pixyPos, pixyMoveTime).SetEase(Ease.Unset);
-        transform.DOLocalRotate(Vector3.zero, pixyMoveTime).SetEase(Ease.Unset);
-        transform.localScale = new Vector3(1, 1, 1);
-    }
-
     public void Ult()
     {
         var ult = UltReady();
@@ -121,15 +175,12 @@ public class Pixy : MonoBehaviour
     {
         isAttack = true;
 
-        transform.DOLocalMove(ultPos, pixyMoveTime).SetEase(Ease.Unset);
-
-        yield return new WaitForSeconds(pixyMoveTime);
-
-        float cooltime = 10f;
-
         var ult = CheckUltTime();
         StartCoroutine(ult);
 
+        //ultEnerge.Play();
+
+        float cooltime = 10f;
         while(isUlt)
         {
             cooltime += Time.deltaTime;
@@ -143,12 +194,11 @@ public class Pixy : MonoBehaviour
                 }
 
             }
-           
 
             yield return null;
         }
 
-        EndCounter();
+        isAttack = false;
     }
 
     IEnumerator CheckUltTime()
@@ -157,15 +207,15 @@ public class Pixy : MonoBehaviour
 
         yield return new WaitForSeconds(ultTime);
 
+        //ultEnerge.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
         isUlt = false;
-    }
+    } 
 
     public void UltShot()
     {
         if (enemyList.Count < 1)
             return;
-
-        Debug.Log("work");
 
         var ult = CustomPoolManager.Instance.bezierPool.SpawnThis(transform.position, transform.eulerAngles, null);
 

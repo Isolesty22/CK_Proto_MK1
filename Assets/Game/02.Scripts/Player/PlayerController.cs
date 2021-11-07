@@ -17,8 +17,18 @@ public class PlayerController : MonoBehaviour
 
         public PlayerHitBox hitBox;
         public Weapon weapon;
-        public Pixy pixy;
 
+        [Header("pixy")]
+        public Pixy pixy;
+        public Transform pixyTargetPos;
+
+        public Vector3 pixyPos;
+        public Vector3 pixyCrouchPos;
+        public Transform pixyFirePos;
+        public Transform pixyUltPos;
+
+
+        [Header("VFX")]
         public ParticleSystem parry;
         public ParticleSystem hit;
 
@@ -104,6 +114,8 @@ public class PlayerController : MonoBehaviour
         public bool isPoison;
         public bool canCounter;
         public bool isAttack;
+        public bool isLeft;
+        public bool moveSystem;
     }
 
     [Serializable]
@@ -150,10 +162,14 @@ public class PlayerController : MonoBehaviour
         Com.mat3.color = Com.originalColor;
 
         Stat.pixyEnerge = 0f;
+
+        Com.pixyTargetPos.localPosition = Com.pixyPos;
     }
 
     private void Start()
     {
+        //MoveSystem(new Vector3(6,0,0));
+        //MoveSystem(Vector3.zero, 3f);
     }
 
     private void Update()
@@ -186,6 +202,9 @@ public class PlayerController : MonoBehaviour
 
     private void SetInput()
     {
+        if (State.moveSystem)
+            return;
+
         InputVal.movementInput = 0f;
 
         if (State.isHit)
@@ -299,6 +318,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+
+
         Val.moveVector = new Vector3(InputVal.movementInput, 0, 0);
         State.isMoving = Val.moveVector.x != 0;
 
@@ -373,11 +394,13 @@ public class PlayerController : MonoBehaviour
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
             transform.localScale = new Vector3(-1, 1, 1);
+            State.isLeft = true;
         }
         else if (InputVal.movementInput == 1f)
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
             transform.localScale = new Vector3(1, 1, 1);
+            State.isLeft = false;
         }
     }
 
@@ -418,7 +441,9 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = false;
 
             if(!Com.pixy.isAttack)
-                Com.pixy.transform.localPosition = Com.pixy.pixyPos;
+                //Com.pixy.transform.localPosition = Com.pixy.pixyPos;
+
+            Com.pixyTargetPos.localPosition = Com.pixyPos;
 
             return;
         }
@@ -435,7 +460,9 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.crouchHitBox.enabled = true;
 
             if (!Com.pixy.isAttack)
-                Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
+                //Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
+
+            Com.pixyTargetPos.localPosition = Com.pixyCrouchPos;
         }
     }
 
@@ -576,7 +603,8 @@ public class PlayerController : MonoBehaviour
 
         var parryVFX = CustomPoolManager.Instance.parryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
         parryVFX.Play();
-        //parryVFX.transform.DOLocalMove(Vector3.zero, Com.pixy.pixyMoveTime).SetEase(Ease.Unset);
+        //var getParryVFX = CustomPoolManager.Instance.getParryPool.SpawnThis(GameManager.instance.playerController.transform.position, Vector3.zero, null);
+        //getParryVFX.Play();
 
         //if (!State.canCounter)
         //{
@@ -661,7 +689,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Stat.pixyEnerge > 29.95f)
             {
-                Stat.pixyEnerge = 0f;
+                Stat.pixyEnerge -= 30f;
                 Com.pixy.Ult();
             }
         }
@@ -686,5 +714,46 @@ public class PlayerController : MonoBehaviour
     public bool IsInvincible()
     {
         return State.isInvincible;
+    }
+
+    public void MoveSystem(Vector3 targetPos)
+    {
+        //input 안되게 해야 함
+        State.moveSystem = true;
+
+        Debug.Log("work");
+
+        if(transform.position.x < targetPos.x)
+        {
+            InputVal.movementInput = 1f;
+            State.isMoving = true;
+
+            var arrive = ArriveCheck(targetPos);
+            StartCoroutine(arrive);
+        }
+        else
+        {
+            InputVal.movementInput = -1f;
+            State.isMoving = true;
+        }
+    }
+
+    IEnumerator ArriveCheck(Vector3 targetPos)
+    {
+        while (true)
+        {
+            if (transform.position.x > targetPos.x)
+            {
+                InputVal.movementInput = 0f;
+                State.isMoving = false;
+
+                //input 되게 해야 함
+                State.moveSystem = false;
+
+                break;
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
     }
 }
