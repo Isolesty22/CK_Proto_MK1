@@ -59,6 +59,10 @@ public class SceneChanger : MonoBehaviour
     {
         StartCoroutine(LoadThisSceneToName(_sceneName));
     }
+
+    /// <summary>
+    /// 씬 로드 코루틴. LoadThisScene 함수를 호출했을 때 실행됩니다.
+    /// </summary>
     public IEnumerator LoadThisSceneToName(string _sceneName)
     {
         AudioManager.Instance.Audios.audioSource_BGM.Stop();

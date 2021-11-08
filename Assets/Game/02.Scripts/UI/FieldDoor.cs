@@ -6,8 +6,17 @@ using UnityEngine.UI;
 public class FieldDoor : MonoBehaviour
 {
 
+    [Header("스테이지 정보")]
+    [HideInInspector]
     public string stageName;
+    public int stageNumber;
+
+    [Space(5)]
+    public FieldMapManager fieldMapManager;
     public RectTransform rectTransform;
+
+    [Tooltip("셀렉터가 참조할 트랜스폼.")]
+    public RectTransform selectTransform;
     [Space(5)]
     public Image doorImage_Default;
     public Image doorImage_Open;
@@ -18,44 +27,40 @@ public class FieldDoor : MonoBehaviour
     public Sprite lockSprite_Open;
     public Image blackPanel;
 
+
     [Space(5)]
     [Tooltip("아마도 스테이지를 해금할 때 알파값을 조정하는 그룹입니다.")]
     public CanvasGroup canvasGroup;
     public enum eMode
     {
-        Default,
-        Selected,
+        // Default,
+        Lock,
+        //Selected,
         Open,
     }
     [Space(5)]
-    public eMode mode;
-    public void Init()
-    {
-        switch (mode)
-        {
-            case eMode.Default:
-                break;
-
-            case eMode.Selected:
-                break;
-
-            case eMode.Open:
-                break;
-            default:
-                break;
-        }
-    }
+    public eMode mode = eMode.Lock;
     private void Start()
     {
-        Open();
+        //이름 설정
+        stageName = SceneNames.GetSceneNameUseStageNumber(stageNumber);
+        //Open();
     }
+    /// <summary>
+    /// 문을 엽니다.
+    /// </summary>
     public void Open()
     {
         StartCoroutine(ProcessOpen());
     }
     public void Button_EnterStage()
     {
-        //해야함 : 스테이지 입장하기.
+        SceneChanger.Instance.LoadThisScene(stageName);
+    }
+
+    public void Button_SelectDoor()
+    {
+        fieldMapManager.SelectDoor(stageNumber);
     }
 
     private IEnumerator ProcessOpen()
@@ -79,6 +84,7 @@ public class FieldDoor : MonoBehaviour
             yield return null;
         }
 
+        mode = eMode.Open;
         yield break;
     }
 
