@@ -163,6 +163,9 @@ public class BearController : BossController
         Init_Animator();
         Init_Pool();
         Init_Collider();
+
+        onHitAction = OnHit;
+        myTransform.position = new Vector3(bearMapInfo.mapBlocks[4].positions.groundCenter.x, myTransform.position.y, myTransform.position.z);
     }
     private void Init_Animator()
     {
@@ -387,6 +390,24 @@ public class BearController : BossController
     }
 
 
+    private Action onHitAction = null;
+    /// <summary>
+    /// 무적 상태가 됩니다.
+    /// </summary>
+    public void StartInvincible()
+    {
+        onHitAction = VoidFunc;
+    }
+
+    /// <summary>
+    /// 무적 상태를 종료합니다.
+    /// </summary>
+    public void EndInvincible()
+    {
+        onHitAction = OnHit;
+    }
+
+    public void VoidFunc() { }
     public override void OnHit()
     {
         ReceiveDamage();
@@ -399,7 +420,7 @@ public class BearController : BossController
         {
             // damage = other.GetComponent<ArrowBase>().damage;
 
-            OnHit();
+            onHitAction?.Invoke();
 
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpiderAttackCol : MonsterAttackCol
 {
-    SpiderController spiderController;
+    public SpiderController spiderController;
 
     private void Start()
     {

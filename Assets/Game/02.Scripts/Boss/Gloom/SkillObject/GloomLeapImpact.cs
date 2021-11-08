@@ -77,11 +77,14 @@ public class GloomLeapImpact : MonoBehaviour
         gameObject.SetActive(true);
         StartCoroutine(ProcessImpact());
     }
+
+    private WaitForSeconds createInterval = new WaitForSeconds(0.2f);
     private IEnumerator ProcessImpact()
     {
         for (int i = 0; i < effectsCount; i++)
         {
             effects[i].SetActive(true);
+            yield return createInterval;
         }
 
         myCollider.enabled = true;

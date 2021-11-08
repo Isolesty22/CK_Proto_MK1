@@ -221,6 +221,7 @@ public class GloomState_Leap : GloomState
         //gloom.SetTrigger("Leap_End");
 
         //리프 임팩트 실행
+        gloom.SkillObj.leapStartImpact.SetActive(true);
         gloom.SkillObj.leapImpact.StartImpact();
 
         //방향 바꿈 판정

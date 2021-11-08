@@ -35,6 +35,8 @@ public class GloomController : BossController
     [Serializable]
     public class SkillObjects
     {
+        [Tooltip("불꽃이 나오기 전에 나오는 불꽃 추아악 ")]
+        public GameObject leapStartImpact;
         public GloomLeapImpact leapImpact;
 
         public GameObject threat;
