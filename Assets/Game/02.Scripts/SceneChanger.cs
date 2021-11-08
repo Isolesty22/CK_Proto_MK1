@@ -32,6 +32,8 @@ public class SceneChanger : MonoBehaviour
 
     [HideInInspector]
     public bool isLoading = false;
+    [HideInInspector]
+    public bool isSceneLoading = false;
 
     [SerializeField]
     private string moveSceneName = string.Empty;
@@ -59,12 +61,16 @@ public class SceneChanger : MonoBehaviour
     {
         StartCoroutine(LoadThisSceneToName(_sceneName));
     }
+
+    /// <summary>
+    /// 씬 로드 코루틴. LoadThisScene 함수를 호출했을 때 실행됩니다.
+    /// </summary>
     public IEnumerator LoadThisSceneToName(string _sceneName)
     {
         AudioManager.Instance.Audios.audioSource_BGM.Stop();
         AudioManager.Instance.Audios.audioSource_EVM.Stop();
         isLoading = true;
-
+        isSceneLoading = true;
         moveSceneName = _sceneName;
 
         //게이지를 0으로 설정
@@ -240,6 +246,7 @@ public class SceneChanger : MonoBehaviour
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
+        isSceneLoading = false;
         if (_scene.name != moveSceneName)
         {
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");

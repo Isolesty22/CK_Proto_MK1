@@ -105,16 +105,19 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void GoNextStage()
     {
-        Data_Player data = new Data_Player();
+        //Data_Player data = new Data_Player();
         //data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
         //data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
-        data.finalStageNumber = data.currentStageNumber + 1;
-        data.finalStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
+        //data.finalStageNumber = data.currentStageNumber + 1;
+        //data.finalStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
 
-        DataManager.Instance.currentData_player.CopyData(data);
+        // DataManager.Instance.currentData_player.CopyData(data);
         //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+
+        DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+        //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
 
     }
 
@@ -131,11 +134,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StageClear()
     {
-        DataManager.Instance.currentData_player.finalStageNumber += 1;
-        DataManager.Instance.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.finalStageNumber);
+        //DataManager.Instance.currentData_player.finalStageNumber += 1;
+        //DataManager.Instance.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.finalStageNumber);
 
-        SceneChanger.Instance.LoadThisScene(DataManager.Instance.currentData_player.finalStageName);
-        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+        // SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
+        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
 
     }
     #endregion
