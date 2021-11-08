@@ -23,14 +23,15 @@ public class FieldMapManager : MonoBehaviour
     private KeyOption keyOption;
 
 
-
+    private int minStageNumber;
 
     private IEnumerator Start()
     {
+        Init();
+
         //로딩이 끝날 때 까지 대기
         yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
 
-        Init();
         CheckOpenDoor();
 
     }
@@ -42,7 +43,7 @@ public class FieldMapManager : MonoBehaviour
             dataManager = DataManager.Instance;
         }
 
-
+        minStageNumber = fieldDoors[0].stageNumber;
         //딕셔너리에 추가
         for (int i = 0; i < fieldDoors.Length; i++)
         {
@@ -96,7 +97,6 @@ public class FieldMapManager : MonoBehaviour
     /// </summary>
     public void MoveSelector(eDiretion _dir)
     {
-        int minStageNumber = 1;
         int moveStageNumber = -1;
         if (selectedDoor.stageNumber + 1 > fieldDoors.Length || selectedDoor.stageNumber - 1 < minStageNumber)
         {
