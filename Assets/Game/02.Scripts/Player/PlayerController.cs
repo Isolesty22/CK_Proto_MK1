@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
         public bool isAttack;
         public bool isLeft;
         public bool moveSystem;
+        public bool isAlive;
     }
 
     [Serializable]
@@ -164,6 +165,8 @@ public class PlayerController : MonoBehaviour
         Stat.pixyEnerge = 0f;
 
         Com.pixyTargetPos.localPosition = Com.pixyPos;
+
+        State.isAlive = true;
     }
 
     private void Start()
@@ -174,6 +177,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (State.moveSystem)
+            return;
         SetInput();
 
         FirePos();
@@ -476,19 +481,28 @@ public class PlayerController : MonoBehaviour
 
         Stat.hp -= 1;
         AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
-        Com.animator.SetTrigger("Hit");
 
         Com.hit.transform.position = transform.position;
         Com.hit.Play();
 
+        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
+
+        if(Stat.hp <1)
+        {
+            State.isAlive = false;
+            Com.animator.SetTrigger("Death");
+            return;
+        }
+
+
+        Com.animator.SetTrigger("Hit");
 
         var knockBack = KnockBack();
         StartCoroutine(knockBack);
         var invincible = Invincible();
         StartCoroutine(invincible);
 
-        //Camera Shake
-        GameManager.instance.cameraManager.ShakeCamera();
     }
 
     private IEnumerator KnockBack()
@@ -704,6 +718,7 @@ public class PlayerController : MonoBehaviour
         Com.animator.SetBool("isJumping", State.isJumping);
         Com.animator.SetBool("isLookUp", State.isLookUp);
         Com.animator.SetBool("isHit", State.isHit);
+        //Com.animator.SetBool("isAlive", State.isAlive);
     }
 
     public bool CanParry()
