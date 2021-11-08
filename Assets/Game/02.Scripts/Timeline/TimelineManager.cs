@@ -45,7 +45,7 @@ public class TimelineManager : MonoBehaviour
     private IEnumerator ProcessPlayTimeline()
     {
         //로딩이 끝날 때 까지 대기
-        yield return new WaitUntil(() => !SceneChanger.Instance.isLoading);
+        yield return new WaitUntil(() => !SceneChanger.Instance.isSceneLoading);
 
         //로딩이 끝나면 타임라인 재생 시작
         Play();

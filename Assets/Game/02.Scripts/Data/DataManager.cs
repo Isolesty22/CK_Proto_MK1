@@ -46,6 +46,10 @@ public class DataManager : MonoBehaviour
     [HideInInspector, Tooltip("플레이어 데이터를 새로 생성했는가? \n (로드 시 Data_Player 파일이 없는 경우에 true)")]
     public bool isCreatedNewPlayerData = false;
 
+
+    [Tooltip("현재 클리어한 스테이지 번호")]
+    public int currentClearStageNumber = 0;
+
     private void Awake()
     {
         if (Instance == null)

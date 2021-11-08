@@ -1,184 +1,208 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using eState = StageSelector.eState;
 
 public class FieldMapManager : MonoBehaviour
 {
 
+    public FieldDoorSelector selector;
     public FieldDoor[] fieldDoors;
+
+    private Dictionary<int, FieldDoor> fieldDoorDict = new Dictionary<int, FieldDoor>();
+
+    private Action enterStageAction = null;
 
     [Tooltip("현재 선택된 문")]
     public FieldDoor selectedDoor;
 
-    #region Legacy(3D Field)
-    [Header("이피아")]
-    public StageSelector stageSelector;
 
-
-    [Header("현재 스테이지 번호")]
-    public int currentStageNumber;
-
-
-    public int prevStageNumber;
-
-    [Header("발판 배열"), Tooltip("StageSelector는 해당 발판들의 위치로 이동합니다.")]
-    public StagePlate[] stagePlates;
-
-    public KeyOption keyOption;
-
-
-    [Tooltip("스테이지 02까지를 잇는 길")]
-    public GameObject Stage02Road;
     private DataManager dataManager;
 
-    private int maxStageNumber;
+    private KeyOption keyOption;
 
-    [Tooltip("이동해야할 스테이지 번호")]
-    private int moveStageNumber;
 
-    private bool isEnter;
-    private void Start()
+    private int minStageNumber;
+
+    private IEnumerator Start()
     {
         Init();
+
+        //로딩이 끝날 때 까지 대기
+        yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+
+        CheckOpenDoor();
+
+    }
+
+    public void Init()
+    {
+        if (DataManager.Instance != null)
+        {
+            dataManager = DataManager.Instance;
+        }
+
+        minStageNumber = fieldDoors[0].stageNumber;
+        //딕셔너리에 추가
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
+        }
+
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+            {
+                fieldDoors[i].mode = FieldDoor.eMode.Open;
+            }
+            fieldDoors[i].Init();
+        }
+
+
+        keyOption = dataManager.currentData_settings.keySetting;
+        MoveSelector(dataManager.currentData_player.currentStageNumber);
+    }
+
+    /// <summary>
+    /// 문을 열어야하는지 검사합니다.
+    /// </summary>
+    public void CheckOpenDoor()
+    {
+
+        Debug.Log("Check Open Door");
+        //현재 클리어한 스테이지 번호가 저장된 스테이지 번호보다 높을 떄
+        if (dataManager.currentClearStageNumber > dataManager.currentData_player.finalStageNumber)
+        {
+            //문 열기 연출
+            OpenDoor(dataManager.currentClearStageNumber + 1);
+        }
+        else
+        {
+            //아무것도 안함
+        }
+
+    }
+
+    public void OpenDoor(int _stageNumber)
+    {
+        FieldDoor door = null;
+        if (!fieldDoorDict.TryGetValue(_stageNumber, out door))
+        {
+            Debug.Log("최대 스테이지입니다. 아마도...");
+            return;
+        }
+        fieldDoorDict[_stageNumber].Open();
+
+        //스테이지 클리어 여부를 저장
+        dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
+        dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
+
+        dataManager.SaveCurrentData(DataManager.fileName_player);
+    }
+
+    /// <summary>
+    /// 해당 번호의 문을 선택합니다.
+    /// </summary>
+    public void SelectDoor(int _stageNumber)
+    {
+        selectedDoor = fieldDoorDict[_stageNumber];
+        enterStageAction = selectedDoor.Button_EnterStage;
+    }
+
+    /// <summary>
+    /// 셀렉터를 이동시킵니다.
+    /// </summary>
+    public void MoveSelector(eDiretion _dir)
+    {
+        int moveStageNumber = -1;
+
+        if (_dir == eDiretion.Right)
+        {
+            moveStageNumber = selectedDoor.stageNumber + 1;
+
+            if (moveStageNumber > 4)
+            {
+                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                return;
+            }
+
+            FieldDoor tempDoor = fieldDoorDict[moveStageNumber];
+            //이동하려는 문이 잠겨있는 상태일때 
+            if (tempDoor.mode == FieldDoor.eMode.Lock)
+            {
+                Debug.LogWarning("잠겨있어서 이동할 수 없습니다.");
+            }
+            else
+            {
+                selector.MovePosition(tempDoor.selectTransform.position);
+                SelectDoor(moveStageNumber);
+            }
+        }
+        else
+        {
+            moveStageNumber = selectedDoor.stageNumber - 1;
+
+            if (moveStageNumber < minStageNumber)
+            {
+                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                return;
+            }
+
+            FieldDoor tempDoor = fieldDoorDict[moveStageNumber];
+
+            //이동하려는 문이 잠겨있는 상태일때 
+            if (tempDoor.mode == FieldDoor.eMode.Lock)
+            {
+                Debug.LogWarning("잠겨있어서 이동할 수 없습니다.");
+            }
+            else
+            {
+                selector.MovePosition(tempDoor.selectTransform.position);
+                SelectDoor(moveStageNumber);
+            }
+        }
+    }
+    public void MoveSelector(int _stageNumber)
+    {
+        FieldDoor door = null;
+        //딕셔너리에 있다면
+        if (fieldDoorDict.TryGetValue(_stageNumber, out door))
+        {
+            selector.MovePosition(door.selectTransform.position);
+            SelectDoor(_stageNumber);
+        }
+        else
+        {
+            Debug.LogWarning("등록되지 않은 스테이지 넘버입니다 : " + _stageNumber);
+        }
     }
 
     private void Update()
     {
-        DetectEnterKey();
-        DetectMoveKey();
-    }
-    public void Init()
-    {
-        //데이터매니저에서 스테이지 데이터 가져오기
-        if (DataManager.Instance != null)
-        {
-            dataManager = DataManager.Instance;
-            currentStageNumber = dataManager.currentData_player.currentStageNumber;
-
-            //최종 클리어한 스테이지보다 한칸 더 갈 수 있어야함
-            maxStageNumber = dataManager.currentData_player.finalStageNumber + 1;
-            prevStageNumber = currentStageNumber - 1;
-            keyOption = dataManager.currentData_settings.keySetting;
-        }
-        else
-        {
-            //못가져오면 0
-            Debug.LogError("DataManager Instance가 null입니다. currentStageNumber Set 0");
-            currentStageNumber = 0;
-            maxStageNumber = 2;
-            prevStageNumber = currentStageNumber - 1;
-            keyOption = new KeyOption();
-        }
-
-        //maxStageNumber = 1;
-
-        //입장한 적 없음
-        isEnter = false;
-
-        //이피아 시작위치 설정
-        stageSelector.SetPosition(stagePlates[currentStageNumber].GetPosition());
-        // ipiaTransform.position = stageList[currentStageNumber].stageTransform.position;
-        //StageGrayScale_Legacy();
-        //StartCoroutine(ProcessInputMoveKey());
-
-        if (maxStageNumber > 1)
-        {
-            Stage02Road.SetActive(true);
-        }
-        else
-        {
-            Stage02Road.SetActive(false);
-        }
+        DetectKey();
     }
 
-    /// <summary>
-    /// 움직임에 필요한 키 입력을 감지
-    /// </summary>
-    public void DetectMoveKey()
+
+    private void DetectKey()
     {
-        //뒤로가기
-        if (Input.GetKeyDown(keyOption.moveLeft))
-        {
-
-            //움직이고 있을 때 두 칸 이상 못 움직임
-            if (stageSelector.state == eState.Move && prevStageNumber == currentStageNumber + 1)
-            {
-                return;
-            }
-
-            if (currentStageNumber - 1 >= 0 && currentStageNumber < stagePlates.Length)
-            {
-                prevStageNumber = currentStageNumber;
-                moveStageNumber = currentStageNumber - 1;
-                MoveStage(moveStageNumber);
-                return;
-            }
-            Debug.LogWarning("더 이상 뒤로 갈 수 없음.");
-        }
-        //앞으로 가기
+        //오른쪽 이동
         if (Input.GetKeyDown(keyOption.moveRight))
         {
+            MoveSelector(eDiretion.Right);
+        }
+        //왼쪽 이동
+        if (Input.GetKeyDown(keyOption.moveLeft))
+        {
+            MoveSelector(eDiretion.Left);
+        }
 
-            //움직이고 있을 때 두 칸 이상 못 움직임
-            if (stageSelector.state == eState.Move && prevStageNumber == currentStageNumber - 1)
-            {
-                return;
-            }
 
-            //최종 클리어 스테이지보다 한 칸 더 갈 수 있어야함
-            if (currentStageNumber + 1 < maxStageNumber && currentStageNumber < stagePlates.Length)
-            {
-                prevStageNumber = currentStageNumber;
-                moveStageNumber = currentStageNumber + 1;
-                MoveStage(moveStageNumber);
-                return;
-            }
-            Debug.LogWarning("더 이상 앞으로 갈 수 없음.");
+        //스테이지 입장
+        if (Input.GetKeyDown(keyOption.attack) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
+        {
+            enterStageAction?.Invoke();
         }
     }
-
-
-    /// <summary>
-    /// 입장에 필요한 키 입력을 감지
-    /// </summary>
-    public void DetectEnterKey()
-    {
-        if (Input.GetKeyDown(keyOption.attack) || Input.GetKeyDown(KeyCode.Return))
-        {
-            if (isEnter || stageSelector.state == eState.Move)
-            {
-                return;
-            }
-
-            isEnter = true;
-
-            DataManager.Instance.currentData_player.currentStageNumber = currentStageNumber;
-            DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
-
-            //원래는 이름이 아니라 currentStageNumber로 이동해야하지만, 임시로...
-            SceneChanger.Instance.LoadThisScene(stagePlates[currentStageNumber].stageName);
-        }
-    }
-    public void MoveStage(int stageNumber)
-    {
-        //이미 움직이고 있는 상태라면
-        if (stageSelector.state == eState.Move)
-        {
-            stageSelector.ChangeDestinationPos(stagePlates[stageNumber].GetPosition());
-            currentStageNumber = moveStageNumber;
-        }
-        else
-        {
-            Debug.Log("Move Stage!");
-            stageSelector.SetStartPos(stageSelector.Com.rigidBody.position);
-            stageSelector.SetDestinationPos(stagePlates[stageNumber].GetPosition());
-            Debug.Log(stagePlates[stageNumber].GetPosition());
-            stageSelector.StartProcessMove();
-            currentStageNumber = moveStageNumber;
-        }
-    }
-
-    #endregion
 }
 

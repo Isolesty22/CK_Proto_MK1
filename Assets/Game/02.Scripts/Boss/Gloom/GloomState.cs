@@ -566,13 +566,13 @@ public class GloomState_Obstruct : GloomState
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
             endPos -= gloom.SkillVal.extendEndPos;
-            rot = new Vector3(0f, -50f, 0f);
+            rot = new Vector3(0f, -10f, 0f);
         }
         else
         {
             endPos = gloom.Com.gloomMap.mapData.maxPosition;
             endPos += gloom.SkillVal.extendEndPos;
-            rot = new Vector3(0f, 50f, 0f);
+            rot = new Vector3(0f, 10f, 0f);
         }
 
         endPosArr = new Vector3[] {
