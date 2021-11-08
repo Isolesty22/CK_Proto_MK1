@@ -177,18 +177,21 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (State.moveSystem)
-            return;
-        SetInput();
+        if (!State.moveSystem)
+        {
+            SetInput();
 
-        FirePos();
-        Attack();
-        LookUp();
-        Crouch();
-        Rotate();
-        ReadyToParry();
+            FirePos();
+            Attack();
+            LookUp();
+            Crouch();
+            Rotate();
+            ReadyToParry();
 
-        Counter();
+            Counter();
+
+        }
+           
 
         HandleAnimation();
     }
@@ -200,8 +203,11 @@ public class PlayerController : MonoBehaviour
         UpdatePhysics();
         UpCheck();
 
+        if (!State.moveSystem)
+        {
+            Jump();
+        }
 
-        Jump();
         Move();
     }
 
