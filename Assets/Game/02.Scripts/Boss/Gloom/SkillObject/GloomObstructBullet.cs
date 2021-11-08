@@ -22,6 +22,8 @@ public class GloomObstructBullet : MonoBehaviour
     private PlayerController player;
     private IEnumerator moveCoroutine = null;
 
+    public Collider myCollider;
+
     private void Start()
     {
         player = GameManager.instance.playerController;
@@ -35,6 +37,7 @@ public class GloomObstructBullet : MonoBehaviour
         endPos = _endPos;
         moveTime = _moveTime;
         waitTime = gloom.SkillVal.obstruct.waitTime;
+        myCollider.enabled = false;
     }
 
     public void Move()
@@ -48,7 +51,7 @@ public class GloomObstructBullet : MonoBehaviour
 
         float timer = 0f;
         float progress = 0f;
-
+        myCollider.enabled = true;
         while (progress < 1f)
         {
             timer += Time.deltaTime * curve.Evaluate(progress);
