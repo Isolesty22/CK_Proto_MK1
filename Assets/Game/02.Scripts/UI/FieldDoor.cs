@@ -40,7 +40,7 @@ public class FieldDoor : MonoBehaviour
     }
     [Space(5)]
     public eMode mode = eMode.Lock;
-    private void Start()
+    private void Awake()
     {
         //이름 설정
         stageName = SceneNames.GetSceneNameUseStageNumber(stageNumber);
