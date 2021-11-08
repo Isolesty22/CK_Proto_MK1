@@ -440,7 +440,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3107087388244502574}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -750,11 +750,11 @@ MonoBehaviour:
       magnitude: 3
       startPosition: {x: 0, y: 0, z: 0}
     resonance:
-      resonanceTime: 0
-      createInterval: 0
-      moveTime: 0
+      resonanceTime: 13
+      createInterval: 4
+      moveTime: 4
       sphereScale: 0
-      powerlessTime: 0
+      powerlessTime: 5
     extendMapSize: 10
     extendEndPos: {x: 0, y: 0, z: 0}
   _patterns:
@@ -1089,12 +1089,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 4705250003608493561}
     m_Modifications:
     - target: {fileID: 446032937560138279, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 446032937560138279, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_Name
       value: VFX_Chase
       objectReference: {fileID: 0}
     - target: {fileID: 446032937560138279, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1133620343784831242, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1164606593608807007, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_RootOrder
@@ -1106,11 +1114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1164606593608807007, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.7
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 1164606593608807007, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.27
+      value: 0.77
       objectReference: {fileID: 0}
     - target: {fileID: 1164606593608807007, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1140,6 +1148,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1216137426719994682, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1765367946092096176, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2099543752200790308, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalScale.x
       value: 3.7534
@@ -1151,6 +1167,10 @@ PrefabInstance:
     - target: {fileID: 2099543752200790308, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalScale.z
       value: 3.7534
+      objectReference: {fileID: 0}
+    - target: {fileID: 5194418058952208587, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7253572674041328173, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_LocalScale.x
@@ -1203,6 +1223,10 @@ PrefabInstance:
     - target: {fileID: 8427106957887541596, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9109472691509893009, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23cfba80ff8ad94586f4ce6388ebf72, type: 3}
@@ -1590,9 +1614,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3627738521169247110, guid: 980a5679550e54c4b9255af9d42855da, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3979320422078295803, guid: 980a5679550e54c4b9255af9d42855da, type: 3}
       propertyPath: m_Name
       value: VFX_Resonance
+      objectReference: {fileID: 0}
+    - target: {fileID: 6977043867177847751, guid: 980a5679550e54c4b9255af9d42855da, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7736357779108131599, guid: 980a5679550e54c4b9255af9d42855da, type: 3}
+      propertyPath: playOnAwake
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 980a5679550e54c4b9255af9d42855da, type: 3}

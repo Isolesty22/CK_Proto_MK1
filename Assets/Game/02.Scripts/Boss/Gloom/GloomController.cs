@@ -30,7 +30,7 @@ public class GloomController : BossController
         public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
         public CustomPool<GloomChaseBullet> chaseBullet = new CustomPool<GloomChaseBullet>();
         public CustomPool<GloomChaseHit> chaseHit = new CustomPool<GloomChaseHit>();
-        
+
     }
     [Serializable]
     public class SkillObjects
@@ -264,6 +264,9 @@ public class GloomController : BossController
         stateMachine.StartState((int)eGloomState.Idle);
 
         ChangeDirection(eDiretion.Right);
+
+        onHitAction = OnHit;
+
         Init_Animator();
         Init_Pools();
         Init_Skills();
@@ -535,18 +538,39 @@ public class GloomController : BossController
         return SkillObj.aliveThornVineDict.ContainsKey(_index);
     }
 
+
+    private Action onHitAction = null;
     public override void OnHit()
     {
         ReceiveDamage();
         Com.emissionHelper.OnHit();
     }
 
+    /// <summary>
+    /// 무적 상태가 됩니다.
+    /// </summary>
+    public void StartInvincible()
+    {
+        onHitAction = VoidFunc;
+    }
+
+    /// <summary>
+    /// 무적 상태를 종료합니다.
+    /// </summary>
+    public void EndInvincible()
+    {
+        onHitAction = OnHit;
+    }
+
+    /// <summary>
+    /// 그냥 빈 함수입니다.
+    /// </summary>
+    private void VoidFunc() { }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TagName.Arrow))
         {
-            OnHit();
-
+            onHitAction();
         }
     }
 }

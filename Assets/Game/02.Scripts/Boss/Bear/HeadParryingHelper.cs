@@ -9,7 +9,7 @@ public class HeadParryingHelper : MonoBehaviour
 {
     IEnumerator parryEnumerator;
 
-    [HideInInspector]
+    [Tooltip("패링 성공 여부")]
     public bool isSucceedParry = false;
     public void Init()
     {

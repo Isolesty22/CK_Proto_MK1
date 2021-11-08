@@ -300,7 +300,6 @@ public class GloomState_Resonance : GloomState
     public void AnimEvent()
     {
         helper.StartCheck();
-        gloom.SkillObj.resonanceSphereEffect.SetActive(true);
         gloom.StartCoroutine(ProcessSkill());
     }
 
@@ -308,7 +307,11 @@ public class GloomState_Resonance : GloomState
     private IEnumerator ProcessSkill()
     {
         float timer = 0f;
-        float summonInterval = gloom.SkillVal.resonance.createInterval;
+        // float summonInterval = gloom.SkillVal.resonance.createInterval;
+        float summonInterval = 0f;
+
+        gloom.SkillObj.resonanceSphereEffect.SetActive(true);
+        gloom.StartInvincible();
         while (timer < skillVal.resonanceTime)
         {
             timer += Time.deltaTime;
@@ -337,9 +340,16 @@ public class GloomState_Resonance : GloomState
             yield return null;
         }
 
+        helper.EndCheck();
+        gloom.EndInvincible();
+        gloom.SkillObj.resonanceSphereEffect.SetActive(false);
         gloom.SetTrigger("Resonance_End");
+
+        //데미지 주기
+        GameManager.instance.playerController.Hit();
     }
 
+    private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
 
     /// <summary>
     /// 패링 가능한 투사체를 소환합니다(방해 투사체와 동일)
@@ -362,12 +372,16 @@ public class GloomState_Resonance : GloomState
             Vector3 spawnPos = block.positions.groundCenter;
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(spawnPos, new Vector3(0f, 0f, 90f), null);
 
+            sign.SetBulletRotation(bulletRot);
             sign.Init(gloom, spawnPos, block.positions.topCenter, skillVal.moveTime);
         }
     }
 
     private void ChangeStatePowerless()
     {
+        helper.EndCheck();
+        gloom.EndInvincible();
+
         gloom.SkillObj.resonanceSphereEffect.SetActive(false);
         gloom.ChangeState((int)eGloomState.Powerless);
     }
