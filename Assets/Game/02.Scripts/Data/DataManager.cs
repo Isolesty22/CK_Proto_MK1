@@ -48,7 +48,7 @@ public class DataManager : MonoBehaviour
 
 
     [Tooltip("현재 클리어한 스테이지 번호")]
-    public int currentClearStageNumber;
+    public int currentClearStageNumber = 0;
 
     private void Awake()
     {

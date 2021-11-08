@@ -50,6 +50,16 @@ public class FieldMapManager : MonoBehaviour
             fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
         }
 
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+            {
+                fieldDoors[i].mode = FieldDoor.eMode.Open;
+            }
+            fieldDoors[i].Init();
+        }
+
+
         keyOption = dataManager.currentData_settings.keySetting;
         MoveSelector(dataManager.currentData_player.currentStageNumber);
     }
@@ -59,11 +69,13 @@ public class FieldMapManager : MonoBehaviour
     /// </summary>
     public void CheckOpenDoor()
     {
+
+        Debug.Log("Check Open Door");
         //현재 클리어한 스테이지 번호가 저장된 스테이지 번호보다 높을 떄
         if (dataManager.currentClearStageNumber > dataManager.currentData_player.finalStageNumber)
         {
             //문 열기 연출
-            OpenDoor(dataManager.currentClearStageNumber);
+            OpenDoor(dataManager.currentClearStageNumber + 1);
         }
         else
         {
@@ -74,11 +86,17 @@ public class FieldMapManager : MonoBehaviour
 
     public void OpenDoor(int _stageNumber)
     {
+        FieldDoor door = null;
+        if (!fieldDoorDict.TryGetValue(_stageNumber, out door))
+        {
+            Debug.Log("최대 스테이지입니다. 아마도...");
+            return;
+        }
         fieldDoorDict[_stageNumber].Open();
 
         //스테이지 클리어 여부를 저장
-        dataManager.currentData_player.finalStageNumber = _stageNumber;
-        dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(_stageNumber);
+        dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
+        dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
 
         dataManager.SaveCurrentData(DataManager.fileName_player);
     }
@@ -98,14 +116,17 @@ public class FieldMapManager : MonoBehaviour
     public void MoveSelector(eDiretion _dir)
     {
         int moveStageNumber = -1;
-        if (selectedDoor.stageNumber + 1 > fieldDoors.Length || selectedDoor.stageNumber - 1 < minStageNumber)
-        {
-            Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
-        }
 
         if (_dir == eDiretion.Right)
         {
             moveStageNumber = selectedDoor.stageNumber + 1;
+
+            if (moveStageNumber > 4)
+            {
+                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                return;
+            }
+
             FieldDoor tempDoor = fieldDoorDict[moveStageNumber];
             //이동하려는 문이 잠겨있는 상태일때 
             if (tempDoor.mode == FieldDoor.eMode.Lock)
@@ -121,6 +142,13 @@ public class FieldMapManager : MonoBehaviour
         else
         {
             moveStageNumber = selectedDoor.stageNumber - 1;
+
+            if (moveStageNumber < minStageNumber)
+            {
+                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                return;
+            }
+
             FieldDoor tempDoor = fieldDoorDict[moveStageNumber];
 
             //이동하려는 문이 잠겨있는 상태일때 
@@ -146,11 +174,17 @@ public class FieldMapManager : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("등록되지 않은 스테이지 넘버입니다.");
+            Debug.LogWarning("등록되지 않은 스테이지 넘버입니다 : " + _stageNumber);
         }
     }
 
     private void Update()
+    {
+        DetectKey();
+    }
+
+
+    private void DetectKey()
     {
         //오른쪽 이동
         if (Input.GetKeyDown(keyOption.moveRight))
@@ -170,6 +204,5 @@ public class FieldMapManager : MonoBehaviour
             enterStageAction?.Invoke();
         }
     }
-
 }
 

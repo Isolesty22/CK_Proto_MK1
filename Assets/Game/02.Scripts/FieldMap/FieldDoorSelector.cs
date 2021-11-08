@@ -7,7 +7,7 @@ public class FieldDoorSelector : MonoBehaviour
 {
     [Tooltip("자기 자신의 트랜스폼")]
     public RectTransform rectTransform;
-    private Vector3 centerPosition;
+    private Vector3 centerPosition = Vector3.zero;
 
     [Tooltip("위아래로 움직일 이미지의 트랜스폼")]
     public RectTransform selectorImageTransform;
@@ -26,11 +26,10 @@ public class FieldDoorSelector : MonoBehaviour
     {
         while (true)
         {
-            selectorImageTransform.position = new Vector3(
-                centerPosition.x, 
-                centerPosition.y * Mathf.Sin(Time.time * frequency) * magnitude, 
-                centerPosition.z);
-
+            selectorImageTransform.localPosition = new Vector3(
+                0f, 
+                Mathf.Sin(Time.time * frequency) * magnitude, 
+                0f);
             yield return null;
         }
     }
@@ -39,7 +38,7 @@ public class FieldDoorSelector : MonoBehaviour
     public void MovePosition(Vector3 _pos)
     {
         rectTransform.position = _pos;
-        centerPosition = _pos;
+        //centerPosition = _pos;
     }
 
 }

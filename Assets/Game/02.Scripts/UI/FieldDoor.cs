@@ -40,12 +40,18 @@ public class FieldDoor : MonoBehaviour
     }
     [Space(5)]
     public eMode mode = eMode.Lock;
-    private void Awake()
+
+    public void Init()
     {
         //이름 설정
         stageName = SceneNames.GetSceneNameUseStageNumber(stageNumber);
+        if (mode == eMode.Open)
+        {
+            AlreadyOpen();
+        }
         //Open();
     }
+
     /// <summary>
     /// 문을 엽니다.
     /// </summary>
@@ -55,14 +61,31 @@ public class FieldDoor : MonoBehaviour
     }
     public void Button_EnterStage()
     {
+        DataManager.Instance.currentData_player.currentStageNumber = stageNumber;
+        DataManager.Instance.currentData_player.currentStageName = stageName;
+
+        //저장은 딱히 안해도 될것같지만 일단 해보기
+        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+
         SceneChanger.Instance.LoadThisScene(stageName);
     }
 
-    public void Button_SelectDoor()
-    {
-        fieldMapManager.SelectDoor(stageNumber);
-    }
+    //public void Button_SelectDoor()
+    //{
+    //    fieldMapManager.SelectDoor(stageNumber);
 
+    //}
+
+
+    /// <summary>
+    /// 문을 즉시 열려있는 상태로 전환합니다. 
+    /// </summary>
+    private void AlreadyOpen()
+    {
+        lockImage.sprite = lockSprite_Open;
+        canvasGroup.alpha = 0f;
+        mode = eMode.Open;
+    }
     private IEnumerator ProcessOpen()
     {
         yield return new WaitForSeconds(0.5f);
