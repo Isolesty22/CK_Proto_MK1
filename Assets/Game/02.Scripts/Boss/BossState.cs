@@ -159,7 +159,7 @@ public class BearState_Rush : BearState
     float timer;
     float progress;
     float rushTime = 1.5f;
-    float walkTime = 5f;
+    float walkTime = 3f;
 
     bool canGo;
     public BearState_Rush(BearController _bearController)
@@ -179,6 +179,7 @@ public class BearState_Rush : BearState
     public override void OnEnter()
     {
         canExit = false;
+        bearController.StartInvincible();
         bearController.SetDamage(0f);
 
         canGo = true;
@@ -200,6 +201,7 @@ public class BearState_Rush : BearState
     public override void OnExit()
     {
         bearController.SetDamage(1f);
+        bearController.EndInvincible();
     }
 
     public void LeftRush()
