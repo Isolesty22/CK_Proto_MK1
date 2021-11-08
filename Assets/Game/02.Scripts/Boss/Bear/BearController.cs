@@ -47,7 +47,7 @@ public class BearController : BossController
 
         [Space(10)]
         public Transform headParringPosition;
-        public BearConcentrateHelper concentrateHelper;
+        public HeadParryingHelper concentrateHelper;
         public GameObject concentrateSphere;
 
         [Space(10)]

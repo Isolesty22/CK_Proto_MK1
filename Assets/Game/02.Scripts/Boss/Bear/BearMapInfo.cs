@@ -87,7 +87,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init_PhasePositions()
     {
-        phase2Position = new Vector3(mapBlocks[0].position.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
+        phase2Position = new Vector3(mapBlocks[0].positions.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
         phase3Position = bearTransform.position;
 
     }
@@ -119,29 +119,29 @@ public class BearMapInfo : MonoBehaviour
         tempMax = new Vector3(tempMin.x + mapData.blockLength.x, mapData.maxPosition.y, mapData.maxPosition.z);
 
         mapBlocks[0].SetMinMax(tempMin, tempMax);
-        mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].position));
-        mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].position));
+        mapBlocks[0].SetGroundCenter(CalcGroundCenter(mapBlocks[0].positions));
+        mapBlocks[0].SetTopCenter(CalcTopCenter(mapBlocks[0].positions));
 
         //나머지 블록 포지션 계산
         for (int i = 1; i < blockCount; i++)
         {
-            tempMin = new Vector3(mapBlocks[i - 1].position.max.x, mapData.minPosition.y, mapData.minPosition.z);
+            tempMin = new Vector3(mapBlocks[i - 1].positions.max.x, mapData.minPosition.y, mapData.minPosition.z);
             tempMax = new Vector3(mapData.minPosition.x + (mapData.blockLength.x * (i + 1)), mapData.maxPosition.y, mapData.maxPosition.z);
 
             mapBlocks[i].SetMinMax(tempMin, tempMax);
-            mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].position));
-            mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].position));
+            mapBlocks[i].SetGroundCenter(CalcGroundCenter(mapBlocks[i].positions));
+            mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].positions));
         }
 
     }
 
-    private Vector3 CalcGroundCenter(MapBlock.Position _bearBlockPosition)
+    private Vector3 CalcGroundCenter(MapBlock.Positions _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.min.x + mapData.blockLength.x * 0.5f, _bearBlockPosition.min.y, mapData.position.z);
         return bottomCenter;
     }
 
-    private Vector3 CalcTopCenter(MapBlock.Position _bearBlockPosition)
+    private Vector3 CalcTopCenter(MapBlock.Positions _bearBlockPosition)
     {
         Vector3 bottomCenter = new Vector3(_bearBlockPosition.groundCenter.x, _bearBlockPosition.max.y, mapData.position.z);
         return bottomCenter;
@@ -220,7 +220,7 @@ public class BearMapInfo : MonoBehaviour
             Gizmos.color = Color.red;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawLine(mapBlocks[i].position.min, mapBlocks[i].position.max);
+                Gizmos.DrawLine(mapBlocks[i].positions.min, mapBlocks[i].positions.max);
             }
 
             Gizmos.color = Color.blue;
@@ -229,13 +229,13 @@ public class BearMapInfo : MonoBehaviour
             Gizmos.color = Color.grey;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawSphere(mapBlocks[i].position.groundCenter, 0.1f);
+                Gizmos.DrawSphere(mapBlocks[i].positions.groundCenter, 0.1f);
             }
 
             Gizmos.color = Color.white;
             for (int i = 0; i < blockCount; i++)
             {
-                Gizmos.DrawLine(mapBlocks[i].position.groundCenter, mapBlocks[i].position.topCenter);
+                Gizmos.DrawLine(mapBlocks[i].positions.groundCenter, mapBlocks[i].positions.topCenter);
             }
         }
 
