@@ -714,7 +714,7 @@ public class BearState_Concentrate : BearState
     {
         canExit = false;
         bearController.SetDamage(0f);
-
+        bearController.StartInvincible();
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
 
@@ -723,6 +723,7 @@ public class BearState_Concentrate : BearState
     public override void OnExit()
     {
         bearController.SetDamage(1f);
+        bearController.EndInvincible();
         bearController.EmissionOn(10f);
     }
     public void AnimEvent()
