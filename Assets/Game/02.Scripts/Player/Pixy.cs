@@ -178,7 +178,7 @@ public class Pixy : MonoBehaviour
         var ult = CheckUltTime();
         StartCoroutine(ult);
 
-        //ultEnerge.Play();
+        ultEnerge.Play();
 
         float cooltime = 10f;
         while(isUlt)
@@ -207,7 +207,7 @@ public class Pixy : MonoBehaviour
 
         yield return new WaitForSeconds(ultTime);
 
-        //ultEnerge.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        ultEnerge.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         isUlt = false;
     } 

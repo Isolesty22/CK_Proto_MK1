@@ -228,7 +228,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponState: 0
   basicArrowSpeed: 14
-  basicArrowRange: 7
+  basicArrowRange: 15
   basicArrowCooldown: 0.2
 --- !u!1 &4650393343325549109
 GameObject:
@@ -337,7 +337,7 @@ MonoBehaviour:
   playerStatus:
     name: Player
     hp: 0
-    maxHp: 200
+    maxHp: 3
     movementSpeed: 4
     crouchMoveSpeed: 2
     jumpForce: 15
@@ -392,6 +392,7 @@ MonoBehaviour:
     isAttack: 0
     isLeft: 0
     moveSystem: 0
+    isAlive: 0
   keyOption:
     moveRight: 275
     moveLeft: 276
