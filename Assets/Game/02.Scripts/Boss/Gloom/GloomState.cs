@@ -456,10 +456,13 @@ public class GloomState_Obstruct : GloomState
     private Vector3 rot;
 
     private WaitForSeconds waitSec = null;
+
+    private float bulletMoveTime;
     public GloomState_Obstruct(GloomController _gloomController)
     {
         gloom = _gloomController;
         waitSec = new WaitForSeconds(gloom.SkillVal.obstruct.createInterval);
+        bulletMoveTime = gloom.SkillVal.obstruct.moveTime;
     }
     public override void OnEnter()
     {
@@ -508,7 +511,7 @@ public class GloomState_Obstruct : GloomState
 
 
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(startPos, rot, null); ;
-            sign.Init(gloom, startPos, endPosArr[index]);
+            sign.Init(gloom, startPos, endPosArr[index], bulletMoveTime);
             //GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
             //bullet.Init(gloom, startPos, endPosArr[index]);
             //bullet.Move();

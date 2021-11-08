@@ -26,14 +26,14 @@ public class GloomObstructBullet : MonoBehaviour
     {
         player = GameManager.instance.playerController;
     }
-    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
+    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _moveTime)
     {
         moveCoroutine = ProcessMove();
         gloom = _gloom;
         curve = _gloom.SkillVal.obstruct.curve;
         startPos = _startPos;
         endPos = _endPos;
-        moveTime = gloom.SkillVal.obstruct.moveTime;
+        moveTime = _moveTime;
         waitTime = gloom.SkillVal.obstruct.waitTime;
     }
 

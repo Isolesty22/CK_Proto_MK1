@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,21 +11,21 @@ public class GloomObstructSign : MonoBehaviour
     {
         waitSec = new WaitForSeconds(1f);
     }
-    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
+    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _bulletMoveTime)
     {
 
         particle.Play();
-        StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos));
+        StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos, _bulletMoveTime));
 
     }
 
-    private IEnumerator ProcessSummonBullet(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
+    private IEnumerator ProcessSummonBullet(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _bulletMoveTime)
     {
-        //Àý¹Ý¾¿ ³ª´²¼­ ±â´Ù¸®±â
+        //ì ˆë°˜ì”© ë‚˜ëˆ ì„œ ê¸°ë‹¤ë¦¬ê¸°
 
         yield return waitSec;
         GloomObstructBullet bullet = _gloom.Pool.obstructBullet.SpawnThis(_startPos);
-        bullet.Init(_gloom, _startPos, _endPos);
+        bullet.Init(_gloom, _startPos, _endPos, _bulletMoveTime);
         bullet.Move();
 
 
