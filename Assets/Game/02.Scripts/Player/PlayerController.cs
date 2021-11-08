@@ -498,14 +498,16 @@ public class PlayerController : MonoBehaviour
         {
             State.isAlive = false;
             Com.animator.SetTrigger("Death");
-            return;
+        }
+        else
+        {
+            Com.animator.SetTrigger("Hit");
+            var knockBack = KnockBack();
+            StartCoroutine(knockBack);
         }
 
 
-        Com.animator.SetTrigger("Hit");
 
-        var knockBack = KnockBack();
-        StartCoroutine(knockBack);
         var invincible = Invincible();
         StartCoroutine(invincible);
 
