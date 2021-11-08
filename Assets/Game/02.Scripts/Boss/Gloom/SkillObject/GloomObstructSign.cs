@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,30 +7,38 @@ public class GloomObstructSign : MonoBehaviour
     public ParticleSystem particle;
 
     private WaitForSeconds waitSec = null;
+
+    private Vector3 bulletRotation = Vector3.zero;
     private void Awake()
     {
         waitSec = new WaitForSeconds(1f);
     }
-    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
+    public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _bulletMoveTime)
     {
 
         particle.Play();
-        StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos));
+        StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos, _bulletMoveTime));
 
     }
-
-    private IEnumerator ProcessSummonBullet(GloomController _gloom, Vector3 _startPos, Vector3 _endPos)
+    public void SetBulletRotation(Vector3 _rot)
     {
-        //¿˝π›æø ≥™¥≤º≠ ±‚¥Ÿ∏Æ±‚
+        bulletRotation = _rot;
+    }
+
+    private IEnumerator ProcessSummonBullet(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _bulletMoveTime)
+    {
+        //Ï†àÎ∞òÏî© ÎÇòÎà†ÏÑú Í∏∞Îã§Î¶¨Í∏∞
 
         yield return waitSec;
-        GloomObstructBullet bullet = _gloom.Pool.obstructBullet.SpawnThis(_startPos);
-        bullet.Init(_gloom, _startPos, _endPos);
+        GloomObstructBullet bullet = _gloom.Pool.obstructBullet.SpawnThis(_startPos, bulletRotation, null);
+        bullet.Init(_gloom, _startPos, _endPos, _bulletMoveTime);
         bullet.Move();
 
 
         yield return waitSec;
 
+        //Í∞ÅÎèÑ Ï¥àÍ∏∞Ìôî
+        bulletRotation = Vector3.zero;
         _gloom.Pool.obstructSign.ReleaseThis(this);
 
     }

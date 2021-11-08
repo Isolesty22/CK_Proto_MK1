@@ -5,11 +5,11 @@ using UnityEngine;
 /// <summary>
 /// 집중 스킬의 작동을 위한 클래스
 /// </summary>
-public class BearConcentrateHelper : MonoBehaviour
+public class HeadParryingHelper : MonoBehaviour
 {
     IEnumerator parryEnumerator;
 
-    [HideInInspector]
+    [Tooltip("패링 성공 여부")]
     public bool isSucceedParry = false;
     public void Init()
     {

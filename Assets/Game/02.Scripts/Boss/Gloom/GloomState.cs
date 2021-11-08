@@ -278,10 +278,16 @@ public class GloomState_Leap : GloomState
 }
 public class GloomState_Resonance : GloomState
 {
+
+    private HeadParryingHelper helper;
+
+    private GloomController.SkillValues.ResonancePattern skillVal;
+
     public GloomState_Resonance(GloomController _gloomController)
     {
         gloom = _gloomController;
-
+        skillVal = gloom.SkillVal.resonance;
+        helper = gloom.SkillObj.resonanceHelper;
     }
 
     public override void OnEnter()
@@ -293,9 +299,92 @@ public class GloomState_Resonance : GloomState
 
     public void AnimEvent()
     {
-
+        helper.StartCheck();
+        gloom.StartCoroutine(ProcessSkill());
     }
 
+
+    private IEnumerator ProcessSkill()
+    {
+        float timer = 0f;
+        // float summonInterval = gloom.SkillVal.resonance.createInterval;
+        float summonInterval = 0f;
+
+        gloom.SkillObj.resonanceSphereEffect.SetActive(true);
+        gloom.StartInvincible();
+        while (timer < skillVal.resonanceTime)
+        {
+            timer += Time.deltaTime;
+
+            //구슬 패링에 성공했을 경우
+            if (helper.isSucceedParry)
+            {
+                //검사 끝내기
+                helper.EndCheck();
+
+                //무력화상태 진입
+                ChangeStatePowerless();
+                yield break;
+            }
+
+            //summonInterval초마다 투사체 소환
+            if (timer > summonInterval)
+            {
+                //투사체 소환
+                SummonBullet();
+
+                //mod를 쓰고싶었으나 float라서 고려해야할게 너무 많았다.
+                summonInterval += skillVal.createInterval;
+            }
+
+            yield return null;
+        }
+
+        helper.EndCheck();
+        gloom.EndInvincible();
+        gloom.SkillObj.resonanceSphereEffect.SetActive(false);
+        gloom.SetTrigger("Resonance_End");
+
+        //데미지 주기
+        GameManager.instance.playerController.Hit();
+    }
+
+    private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
+
+    /// <summary>
+    /// 패링 가능한 투사체를 소환합니다(방해 투사체와 동일)
+    /// </summary>
+    private void SummonBullet()
+    {
+        int i = gloom.Com.gloomMap.mapLength.min;
+        int length = gloom.Com.gloomMap.mapLength.max;
+        for (; i < length; i++)
+        {
+            MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
+
+            //낭떠러지일 경우
+            if (block.currentType == MapBlock.eType.Empty)
+            {
+                //소환 안함
+                continue;
+            }
+
+            Vector3 spawnPos = block.positions.groundCenter;
+            GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(spawnPos, new Vector3(0f, 0f, 90f), null);
+
+            sign.SetBulletRotation(bulletRot);
+            sign.Init(gloom, spawnPos, block.positions.topCenter, skillVal.moveTime);
+        }
+    }
+
+    private void ChangeStatePowerless()
+    {
+        helper.EndCheck();
+        gloom.EndInvincible();
+
+        gloom.SkillObj.resonanceSphereEffect.SetActive(false);
+        gloom.ChangeState((int)eGloomState.Powerless);
+    }
 
 }
 public class GloomState_Threat : GloomState
@@ -382,7 +471,7 @@ public class GloomState_ThornPath : GloomState
                 //초기화
                 thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.positions.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
@@ -400,7 +489,7 @@ public class GloomState_ThornPath : GloomState
             //초기화
             thornVine.gloom = gloom;
             thornVine.Init();
-            thornVine.SetValues(block, blockArr[0], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
+            thornVine.SetValues(block, blockArr[0], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.positions.groundCenter);
             thornVine.UpdateEndPosition();
 
             thornVine.StartGrow();
@@ -456,10 +545,13 @@ public class GloomState_Obstruct : GloomState
     private Vector3 rot;
 
     private WaitForSeconds waitSec = null;
+
+    private float bulletMoveTime;
     public GloomState_Obstruct(GloomController _gloomController)
     {
         gloom = _gloomController;
         waitSec = new WaitForSeconds(gloom.SkillVal.obstruct.createInterval);
+        bulletMoveTime = gloom.SkillVal.obstruct.moveTime;
     }
     public override void OnEnter()
     {
@@ -508,7 +600,7 @@ public class GloomState_Obstruct : GloomState
 
 
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(startPos, rot, null); ;
-            sign.Init(gloom, startPos, endPosArr[index]);
+            sign.Init(gloom, startPos, endPosArr[index], bulletMoveTime);
             //GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
             //bullet.Init(gloom, startPos, endPosArr[index]);
             //bullet.Move();
@@ -626,7 +718,7 @@ public class GloomState_ThornForest : GloomState
                 //초기화
                 thornVine.gloom = gloom;
                 thornVine.Init();
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.positions.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
@@ -657,7 +749,7 @@ public class GloomState_ThornForest : GloomState
                 thornVine.gloom = gloom;
                 thornVine.Init();
 
-                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.position.groundCenter);
+                thornVine.SetValues(block, blockArr[i], gloom.SkillVal.thorn.hp, gloom.SkillVal.thorn.waitTime, block.positions.groundCenter);
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();

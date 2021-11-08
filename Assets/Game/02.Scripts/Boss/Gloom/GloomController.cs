@@ -30,7 +30,7 @@ public class GloomController : BossController
         public CustomPool<GloomWaveBullet> waveBullet = new CustomPool<GloomWaveBullet>();
         public CustomPool<GloomChaseBullet> chaseBullet = new CustomPool<GloomChaseBullet>();
         public CustomPool<GloomChaseHit> chaseHit = new CustomPool<GloomChaseHit>();
-        
+
     }
     [Serializable]
     public class SkillObjects
@@ -52,6 +52,15 @@ public class GloomController : BossController
         [Header("파동 발사 위치")]
         public Transform waveTransform;
 
+        [Header("패링 헬퍼")]
+        [Tooltip("공명 스킬의 패링 성공여부를 확인하기 위해 사용합니다.")]
+        public HeadParryingHelper resonanceHelper;
+
+        [Header("구슬 트랜스폼")]
+        public Transform sphereTransform;
+
+        [Header("공명 구슬 이펙트")]
+        public GameObject resonanceSphereEffect;
 
     }
     [Serializable]
@@ -76,6 +85,9 @@ public class GloomController : BossController
             [Tooltip("투사체 이동 시, curvedValue만큼 더 굽은 선을 그리게 됩니다. 0에 가까울수록 직선이 됩니다.")]
             public float curvedValue;
 
+            /// <summary>
+            /// 투사체의 midPosition은 이 값을 사용하여 계산됩니다.
+            /// </summary>
             [HideInInspector]
             public Vector3 curvedPosition;
         }
@@ -142,6 +154,22 @@ public class GloomController : BossController
         [Serializable]
         public struct ResonancePattern
         {
+            [Header("[Resonance]")]
+            [Tooltip("공명의 지속시간입니다.")]
+            public float resonanceTime;
+
+
+            [Tooltip("투사체의 생성 간격입니다.")]
+            public float createInterval;
+
+            [Tooltip("투사체가 맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
+
+            [Tooltip("뿔 사이의 구슬이 커지는 정도입니다.")]
+            public float sphereScale;
+
+
+            [Header("[Powerless]")]
             [Tooltip("무력화의 지속시간입니다.")]
             public float powerlessTime;
         }
@@ -236,6 +264,9 @@ public class GloomController : BossController
         stateMachine.StartState((int)eGloomState.Idle);
 
         ChangeDirection(eDiretion.Right);
+
+        onHitAction = OnHit;
+
         Init_Animator();
         Init_Pools();
         Init_Skills();
@@ -273,9 +304,11 @@ public class GloomController : BossController
 
     private void Init_Skills()
     {
+
         SkillVal.extendEndPos = new Vector3(SkillVal.extendMapSize, 0f, 0f);
         SkillVal.chase.curvedPosition = new Vector3(0f, SkillVal.chase.curvedValue, 0f);
 
+        SkillObj.resonanceHelper.Init();
         UpdateObstructPositions();
         UpdateWavePosition();
         SkillObj.threat.SetActive(false);
@@ -505,18 +538,39 @@ public class GloomController : BossController
         return SkillObj.aliveThornVineDict.ContainsKey(_index);
     }
 
+
+    private Action onHitAction = null;
     public override void OnHit()
     {
         ReceiveDamage();
         Com.emissionHelper.OnHit();
     }
 
+    /// <summary>
+    /// 무적 상태가 됩니다.
+    /// </summary>
+    public void StartInvincible()
+    {
+        onHitAction = VoidFunc;
+    }
+
+    /// <summary>
+    /// 무적 상태를 종료합니다.
+    /// </summary>
+    public void EndInvincible()
+    {
+        onHitAction = OnHit;
+    }
+
+    /// <summary>
+    /// 그냥 빈 함수입니다.
+    /// </summary>
+    private void VoidFunc() { }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TagName.Arrow))
         {
-            OnHit();
-
+            onHitAction();
         }
     }
 }

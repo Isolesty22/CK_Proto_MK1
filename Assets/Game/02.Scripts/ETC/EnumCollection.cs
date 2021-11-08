@@ -195,7 +195,7 @@ public class BoxColliderInfo
 public class MapBlock
 {
     [System.Serializable]
-    public class Position
+    public class Positions
     {
         [ReadOnly]
         public Vector3 min;
@@ -203,6 +203,9 @@ public class MapBlock
         [ReadOnly]
         public Vector3 max;
 
+        /// <summary>
+        /// 땅부분의 가운데 포지션입니다.
+        /// </summary>
         [ReadOnly]
         public Vector3 groundCenter;
 
@@ -211,15 +214,25 @@ public class MapBlock
     }
     public enum eType
     {
+        /// <summary>
+        /// 기본 타입입니다.
+        /// </summary>
         None,
+        /// <summary>
+        /// 낭떠러지에게 부여되는 타입입니다.
+        /// </summary>
         Empty,
+
+        /// <summary>
+        /// 가시덩쿨등 중복되면 안되는 오브젝트들이 소환된 상태일 때 부여되는 타입입니다.
+        /// </summary>
         Used,
     }
     private eType originType;
     [ReadOnly]
     public eType currentType;
 
-    public Position position = new Position();
+    public Positions positions = new Positions();
 
     public void SetOriginType(eType _type)
     {
@@ -227,17 +240,17 @@ public class MapBlock
     }
     public void SetMinMax(Vector3 _min, Vector3 _max)
     {
-        position.min = _min;
-        position.max = _max;
+        positions.min = _min;
+        positions.max = _max;
     }
 
     public void SetGroundCenter(Vector3 _groundCenter)
     {
-        position.groundCenter = _groundCenter;
+        positions.groundCenter = _groundCenter;
     }
     public void SetTopCenter(Vector3 _topCenter)
     {
-        position.topCenter = _topCenter;
+        positions.topCenter = _topCenter;
     }
 
     public void SetCurrentType(eType _type)
