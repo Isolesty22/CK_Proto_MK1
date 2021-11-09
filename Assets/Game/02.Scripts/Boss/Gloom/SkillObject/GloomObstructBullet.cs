@@ -14,7 +14,8 @@ public class GloomObstructBullet : MonoBehaviour
     public GloomController gloom;
     private AnimationCurve curve;
 
-    public Transform myTransform;
+    public Rigidbody rb;
+    //public Transform myTransform;
 
     private Vector3 startPos;
     private Vector3 endPos;
@@ -57,12 +58,12 @@ public class GloomObstructBullet : MonoBehaviour
             timer += Time.deltaTime * curve.Evaluate(progress);
             progress = timer / moveTime;
             //Debug.Log(curve.Evaluate(progress));
-            myTransform.position = Vector3.Lerp(startPos, endPos, progress);
+            rb.MovePosition(Vector3.Lerp(startPos, endPos, progress));
 
             yield return null;
         }
 
-        myTransform.position = endPos;
+        rb.MovePosition(endPos);
         Despawn();
     }
     public void Despawn()

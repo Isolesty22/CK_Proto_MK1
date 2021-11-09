@@ -39,10 +39,7 @@ public class GloomController : BossController
         public GloomLeapImpact leapImpact;
 
         public GameObject threat;
-        /// <summary>
-        /// int = 소환될 당시의 인덱스 값
-        /// </summary>
-        public Dictionary<int, GloomThornVine> aliveThornVineDict = new Dictionary<int, GloomThornVine>();
+
 
         [Header("추격 발사 위치")]
         public Transform chaseTransform;
@@ -231,7 +228,13 @@ public class GloomController : BossController
     [HideInInspector]
     public Pools Pool;
 
+    /// <summary>
+    /// int = 소환될 당시의 인덱스 값
+    /// </summary>
+    public Dictionary<int, GloomThornVine> aliveThornVineDict = new Dictionary<int, GloomThornVine>();
+
     private List<List<GloomPattern>> phaseList = new List<List<GloomPattern>>();
+
 
     private void Start()
     {
@@ -527,15 +530,15 @@ public class GloomController : BossController
 
     public void AddThornVineDict(int _index, GloomThornVine _thornVine)
     {
-        SkillObj.aliveThornVineDict.Add(_index, _thornVine);
+        aliveThornVineDict.Add(_index, _thornVine);
     }
     public void RemoveThornVineDict(int _index)
     {
-        SkillObj.aliveThornVineDict.Remove(_index);
+        aliveThornVineDict.Remove(_index);
     }
     public bool ContainsThornVineDict(int _index)
     {
-        return SkillObj.aliveThornVineDict.ContainsKey(_index);
+        return aliveThornVineDict.ContainsKey(_index);
     }
 
 

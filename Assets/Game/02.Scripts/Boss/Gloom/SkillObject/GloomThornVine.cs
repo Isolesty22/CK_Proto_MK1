@@ -29,11 +29,11 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         public Vector3 endPosition;
 
         [Space(10)]
-        [Tooltip("글룸이 도약을 사용헀을 때, 해당 위치에 존재할 경우 gloomAttackDelayTime 이후에 사망 처리 됩니다.")]
+        [Tooltip("글룸이 도약을 사용헀을 때, 덩쿨이 해당 위치에 존재할 경우 gloomAttackDelayTime 이후에 사망 처리 됩니다.")]
         public float gloomAttackDelayTime;
 
         [HideInInspector]
-        public WaitForSeconds gloomDelayTime = null;
+        public WaitForSeconds attackDelayTime = null;
     }
 
     [System.Serializable]
@@ -102,23 +102,29 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private string str_TexColor = "_TexColor";
 
     private int damage = 1;
-
-
-    private Collider col;
-    public void Init()
+    private void Awake()
     {
         if (Com.material == null)
         {
             Com.material = Com.renderer.material;
         }
+        Val.attackDelayTime = new WaitForSeconds(Val.gloomAttackDelayTime);
 
+        //페이드아웃타임이 0보다 작으면 1로 설정
+        if (Val.fadeOutTime <= 0f)
+        {
+            Val.fadeOutTime = 1f;
+        }
+    }
+    public void Init()
+    {
         Com.material.SetFloat(str_Amount, 0f);
         Com.material.SetColor(str_TexColor, Val.originalColor);
 
         hitCoroutine = null;
         currentState = eState.Idle;
-        Val.gloomDelayTime = new WaitForSeconds(Val.gloomAttackDelayTime);
     }
+
     public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
     {
         currentIndex = _index;
@@ -179,35 +185,35 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         hitCoroutine = null;
     }
 
+    /// <summary>
+    /// 일정시간 이후에 죽는 함수를 호출합니다.
+    /// </summary>
     public void StartDelayDie()
     {
         StartCoroutine(DelayDie());
     }
-
-
     private IEnumerator DelayDie()
     {
-       yield return Val.gloomDelayTime;
+        yield return Val.attackDelayTime;
         //대기 후 죽음
         StartCoroutine(ProcessDie());
     }
     private IEnumerator ProcessDie()
     {
+        //죽은 상태로 변경
+        currentState = eState.Die;
+
         //딕셔너리에 들어가있으면 삭제
         if (gloom.ContainsThornVineDict(currentIndex))
         {
             gloom.RemoveThornVineDict(currentIndex);
         }
 
-        if (Val.fadeOutTime <= 0f)
-        {
-            Val.fadeOutTime = 1f;
-        }
+
 
         //충돌처리 끄기
         Com.collider.enabled = false;
 
-        currentState = eState.Die;
         float amount = 0f;
         float timer = 0f;
 
@@ -229,6 +235,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     }
 
 
+    /// <summary>
+    /// EndPosition을 새로 계산합니다.
+    /// </summary>
     public void UpdateEndPosition()
     {
         Vector3 colSize = Com.collider.size;
@@ -248,7 +257,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         {
             currentState = eState.Die;
             StartCoroutine(ProcessDie());
-            return;
         }
         else
         {
@@ -258,6 +266,8 @@ public class GloomThornVine : MonoBehaviour, IDamageable
                 hitCoroutine = ProcessHit();
                 StartCoroutine(hitCoroutine);
             }
+
+            //데미지 받는 처리
             ReceiveDamage();
         }
 

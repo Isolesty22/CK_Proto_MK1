@@ -15,7 +15,6 @@ public class GloomObstructSign : MonoBehaviour
     }
     public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _bulletMoveTime)
     {
-
         particle.Play();
         StartCoroutine(ProcessSummonBullet(_gloom, _startPos, _endPos, _bulletMoveTime));
 

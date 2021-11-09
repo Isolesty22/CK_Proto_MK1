@@ -171,31 +171,34 @@ public class GloomState_Leap : GloomState
         gloom.StartCoroutine(ProcessAnimEvent_Fall_DelayAnimation());
     }
 
+    /// <summary>
+    /// 일정시간 이후에 Leap_End 애니메이션으로 전환합니다.
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DelayLeapEndAnimation()
     {
         yield return downAnimTime;
         gloom.SetTrigger("Leap_End");
     }
     /// <summary>
-    /// End애니메이션을 시간조절로 실행
+    /// End애니메이션을 자동이 아닌 특정 시간 이후에 실행합니다.
     /// </summary>
     private IEnumerator ProcessAnimEvent_Fall_DelayAnimation()
     {
-
 
         //착지 자리에 있는 덩쿨 없애기 
         if (endDirection == eDiretion.Right)
         {
             if (gloom.ContainsThornVineDict(6))
             {
-                gloom.SkillObj.aliveThornVineDict[6].StartDelayDie();
+                gloom.aliveThornVineDict[6].StartDelayDie();
             }
         }
         else
         {
             if (gloom.ContainsThornVineDict(0))
             {
-                gloom.SkillObj.aliveThornVineDict[0].StartDelayDie();
+                gloom.aliveThornVineDict[0].StartDelayDie();
             }
         }
 
@@ -203,7 +206,9 @@ public class GloomState_Leap : GloomState
         float timer = 0f;
         float progress = 0f;
 
+        //일정 시간 이후에 착지 애니메이션 실행
         gloom.StartCoroutine(DelayLeapEndAnimation());
+
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -241,14 +246,14 @@ public class GloomState_Leap : GloomState
         {
             if (gloom.ContainsThornVineDict(6))
             {
-                gloom.SkillObj.aliveThornVineDict[6].StartDelayDie();
+                gloom.aliveThornVineDict[6].StartDelayDie();
             }
         }
         else
         {
             if (gloom.ContainsThornVineDict(0))
             {
-                gloom.SkillObj.aliveThornVineDict[0].StartDelayDie();
+                gloom.aliveThornVineDict[0].StartDelayDie();
             }
         }
 
@@ -303,8 +308,6 @@ public class GloomState_Resonance : GloomState
         helper.StartCheck();
         gloom.StartCoroutine(ProcessSkill());
     }
-
-
     private IEnumerator ProcessSkill()
     {
         float timer = 0f;
@@ -344,9 +347,7 @@ public class GloomState_Resonance : GloomState
             yield return null;
         }
 
-        helper.EndCheck();
-        gloom.EndInvincible();
-        gloom.SkillObj.resonanceSphere.SetActive(false);
+        ReadyToExit();
         gloom.SetTrigger("Resonance_End");
 
         //데미지 주기
@@ -373,9 +374,13 @@ public class GloomState_Resonance : GloomState
                 continue;
             }
 
-            Vector3 spawnPos = block.positions.groundCenter;
+            //이펙트가 땅에 묻히지 않게 0.01f만큼 띄워줌
+            Vector3 spawnPos = block.positions.groundCenter + new Vector3(0f, 0.01f, 0f);
+
+            //위를 바라보고 있는 상태로 소환
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(spawnPos, new Vector3(0f, 0f, 90f), null);
 
+            //투사체 회전값 조절
             sign.SetBulletRotation(bulletRot);
             sign.Init(gloom, spawnPos, block.positions.topCenter, skillVal.moveTime);
         }
@@ -383,11 +388,19 @@ public class GloomState_Resonance : GloomState
 
     private void ChangeStatePowerless()
     {
+        ReadyToExit();
+        gloom.ChangeState((int)eGloomState.Powerless);
+    }
+
+    /// <summary>
+    /// 상태를 전환하기 전 끝내야하는 일 
+    /// </summary>
+    private void ReadyToExit()
+    {
         helper.EndCheck();
         gloom.EndInvincible();
 
         gloom.SkillObj.resonanceSphere.SetActive(false);
-        gloom.ChangeState((int)eGloomState.Powerless);
     }
 
 }
