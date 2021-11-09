@@ -34,6 +34,7 @@ public class GloomLeapImpact : MonoBehaviour
         for (int i = 0; i < effectsCount; i++)
         {
             vfxHelpers[i].gameObject.SetActive(false);
+
             //지속시간 설정
             vfxHelpers[i].SetActiveTime(waitDuration);
         }
