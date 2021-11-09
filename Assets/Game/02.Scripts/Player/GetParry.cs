@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GetParry : MonoBehaviour
 {
-    float smoothSpeed = 4f;
+    public float smoothSpeed = 3f;
 
 
     private void FixedUpdate()
     {
-        transform.position = Vector3.Lerp(transform.position, GameManager.instance.playerController.Com.pixy.transform.position, Time.deltaTime * smoothSpeed);
+        //transform.position = Vector3.Lerp(transform.position, GameManager.instance.playerController.Com.pixy.transform.position, Time.deltaTime * smoothSpeed);
     }
 
     public void Play()
@@ -22,21 +23,23 @@ public class GetParry : MonoBehaviour
     {
         this.GetComponent<ParticleSystem>().Play();
 
-        //var parry = GetParrying();
-        //StartCoroutine(parry);
+        var parry = GetParrying();
+        StartCoroutine(parry);
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(5f);
 
         CustomPoolManager.Instance.ReleaseThis(this);
     }
 
     public IEnumerator GetParrying()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.7f);
 
         while (true)
         {
-            transform.position = Vector3.Lerp(transform.position, GameManager.instance.playerController.Com.pixy.transform.position, Time.deltaTime * smoothSpeed);
+            //transform.DOMove(GameManager.instance.playerController.Com.pixy.transform.position, 1f);
+
+            transform.position = Vector3.Lerp(transform.position, GameManager.instance.playerController.Com.pixy.transform.position, Time.fixedDeltaTime * smoothSpeed);
 
             yield return new WaitForFixedUpdate();
         }
