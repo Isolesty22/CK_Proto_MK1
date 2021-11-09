@@ -35,8 +35,7 @@ public class GloomController : BossController
     [Serializable]
     public class SkillObjects
     {
-        [Tooltip("불꽃이 나오기 전에 나오는 불꽃 추아악 ")]
-        public GameObject leapStartImpact;
+        [Tooltip("불꽃 추아악")]
         public GloomLeapImpact leapImpact;
 
         public GameObject threat;
@@ -62,7 +61,7 @@ public class GloomController : BossController
         public Transform sphereTransform;
 
         [Header("공명 구슬 이펙트")]
-        public GameObject resonanceSphereEffect;
+        public GameObject resonanceSphere;
 
     }
     [Serializable]
@@ -528,7 +527,6 @@ public class GloomController : BossController
 
     public void AddThornVineDict(int _index, GloomThornVine _thornVine)
     {
-        Debug.Log("Add! : " + _index);
         SkillObj.aliveThornVineDict.Add(_index, _thornVine);
     }
     public void RemoveThornVineDict(int _index)

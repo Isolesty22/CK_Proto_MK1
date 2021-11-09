@@ -29,6 +29,8 @@ public class GloomLeapImpact : MonoBehaviour
 
     #endregion
 
+    public GameObject leapImpactFlame;
+    public VfxActiveHelper[] vfxHelpers;
 
     public GloomController gloom;
     [SerializeField]
@@ -44,7 +46,6 @@ public class GloomLeapImpact : MonoBehaviour
     //public Components Com => _components;
     //public Effects Effect => _effects;
 
-    public GameObject[] effects;
     public Collider myCollider;
 
     private int effectsCount;
@@ -56,34 +57,44 @@ public class GloomLeapImpact : MonoBehaviour
     private void Start()
     {
         player = GameManager.instance.playerController;
+
         Val.duration = gloom.SkillVal.leap.leapImpactDuration;
+
         Val.waitDuration = new WaitForSeconds(Val.duration);
 
         myCollider.enabled = false;
-        effectsCount = effects.Length;
+
+        effectsCount = vfxHelpers.Length;
+
         for (int i = 0; i < effectsCount; i++)
         {
-            effects[i].SetActive(false);
+            vfxHelpers[i].gameObject.SetActive(false);
         }
     }
 
-    //public void Init()
-    //{
-
-    //}
-
     public void StartImpact()
     {
-        gameObject.SetActive(true);
+        for (int i = 0; i < effectsCount; i++)
+        {
+            vfxHelpers[i].SetActiveTime(Val.waitDuration);
+        }
         StartCoroutine(ProcessImpact());
     }
 
     private WaitForSeconds createInterval = new WaitForSeconds(0.2f);
     private IEnumerator ProcessImpact()
     {
+
+
+
+        //임팩트 불꽃 켜기
+        leapImpactFlame.SetActive(true);
+
+        yield return createInterval;
+
         for (int i = 0; i < effectsCount; i++)
         {
-            effects[i].SetActive(true);
+            vfxHelpers[i].Active();
             yield return createInterval;
         }
 
@@ -91,14 +102,11 @@ public class GloomLeapImpact : MonoBehaviour
 
         yield return Val.waitDuration;
 
-        for (int i = 0; i < effectsCount; i++)
-        {
-            effects[i].SetActive(false);
-        }
 
+        leapImpactFlame.SetActive(false);
         myCollider.enabled = false;
 
-        gameObject.SetActive(false);
+
     }
 
     private PlayerController player;

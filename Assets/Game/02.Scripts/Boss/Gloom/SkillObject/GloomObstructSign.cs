@@ -35,6 +35,7 @@ public class GloomObstructSign : MonoBehaviour
         bullet.Move();
 
 
+        particle.Stop();
         yield return waitSec;
 
         //각도 초기화

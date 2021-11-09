@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent((typeof(Rigidbody)))]
 public class GloomThornVine : MonoBehaviour, IDamageable
 {
 
@@ -105,20 +104,19 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private int damage = 1;
 
 
+    private Collider col;
     public void Init()
     {
         if (Com.material == null)
         {
             Com.material = Com.renderer.material;
         }
+
         Com.material.SetFloat(str_Amount, 0f);
         Com.material.SetColor(str_TexColor, Val.originalColor);
 
-        Effect.thornSign.SetActive(false);
-        Com.collider.enabled = true;
         hitCoroutine = null;
         currentState = eState.Idle;
-
         Val.gloomDelayTime = new WaitForSeconds(Val.gloomAttackDelayTime);
     }
     public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
@@ -153,19 +151,22 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         float progress = 0f;
 
         Effect.thornSign.SetActive(true);
+
         //대기시간만큼 기다린 다음에 생성 시작
         yield return Val.waitTime;
-        Effect.thornSign.SetActive(false);
+
 
         while (progress < 1f)
         {
             timer += Time.deltaTime;
             progress = timer / Val.growTime;
+
             Com.rigidbody.position = Vector3.Lerp(Val.startPosition, Val.endPosition, progress);
             Com.rigidbody.rotation = Quaternion.Euler((Vector3.Lerp(Vector3.zero, testRotation, progress)));
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+        Effect.thornSign.SetActive(false);
         Com.rigidbody.position = Val.endPosition;
         currentState = eState.Idle;
     }

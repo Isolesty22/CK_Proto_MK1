@@ -221,7 +221,7 @@ public class GloomState_Leap : GloomState
         //gloom.SetTrigger("Leap_End");
 
         //리프 임팩트 실행
-        gloom.SkillObj.leapStartImpact.SetActive(true);
+        // gloom.SkillObj.leapStartImpact.SetActive(true);
         gloom.SkillObj.leapImpact.StartImpact();
 
         //방향 바꿈 판정
@@ -311,8 +311,11 @@ public class GloomState_Resonance : GloomState
         // float summonInterval = gloom.SkillVal.resonance.createInterval;
         float summonInterval = 0f;
 
-        gloom.SkillObj.resonanceSphereEffect.SetActive(true);
+        //gloom.SkillObj.resonanceSphereEffect.SetActiveTime(skillVal.resonanceTime);
+        gloom.SkillObj.resonanceSphere.SetActive(true);
+
         gloom.StartInvincible();
+
         while (timer < skillVal.resonanceTime)
         {
             timer += Time.deltaTime;
@@ -343,7 +346,7 @@ public class GloomState_Resonance : GloomState
 
         helper.EndCheck();
         gloom.EndInvincible();
-        gloom.SkillObj.resonanceSphereEffect.SetActive(false);
+        gloom.SkillObj.resonanceSphere.SetActive(false);
         gloom.SetTrigger("Resonance_End");
 
         //데미지 주기
@@ -383,7 +386,7 @@ public class GloomState_Resonance : GloomState
         helper.EndCheck();
         gloom.EndInvincible();
 
-        gloom.SkillObj.resonanceSphereEffect.SetActive(false);
+        gloom.SkillObj.resonanceSphere.SetActive(false);
         gloom.ChangeState((int)eGloomState.Powerless);
     }
 
