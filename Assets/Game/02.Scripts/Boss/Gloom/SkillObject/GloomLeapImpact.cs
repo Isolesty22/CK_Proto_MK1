@@ -85,8 +85,6 @@ public class GloomLeapImpact : MonoBehaviour
     private IEnumerator ProcessImpact()
     {
 
-
-
         //임팩트 불꽃 켜기
         leapImpactFlame.SetActive(true);
 
