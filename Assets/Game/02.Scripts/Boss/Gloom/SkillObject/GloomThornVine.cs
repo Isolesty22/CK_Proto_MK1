@@ -102,6 +102,8 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private string str_TexColor = "_TexColor";
 
     private int damage = 1;
+
+    private Quaternion zeroRotation;
     private void Awake()
     {
         if (Com.material == null)
@@ -115,7 +117,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         {
             Val.fadeOutTime = 1f;
         }
+        zeroRotation = Quaternion.Euler(Vector3.zero);
     }
+
     public void Init()
     {
         Com.material.SetFloat(str_Amount, 0f);
@@ -123,7 +127,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         hitCoroutine = null;
         currentState = eState.Idle;
-        Com.collider.isTrigger = true;
     }
 
     public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
@@ -150,9 +153,10 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         {
             gloom.AddThornVineDict(currentIndex, this);
         }
+        Com.collider.isTrigger = true;
+        Com.collider.enabled = true;
+        Quaternion testRotation = Quaternion.Euler(new Vector3(0f, Random.Range(0f,280f), 0f));
 
-        Quaternion testRotation = Quaternion.Euler(new Vector3(0f, 300f, 0f));
-        Quaternion zeroRotation = Quaternion.Euler(Vector3.zero);
         currentState = eState.Grow;
 
         float timer = 0f;
@@ -280,15 +284,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     {
 
         if (other.CompareTag(TagName.Arrow))
-        {
-            // damage = other.GetComponent<ArrowBase>().damage;
-            OnHit();
-        }
-    }
-    private void OnCollisionEnter(Collision collision)
-    {
-
-        if (collision.gameObject.CompareTag(TagName.Arrow))
         {
             // damage = other.GetComponent<ArrowBase>().damage;
             OnHit();
