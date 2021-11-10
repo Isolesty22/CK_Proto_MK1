@@ -63,15 +63,15 @@ public class SpitterController : MonsterController
         base.Idle();
         if (Stat2.isPlayerInCol)
         {
-            if (GameManager.instance.playerController.transform.position.x <= transform.position.x) 
-            {
-                transform.localEulerAngles = Vector3.zero;
-            }
+            //if (GameManager.instance.playerController.transform.position.x <= transform.position.x) 
+            //{
+            //    transform.localEulerAngles = Vector3.zero;
+            //}
 
-            else
-            {
-                transform.localEulerAngles = new Vector3(0, 180, 0);
-            }
+            //else
+            //{
+            //    transform.localEulerAngles = new Vector3(0, 180, 0);
+            //}
 
             ChangeState(MonsterState.ATTACK);
         }

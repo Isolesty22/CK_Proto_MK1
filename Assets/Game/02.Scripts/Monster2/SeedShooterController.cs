@@ -60,16 +60,16 @@ public class SeedShooterController : MonsterController
         base.Update();
 
         //rotate
-        if (transform.position.x > GameManager.instance.playerController.transform.position.x)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
-            Stat2.fireDir = Vector3.left;
-        }
-        else
-        {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-            Stat2.fireDir = Vector3.right;
-        }
+        //if (transform.position.x > GameManager.instance.playerController.transform.position.x)
+        //{
+        //    transform.rotation = Quaternion.Euler(0, 0, 0);
+        //    Stat2.fireDir = Vector3.left;
+        //}
+        //else
+        //{
+        //    transform.rotation = Quaternion.Euler(0, 180, 0);
+        //    Stat2.fireDir = Vector3.right;
+        //}
     }
 
     public override void State(MonsterState state)
