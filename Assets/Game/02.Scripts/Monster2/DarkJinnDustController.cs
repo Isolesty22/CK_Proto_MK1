@@ -146,7 +146,7 @@ public class DarkJinnDustController : MonsterController
 
         while (state != MonsterState.DEATH)
         {
-            Com.rigidbody.velocity = shootDir.normalized * Stat.moveSpeed * Time.deltaTime * 1000;
+            Com.rigidbody.velocity = shootDir.normalized * Stat.moveSpeed * Time.deltaTime * 100;
             yield return null;
         }
 
