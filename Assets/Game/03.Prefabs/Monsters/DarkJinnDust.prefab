@@ -52,7 +52,7 @@ MonoBehaviour:
     name: DarkJinnDust
     hp: 0
     maxHp: 1
-    moveSpeed: 800
+    moveSpeed: 10
     isAlive: 0
     isCanSpawnMon: 0
     hitTime: 0.2
@@ -72,6 +72,8 @@ MonoBehaviour:
   inAttackCol: 0
   darkJinnDustStatus:
     blinkTime: 1
+    isNonChaseP: 0
+    shootDir: NULL
 --- !u!54 &2636562877231805735
 Rigidbody:
   m_ObjectHideFlags: 0
