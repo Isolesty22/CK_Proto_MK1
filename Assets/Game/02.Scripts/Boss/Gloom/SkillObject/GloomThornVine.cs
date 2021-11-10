@@ -123,6 +123,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         hitCoroutine = null;
         currentState = eState.Idle;
+        Com.collider.isTrigger = true;
     }
 
     public void SetValues(MapBlock _block, int _index, int _hp, float _waitTime, Vector3 _startPos)
@@ -149,8 +150,9 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         {
             gloom.AddThornVineDict(currentIndex, this);
         }
-        Vector3 testRotation = new Vector3(0f, 300f, 0f);
 
+        Quaternion testRotation = Quaternion.Euler(new Vector3(0f, 300f, 0f));
+        Quaternion zeroRotation = Quaternion.Euler(Vector3.zero);
         currentState = eState.Grow;
 
         float timer = 0f;
@@ -167,13 +169,14 @@ public class GloomThornVine : MonoBehaviour, IDamageable
             timer += Time.deltaTime;
             progress = timer / Val.growTime;
 
-            Com.rigidbody.position = Vector3.Lerp(Val.startPosition, Val.endPosition, progress);
-            Com.rigidbody.rotation = Quaternion.Euler((Vector3.Lerp(Vector3.zero, testRotation, progress)));
+            Com.rigidbody.MovePosition(Vector3.Lerp(Val.startPosition, Val.endPosition, progress));
+            Com.rigidbody.MoveRotation(Quaternion.Lerp(zeroRotation, testRotation, progress));
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         Effect.thornSign.SetActive(false);
-        Com.rigidbody.position = Val.endPosition;
+        Com.rigidbody.MovePosition(Val.endPosition);
+        Com.collider.isTrigger = false;
         currentState = eState.Idle;
     }
     private IEnumerator ProcessHit()
@@ -282,5 +285,13 @@ public class GloomThornVine : MonoBehaviour, IDamageable
             OnHit();
         }
     }
+    private void OnCollisionEnter(Collision collision)
+    {
 
+        if (collision.gameObject.CompareTag(TagName.Arrow))
+        {
+            // damage = other.GetComponent<ArrowBase>().damage;
+            OnHit();
+        }
+    }
 }
