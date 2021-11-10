@@ -29,6 +29,7 @@ public class RabbitController : MonsterController
 
     private float moveTime;
     private Vector3 firstLookDir;
+    private Vector3 layDir = new Vector3();
     #endregion
     public override void Initialize()
     {
@@ -74,8 +75,6 @@ public class RabbitController : MonsterController
         if (moveTime > Stat2.moveDelay)
         {
 
-            var layDir = new Vector3();
-
             if (transform.localEulerAngles == Vector3.zero)
             {
                 layDir = Vector3.left;
@@ -92,12 +91,14 @@ public class RabbitController : MonsterController
                     Com.rigidbody.velocity = Vector3.zero;
                     transform.localEulerAngles = new Vector3(0, 180, 0);
                     Com.rigidbody.AddForce(new Vector3(Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
+                    layDir = Vector3.right;
                 }
                 else
                 {
                     Com.rigidbody.velocity = Vector3.zero;
                     transform.localEulerAngles = Vector3.zero;
                     Com.rigidbody.AddForce(new Vector3(-Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
+                    layDir = Vector3.left;
                 }
             }
             else
