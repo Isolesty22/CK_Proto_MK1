@@ -71,16 +71,27 @@ public class UISkillFlower : MonoBehaviour
         //}
     }
 
-
-
-    public void HighlightOn()
+    public void HighlightEnd()
     {
-            animQueue.Enqueue(() => StartCoroutine(ProcessHighlightOn()));
+        animQueue.Enqueue(() => StartCoroutine(ProcessHighlightEnd()));
     }
 
+
+
+    /// <summary>
+    /// 강조된 꽃이 생깁니다.
+    /// </summary>
+    public void HighlightOn()
+    {
+        animQueue.Enqueue(() => StartCoroutine(ProcessHighlightOn()));
+    }
+
+    /// <summary>
+    /// 강조된 꽃과 그냥 꽃이 함께 사라집니다.
+    /// </summary>
     public void HighlightOff()
     {
-            animQueue.Enqueue(() => StartCoroutine(ProcessHighlightOff()));
+        animQueue.Enqueue(() => StartCoroutine(ProcessHighlightOff()));
     }
 
 
@@ -194,7 +205,7 @@ public class UISkillFlower : MonoBehaviour
             timer += Time.deltaTime;
             progress = timer / flowerValue.time_fade;
             //rect_blueFlower.sizeDelta = Vector2.Lerp(smallScale, bigScale, progress);
-            image_blueFlower.color = Color32.Lerp( alphaFull, alphaZero, progress);
+            image_blueFlower.color = Color32.Lerp(alphaFull, alphaZero, progress);
 
             yield return null;
         }
@@ -249,7 +260,26 @@ public class UISkillFlower : MonoBehaviour
         isPlaying = false;
     }
 
+    public IEnumerator ProcessHighlightEnd()
+    {
+        isPlaying = true;
+        currentState = eState.blueOff;
+        ClearTimer();
 
+
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+            progress = timer / flowerValue.time_fade;
+            //rect_blueFlower.sizeDelta = Vector2.Lerp(smallScale, bigScale, progress);
+            image_orngFlower.color = Color32.Lerp(alphaFull, alphaZero, progress);
+
+            yield return null;
+        }
+
+        image_orngFlower.enabled = false;
+        isPlaying = false;
+    }
 
     #endregion
 
