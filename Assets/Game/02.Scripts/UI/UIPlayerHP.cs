@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIPlayerHP : MonoBehaviour
+public class UIPlayerHP : UIBase
 {
     [Tooltip("testCurrentHp=>playerController.Stat.hp")]
     public int testCurrentHP;
@@ -15,7 +15,6 @@ public class UIPlayerHP : MonoBehaviour
         public Image backgroundImage;
 
         public Image[] hpImageArr;
-
 
         [Header("HP Sprite")]
         public Sprite hp_on;
@@ -37,11 +36,22 @@ public class UIPlayerHP : MonoBehaviour
     private int uiHP;
     private void Start()
     {
+        Com.canvasGroup.alpha = 0f;
+        Com.canvas.enabled = false;
+        GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
         Init();
+        CheckOpen();
         UpdateUI();
+
+    }
+    public void OnTimelineEnded()
+    {
+        //타임라인이 끝나고 열리게
+        fadeDuration = 0.3f;
+        StartCoroutine(ProcessOpen());
     }
 
-    private void Init()
+    public override void Init()
     {
         playerController = GameManager.instance.playerController;
 
@@ -98,7 +108,7 @@ public class UIPlayerHP : MonoBehaviour
         }
         else
         {
-            Images.hpImageArr[currentHP].sprite = Images.hp_on;
+            Images.hpImageArr[currentHP - 1].sprite = Images.hp_on;
         }
         uiHP = currentHP;
     }

@@ -190,8 +190,17 @@ public class UIManager : MonoBehaviour
         {
             if (openUIcount == 0)
             {
+                //일시정지 UI가 있다면
+                if (uiDict.ContainsKey(UIName.UIPause))
+                {
+                    OpenThis(uiDict[UIName.UIPause]);
+                }
+                //없으면 종료팝업 띄우기 ( 아마 메인메뉴일 것 같은데...?)
+                else
+                { 
+                    OpenQuitPopup();
+                }
 
-                OpenThis(uiDict[UIName.UILosePopup]);
             }
             else
             {

@@ -84,7 +84,12 @@ public class GameManager : MonoBehaviour
         {
             GoNextStage();
         }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            playerController.Stat.hp = 3;
+        }
     }
+
 
     /// <summary>
     /// Application.Quit;

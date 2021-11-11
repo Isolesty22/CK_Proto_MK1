@@ -46,6 +46,14 @@ public class UIPause : UIBase
         return true;
     }
 
+    public void Button_CloseTop()
+    {
+        UIManager.Instance.CloseTop();
+    }
+    public void Button_OpenThis(string _name)
+    {
+        UIManager.Instance.OpenThis(_name);
+    }
     public void Button_ReturnFieldMap()
     {
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);

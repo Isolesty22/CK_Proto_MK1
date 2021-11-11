@@ -58,4 +58,9 @@ public class UIPopup : UIBase
     {
         UIManager.Instance.CloseTop();
     }
+
+    public void Button_QuitGame()
+    {
+        UIManager.Instance.OpenQuitPopup();
+    }
 }

@@ -40,6 +40,10 @@ public class TimelineManager : MonoBehaviour
         {
             StartCoroutine(ProcessPlayTimeline());
         }
+        else
+        {
+            StartCoroutine(OnTimelineEnd());
+        }
     }
 
     private IEnumerator ProcessPlayTimeline()
@@ -63,10 +67,16 @@ public class TimelineManager : MonoBehaviour
         //타임라인이 달린 오브젝트 비활성화
         director.gameObject.SetActive(false);
 
-        //OnTileLineEnded 호출
-
+        //혹시 몰라서 한프레임 대기 후에 OnTileLineEnded 호출
+        yield return null;
         OnTimelineEnded?.Invoke();
 
+    }
+
+    private IEnumerator OnTimelineEnd()
+    {
+        yield return null;
+        OnTimelineEnded?.Invoke();
     }
 
     public void SetTimeline(TimelineAsset _timeline)

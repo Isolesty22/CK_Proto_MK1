@@ -95,15 +95,13 @@ public class UIMainMenu : UIBase
     {
         UIManager.Instance.CloseTop();
     }
-    public void Button_OpenSettings(UIBase _uiBase)
+    public void Button_OpenSettings()
     {
-        UIManager.Instance.OpenThis(_uiBase);
+        UIManager.Instance.OpenThis(UIName.UIOption_Main);
     }
 
     public void Button_QuitGame()
     {
-        UIManager.Instance.OpenPopup(eUIText.Exit,
-            GameManager.instance.QuitGame,
-            UIManager.Instance.CloseTop);
+        UIManager.Instance.OpenQuitPopup();
     }
 }
