@@ -1,15 +1,23 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// �˾�â
+/// 팝업창
 /// </summary>
 public class UIPopup : UIBase
 {
+
+    [Header("UIPopup")]
+    [Tooltip("true일 때, 게임 오브젝트의 이름으로 UIManager의 딕셔너리에 등록합니다.")]
+    public bool addDictionary = false;
     private void Start()
     {
         Init();
+        if (addDictionary)
+        {
+            UIManager.Instance.AddDict(gameObject.name, this);
+        }
     }
 
     public override void Init()
@@ -41,6 +49,10 @@ public class UIPopup : UIBase
     public void Button_OpenThis(UIBase _uiBase)
     {
         UIManager.Instance.OpenThis(_uiBase);
+    }
+    public void Button_OpenThis(string _uiName)
+    {
+        UIManager.Instance.OpenThis(_uiName);
     }
     public void Button_CloseTop()
     {

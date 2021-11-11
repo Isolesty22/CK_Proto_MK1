@@ -9,23 +9,9 @@ public class UIMainMenu : UIBase
 
     private void Start()
     {
-        Init();
         Open();
     }
-    public void TestFunc()
-    {
-        if (SceneChanger.Instance == null)
-        {
-            Debug.LogWarning("SceneChanger is Null");
-        }
 
-        StartCoroutine(SceneChanger.Instance.LoadThisSceneToName(SceneNames.mainMenu));
-    }
-
-    public override void Init()
-    {
-        base.Init();
-    }
 
     protected override void CheckOpen()
     {

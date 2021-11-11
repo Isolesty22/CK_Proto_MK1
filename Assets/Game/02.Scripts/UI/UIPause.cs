@@ -46,20 +46,6 @@ public class UIPause : UIBase
         return true;
     }
 
-    public void Button_OpenUI(UIBase _uiBase)
-    {
-        UIManager.Instance.OpenThis(_uiBase);
-    }
-    public void Button_ReturnGame()
-    {
-        UIManager.Instance.CloseTop();
-    }
-    public void Button_ReturnMain()
-    {
-        SceneChanger.Instance.LoadThisScene(SceneNames.mainMenu);
-        Com.canvasGroup.interactable = false;
-        Time.timeScale = 1f;
-    }
     public void Button_ReturnFieldMap()
     {
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -68,7 +54,6 @@ public class UIPause : UIBase
     }
     public void Button_QuitGame()
     {
-
         UIManager.Instance.OpenQuitPopup();
     }
 

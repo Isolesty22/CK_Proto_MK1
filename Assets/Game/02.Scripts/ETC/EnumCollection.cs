@@ -290,6 +290,16 @@ public static class UIName
     public static readonly string UIVolumeSetting = "UIVolumeSetting";
     public static readonly string UIPause = "UIPause";
 
+    /// <summary>
+    /// 필드맵에 있는 옵션창입니다.
+    /// </summary>
+    public static readonly string UIOption_Field = "UIOption_Field";
+
+    /// <summary>
+    /// 메인메뉴에 있는 옵션창입니다.
+    /// </summary>
+    public static readonly string UIOption_Main = "UIOption_Main";
+
 }
 public class EnumCollection : MonoBehaviour
 {
