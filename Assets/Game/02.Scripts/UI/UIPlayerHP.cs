@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class UIPlayerHP : UIBase
 {
-    [Tooltip("testCurrentHp=>playerController.Stat.hp")]
-    public int testCurrentHP;
-
-
     [System.Serializable]
     public class AdditiveImages
     {
@@ -34,10 +30,15 @@ public class UIPlayerHP : UIBase
     private int currentHP;
 
     private int uiHP;
-    private void Start()
+
+    private void Awake()
     {
         Com.canvasGroup.alpha = 0f;
         Com.canvas.enabled = false;
+    }
+    private void Start()
+    {
+
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
         Init();
         CheckOpen();
