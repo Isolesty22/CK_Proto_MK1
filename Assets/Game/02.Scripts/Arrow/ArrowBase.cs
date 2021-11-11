@@ -34,6 +34,7 @@ public class ArrowBase : MonoBehaviour
         if (other.CompareTag("Boss"))
         {
             PlayHitAndRelease();
+            return;
         }
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
@@ -44,7 +45,14 @@ public class ArrowBase : MonoBehaviour
 
             isActive = false;
             CustomPoolManager.Instance.ReleaseThis(this);
+            return;
         }
+
+        if (other.CompareTag("Summons"))
+        {
+            PlayHitAndRelease();
+        }
+
     }
 
     private void PlayHitAndRelease()
