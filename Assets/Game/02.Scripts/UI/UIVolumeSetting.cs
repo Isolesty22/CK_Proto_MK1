@@ -33,6 +33,7 @@ public class UIVolumeSetting : UIBase
     private void Start()
     {
         Init();
+        UIManager.Instance.AddDict(this);
     }
 
     public override void Init()

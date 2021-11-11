@@ -83,6 +83,8 @@ public class UIKeySetting : UIBase
         Init_KeyChangeButtons();
 
         UpdateAllUI();
+
+        UIManager.Instance.AddDict(this);
     }
 
     /// <summary>

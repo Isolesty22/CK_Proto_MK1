@@ -7,6 +7,7 @@ public class UILosePopup : UIBase
     private void Start()
     {
         Init();
+        UIManager.Instance.AddDict(this);
     }
 
     public override void Init()
@@ -45,6 +46,11 @@ public class UILosePopup : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         Com.canvasGroup.interactable = false;
         //Time.timeScale = 1f;
+    }
+
+    public void Button_QuitGame()
+    {
+        UIManager.Instance.OpenQuitPopup();
     }
 
 }

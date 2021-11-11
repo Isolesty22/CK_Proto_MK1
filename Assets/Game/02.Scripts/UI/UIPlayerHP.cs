@@ -134,7 +134,7 @@ public class UIPlayerHP : MonoBehaviour
     private IEnumerator ProcessOpenLosePopup()
     {
         yield return new WaitForSeconds(1f);
-        UIManager.Instance.OpenLosePopup();
+        UIManager.Instance.OpenThis(UIName.UILosePopup);
 
     }
 }

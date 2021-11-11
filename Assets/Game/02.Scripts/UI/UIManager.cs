@@ -29,11 +29,7 @@ public class UIManager : MonoBehaviour
     public int openUIcount;
     [Space(10)]
 
-    [Tooltip("[임시] 패배 팝업")]
-    public UILosePopup losePopup;
-
-    [Tooltip("[임시] 일시정지 팝업")]
-    public UIBase uiPause;
+   
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
@@ -42,6 +38,11 @@ public class UIManager : MonoBehaviour
     private UIBase latelyUI;
 
     private Action detectingCloseKey;
+
+    /// <summary>
+    /// 이름있는 UIBase들이 들어있을 수 있는 딕셔너리
+    /// </summary>
+    private Dictionary<string, UIBase> uiDict = new Dictionary<string, UIBase>();
 
     private void Awake()
     {
@@ -78,6 +79,11 @@ public class UIManager : MonoBehaviour
     /// Stack에서, 현재 UI 이전에 있는 UI
     /// </summary>
     private UIBase prevUI = null;
+
+    public void OpenThis(string _name)
+    {
+        OpenThis(uiDict[_name]);
+    }
     public void OpenThis(UIBase _uiBase)
     {
         if (_uiBase.isOpen)
@@ -185,7 +191,7 @@ public class UIManager : MonoBehaviour
             if (openUIcount == 0)
             {
 
-                OpenThis(uiPause);
+                OpenThis(uiDict[UIName.UILosePopup]);
             }
             else
             {
@@ -196,12 +202,28 @@ public class UIManager : MonoBehaviour
     }
 
     private void VoidFunc() { }
+
     /// <summary>
-    /// [임시] 패배 팝업을 띄웁니다.
+    /// [주의] 씬에 오직 하나만 존재할 수 있는 UI에만 사용하세요.
     /// </summary>
-    public void OpenLosePopup() => OpenThis(losePopup);
+    /// <param name="_uiBase"></param>
+    public void AddDict(UIBase _uiBase)
+    {
+        uiDict.Add(_uiBase.GetType().Name, _uiBase);
+        Debug.Log(_uiBase.GetType().Name);
+    }
+    public void AddDict(string _name, UIBase _uiBase) => uiDict.Add(_name, _uiBase);
+    public void RemoveDict(string _name) => uiDict.Remove(_name);
+
+    /// <summary>
+    /// uiDict에서 UIBase를 반환합니다(오류검사를 하지 않습니다). 
+    /// </summary>
+    public UIBase GetUI(string _name) => uiDict[_name];
 
 
+    /// <summary>
+    /// 게임 종료 팝업을 엽니다.
+    /// </summary>
     public void OpenQuitPopup()
     {
         OpenPopup(eUIText.Exit,
@@ -209,6 +231,9 @@ public class UIManager : MonoBehaviour
             CloseTop);
     }
 
+    /// <summary>
+    /// 게임을 종료합니다.
+    /// </summary>
     public void QuitGame()
     {
 #if UNITY_EDITOR

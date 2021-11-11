@@ -282,6 +282,15 @@ public static class TagName
     public static readonly string Boss = "Boss";
     // public static readonly string  = "FieldMap";
 }
+
+public static class UIName
+{
+    public static readonly string UILosePopup = "UILosePopup";
+    public static readonly string UIKeySetting = "UIKeySetting";
+    public static readonly string UIVolumeSetting = "UIVolumeSetting";
+    public static readonly string UIPause = "UIPause";
+
+}
 public class EnumCollection : MonoBehaviour
 {
 

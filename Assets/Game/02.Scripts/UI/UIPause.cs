@@ -9,6 +9,7 @@ public class UIPause : UIBase
     {
         Init();
         blurVolume.SetActive(false);
+        UIManager.Instance.AddDict(this);
     }
 
     //void Update()
