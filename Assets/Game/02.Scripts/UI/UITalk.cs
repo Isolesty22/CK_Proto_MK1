@@ -69,13 +69,16 @@ public class UITalk : UIBase
     /// </summary>
     public void SetValue(int _CODE, float _duration)
     {
-        if (_CODE - stageCode > talkData.Count)
+        if (_CODE - stageCode >= talkData.Count)
         {
-            Debug.Log("해당 코드는 데이터의 범위를 넘어섭니다.");
-            return;
+            Debug.Log("해당 코드는 데이터의 범위를 넘어섭니다. 이전 텍스트를 출력합니다.");
         }
-        realCode = _CODE - stageCode;
+        else
+        {
+            realCode = _CODE - stageCode;
+        }
 
+        Debug.Log(realCode);
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
         waitSec = new WaitForSeconds(_duration);
@@ -86,14 +89,15 @@ public class UITalk : UIBase
     /// </summary>
     public void SetValue(int _CODE)
     {
-        if (_CODE - stageCode > talkData.Count)
+        if (_CODE - stageCode >= talkData.Count)
         {
-            Debug.Log("해당 코드는 데이터의 범위를 넘어섭니다.");
-            return;
+            Debug.Log("해당 코드는 데이터의 범위를 넘어섭니다. 이전 텍스트를 출력합니다.");
         }
-
-        realCode = _CODE - stageCode;
-
+        else
+        {
+            realCode = _CODE - stageCode;
+        }
+        Debug.Log(realCode);
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
     }
