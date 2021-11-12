@@ -12,7 +12,7 @@ public class UISkillGauge : MonoBehaviour
         [Tooltip("뾰잉 커브")]
         public AnimationCurve scaleCurve;
 
-        [Tooltip("꽃이 커지거나 작아질 때 들어가는 페이드 효과에 걸리는 시간")]
+        [Tooltip("꽃의 색이 바뀌기만 할 때, 혹은 꽃이 커지거나 작아질 때 슬쩍 들어가는 페이드 효과에 걸리는 시간입니다.")]
         public float time_fade;
 
         [Space(5)]
@@ -146,8 +146,16 @@ public class UISkillGauge : MonoBehaviour
                 UpdateImages();
                 return;
             }
-            if (playerController.Stat.pixyEnerge  < 29.95f)
+            if (playerController.Stat.pixyEnerge < 29.95f)
             {
+                if (skillFlowers[2].currentState == UISkillFlower.eState.orangeOn)
+                {
+                    skillFlowers[2].HighlightOff();
+                    skillFlowers[1].HighlightEnd();
+                    skillFlowers[0].HighlightEnd();
+                    UpdateImages();
+                    return;
+                }
                 if (skillFlowers[2].currentState != UISkillFlower.eState.blueOff)
                 {
                     skillFlowers[2].Off();
@@ -157,7 +165,7 @@ public class UISkillGauge : MonoBehaviour
             }
 
         }
-                UpdateImages();
+        UpdateImages();
 
     }
 }
