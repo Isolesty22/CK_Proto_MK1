@@ -56,7 +56,7 @@ public class UIFieldMap : MonoBehaviour
                 //현재 스테이지넘버를 변경
                 DataManager.Instance.currentData_player.currentStageNumber = currentStageNumber;
 
-                DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+                DataManager.Instance.SaveCurrentData(DataName.player);
                 SceneChanger.Instance.LoadThisScene(GetSceneNameUseStageNumber(currentStageNumber));
                 yield break;
             }

@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     [Header("팝업창")]
     public UIPopup_New uiPopup_new;
 
+    [Header("대화창(UITalk)")]
+    public UITalk uiTalk;
+
     [Header("씬 이동 시 파괴하지 않음")]
     public bool dontDestroyOnLoad;
 
@@ -219,7 +222,7 @@ public class UIManager : MonoBehaviour
     public void AddDict(UIBase _uiBase)
     {
         uiDict.Add(_uiBase.GetType().Name, _uiBase);
-        Debug.Log(_uiBase.GetType().Name);
+        //Debug.Log(_uiBase.GetType().Name);
     }
     public void AddDict(string _name, UIBase _uiBase) => uiDict.Add(_name, _uiBase);
     public void RemoveDict(string _name) => uiDict.Remove(_name);
@@ -238,6 +241,18 @@ public class UIManager : MonoBehaviour
         OpenPopup(eUIText.Exit,
             QuitGame,
             CloseTop);
+    }
+
+    public void Talk(int _CODE, float _duration)
+    {
+        uiTalk.SetValue(_CODE, _duration);
+        uiTalk.StartTalk();
+    }
+
+    public void Talk(int _CODE)
+    {
+        uiTalk.SetValue(_CODE);
+        uiTalk.StartTalk();
     }
 
     /// <summary>

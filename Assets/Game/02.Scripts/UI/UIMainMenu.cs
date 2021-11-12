@@ -42,7 +42,7 @@ public class UIMainMenu : UIBase
 
         Debug.Log("Start New Game...");
         //DataManager.Instance.currentData_player = new Data_Player();
-        //StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        //StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.DataName.settings));
         //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         movieScreen.OnMovieEnded += OnMovieEnded;
         StartCoroutine(movieScreen.playingCoroutine);
@@ -52,7 +52,7 @@ public class UIMainMenu : UIBase
     {
         movieScreen.OnMovieEnded -= OnMovieEnded;
         DataManager.Instance.currentData_player = new Data_Player();
-        StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.settings));
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
@@ -61,7 +61,7 @@ public class UIMainMenu : UIBase
         //Com.canvasGroup.interactable = false;
 
         //DataManager.Instance.currentData_player = new Data_Player();
-        //yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        //yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.DataName.settings));
         //StartCoroutine(movieScreen.playingCoroutine);
         //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
 

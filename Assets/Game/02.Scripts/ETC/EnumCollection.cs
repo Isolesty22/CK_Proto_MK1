@@ -283,12 +283,24 @@ public static class TagName
     // public static readonly string  = "FieldMap";
 }
 
+public static class DataName
+{
+    public const string settings = "Data_Settings.dat";
+    public const string player = "Data_Player.dat";
+    public const string talk_stage_00 = "Data_Talk_Stage_00";
+    public const string talk_stage_01 = "Data_Talk_Stage_01";
+    public const string talk_stage_02 = "Data_Talk_Stage_02";
+    public const string talk_stage_03 = "Data_Talk_Stage_03";
+    public const string talk_stage_04 = "Data_Talk_Stage_04";
+
+}
 public static class UIName
 {
     public static readonly string UILosePopup = "UILosePopup";
     public static readonly string UIKeySetting = "UIKeySetting";
     public static readonly string UIVolumeSetting = "UIVolumeSetting";
     public static readonly string UIPause = "UIPause";
+    public static readonly string UITalk = "UITalk";
 
     /// <summary>
     /// 필드맵에 있는 옵션창입니다.
