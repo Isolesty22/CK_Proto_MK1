@@ -32,8 +32,15 @@ public class TimelineManager : MonoBehaviour
         if (SceneChanger.Instance == null)
         {
             Debug.LogWarning("SceneChanger가 null입니다. 로딩 대기 없이 타임라인을 그냥 Play합니다.");
-            director.Play();
-            StartCoroutine(WaitTimelineEnd());
+            if (director != null)
+            {
+                director.Play();
+                StartCoroutine(WaitTimelineEnd());
+            }
+            else
+            {
+                StartCoroutine(OnTimelineEnd());
+            }
             return;
         }
         if (playOnLoadingEnded)
