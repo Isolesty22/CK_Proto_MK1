@@ -111,7 +111,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartTutorial()
     {
-        DataManager.Instance.StartLoadData_Talk("Stage_00");
         SceneChanger.Instance.LoadThisScene("Stage_00");
     }
 

@@ -249,49 +249,67 @@ public class DataManager : MonoBehaviour
 
         isCreatedNewPlayerData = CheckNewPlayerData();
     }
-
-    public void StartLoadData_Talk(string _stageName)
+    private List<Dictionary<string, object>> loadData_Talk_Result = new List<Dictionary<string, object>>();
+    private int stageCode = 0;
+    public IEnumerator LoadData_Talk(string _stageName)
     {
         string dataName = "Data_Talk_" + _stageName;
-        StartCoroutine(LoadData_Talk(dataName));
-    }
-    private IEnumerator LoadData_Talk(string _dataName)
-    {
-        switch (_dataName)
+        loadData_Talk_Result = null;
+        loadData_Talk_Result = CsvReader.Read("DataFiles/Talk/" + dataName);
+
+        stageCode = 900;
+
+        switch (dataName)
         {
             case DataName.talk_stage_00:
-                currentData_talk.talk_stage_00 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                currentData_talk.talk_stage_00 = loadData_Talk_Result;
+                stageCode = 900;
                 break;
 
             case DataName.talk_stage_01:
-                currentData_talk.talk_stage_01 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                currentData_talk.talk_stage_01 = loadData_Talk_Result;
+                stageCode = 100;
 
                 break;
 
             case DataName.talk_stage_02:
-                currentData_talk.talk_stage_02 = CsvReader.Read("DataFiles/Talk/" + _dataName);
-
+                currentData_talk.talk_stage_02 = loadData_Talk_Result;
+                stageCode = 200;
                 break;
 
             case DataName.talk_stage_03:
-                currentData_talk.talk_stage_03 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                currentData_talk.talk_stage_03 = loadData_Talk_Result;
+                stageCode = 300;
 
                 break;
 
             case DataName.talk_stage_04:
-                currentData_talk.talk_stage_04 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                currentData_talk.talk_stage_04 = loadData_Talk_Result;
+                stageCode = 400;
                 break;
 
             default:
                 Debug.LogError("해당하는 데이터가 없습니다.");
                 break;
         }
+
+        if (SceneChanger.Instance != null)
+        {
+            SceneChanger.Instance.OnScenenLoadEnded += OnSceneLoadEnded;
+        }
+
         yield break;
     }
 
 
     #endregion
 
+    public void OnSceneLoadEnded()
+    {
+        SceneChanger.Instance.OnScenenLoadEnded -= OnSceneLoadEnded;
+        UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);
+        UIManager.Instance.uiTalk.stageCode = stageCode;
+    }
     /// <summary>
     /// 플레이어 데이터가 새로 만든 플레이어 데이터와 다를게 없는지 검사합니다.
     /// </summary>

@@ -10,12 +10,16 @@ public class UITalk : UIBase
 
     [Header("현재 대화 코드")]
     public int currentCode;
+    [Tooltip("몇 번대인가!")]
+    public int stageCode;
+    [Tooltip("실제로 텍스트 출력에 사용되어지고 있는 코드")]
+    private int realCode;
+
     private string currentText;
-    private float duration;
 
     private List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>();
 
-    private WaitForSeconds waitSec = new WaitForSeconds(1f);
+    private WaitForSeconds waitSec = new WaitForSeconds(2f);
     private IEnumerator open = null;
     private IEnumerator close = null;
     private IEnumerator openUseDuration = null;
@@ -27,22 +31,25 @@ public class UITalk : UIBase
 
     public override void Init()
     {
+        Com.canvas.enabled = false;
+        CheckOpen();
+
         fadeDuration = 0.3f;
-        waitSec = new WaitForSeconds(1f);
+        waitSec = new WaitForSeconds(2f);
 
         open = ProcessOpen();
         close = ProcessClose();
         openUseDuration = ProcessOpenUseDuration();
     }
 
-    /// <summary>
-    /// UI상의 텍스트를 변경합니다.
-    /// </summary>
-    /// <param name="_text"></param>
-    public void UpdateText(string _text)
-    {
-        uiText.text = _text;
-    }
+    ///// <summary>
+    ///// UI상의 텍스트를 변경합니다.
+    ///// </summary>
+    ///// <param name="_text"></param>
+    //public void UpdateText(string _text)
+    //{
+    //    uiText.text = _text;
+    //}
     public override bool Open()
     {
         StartCoroutine(ProcessOpen());
@@ -56,14 +63,13 @@ public class UITalk : UIBase
     }
 
     private const string str_NAEYONG = "NAEYONG";
-    private const string str_CODE = "NAEYONG";
+    private const string str_CODE = "CODE";
     /// <summary>
     /// CODE에 따른 텍스트를 불러오고, UI의 지속시간을 설정합니다. 
     /// </summary>
     public void SetValue(int _CODE, float _duration)
     {
-        currentCode = (int)talkData[_CODE][str_CODE];
-        currentText = talkData[_CODE][str_NAEYONG] as string;
+        SetValue(_CODE);
         waitSec = new WaitForSeconds(_duration);
     }
 
@@ -72,8 +78,18 @@ public class UITalk : UIBase
     /// </summary>
     public void SetValue(int _CODE)
     {
-        currentCode = (int)talkData[_CODE][str_CODE];
-        currentText = talkData[_CODE][str_NAEYONG] as string;
+
+
+        if (_CODE - stageCode > talkData.Count)
+        {
+            Debug.Log("해당 코드는 데이터의 범위를 넘어섭니다.");
+            return;
+        }
+
+        realCode = _CODE - stageCode;
+
+        currentCode = (int)talkData[realCode][str_CODE];
+        currentText = talkData[realCode][str_NAEYONG] as string;
     }
 
     public void SetTalkData(List<Dictionary<string, object>> _talkData)
@@ -89,6 +105,7 @@ public class UITalk : UIBase
         {
             StopCoroutine(openUseDuration);
         }
+
         openUseDuration = ProcessOpenUseDuration();
         StartCoroutine(openUseDuration);
     }
@@ -118,8 +135,11 @@ public class UITalk : UIBase
         float progress = 0f;
         float timer = 0f;
 
+
         //알파값 0으로 변경
         Com.canvasGroup.alpha = 0f;
+
+        uiText.text = currentText;
 
         //캔버스 활성화
         Com.canvas.enabled = true;

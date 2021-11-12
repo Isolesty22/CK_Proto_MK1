@@ -208,8 +208,6 @@ public class FieldMapManager : MonoBehaviour
             //더이상 키 입력을 받지 않음
             canDetectKey = false;
 
-            // 데이터 불러오기
-            DataManager.Instance.StartLoadData_Talk(selectedDoor.stageName);
             enterStageAction?.Invoke();
         }
     }
