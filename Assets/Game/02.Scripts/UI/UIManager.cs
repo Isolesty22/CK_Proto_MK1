@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
     [Header("팝업창")]
     public UIPopup_New uiPopup_new;
 
+    [Header("대화창(UITalk)")]
+    public UITalk uiTalk;
+
     [Header("씬 이동 시 파괴하지 않음")]
     public bool dontDestroyOnLoad;
 
@@ -238,6 +241,16 @@ public class UIManager : MonoBehaviour
         OpenPopup(eUIText.Exit,
             QuitGame,
             CloseTop);
+    }
+
+    public void Talk(int _CODE, float _duration)
+    {
+        uiTalk.SetValue(_CODE, _duration);
+    }
+
+    public void Talk(int _CODE)
+    {
+        uiTalk.SetValue(_CODE);
     }
 
     /// <summary>
