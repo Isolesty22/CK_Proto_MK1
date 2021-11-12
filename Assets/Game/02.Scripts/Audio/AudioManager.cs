@@ -30,7 +30,9 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_PJump;
         public AudioSource audioSource_PLand;
         public AudioSource audioSource_PHit;
-        [Header("PlayerClip")]
+        public AudioSource audioSource_PSAttack;
+        public AudioSource audioSource_PPAttack;
+        [Header("Monster")]
         public List<AudioSource> audioSources_MonsterDead = new List<AudioSource>();
     }
     [Serializable]
@@ -40,6 +42,7 @@ public class AudioManager : MonoBehaviour
         public AudioClip stage1AmbientSound;
         public AudioClip stage2BGM;
         public AudioClip arrowHit;
+        public List<AudioClip> specialAttackClips = new List<AudioClip>();
     }
 
 
@@ -249,13 +252,15 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_BGM.volume = 1 * masterVolume * bgmVolume;
         Audios.audioSource_EVM.volume = 0.3f * masterVolume * bgmVolume;
         Audios.audioSource_SFX.volume = 0.5f * masterVolume* sfxVolume;
-        Audios.audioSource_PAttack.volume = 0.4f * masterVolume * sfxVolume;
+        Audios.audioSource_PAttack.volume = 0.2f * masterVolume * sfxVolume;
         Audios.audioSource_PHit.volume = 1 * masterVolume * sfxVolume;
         Audios.audioSource_PJump.volume = 0.5f * masterVolume * sfxVolume;
         Audios.audioSource_PLand.volume = 1 * masterVolume * sfxVolume;
-        Audios.audioSource_PParrying.volume = 0.3f * masterVolume * sfxVolume;
+        Audios.audioSource_PParrying.volume = 0.8f * masterVolume * sfxVolume;
         Audios.audioSource_PRun.volume = 0.3f * masterVolume * sfxVolume;
         Audios.audioSource_PWalk.volume = 0.3f * masterVolume * sfxVolume;
+        Audios.audioSource_PSAttack.volume = 0.2f* masterVolume * sfxVolume;
+        Audios.audioSource_PPAttack.volume = 0.8f * masterVolume * sfxVolume;
     }
     #endregion
 }
