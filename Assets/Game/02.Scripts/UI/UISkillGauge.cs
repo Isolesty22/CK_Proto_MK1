@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// 엄청나게 하드코딩된 스킬 게이지바
+/// </summary>
 public class UISkillGauge : MonoBehaviour
 {
 
@@ -74,7 +77,6 @@ public class UISkillGauge : MonoBehaviour
     }
     private void UpdateGauge_New()
     {
-        //currentGauge = playerController.Stat.pixyEnerge;
 
         //현재 게이지가 실제보다 적을때...켜줘야하나!
         if (currentGauge < playerController.Stat.pixyEnerge)
@@ -83,12 +85,17 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[2].currentState != UISkillFlower.eState.blueOn)
                 {
+                    skillFlowers[2].SetState(UISkillFlower.eState.blueOn);
                     skillFlowers[2].On();
                     return;
                 }
                 //마지막 꽃 애니메이션이 끝나면 전부 강조표시
                 if (skillFlowers[2].currentState == UISkillFlower.eState.blueOn && skillFlowers[2].isPlaying == false)
                 {
+                    skillFlowers[0].SetState(UISkillFlower.eState.orangeOn);
+                    skillFlowers[1].SetState(UISkillFlower.eState.orangeOn);
+                    skillFlowers[2].SetState(UISkillFlower.eState.orangeOn);
+
                     skillFlowers[0].HighlightOn();
                     skillFlowers[1].HighlightOn();
                     skillFlowers[2].HighlightOn();
@@ -100,6 +107,7 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[1].currentState != UISkillFlower.eState.blueOn)
                 {
+                    skillFlowers[1].SetState(UISkillFlower.eState.blueOn);
                     skillFlowers[1].On();
                 }
                 UpdateImages();
@@ -109,6 +117,7 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[0].currentState != UISkillFlower.eState.blueOn)
                 {
+                    skillFlowers[0].SetState(UISkillFlower.eState.blueOn);
                     skillFlowers[0].On();
                 }
                 UpdateImages();
@@ -123,6 +132,10 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[0].currentState == UISkillFlower.eState.orangeOn)
                 {
+                    skillFlowers[0].SetState(UISkillFlower.eState.blueOff);
+                    skillFlowers[1].SetState(UISkillFlower.eState.blueOff);
+                    skillFlowers[2].SetState(UISkillFlower.eState.blueOff);
+
                     skillFlowers[0].HighlightOff();
                     skillFlowers[1].HighlightOff();
                     skillFlowers[2].HighlightOff();
@@ -131,6 +144,7 @@ public class UISkillGauge : MonoBehaviour
                 }
                 if (skillFlowers[0].currentState != UISkillFlower.eState.blueOff)
                 {
+                    skillFlowers[0].SetState(UISkillFlower.eState.blueOff);
                     skillFlowers[0].Off();
                 }
                 UpdateImages();
@@ -141,6 +155,7 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[1].currentState != UISkillFlower.eState.blueOff)
                 {
+                    skillFlowers[1].SetState(UISkillFlower.eState.blueOff);
                     skillFlowers[1].Off();
                 }
                 UpdateImages();
@@ -150,6 +165,10 @@ public class UISkillGauge : MonoBehaviour
             {
                 if (skillFlowers[2].currentState == UISkillFlower.eState.orangeOn)
                 {
+                    skillFlowers[2].SetState(UISkillFlower.eState.blueOff);
+                    skillFlowers[1].SetState(UISkillFlower.eState.blueOn);
+                    skillFlowers[0].SetState(UISkillFlower.eState.blueOn);
+
                     skillFlowers[2].HighlightOff();
                     skillFlowers[1].HighlightEnd();
                     skillFlowers[0].HighlightEnd();
@@ -158,6 +177,7 @@ public class UISkillGauge : MonoBehaviour
                 }
                 if (skillFlowers[2].currentState != UISkillFlower.eState.blueOff)
                 {
+                    skillFlowers[2].SetState(UISkillFlower.eState.blueOff);
                     skillFlowers[2].Off();
                 }
                 UpdateImages();
@@ -166,6 +186,5 @@ public class UISkillGauge : MonoBehaviour
 
         }
         UpdateImages();
-
     }
 }
