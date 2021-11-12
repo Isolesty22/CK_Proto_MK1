@@ -369,7 +369,7 @@ public class UIKeySetting : UIBase
 
         DataManager.Instance.currentData_settings.keySetting.CopyData(currentData_keyOption);
 
-        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.fileName_settings));
+        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.settings));
         Debug.Log("Save 완료");
         isSaving = false;
     }

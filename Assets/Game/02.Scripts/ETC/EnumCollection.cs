@@ -283,6 +283,16 @@ public static class TagName
     // public static readonly string  = "FieldMap";
 }
 
+public static class DataName
+{
+    public const string settings = "Data_Settings.dat";
+    public const string player = "Data_Player.dat";
+    public const string talk_stage_01 = "Data_Talk_Stage_01";
+    public const string talk_stage_02 = "Data_Talk_Stage_02";
+    public const string talk_stage_03 = "Data_Talk_Stage_03";
+    public const string talk_stage_04 = "Data_Talk_Stage_04";
+
+}
 public static class UIName
 {
     public static readonly string UILosePopup = "UILosePopup";

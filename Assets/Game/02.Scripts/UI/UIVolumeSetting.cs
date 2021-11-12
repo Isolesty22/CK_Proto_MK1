@@ -98,7 +98,7 @@ public class UIVolumeSetting : UIBase
         AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
 
         //변경된 데이터 저장
-        yield return StartCoroutine(dataManager.SaveCurrentData(DataManager.fileName_settings));
+        yield return StartCoroutine(dataManager.SaveCurrentData(DataName.settings));
 
         isSaving = false;
 

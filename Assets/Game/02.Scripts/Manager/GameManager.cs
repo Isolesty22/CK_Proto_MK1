@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         // DataManager.Instance.currentData_player.CopyData(data);
         //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
 
         DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         // SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
 
     }
     #endregion

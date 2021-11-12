@@ -65,7 +65,7 @@ public class FieldDoor : MonoBehaviour
         DataManager.Instance.currentData_player.currentStageName = stageName;
 
         //저장은 딱히 안해도 될것같지만 일단 해보기
-        DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        DataManager.Instance.SaveCurrentData(DataName.player);
 
         SceneChanger.Instance.LoadThisScene(stageName);
     }

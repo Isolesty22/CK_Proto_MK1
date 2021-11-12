@@ -25,10 +25,6 @@ public class DataManager : MonoBehaviour
     private eDataManagerState currentState;
 
     #region 파일 이름 및 경로
-    [HideInInspector]
-    public const string fileName_player = "Data_Player.dat";
-    [HideInInspector]
-    public const string fileName_settings = "Data_Settings.dat";
 
     [Tooltip("/DataFiles/")]
     public string dataFilePath = string.Empty;
@@ -95,10 +91,10 @@ public class DataManager : MonoBehaviour
 
         #region 세팅,플레이어 파일 검사
 
-        yield return StartCoroutine(CheckThisFile(fileName_settings));
+        yield return StartCoroutine(CheckThisFile(DataName.settings));
 
         isCreatedNewPlayerData = false;
-        yield return StartCoroutine(CheckThisFile(fileName_player));
+        yield return StartCoroutine(CheckThisFile(DataName.player));
 
 #if UNITY_EDITOR
         AssetDatabase.Refresh();
@@ -133,13 +129,13 @@ public class DataManager : MonoBehaviour
 
             switch (_fileName)
             {
-                case fileName_settings:
+                case DataName.settings:
                     //기본값 생성
                     Data_Settings settingsData = new Data_Settings();
                     currentData_settings.CopyData(settingsData);
                     break;
 
-                case fileName_player:
+                case DataName.player:
                     //플레이어 데이터를 새로 생성했다는 표시
                     isCreatedNewPlayerData = true;
 
@@ -184,7 +180,7 @@ public class DataManager : MonoBehaviour
     private IEnumerator LoadData_Settings()
     {
         //파일 읽어오기
-        yield return StartCoroutine(fileManager.ReadText(fileName_settings, dataFilePath));
+        yield return StartCoroutine(fileManager.ReadText(DataName.settings, dataFilePath));
 
         //제대로 읽어졌으면
         if (!string.IsNullOrEmpty(fileManager.readText_Result))
@@ -198,7 +194,7 @@ public class DataManager : MonoBehaviour
             Data_Settings defaultData = new Data_Settings();
             currentData_settings = defaultData;
 
-            yield return StartCoroutine(SaveCurrentData(fileName_settings));
+            yield return StartCoroutine(SaveCurrentData(DataName.settings));
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
 #endif
@@ -212,7 +208,7 @@ public class DataManager : MonoBehaviour
     {
 
         //파일 읽어오기
-        yield return StartCoroutine(fileManager.ReadText(fileName_player, dataFilePath));
+        yield return StartCoroutine(fileManager.ReadText(DataName.player, dataFilePath));
 
         //제대로 읽어졌으면
         if (!string.IsNullOrEmpty(fileManager.readText_Result))
@@ -226,7 +222,7 @@ public class DataManager : MonoBehaviour
             Data_Player defaultData = new Data_Player();
             currentData_player = defaultData;
 
-            yield return StartCoroutine(SaveCurrentData(fileName_player));
+            yield return StartCoroutine(SaveCurrentData(DataName.player));
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
 #endif
@@ -266,7 +262,7 @@ public class DataManager : MonoBehaviour
 
         switch (_fileName)
         {
-            case fileName_settings:
+            case DataName.settings:
                 currentData = currentData_settings;
                 if (GameManager.instance != null)
                 {
@@ -278,7 +274,7 @@ public class DataManager : MonoBehaviour
                 }
                 break;
 
-            case fileName_player:
+            case DataName.player:
                 currentData = currentData_player;
                 break;
 
@@ -315,7 +311,7 @@ public class DataManager : MonoBehaviour
     //{
     //    //json 형식으로 변경
     //    string jsonData = JsonUtility.ToJson(currentData_settings, true);
-    //    yield return StartCoroutine(fileManager.WriteText(fileName_settings, jsonData, dataFilePath));
+    //    yield return StartCoroutine(fileManager.WriteText(DataName.settings, jsonData, dataFilePath));
     //}
 
     ///// <summary>
@@ -325,7 +321,7 @@ public class DataManager : MonoBehaviour
     //{
     //    //json 형식으로 변경
     //    string jsonData = JsonUtility.ToJson(currentData_player, true);
-    //    yield return StartCoroutine(fileManager.WriteText(fileName_player, jsonData, dataFilePath));
+    //    yield return StartCoroutine(fileManager.WriteText(DataName.player, jsonData, dataFilePath));
     //}
 
     #endregion

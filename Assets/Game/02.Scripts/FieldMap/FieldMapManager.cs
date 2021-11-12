@@ -98,7 +98,7 @@ public class FieldMapManager : MonoBehaviour
         dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
         dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
 
-        dataManager.SaveCurrentData(DataManager.fileName_player);
+        dataManager.SaveCurrentData(DataName.player);
     }
 
     /// <summary>
