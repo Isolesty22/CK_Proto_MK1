@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,6 +63,18 @@ public class SceneChanger : MonoBehaviour
         StartCoroutine(LoadThisSceneToName(_sceneName));
     }
 
+    public bool IsStageScene(string _sceneName)
+    {
+        if (_sceneName.Contains("Stage"))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
     /// <summary>
     /// 씬 로드 코루틴. LoadThisScene 함수를 호출했을 때 실행됩니다.
     /// </summary>
@@ -82,15 +95,19 @@ public class SceneChanger : MonoBehaviour
 
         //yield return new WaitUntil(() =>uiLoading.isOpen);
 
+        if (IsStageScene(moveSceneName))
+        {
+            yield return StartCoroutine(DataManager.Instance.LoadData_Talk(moveSceneName));
+
+        }
         //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
 
         //씬 로딩이 끝나면 함수 호출
         SceneManager.sceneLoaded += LoadSceneEnd;
-        float timer = 0f;
 
-        //진행도
+        float timer = 0f;
         float progress = 0f;
 
         Vector3 circleRot = new Vector3(0f, 5f, 0f);
@@ -141,101 +158,6 @@ public class SceneChanger : MonoBehaviour
         //}
         yield break;
     }
-
-
-    //public IEnumerator LoadThisScene_Joke(string _sceneName)
-    //{
-    //    AudioManager.Instance.Audios.audioSource_BGM.Stop();
-    //    AudioManager.Instance.Audios.audioSource_EVM.Stop();
-    //    isLoading = true;
-
-    //    moveSceneName = _sceneName;
-
-    //    //시작위치 계산
-    //    //uiLoading.CalcStartPosY();
-    //    //float startY = uiLoading.startPosY - 1f;
-    //    //float absStartY = Mathf.Abs(uiLoading.startPosY - 1f);
-
-    //    ////이피아를 시작위치로
-    //    //uiLoading.ipiaTransform.anchoredPosition
-    //    //    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, uiLoading.startPosY);
-
-
-    //    yield return StartCoroutine(uiLoading.OpenThis());
-    //    //uiLoading.Open();
-
-    //    //yield return new WaitUntil(() =>uiLoading.isOpen);
-    //    //비동기로 로드하기
-    //    AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
-    //    asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
-
-    //    SceneManager.sceneLoaded += LoadSceneEnd;
-
-    //    //타이머
-    //    float timer = 0f;
-
-    //    //진행도
-    //    float progress = 0f;
-
-    //    while (!asyncOperation.isDone) //로딩이 완료되기 전 까지만
-    //    {
-    //        timer += Time.unscaledDeltaTime;
-
-    //        #region 녹화용
-    //        //progress = timer / 3f;
-    //        //uiLoading.ipiaTransform.anchoredPosition
-    //        //    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
-    //        //if (progress >= 1f)
-    //        //{
-    //        //    yield return new WaitForSecondsRealtime(1f);
-    //        //    asyncOperation.allowSceneActivation = true;
-    //        //}
-    //        #endregion
-    //        #region real
-    //        if (asyncOperation.progress < 0.9f)
-    //        {
-    //            progress = Mathf.Lerp(progress, asyncOperation.progress, timer);
-    //            //이피아 이동시키기
-    //            //uiLoading.ipiaTransform.anchoredPosition
-    //            //    = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
-
-    //            if (progress >= asyncOperation.progress)
-    //            {
-    //                timer = 0f;
-    //            }
-    //        }
-    //        else
-    //        {
-    //            progress = Mathf.Lerp(progress, 1f, timer);
-
-    //            uiLoading.ipiaTransform.anchoredPosition
-    //                 = new Vector2(uiLoading.ipiaTransform.anchoredPosition.x, startY + (absStartY * progress));
-
-    //            if (progress >= 1f)
-    //            {
-    //                break;
-    //            }
-    //        }
-    //        #endregion
-    //        yield return YieldInstructionCache.WaitForEndOfFrame;
-    //    }
-
-    //    yield return new WaitForSecondsRealtime(0.5f);
-
-    //    Debug.Log("씬 로딩 완료.");
-
-    //    asyncOperation.allowSceneActivation = true;
-
-    //    Debug.Log("씬을 활성화했습니다.");
-
-    //    //if (Instance == null)
-    //    //{
-    //    //    instance = this;
-    //    //    Instance = instance;
-    //    //}
-    //    yield break;
-    //}
-
     /// <summary>
     /// 현재 활성화 되어있는 씬 이름을 반환합니다.
     /// </summary>
@@ -243,6 +165,7 @@ public class SceneChanger : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name;
     }
+    public Action OnScenenLoadEnded = null;
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
@@ -255,6 +178,7 @@ public class SceneChanger : MonoBehaviour
         }
 
         Debug.Log("LoadSceneEnd 함수 호출");
+        OnScenenLoadEnded?.Invoke();
         uiLoading.Close();
         Time.timeScale = 1f;
         #region BGMSet

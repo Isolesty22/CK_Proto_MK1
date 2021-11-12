@@ -147,6 +147,13 @@ public static class SceneNames
     public static readonly string mainMenu = "MainMenu";
     public static readonly string loading = "Loading";
     public static readonly string fieldMap = "FieldMap";
+
+    public const string stage_00 = "Stage_00";
+    public const string stage_01 = "Stage_01";
+    public const string stage_02 = "Stage_02";
+    public const string stage_03 = "Stage_03";
+    public const string stage_04 = "Stage_04";
+
     public static string GetSceneNameUseStageNumber(int _number)
     {
         string str = "Stage_";

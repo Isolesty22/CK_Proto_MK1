@@ -101,7 +101,6 @@ public class UISkillFlower : MonoBehaviour
             return;
         }
         isPlaying = true;
-        Debug.Log("Playing...");
         currentAnimAction = animQueue.Dequeue();
         currentAnimAction();
     }

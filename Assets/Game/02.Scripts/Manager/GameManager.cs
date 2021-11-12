@@ -105,6 +105,15 @@ public class GameManager : MonoBehaviour
 
     #region 임시 함수들
 
+
+    /// <summary>
+    /// 튜토리얼을 시작합니다.
+    /// </summary>
+    public void StartTutorial()
+    {
+        SceneChanger.Instance.LoadThisScene("Stage_00");
+    }
+
     /// <summary>
     /// [임시] 다음 스테이지로 넘어갑니다.
     /// </summary>
@@ -118,7 +127,7 @@ public class GameManager : MonoBehaviour
 
         // DataManager.Instance.currentData_player.CopyData(data);
         //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
 
         DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -145,7 +154,7 @@ public class GameManager : MonoBehaviour
         DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         // SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.fileName_player);
+        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
 
     }
     #endregion

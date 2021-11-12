@@ -5,7 +5,6 @@ using UnityEngine;
 public class FileManager : MonoBehaviour
 {
     private FileBase fileBase = new FileBaseWindows();
-
     #region legacy
     //    private void Awake()
     //    {
@@ -21,7 +20,6 @@ public class FileManager : MonoBehaviour
 
     //    }
     #endregion
-
 
     #region Text
 

@@ -23,6 +23,7 @@ public class RoarProjectile : BearProjectile
     protected override IEnumerator ProcessDespawn()
     {
         StopCoroutine(moveEnumerator);
+        moveEnumerator = ProcessMove();
         yield return null;
         CustomPoolManager.Instance.ReleaseThis(this);
     }

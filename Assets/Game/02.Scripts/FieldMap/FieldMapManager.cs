@@ -22,6 +22,7 @@ public class FieldMapManager : MonoBehaviour
 
     private KeyOption keyOption;
 
+    private bool canDetectKey = true;
 
     private int minStageNumber;
 
@@ -98,7 +99,7 @@ public class FieldMapManager : MonoBehaviour
         dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
         dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
 
-        dataManager.SaveCurrentData(DataManager.fileName_player);
+        dataManager.SaveCurrentData(DataName.player);
     }
 
     /// <summary>
@@ -180,7 +181,10 @@ public class FieldMapManager : MonoBehaviour
 
     private void Update()
     {
-        DetectKey();
+        if (canDetectKey)
+        {
+            DetectKey();
+        }
     }
 
 
@@ -201,6 +205,9 @@ public class FieldMapManager : MonoBehaviour
         //스테이지 입장
         if (Input.GetKeyDown(keyOption.attack) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
+            //더이상 키 입력을 받지 않음
+            canDetectKey = false;
+
             enterStageAction?.Invoke();
         }
     }

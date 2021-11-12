@@ -47,6 +47,7 @@ public class SmashProjectile : BearProjectile
         {
             StopCoroutine(moveEnumerator);
         }
+        moveEnumerator = ProcessMove();
         yield return null;
         CustomPoolManager.Instance.ReleaseThis(this);
     }
