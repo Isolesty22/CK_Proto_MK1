@@ -219,7 +219,7 @@ public class UIManager : MonoBehaviour
     public void AddDict(UIBase _uiBase)
     {
         uiDict.Add(_uiBase.GetType().Name, _uiBase);
-        Debug.Log(_uiBase.GetType().Name);
+        //Debug.Log(_uiBase.GetType().Name);
     }
     public void AddDict(string _name, UIBase _uiBase) => uiDict.Add(_name, _uiBase);
     public void RemoveDict(string _name) => uiDict.Remove(_name);

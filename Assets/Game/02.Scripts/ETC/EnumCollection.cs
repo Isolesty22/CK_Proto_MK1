@@ -300,6 +300,7 @@ public static class UIName
     public static readonly string UIKeySetting = "UIKeySetting";
     public static readonly string UIVolumeSetting = "UIVolumeSetting";
     public static readonly string UIPause = "UIPause";
+    public static readonly string UITalk = "UITalk";
 
     /// <summary>
     /// 필드맵에 있는 옵션창입니다.

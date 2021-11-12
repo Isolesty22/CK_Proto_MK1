@@ -359,14 +359,13 @@ public class UIKeySetting : UIBase
             Debug.Log("키 변경 중에는 저장할 수 없습니다.");
             return;
         }
-
+        isSaving = true;
         StartCoroutine(ProcessSave());
     }
 
     private IEnumerator ProcessSave()
     {
         isSaving = true;
-
         DataManager.Instance.currentData_settings.keySetting.CopyData(currentData_keyOption);
 
         yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.settings));
