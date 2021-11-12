@@ -59,16 +59,7 @@ public class UISkillFlower : MonoBehaviour
     /// </summary>
     public void On()
     {
-
-        Debug.Log("On Flower");
-        //if (isPlaying)
-        //{
         animQueue.Enqueue(() => StartCoroutine(ProcessOn()));
-        //}
-        //else
-        //{
-        //    StartCoroutine(ProcessOn());
-        //}
     }
 
     public void HighlightEnd()
@@ -76,6 +67,10 @@ public class UISkillFlower : MonoBehaviour
         animQueue.Enqueue(() => StartCoroutine(ProcessHighlightEnd()));
     }
 
+    public void SetState(eState _state)
+    {
+        currentState =_state;
+    }
 
 
     /// <summary>
@@ -94,21 +89,9 @@ public class UISkillFlower : MonoBehaviour
         animQueue.Enqueue(() => StartCoroutine(ProcessHighlightOff()));
     }
 
-
-    /// <summary>
-    /// 
-    /// </summary>
-
     public void Off()
     {
-        if (isPlaying)
-        {
-            animQueue.Enqueue(() => StartCoroutine(ProcessOff()));
-        }
-        else
-        {
-            StartCoroutine(ProcessOff());
-        }
+        animQueue.Enqueue(() => StartCoroutine(ProcessOff()));
     }
 
     private void UpdateAnimation()
@@ -117,7 +100,8 @@ public class UISkillFlower : MonoBehaviour
         {
             return;
         }
-        Debug.Log("UpdateANim");
+        isPlaying = true;
+        Debug.Log("Playing...");
         currentAnimAction = animQueue.Dequeue();
         currentAnimAction();
     }
@@ -144,7 +128,6 @@ public class UISkillFlower : MonoBehaviour
 
     public IEnumerator ProcessOn()
     {
-        Debug.Log("On!");
         isPlaying = true;
         currentState = eState.blueOn;
 
@@ -263,7 +246,7 @@ public class UISkillFlower : MonoBehaviour
     public IEnumerator ProcessHighlightEnd()
     {
         isPlaying = true;
-        currentState = eState.blueOff;
+        currentState = eState.blueOn;
         ClearTimer();
 
 
