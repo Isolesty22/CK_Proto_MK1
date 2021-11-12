@@ -19,6 +19,21 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
     #endregion
 
+
+    #region Class
+    public class Data_Talk
+    {
+        public List<Dictionary<string, object>> talk_stage_00 = new List<Dictionary<string, object>>();
+        public List<Dictionary<string, object>> talk_stage_01 = new List<Dictionary<string, object>>();
+        public List<Dictionary<string, object>> talk_stage_02 = new List<Dictionary<string, object>>();
+        public List<Dictionary<string, object>> talk_stage_03 = new List<Dictionary<string, object>>();
+        public List<Dictionary<string, object>> talk_stage_04 = new List<Dictionary<string, object>>();
+
+    }
+
+
+    #endregion
+
     public FileManager fileManager;
 
     [SerializeField, Tooltip("현재 상태")]
@@ -36,11 +51,15 @@ public class DataManager : MonoBehaviour
     [Tooltip("현재 반영되어있는 설정 데이터")]
     public Data_Settings currentData_settings;
 
-    [Tooltip("현재 반영되어있는 설정 데이터")]
+    [Tooltip("현재 반영되어있는 데이터")]
     public Data_Player currentData_player;
 
     [HideInInspector, Tooltip("플레이어 데이터를 새로 생성했는가? \n (로드 시 Data_Player 파일이 없는 경우에 true)")]
     public bool isCreatedNewPlayerData = false;
+
+    public Data_Talk currentData_talk = new Data_Talk();
+    private List<Dictionary<string, object>> currentData_tooltip = new List<Dictionary<string, object>>();
+
 
 
     [Tooltip("현재 클리어한 스테이지 번호")]
@@ -166,7 +185,7 @@ public class DataManager : MonoBehaviour
     /// <summary>
     /// 모든 데이터를 불러와 currentData에 저장합니다.
     /// </summary>
-    private IEnumerator LoadData()
+    private IEnumerator LoadAllData()
     {
         yield return StartCoroutine(LoadData_Settings());
 
@@ -230,6 +249,46 @@ public class DataManager : MonoBehaviour
 
         isCreatedNewPlayerData = CheckNewPlayerData();
     }
+
+    public void StartLoadData_Talk(string _stageName)
+    {
+        string dataName = "Data_Talk_" + _stageName;
+        StartCoroutine(LoadData_Talk(dataName));
+    }
+    private IEnumerator LoadData_Talk(string _dataName)
+    {
+        switch (_dataName)
+        {
+            case DataName.talk_stage_00:
+                currentData_talk.talk_stage_00 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                break;
+
+            case DataName.talk_stage_01:
+                currentData_talk.talk_stage_01 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+
+                break;
+
+            case DataName.talk_stage_02:
+                currentData_talk.talk_stage_02 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+
+                break;
+
+            case DataName.talk_stage_03:
+                currentData_talk.talk_stage_03 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+
+                break;
+
+            case DataName.talk_stage_04:
+                currentData_talk.talk_stage_04 = CsvReader.Read("DataFiles/Talk/" + _dataName);
+                break;
+
+            default:
+                Debug.LogError("해당하는 데이터가 없습니다.");
+                break;
+        }
+        yield break;
+    }
+
 
     #endregion
 

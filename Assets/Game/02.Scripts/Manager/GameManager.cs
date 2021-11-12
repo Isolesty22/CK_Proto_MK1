@@ -105,6 +105,16 @@ public class GameManager : MonoBehaviour
 
     #region 임시 함수들
 
+
+    /// <summary>
+    /// 튜토리얼을 시작합니다.
+    /// </summary>
+    public void StartTutorial()
+    {
+        DataManager.Instance.StartLoadData_Talk("Stage_00");
+        SceneChanger.Instance.LoadThisScene("Stage_00");
+    }
+
     /// <summary>
     /// [임시] 다음 스테이지로 넘어갑니다.
     /// </summary>

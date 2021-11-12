@@ -22,6 +22,7 @@ public class FieldMapManager : MonoBehaviour
 
     private KeyOption keyOption;
 
+    private bool canDetectKey = true;
 
     private int minStageNumber;
 
@@ -180,7 +181,10 @@ public class FieldMapManager : MonoBehaviour
 
     private void Update()
     {
-        DetectKey();
+        if (canDetectKey)
+        {
+            DetectKey();
+        }
     }
 
 
@@ -201,6 +205,8 @@ public class FieldMapManager : MonoBehaviour
         //스테이지 입장
         if (Input.GetKeyDown(keyOption.attack) || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space))
         {
+            canDetectKey = false;
+            DataManager.Instance.StartLoadData_Talk(selectedDoor.stageName);
             enterStageAction?.Invoke();
         }
     }
