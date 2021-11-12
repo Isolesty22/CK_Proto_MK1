@@ -246,11 +246,13 @@ public class UIManager : MonoBehaviour
     public void Talk(int _CODE, float _duration)
     {
         uiTalk.SetValue(_CODE, _duration);
+        uiTalk.StartTalk();
     }
 
     public void Talk(int _CODE)
     {
         uiTalk.SetValue(_CODE);
+        uiTalk.StartTalk();
     }
 
     /// <summary>

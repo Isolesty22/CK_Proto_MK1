@@ -18,6 +18,7 @@ public class UITalk : UIBase
     private WaitForSeconds waitSec = new WaitForSeconds(1f);
     private IEnumerator open = null;
     private IEnumerator close = null;
+    private IEnumerator openUseDuration = null;
     private void Start()
     {
         Init();
@@ -31,6 +32,7 @@ public class UITalk : UIBase
 
         open = ProcessOpen();
         close = ProcessClose();
+        openUseDuration = ProcessOpenUseDuration();
     }
 
     /// <summary>
@@ -81,6 +83,15 @@ public class UITalk : UIBase
     }
 
 
+    public void StartTalk()
+    {
+        if (openUseDuration != null)
+        {
+            StopCoroutine(openUseDuration);
+        }
+        openUseDuration = ProcessOpenUseDuration();
+        StartCoroutine(openUseDuration);
+    }
     /// <summary>
     /// 특정 초 이후 자동으로 닫힙니다.
     /// </summary>
@@ -90,13 +101,15 @@ public class UITalk : UIBase
         {
             StopCoroutine(open);
             StopCoroutine(close);
-            open = ProcessOpen();
-            close = ProcessClose();
         }
 
+        open = ProcessOpen();
+        close = ProcessClose();
         yield return StartCoroutine(open);
         yield return waitSec;
         yield return StartCoroutine(close);
+
+        openUseDuration = null;
     }
     protected override IEnumerator ProcessOpen()
     {
