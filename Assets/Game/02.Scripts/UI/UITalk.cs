@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,11 +8,11 @@ public class UITalk : UIBase
     [Header("UITalk")]
     public Text uiText;
 
-    [Header("ÇöÀç ´ëÈ­ ÄÚµå")]
+    [Header("í˜„ì¬ ëŒ€í™” ì½”ë“œ")]
     public int currentCode;
-    [Tooltip("¸î ¹ø´ëÀÎ°¡!")]
+    [Tooltip("ëª‡ ë²ˆëŒ€ì¸ê°€!")]
     public int stageCode;
-    [Tooltip("½ÇÁ¦·Î ÅØ½ºÆ® Ãâ·Â¿¡ »ç¿ëµÇ¾îÁö°í ÀÖ´Â ÄÚµå")]
+    [Tooltip("ì‹¤ì œë¡œ í…ìŠ¤íŠ¸ ì¶œë ¥ì— ì‚¬ìš©ë˜ì–´ì§€ê³  ìˆëŠ” ì½”ë“œ")]
     private int realCode;
 
     private string currentText;
@@ -35,7 +35,7 @@ public class UITalk : UIBase
         CheckOpen();
 
         fadeDuration = 0.3f;
-        waitSec = new WaitForSeconds(2f);
+        waitSec = new WaitForSeconds(3f);
 
         open = ProcessOpen();
         close = ProcessClose();
@@ -43,7 +43,7 @@ public class UITalk : UIBase
     }
 
     ///// <summary>
-    ///// UI»óÀÇ ÅØ½ºÆ®¸¦ º¯°æÇÕ´Ï´Ù.
+    ///// UIìƒì˜ í…ìŠ¤íŠ¸ë¥¼ ë³€ê²½í•©ë‹ˆë‹¤.
     ///// </summary>
     ///// <param name="_text"></param>
     //public void UpdateText(string _text)
@@ -65,24 +65,30 @@ public class UITalk : UIBase
     private const string str_NAEYONG = "NAEYONG";
     private const string str_CODE = "CODE";
     /// <summary>
-    /// CODE¿¡ µû¸¥ ÅØ½ºÆ®¸¦ ºÒ·¯¿À°í, UIÀÇ Áö¼Ó½Ã°£À» ¼³Á¤ÇÕ´Ï´Ù. 
+    /// CODEì— ë”°ë¥¸ í…ìŠ¤íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜¤ê³ , UIì˜ ì§€ì†ì‹œê°„ì„ ì„¤ì •í•©ë‹ˆë‹¤. 
     /// </summary>
     public void SetValue(int _CODE, float _duration)
     {
-        SetValue(_CODE);
+        if (_CODE - stageCode > talkData.Count)
+        {
+            Debug.Log("í•´ë‹¹ ì½”ë“œëŠ” ë°ì´í„°ì˜ ë²”ìœ„ë¥¼ ë„˜ì–´ì„­ë‹ˆë‹¤.");
+            return;
+        }
+        realCode = _CODE - stageCode;
+
+        currentCode = (int)talkData[realCode][str_CODE];
+        currentText = talkData[realCode][str_NAEYONG] as string;
         waitSec = new WaitForSeconds(_duration);
     }
 
     /// <summary>
-    /// CODE¿¡ µû¸¥ ÅØ½ºÆ®¸¦ ºÒ·¯¿É´Ï´Ù.
+    /// CODEì— ë”°ë¥¸ í…ìŠ¤íŠ¸ë¥¼ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
     /// </summary>
     public void SetValue(int _CODE)
     {
-
-
         if (_CODE - stageCode > talkData.Count)
         {
-            Debug.Log("ÇØ´ç ÄÚµå´Â µ¥ÀÌÅÍÀÇ ¹üÀ§¸¦ ³Ñ¾î¼·´Ï´Ù.");
+            Debug.Log("í•´ë‹¹ ì½”ë“œëŠ” ë°ì´í„°ì˜ ë²”ìœ„ë¥¼ ë„˜ì–´ì„­ë‹ˆë‹¤.");
             return;
         }
 
@@ -110,41 +116,50 @@ public class UITalk : UIBase
         StartCoroutine(openUseDuration);
     }
     /// <summary>
-    /// Æ¯Á¤ ÃÊ ÀÌÈÄ ÀÚµ¿À¸·Î ´İÈü´Ï´Ù.
+    /// íŠ¹ì • ì´ˆ ì´í›„ ìë™ìœ¼ë¡œ ë‹«í™ë‹ˆë‹¤.
     /// </summary>
     public IEnumerator ProcessOpenUseDuration()
     {
         if (isOpen)
         {
+            //ClearTimer();
+            //uiText.text = currentText;
+            //yield break;
             StopCoroutine(open);
             StopCoroutine(close);
         }
 
         open = ProcessOpen();
         close = ProcessClose();
+
+        ClearTimer();
         yield return StartCoroutine(open);
         yield return waitSec;
+
+        ClearTimer();
         yield return StartCoroutine(close);
 
         openUseDuration = null;
     }
+    float progress = 0f;
+    float timer = 0f;
     protected override IEnumerator ProcessOpen()
     {
         isOpen = true;
 
-        float progress = 0f;
-        float timer = 0f;
 
+        progress = 0f;
+        timer = 0f;
 
-        //¾ËÆÄ°ª 0À¸·Î º¯°æ
+        //ì•ŒíŒŒê°’ 0ìœ¼ë¡œ ë³€ê²½
         Com.canvasGroup.alpha = 0f;
 
         uiText.text = currentText;
 
-        //Äµ¹ö½º È°¼ºÈ­
+        //ìº”ë²„ìŠ¤ í™œì„±í™”
         Com.canvas.enabled = true;
 
-        //ÆäÀÌµå ÀÎ
+        //í˜ì´ë“œ ì¸
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -159,19 +174,23 @@ public class UITalk : UIBase
         yield break;
     }
 
+    private void ClearTimer()
+    {
+        progress = 0f;
+        timer = 0f;
+    }
     protected override IEnumerator ProcessClose()
     {
         //  yield return new WaitUntil(() =>SceneChanger.Instance.);
-        float progress = 0f;
-        float timer = 0f;
 
-        //¾ËÆÄ°ª 1·Î º¯°æ
+
+        //ì•ŒíŒŒê°’ 1ë¡œ ë³€ê²½
         Com.canvasGroup.alpha = 1f;
 
-        //Äµ¹ö½º È°¼ºÈ­
+        //ìº”ë²„ìŠ¤ í™œì„±í™”
         Com.canvas.enabled = true;
 
-        //ÆäÀÌµå ¾Æ¿ô
+        //í˜ì´ë“œ ì•„ì›ƒ
         while (progress < 1f)
         {
             timer += Time.deltaTime;

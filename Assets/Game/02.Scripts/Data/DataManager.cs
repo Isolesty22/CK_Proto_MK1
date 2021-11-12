@@ -306,7 +306,11 @@ public class DataManager : MonoBehaviour
 
     public void OnSceneLoadEnded()
     {
-        SceneChanger.Instance.OnScenenLoadEnded -= OnSceneLoadEnded;
+        if (SceneChanger.Instance != null)
+        {
+            SceneChanger.Instance.OnScenenLoadEnded -= OnSceneLoadEnded;
+
+        }
         UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);
         UIManager.Instance.uiTalk.stageCode = stageCode;
     }

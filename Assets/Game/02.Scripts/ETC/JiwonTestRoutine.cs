@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class JiwonTestRoutine : MonoBehaviour
 {
 
-    private void Start()
+    private IEnumerator Start()
     {
-        //DataManager.Instance.StartLoadData_Talk("Stage_00");
+        yield return StartCoroutine(DataManager.Instance.LoadData_Talk("Stage_00"));
+        DataManager.Instance.OnSceneLoadEnded();
 
     }
     private int tempTalkCode = 900;
