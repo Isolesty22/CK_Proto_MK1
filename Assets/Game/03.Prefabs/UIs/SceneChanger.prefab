@@ -196,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiLoading: {fileID: 3112522205525812994}
   isLoading: 0
+  isSceneLoading: 0
   moveSceneName: 
 --- !u!1 &3112522204053111648
 GameObject:
@@ -342,7 +343,7 @@ RectTransform:
   m_GameObject: {fileID: 3112522205525812991}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3112522204053111651}
   m_Father: {fileID: 3112522203387887019}
@@ -373,8 +374,6 @@ MonoBehaviour:
   backgroundImage: {fileID: 3112522204963250642}
   loadingBarImage: {fileID: 7139692318978704806}
   circleTransform: {fileID: 3197576500536842650}
-  ipiaTransform: {fileID: 0}
-  startPosY: 0
 --- !u!223 &3112522205525812995
 Canvas:
   m_ObjectHideFlags: 0
@@ -557,8 +556,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -365}
-  m_SizeDelta: {x: 547, y: 79}
+  m_AnchoredPosition: {x: 0, y: -339}
+  m_SizeDelta: {x: 322, y: 33}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4299417076225640671
 CanvasRenderer:
@@ -588,7 +587,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1b6b86cc026f78e43964def91cba6e9c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: bd6830806131d49438643aca8b8f0b08, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
