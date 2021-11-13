@@ -101,13 +101,24 @@ public class UITalk : UIBase
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
     }
-
     public void SetTalkData(List<Dictionary<string, object>> _talkData)
     {
         talkData = null;
         talkData = _talkData;
     }
 
+    /// <summary>
+    /// 지속시간이 없는 상태로 그냥 열기만 합니다.<see cref="EndTalk"/>를 호출하면 창을 닫을 수 있습니다.
+    /// </summary>
+    public void StartTalkInfinity()
+    {
+        if (isOpen)
+        {
+            StopCoroutine(open);
+        }
+        open = ProcessOpen();
+        StartCoroutine(open);
+    }
 
     public void StartTalk()
     {
@@ -118,6 +129,21 @@ public class UITalk : UIBase
 
         openUseDuration = ProcessOpenUseDuration();
         StartCoroutine(openUseDuration);
+    }
+
+
+    /// <summary>
+    /// 대화창을 닫습니다.
+    /// </summary>
+    public void EndTalk()
+    {
+        if (isOpen)
+        {
+            StopCoroutine(open);
+            StopCoroutine(close);
+            close = ProcessClose();
+            StartCoroutine(close);
+        }
     }
     /// <summary>
     /// 특정 초 이후 자동으로 닫힙니다.
