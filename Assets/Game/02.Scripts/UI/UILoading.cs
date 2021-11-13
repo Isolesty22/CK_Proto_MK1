@@ -8,8 +8,11 @@ public class UILoading : UIBase
 
     public Image backgroundImage;
     public Image loadingBarImage;
+
+    [Space(5)]
     public RectTransform circleTransform;
 
+    [Space(5)]
     public Text tooltipText;
     private IEnumerator RotateCircle;
 
@@ -20,6 +23,10 @@ public class UILoading : UIBase
         //RegisterUIManager();
     }
 
+    public void SetText(string _text)
+    {
+        tooltipText.text = _text;
+    }
     public override void Init()
     {
         base.Init();

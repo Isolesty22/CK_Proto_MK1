@@ -58,7 +58,7 @@ public class DataManager : MonoBehaviour
     public bool isCreatedNewPlayerData = false;
 
     public Data_Talk currentData_talk = new Data_Talk();
-    private List<Dictionary<string, object>> currentData_tooltip = new List<Dictionary<string, object>>();
+    public List<Dictionary<string, object>> currentData_tooltip = new List<Dictionary<string, object>>();
 
 
 

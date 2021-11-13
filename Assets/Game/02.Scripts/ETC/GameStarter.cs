@@ -18,6 +18,8 @@ public class GameStarter : MonoBehaviour
     {
         StartCoroutine(ProcessStart());
     }
+
+    private WaitForSecondsRealtime waitSmallSec = new WaitForSecondsRealtime(0.5f);
     private IEnumerator ProcessStart()
     {
 
@@ -32,15 +34,17 @@ public class GameStarter : MonoBehaviour
         yield return new WaitUntil(() => uiTitleScreen.isOpen);
 
         //데이터 파일 로드 
-        SetText_Load("이피아가 이불을 정리하는 중...");
+        SetText_Load("이피아가 양치질 하는 중...");
         yield return StartCoroutine(DataManager.Instance.Init_DataFiles());
+        yield return waitSmallSec;
 
         //오디오 파일 로드
-        SetText_Load("이피아가 양치질 하는 중...");
+        SetText_Load("이피아가 이불을 개는 중...");
         yield return StartCoroutine(AudioManager.Instance.Init());
+        yield return waitSmallSec;
 
         SetText_Load("이피아가 모든 준비를 끝마쳤습니다.");
-        yield return new WaitForSecondsRealtime(1f);
+        yield return waitSmallSec; 
         SetText_Load(string.Empty);
 
         //'아무 키나 누르세요' 동안 대기
