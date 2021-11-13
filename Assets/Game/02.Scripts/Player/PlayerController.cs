@@ -779,4 +779,9 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
+
+    public void FillFullEnerge()
+    {
+        Stat.pixyEnerge = 30f;
+    }
 }
