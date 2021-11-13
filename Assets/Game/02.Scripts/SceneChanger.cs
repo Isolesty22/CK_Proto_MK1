@@ -113,6 +113,8 @@ public class SceneChanger : MonoBehaviour
 
         Vector3 circleRot = new Vector3(0f, 5f, 0f);
 
+        Resources.UnloadUnusedAssets();
+
         while (!asyncOperation.isDone) //로딩이 완료되기 전 까지만
         {
             timer += Time.unscaledDeltaTime;
