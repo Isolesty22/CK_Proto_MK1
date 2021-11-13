@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 8649575196632184693}
   - component: {fileID: 7020070549266332668}
   - component: {fileID: 5205947575261202961}
+  - component: {fileID: 1338230117776973737}
   m_Layer: 0
   m_Name: Text_Load
   m_TagString: Untagged
@@ -323,7 +324,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -332}
+  m_AnchoredPosition: {x: 7, y: -336}
   m_SizeDelta: {x: 1825.6084, y: 183.3225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7020070549266332668
@@ -347,7 +348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -355,11 +356,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: c6f658783b7dbd442a514d2d1310ff75, type: 3}
-    m_FontSize: 36
+    m_Font: {fileID: 12800000, guid: c4f6ae612f2f99542a5a6729a6a5340e, type: 3}
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 2
     m_MaxSize: 98
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -367,7 +368,22 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC624\uB514\uC624 \uD30C\uC77C \uBD88\uB7EC\uC624\uB294 \uC911..."
+  m_Text: "\uC774\uD53C\uC544\uAC00 \uC138\uC218\uD558\uB294 \uC911~"
+--- !u!114 &1338230117776973737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5354457310485010119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.5254902, g: 0.5764706, b: 0.81568635, a: 0.5294118}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1 &5502097226079983933
 GameObject:
   m_ObjectHideFlags: 0

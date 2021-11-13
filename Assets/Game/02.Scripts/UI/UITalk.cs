@@ -5,30 +5,41 @@ using UnityEngine.UI;
 
 public class UITalk : UIBase
 {
+    //-----인스펙터
     [Header("UITalk")]
     public Text uiText;
-
-    [Header("현재 대화 코드")]
+    [Header("현재 대화 코드"),ReadOnly]
     public int currentCode;
-    [Tooltip("몇 번대인가!")]
+    [Tooltip("몇 번대인가? csv 파일 내 CODE의 일련번호입니다.")]
     public int stageCode;
-    [Tooltip("실제로 텍스트 출력에 사용되어지고 있는 코드")]
-    private int realCode;
+    //-----
 
-    private string currentText;
 
-    private List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>();
 
+    //-----코루틴 관련
     private WaitForSeconds waitSec = new WaitForSeconds(2f);
     private IEnumerator open = null;
     private IEnumerator close = null;
     private IEnumerator openUseDuration = null;
+    //-----
+
+    [Tooltip("실제로 텍스트 출력에 사용되어지고 있는 코드")]
+    private int realCode;
+    private string currentText;
+
+    private float progress = 0f;
+    private float timer = 0f;
+
+    private List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>();
+
+    private const string str_NAEYONG = "NAEYONG";
+    private const string str_CODE = "CODE";
+
     private void Start()
     {
         Init();
         UIManager.Instance.AddDict(this);
     }
-
     public override void Init()
     {
         Com.canvas.enabled = false;
@@ -42,14 +53,6 @@ public class UITalk : UIBase
         openUseDuration = ProcessOpenUseDuration();
     }
 
-    ///// <summary>
-    ///// UI상의 텍스트를 변경합니다.
-    ///// </summary>
-    ///// <param name="_text"></param>
-    //public void UpdateText(string _text)
-    //{
-    //    uiText.text = _text;
-    //}
     public override bool Open()
     {
         StartCoroutine(ProcessOpen());
@@ -62,8 +65,12 @@ public class UITalk : UIBase
         return true;
     }
 
-    private const string str_NAEYONG = "NAEYONG";
-    private const string str_CODE = "CODE";
+    private void ClearTimer()
+    {
+        progress = 0f;
+        timer = 0f;
+    }
+
     /// <summary>
     /// CODE에 따른 텍스트를 불러오고, UI의 지속시간을 설정합니다. 
     /// </summary>
@@ -101,14 +108,24 @@ public class UITalk : UIBase
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
     }
-
     public void SetTalkData(List<Dictionary<string, object>> _talkData)
     {
         talkData = null;
         talkData = _talkData;
     }
 
-
+    /// <summary>
+    /// 지속시간이 없는 상태로 그냥 열기만 합니다.<see cref="EndTalk"/>를 호출하면 창을 닫을 수 있습니다.
+    /// </summary>
+    public void StartTalkInfinity()
+    {
+        if (isOpen)
+        {
+            StopCoroutine(open);
+        }
+        open = ProcessOpen();
+        StartCoroutine(open);
+    }
     public void StartTalk()
     {
         if (openUseDuration != null)
@@ -119,10 +136,24 @@ public class UITalk : UIBase
         openUseDuration = ProcessOpenUseDuration();
         StartCoroutine(openUseDuration);
     }
+
+    /// <summary>
+    /// 대화창을 닫습니다.
+    /// </summary>
+    public void EndTalk()
+    {
+        if (isOpen)
+        {
+            StopCoroutine(open);
+            StopCoroutine(close);
+            close = ProcessClose();
+            StartCoroutine(close);
+        }
+    }
     /// <summary>
     /// 특정 초 이후 자동으로 닫힙니다.
     /// </summary>
-    public IEnumerator ProcessOpenUseDuration()
+    private IEnumerator ProcessOpenUseDuration()
     {
         if (isOpen)
         {
@@ -145,8 +176,7 @@ public class UITalk : UIBase
 
         openUseDuration = null;
     }
-    float progress = 0f;
-    float timer = 0f;
+
     protected override IEnumerator ProcessOpen()
     {
         isOpen = true;
@@ -178,11 +208,6 @@ public class UITalk : UIBase
         yield break;
     }
 
-    private void ClearTimer()
-    {
-        progress = 0f;
-        timer = 0f;
-    }
     protected override IEnumerator ProcessClose()
     {
         //  yield return new WaitUntil(() =>SceneChanger.Instance.);

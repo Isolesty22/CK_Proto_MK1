@@ -38,7 +38,6 @@ public class SceneChanger : MonoBehaviour
 
     [SerializeField]
     private string moveSceneName = string.Empty;
-
     private void Awake()
     {
         if (Instance == null)
@@ -57,12 +56,10 @@ public class SceneChanger : MonoBehaviour
             }
         }
     }
-
     public void LoadThisScene(string _sceneName)
     {
         StartCoroutine(LoadThisSceneToName(_sceneName));
     }
-
     public bool IsStageScene(string _sceneName)
     {
         if (_sceneName.Contains("Stage"))
@@ -75,6 +72,8 @@ public class SceneChanger : MonoBehaviour
         }
 
     }
+
+    private const string str_NAEYONG = "NAEYONG";
     /// <summary>
     /// 씬 로드 코루틴. LoadThisScene 함수를 호출했을 때 실행됩니다.
     /// </summary>
@@ -86,6 +85,8 @@ public class SceneChanger : MonoBehaviour
         isSceneLoading = true;
         moveSceneName = _sceneName;
 
+        int tooltipRandIndex = UnityEngine.Random.Range(0, DataManager.Instance.currentData_tooltip.Count);
+        uiLoading.SetText(DataManager.Instance.currentData_tooltip[tooltipRandIndex][str_NAEYONG] as string);
         //게이지를 0으로 설정
         uiLoading.loadingBarImage.fillAmount = 0f;
         uiLoading.circleTransform.rotation = Quaternion.Euler(Vector3.zero);
