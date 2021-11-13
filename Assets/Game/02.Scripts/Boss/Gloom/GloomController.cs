@@ -475,14 +475,14 @@ public class GloomController : BossController
         switch (_mode)
         {
             case eUsableBlockMode.Default:
-                for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
+                for (int i = Com.gloomMap.index.min; i < Com.gloomMap.index.max; i++)
                 {
                     tempList.Add(i);
                 }
                 break;
 
             case eUsableBlockMode.ExcludeVine:
-                for (int i = Com.gloomMap.mapLength.min; i < Com.gloomMap.mapLength.max; i++)
+                for (int i = Com.gloomMap.index.min; i < Com.gloomMap.index.max; i++)
                 {
                     //사용 중인 블록이라면
                     if (Com.gloomMap.mapBlocks[i].currentType == MapBlock.eType.Used)

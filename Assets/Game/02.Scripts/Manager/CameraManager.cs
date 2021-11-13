@@ -49,42 +49,42 @@ public class CameraManager : MonoBehaviour
         vcamNoise = vcam.GetCinemachineComponent<Cinemachine.CinemachineBasicMultiChannelPerlin>();
     }
 
-    private void FixedUpdate()
-    {
-        var target = GameManager.instance.playerController.transform.position;
+    //private void FixedUpdate()
+    //{
+    //    var target = GameManager.instance.playerController.transform.position;
 
-        mainCam.transform.localPosition = offset;
-        vfxCam.transform.localPosition = offset;
+    //    mainCam.transform.localPosition = offset;
+    //    vfxCam.transform.localPosition = offset;
 
-        Vector3 desiredPosition = new Vector3(
-            Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
-            0, // Y
-            0);                                                                                // Z
+    //    Vector3 desiredPosition = new Vector3(
+    //        Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
+    //        0, // Y
+    //        0);                                                                                // Z
 
-        Vector3 desiredPositionUp = new Vector3(
-            0,   // X
-            Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
-            0);
-        //    Vector3 desiredPosition = new Vector3(
-        //Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
-        //0, // Y
-        //0);
+    //    Vector3 desiredPositionUp = new Vector3(
+    //        0,   // X
+    //        Mathf.Clamp(target.y, limitMinY + cameraHalfHeight, limitMaxY - cameraHalfHeight), // Y
+    //        0);
+    //    //    Vector3 desiredPosition = new Vector3(
+    //    //Mathf.Clamp(target.x, limitMinX + cameraHalfWidth, limitMaxX - cameraHalfWidth),   // X
+    //    //0, // Y
+    //    //0);
 
-        Vector3 finalPosition = desiredPosition;
+    //    Vector3 finalPosition = desiredPosition;
 
-        transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
+    //    transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
 
-        //if (target.y > transform.position.y + followUp)
-        //{
-        //    Debug.Log("work");
-        //    transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
-        //}
-        //else
-        //{
-        //    transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
-        //}
+    //    //if (target.y > transform.position.y + followUp)
+    //    //{
+    //    //    Debug.Log("work");
+    //    //    transform.position = Vector3.Lerp(transform.position, desiredPositionUp, Time.deltaTime * smoothSpeed);
+    //    //}
+    //    //else
+    //    //{
+    //    //    transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
+    //    //}
 
-    }
+    //}
 
     float timer = 0f;
     private IEnumerator ProcessCameraShake()

@@ -271,6 +271,12 @@ public class UIManager : MonoBehaviour
         uiTalk.StartTalk();
     }
 
+    public void Talk(string _str)
+    {
+        uiTalk.SetText_Test(_str);
+        uiTalk.StartTalk();
+    }
+
     /// <summary>
     /// 게임을 종료합니다.
     /// </summary>

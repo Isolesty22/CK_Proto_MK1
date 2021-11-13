@@ -36,7 +36,7 @@ public class GloomState_Chase : GloomState
     {
         canExit = false;
 
-
+        UIManager.Instance.Talk("이피아! 가만히 있으면 안돼!!");
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Chase_Start");
     }
@@ -361,8 +361,8 @@ public class GloomState_Resonance : GloomState
     /// </summary>
     private void SummonBullet()
     {
-        int i = gloom.Com.gloomMap.mapLength.min;
-        int length = gloom.Com.gloomMap.mapLength.max;
+        int i = gloom.Com.gloomMap.index.min;
+        int length = gloom.Com.gloomMap.index.max;
         for (; i < length; i++)
         {
             MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
