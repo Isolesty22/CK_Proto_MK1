@@ -1,11 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using UnityEngine.UI;
-//using UnityEngine.Events;
 
-public class JiwonTestRoutine : MonoBehaviour
+public class TempTutorialLoader : MonoBehaviour
 {
 
     private IEnumerator Start()
@@ -17,9 +14,8 @@ public class JiwonTestRoutine : MonoBehaviour
     private int tempTalkCode = 900;
     public void Button_Talk()
     {
-        UIManager.Instance.Talk(tempTalkCode,2f);
+        UIManager.Instance.TalkInfinity(tempTalkCode);
         tempTalkCode += 1;
     }
+
 }
-
-
