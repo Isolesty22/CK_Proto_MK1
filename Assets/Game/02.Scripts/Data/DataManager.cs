@@ -125,6 +125,8 @@ public class DataManager : MonoBehaviour
 
         yield return StartCoroutine(LoadData_Player());
 
+        yield return StartCoroutine(LoadData_Tooltip());
+
         SetCurrentState(eDataManagerState.FINISH);
     }
 
@@ -295,20 +297,25 @@ public class DataManager : MonoBehaviour
 
         if (SceneChanger.Instance != null)
         {
-            SceneChanger.Instance.OnScenenLoadEnded += OnSceneLoadEnded;
+            SceneChanger.Instance.OnScenenLoadEnded += UpdateTalkData;
         }
 
         yield break;
     }
 
-
+    public IEnumerator LoadData_Tooltip()
+    {
+        loadData_Talk_Result = null;
+        currentData_tooltip = CsvReader.Read("DataFiles/" + DataName.tooltip);
+        yield break;
+    }
     #endregion
 
-    public void OnSceneLoadEnded()
+    public void UpdateTalkData()
     {
         if (SceneChanger.Instance != null)
         {
-            SceneChanger.Instance.OnScenenLoadEnded -= OnSceneLoadEnded;
+            SceneChanger.Instance.OnScenenLoadEnded -= UpdateTalkData;
 
         }
         UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);

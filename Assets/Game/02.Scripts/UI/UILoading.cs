@@ -10,6 +10,7 @@ public class UILoading : UIBase
     public Image loadingBarImage;
     public RectTransform circleTransform;
 
+    public Text tooltipText;
     private IEnumerator RotateCircle;
 
 

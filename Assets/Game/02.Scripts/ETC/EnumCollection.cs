@@ -287,6 +287,7 @@ public static class DataName
 {
     public const string settings = "Data_Settings.dat";
     public const string player = "Data_Player.dat";
+    public const string tooltip = "Data_Tooltip";
     public const string talk_stage_00 = "Data_Talk_Stage_00";
     public const string talk_stage_01 = "Data_Talk_Stage_01";
     public const string talk_stage_02 = "Data_Talk_Stage_02";

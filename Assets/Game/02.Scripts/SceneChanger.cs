@@ -38,7 +38,6 @@ public class SceneChanger : MonoBehaviour
 
     [SerializeField]
     private string moveSceneName = string.Empty;
-
     private void Awake()
     {
         if (Instance == null)
@@ -57,12 +56,10 @@ public class SceneChanger : MonoBehaviour
             }
         }
     }
-
     public void LoadThisScene(string _sceneName)
     {
         StartCoroutine(LoadThisSceneToName(_sceneName));
     }
-
     public bool IsStageScene(string _sceneName)
     {
         if (_sceneName.Contains("Stage"))
