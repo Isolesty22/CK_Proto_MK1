@@ -28,11 +28,10 @@ public class UIManager : MonoBehaviour
     [Header("OpenThis호출 시 이전 UI가 꺼짐")]
     public bool disabledPrevUI;
 
-    [Tooltip("현재 열려있는 UI 개수")]
+    [Header("현재 열려있는 UI 개수"),ReadOnly]
     public int openUIcount;
+
     [Space(10)]
-
-
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
@@ -72,7 +71,6 @@ public class UIManager : MonoBehaviour
 
         StartDetectingCloseKey();
     }
-
     private void Update()
     {
         detectingCloseKey();
@@ -170,7 +168,6 @@ public class UIManager : MonoBehaviour
 
     }
 
-
     /// <summary>
     /// 닫기 키를 감지합니다. 닫기 키를 누르면 CloseTop이 호출됩니다.
     /// </summary>
@@ -213,8 +210,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    private void VoidFunc() { }
-
     /// <summary>
     /// [주의] 씬에 오직 하나만 존재할 수 있는 UI에만 사용하세요.
     /// </summary>
@@ -231,7 +226,6 @@ public class UIManager : MonoBehaviour
     /// uiDict에서 UIBase를 반환합니다(오류검사를 하지 않습니다). 
     /// </summary>
     public UIBase GetUI(string _name) => uiDict[_name];
-
 
     /// <summary>
     /// 게임 종료 팝업을 엽니다.
@@ -251,7 +245,6 @@ public class UIManager : MonoBehaviour
         uiTalk.SetValue(_CODE);
         uiTalk.StartTalkInfinity();
     }
-
     /// <summary>
     /// 대화창을 닫습니다. 대화창이 열려있는 상태에서만 작동합니다.
     /// </summary>
@@ -259,12 +252,19 @@ public class UIManager : MonoBehaviour
     {
         uiTalk.EndTalk();
     }
+
+    /// <summary>
+    /// 지속시간대로 대화를 시작합니다. 지속시간이 지나면 자동으로 닫힙니다.
+    /// </summary>
     public void Talk(int _CODE, float _duration)
     {
         uiTalk.SetValue(_CODE, _duration);
         uiTalk.StartTalk();
     }
 
+    /// <summary>
+    /// 지속시간을 신경쓰지않고 대화를 시작합니다. 이전 대화의 지속시간을 따릅니다.
+    /// </summary>
     public void Talk(int _CODE)
     {
         uiTalk.SetValue(_CODE);
@@ -281,4 +281,5 @@ public class UIManager : MonoBehaviour
 #endif
         Application.Quit();
     }
+    private void VoidFunc() { }
 }
