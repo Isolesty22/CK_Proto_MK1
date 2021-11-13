@@ -32,7 +32,7 @@ public class UIManager : MonoBehaviour
     public int openUIcount;
     [Space(10)]
 
-   
+
 
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
@@ -200,7 +200,7 @@ public class UIManager : MonoBehaviour
                 }
                 //없으면 종료팝업 띄우기 ( 아마 메인메뉴일 것 같은데...?)
                 else
-                { 
+                {
                     OpenQuitPopup();
                 }
 
@@ -243,10 +243,21 @@ public class UIManager : MonoBehaviour
             CloseTop);
     }
 
+    /// <summary>
+    /// 지속시간에 영향을 받지 않고, 닫기 전까지 열려있는 대화를 시작합니다. <see cref="TalkEnd"/>를 호출하여 창을 닫을 수 있습니다.
+    /// </summary>
     public void TalkInfinity(int _CODE)
     {
-        uiTalk.SetValue(_CODE, float.PositiveInfinity);
-        uiTalk.StartTalk();
+        uiTalk.SetValue(_CODE);
+        uiTalk.StartTalkInfinity();
+    }
+
+    /// <summary>
+    /// 대화창을 닫습니다. 대화창이 열려있는 상태에서만 작동합니다.
+    /// </summary>
+    public void TalkEnd()
+    {
+        uiTalk.EndTalk();
     }
     public void Talk(int _CODE, float _duration)
     {
