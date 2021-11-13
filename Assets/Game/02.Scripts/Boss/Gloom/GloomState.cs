@@ -36,7 +36,7 @@ public class GloomState_Chase : GloomState
     {
         canExit = false;
 
-        UIManager.Instance.Talk("이피아! 가만히 있으면 안돼!!");
+        UIManager.Instance.Talk("이피아! 도망쳐!");
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Chase_Start");
     }
