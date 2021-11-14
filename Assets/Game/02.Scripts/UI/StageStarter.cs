@@ -7,22 +7,48 @@ using UnityEngine;
 /// </summary>
 public class StageStarter : MonoBehaviour
 {
+    [Header("타임라인 사용 여부")]
+    public bool useTimeline;
+
     [Header("Null Check")]
     public bool isDebug;
 
     [Tooltip("스테이지 시작 후 출력되는 시작 UI가 출력되어있는 시간")]
     public float waitTime;
 
+    public Transform playerMoveEndPosition;
+
     [Header("Stage Start UI")]
     public UIStageStart uiStageStart;
     public void Start()
     {
-        GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+        if (useTimeline)
+        {
+            GameManager.instance.playerController.State.moveSystem = true;
+            GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+        }
+        else
+        {
+            GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+
+        }
+
 
     }
 
     public void OpenStageStarter()
     {
+        GameManager.instance.timelineManager.OnTimelineEnded -= OpenStageStarter;
+
+        if (useTimeline)
+        {
+            GameManager.instance.playerController.State.moveSystem = false;
+        }
+        else
+        {
+            GameManager.instance.playerController.InputVal.movementInput = 0f;
+            GameManager.instance.playerController.MoveSystem(playerMoveEndPosition.position);
+        }
         StartCoroutine(OpenUI());
     }
     private IEnumerator OpenUI()
@@ -43,7 +69,7 @@ public class StageStarter : MonoBehaviour
 
         uiStageStart.Close();
     }
-    
+
     //    private IEnumerator WaitSceneLoading()
     //{
     //    if (isDebug)

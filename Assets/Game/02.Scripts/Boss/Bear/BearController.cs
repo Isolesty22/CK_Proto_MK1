@@ -215,7 +215,6 @@ public class BearController : BossController
     }
     private void Start()
     {
-        GameManager.instance.playerController.State.moveSystem = true;
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
     }
     private void Update()
@@ -228,7 +227,6 @@ public class BearController : BossController
     {
         GameManager.instance.timelineManager.OnTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
-        GameManager.instance.playerController.State.moveSystem = false;
         Init();
         StartCoroutine(ExecutePatternCoroutine);
     }
