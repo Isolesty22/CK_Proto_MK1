@@ -59,6 +59,8 @@ public class GloomController : BossController
 
         [Header("공명 구슬 이펙트")]
         public GameObject resonanceSphere;
+        [Header("광폭화 이펙트")]
+        public GameObject berserkEffect;
 
     }
     [Serializable]

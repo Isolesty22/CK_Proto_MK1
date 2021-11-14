@@ -908,6 +908,17 @@ public class GloomState_Berserk : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        gloom.StartCoroutine(CoWait());
+        gloom.SkillObj.berserkEffect.SetActive(true);
+    }
+
+
+    private IEnumerator CoWait()
+    {
+        gloom.StartInvincible();
+        yield return new WaitForSeconds(2f);
+        gloom.EndInvincible();
+        canExit = true;
     }
 }
 public class GloomState_Powerless : GloomState
