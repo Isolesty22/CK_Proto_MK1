@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         public bool isLeft;
         public bool moveSystem;
         public bool isAlive;
+        public bool counterCheck;
     }
 
     [Serializable]
@@ -782,6 +783,14 @@ public class PlayerController : MonoBehaviour
 
     public void FillFullEnerge()
     {
-        Stat.pixyEnerge = 30f;
+        Stat.pixyEnerge = 10000f;
+    }
+
+    public void CounterCheck()
+    {
+        if(Input.GetKeyDown(Key.counter))
+        {
+            State.counterCheck = true;
+        }
     }
 }
