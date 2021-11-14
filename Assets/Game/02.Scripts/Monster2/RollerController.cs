@@ -193,6 +193,12 @@ public class RollerController : MonsterController
     {
         base.Attack();
 
+        if (!Com.audio.isPlaying)
+        {
+            Com.audio.loop = true;
+            Com.audio.Play();
+        }
+
         currentSpeed = Mathf.Clamp(currentSpeed += usingAclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
         Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
         var layDir = new Vector3();
