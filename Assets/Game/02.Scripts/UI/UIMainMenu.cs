@@ -35,10 +35,17 @@ public class UIMainMenu : UIBase
         UIManager.Instance.OpenPopup(eUIText.StartNewGame,
             StartNewGame, UIManager.Instance.CloseTop);
     }
+    public void Button_StartTutorial()
+    {
+        UIManager.Instance.OpenPopup(eUIText.StartTutorial,
+            StartNewGame, UIManager.Instance.CloseTop);
+    }
+
     private void StartNewGame()
     {
         //상호작용 불가
         Com.canvasGroup.interactable = false;
+        UIManager.Instance.CloseTop();
 
         Debug.Log("Start New Game...");
         //DataManager.Instance.currentData_player = new Data_Player();
@@ -53,9 +60,13 @@ public class UIMainMenu : UIBase
         movieScreen.OnMovieEnded -= OnMovieEnded;
         DataManager.Instance.currentData_player = new Data_Player();
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.settings));
-        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+
+        UIManager.Instance.OpenPopup(eUIText.StartTutorial, LoadTutorial, LoadFieldMap);
     }
 
+
+    public void LoadFieldMap() => SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+    public void LoadTutorial() => SceneChanger.Instance.LoadThisScene(SceneNames.stage_00);
     private IEnumerator ProcessStartNewGame()
     {
         //Com.canvasGroup.interactable = false;
