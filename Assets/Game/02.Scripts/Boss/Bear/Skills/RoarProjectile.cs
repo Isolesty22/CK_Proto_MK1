@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RoarProjectile : BearProjectile
 {
+    private float tempMoveTime = 0f;
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
@@ -12,7 +13,7 @@ public class RoarProjectile : BearProjectile
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
-        moveTime = Random.Range(moveTime, moveTime + 0.5f);
+        tempMoveTime = Random.Range(moveTime, moveTime + 0.5f);
     }
 
     public override void Move()
@@ -36,7 +37,7 @@ public class RoarProjectile : BearProjectile
         {
             timer += Time.deltaTime;
 
-            progress = timer / moveTime;
+            progress = timer / tempMoveTime;
             myTransform.position = Vector3.Lerp(startPos, endPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
