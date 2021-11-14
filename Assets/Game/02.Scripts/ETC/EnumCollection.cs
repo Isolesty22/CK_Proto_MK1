@@ -95,7 +95,7 @@ public enum eGloomState
     [InspectorName("파동")]
     Wave,
 
-    [InspectorName("사용금지/전진")]
+    [InspectorName("전진")]
     Advance,
 
     [InspectorName("사용금지/광폭화")]

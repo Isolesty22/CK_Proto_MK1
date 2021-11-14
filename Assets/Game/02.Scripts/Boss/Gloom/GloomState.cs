@@ -867,8 +867,8 @@ public class GloomState_Advance : GloomState
         }
         else
         {
-            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;
-            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
+            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min].positions.topCenter;
+            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 2].positions.topCenter;
         }
 
         lightning.SetXPosition(startPos, endPos);
