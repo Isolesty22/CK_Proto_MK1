@@ -3350,10 +3350,6 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2411106293769880173, guid: 3ad89a02decf86c4bb0610afb8db1b67, type: 3}
-      propertyPath: m_LocalScale.x
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2411106293769880173, guid: 3ad89a02decf86c4bb0610afb8db1b67, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3
       objectReference: {fileID: 0}
@@ -3391,6 +3387,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2411106293769880173, guid: 3ad89a02decf86c4bb0610afb8db1b67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2411106293769880174, guid: 3ad89a02decf86c4bb0610afb8db1b67, type: 3}
+      propertyPath: getPixy
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2411106293769880175, guid: 3ad89a02decf86c4bb0610afb8db1b67, type: 3}
@@ -5502,6 +5502,7 @@ MonoBehaviour:
     audioSource_BGM: {fileID: 1159313371}
     audioSource_EVM: {fileID: 679365673}
     audioSource_SFX: {fileID: 355290617}
+    audioSource_arrowhitMon: {fileID: 0}
     audioSource_PAttack: {fileID: 700197899}
     audioSource_PParrying: {fileID: 1723252489}
     audioSource_PWalk: {fileID: 1028487620}
@@ -5511,13 +5512,18 @@ MonoBehaviour:
     audioSource_PHit: {fileID: 2061990171}
     audioSource_PSAttack: {fileID: 0}
     audioSource_PPAttack: {fileID: 0}
-    audioSources_MonsterDead: []
+    audioSources_MonsterSFX: {fileID: 0}
   audioClips:
     stage1BGM: {fileID: 8300000, guid: 0914c91c80973c24bb8da57281f144c2, type: 3}
     stage1AmbientSound: {fileID: 8300000, guid: e075bfb0c724f1645a1e15974f6a8d2d, type: 3}
     stage2BGM: {fileID: 8300000, guid: 05c78a1b4e86fd84a8597daafe1d5a83, type: 3}
-    arrowHit: {fileID: 8300000, guid: 219ca5c0564bb6648b185af3db1b930c, type: 3}
+    arrowHitObj: {fileID: 0}
+    arrowHitMon: {fileID: 0}
+    arrowHitPower: {fileID: 0}
+    arrowHitSpecial: {fileID: 0}
+    arrowHitArmadiloDefence: {fileID: 0}
     specialAttackClips: []
+    monsterDeath: {fileID: 0}
 --- !u!4 &1930551996
 Transform:
   m_ObjectHideFlags: 0
