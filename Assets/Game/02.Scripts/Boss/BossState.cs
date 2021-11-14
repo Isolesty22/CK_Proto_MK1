@@ -254,6 +254,10 @@ public class BearState_Rush : BearState
         //회전
         bearController.myTransform.rotation = phase2Rotation;
 
+        //텍스처 변경
+
+        bearController.SetHurtTexture();
+
         timer = 0f;
         progress = 0f;
 
