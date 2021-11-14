@@ -47,6 +47,7 @@ public class Pixy : MonoBehaviour
         firePos = pc.Com.pixyFirePos;
         ultPos = pc.Com.pixyUltPos;
 
+        getPixy = true;
 
         if(getPixy)
         {
