@@ -111,6 +111,7 @@ public enum eGloomState
 public enum eUIText
 {
     StartNewGame,
+    StartTutorial,
     NoPlayerData,
     DataDelete,
     DataSave,

@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
+using UnityEngine.UI;
 
 public class UIMovieScreen : UIBase
 {
+
+    public Image blackPanel;
     public VideoPlayer videoPlayer;
 
     public IEnumerator playingCoroutine;
@@ -50,14 +53,18 @@ public class UIMovieScreen : UIBase
         isSkip = true;
     }
 
+    Color startColor = new Color(0, 0, 0, 0);
+    Color endColor = new Color(0, 0, 0, 1);
+
     WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
     private IEnumerator Playing()
     {
+        yield return StartCoroutine(ProcessOpen());
+        blackPanel.gameObject.SetActive(false);
         videoPlayer.Play();
-        StartCoroutine(ProcessOpen());
         long frameCount = Convert.ToInt64(videoPlayer.frameCount) - 1;
 
-       UIManager.Instance?.StopDetectingCloseKey();
+        UIManager.Instance?.StopDetectingCloseKey();
 
         while (true)
         {
@@ -75,6 +82,21 @@ public class UIMovieScreen : UIBase
 
             yield return null;
         }
+
+        float timer = 0f;
+        float progress = 0f;
+
+
+        while (progress < 1f)
+        {
+            timer += Time.unscaledDeltaTime;
+            progress = timer / 1f;
+
+            blackPanel.color = Color.Lerp(startColor, endColor, progress);
+            yield return null;
+        }
+        blackPanel.gameObject.SetActive(true);
+
         videoPlayer.Stop();
         OnMovieEnded?.Invoke();
     }
