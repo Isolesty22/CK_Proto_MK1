@@ -52,10 +52,10 @@ public class GloomState_Chase : GloomState
         // startPos = gloom.SkillObj.chaseTransform.position,playerRB.position
         for (int i = 0; i < count; i++)
         {
-            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.chaseTransform.position);
+            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.sphereTransform.position);
 
             bullet.Init(gloom);
-            bullet.SetPosition(gloom.SkillObj.chaseTransform.position, playerRB.position);
+            bullet.SetPosition(gloom.SkillObj.sphereTransform.position, playerRB.position);
             bullet.Move();
 
             yield return waitSec;
@@ -839,16 +839,36 @@ public class GloomState_Wave : GloomState
     //    downBullet.Move();
     //}
 }
-public class GloomState_Summon : GloomState
+public class GloomState_Advance : GloomState
 {
-    public GloomState_Summon(GloomController _gloomController)
+
+    public GloomLightning lightning = null;
+    public GloomState_Advance(GloomController _gloomController)
     {
         gloom = _gloomController;
+        lightning = gloom.SkillObj.gloomLightning;
+        
     }
     public override void OnEnter()
     {
         canExit = false;
+        lightning.Init();
+
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("Advance_Start");
     }
+
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(CoMoveLightning());
+    }
+
+    private IEnumerator CoMoveLightning()
+    {
+        yield return gloom.StartCoroutine(lightning.CoMove());
+        gloom.SetTrigger("Advance_End");
+    }
+
 }
 public class GloomState_Berserk : GloomState
 {

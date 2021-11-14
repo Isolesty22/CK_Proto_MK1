@@ -38,11 +38,11 @@ public class GloomController : BossController
         [Tooltip("불꽃 추아악")]
         public GloomLeapImpact leapImpact;
 
+        [Tooltip("번개 좌자작")]
+        public GloomLightning gloomLightning;
+
         public GameObject threat;
 
-
-        [Header("추격 발사 위치")]
-        public Transform chaseTransform;
 
         [Header("방해 발사 위치")]
         public Transform[] obstructTransforms;
@@ -171,6 +171,14 @@ public class GloomController : BossController
             [Tooltip("무력화의 지속시간입니다.")]
             public float powerlessTime;
         }
+        [Serializable]
+        public struct AdvancePattern
+        {
+            [Tooltip("맵 끝으로 이동할 때까지 걸리는 시간입니다.")]
+            public float moveTime;
+
+        }
+
         #endregion
 
         public ChasePattern chase;
@@ -179,6 +187,7 @@ public class GloomController : BossController
         public ObstructPattern obstruct;
         public WavePattern wave;
         public ResonancePattern resonance;
+        public AdvancePattern advance;
 
         [Space(5)]
         [Tooltip("맵 끝에서 사라져야하는 투사체들은, 실제 맵 사이즈에서 extendMapSize만큼 추가된 위치에서 사라지게 됩니다.")]

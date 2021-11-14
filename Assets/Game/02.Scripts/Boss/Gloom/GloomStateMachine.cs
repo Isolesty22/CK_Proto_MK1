@@ -46,7 +46,7 @@ public class GloomStateMachine : BossStateMachine
 
             eGloomState.Wave => new GloomState_Wave(gloomController),
 
-            eGloomState.Summon => new GloomState_Summon(gloomController),
+            eGloomState.Advance => new GloomState_Advance(gloomController),
 
             eGloomState.Berserk => new GloomState_Berserk(gloomController),
 
