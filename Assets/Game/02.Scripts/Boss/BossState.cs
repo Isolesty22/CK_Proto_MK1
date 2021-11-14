@@ -316,14 +316,13 @@ public class BearState_Roar : BearState
                 bearController.SetSkillVariety(0);
 
                 bearController.skillObjects.roarGroundEffect.SetActive(true);
-
-                rollerCount = 1;
                 break;
 
             // 중앙 공격
             case eBearState.Roar_B:
                 bearController.SetAnimEvent(AnimEvent_B);
                 bearController.SetSkillVariety(1);
+                UIManager.Instance.Talk("이피아! 몸을 낮춰!");
                 break;
 
             default:
@@ -361,21 +360,9 @@ public class BearState_Roar : BearState
             Vector3 endPos = new Vector3(startPos.x, bearController.bearMapInfo.mapData.minPosition.y, startPos.z);
 
 
-            if (currentRollerCount > 0)
-            {
-                RoarRollerHelper roller = bearController.pools.rollerProjectile.SpawnThis();
-
-                roller.Init(startPos, endPos);
-                roller.Move();
-                currentRollerCount -= 1;
-            }
-            else
-            {
-                RoarProjectile roarProjectile = bearController.pools.roarProjectile.SpawnThis();
-                roarProjectile.Init(startPos, endPos);
-                roarProjectile.Move();
-
-            }
+            RoarProjectile roarProjectile = bearController.pools.roarProjectile.SpawnThis();
+            roarProjectile.Init(startPos, endPos);
+            roarProjectile.Move();
             yield return new WaitForSeconds(Random.Range(0f, 0.3f));
         }
 
@@ -435,7 +422,7 @@ public class BearState_Strike : BearState
             default:
                 break;
         }
-
+        UIManager.Instance.Talk("바닥을 잘 봐, 이피아!");
         bearController.SetTrigger("Strike_Start");
     }
     public override void OnExit()
@@ -721,7 +708,7 @@ public class BearState_Concentrate : BearState
         bearController.StartInvincible();
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
-
+        UIManager.Instance.Talk("앗, 안돼! 어서 머리를 밟아버려!");
         concentrate = ProcessConcentrate();
     }
     public override void OnExit()
@@ -811,6 +798,7 @@ public class BearState_Powerless : BearState
 
         bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
+        UIManager.Instance.Talk("이때다! 이피아, 공격해!");
         bearController.SetTrigger("Powerless_Start");
     }
 
@@ -852,6 +840,7 @@ public class BearState_Die : BearState
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
         bearController.SetDamage(0f);
+        UIManager.Instance.Talk("쓰...쓰러뜨렸나?");
     }
 
     public override void OnExit()

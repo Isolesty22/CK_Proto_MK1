@@ -43,6 +43,7 @@ public class BearProjectile : MonoBehaviour
     protected virtual IEnumerator ProcessDespawn()
     {
         StopCoroutine(moveEnumerator);
+        moveEnumerator = null;
         yield return null;
         CustomPoolManager.Instance.ReleaseThis(this);
     }
