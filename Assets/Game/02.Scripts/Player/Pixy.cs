@@ -36,24 +36,32 @@ public class Pixy : MonoBehaviour
 
     private void Awake()
     {
-        getPixy = true;
+        
     }
 
     private void Start()
     {
         pc = GameManager.instance.playerController;
+
         targetPos = pc.Com.pixyTargetPos.position;
         firePos = pc.Com.pixyFirePos;
         ultPos = pc.Com.pixyUltPos;
 
 
-        transform.position = targetPos;
-        transform.eulerAngles = new Vector3(0, 90, 0);
+        if(getPixy)
+        {
+            transform.position = targetPos;
+            transform.eulerAngles = new Vector3(0, 90, 0);
+        }
     }
 
     private void Update()
     {
-        HandleAni();
+        if(getPixy)
+        {
+            HandleAni();
+
+        }
 
         if (enemyList.Count > 0)
         {
@@ -148,7 +156,7 @@ public class Pixy : MonoBehaviour
         var counter = CustomPoolManager.Instance.counterPool.SpawnThis(transform.position, transform.eulerAngles, null);
         counter.isActive = true;
         Vector3 curPosition = transform.position;
-        AudioManager.Instance.Audios.audioSource_PPAttack.PlayOneShot(AudioManager.Instance.Audios.audioSource_PPAttack.clip);
+        //AudioManager.Instance.Audios.audioSource_PPAttack.PlayOneShot(AudioManager.Instance.Audios.audioSource_PPAttack.clip);
 
         while (counter.isActive)
         {
@@ -227,7 +235,7 @@ public class Pixy : MonoBehaviour
         ult.enemy = null;
 
         int n = Random.Range(0, AudioManager.Instance.clips.specialAttackClips.Count);
-        AudioManager.Instance.Audios.audioSource_PSAttack.PlayOneShot(AudioManager.Instance.clips.specialAttackClips[n]);
+        //AudioManager.Instance.Audios.audioSource_PSAttack.PlayOneShot(AudioManager.Instance.clips.specialAttackClips[n]);
 
         float shortDist = 100f;
         for(int i =0;i<enemyList.Count;i++)
