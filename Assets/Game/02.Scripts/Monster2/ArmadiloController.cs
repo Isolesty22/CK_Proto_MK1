@@ -84,6 +84,12 @@ public class ArmadiloController : MonsterController
 
     public override void Hit(int damage)
     {
+        if(damage != 1)
+        {
+            base.Hit(damage);
+            return;
+        }
+
         if (armaState == ArmadiloState.Overturn)
         {
             base.Hit(damage);
@@ -94,6 +100,8 @@ public class ArmadiloController : MonsterController
         }
         else
         {
+            var changeSound = ChangeHitSound();
+            StartCoroutine(changeSound);
             return;
         }
     }
@@ -140,5 +148,13 @@ public class ArmadiloController : MonsterController
         armaState = ArmadiloState.Normal;
         Com.animator.SetBool("isDefence", false);
         Com.animator.SetBool("isOverturn", false);
+    }
+
+    IEnumerator ChangeHitSound()
+    {
+        AudioClip temp = AudioManager.Instance.clips.arrowHitMon;
+        AudioManager.Instance.clips.arrowHitMon = AudioManager.Instance.clips.arrowHitArmadiloDefence;
+        yield return null;
+        AudioManager.Instance.clips.arrowHitMon = temp;
     }
 }

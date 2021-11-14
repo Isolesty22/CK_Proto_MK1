@@ -75,7 +75,13 @@ public class MushRoomController : MonsterController
     {
         base.Move();
 
-        if(moveDir == Vector3.left)
+        if (!Com.audio.isPlaying)
+        {
+            Com.audio.loop = true;
+            Com.audio.Play();
+        }
+
+        if (moveDir == Vector3.left)
         {
             Com.animator.SetBool("isMove", true);
             Com.rigidbody.velocity = new Vector3(-Stat.moveSpeed, Com.rigidbody.velocity.y, 0);

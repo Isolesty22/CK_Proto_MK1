@@ -76,7 +76,7 @@ public class FlyerController : MonsterController
     protected override void Idle()
     {
         base.Idle();
-
+        Com.audio.Stop();
         ChangeState(MonsterState.MOVE);
     }
 
@@ -84,6 +84,12 @@ public class FlyerController : MonsterController
     {
         base.Move();
         Com.animator.SetBool("isMove", true);
+
+        if (!Com.audio.isPlaying)
+        {
+            Com.audio.loop = true;
+            Com.audio.Play();
+        }
 
         if (Stat2.isPatrol)
         {

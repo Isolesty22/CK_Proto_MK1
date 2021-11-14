@@ -51,6 +51,7 @@ public class MonsterController : MonoBehaviour
         public Color hitColor;
 
         public Vector3 spawnPos;
+        public AudioSource audio;
     }
 
     //field
@@ -236,8 +237,9 @@ public class MonsterController : MonoBehaviour
 
     protected virtual void Death()
     {
-        if(Stat.isAlive)
+        if (Stat.isAlive)
         {
+            Com.audio.Stop();
             Stat.isAlive = false;
             Com.rigidbody.velocity = Vector3.zero;
             Com.rigidbody.useGravity = true;
@@ -256,6 +258,7 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator Dead()
     {
+        Com.audio.PlayOneShot(AudioManager.Instance.clips.monsterDeath);
         var amount = 0f;
 
         float time = 0f;

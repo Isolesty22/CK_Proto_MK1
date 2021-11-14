@@ -18,6 +18,7 @@ public class Counter : MonoBehaviour
 
         if (other.CompareTag("Monster"))
         {
+            AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clips.arrowHitPower);
             other.GetComponent<MonsterController>().Hit(damage);
 
             return;

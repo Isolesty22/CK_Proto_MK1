@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
+        public AudioSource audioSource_arrowhitMon;
 
         [Header("PlayerSFX")]
         public AudioSource audioSource_PAttack;
@@ -33,16 +34,24 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_PSAttack;
         public AudioSource audioSource_PPAttack;
         [Header("Monster")]
-        public List<AudioSource> audioSources_MonsterDead = new List<AudioSource>();
+        public AudioSource audioSources_MonsterSFX;
     }
     [Serializable]
     public class AudioClips
     {
+        [Header("BGM")]
         public AudioClip stage1BGM;
         public AudioClip stage1AmbientSound;
         public AudioClip stage2BGM;
-        public AudioClip arrowHit;
+        [Header("Arrow")]
+        public AudioClip arrowHitObj;
+        public AudioClip arrowHitMon;
+        public AudioClip arrowHitPower;
+        public AudioClip arrowHitSpecial;
+        public AudioClip arrowHitArmadiloDefence;
         public List<AudioClip> specialAttackClips = new List<AudioClip>();
+        [Header("Monster")]
+        public AudioClip monsterDeath;
     }
 
 
