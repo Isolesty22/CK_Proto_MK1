@@ -54,8 +54,11 @@ public class BearController : BossController
         public GameObject smashRock;
         public Transform handTransform;
 
+
+
         [Space(10)]
         public GameObject rushEffect;
+        public Texture hurtTex;
         public RushSpiderHelper spiderHelper;
 
         [Space(10)]
@@ -428,6 +431,11 @@ public class BearController : BossController
     public void SetDamage(float _value)
     {
         damage = _value;
+    }
+
+    public void SetHurtTexture()
+    {
+        emissionHelper.SetTexture(skillObjects.hurtTex);
     }
 }
 

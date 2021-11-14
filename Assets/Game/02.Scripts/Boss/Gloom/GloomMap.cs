@@ -28,7 +28,7 @@ public class GloomMap : MonoBehaviour
         public Vector3 blockLength;
     }
 
-    public class Length
+    public class Index
     {
         public int min;
         public int max;
@@ -73,7 +73,7 @@ public class GloomMap : MonoBehaviour
 
     [Space(10)]
     public MapData mapData = new MapData();
-    public Length mapLength = new Length();
+    public Index index = new Index();
 
     public MapBlock[] mapBlocks = new MapBlock[blockCount];
 
@@ -250,13 +250,13 @@ public class GloomMap : MonoBehaviour
         switch (_dir)
         {
             case eDiretion.Left:
-                mapLength.min = exclusiveCount;
-                mapLength.max = blockCount;
+                index.min = exclusiveCount;
+                index.max = blockCount;
                 break;
 
             case eDiretion.Right:
-                mapLength.min = 0;
-                mapLength.max = blockCount - exclusiveCount;
+                index.min = 0;
+                index.max = blockCount - exclusiveCount;
 
                 break;
         }

@@ -142,36 +142,3 @@ public class Data_Player : GameData
 
 }
 
-public static class SceneNames
-{
-    public static readonly string mainMenu = "MainMenu";
-    public static readonly string loading = "Loading";
-    public static readonly string fieldMap = "FieldMap";
-
-    public const string stage_00 = "Stage_00";
-    public const string stage_01 = "Stage_01";
-    public const string stage_02 = "Stage_02";
-    public const string stage_03 = "Stage_03";
-    public const string stage_04 = "Stage_04";
-
-    public static string GetSceneNameUseStageNumber(int _number)
-    {
-        string str = "Stage_";
-        switch (_number)
-        {
-            case 0:
-                return str + "00";
-            case 1:
-                return str + "01";
-            case 2:
-                return str + "02";
-            case 3:
-                return str + "03";
-            case 4:
-                return str + "04";
-            default:
-                return str + "00";
-        }
-    }
-
-}

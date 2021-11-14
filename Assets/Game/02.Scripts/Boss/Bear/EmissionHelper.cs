@@ -6,19 +6,23 @@ public class EmissionHelper : MonoBehaviour
 {
 
     public SkinnedMeshRenderer meshRenderer;
-    Material material;
+     Material material;
 
     Color baseColor = Color.red;
     Color originalColor;
 
     [SerializeField]
-    Color hitColor = new Color(0.8f,0.8f,0.8f,1f);
+    Color hitColor = new Color(0.8f, 0.8f, 0.8f, 1f);
     private void Awake()
     {
         material = meshRenderer.material;
         originalColor = material.GetColor("_BaseColor");
     }
 
+    public void SetTexture(Texture _tex)
+    {
+        material.SetTexture("_BaseMap", _tex);
+    }
 
     //private void Start()
     //{
@@ -53,7 +57,7 @@ public class EmissionHelper : MonoBehaviour
     }
 
     WaitForSeconds waitTime = new WaitForSeconds(0.1f);
-    
+
     public IEnumerator HitColor()
     {
         material.SetColor("_BaseColor", hitColor);
@@ -61,5 +65,9 @@ public class EmissionHelper : MonoBehaviour
         material.SetColor("_BaseColor", originalColor);
 
         hitColorCoroutine = null;
+    }
+    private void OnDestroy()
+    {
+        material = null;
     }
 }

@@ -91,6 +91,11 @@ public class UITalk : UIBase
         waitSec = new WaitForSeconds(_duration);
     }
 
+    public void SetText_Test(string _text)
+    {
+        currentText = _text;
+    }
+
     /// <summary>
     /// CODE에 따른 텍스트를 불러옵니다.
     /// </summary>

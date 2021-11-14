@@ -5,7 +5,7 @@ public class StartLoadingScene : EditorWindow
 {
 
 	//상단바 메뉴 생성
-	[MenuItem("테스트 플레이/Loading씬부터 시작")]
+	[MenuItem("테스트 플레이/타이틀씬부터 시작")]
 
 	public static void PlayLoadingScene()
 	{
@@ -15,7 +15,7 @@ public class StartLoadingScene : EditorWindow
 			EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
 		}
 
-		EditorSceneManager.OpenScene("Assets/Game/01.Scenes/InGame/ETC/Loading.unity");
+		EditorSceneManager.OpenScene("Assets/Game/01.Scenes/InGame/ETC/Title.unity");
 		EditorApplication.isPlaying = true;
 	}
 }

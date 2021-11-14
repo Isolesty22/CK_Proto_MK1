@@ -117,6 +117,7 @@ public class PlayerController : MonoBehaviour
         public bool isLeft;
         public bool moveSystem;
         public bool isAlive;
+        public bool counterCheck;
     }
 
     [Serializable]
@@ -172,7 +173,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         //MoveSystem(new Vector3(6,0,0));
-        //MoveSystem(Vector3.zero, 3f);
+        //MoveSystem(Vector3.zero);
     }
 
     private void Update()
@@ -744,7 +745,7 @@ public class PlayerController : MonoBehaviour
         //input 안되게 해야 함
         State.moveSystem = true;
 
-        Debug.Log("work");
+        //Debug.Log("work");
 
         if(transform.position.x < targetPos.x)
         {
@@ -782,6 +783,14 @@ public class PlayerController : MonoBehaviour
 
     public void FillFullEnerge()
     {
-        Stat.pixyEnerge = 30f;
+        Stat.pixyEnerge = 10000f;
+    }
+
+    public void CounterCheck()
+    {
+        if(Input.GetKeyDown(Key.counter))
+        {
+            State.counterCheck = true;
+        }
     }
 }

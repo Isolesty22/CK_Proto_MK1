@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
     [Header("OpenThis호출 시 이전 UI가 꺼짐")]
     public bool disabledPrevUI;
 
-    [Header("현재 열려있는 UI 개수"),ReadOnly]
+    [Header("현재 열려있는 UI 개수"), ReadOnly]
     public int openUIcount;
 
     [Space(10)]
@@ -268,6 +268,13 @@ public class UIManager : MonoBehaviour
     public void Talk(int _CODE)
     {
         uiTalk.SetValue(_CODE);
+        uiTalk.StartTalk();
+    }
+
+    public void Talk(string _str)
+    {
+        uiTalk.SetText_Test(_str);
+        //uiTalk.StartTalkInfinity();
         uiTalk.StartTalk();
     }
 

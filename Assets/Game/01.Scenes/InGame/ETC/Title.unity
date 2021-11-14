@@ -546,12 +546,15 @@ MonoBehaviour:
     audioSource_PJump: {fileID: 799587118}
     audioSource_PLand: {fileID: 1194551204}
     audioSource_PHit: {fileID: 552440786}
+    audioSource_PSAttack: {fileID: 2044416279}
+    audioSource_PPAttack: {fileID: 1321928067}
     audioSources_MonsterDead: []
   audioClips:
     stage1BGM: {fileID: 8300000, guid: 48152c986ff54b64d8f2e9e666574a95, type: 3}
     stage1AmbientSound: {fileID: 8300000, guid: e075bfb0c724f1645a1e15974f6a8d2d, type: 3}
     stage2BGM: {fileID: 8300000, guid: 05c78a1b4e86fd84a8597daafe1d5a83, type: 3}
     arrowHit: {fileID: 8300000, guid: 219ca5c0564bb6648b185af3db1b930c, type: 3}
+    specialAttackClips: []
 --- !u!4 &393463060
 Transform:
   m_ObjectHideFlags: 0
@@ -1454,7 +1457,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5d70ce6fed5398f4c8ba40d15007f330, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 546eeabeef1593f4e82a81db4a2ae318, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
   m_Pitch: 1
@@ -2037,9 +2040,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7476ebd39036e92478ffee2f796e6e04, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 969e73592442a6d4b862692c6b24fc0d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

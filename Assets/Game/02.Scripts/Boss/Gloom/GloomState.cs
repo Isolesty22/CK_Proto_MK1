@@ -36,7 +36,7 @@ public class GloomState_Chase : GloomState
     {
         canExit = false;
 
-
+        UIManager.Instance.Talk("이피아! 도망쳐!");
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Chase_Start");
     }
@@ -52,10 +52,10 @@ public class GloomState_Chase : GloomState
         // startPos = gloom.SkillObj.chaseTransform.position,playerRB.position
         for (int i = 0; i < count; i++)
         {
-            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.chaseTransform.position);
+            GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.sphereTransform.position);
 
             bullet.Init(gloom);
-            bullet.SetPosition(gloom.SkillObj.chaseTransform.position, playerRB.position);
+            bullet.SetPosition(gloom.SkillObj.sphereTransform.position, playerRB.position);
             bullet.Move();
 
             yield return waitSec;
@@ -361,8 +361,8 @@ public class GloomState_Resonance : GloomState
     /// </summary>
     private void SummonBullet()
     {
-        int i = gloom.Com.gloomMap.mapLength.min;
-        int length = gloom.Com.gloomMap.mapLength.max;
+        int i = gloom.Com.gloomMap.index.min;
+        int length = gloom.Com.gloomMap.index.max;
         for (; i < length; i++)
         {
             MapBlock block = gloom.Com.gloomMap.mapBlocks[i];
@@ -839,16 +839,65 @@ public class GloomState_Wave : GloomState
     //    downBullet.Move();
     //}
 }
-public class GloomState_Summon : GloomState
+public class GloomState_Advance : GloomState
 {
-    public GloomState_Summon(GloomController _gloomController)
+    private Vector3 startPos;
+    private Vector3 endPos;
+
+    public GloomLightning lightning = null;
+    public GloomState_Advance(GloomController _gloomController)
     {
         gloom = _gloomController;
+        lightning = gloom.SkillObj.gloomLightning;
+        lightning.moveTime = gloom.SkillVal.advance.moveTime;
+
     }
     public override void OnEnter()
     {
+        Debug.Log("전진 Enter");
         canExit = false;
+        lightning.Init();
+
+        //오른쪽에 있으면
+        if (gloom.diretion == eDiretion.Right)
+        {
+            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
+            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;
+
+        }
+        else
+        {
+            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;
+            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
+        }
+
+        lightning.SetXPosition(startPos, endPos);
+        lightning.Init_Position();
+
+        gloom.SetAnimEvent(AnimEvent);
+        gloom.SetTrigger("Advance_Start");
     }
+
+    public void AnimEvent()
+    {
+        gloom.StartCoroutine(CoMoveLightning());
+    }
+
+    private IEnumerator CoMoveLightning()
+    {
+        lightning.gameObject.SetActive(true);
+        lightning.SetEnabled(true);
+        lightning.UpdateLightning();
+
+        yield return gloom.StartCoroutine(lightning.CoMove());
+
+        lightning.SetEnabled(false);
+        lightning.gameObject.SetActive(false);
+
+        gloom.SetTrigger("Advance_End");
+
+    }
+
 }
 public class GloomState_Berserk : GloomState
 {
@@ -859,6 +908,17 @@ public class GloomState_Berserk : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        gloom.StartCoroutine(CoWait());
+        gloom.SkillObj.berserkEffect.SetActive(true);
+    }
+
+
+    private IEnumerator CoWait()
+    {
+        gloom.StartInvincible();
+        yield return new WaitForSeconds(2f);
+        gloom.EndInvincible();
+        canExit = true;
     }
 }
 public class GloomState_Powerless : GloomState
