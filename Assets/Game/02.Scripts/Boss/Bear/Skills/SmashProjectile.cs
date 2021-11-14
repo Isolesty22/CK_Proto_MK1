@@ -31,6 +31,7 @@ public class SmashProjectile : BearProjectile
             StopCoroutine(moveEnumerator);
         }
         gameObject.transform.rotation = Quaternion.Euler(GetRandomVector3());
+        //StopCoroutine(moveEnumerator);
         moveEnumerator = ProcessMove();
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
@@ -59,12 +60,12 @@ public class SmashProjectile : BearProjectile
         Vector3 p1;
         Vector3 p2;
 
-        moveTime = Random.Range(moveTime - 1f, moveTime);
+        float tempMoveTime = Random.Range(moveTime - 1f, moveTime);
         while (progress < 1f)
         {
             timer += Time.deltaTime;
 
-            progress = timer / moveTime;
+            progress = timer / tempMoveTime;
 
             p1 = Vector3.Lerp(startPos, middlePos, progress);
             p2 = Vector3.Lerp(middlePos, endPos, progress);
