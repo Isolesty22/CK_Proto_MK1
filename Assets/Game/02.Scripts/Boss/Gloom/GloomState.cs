@@ -841,18 +841,38 @@ public class GloomState_Wave : GloomState
 }
 public class GloomState_Advance : GloomState
 {
+    private Vector3 startPos;
+    private Vector3 endPos;
 
     public GloomLightning lightning = null;
     public GloomState_Advance(GloomController _gloomController)
     {
         gloom = _gloomController;
         lightning = gloom.SkillObj.gloomLightning;
-        
+        lightning.moveTime = gloom.SkillVal.advance.moveTime;
+
     }
     public override void OnEnter()
     {
+        Debug.Log("전진 Enter");
         canExit = false;
         lightning.Init();
+
+        //오른쪽에 있으면
+        if (gloom.diretion == eDiretion.Right)
+        {
+            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
+            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;
+
+        }
+        else
+        {
+            startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;
+            endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
+        }
+
+        lightning.SetXPosition(startPos, endPos);
+        lightning.Init_Position();
 
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Advance_Start");
@@ -865,8 +885,17 @@ public class GloomState_Advance : GloomState
 
     private IEnumerator CoMoveLightning()
     {
+        lightning.gameObject.SetActive(true);
+        lightning.SetEnabled(true);
+        lightning.UpdateLightning();
+
         yield return gloom.StartCoroutine(lightning.CoMove());
+
+        lightning.SetEnabled(false);
+        lightning.gameObject.SetActive(false);
+
         gloom.SetTrigger("Advance_End");
+
     }
 
 }

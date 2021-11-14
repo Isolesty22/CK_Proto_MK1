@@ -322,6 +322,11 @@ public class GloomController : BossController
         SkillVal.chase.curvedPosition = new Vector3(0f, SkillVal.chase.curvedValue, 0f);
 
         SkillObj.resonanceHelper.Init();
+
+        SkillObj.gloomLightning.gameObject.SetActive(true);
+        SkillObj.gloomLightning.Init();
+        SkillObj.gloomLightning.Create();
+        SkillObj.gloomLightning.gameObject.SetActive(false);
         UpdateObstructPositions();
         UpdateWavePosition();
         SkillObj.threat.SetActive(false);

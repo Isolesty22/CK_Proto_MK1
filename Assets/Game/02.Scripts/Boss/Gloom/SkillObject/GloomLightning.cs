@@ -4,11 +4,13 @@ using System.Collections;
 public class GloomLightning : MonoBehaviour
 {
 
-    public float moveTime = 100f;
+    [HideInInspector]
+    public float moveTime = 10f;
     [Space(5)]
     public Rigidbody myRB;
     public Rigidbody startRB;
     public Rigidbody endRB;
+    public Transform myTransform;
     public Transform lineParent;
     [Space(5)]
 
@@ -34,8 +36,6 @@ public class GloomLightning : MonoBehaviour
 
     private LineRenderer[] lines;
 
-
-    private float timer = 0f;
     private float nextUpdateTime = 0f;
     private int hitMask;
 
@@ -52,39 +52,32 @@ public class GloomLightning : MonoBehaviour
     [HideInInspector]
     public Vector3 endPosition;
 
+    //private void FixedUpdate()
+    //{
+    //    timer += Time.deltaTime;
+    //    if (timer > nextUpdateTime)
+    //    {
 
-    private void Start()
-    {
-        Init();
-        Create();
-        SetEnabled(true);
-        StartCoroutine(CoMove());
-
-    }
-    private void Update()
-    {
-        timer += Time.deltaTime;
-
-        if (timer > nextUpdateTime)
-        {
-            for (int i = 0; i < lineCount; i++)
-            {
-                UpdateLightning();
-            }
-            nextUpdateTime = timer + updateDelay;
-        }
-    }
+    //        UpdateLightning();
+    //        nextUpdateTime = timer + updateDelay;
+    //    }
+    //}
     public void Init()
     {
-        //startPosition = myRB.position;
-        //endPo
-        //myRB.position = startPosition;
-        timer = 0f;
+        nextUpdateTime = 0f;
     }
-    public void SetPosition(Vector3 _startPos, Vector3 _endPos)
+    public void SetXPosition(Vector3 _startPos, Vector3 _endPos)
     {
-        startPosition = _startPos;
-        endPosition = _endPos;
+        startPosition = myTransform.position;
+        endPosition = myTransform.position;
+
+        startPosition = new Vector3(_startPos.x, startPosition.y, startPosition.z);
+        endPosition = new Vector3(_endPos.x, startPosition.y, endPosition.z);
+
+    }
+    public void Init_Position()
+    {
+        myTransform.position = startPosition;
     }
 
 
@@ -94,15 +87,23 @@ public class GloomLightning : MonoBehaviour
         float fixedTimer = 0f;
         Vector3 currentPos;
 
+
         while (progress < 1f)
         {
             fixedTimer += Time.deltaTime;
             progress = fixedTimer / moveTime;
 
-            Debug.Log(progress);
+            //번개 모양 업데이트
+            if (fixedTimer > nextUpdateTime)
+            {
+                UpdateLightning();
+                nextUpdateTime = fixedTimer + updateDelay;
+            }
+
             //위치 이동
-            //currentPos = Vector3.Lerp(startPosition, endPosition, progress);
-            //myRB.MovePosition(currentPos);
+            currentPos = Vector3.Lerp(startPosition, endPosition, progress);
+            myRB.MovePosition(currentPos);
+
 
 
             ray.direction = Vector3.down;
@@ -110,13 +111,12 @@ public class GloomLightning : MonoBehaviour
             if (Physics.Raycast(ray, out hit, hitDistance, hitMask))
             {
                 hitPosition = hit.point;
-                hitPosition = new Vector3(endRB.position.x, hitPosition.y, endRB.position.z);
-                Debug.Log(hit.transform.name);
+                hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
             }
             else
             {
                 hitPosition = Vector3.down * hitDistance;
-                hitPosition = new Vector3(endRB.position.x, hitPosition.y, endRB.position.z);
+                hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
             }
 
             endRB.MovePosition(hitPosition);
