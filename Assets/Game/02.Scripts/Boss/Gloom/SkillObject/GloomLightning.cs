@@ -4,16 +4,24 @@ using System.Collections;
 public class GloomLightning : MonoBehaviour
 {
 
+    [Tooltip("구슬의 y값을 정하기위한 트랜스폼.")]
+    public Transform yTransform;
+    private float yOriginPos;
+
     [HideInInspector]
     public float moveTime = 10f;
-    [Space(5)]
+
+    [Header("Rigidbody")]
     public Rigidbody myRB;
     public Rigidbody startRB;
     public Rigidbody endRB;
-    public Transform myTransform;
-    public Transform lineParent;
-    [Space(5)]
 
+    [Header("Transform")]
+    public Transform myTransform;
+    public Transform sphereTransform;
+    public Transform lineParent;
+
+    [Header("Line Value")]
     [Tooltip("사용할 라인렌더러의 개수")]
     public int lineCount = 2;
     public float lineWidth = 3f;
@@ -52,97 +60,197 @@ public class GloomLightning : MonoBehaviour
     public Vector3 moveSphereStartPos { get; private set; }
     public Vector3 moveSphereEndPos { get; private set; }
 
+    private readonly Vector3 sphereSmallScale = new Vector3(0.1f, 0.1f, 0.1f);
+    private readonly Vector3 sphereBigScale = new Vector3(1.5f, 1.5f, 1.5f);
+
+    private void Awake()
+    {
+        yOriginPos = yTransform.position.y;
+    }
+
     public void Init()
     {
         nextUpdateTime = 0f;
     }
-    public void SetXPosition(Vector3 _startPos, Vector3 _endPos)
+
+    public void Init_Position()
     {
-        moveStartPosition = myTransform.position;
-        moveEndPosition = myTransform.position;
+        myTransform.position = moveSphereStartPos;
+    }
+    public void SetMovePosition(Vector3 _startPos, Vector3 _endPos)
+    {
+        moveStartPosition = myRB.position;
+        moveEndPosition = myRB.position;
 
         moveStartPosition = new Vector3(_startPos.x, moveStartPosition.y, moveStartPosition.z);
         moveEndPosition = new Vector3(_endPos.x, moveStartPosition.y, moveEndPosition.z);
     }
-    public void Init_Position()
-    {
-        myTransform.position = moveStartPosition;
-    }
-
 
     /// <summary>
-    /// 번개를 쏘기 전 구슬이 움직이는 위치를 정합니다.
+    /// 번개를 쏘기 전 구슬이 움직일 위치를 정합니다. end의 y값은 yTransform의 값으로 들어갑니다.
     /// </summary>
     public void SetMoveSpherePosition(Vector3 _start, Vector3 _end)
     {
+        myTransform.position = _start;
+
         moveSphereStartPos = _start;
-        moveSphereEndPos = _end;
+        moveSphereEndPos = new Vector3(_end.x, yOriginPos, _end.z);
+
+        sphereTransform.position = moveSphereStartPos;
+        sphereTransform.localScale = sphereSmallScale;
+    }
+
+
+    private float progress = 0f;
+    private float fixedTimer = 0f;
+    private void ClearTimer()
+    {
+        progress = 0f;
+        fixedTimer = 0f;
+        nextUpdateTime = 0f;
     }
 
     /// <summary>
-    /// 번개를 쏘지 않고 오직 구체만을 움직입니다.
+    /// 화면상에서 보이지 않는 높이의 Y값
     /// </summary>
-    public IEnumerator CoMoveSphere()
+    private float topPosY;
+
+
+    private Vector3 startTopPos;
+    /// <summary>
+    /// 번개를 쏘지 않고 오직 구체만을 움직입니다. 크기도 커집니다(오브젝트 전체를 감싼 리지드바디를 움직이기 떄문에 주의가 필요합니다).
+    /// </summary>
+    public IEnumerator CoBeginMove()
     {
-        float progress = 0f;
-        float fixedTimer = 0f;
-        while (true)
+
+        ClearTimer();
+        Vector3 currentPos = moveSphereStartPos;
+
+        topPosY = moveSphereStartPos.y + 15f;
+
+        startTopPos = new Vector3(moveSphereStartPos.x, topPosY, moveSphereStartPos.z);
+
+        //-----위쪽으로 붕
+        while (progress < 1f)
         {
+            fixedTimer += Time.fixedDeltaTime;
+            progress = fixedTimer / 2f;
+
+            currentPos = Vector3.Lerp(moveSphereStartPos, startTopPos, progress);
+            myRB.MovePosition(currentPos);
+
+            sphereTransform.localScale = Vector3.Lerp(sphereSmallScale, sphereBigScale, progress);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+
+        //시간 초기화
+
+        ClearTimer();
+
+        //위치 설정
+        Vector3 endTopPos = new Vector3(moveSphereEndPos.x, startTopPos.y, moveSphereEndPos.z);
+        myRB.position = endTopPos;
+
+        yield return YieldInstructionCache.WaitForFixedUpdate;
+
+        UpdateHitPosition();
+        endRB.MovePosition(hitPosition);
+
+        yield return YieldInstructionCache.WaitForFixedUpdate;
+
+        SetLineEnabled(true);
+
+        //-----아래로 슝
+        while (progress < 1f)
+        {
+            fixedTimer += Time.fixedDeltaTime;
+            progress = fixedTimer / 2f;
+
+            UpdateLightning();
+
+            currentPos = Vector3.Lerp(endTopPos, moveSphereEndPos, progress);
+            myRB.MovePosition(currentPos);
+
+            UpdateHitPosition();
+            endRB.MovePosition(hitPosition);
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
     }
+
     public IEnumerator CoMove()
     {
-        float progress = 0f;
-        float fixedTimer = 0f;
+
+        ClearTimer();
+
         Vector3 currentPos;
 
-
+        //정해진 방향으로 이동
         while (progress < 1f)
         {
-            fixedTimer += Time.deltaTime;
+            fixedTimer += Time.fixedDeltaTime;
             progress = fixedTimer / moveTime;
 
             //번개 모양 업데이트
-            if (fixedTimer > nextUpdateTime)
-            {
-                UpdateLightning();
-                nextUpdateTime = fixedTimer + updateDelay;
-            }
+            UpdateLightning();
 
             //위치 이동
             currentPos = Vector3.Lerp(moveStartPosition, moveEndPosition, progress);
             myRB.MovePosition(currentPos);
 
-
-
-            ray.direction = Vector3.down;
-            ray.origin = startRB.position;
-            if (Physics.Raycast(ray, out hit, hitDistance, hitMask))
-            {
-                hitPosition = hit.point;
-                hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
-            }
-            else
-            {
-                hitPosition = Vector3.down * hitDistance;
-                hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
-            }
-
+            //번개 길이 조절
+            UpdateHitPosition();
             endRB.MovePosition(hitPosition);
 
-            Debug.DrawLine(moveStartPosition, hitPosition, Color.green);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+
+        //시간 초기화 
+        ClearTimer();
+
+        Vector3 endTopPos = new Vector3(myRB.position.x, topPosY, myRB.position.z);
+
+        //위쪽으로 이동
+        while (progress < 1f)
+        {
+            fixedTimer += Time.fixedDeltaTime;
+            progress = fixedTimer / 1.5f;
+
+            UpdateLightning();
+
+            currentPos = Vector3.Lerp(moveEndPosition, endTopPos, progress);
+            myRB.MovePosition(currentPos);
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+        //번개 안보이게
+
+        SetLineEnabled(false);
+
+        //시간 초기화
+        ClearTimer();
+
+        //원래 위치의 위쪽으로 이동
+        myRB.position = startTopPos;
+        yield return YieldInstructionCache.WaitForFixedUpdate;
+
+        //원래 위치로 이동과 동시에 스케일 줄이기
+        while (progress < 1f)
+        {
+            fixedTimer += Time.fixedDeltaTime;
+            progress = fixedTimer / 1.5f;
+
+            currentPos = Vector3.Lerp(startTopPos, moveSphereStartPos, progress);
+            myRB.MovePosition(currentPos);
+            sphereTransform.localScale = Vector3.Lerp(sphereBigScale,sphereSmallScale,progress);
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
     }
 
 
-
     public void Create()
     {
-
         lines = new LineRenderer[lineCount];
         hitMask = 1 << LayerMask.NameToLayer("Ground");
         hitPosition = Vector3.down * hitDistance;
@@ -178,6 +286,17 @@ public class GloomLightning : MonoBehaviour
 
     public void UpdateLightning()
     {
+        //번개 모양 업데이트
+        if (fixedTimer > nextUpdateTime)
+        {
+            nextUpdateTime = fixedTimer + updateDelay;
+        }
+        else
+        {
+            return;
+        }
+
+
         float distance = Vector2.Distance(startRB.position, endRB.position);
 
         for (int i = 0; i < lines.Length; i++)
@@ -207,10 +326,26 @@ public class GloomLightning : MonoBehaviour
     }
 
 
+    public void UpdateHitPosition()
+    {
+        ray.direction = Vector3.down;
+        ray.origin = startRB.position;
+
+        if (Physics.Raycast(ray, out hit, hitDistance, hitMask))
+        {
+            hitPosition = hit.point;
+            hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
+        }
+        else
+        {
+            hitPosition = Vector3.down * hitDistance;
+            hitPosition = new Vector3(myRB.position.x, hitPosition.y, myRB.position.z);
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
-        Gizmos.DrawSphere(startRB.position, 0.2f);
+        //   Gizmos.DrawSphere(startRB.position, 0.2f);
         Gizmos.DrawSphere(endRB.position, 0.2f);
         // Gizmos.DrawLine(startRB.position, endRB.position);
     }
