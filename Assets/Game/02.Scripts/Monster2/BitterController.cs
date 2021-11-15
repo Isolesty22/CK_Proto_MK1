@@ -82,6 +82,11 @@ public class BitterController : MonsterController
         if (gameObject.transform.position.y == Com.spawnPos.y)
         {
             Com.animator.SetBool("isAttack", true);
+            if (!Com.audio.isPlaying)
+            {
+                Com.audio.loop = false;
+                Com.audio.Play();
+            }
             Utility.KillTween(tween);
             tween = transform.DOMove(new Vector3(Com.spawnPos.x, Com.spawnPos.y + Stat2.upRange, Com.spawnPos.z), Stat2.upDownSpeed).SetEase(Ease.OutCubic);
             tween.Play();

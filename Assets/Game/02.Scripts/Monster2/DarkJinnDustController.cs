@@ -143,7 +143,10 @@ public class DarkJinnDustController : MonsterController
         }
 
         Debug.Log(shootDir);
-
+        if (!Com.audio.isPlaying)
+        {
+            Com.audio.Play();
+        }
         while (state != MonsterState.DEATH)
         {
             Com.rigidbody.velocity = shootDir.normalized * Stat.moveSpeed * Time.deltaTime * 100;
