@@ -155,7 +155,7 @@ public class Pixy : MonoBehaviour
         var counter = CustomPoolManager.Instance.counterPool.SpawnThis(transform.position, transform.eulerAngles, null);
         counter.isActive = true;
         Vector3 curPosition = transform.position;
-        //AudioManager.Instance.Audios.audioSource_PPAttack.PlayOneShot(AudioManager.Instance.Audios.audioSource_PPAttack.clip);
+        AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.powerAttack);
 
         while (counter.isActive)
         {
@@ -233,8 +233,10 @@ public class Pixy : MonoBehaviour
 
         ult.enemy = null;
 
-        int n = Random.Range(0, AudioManager.Instance.clips.specialAttackClips.Count);
-        //AudioManager.Instance.Audios.audioSource_PSAttack.PlayOneShot(AudioManager.Instance.clips.specialAttackClips[n]);
+        int n = Random.Range(0, AudioManager.Instance.specialAttackClips.Count);
+
+
+        AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.specialAttackClips[n]);
 
         float shortDist = 100f;
         for(int i =0;i<enemyList.Count;i++)

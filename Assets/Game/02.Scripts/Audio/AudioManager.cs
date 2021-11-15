@@ -21,7 +21,6 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
-        public AudioSource audioSource_arrowhitMon;
 
         [Header("PlayerSFX")]
         public AudioSource audioSource_PAttack;
@@ -31,39 +30,42 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_PJump;
         public AudioSource audioSource_PLand;
         public AudioSource audioSource_PHit;
-        public AudioSource audioSource_PSAttack;
-        public AudioSource audioSource_PPAttack;
-        [Header("Monster")]
-        public AudioSource audioSources_MonsterSFX;
-    }
-    [Serializable]
-    public class AudioClips
-    {
-        [Header("BGM")]
-        public AudioClip stage1BGM;
-        public AudioClip stage1AmbientSound;
-        public AudioClip stage2BGM;
-        [Header("Arrow")]
-        public AudioClip arrowHitObj;
-        public AudioClip arrowHitMon;
-        public AudioClip arrowHitPower;
-        public AudioClip arrowHitSpecial;
-        public AudioClip arrowHitArmadiloDefence;
-        public List<AudioClip> specialAttackClips = new List<AudioClip>();
-        [Header("Monster")]
-        public AudioClip monsterDeath;
     }
 
+    [Serializable]
+    public class AudioVolume
+    {
+        [Range(0, 1)] public float bgm = 1f;
+        [Range(0, 1)] public float evm = 1f;
+        [Range(0, 1)] public float sfx = 1f;
+
+        [Range(0, 1)] public float pAttack = 1f;
+        [Range(0, 1)] public float pParrying = 1f;
+        [Range(0, 1)] public float pWalk = 1f;
+        [Range(0, 1)] public float pRun = 1f;
+        [Range(0, 1)] public float pJump = 1f;
+        [Range(0, 1)] public float pLand = 1f;
+        [Range(0, 1)] public float pHit = 1f;
+    }
 
     [SerializeField] private AudioSources audioSources = new AudioSources();
-    [SerializeField] private AudioClips audioClips = new AudioClips();
+    [SerializeField] private AudioVolume audioVolumes = new AudioVolume();
 
-    public AudioClips clips => audioClips;
     public AudioSources Audios => audioSources;
+    public AudioVolume Volumes => audioVolumes;
+
 
     public Dictionary<string, AudioClip> clipDict_BGM = new Dictionary<string, AudioClip>();
     public Dictionary<string, AudioClip> clipDict_EVM = new Dictionary<string, AudioClip>();
     public Dictionary<string, AudioClip> clipDict_SFX = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_ArrowHit = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_Monster = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_Player = new Dictionary<string, AudioClip>();
+    public List<AudioClip> specialAttackClips = new List<AudioClip>();
+    public AudioClip monsterDeath;
+    public AudioClip powerAttack;
+    public float currentMasterVolume;
+    public float currentSFXVolume;
 
     #endregion
 
@@ -99,12 +101,96 @@ public class AudioManager : MonoBehaviour
 
     public IEnumerator LoadAudioClips()
     {
+        #region BGM_Load
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/MainMenuBGM"));
+        clipDict_BGM.Add("MainMenuBGM", DataManager.Instance.fileManager.getAudioClip_Result);
 
-        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SS501_URMan"));
-        clipDict_BGM.Add("SS501_URMan", DataManager.Instance.fileManager.getAudioClip_Result);
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage1ambient"));
+        clipDict_BGM.Add("Stage1ambient", DataManager.Instance.fileManager.getAudioClip_Result);
 
-        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("The_Red_Knot"));
-        clipDict_BGM.Add("The_Red_Knot", DataManager.Instance.fileManager.getAudioClip_Result);
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage1BGM"));
+        clipDict_BGM.Add("Stage1BGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage2BGM"));
+        clipDict_BGM.Add("Stage2BGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage3BGM"));
+        clipDict_BGM.Add("Stage3BGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage4BGM"));
+        clipDict_BGM.Add("Stage4BGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/TutorialBGM"));
+        clipDict_BGM.Add("TutorialBGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/WaterFall"));
+        clipDict_BGM.Add("WaterFall", DataManager.Instance.fileManager.getAudioClip_Result);
+        #endregion
+
+        #region ArrowHit
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/armadiloHit"));
+        clipDict_ArrowHit.Add("armadiloHit", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitMon"));
+        clipDict_ArrowHit.Add("arrowHitMon", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitObj"));
+        clipDict_ArrowHit.Add("arrowHitObj", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitPower"));
+        clipDict_ArrowHit.Add("arrowHitPower", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitSpecial"));
+        clipDict_ArrowHit.Add("arrowHitSpecial", DataManager.Instance.fileManager.getAudioClip_Result);
+        #endregion
+
+        #region Player
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaAttack"));
+        clipDict_Player.Add("IpeaAttack", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaHit"));
+        clipDict_Player.Add("IpeaHit", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaJump"));
+        clipDict_Player.Add("IpeaJump", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaLand"));
+        clipDict_Player.Add("IpeaLand", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaParrying"));
+        clipDict_Player.Add("IpeaParrying", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaRun"));
+        clipDict_Player.Add("IpeaRun", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaRunOnWood"));
+        clipDict_Player.Add("IpeaRunOnWood", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaWalk"));
+        clipDict_Player.Add("IpeaWalk", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        Audios.audioSource_PAttack.clip = clipDict_Player["IpeaAttack"];
+        Audios.audioSource_PHit.clip = clipDict_Player["IpeaHit"];
+        Audios.audioSource_PJump.clip = clipDict_Player["IpeaJump"];
+        Audios.audioSource_PLand.clip = clipDict_Player["IpeaLand"];
+        Audios.audioSource_PParrying.clip = clipDict_Player["IpeaParrying"];
+        Audios.audioSource_PRun.clip = clipDict_Player["IpeaRun"];
+        Audios.audioSource_PWalk.clip = clipDict_Player["IpeaWalk"];
+        #endregion
+
+        for (int i = 0; i < 6; i++)
+        {
+            string n = "SpecialAttack/Arrow_" + (i + 1);
+            yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip(n));
+            specialAttackClips.Add(DataManager.Instance.fileManager.getAudioClip_Result);
+        }
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Monster/MonsterDeath"));
+        monsterDeath = DataManager.Instance.fileManager.getAudioClip_Result;
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("SpecialAttack/PA2"));
+        powerAttack = DataManager.Instance.fileManager.getAudioClip_Result;
+
 
         /*
          * for (i = 0; i < audioFileNameList.Count; i++) {
@@ -258,18 +344,19 @@ public class AudioManager : MonoBehaviour
 
     public void SettingVolume(float masterVolume, float bgmVolume, float sfxVolume)
     {
-        Audios.audioSource_BGM.volume = 1 * masterVolume * bgmVolume;
-        Audios.audioSource_EVM.volume = 0.3f * masterVolume * bgmVolume;
-        Audios.audioSource_SFX.volume = 0.5f * masterVolume* sfxVolume;
-        Audios.audioSource_PAttack.volume = 0.2f * masterVolume * sfxVolume;
-        Audios.audioSource_PHit.volume = 1 * masterVolume * sfxVolume;
-        Audios.audioSource_PJump.volume = 0.5f * masterVolume * sfxVolume;
-        Audios.audioSource_PLand.volume = 1 * masterVolume * sfxVolume;
-        Audios.audioSource_PParrying.volume = 0.8f * masterVolume * sfxVolume;
-        Audios.audioSource_PRun.volume = 0.3f * masterVolume * sfxVolume;
-        Audios.audioSource_PWalk.volume = 0.3f * masterVolume * sfxVolume;
-        Audios.audioSource_PSAttack.volume = 0.2f* masterVolume * sfxVolume;
-        Audios.audioSource_PPAttack.volume = 0.8f * masterVolume * sfxVolume;
+        currentMasterVolume = masterVolume;
+        currentSFXVolume = sfxVolume;
+
+        Audios.audioSource_BGM.volume = Volumes.bgm * masterVolume * bgmVolume;
+        Audios.audioSource_EVM.volume = Volumes.evm * masterVolume * bgmVolume;
+        Audios.audioSource_SFX.volume = Volumes.sfx * masterVolume* sfxVolume;
+        Audios.audioSource_PAttack.volume = Volumes.pAttack * masterVolume * sfxVolume;
+        Audios.audioSource_PHit.volume = Volumes.pHit * masterVolume * sfxVolume;
+        Audios.audioSource_PJump.volume = Volumes.pJump * masterVolume * sfxVolume;
+        Audios.audioSource_PLand.volume = Volumes.pLand * masterVolume * sfxVolume;
+        Audios.audioSource_PParrying.volume = Volumes.pParrying * masterVolume * sfxVolume;
+        Audios.audioSource_PRun.volume = Volumes.pRun * masterVolume * sfxVolume;
+        Audios.audioSource_PWalk.volume = Volumes.pWalk * masterVolume * sfxVolume;
     }
     #endregion
 }

@@ -84,7 +84,6 @@ public class BitterController : MonsterController
             Com.animator.SetBool("isAttack", true);
             if (!Com.audio.isPlaying)
             {
-                Com.audio.loop = false;
                 Com.audio.Play();
             }
             Utility.KillTween(tween);

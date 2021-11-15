@@ -35,6 +35,8 @@ public class MonsterController : MonoBehaviour
 
         public float initDistance = 10f;
         public float respawnTime = 10f;
+        public float audioVolume = 1;
+        public float deathVolume = 0.5f;
     }
 
     [Serializable]
@@ -81,6 +83,7 @@ public class MonsterController : MonoBehaviour
         Stat.isAlive = true;
         transform.position = Com.spawnPos;
         Com.renderer.material.SetFloat("_Amount", 0);
+        Com.audio.volume = Stat.audioVolume * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
     }
 
     public virtual void Awake()
@@ -88,7 +91,6 @@ public class MonsterController : MonoBehaviour
         Com.spawnPos = transform.position;
         Initialize();
     }
-
     public virtual void Start()
     {
 
@@ -258,7 +260,9 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator Dead()
     {
-        Com.audio.PlayOneShot(AudioManager.Instance.clips.monsterDeath);
+        float temp = Com.audio.volume;
+        Com.audio.volume = Stat.deathVolume * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
+        Com.audio.PlayOneShot(AudioManager.Instance.monsterDeath);
         var amount = 0f;
 
         float time = 0f;
@@ -289,5 +293,10 @@ public class MonsterController : MonoBehaviour
             Initialize();
             playerOutOfRange = false;
         }
+    }
+
+    private float GetFloat(string _input)
+    {
+        return (float)System.Convert.ToDouble(_input);
     }
 }

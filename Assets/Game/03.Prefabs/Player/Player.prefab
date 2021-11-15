@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 4650393343393378142}
   - component: {fileID: 4650393343393378143}
   - component: {fileID: 4650393343393378131}
+  - component: {fileID: 2416211944509498855}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -393,6 +394,7 @@ MonoBehaviour:
     isLeft: 0
     moveSystem: 0
     isAlive: 0
+    counterCheck: 0
   keyOption:
     moveRight: 275
     moveLeft: 276
@@ -446,6 +448,14 @@ CapsuleCollider:
   m_Height: 0.75
   m_Direction: 1
   m_Center: {x: 0, y: -0.25, z: 0}
+--- !u!81 &2416211944509498855
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4650393343393378136}
+  m_Enabled: 1
 --- !u!1 &4650393343472536617
 GameObject:
   m_ObjectHideFlags: 0

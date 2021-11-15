@@ -72,6 +72,11 @@ public class RabbitController : MonsterController
         base.Move();
         moveTime += Time.deltaTime;
 
+        if (!Com.audio.isPlaying)
+        {
+            Com.audio.Play();
+        }
+
         if (moveTime > Stat2.moveDelay)
         {
 
