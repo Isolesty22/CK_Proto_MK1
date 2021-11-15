@@ -51,7 +51,7 @@ public class TutorialManager : MonoBehaviour
 
     IEnumerator StartScript()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         //UIManager.Instance.TalkInfinity(900);
 
@@ -167,10 +167,20 @@ public class TutorialManager : MonoBehaviour
     
     void ArriveEndZone()
     {
-        GameManager.instance.playerController.InputVal.movementInput = 0f;
-        GameManager.instance.playerController.State.moveSystem = true;
+        var end = Ending();
+        StartCoroutine(end);
+
+        EndZone.gameObject.SetActive(false);
+    }
+
+    IEnumerator Ending()
+    {
+        //GameManager.instance.playerController.InputVal.movementInput = 0f;
+        //GameManager.instance.playerController.State.moveSystem = true;
         GameManager.instance.playerController.MoveSystem(endPoint.position);
 
-        ultimateZone.gameObject.SetActive(false);
+        yield return new WaitForSeconds(3f);
+
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 }
