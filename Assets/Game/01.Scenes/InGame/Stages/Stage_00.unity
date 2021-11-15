@@ -1389,7 +1389,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 433311508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 112.64, y: 3, z: 0}
+  m_LocalPosition: {x: 116.14, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1805061804}
@@ -5506,7 +5506,6 @@ MonoBehaviour:
     audioSource_BGM: {fileID: 1159313371}
     audioSource_EVM: {fileID: 679365673}
     audioSource_SFX: {fileID: 355290617}
-    audioSource_arrowhitMon: {fileID: 0}
     audioSource_PAttack: {fileID: 700197899}
     audioSource_PParrying: {fileID: 1723252489}
     audioSource_PWalk: {fileID: 1028487620}
@@ -5514,20 +5513,22 @@ MonoBehaviour:
     audioSource_PJump: {fileID: 904237768}
     audioSource_PLand: {fileID: 1061208253}
     audioSource_PHit: {fileID: 2061990171}
-    audioSource_PSAttack: {fileID: 0}
-    audioSource_PPAttack: {fileID: 0}
-    audioSources_MonsterSFX: {fileID: 0}
-  audioClips:
-    stage1BGM: {fileID: 8300000, guid: 0914c91c80973c24bb8da57281f144c2, type: 3}
-    stage1AmbientSound: {fileID: 8300000, guid: e075bfb0c724f1645a1e15974f6a8d2d, type: 3}
-    stage2BGM: {fileID: 8300000, guid: 05c78a1b4e86fd84a8597daafe1d5a83, type: 3}
-    arrowHitObj: {fileID: 0}
-    arrowHitMon: {fileID: 0}
-    arrowHitPower: {fileID: 0}
-    arrowHitSpecial: {fileID: 0}
-    arrowHitArmadiloDefence: {fileID: 0}
-    specialAttackClips: []
-    monsterDeath: {fileID: 0}
+  audioVolumes:
+    bgm: 1
+    evm: 1
+    sfx: 1
+    pAttack: 1
+    pParrying: 1
+    pWalk: 1
+    pRun: 1
+    pJump: 1
+    pLand: 1
+    pHit: 1
+  specialAttackClips: []
+  monsterDeath: {fileID: 0}
+  powerAttack: {fileID: 0}
+  currentMasterVolume: 0
+  currentSFXVolume: 0
 --- !u!4 &1930551996
 Transform:
   m_ObjectHideFlags: 0
@@ -6430,10 +6431,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4650393343393378141, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
-      propertyPath: components.hit
-      value: 
-      objectReference: {fileID: 2101645185757742452, guid: 501fec99dce33794cbdafb4d31a81151, type: 3}
     - target: {fileID: 4650393343393378141, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: components.pixy
       value: 
