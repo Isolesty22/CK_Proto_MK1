@@ -47,40 +47,51 @@ public class GloomLightning : MonoBehaviour
     [ReadOnly]
     public Vector3 hitPosition;
 
-    [HideInInspector]
-    public Vector3 startPosition;
-    [HideInInspector]
-    public Vector3 endPosition;
+    public Vector3 moveStartPosition { get; private set; }
+    public Vector3 moveEndPosition { get; private set; }
+    public Vector3 moveSphereStartPos { get; private set; }
+    public Vector3 moveSphereEndPos { get; private set; }
 
-    //private void FixedUpdate()
-    //{
-    //    timer += Time.deltaTime;
-    //    if (timer > nextUpdateTime)
-    //    {
-
-    //        UpdateLightning();
-    //        nextUpdateTime = timer + updateDelay;
-    //    }
-    //}
     public void Init()
     {
         nextUpdateTime = 0f;
     }
     public void SetXPosition(Vector3 _startPos, Vector3 _endPos)
     {
-        startPosition = myTransform.position;
-        endPosition = myTransform.position;
+        moveStartPosition = myTransform.position;
+        moveEndPosition = myTransform.position;
 
-        startPosition = new Vector3(_startPos.x, startPosition.y, startPosition.z);
-        endPosition = new Vector3(_endPos.x, startPosition.y, endPosition.z);
-
+        moveStartPosition = new Vector3(_startPos.x, moveStartPosition.y, moveStartPosition.z);
+        moveEndPosition = new Vector3(_endPos.x, moveStartPosition.y, moveEndPosition.z);
     }
     public void Init_Position()
     {
-        myTransform.position = startPosition;
+        myTransform.position = moveStartPosition;
     }
 
 
+    /// <summary>
+    /// 번개를 쏘기 전 구슬이 움직이는 위치를 정합니다.
+    /// </summary>
+    public void SetMoveSpherePosition(Vector3 _start, Vector3 _end)
+    {
+        moveSphereStartPos = _start;
+        moveSphereEndPos = _end;
+    }
+
+    /// <summary>
+    /// 번개를 쏘지 않고 오직 구체만을 움직입니다.
+    /// </summary>
+    public IEnumerator CoMoveSphere()
+    {
+        float progress = 0f;
+        float fixedTimer = 0f;
+        while (true)
+        {
+
+            yield return YieldInstructionCache.WaitForFixedUpdate;
+        }
+    }
     public IEnumerator CoMove()
     {
         float progress = 0f;
@@ -101,7 +112,7 @@ public class GloomLightning : MonoBehaviour
             }
 
             //위치 이동
-            currentPos = Vector3.Lerp(startPosition, endPosition, progress);
+            currentPos = Vector3.Lerp(moveStartPosition, moveEndPosition, progress);
             myRB.MovePosition(currentPos);
 
 
@@ -121,7 +132,7 @@ public class GloomLightning : MonoBehaviour
 
             endRB.MovePosition(hitPosition);
 
-            Debug.DrawLine(startPosition, hitPosition, Color.green);
+            Debug.DrawLine(moveStartPosition, hitPosition, Color.green);
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
@@ -154,7 +165,7 @@ public class GloomLightning : MonoBehaviour
         nextUpdateTime = updateDelay;
     }
 
-    public void SetEnabled(bool _b)
+    public void SetLineEnabled(bool _b)
     {
         for (int i = 0; i < lines.Length; i++)
         {

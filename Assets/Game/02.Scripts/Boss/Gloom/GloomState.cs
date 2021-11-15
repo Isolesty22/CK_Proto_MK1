@@ -883,15 +883,16 @@ public class GloomState_Advance : GloomState
         gloom.StartCoroutine(CoMoveLightning());
     }
 
+
     private IEnumerator CoMoveLightning()
     {
         lightning.gameObject.SetActive(true);
-        lightning.SetEnabled(true);
+        lightning.SetLineEnabled(true);
         lightning.UpdateLightning();
 
         yield return gloom.StartCoroutine(lightning.CoMove());
 
-        lightning.SetEnabled(false);
+        lightning.SetLineEnabled(false);
         lightning.gameObject.SetActive(false);
 
         gloom.SetTrigger("Advance_End");
