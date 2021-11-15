@@ -871,8 +871,11 @@ public class GloomState_Advance : GloomState
             endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 2].positions.topCenter;
         }
 
-        lightning.SetXPosition(startPos, endPos);
-        lightning.Init_Position();
+
+
+        //lightning.SetMoveSpherePosition(gloom.SkillObj.obstructTransforms[2].position, startPos);
+
+        //lightning.SetXPosition(startPos, endPos);
 
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Advance_Start");
@@ -886,12 +889,14 @@ public class GloomState_Advance : GloomState
     private IEnumerator CoMoveLightning()
     {
         lightning.gameObject.SetActive(true);
-        lightning.SetEnabled(true);
-        lightning.UpdateLightning();
 
+        lightning.SetMoveSpherePosition(gloom.SkillObj.sphereTransform.position, startPos);
+        //lightning.Init_Position();
+        yield return gloom.StartCoroutine(lightning.CoBeginMove());
+
+        lightning.SetMovePosition(startPos, endPos);
+        // lightning.Init_Position();
         yield return gloom.StartCoroutine(lightning.CoMove());
-
-        lightning.SetEnabled(false);
         lightning.gameObject.SetActive(false);
 
         gloom.SetTrigger("Advance_End");
