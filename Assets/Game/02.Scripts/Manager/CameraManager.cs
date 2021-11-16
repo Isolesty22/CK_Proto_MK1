@@ -87,6 +87,14 @@ public class CameraManager : MonoBehaviour
     //}
 
     float timer = 0f;
+
+    public void SetShakeValue(float _amplitude,float _frequency)
+    {
+        shakeValue.amplitude = _amplitude;
+        shakeValue.frequency = _frequency;
+        vcamNoise.m_AmplitudeGain = shakeValue.amplitude;
+        vcamNoise.m_FrequencyGain = shakeValue.frequency;
+    }
     private IEnumerator ProcessCameraShake()
     {
         vcamNoise.m_AmplitudeGain = shakeValue.amplitude;
