@@ -178,6 +178,8 @@ public class GloomState_Leap : GloomState
     private IEnumerator DelayLeapEndAnimation()
     {
         yield return downAnimTime;
+
+
         gloom.SetTrigger("Leap_End");
     }
     /// <summary>
@@ -228,7 +230,8 @@ public class GloomState_Leap : GloomState
         //리프 임팩트 실행
         // gloom.SkillObj.leapStartImpact.SetActive(true);
         gloom.SkillObj.leapImpact.StartImpact();
-
+        GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
+        GameManager.instance.cameraManager.ShakeCamera();
         //방향 바꿈 판정
         gloom.ChangeDirection(endDirection);
         canExit = true;
@@ -301,6 +304,7 @@ public class GloomState_Resonance : GloomState
         canExit = false;
         gloom.SetTrigger("Resonance_Start");
         gloom.SetAnimEvent(AnimEvent);
+        UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
     }
 
     public void AnimEvent()
@@ -879,6 +883,7 @@ public class GloomState_Advance : GloomState
 
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Advance_Start");
+        UIManager.Instance.Talk("반대쪽으로 도망치자!");
     }
 
     public void AnimEvent()
@@ -942,6 +947,7 @@ public class GloomState_Powerless : GloomState
         gloom.SetTrigger("Powerless_Start");
         //gloom.SetAnimEvent(AnimEvent);
         gloom.StartCoroutine(ProcessPowerless());
+        UIManager.Instance.Talk("어둠의 힘이 더 날뛰는 것 같아...조심해!");
     }
 
     public void AnimEvent()

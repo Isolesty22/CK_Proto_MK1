@@ -168,7 +168,7 @@ public class BearController : BossController
         Init_Collider();
 
         onHitAction = OnHit;
-        myTransform.position = new Vector3(bearMapInfo.mapBlocks[4].positions.groundCenter.x, myTransform.position.y, myTransform.position.z);
+        myTransform.position = new Vector3(bearMapInfo.mapBlocks[4].positions.groundCenter.x, 0.38f, myTransform.position.z);
     }
     private void Init_Animator()
     {

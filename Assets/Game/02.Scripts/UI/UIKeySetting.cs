@@ -370,7 +370,9 @@ public class UIKeySetting : UIBase
 
         yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.settings));
         Debug.Log("Save 완료");
+
         isSaving = false;
+        UIManager.Instance.CloseTop();
     }
 
 }
