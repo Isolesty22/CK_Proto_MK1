@@ -20,7 +20,7 @@ public class BossController : MonoBehaviour, IDamageable
     public BossStateMachine stateMachine;
 
     [Header("현재 체력")]
-    [Range(0, 600)]
+    [Range(0, 1000)]
     public float hp = 450f;
 
 

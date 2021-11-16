@@ -172,8 +172,8 @@ public class GloomLightning : MonoBehaviour
         //차례차례 번개 On
         endRB.gameObject.SetActive(true);
         SetLineEnabled(true);
-        GameManager.instance.cameraManager.SetShakeValue(1.5f, 1.5f);
-        Debug.Log(moveTime);
+
+        GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
 
         //-----아래로 슝
         while (progress < 1f)
@@ -238,6 +238,8 @@ public class GloomLightning : MonoBehaviour
             myRB.MovePosition(currentPos);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
+        yield return null;
         GameManager.instance.cameraManager.SetShakeValue(0f, 0f);
         //이펙트 등등 Off
         SetLineEnabled(false);
