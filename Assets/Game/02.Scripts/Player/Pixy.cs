@@ -33,7 +33,6 @@ public class Pixy : MonoBehaviour
     public float ultTime = 10f;
 
 
-
     private void Awake()
     {
         
