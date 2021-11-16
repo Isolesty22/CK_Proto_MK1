@@ -123,7 +123,12 @@ public class GloomLightning : MonoBehaviour
     public IEnumerator CoBeginMove()
     {
 
+
         ClearTimer();
+        
+        //끝부분 안보이게
+        endRB.gameObject.SetActive(false);
+
         Vector3 currentPos = moveSphereStartPos;
 
         topPosY = moveSphereStartPos.y + 15f;
@@ -158,6 +163,9 @@ public class GloomLightning : MonoBehaviour
 
         yield return YieldInstructionCache.WaitForFixedUpdate;
 
+        //이펙트 등등 On
+        lineParent.gameObject.SetActive(true);
+        endRB.gameObject.SetActive(true);
         SetLineEnabled(true);
 
         //-----아래로 슝
@@ -223,9 +231,11 @@ public class GloomLightning : MonoBehaviour
             myRB.MovePosition(currentPos);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //번개 안보이게
 
+        //이펙트 등등 Off
         SetLineEnabled(false);
+        lineParent.gameObject.SetActive(false);
+
 
         //시간 초기화
         ClearTimer();

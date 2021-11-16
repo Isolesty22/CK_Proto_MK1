@@ -743,6 +743,7 @@ public class PlayerController : MonoBehaviour
     public void MoveSystem(Vector3 targetPos)
     {
         //input 안되게 해야 함
+        InputVal.movementInput = 0f;
         State.moveSystem = true;
 
         //Debug.Log("work");
