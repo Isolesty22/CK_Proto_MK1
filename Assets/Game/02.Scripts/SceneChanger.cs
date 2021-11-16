@@ -79,6 +79,7 @@ public class SceneChanger : MonoBehaviour
     /// </summary>
     public IEnumerator LoadThisSceneToName(string _sceneName)
     {
+        AudioManager.Instance.SettingVolume(DataManager.Instance.currentData_settings.volume_master, DataManager.Instance.currentData_settings.volume_bgm, DataManager.Instance.currentData_settings.volume_sfx);
         AudioManager.Instance.Audios.audioSource_BGM.Stop();
         AudioManager.Instance.Audios.audioSource_EVM.Stop();
         isLoading = true;
