@@ -419,7 +419,7 @@ public class BearState_Strike : BearState
             default:
                 break;
         }
-        UIManager.Instance.Talk("바닥을 잘 봐, 이피아!");
+        UIManager.Instance.Talk("바닥을 조심해, 이피아!");
         bearController.SetTrigger("Strike_Start");
     }
     public override void OnExit()
@@ -837,7 +837,7 @@ public class BearState_Die : BearState
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
         bearController.SetDamage(0f);
-        UIManager.Instance.Talk("쓰...쓰러뜨렸나?");
+        UIManager.Instance.Talk("휴...더 이상 우리를 공격하진 못할 것 같아.");
     }
 
     public override void OnExit()
