@@ -31,9 +31,9 @@ public class Data_Settings : GameData
     /// </summary>
     public Data_Settings()
     {
-        volume_master = "0.7";
-        volume_bgm = "0.5";
-        volume_sfx = "0.5";
+        volume_master = "1";
+        volume_bgm = "1";
+        volume_sfx = "1";
 
         isMute_master = false;
         isMute_bgm = false;

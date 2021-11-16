@@ -358,5 +358,26 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PRun.volume = Volumes.pRun * masterVolume * sfxVolume;
         Audios.audioSource_PWalk.volume = Volumes.pWalk * masterVolume * sfxVolume;
     }
+
+    public void SettingVolume(string masterVolume, string bgmVolume, string sfxVolume)
+    {
+        currentMasterVolume = GetFloat(masterVolume);
+        currentSFXVolume = GetFloat(sfxVolume);
+
+        Audios.audioSource_BGM.volume = Volumes.bgm * GetFloat(masterVolume) * GetFloat(bgmVolume);
+        Audios.audioSource_EVM.volume = Volumes.evm * GetFloat(masterVolume) * GetFloat(bgmVolume);
+        Audios.audioSource_SFX.volume = Volumes.sfx * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PAttack.volume = Volumes.pAttack * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PHit.volume = Volumes.pHit * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PJump.volume = Volumes.pJump * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PLand.volume = Volumes.pLand * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PParrying.volume = Volumes.pParrying * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PRun.volume = Volumes.pRun * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_PWalk.volume = Volumes.pWalk * GetFloat(masterVolume) * GetFloat(sfxVolume);
+    }
+    private float GetFloat(string _input)
+    {
+        return (float)System.Convert.ToDouble(_input);
+    }
     #endregion
 }

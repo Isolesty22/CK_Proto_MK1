@@ -53,6 +53,8 @@ public class UIVolumeSetting : UIBase
             //데이터매니저에서 데이터를 가져옴
             currentData_settings.CopyData(dataManager.currentData_settings);
         }
+
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
     }
 
 
