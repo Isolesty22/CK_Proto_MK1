@@ -281,9 +281,6 @@ public class BearState_Rush : BearState
         canExit = true;
     }
 
-
-
-
     private IEnumerator ProcessChangePhase2()
     {
         yield break;

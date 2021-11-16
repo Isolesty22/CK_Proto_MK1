@@ -87,7 +87,7 @@ public class BearMapInfo : MonoBehaviour
 
     public void Init_PhasePositions()
     {
-        phase2Position = new Vector3(mapBlocks[0].positions.groundCenter.x, bearTransform.position.y, bearTransform.position.z);
+        phase2Position = new Vector3(mapBlocks[0].positions.groundCenter.x, 0.38f, bearTransform.position.z);
         phase3Position = bearTransform.position;
 
     }
