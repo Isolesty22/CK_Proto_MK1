@@ -19,6 +19,7 @@ public class GloomLightning : MonoBehaviour
     [Header("Transform")]
     public Transform myTransform;
     public Transform sphereTransform;
+    public Transform sphereEffectTransform;
     public Transform lineParent;
 
     [Header("Line Value")]
@@ -70,6 +71,7 @@ public class GloomLightning : MonoBehaviour
 
     public void Init()
     {
+        sphereEffectTransform.gameObject.SetActive(false);
         nextUpdateTime = 0f;
     }
 
@@ -167,6 +169,7 @@ public class GloomLightning : MonoBehaviour
         lineParent.gameObject.SetActive(true);
         endRB.gameObject.SetActive(true);
         SetLineEnabled(true);
+        sphereEffectTransform.gameObject.SetActive(true);
 
         //-----아래로 슝
         while (progress < 1f)
@@ -234,9 +237,9 @@ public class GloomLightning : MonoBehaviour
 
         //이펙트 등등 Off
         SetLineEnabled(false);
+        endRB.gameObject.SetActive(false);
         lineParent.gameObject.SetActive(false);
-
-
+        sphereEffectTransform.gameObject.SetActive(false);
         //시간 초기화
         ClearTimer();
 
