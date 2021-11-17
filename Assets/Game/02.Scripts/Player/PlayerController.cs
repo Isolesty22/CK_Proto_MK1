@@ -418,7 +418,7 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (!State.isGrounded || State.isHit)
+        if (!State.isGrounded || State.isHit || State.isUpBlocked)
         {
             return;
         }

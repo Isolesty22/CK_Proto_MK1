@@ -276,6 +276,7 @@ GameObject:
   - component: {fileID: 4650393343393378143}
   - component: {fileID: 4650393343393378131}
   - component: {fileID: 2416211944509498855}
+  - component: {fileID: 2019211029}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -323,12 +324,12 @@ MonoBehaviour:
     weapon: {fileID: 430571208}
     pixy: {fileID: 0}
     pixyTargetPos: {fileID: 1081817146}
-    pixyPos: {x: -0.5, y: 0.5, z: -0.7}
-    pixyCrouchPos: {x: -0.5, y: 0.3, z: -0.7}
+    pixyPos: {x: 1, y: 0.5, z: -0.7}
+    pixyCrouchPos: {x: 1, y: 0.3, z: -0.7}
     pixyFirePos: {fileID: 980963267}
     pixyUltPos: {fileID: 1613359844}
     parry: {fileID: 6354597705838841498, guid: 1570dd77822aa294483596edf64ae938, type: 3}
-    hit: {fileID: 2101645185757742452, guid: 501fec99dce33794cbdafb4d31a81151, type: 3}
+    hit: {fileID: 0}
     animator: {fileID: 3205223557975668515}
     mat1: {fileID: 2100000, guid: 62092965db29eb64594c7441cfa70cd9, type: 2}
     mat2: {fileID: 2100000, guid: 20806c8a31f89774e9d26e90d9b2672a, type: 2}
@@ -338,7 +339,7 @@ MonoBehaviour:
   playerStatus:
     name: Player
     hp: 0
-    maxHp: 3
+    maxHp: 5
     movementSpeed: 4
     crouchMoveSpeed: 2
     jumpForce: 15
@@ -456,6 +457,36 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4650393343393378136}
   m_Enabled: 1
+--- !u!114 &2019211029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4650393343393378136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 0}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4650393343393378136}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4650393343472536617
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,13 +668,13 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 20806c8a31f89774e9d26e90d9b2672a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eabff07bfea4ff4f818d3fb680546ba, type: 3}
---- !u!1 &6026607594486774014 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6eabff07bfea4ff4f818d3fb680546ba, type: 3}
-  m_PrefabInstance: {fileID: 6873520510521771439}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6406686037770134084 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6eabff07bfea4ff4f818d3fb680546ba, type: 3}
+  m_PrefabInstance: {fileID: 6873520510521771439}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6026607594486774014 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6eabff07bfea4ff4f818d3fb680546ba, type: 3}
   m_PrefabInstance: {fileID: 6873520510521771439}
   m_PrefabAsset: {fileID: 0}
