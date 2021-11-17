@@ -1,20 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System;
 using eState = StageSelector.eState;
 
 public class FieldMapManager : MonoBehaviour
 {
-
+    public ScrollRect scrollRect;
     public FieldDoorSelector selector;
     public FieldDoor[] fieldDoors;
+    public FieldDoor selectedDoor { get; private set; }
 
     private Dictionary<int, FieldDoor> fieldDoorDict = new Dictionary<int, FieldDoor>();
 
     private Action enterStageAction = null;
-
-    public FieldDoor selectedDoor { get; private set; }
 
     private DataManager dataManager;
 
@@ -25,6 +25,10 @@ public class FieldMapManager : MonoBehaviour
     private int minStageNumber;
 
     private UIGameMessage gameMessage = null;
+
+
+    public Text text1;
+    public Text text2;
     private IEnumerator Start()
     {
 
@@ -40,7 +44,15 @@ public class FieldMapManager : MonoBehaviour
         //CheckOpenDoor();
 
     }
-
+    private void Update()
+    {
+        text1.text = "앵커포지션: " + scrollRect.content.anchoredPosition;
+        text2.text = "뷰포트포지션: " + scrollRect.viewport.localPosition;
+        if (canDetectKey)
+        {
+            DetectKey();
+        }
+    }
     public void OnSceneLoadEnded()
     {
         SceneChanger.Instance.OnScenenLoadEnded -= CheckOpenDoor;
@@ -51,20 +63,14 @@ public class FieldMapManager : MonoBehaviour
 
     public void Init()
     {
+        keyOption = new KeyOption();
         if (DataManager.Instance != null)
         {
             dataManager = DataManager.Instance;
             keyOption = dataManager.currentData_settings.keySetting;
-
-        }
-        else
-        {
-            Debug.LogWarning("데이터매니저가 존재하지 않아 플레이 데이터를 불러오지 못했습니다.");
-            keyOption = new KeyOption();
         }
 
         minStageNumber = fieldDoors[0].stageNumber;
-
         //딕셔너리에 추가
         Init_Dict();
 
@@ -142,6 +148,7 @@ public class FieldMapManager : MonoBehaviour
     /// </summary>
     public void MoveSelector(eDiretion _dir)
     {
+        bool moveSucceed = false;
         int moveStageNumber = -1;
 
         if (_dir == eDiretion.Right)
@@ -164,6 +171,7 @@ public class FieldMapManager : MonoBehaviour
             {
                 selector.MovePosition(tempDoor.selectTransform.position);
                 SelectDoor(moveStageNumber);
+                moveSucceed = true;
             }
         }
         else
@@ -187,7 +195,24 @@ public class FieldMapManager : MonoBehaviour
             {
                 selector.MovePosition(tempDoor.selectTransform.position);
                 SelectDoor(moveStageNumber);
+                moveSucceed = true;
             }
+        }
+
+        if (moveSucceed)
+        {
+            Canvas.ForceUpdateCanvases();
+
+            float xPos = 0 - (scrollRect.viewport.localPosition.x + selectedDoor.rectTransform.position.x);
+           //float xPos = 0 - (selectedDoor.rectTransform.localPosition.x);
+
+            if (xPos > 0f)
+            {
+                xPos = 0;
+            }
+
+            scrollRect.content.anchoredPosition = new Vector2(
+                xPos, 0f);
         }
     }
     public void MoveSelector(int _stageNumber)
@@ -203,16 +228,9 @@ public class FieldMapManager : MonoBehaviour
         {
             Debug.LogWarning("등록되지 않은 스테이지 넘버입니다 : " + _stageNumber);
         }
-    }
 
-    private void Update()
-    {
-        if (canDetectKey)
-        {
-            DetectKey();
-        }
-    }
 
+    }
 
     private void DetectKey()
     {
