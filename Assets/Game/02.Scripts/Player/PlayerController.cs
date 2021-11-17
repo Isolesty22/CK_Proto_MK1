@@ -320,6 +320,7 @@ public class PlayerController : MonoBehaviour
             {
                 State.isJumping = false;
                 Val.velocityY = 0f;
+                //Val.velocityY = -5f;
             }
         }
         else
@@ -616,7 +617,8 @@ public class PlayerController : MonoBehaviour
         Val.velocityY = Stat.parryingForce;
         Com.animator.SetTrigger("Parrying");
 
-        Stat.pixyEnerge = Mathf.Clamp(Stat.pixyEnerge += Stat.parryingEnerge, 0, 30);
+        if (Com.pixy.isUlt)
+            Stat.pixyEnerge = Mathf.Clamp(Stat.pixyEnerge += Stat.parryingEnerge, 0, 30);
 
         State.isParrying = true;
         Val.upTrigger = true;
