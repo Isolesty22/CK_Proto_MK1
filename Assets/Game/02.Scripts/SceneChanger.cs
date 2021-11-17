@@ -149,7 +149,7 @@ public class SceneChanger : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        Debug.Log("씬 로딩 완료.");
+        Debug.Log("씬 로딩 완료!");
 
         asyncOperation.allowSceneActivation = true;
 
@@ -174,6 +174,8 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
         isSceneLoading = false;
+        Debug.Log("LoadSceneEnd 함수 호출");
+        OnScenenLoadEnded?.Invoke();
         if (_scene.name != moveSceneName)
         {
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");
@@ -181,8 +183,7 @@ public class SceneChanger : MonoBehaviour
             return;
         }
 
-        Debug.Log("LoadSceneEnd 함수 호출");
-        OnScenenLoadEnded?.Invoke();
+
         uiLoading.Close();
         Time.timeScale = 1f;
         #region BGMSet

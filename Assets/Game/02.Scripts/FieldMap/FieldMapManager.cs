@@ -26,15 +26,30 @@ public class FieldMapManager : MonoBehaviour
 
     private int minStageNumber;
 
-    private IEnumerator Start()
+    private void Start()
     {
         Init();
 
         //로딩이 끝날 때 까지 대기
-        yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        SceneChanger.Instance.OnScenenLoadEnded += OnSceneLoadEnded;
+        //yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
 
+        //CheckOpenDoor();
+
+    }
+
+    public void OnSceneLoadEnded()
+    {
+        SceneChanger.Instance.OnScenenLoadEnded -= CheckOpenDoor;
         CheckOpenDoor();
-
+    }
+    
+    /// <summary>
+    /// [테스트용] 모든 스테이지를 해금합니다.
+    /// </summary>
+    public void Button_UnlockAllStage()
+    {
+       
     }
 
     public void Init()
@@ -42,27 +57,31 @@ public class FieldMapManager : MonoBehaviour
         if (DataManager.Instance != null)
         {
             dataManager = DataManager.Instance;
-        }
-
-        minStageNumber = fieldDoors[0].stageNumber;
-        //딕셔너리에 추가
-        for (int i = 0; i < fieldDoors.Length; i++)
-        {
-            fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
-        }
-
-        for (int i = 0; i < fieldDoors.Length; i++)
-        {
-            if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+            keyOption = dataManager.currentData_settings.keySetting;
+            minStageNumber = fieldDoors[0].stageNumber;
+            //딕셔너리에 추가
+            for (int i = 0; i < fieldDoors.Length; i++)
             {
-                fieldDoors[i].mode = FieldDoor.eMode.Open;
+                fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
             }
-            fieldDoors[i].Init();
+
+            for (int i = 0; i < fieldDoors.Length; i++)
+            {
+                if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+                {
+                    fieldDoors[i].mode = FieldDoor.eMode.Open;
+                }
+                fieldDoors[i].Init();
+            }
+
+            MoveSelector(dataManager.currentData_player.currentStageNumber);
+        }
+        else
+        {
+            Debug.LogWarning("데이터매니저가 존재하지 않아 플레이 데이터를 불러오지 못했습니다.");
+            keyOption = new KeyOption();
         }
 
-
-        keyOption = dataManager.currentData_settings.keySetting;
-        MoveSelector(dataManager.currentData_player.currentStageNumber);
     }
 
     /// <summary>

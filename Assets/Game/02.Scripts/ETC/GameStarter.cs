@@ -39,7 +39,7 @@ public class GameStarter : MonoBehaviour
         yield return waitSmallSec;
 
         //오디오 파일 로드
-        SetText_Load("이피아가 이불을 개는 중...");
+        SetText_Load("이피아가 머리를 감는 중...");
         yield return StartCoroutine(AudioManager.Instance.Init());
         yield return waitSmallSec;
 
