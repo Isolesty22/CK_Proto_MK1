@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
+
             GoNextStage();
         }
         if (Input.GetKeyDown(KeyCode.P))
@@ -111,28 +112,63 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartTutorial()
     {
+        DataManager.Instance.currentClearStageNumber = 0;
         SceneChanger.Instance.LoadThisScene("Stage_00");
     }
+    public void EndTutorial()
+    {
+        //스테이지 1 기준 데이터 생성
+        Data_Player tempData = new Data_Player();
+        tempData.currentStageName = SceneNames.stage_01;
+        tempData.currentStageNumber = 1;
+        tempData.finalStageName = SceneNames.stage_00;
+        tempData.finalStageNumber= 0;
+        DataManager.Instance.currentClearStageNumber = 0;
+        DataManager.Instance.currentData_player.CopyData(tempData);
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+    }
 
+    /// <summary>
+    /// 스테이지를 클리어하고싶을 때 호출합니다.
+    /// </summary>
+    public void StageClear()
+    {
+        if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_00)
+        {
+            EndTutorial();
+            return;
+        }
+
+        //현재 클리어한 스테이지 넘버를 현재 스테이지 넘버로 설정
+        DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
+
+        ////저장된 finalStageNumber보다 현재 클리어한 스테이지 넘버가 클 때...
+        //if (DataManager.Instance.currentClearStageNumber > DataManager.Instance.currentData_player.finalStageNumber)
+        //{
+        //    //데이터 생성
+        //    Data_Player data = new Data_Player();
+
+        //    //혹시 몰라서 current부터 교체
+        //    data.currentStageNumber = DataManager.Instance.currentClearStageNumber;
+        //    data.currentStageName = SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentClearStageNumber);
+
+        //    //현재 클리어한 스테이지로 finalStage들을 교체
+        //    data.finalStageNumber = data.currentStageNumber;
+        //    data.finalStageName = data.currentStageName;
+
+        //    //데이터 설정
+        //    DataManager.Instance.currentData_player.CopyData(data);
+        //}
+
+        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+    }
     /// <summary>
     /// [임시] 다음 스테이지로 넘어갑니다.
     /// </summary>
     public void GoNextStage()
     {
-        //Data_Player data = new Data_Player();
-        //data.currentStageNumber = DataManager.Instance.currentData_player.currentStageNumber + 1;
-        //data.currentStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
-        //data.finalStageNumber = data.currentStageNumber + 1;
-        //data.finalStageName = SceneNames.GetSceneNameUseStageNumber(data.currentStageNumber + 1);
-
-        // DataManager.Instance.currentData_player.CopyData(data);
+        StageClear();
         //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
-
-        DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
-        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
-        //SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-
     }
 
     /// <summary>
@@ -143,19 +179,5 @@ public class GameManager : MonoBehaviour
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
-    /// <summary>
-    /// [임시] 다음 스테이지를 열고 필드맵으로 돌아갑니다.
-    /// </summary>
-    public void StageClear()
-    {
-        //DataManager.Instance.currentData_player.finalStageNumber += 1;
-        //DataManager.Instance.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.finalStageNumber);
-
-        DataManager.Instance.currentClearStageNumber = DataManager.Instance.currentData_player.currentStageNumber;
-        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
-        // SceneChanger.Instance.LoadThisScene(SceneNames.GetSceneNameUseStageNumber(DataManager.Instance.currentData_player.currentStageNumber + 1));
-        //DataManager.Instance.SaveCurrentData(DataManager.DataName.player);
-
-    }
     #endregion
 }

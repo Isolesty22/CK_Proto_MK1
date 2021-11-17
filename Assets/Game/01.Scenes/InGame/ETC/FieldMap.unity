@@ -990,85 +990,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &777367947
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 777367948}
-  - component: {fileID: 777367950}
-  - component: {fileID: 777367949}
-  m_Layer: 5
-  m_Name: '[TEMP] text1'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &777367948
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777367947}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1531371308}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -116, y: -409}
-  m_SizeDelta: {x: 1186.7938, y: 99.1193}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &777367949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777367947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 4747f9f3851f944468989161ae74122a, type: 3}
-    m_FontSize: 52
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 70
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: New Text
---- !u!222 &777367950
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 777367947}
-  m_CullTransparentMesh: 1
 --- !u!1 &780004088
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,7 +2010,7 @@ MonoBehaviour:
   m_Content: {fileID: 1519810156}
   m_Horizontal: 1
   m_Vertical: 0
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
@@ -2220,6 +2141,7 @@ MonoBehaviour:
   stageNumber: 2
   fieldMapManager: {fileID: 1684286795}
   rectTransform: {fileID: 1466801947}
+  scrollPosition: {x: 0, y: 0}
   selectTransform: {fileID: 501767407}
   doorImage_Default: {fileID: 0}
   doorImage_Open: {fileID: 0}
@@ -2381,6 +2303,7 @@ MonoBehaviour:
   stageNumber: 4
   fieldMapManager: {fileID: 1684286795}
   rectTransform: {fileID: 244062987}
+  scrollPosition: {x: 0, y: 0}
   selectTransform: {fileID: 583506508}
   doorImage_Default: {fileID: 0}
   doorImage_Open: {fileID: 0}
@@ -2678,8 +2601,6 @@ RectTransform:
   - {fileID: 1165355214}
   - {fileID: 1206907526}
   - {fileID: 780004089}
-  - {fileID: 777367948}
-  - {fileID: 1558922062}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2688,85 +2609,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1558922061
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1558922062}
-  - component: {fileID: 1558922064}
-  - component: {fileID: 1558922063}
-  m_Layer: 5
-  m_Name: '[TEMP] text2'
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1558922062
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1558922061}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1531371308}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -116, y: -502}
-  m_SizeDelta: {x: 1186.7938, y: 99.1193}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1558922063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1558922061}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 4747f9f3851f944468989161ae74122a, type: 3}
-    m_FontSize: 52
-    m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 10
-    m_MaxSize: 70
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: New Text
---- !u!222 &1558922064
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1558922061}
-  m_CullTransparentMesh: 1
 --- !u!1 &1684286794
 GameObject:
   m_ObjectHideFlags: 0
@@ -2803,8 +2645,6 @@ MonoBehaviour:
   - {fileID: 1270171701}
   - {fileID: 1882976920}
   - {fileID: 1299002431}
-  text1: {fileID: 777367949}
-  text2: {fileID: 1558922063}
 --- !u!4 &1684286796
 Transform:
   m_ObjectHideFlags: 0
@@ -3037,6 +2877,7 @@ MonoBehaviour:
   stageNumber: 3
   fieldMapManager: {fileID: 1684286795}
   rectTransform: {fileID: 1951404639}
+  scrollPosition: {x: 0, y: 0}
   selectTransform: {fileID: 1991887062}
   doorImage_Default: {fileID: 0}
   doorImage_Open: {fileID: 0}
@@ -3709,6 +3550,7 @@ MonoBehaviour:
   stageNumber: 1
   fieldMapManager: {fileID: 1684286795}
   rectTransform: {fileID: 1283814292}
+  scrollPosition: {x: 0, y: 0}
   selectTransform: {fileID: 582541517}
   doorImage_Default: {fileID: 0}
   doorImage_Open: {fileID: 0}

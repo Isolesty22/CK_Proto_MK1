@@ -97,11 +97,7 @@ public class SceneChanger : MonoBehaviour
 
         //yield return new WaitUntil(() =>uiLoading.isOpen);
 
-        if (IsStageScene(moveSceneName))
-        {
-            yield return StartCoroutine(DataManager.Instance.LoadData_Talk(moveSceneName));
 
-        }
         //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
@@ -115,6 +111,15 @@ public class SceneChanger : MonoBehaviour
         Vector3 circleRot = new Vector3(0f, 5f, 0f);
 
         Resources.UnloadUnusedAssets();
+
+        if (IsStageScene(moveSceneName))
+        {
+            yield return StartCoroutine(DataManager.Instance.LoadData_Talk(moveSceneName));
+
+        }
+
+        //저장
+        yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
 
         while (!asyncOperation.isDone) //로딩이 완료되기 전 까지만
         {

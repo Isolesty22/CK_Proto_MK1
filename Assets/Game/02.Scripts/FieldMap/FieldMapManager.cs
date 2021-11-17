@@ -26,40 +26,28 @@ public class FieldMapManager : MonoBehaviour
 
     private UIGameMessage gameMessage = null;
 
+    private void Awake()
+    {
 
-    public Text text1;
-    public Text text2;
+    }
     private IEnumerator Start()
     {
 
         Init();
 
         //로딩이 끝날 때 까지 대기
-        SceneChanger.Instance.OnScenenLoadEnded += OnSceneLoadEnded;
-        //yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
-        yield return null;
-
-        gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
-
+        yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        CheckOpenDoor();
         //CheckOpenDoor();
 
     }
     private void Update()
     {
-        text1.text = "앵커포지션: " + scrollRect.content.anchoredPosition;
-        text2.text = "뷰포트포지션: " + scrollRect.viewport.localPosition;
         if (canDetectKey)
         {
             DetectKey();
         }
     }
-    public void OnSceneLoadEnded()
-    {
-        SceneChanger.Instance.OnScenenLoadEnded -= CheckOpenDoor;
-        CheckOpenDoor();
-    }
-
-
 
     public void Init()
     {
@@ -74,13 +62,20 @@ public class FieldMapManager : MonoBehaviour
         //딕셔너리에 추가
         Init_Dict();
 
+        //스크롤에 필요한 값 체크
         for (int i = 0; i < fieldDoors.Length; i++)
         {
-            if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+            fieldDoors[i].scrollPosition = GetDoorScrollPosition(fieldDoors[i]);
+        }
+
+        //열렸나 안열렸냐를 체크
+        for (int i = 1; i <= fieldDoors.Length; i++)
+        {
+            if (fieldDoorDict[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
             {
-                fieldDoors[i].mode = FieldDoor.eMode.Open;
+                fieldDoorDict[i].mode = FieldDoor.eMode.Open;
             }
-            fieldDoors[i].Init();
+            fieldDoorDict[i].Init();
         }
 
         MoveSelector(dataManager.currentData_player.currentStageNumber);
@@ -95,21 +90,44 @@ public class FieldMapManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// 문을 열어야하는지 검사합니다.
+    /// 문을 열어야하는지 검사하고, 문을 엽니다.
     /// </summary>
     public void CheckOpenDoor()
     {
 
         Debug.Log("Check Open Door");
-        //현재 클리어한 스테이지 번호가 저장된 스테이지 번호보다 높을 떄
+        //현재 클리어한 스테이지 번호가 제일 큰 클리어 넘버보다 높을 떄
         if (dataManager.currentClearStageNumber > dataManager.currentData_player.finalStageNumber)
         {
-            //문 열기 연출
-            OpenDoor(dataManager.currentClearStageNumber + 1);
+            //제일 큰 클리어 넘버를 현재 클리어한 넘버로 변경
+            dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
+            dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
+
+            //저장
+            StartCoroutine(dataManager.SaveCurrentData(DataName.player));
+
+            //마지막 스테이지면 저장만하고 아무것도 안함...
+            if (dataManager.currentClearStageNumber == 4)
+            {  
+                //4스테이지로 스크롤
+                UpdateScrollPosition(4);
+                Scroll();
+            }
+            else
+            {
+                //다음 스테이지로 스크롤
+                UpdateScrollPosition(dataManager.currentClearStageNumber + 1);
+                Scroll();
+
+                //문 열기 연출
+                OpenDoor(dataManager.currentClearStageNumber + 1);
+            }
         }
         else
         {
-            //아무것도 안함
+            //현재 스테이지로 스크롤
+            UpdateScrollPosition(dataManager.currentClearStageNumber);
+            Scroll();
         }
 
     }
@@ -122,16 +140,10 @@ public class FieldMapManager : MonoBehaviour
             Debug.Log("최대 스테이지입니다. 아마도...");
             return;
         }
-        if (fieldDoors[_stageNumber].mode == FieldDoor.eMode.Lock)
+        if (fieldDoorDict[_stageNumber].mode == FieldDoor.eMode.Lock)
         {
             fieldDoorDict[_stageNumber].Open();
         }
-
-        //스테이지 클리어 여부를 저장
-        dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
-        dataManager.currentData_player.finalStageName = SceneNames.GetSceneNameUseStageNumber(dataManager.currentClearStageNumber);
-
-        dataManager.SaveCurrentData(DataName.player);
     }
 
     /// <summary>
@@ -151,6 +163,11 @@ public class FieldMapManager : MonoBehaviour
         bool moveSucceed = false;
         int moveStageNumber = -1;
 
+        if (gameMessage == null)
+        {
+            gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
+        }
+
         if (_dir == eDiretion.Right)
         {
             moveStageNumber = selectedDoor.stageNumber + 1;
@@ -165,7 +182,7 @@ public class FieldMapManager : MonoBehaviour
             //이동하려는 문이 잠겨있는 상태일때 
             if (tempDoor.mode == FieldDoor.eMode.Lock)
             {
-                gameMessage.Open("이동할 수 없습니다.\n이전 스테이지를 클리어해주세요.");
+                gameMessage.Open("아직은 이동할 수 없습니다.");
             }
             else
             {
@@ -201,19 +218,71 @@ public class FieldMapManager : MonoBehaviour
 
         if (moveSucceed)
         {
-            Canvas.ForceUpdateCanvases();
-
-            float xPos = 0 - (scrollRect.viewport.localPosition.x + selectedDoor.rectTransform.position.x);
-           //float xPos = 0 - (selectedDoor.rectTransform.localPosition.x);
-
-            if (xPos > 0f)
-            {
-                xPos = 0;
-            }
-
-            scrollRect.content.anchoredPosition = new Vector2(
-                xPos, 0f);
+            UpdateScrollPosition(selectedDoor.stageNumber);
+            Scroll();
         }
+    }
+
+
+    private float scrollTimer = 0f;
+    private float scrollProgress = 0f;
+    private Vector2 endScrollPosition;
+    private Vector2 startScrollPosition;
+    private bool isScroll = false;
+    private void UpdateScrollPosition(int _stageNumber)
+    {
+        if (_stageNumber == 0)
+        {
+            startScrollPosition = scrollRect.content.anchoredPosition;
+            endScrollPosition = fieldDoorDict[1].scrollPosition;
+        }
+        else
+        {
+            startScrollPosition = scrollRect.content.anchoredPosition;
+            endScrollPosition = fieldDoorDict[_stageNumber].scrollPosition;
+
+        }
+
+    }
+    private Vector2 GetDoorScrollPosition(FieldDoor _door)
+    {
+
+        float xPos = 0 - (scrollRect.viewport.localPosition.x + _door.rectTransform.position.x);
+
+        if (xPos > 0f)
+        {
+            xPos = 0f;
+        }
+
+        return new Vector2(xPos, 0f);
+    }
+    private void ClearScrollTimer() { scrollProgress = 0f; scrollTimer = 0f; }
+    private void Scroll()
+    {
+        if (isScroll)
+        {
+            ClearScrollTimer();
+        }
+        else
+        {
+            StartCoroutine(CoScroll());
+        }
+    }
+    private IEnumerator CoScroll()
+    {
+        isScroll = true;
+        ClearScrollTimer();
+        while (scrollProgress < 1f)
+        {
+            // Canvas.ForceUpdateCanvases();
+            scrollTimer += Time.deltaTime;
+            scrollProgress = scrollTimer / 0.5f;
+
+            scrollRect.content.anchoredPosition = Vector2.Lerp(startScrollPosition, endScrollPosition, scrollProgress);
+            yield return null;
+
+        }
+        isScroll = false;
     }
     public void MoveSelector(int _stageNumber)
     {
