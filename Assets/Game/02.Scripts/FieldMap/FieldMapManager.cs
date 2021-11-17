@@ -94,8 +94,6 @@ public class FieldMapManager : MonoBehaviour
     /// </summary>
     public void CheckOpenDoor()
     {
-
-        Debug.Log("Check Open Door");
         //현재 클리어한 스테이지 번호가 제일 큰 클리어 넘버보다 높을 떄
         if (dataManager.currentClearStageNumber > dataManager.currentData_player.finalStageNumber)
         {

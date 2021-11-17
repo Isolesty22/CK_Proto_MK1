@@ -247,17 +247,15 @@ public class DataManager : MonoBehaviour
             AssetDatabase.Refresh();
 #endif
         }
+;
 
-        isCreatedNewPlayerData = CheckNewPlayerData();
-
-        if (isCreatedNewPlayerData)
+        if (isCreatedNewPlayerData = CheckNewPlayerData())
         {
             currentClearStageNumber = 0;
         }
         else
         {
             currentClearStageNumber = currentData_player.finalStageNumber;
-
         }
 
         yield break;
