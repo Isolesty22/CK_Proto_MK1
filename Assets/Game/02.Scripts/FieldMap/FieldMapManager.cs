@@ -14,9 +14,7 @@ public class FieldMapManager : MonoBehaviour
 
     private Action enterStageAction = null;
 
-    [Tooltip("현재 선택된 문")]
-    public FieldDoor selectedDoor;
-
+    public FieldDoor selectedDoor { get; private set; }
 
     private DataManager dataManager;
 
@@ -26,13 +24,18 @@ public class FieldMapManager : MonoBehaviour
 
     private int minStageNumber;
 
-    private void Start()
+    private UIGameMessage gameMessage = null;
+    private IEnumerator Start()
     {
+
         Init();
 
         //로딩이 끝날 때 까지 대기
         SceneChanger.Instance.OnScenenLoadEnded += OnSceneLoadEnded;
         //yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        yield return null;
+
+        gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
 
         //CheckOpenDoor();
 
@@ -43,14 +46,8 @@ public class FieldMapManager : MonoBehaviour
         SceneChanger.Instance.OnScenenLoadEnded -= CheckOpenDoor;
         CheckOpenDoor();
     }
-    
-    /// <summary>
-    /// [테스트용] 모든 스테이지를 해금합니다.
-    /// </summary>
-    public void Button_UnlockAllStage()
-    {
-       
-    }
+
+
 
     public void Init()
     {
@@ -58,23 +55,7 @@ public class FieldMapManager : MonoBehaviour
         {
             dataManager = DataManager.Instance;
             keyOption = dataManager.currentData_settings.keySetting;
-            minStageNumber = fieldDoors[0].stageNumber;
-            //딕셔너리에 추가
-            for (int i = 0; i < fieldDoors.Length; i++)
-            {
-                fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
-            }
 
-            for (int i = 0; i < fieldDoors.Length; i++)
-            {
-                if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
-                {
-                    fieldDoors[i].mode = FieldDoor.eMode.Open;
-                }
-                fieldDoors[i].Init();
-            }
-
-            MoveSelector(dataManager.currentData_player.currentStageNumber);
         }
         else
         {
@@ -82,8 +63,31 @@ public class FieldMapManager : MonoBehaviour
             keyOption = new KeyOption();
         }
 
+        minStageNumber = fieldDoors[0].stageNumber;
+
+        //딕셔너리에 추가
+        Init_Dict();
+
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            if (fieldDoors[i].stageNumber <= dataManager.currentData_player.finalStageNumber + 1)
+            {
+                fieldDoors[i].mode = FieldDoor.eMode.Open;
+            }
+            fieldDoors[i].Init();
+        }
+
+        MoveSelector(dataManager.currentData_player.currentStageNumber);
     }
 
+    private void Init_Dict()
+    {
+        fieldDoorDict = new Dictionary<int, FieldDoor>();
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            fieldDoorDict.Add(fieldDoors[i].stageNumber, fieldDoors[i]);
+        }
+    }
     /// <summary>
     /// 문을 열어야하는지 검사합니다.
     /// </summary>
@@ -112,7 +116,10 @@ public class FieldMapManager : MonoBehaviour
             Debug.Log("최대 스테이지입니다. 아마도...");
             return;
         }
-        fieldDoorDict[_stageNumber].Open();
+        if (fieldDoors[_stageNumber].mode == FieldDoor.eMode.Lock)
+        {
+            fieldDoorDict[_stageNumber].Open();
+        }
 
         //스테이지 클리어 여부를 저장
         dataManager.currentData_player.finalStageNumber = dataManager.currentClearStageNumber;
@@ -143,7 +150,7 @@ public class FieldMapManager : MonoBehaviour
 
             if (moveStageNumber > 4)
             {
-                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                gameMessage.Open("더 이상 이동할 수 없습니다.");
                 return;
             }
 
@@ -151,7 +158,7 @@ public class FieldMapManager : MonoBehaviour
             //이동하려는 문이 잠겨있는 상태일때 
             if (tempDoor.mode == FieldDoor.eMode.Lock)
             {
-                Debug.LogWarning("잠겨있어서 이동할 수 없습니다.");
+                gameMessage.Open("이동할 수 없습니다.\n이전 스테이지를 클리어해주세요.");
             }
             else
             {
@@ -165,7 +172,7 @@ public class FieldMapManager : MonoBehaviour
 
             if (moveStageNumber < minStageNumber)
             {
-                Debug.LogWarning("스테이지의 끝에 도달했습니다. 이동할 수 없습니다.");
+                gameMessage.Open("더 이상 이동할 수 없습니다.");
                 return;
             }
 
@@ -174,7 +181,7 @@ public class FieldMapManager : MonoBehaviour
             //이동하려는 문이 잠겨있는 상태일때 
             if (tempDoor.mode == FieldDoor.eMode.Lock)
             {
-                Debug.LogWarning("잠겨있어서 이동할 수 없습니다.");
+                gameMessage.Open("이동할 수 없습니다.\n이전 스테이지를 클리어해주세요.");
             }
             else
             {
@@ -229,6 +236,21 @@ public class FieldMapManager : MonoBehaviour
 
             enterStageAction?.Invoke();
         }
+    }
+
+    /// <summary>
+    /// [테스트용] 모든 스테이지를 해금합니다.
+    /// </summary>
+    public void Button_UnlockAllStage()
+    {
+        selectedDoor = fieldDoors[0];
+        enterStageAction = selectedDoor.Button_EnterStage;
+        selector.MovePosition(selectedDoor.selectTransform.position);
+        for (int i = 0; i < fieldDoors.Length; i++)
+        {
+            fieldDoors[i].Open();
+        }
+
     }
 }
 
