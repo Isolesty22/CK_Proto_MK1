@@ -19,6 +19,7 @@ public class GloomLightning : MonoBehaviour
     [Header("Transform")]
     public Transform myTransform;
     public Transform sphereTransform;
+    public Transform sphereEffectTransform;
     public Transform lineParent;
 
     [Header("Line Value")]
@@ -70,6 +71,7 @@ public class GloomLightning : MonoBehaviour
 
     public void Init()
     {
+        sphereEffectTransform.gameObject.SetActive(false);
         nextUpdateTime = 0f;
     }
 
@@ -123,7 +125,12 @@ public class GloomLightning : MonoBehaviour
     public IEnumerator CoBeginMove()
     {
 
+
         ClearTimer();
+
+        //끝부분 안보이게
+        endRB.gameObject.SetActive(false);
+
         Vector3 currentPos = moveSphereStartPos;
 
         topPosY = moveSphereStartPos.y + 15f;
@@ -158,7 +165,15 @@ public class GloomLightning : MonoBehaviour
 
         yield return YieldInstructionCache.WaitForFixedUpdate;
 
+        //이펙트 등등 On
+        lineParent.gameObject.SetActive(true);
+        sphereEffectTransform.gameObject.SetActive(true);
+
+        //차례차례 번개 On
+        endRB.gameObject.SetActive(true);
         SetLineEnabled(true);
+
+        GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
 
         //-----아래로 슝
         while (progress < 1f)
@@ -223,10 +238,14 @@ public class GloomLightning : MonoBehaviour
             myRB.MovePosition(currentPos);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //번개 안보이게
 
+        yield return null;
+        GameManager.instance.cameraManager.SetShakeValue(0f, 0f);
+        //이펙트 등등 Off
         SetLineEnabled(false);
-
+        endRB.gameObject.SetActive(false);
+        lineParent.gameObject.SetActive(false);
+        sphereEffectTransform.gameObject.SetActive(false);
         //시간 초기화
         ClearTimer();
 
@@ -242,7 +261,7 @@ public class GloomLightning : MonoBehaviour
 
             currentPos = Vector3.Lerp(startTopPos, moveSphereStartPos, progress);
             myRB.MovePosition(currentPos);
-            sphereTransform.localScale = Vector3.Lerp(sphereBigScale,sphereSmallScale,progress);
+            sphereTransform.localScale = Vector3.Lerp(sphereBigScale, sphereSmallScale, progress);
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
