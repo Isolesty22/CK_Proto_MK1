@@ -240,16 +240,25 @@ public class DataManager : MonoBehaviour
         }
         else // 없을 경우
         {
-            Data_Player defaultData = new Data_Player();
-            currentData_player = defaultData;
+            currentData_player = new Data_Player();
 
             yield return StartCoroutine(SaveCurrentData(DataName.player));
 #if UNITY_EDITOR
             AssetDatabase.Refresh();
 #endif
         }
+;
 
-        isCreatedNewPlayerData = CheckNewPlayerData();
+        if (isCreatedNewPlayerData = CheckNewPlayerData())
+        {
+            currentClearStageNumber = 0;
+        }
+        else
+        {
+            currentClearStageNumber = currentData_player.finalStageNumber;
+        }
+
+        yield break;
     }
     private List<Dictionary<string, object>> loadData_Talk_Result = new List<Dictionary<string, object>>();
     private int stageCode = 0;

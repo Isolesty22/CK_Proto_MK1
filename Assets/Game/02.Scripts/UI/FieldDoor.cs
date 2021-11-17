@@ -15,6 +15,9 @@ public class FieldDoor : MonoBehaviour
     public FieldMapManager fieldMapManager;
     public RectTransform rectTransform;
 
+    [HideInInspector]
+    public Vector2 scrollPosition;
+
     [Tooltip("셀렉터가 참조할 트랜스폼.")]
     public RectTransform selectTransform;
     [Space(5)]

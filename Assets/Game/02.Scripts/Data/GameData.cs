@@ -105,8 +105,8 @@ public class Data_Player : GameData
     /// </summary>
     public Data_Player()
     {
-        currentStageName = "Stage_01";
-        currentStageNumber = 1;
+        currentStageName = "Stage_00";
+        currentStageNumber = 0;
         finalStageName = "Stage_00";
         finalStageNumber = 0;
     }
