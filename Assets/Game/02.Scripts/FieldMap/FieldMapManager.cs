@@ -204,7 +204,7 @@ public class FieldMapManager : MonoBehaviour
             //이동하려는 문이 잠겨있는 상태일때 
             if (tempDoor.mode == FieldDoor.eMode.Lock)
             {
-                gameMessage.Open("이동할 수 없습니다.\n이전 스테이지를 클리어해주세요.");
+                gameMessage.Open("아직은 이동할 수 없습니다.");
             }
             else
             {
