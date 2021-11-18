@@ -174,13 +174,13 @@ public class SceneChanger : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name;
     }
-    public Action OnScenenLoadEnded = null;
+    public Action onSceneLoadEnded = null;
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
         isSceneLoading = false;
         Debug.Log("LoadSceneEnd 함수 호출");
-        OnScenenLoadEnded?.Invoke();
+        onSceneLoadEnded?.Invoke();
         if (_scene.name != moveSceneName)
         {
             Debug.LogError("현재 씬과 이동하려고 했던 씬의 이름이 다르다!! 뭐임...?");

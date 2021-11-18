@@ -562,6 +562,9 @@ public class PlayerController : MonoBehaviour
 
     private void LookUp()
     {
+        if (State.isCrouching)
+            return;
+
         if (Input.GetKey(Key.lookUp))
         {
             State.isLookUp = true;

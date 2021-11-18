@@ -180,7 +180,6 @@ public class BearState_Rush : BearState
     {
         canExit = false;
         bearController.StartInvincible();
-        bearController.SetDamage(0f);
 
         canGo = true;
         //맵의 왼쪽으로 빠르게 이동하는 함수
@@ -194,13 +193,14 @@ public class BearState_Rush : BearState
         }
 
 
-
+        bearController.colliders.bodyCollider.enabled = false;
         //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");
     }
     public override void OnExit()
     {
-        bearController.SetDamage(1f);
+
+        bearController.colliders.bodyCollider.enabled = true;
         bearController.EndInvincible();
     }
 
@@ -701,7 +701,6 @@ public class BearState_Concentrate : BearState
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetDamage(0f);
         bearController.StartInvincible();
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
@@ -710,7 +709,6 @@ public class BearState_Concentrate : BearState
     }
     public override void OnExit()
     {
-        bearController.SetDamage(1f);
         bearController.EndInvincible();
         bearController.EmissionOn(10f);
     }
@@ -830,13 +828,13 @@ public class BearState_Die : BearState
     public BearState_Die(BearController _bearController)
     {
         bearController = _bearController;
+
     }
     public override void OnEnter()
     {
         canExit = false;
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
-        bearController.SetDamage(0f);
         UIManager.Instance.Talk("휴...더 이상 우리를 공격하진 못할 것 같아.");
     }
 
@@ -848,6 +846,9 @@ public class BearState_Die : BearState
     public void AnimEvent()
     {
         bearController.animator.enabled = false;
+        bearController.colliders.bodyCollider.enabled = false;
+
+        bearController.colliders.groundCollider.enabled = true;
     }
 }
 

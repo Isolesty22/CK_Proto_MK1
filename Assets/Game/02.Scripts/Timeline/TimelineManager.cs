@@ -12,7 +12,7 @@ public class TimelineManager : MonoBehaviour
     public bool playOnLoadingEnded;
     public PlayableDirector director;
 
-    public Action OnTimelineEnded = null;
+    public Action onTimelineEnded = null;
 
     private void Awake()
     {
@@ -76,14 +76,14 @@ public class TimelineManager : MonoBehaviour
 
         //혹시 몰라서 한프레임 대기 후에 OnTileLineEnded 호출
         yield return null;
-        OnTimelineEnded?.Invoke();
+        onTimelineEnded?.Invoke();
 
     }
 
     private IEnumerator OnTimelineEnd()
     {
         yield return null;
-        OnTimelineEnded?.Invoke();
+        onTimelineEnded?.Invoke();
     }
 
     public void SetTimeline(TimelineAsset _timeline)

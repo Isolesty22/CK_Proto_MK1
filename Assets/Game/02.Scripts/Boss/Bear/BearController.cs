@@ -29,6 +29,8 @@ public class BearController : BossController
         public BoxCollider headCollider;
         public BoxCollider bodyCollider;
 
+        [Tooltip("보스가 죽은 뒤에 활성화될 콜라이더")]
+        public BoxCollider groundCollider;
         public Vector3 headColliderSize;
         public Vector3 bodyColliderSize;
     }
@@ -155,6 +157,7 @@ public class BearController : BossController
         Init_Collider();
 
         onHitAction = OnHit;
+
         myTransform.position = new Vector3(bearMapInfo.mapBlocks[4].positions.groundCenter.x, 0.38f, myTransform.position.z);
     }
     private void Init_Animator()
@@ -182,7 +185,7 @@ public class BearController : BossController
         colliders.bodyCollider.enabled = true;
         //충돌하지 않게 
         // Physics.IgnoreCollision(colliders.headCollider, GameManager.instance.playerController.Com.collider, true);
-        Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
+        // Physics.IgnoreCollision(colliders.bodyCollider, GameManager.instance.playerController.Com.collider, true);
 
         colliders.headColliderSize = colliders.headCollider.size;
         colliders.bodyColliderSize = colliders.bodyCollider.size;
@@ -202,11 +205,11 @@ public class BearController : BossController
     }
     private void Start()
     {
-        GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
+        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
     }
     private void OnTimelineEnded()
     {
-        GameManager.instance.timelineManager.OnTimelineEnded -= OnTimelineEnded;
+        GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
         Init();
         StartCoroutine(ExecutePatternCoroutine);
@@ -375,6 +378,8 @@ public class BearController : BossController
 
 
     private Action onHitAction = null;
+
+
     /// <summary>
     /// 무적 상태가 됩니다.
     /// </summary>
@@ -398,22 +403,29 @@ public class BearController : BossController
         emissionHelper.OnHit();
     }
 
+    private void PlayerHit()
+    {
+        if (!GameManager.instance.playerController.IsInvincible())
+        {
+            GameManager.instance.playerController.Hit();
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.CompareTag(TagName.Player))
+        {
+            PlayerHit();
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag(TagName.Arrow))
         {
-            // damage = other.GetComponent<ArrowBase>().damage;
-
             onHitAction?.Invoke();
-
         }
     }
-
-    public void SetDamage(float _value)
-    {
-        damage = _value;
-    }
-
     public void SetHurtTexture()
     {
         emissionHelper.SetTexture(skillObjects.hurtTex);
