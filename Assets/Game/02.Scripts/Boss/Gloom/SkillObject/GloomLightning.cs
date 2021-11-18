@@ -20,6 +20,7 @@ public class GloomLightning : MonoBehaviour
     public Transform myTransform;
     public Transform sphereTransform;
     public Transform sphereEffectTransform;
+    public Transform lineEffectTransform;
     public Transform lineParent;
 
     [Header("Line Value")]
@@ -56,22 +57,51 @@ public class GloomLightning : MonoBehaviour
     [ReadOnly]
     public Vector3 hitPosition;
 
+    /// <summary>
+    /// 공격 중 구슬이 이동하는 시작 위치
+    /// </summary>
     public Vector3 moveStartPosition { get; private set; }
+
+    /// <summary>
+    /// 공격 중 구슬이 이동하는 끝 위치
+    /// </summary>
     public Vector3 moveEndPosition { get; private set; }
+
+    /// <summary>
+    /// 공격 전 구슬의 이동 연출에 사용되는 위치 중...시작 위치
+    /// </summary>
     public Vector3 moveSphereStartPos { get; private set; }
+
+    /// <summary>
+    /// 공격 전 구슬의 이동 연출에 사용되는 위치 중...끝 위치
+    /// </summary>
     public Vector3 moveSphereEndPos { get; private set; }
 
+    /// <summary>
+    /// 구슬이 제일 작을 때의 크기.
+    /// </summary>
     private readonly Vector3 sphereSmallScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+    /// <summary>
+    /// 구슬이 제일 클 때의 크기.
+    /// </summary>
     private readonly Vector3 sphereBigScale = new Vector3(1.5f, 1.5f, 1.5f);
 
+
+    private float shakeAddValue;
     private void Awake()
     {
         yOriginPos = yTransform.position.y;
+        sphereEffectTransform.gameObject.SetActive(false);
+        lineEffectTransform.gameObject.SetActive(false);
+        shakeAddValue = 1f / lineCount;
+        Debug.LogError(shakeAddValue);
     }
 
     public void Init()
     {
         sphereEffectTransform.gameObject.SetActive(false);
+        lineEffectTransform.gameObject.SetActive(false);
         nextUpdateTime = 0f;
     }
 
@@ -101,8 +131,6 @@ public class GloomLightning : MonoBehaviour
         sphereTransform.position = moveSphereStartPos;
         sphereTransform.localScale = sphereSmallScale;
     }
-
-
     private float progress = 0f;
     private float fixedTimer = 0f;
     private void ClearTimer()
@@ -137,7 +165,9 @@ public class GloomLightning : MonoBehaviour
 
         startTopPos = new Vector3(moveSphereStartPos.x, topPosY, moveSphereStartPos.z);
 
-        //-----위쪽으로 붕
+        //=========================
+        // 화면 밖 위 쪽으로 이동
+        //=========================
         while (progress < 1f)
         {
             fixedTimer += Time.fixedDeltaTime;
@@ -150,6 +180,11 @@ public class GloomLightning : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+
+        //=========================
+        // 아래로 이동해서 번개 이펙트 시작
+        //=========================
+
         //시간 초기화
 
         ClearTimer();
@@ -161,27 +196,36 @@ public class GloomLightning : MonoBehaviour
         yield return YieldInstructionCache.WaitForFixedUpdate;
 
         UpdateHitPosition();
-        endRB.MovePosition(hitPosition);
-
-        yield return YieldInstructionCache.WaitForFixedUpdate;
+        endRB.transform.position = hitPosition;
 
         //이펙트 등등 On
         lineParent.gameObject.SetActive(true);
         sphereEffectTransform.gameObject.SetActive(true);
 
-        //차례차례 번개 On
         endRB.gameObject.SetActive(true);
-        SetLineEnabled(true);
 
+        //카메라 흔들림값 초기화
+        float currentShakeValue = 0f;
+        //차례차례 번개 On
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lines[i].enabled = true;
+            UpdateLightning(eUpdateLightningMode.Forced);
+            yield return new WaitForSeconds(updateDelay);
+            currentShakeValue += shakeAddValue;
+            GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+        }
+        //마지막으로 큰 줄기 On
+        lineEffectTransform.gameObject.SetActive(true);
         GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
 
         //-----아래로 슝
         while (progress < 1f)
         {
             fixedTimer += Time.fixedDeltaTime;
-            progress = fixedTimer / 2f;
+            progress = fixedTimer / 1f;
 
-            UpdateLightning();
+            UpdateLightning(eUpdateLightningMode.UpdateTime);
 
             currentPos = Vector3.Lerp(endTopPos, moveSphereEndPos, progress);
             myRB.MovePosition(currentPos);
@@ -208,7 +252,7 @@ public class GloomLightning : MonoBehaviour
             progress = fixedTimer / moveTime;
 
             //번개 모양 업데이트
-            UpdateLightning();
+            UpdateLightning(eUpdateLightningMode.UpdateTime);
 
             //위치 이동
             currentPos = Vector3.Lerp(moveStartPosition, moveEndPosition, progress);
@@ -221,31 +265,60 @@ public class GloomLightning : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+        //=========================
+        // 이동을 끝내고 위 쪽으로 이동
+        //=========================
+
         //시간 초기화 
         ClearTimer();
-
         Vector3 endTopPos = new Vector3(myRB.position.x, topPosY, myRB.position.z);
 
-        //위쪽으로 이동
+
+
         while (progress < 1f)
         {
             fixedTimer += Time.fixedDeltaTime;
             progress = fixedTimer / 1.5f;
 
-            UpdateLightning();
+            UpdateLightning(eUpdateLightningMode.UpdateTime);
 
             currentPos = Vector3.Lerp(moveEndPosition, endTopPos, progress);
             myRB.MovePosition(currentPos);
+
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-
         yield return null;
-        GameManager.instance.cameraManager.SetShakeValue(0f, 0f);
+
+        //=========================
+        // 글룸 쪽으로 돌아가기
+        //=========================
+
         //이펙트 등등 Off
-        SetLineEnabled(false);
-        endRB.gameObject.SetActive(false);
-        lineParent.gameObject.SetActive(false);
+        lineEffectTransform.gameObject.SetActive(false);
         sphereEffectTransform.gameObject.SetActive(false);
+
+        //흔들림값 초기화
+        float currentShakeValue = 1f;
+
+        //차례차례 번개 Off
+        for (int i = 0; i < lines.Length; i++)
+        {
+            lines[i].enabled = false;
+            UpdateLightning(eUpdateLightningMode.Forced);
+
+            //서서히 덜 흔들리게
+            currentShakeValue -= shakeAddValue;
+            GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+
+            yield return new WaitForSeconds(updateDelay);
+        }
+
+        //이펙트 끄기
+        lineParent.gameObject.SetActive(false);
+        endRB.gameObject.SetActive(false);
+
+        GameManager.instance.cameraManager.SetShakeValue(0f, 0f);
+
         //시간 초기화
         ClearTimer();
 
@@ -257,7 +330,7 @@ public class GloomLightning : MonoBehaviour
         while (progress < 1f)
         {
             fixedTimer += Time.fixedDeltaTime;
-            progress = fixedTimer / 1.5f;
+            progress = fixedTimer / 1f;
 
             currentPos = Vector3.Lerp(startTopPos, moveSphereStartPos, progress);
             myRB.MovePosition(currentPos);
@@ -303,19 +376,33 @@ public class GloomLightning : MonoBehaviour
 
     private float GetRandomWidth() => lineWidth + Random.Range(-widthRandRange, widthRandRange);
 
-    public void UpdateLightning()
+    public enum eUpdateLightningMode
     {
-        //번개 모양 업데이트
-        if (fixedTimer > nextUpdateTime)
+        Forced,
+        UpdateTime,
+    }
+    public void UpdateLightning(eUpdateLightningMode _mode)
+    {
+
+        if (_mode == eUpdateLightningMode.Forced)
         {
-            nextUpdateTime = fixedTimer + updateDelay;
+            UpdateLines();
         }
         else
         {
-            return;
+            if (fixedTimer > nextUpdateTime)
+            {
+                nextUpdateTime = fixedTimer + updateDelay;
+                UpdateLines();
+            }
         }
+    }
 
-
+    /// <summary>
+    /// 번개의 라인렌더러를 업데이트합니다. 직접 호출하는건 좀 그럴수도...
+    /// </summary>
+    private void UpdateLines()
+    {
         float distance = Vector2.Distance(startRB.position, endRB.position);
 
         for (int i = 0; i < lines.Length; i++)
@@ -344,7 +431,9 @@ public class GloomLightning : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Raycast를 실행하고, 결과에 따라서 hitPosition의 값을 변경합니다. 
+    /// </summary>
     public void UpdateHitPosition()
     {
         ray.direction = Vector3.down;

@@ -97,8 +97,8 @@ public class CameraManager : MonoBehaviour
     }
     private IEnumerator ProcessCameraShake()
     {
-        vcamNoise.m_AmplitudeGain = shakeValue.amplitude;
-        vcamNoise.m_FrequencyGain = shakeValue.frequency;
+        vcamNoise.m_AmplitudeGain += 1f;
+        vcamNoise.m_FrequencyGain += 1f;
 
         timer = 0f;
         float progress = 0f;
@@ -108,8 +108,8 @@ public class CameraManager : MonoBehaviour
             progress = timer / shakeValue.time;
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-        vcamNoise.m_AmplitudeGain = 0f;
-        vcamNoise.m_FrequencyGain = 0f;
+        vcamNoise.m_AmplitudeGain -= 1f;
+        vcamNoise.m_FrequencyGain -= 1f;
         shakeCoroutine = null;
     }
 
