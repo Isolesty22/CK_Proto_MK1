@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -22,6 +24,9 @@ public class TutorialManager : MonoBehaviour
     private IEnumerator parry;
     private IEnumerator good;
     private IEnumerator heavyAttack;
+
+    public PlayableDirector findPD;
+    public TimelineAsset findTimeLine;
 
     void Start()
     {
@@ -147,6 +152,9 @@ public class TutorialManager : MonoBehaviour
     {
         GameManager.instance.playerController.InputVal.movementInput = 0f;
         GameManager.instance.playerController.State.moveSystem = true;
+
+        findPD.Play(findTimeLine);
+
 
         UIManager.Instance.TalkInfinity(913);
         yield return new WaitForSeconds(scriptTime);
