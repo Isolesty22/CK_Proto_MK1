@@ -102,19 +102,6 @@ public class BearController : BossController
 
     #endregion
 
-    #region Test용
-
-
-    [Serializable]
-    public class TestTextMesh
-    {
-        public TextMesh stateText;
-        public TextMesh phaseText;
-        public TextMesh hpText;
-    }
-    public TestTextMesh testTextMesh;
-    #endregion
-
 
     public Colliders colliders;
     public SkillObjects skillObjects;
@@ -216,12 +203,6 @@ public class BearController : BossController
     private void Start()
     {
         GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
-    }
-    private void Update()
-    {
-        testTextMesh.stateText.text = stateInfo.state;
-        testTextMesh.hpText.text = hp.ToString();
-        testTextMesh.phaseText.text = stateInfo.phase.ToString();
     }
     private void OnTimelineEnded()
     {

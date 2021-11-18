@@ -517,45 +517,25 @@ public class GloomController : BossController
     /// <summary>
     /// 해당 블록의 타입을 지정합니다.
     /// </summary>
-    public void SetBlockTypeToOrigin(int _index)
-    {
-        Com.gloomMap.mapBlocks[_index].SetCurrentTypeToOrigin();
-
-    }
+    public void SetBlockTypeToOrigin(int _index) => Com.gloomMap.mapBlocks[_index].SetCurrentTypeToOrigin();
 
     /// <summary>
     /// 해당 블록의 타입을 지정합니다.
     /// </summary>
-    public void SetBlockType(int _index, MapBlock.eType _type)
-    {
-        Com.gloomMap.mapBlocks[_index].SetCurrentType(_type);
-
-    }
+    public void SetBlockType(int _index, MapBlock.eType _type) => Com.gloomMap.mapBlocks[_index].SetCurrentType(_type);
 
     /// <summary>
     /// 해당 블록의 타입을 반환합니다.
     /// </summary>
-    public MapBlock.eType GetBlockType(int _index, MapBlock.eType _type)
-    {
-        return Com.gloomMap.mapBlocks[_index].currentType;
-    }
-    public override string GetStateToString(int _state)
-    {
-        return base.GetStateToString(_state);
-    }
+    public MapBlock.eType GetBlockType(int _index, MapBlock.eType _type) => Com.gloomMap.mapBlocks[_index].currentType;
 
-    public void AddThornVineDict(int _index, GloomThornVine _thornVine)
-    {
-        aliveThornVineDict.Add(_index, _thornVine);
-    }
-    public void RemoveThornVineDict(int _index)
-    {
-        aliveThornVineDict.Remove(_index);
-    }
-    public bool ContainsThornVineDict(int _index)
-    {
-        return aliveThornVineDict.ContainsKey(_index);
-    }
+    public override string GetStateToString(int _state) => ((eGloomState)_state).ToString();
+
+    public void AddThornVineDict(int _index, GloomThornVine _thornVine) => aliveThornVineDict.Add(_index, _thornVine);
+
+    public void RemoveThornVineDict(int _index) => aliveThornVineDict.Remove(_index);
+
+    public bool ContainsThornVineDict(int _index) => aliveThornVineDict.ContainsKey(_index);
 
 
     private Action onHitAction = null;
