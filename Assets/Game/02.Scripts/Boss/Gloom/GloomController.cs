@@ -13,6 +13,14 @@ public class GloomController : BossController
         public Rigidbody rigidbody;
         public GloomMap gloomMap;
         public EmissionHelper emissionHelper;
+
+        [Header("[Colliders]")]
+
+        [Tooltip("보스에 붙어있는 콜라이더")]
+        public BoxCollider bodyCollider;
+
+        [Tooltip("플레이어 못 넘어가게하려는 콜라이더")]
+        public BoxCollider wallCollider;
     }
 
     [Serializable]
@@ -215,7 +223,7 @@ public class GloomController : BossController
     private Patterns _patterns;
 
 
-    [Header("ETC")]
+    [Header("----------ETC")]
 
     [Tooltip("현재 보스의 위치")]
     [ReadOnly]

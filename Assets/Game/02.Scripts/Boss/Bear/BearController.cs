@@ -29,6 +29,8 @@ public class BearController : BossController
         public BoxCollider headCollider;
         public BoxCollider bodyCollider;
 
+        [Tooltip("보스가 죽은 뒤에 활성화될 콜라이더")]
+        public BoxCollider groundCollider;
         public Vector3 headColliderSize;
         public Vector3 bodyColliderSize;
     }
