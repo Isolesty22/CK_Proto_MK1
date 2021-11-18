@@ -9,6 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7461276881470415231}
+  - component: {fileID: 4828276339650092206}
+  - component: {fileID: 4411253029368575893}
+  - component: {fileID: 7923357957575736361}
   m_Layer: 0
   m_Name: TutorialLoader[TEMP]
   m_TagString: Untagged
@@ -30,3 +33,70 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4828276339650092206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461276881470415225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c2be0fc2b18b143b76b8d41b25e94e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileManager: {fileID: 0}
+  currentState: 0
+  dataFilePath: 
+  currentFilePath: 
+  currentData_settings:
+    volume_master: 1
+    volume_sfx: 1
+    volume_bgm: 1
+    isMute_master: 0
+    isMute_sfx: 0
+    isMute_bgm: 0
+    resolutionType: 1
+    keySetting:
+      moveRight: 275
+      moveLeft: 276
+      crouch: 274
+      lookUp: 273
+      attack: 122
+      jump: 120
+      counter: 99
+      ult: 118
+  currentData_player:
+    currentStageName: Stage_00
+    currentStageNumber: 0
+    finalStageName: Stage_00
+    finalStageNumber: 0
+  isCreatedNewPlayerData: 0
+  currentClearStageNumber: 0
+--- !u!114 &4411253029368575893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461276881470415225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901b1175b3a02d64680fad4837a987dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  readText_Result: 
+  isExist_Result: 0
+  getAudioClip_Result: {fileID: 0}
+--- !u!114 &7923357957575736361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7461276881470415225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0df0c11107a6a194683620e03002f2c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
