@@ -95,7 +95,7 @@ public class UIMainMenu : UIBase
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
             UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
-                Button_Continue_OK,
+                StartNewGame,
                 Button_Continue_Close);
         }
         else
