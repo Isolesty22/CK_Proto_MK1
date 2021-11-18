@@ -88,6 +88,11 @@ public class CameraManager : MonoBehaviour
 
     float timer = 0f;
 
+    public void AddShakeValue(float _value)
+    {
+        vcamNoise.m_AmplitudeGain = _value;
+        vcamNoise.m_FrequencyGain = _value;
+    }
     public void SetShakeValue(float _amplitude,float _frequency)
     {
         shakeValue.amplitude = _amplitude;
