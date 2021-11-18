@@ -6,7 +6,7 @@ public class EmissionHelper : MonoBehaviour
 {
 
     public SkinnedMeshRenderer meshRenderer;
-     Material material;
+    Material material;
 
     Color baseColor = Color.red;
     Color originalColor;
