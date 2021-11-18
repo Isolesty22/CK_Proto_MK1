@@ -426,12 +426,6 @@ public class BearController : BossController
             onHitAction?.Invoke();
         }
     }
-
-    public void SetDamage(float _value)
-    {
-        damage = _value;
-    }
-
     public void SetHurtTexture()
     {
         emissionHelper.SetTexture(skillObjects.hurtTex);
