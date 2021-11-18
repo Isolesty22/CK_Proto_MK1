@@ -43,7 +43,6 @@ public class GloomController : BossController
 
         public GameObject threat;
 
-
         [Header("방해 발사 위치")]
         public Transform[] obstructTransforms;
 
@@ -59,8 +58,9 @@ public class GloomController : BossController
 
         [Header("공명 구슬 이펙트")]
         public GameObject resonanceSphere;
+
         [Header("광폭화 이펙트")]
-        public GameObject berserkEffect;
+        public GloomBerserk berserk;
 
     }
     [Serializable]

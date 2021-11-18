@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.P))
         {
-            playerController.Stat.hp = 3;
+            playerController.Stat.hp += 1;
         }
     }
 

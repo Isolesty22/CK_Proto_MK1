@@ -919,7 +919,7 @@ public class GloomState_Berserk : GloomState
     {
         canExit = false;
         gloom.StartCoroutine(CoWait());
-        gloom.SkillObj.berserkEffect.SetActive(true);
+        gloom.SkillObj.berserk.StartBerserk();
         UIManager.Instance.Talk("어둠의 힘이 강해진 것 같아...조심해!");
     }
 
@@ -972,6 +972,17 @@ public class GloomState_Die : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+
+        gloom.SetAnimEvent(AnimEvent);
+
+        //광폭화 종료
+        gloom.SkillObj.berserk.EndBerserk();
+        gloom.SetTrigger("Die_Start");
+    }
+    public void AnimEvent()
+    {
+        gloom.animator.enabled = false;
     }
 }
 
