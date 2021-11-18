@@ -14,6 +14,7 @@ public class TestPEffector : MonoBehaviour
     {
         GameManager.instance.cameraManager.AddShakeValue(cameraShakeValue);
         GameManager.instance.cameraManager.AddShakeValue(-cameraShakeValue);
+        yield break;
     }
 
 
