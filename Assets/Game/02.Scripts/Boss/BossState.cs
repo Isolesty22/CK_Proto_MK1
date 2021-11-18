@@ -830,6 +830,7 @@ public class BearState_Die : BearState
     public BearState_Die(BearController _bearController)
     {
         bearController = _bearController;
+
     }
     public override void OnEnter()
     {
@@ -848,6 +849,8 @@ public class BearState_Die : BearState
     public void AnimEvent()
     {
         bearController.animator.enabled = false;
+        bearController.colliders.groundCollider.enabled = true;
+        bearController.colliders.bodyCollider.enabled = false;
     }
 }
 

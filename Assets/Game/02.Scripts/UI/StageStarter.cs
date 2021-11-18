@@ -25,11 +25,11 @@ public class StageStarter : MonoBehaviour
         if (useTimeline)
         {
             GameManager.instance.playerController.State.moveSystem = true;
-            GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+            GameManager.instance.timelineManager.onTimelineEnded += OpenStageStarter;
         }
         else
         {
-            GameManager.instance.timelineManager.OnTimelineEnded += OpenStageStarter;
+            GameManager.instance.timelineManager.onTimelineEnded += OpenStageStarter;
 
         }
 
@@ -38,7 +38,7 @@ public class StageStarter : MonoBehaviour
 
     public void OpenStageStarter()
     {
-        GameManager.instance.timelineManager.OnTimelineEnded -= OpenStageStarter;
+        GameManager.instance.timelineManager.onTimelineEnded -= OpenStageStarter;
 
         if (useTimeline)
         {

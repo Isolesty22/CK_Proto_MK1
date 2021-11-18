@@ -983,6 +983,9 @@ public class GloomState_Die : GloomState
     public void AnimEvent()
     {
         gloom.animator.enabled = false;
+
+        //gloom.Com.bodyCollider.enabled = false;
+        gloom.Com.wallCollider.enabled = false;
     }
 }
 
