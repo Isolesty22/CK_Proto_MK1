@@ -306,7 +306,7 @@ public class DataManager : MonoBehaviour
 
         if (SceneChanger.Instance != null)
         {
-            SceneChanger.Instance.OnScenenLoadEnded += UpdateTalkData;
+            SceneChanger.Instance.onSceneLoadEnded += UpdateTalkData;
         }
 
         yield break;
@@ -324,7 +324,7 @@ public class DataManager : MonoBehaviour
     {
         if (SceneChanger.Instance != null)
         {
-            SceneChanger.Instance.OnScenenLoadEnded -= UpdateTalkData;
+            SceneChanger.Instance.onSceneLoadEnded -= UpdateTalkData;
 
         }
         UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);

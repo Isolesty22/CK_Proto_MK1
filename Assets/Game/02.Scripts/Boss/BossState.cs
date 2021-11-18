@@ -848,6 +848,7 @@ public class BearState_Die : BearState
     public void AnimEvent()
     {
         bearController.animator.enabled = false;
+        //bearController.colliders.bodyCollider.size = 
     }
 }
 

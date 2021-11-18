@@ -39,7 +39,7 @@ public class UIPlayerHP : UIBase
     private void Start()
     {
 
-        GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
+        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         Init();
         CheckOpen();
         UpdateUI();
