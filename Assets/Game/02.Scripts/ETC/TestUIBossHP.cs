@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TestUIBossHP : MonoBehaviour
 {
@@ -10,9 +11,17 @@ public class TestUIBossHP : MonoBehaviour
     private float maxHP;
     void Start()
     {
-        bossController = FindObjectOfType<BossController>();
-        maxHP = bossController.hp;
+        string sceneName = SceneManager.GetActiveScene().name;
 
+        if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
+        {
+            bossController = FindObjectOfType<BossController>();
+            maxHP = bossController.hp;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void Update()
