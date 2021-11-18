@@ -12,8 +12,12 @@ public class TestPEffector : MonoBehaviour
 
     private IEnumerator CoGrow()
     {
+        boxCollider.isTrigger = false;
         GameManager.instance.cameraManager.AddShakeValue(cameraShakeValue);
+       
+       
         GameManager.instance.cameraManager.AddShakeValue(-cameraShakeValue);
+        boxCollider.isTrigger = true;
         yield break;
     }
 
