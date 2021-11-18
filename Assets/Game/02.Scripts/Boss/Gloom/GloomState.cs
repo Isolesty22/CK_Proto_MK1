@@ -230,7 +230,6 @@ public class GloomState_Leap : GloomState
         //리프 임팩트 실행
         // gloom.SkillObj.leapStartImpact.SetActive(true);
         gloom.SkillObj.leapImpact.StartImpact();
-        GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
         GameManager.instance.cameraManager.ShakeCamera();
         //방향 바꿈 판정
         gloom.ChangeDirection(endDirection);

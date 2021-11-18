@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2603509484721976395}
   - component: {fileID: 6838779273350127922}
-  - component: {fileID: 8178173813614557571}
+  - component: {fileID: 7017272318828047994}
   m_Layer: 12
   m_Name: RushEffect
-  m_TagString: Untagged
+  m_TagString: ParryingObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,19 +46,30 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2.4571452, z: 3.832783}
   m_Center: {x: 7.161206e-16, y: -0.68706155, z: -0.94960725}
---- !u!114 &8178173813614557571
+--- !u!114 &7017272318828047994
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 659122110842458978}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 544950ed9c9c79e46acf39ce79448555, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f3bddda31cff884a9a36039f3e8b577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canParry: 0
+  status:
+    isdisable: 0
+    isMove: 0
+    isDamaged: 1
+    isUpDown: 0
+    moveDistance: 0
+    moveSpeed: 0
+  components:
+    collider: {fileID: 6838779273350127922}
+    objectModel: {fileID: 0}
+    renderer: {fileID: 0}
+  isParried: 0
 --- !u!1 &662554608092848300
 GameObject:
   m_ObjectHideFlags: 0
@@ -19708,13 +19719,10 @@ MonoBehaviour:
     stateInt: 0
   testPotal: {fileID: 0}
   bearMapInfo: {fileID: 0}
-  testTextMesh:
-    stateText: {fileID: 0}
-    phaseText: {fileID: 0}
-    hpText: {fileID: 0}
   colliders:
     headCollider: {fileID: 3502608047573323798}
     bodyCollider: {fileID: 4326774578364781433}
+    groundCollider: {fileID: 0}
     headColliderSize: {x: 0, y: 0, z: 0}
     bodyColliderSize: {x: 0, y: 0, z: 0}
   skillObjects:
