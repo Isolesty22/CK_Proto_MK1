@@ -31,7 +31,15 @@ public class TestUIBossHP : UIBase
     }
     void Start()
     {
-        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+        if (SceneManager.GetActiveScene().name == "Stage_02" || SceneManager.GetActiveScene().name == "Stage_0")
+        {
+            gameObject.SetActive(true);
+            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void OnTimelineEnded()

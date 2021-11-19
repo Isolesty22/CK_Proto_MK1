@@ -11,13 +11,12 @@ GameObject:
   - component: {fileID: 3597989524113393847}
   - component: {fileID: 8714802403517776414}
   - component: {fileID: 2975984601195378964}
-  - component: {fileID: 4817945822772238148}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: GreenGrass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &3597989524113393847
 Transform:
@@ -26,9 +25,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3387448342848138850}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.12, y: -2.72, z: -17.79}
-  m_LocalScale: {x: 1.2, y: 0.25, z: 1.2}
+  m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.5228982, y: 2.34, z: -14.146919}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,7 +39,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3387448342848138850}
-  m_Mesh: {fileID: -5495902117074765545, guid: e622d9ee278c76a4db58f8153acd26ad, type: 3}
+  m_Mesh: {fileID: -5495902117074765545, guid: e28869070b705224eb0f1eca6bbfbdef, type: 3}
 --- !u!23 &2975984601195378964
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -60,10 +59,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: db3f93cb617922845b70363d54bb24bf, type: 2}
-  - {fileID: 2100000, guid: 0f9f0ffbb967e1d4d9685e233cb48fee, type: 2}
-  - {fileID: 2100000, guid: db3f93cb617922845b70363d54bb24bf, type: 2}
-  - {fileID: 2100000, guid: 7ed77600b4c334046b7a262c52b6a7ab, type: 2}
+  - {fileID: 2100000, guid: 33a3368c08561ca40a130567d8a647a5, type: 2}
+  - {fileID: 2100000, guid: 33a3368c08561ca40a130567d8a647a5, type: 2}
+  - {fileID: 2100000, guid: b19a387c9c198e74a8cc93ec11fe4dfb, type: 2}
+  - {fileID: 2100000, guid: 5b96ce4fc8dbf3a4dbe76ee89b361e5d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,16 +84,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &4817945822772238148
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3387448342848138850}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

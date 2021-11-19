@@ -106,7 +106,6 @@ public class Bezier : MonoBehaviour
 
     private void PlayHitAndRelease()
     {
-        //AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clips.arrowHitSpecial);
         AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_ArrowHit["arrowHitSpecial"]);
         var hit = CustomPoolManager.Instance.ultHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
         hit.Play();

@@ -102,10 +102,7 @@ public class SeedShooterController : MonsterController
         if (cooltime > Stat2.fireCoolTime)
         {
             Com.animator.SetTrigger("isAttack");
-            if (!Com.audio.isPlaying)
-            {
-                Com.audio.Play();
-            }
+            Com.audio.PlayOneShot(Com.audio.clip);
             var seed = CustomPoolManager.Instance.seedPool.SpawnThis(Stat2.firePos.position, new Vector3(0, 0, 0), null);
             seed.firePos = Stat2.firePos.position;
             seed.fireDir = Stat2.fireDir;

@@ -170,7 +170,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             progress = timer / Val.growTime;
 
             Com.rigidbody.MovePosition(Vector3.Lerp(Val.startPosition, Val.endPosition, progress));

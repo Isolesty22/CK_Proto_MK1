@@ -131,6 +131,7 @@ public class UIManager : MonoBehaviour
             return;
         }
 
+        //AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Close"]);
         latelyUI = uiStack.Peek();
 
         if (latelyUI.Close()) //성공적으로 닫혔으면
@@ -283,6 +284,7 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif

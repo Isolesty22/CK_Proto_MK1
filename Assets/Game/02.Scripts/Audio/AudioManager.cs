@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_BGM;
         public AudioSource audioSource_EVM;
         public AudioSource audioSource_SFX;
+        public AudioSource audioSource_UI;
 
         [Header("PlayerSFX")]
         public AudioSource audioSource_PAttack;
@@ -38,6 +39,7 @@ public class AudioManager : MonoBehaviour
         [Range(0, 1)] public float bgm = 1f;
         [Range(0, 1)] public float evm = 1f;
         [Range(0, 1)] public float sfx = 1f;
+        [Range(0, 1)] public float ui = 1f;
 
         [Range(0, 1)] public float pAttack = 1f;
         [Range(0, 1)] public float pParrying = 1f;
@@ -61,12 +63,13 @@ public class AudioManager : MonoBehaviour
     public Dictionary<string, AudioClip> clipDict_ArrowHit = new Dictionary<string, AudioClip>();
     public Dictionary<string, AudioClip> clipDict_Monster = new Dictionary<string, AudioClip>();
     public Dictionary<string, AudioClip> clipDict_Player = new Dictionary<string, AudioClip>();
+    public Dictionary<string, AudioClip> clipDict_UI = new Dictionary<string, AudioClip>();
     public List<AudioClip> specialAttackClips = new List<AudioClip>();
     public AudioClip monsterDeath;
     public AudioClip powerAttack;
     public float currentMasterVolume;
     public float currentSFXVolume;
-
+    public float curentBGMVolume;
     #endregion
 
     private void Awake()
@@ -85,19 +88,31 @@ public class AudioManager : MonoBehaviour
                 Debug.Log(this + " : 더 이상, 이 세계선에서는 존재할 수 없을 것 같아... 안녕.");
                 Destroy(this.gameObject);
             }
-
         }
+        SetInitVolume();
     }
 
     private void Start()
     {
+        SettingVolume();
     }
 
     public IEnumerator Init()
     {
         yield return StartCoroutine(LoadAudioClips());
+
     }
 
+    public void SetInitVolume()
+    {
+        Volumes.ui = .5f;
+        Volumes.pAttack = .3f;
+        Volumes.pRun = .5f;
+        Volumes.pWalk = .5f;
+        Volumes.pJump = .5f;
+        Volumes.pParrying = .7f;
+        Volumes.pHit = 1f;
+    }
 
     public IEnumerator LoadAudioClips()
     {
@@ -125,6 +140,9 @@ public class AudioManager : MonoBehaviour
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/WaterFall"));
         clipDict_BGM.Add("WaterFall", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/FieldMapBGM"));
+        clipDict_BGM.Add("FieldMapBGM", DataManager.Instance.fileManager.getAudioClip_Result);
         #endregion
 
         #region ArrowHit
@@ -176,6 +194,14 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.clip = clipDict_Player["IpeaParrying"];
         Audios.audioSource_PRun.clip = clipDict_Player["IpeaRun"];
         Audios.audioSource_PWalk.clip = clipDict_Player["IpeaWalk"];
+        #endregion
+
+        #region UI
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("UI/Click"));
+        clipDict_UI.Add("Click", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        //yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("UI/Close"));
+        //clipDict_UI.Add("Close", DataManager.Instance.fileManager.getAudioClip_Result);
         #endregion
 
         for (int i = 0; i < 6; i++)
@@ -342,14 +368,31 @@ public class AudioManager : MonoBehaviour
 
     #region Setting
 
+    public void SettingVolume()
+    {
+        Audios.audioSource_BGM.volume = Volumes.bgm * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_EVM.volume = Volumes.evm * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_SFX.volume = Volumes.sfx * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_UI.volume = Volumes.ui * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PAttack.volume = Volumes.pAttack * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PHit.volume = Volumes.pHit * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PJump.volume = Volumes.pJump * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PLand.volume = Volumes.pLand * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PParrying.volume = Volumes.pParrying * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PRun.volume = Volumes.pRun * currentMasterVolume * currentSFXVolume;
+        Audios.audioSource_PWalk.volume = Volumes.pWalk * currentMasterVolume * currentSFXVolume;
+    }
+
     public void SettingVolume(float masterVolume, float bgmVolume, float sfxVolume)
     {
         currentMasterVolume = masterVolume;
+        curentBGMVolume = bgmVolume;
         currentSFXVolume = sfxVolume;
 
         Audios.audioSource_BGM.volume = Volumes.bgm * masterVolume * bgmVolume;
         Audios.audioSource_EVM.volume = Volumes.evm * masterVolume * bgmVolume;
         Audios.audioSource_SFX.volume = Volumes.sfx * masterVolume* sfxVolume;
+        Audios.audioSource_UI.volume = Volumes.ui * masterVolume * sfxVolume;
         Audios.audioSource_PAttack.volume = Volumes.pAttack * masterVolume * sfxVolume;
         Audios.audioSource_PHit.volume = Volumes.pHit * masterVolume * sfxVolume;
         Audios.audioSource_PJump.volume = Volumes.pJump * masterVolume * sfxVolume;
@@ -362,11 +405,13 @@ public class AudioManager : MonoBehaviour
     public void SettingVolume(string masterVolume, string bgmVolume, string sfxVolume)
     {
         currentMasterVolume = GetFloat(masterVolume);
+        curentBGMVolume = GetFloat(bgmVolume);
         currentSFXVolume = GetFloat(sfxVolume);
 
         Audios.audioSource_BGM.volume = Volumes.bgm * GetFloat(masterVolume) * GetFloat(bgmVolume);
         Audios.audioSource_EVM.volume = Volumes.evm * GetFloat(masterVolume) * GetFloat(bgmVolume);
         Audios.audioSource_SFX.volume = Volumes.sfx * GetFloat(masterVolume) * GetFloat(sfxVolume);
+        Audios.audioSource_UI.volume = Volumes.ui * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PAttack.volume = Volumes.pAttack * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PHit.volume = Volumes.pHit * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PJump.volume = Volumes.pJump * GetFloat(masterVolume) * GetFloat(sfxVolume);

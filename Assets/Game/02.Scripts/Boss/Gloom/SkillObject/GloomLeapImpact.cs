@@ -8,6 +8,8 @@ public class GloomLeapImpact : MonoBehaviour
 
     private WaitForSeconds waitDuration = null;
 
+    private WaitForSeconds createInterval = new WaitForSeconds(0.2f);
+
     public GameObject leapImpactFlame;
     public VfxActiveHelper[] vfxHelpers;
 
@@ -17,10 +19,6 @@ public class GloomLeapImpact : MonoBehaviour
 
     private int effectsCount;
 
-    private void Awake()
-    {
-
-    }
     private void Start()
     {
         player = GameManager.instance.playerController;
@@ -46,7 +44,6 @@ public class GloomLeapImpact : MonoBehaviour
         StartCoroutine(ProcessImpact());
     }
 
-    private WaitForSeconds createInterval = new WaitForSeconds(0.2f);
     private IEnumerator ProcessImpact()
     {
         //임팩트 불꽃 켜기
