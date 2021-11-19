@@ -176,7 +176,7 @@ public enum eDataManagerState
 }
 
 
-public enum eDiretion
+public enum eDirection
 {
     Left,
     Right,

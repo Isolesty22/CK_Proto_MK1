@@ -82,7 +82,7 @@ public class GloomState_Leap : GloomState
     }
     #endregion
 
-    private eDiretion endDirection;
+    private eDirection endDirection;
 
     private Position pos = new Position();
     private Rotation rot = new Rotation();
@@ -101,7 +101,7 @@ public class GloomState_Leap : GloomState
 
 
         //현재 위치가 오른쪽이면
-        if (gloom.diretion == eDiretion.Right)
+        if (gloom.diretion == eDirection.Right)
         {
             //오른쪽에서 왼쪽으로 이동하게 설정
             pos.start = gloom.Com.gloomMap.gloomPos_Right.position;
@@ -110,7 +110,7 @@ public class GloomState_Leap : GloomState
             rot.start = Quaternion.Euler(new Vector3(0f, 90f, 0f));
             rot.end = Quaternion.Euler(new Vector3(0f, -90, 0f));
 
-            endDirection = eDiretion.Left;
+            endDirection = eDirection.Left;
 
         }
         //왼쪽이면
@@ -123,12 +123,13 @@ public class GloomState_Leap : GloomState
             rot.start = Quaternion.Euler(new Vector3(0f, -90f, 0f));
             rot.end = Quaternion.Euler(new Vector3(0f, 90f, 0f));
 
-            endDirection = eDiretion.Right;
+            endDirection = eDirection.Right;
         }
 
         //상승 위치 설정
         pos.startTop = new Vector3(pos.start.x, pos.start.y + leapValue.upPosValue, pos.start.z);
         pos.endTop = new Vector3(pos.end.x, pos.end.y + leapValue.upPosValue, pos.end.z);
+
 
         gloom.SetAnimEvent(AnimEvent_Jump);
         gloom.SetTrigger("Leap_Start");
@@ -164,6 +165,10 @@ public class GloomState_Leap : GloomState
         //gloom.myTransform.SetPositionAndRotation(pos.startTop, rot.start);
 
         gloom.myTransform.position = pos.startTop;
+
+        //벽 위치 변경
+        gloom.Com.gloomMap.UpdateWall(endDirection);
+
         //점프가 끝나면 착지 이벤트 실행
         //gloom.SetAnimEvent(AnimEvent_Fall);
 
@@ -189,7 +194,7 @@ public class GloomState_Leap : GloomState
     {
 
         //착지 자리에 있는 덩쿨 없애기 
-        if (endDirection == eDiretion.Right)
+        if (endDirection == eDirection.Right)
         {
             if (gloom.ContainsThornVineDict(6))
             {
@@ -244,7 +249,7 @@ public class GloomState_Leap : GloomState
 
 
         //착지 자리에 있는 덩쿨 없애기 
-        if (endDirection == eDiretion.Right)
+        if (endDirection == eDirection.Right)
         {
             if (gloom.ContainsThornVineDict(6))
             {
@@ -436,7 +441,7 @@ public class GloomState_Threat : GloomState
 }
 public class GloomState_ThornPath : GloomState
 {
-    private eDiretion diretion;
+    private eDirection diretion;
     private int[] blockArr;
 
     private WaitForSeconds waitSec;
@@ -582,7 +587,7 @@ public class GloomState_Obstruct : GloomState
         usedIndex = new List<int>();
 
         //방향에 따라 투사체 설정
-        if (gloom.diretion == eDiretion.Right)
+        if (gloom.diretion == eDirection.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
             endPos -= gloom.SkillVal.extendEndPos;
@@ -676,7 +681,7 @@ public class GloomState_Obstruct : GloomState
 }
 public class GloomState_ThornForest : GloomState
 {
-    private eDiretion diretion;
+    private eDirection diretion;
     private int[] blockArr;
 
     private WaitForSeconds waitSec;
@@ -716,7 +721,7 @@ public class GloomState_ThornForest : GloomState
     {
         int length;
         //보스가 오른쪽에 있으면
-        if (diretion == eDiretion.Right)
+        if (diretion == eDirection.Right)
         {
             length = blockArr.Length;
             for (int i = 0; i < 3; i++)
@@ -798,7 +803,7 @@ public class GloomState_Wave : GloomState
     {
         canExit = false;
 
-        if (gloom.diretion == eDiretion.Right)
+        if (gloom.diretion == eDirection.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
             endPos -= gloom.SkillVal.extendEndPos;
@@ -862,7 +867,7 @@ public class GloomState_Advance : GloomState
         lightning.Init();
 
         //오른쪽에 있으면
-        if (gloom.diretion == eDiretion.Right)
+        if (gloom.diretion == eDirection.Right)
         {
             startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 1].positions.topCenter;
             endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min + 1].positions.topCenter;

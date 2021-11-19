@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2502134414525930805}
   m_Layer: 2
-  m_Name: GloomPos_Right
+  m_Name: GloomPos(Right)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -126,6 +126,8 @@ MonoBehaviour:
   myTransform: {fileID: 7065911887380484440}
   gloomPos_Left: {fileID: 3094607623710824548}
   gloomPos_Right: {fileID: 2502134414525930805}
+  leftWall: {fileID: 3492778637469233419}
+  rightWall: {fileID: 3706386756294001133}
   mapDirection: 0
   emptyIndex: 3
   emptyGroundPosY: -2.35
@@ -200,7 +202,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3094607623710824548}
   m_Layer: 2
-  m_Name: GloomPos_Left
+  m_Name: GloomPos(Left)
   m_TagString: Untagged
   m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -227,6 +229,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7065911887380484440}
     m_Modifications:
+    - target: {fileID: 4327583994799243711, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: effectVector.x
+      value: 5.29
+      objectReference: {fileID: 0}
     - target: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -273,7 +279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700772180954754921, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
       propertyPath: m_Name
-      value: WallThornVine
+      value: WallThornVine(Left)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700772182998053315, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
@@ -282,6 +292,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
   m_PrefabInstance: {fileID: 898042737952157876}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3492778637469233419 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4327583994799243711, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+  m_PrefabInstance: {fileID: 898042737952157876}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a574180454055e4295b5db127c482f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1108186400331726930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -289,9 +310,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7065911887380484440}
     m_Modifications:
+    - target: {fileID: 4327583994799243711, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: effectVector.x
+      value: -5.29
+      objectReference: {fileID: 0}
     - target: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
       propertyPath: m_RootOrder
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -335,7 +368,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7700772180954754921, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
       propertyPath: m_Name
-      value: WallThornVine
+      value: WallThornVine(Right)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700772182998053315, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
@@ -344,3 +381,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7700772180954754920, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
   m_PrefabInstance: {fileID: 1108186400331726930}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3706386756294001133 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4327583994799243711, guid: b19569c9aaad44348b123f0e0fecde9d, type: 3}
+  m_PrefabInstance: {fileID: 1108186400331726930}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a574180454055e4295b5db127c482f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

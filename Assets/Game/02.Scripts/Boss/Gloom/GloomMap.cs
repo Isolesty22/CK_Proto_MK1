@@ -42,14 +42,20 @@ public class GloomMap : MonoBehaviour
     private const int blockCount = 7;
 
     public BoxCollider mapCollider;
+
+    [Header("Transform")]
     public Transform myTransform;
 
     public Transform gloomPos_Left;
     public Transform gloomPos_Right;
 
+    [Header("Wall")]
+    public GloomMapWall leftWall;
+    public GloomMapWall rightWall;
+
     [Tooltip("맵의 방향")]
     [HideInInspector]
-    public eDiretion mapDirection;
+    public eDirection mapDirection;
 
     [Header("낭떠러지 관련")]
     [Tooltip("낭떠러지로 지정할 블록의 인덱스")]
@@ -83,7 +89,7 @@ public class GloomMap : MonoBehaviour
     public void Init()
     {
         //오른쪽 방향으로
-        ChangeDirection(eDiretion.Right);
+        ChangeDirection(eDirection.Right);
 
         //mapSize, mapPosition 계산
         UpdateMapVector();
@@ -142,13 +148,13 @@ public class GloomMap : MonoBehaviour
             mapBlocks[i].SetTopCenter(CalcTopCenter(mapBlocks[i].positions));
         }
         Vector3 originPos = mapBlocks[emptyIndex].positions.groundCenter;
-        mapBlocks[emptyIndex].SetGroundCenter(new Vector3(originPos.x, originPos.y+emptyGroundPosY, originPos.z));
+        mapBlocks[emptyIndex].SetGroundCenter(new Vector3(originPos.x, originPos.y + emptyGroundPosY, originPos.z));
     }
 
 
     private void Init_MapBlocksType()
     {
-        for (int i = 0; i < blockCount; i ++)
+        for (int i = 0; i < blockCount; i++)
         {
 
             mapBlocks[i].SetOriginType(MapBlock.eType.None);
@@ -245,22 +251,38 @@ public class GloomMap : MonoBehaviour
     /// 맵의 방향을 바꿉니다. 보스의 현재 위치를 받습니다.
     /// </summary>
     /// <param name="_dir">보스의 현재 위치</param>
-    public void ChangeDirection(eDiretion _dir)
+    public void ChangeDirection(eDirection _dir)
     {
         switch (_dir)
         {
-            case eDiretion.Left:
+            case eDirection.Left:
                 index.min = exclusiveCount;
                 index.max = blockCount;
                 break;
 
-            case eDiretion.Right:
+            case eDirection.Right:
                 index.min = 0;
                 index.max = blockCount - exclusiveCount;
-
                 break;
         }
+    }
 
+    /// <summary>
+    /// GloomMapWall을 업데이트합니다.
+    /// </summary>
+    /// <param name="_dir">보스의 현재 위치</param>
+    public void UpdateWall(eDirection _dir)
+    {
+        if (_dir == eDirection.Left)
+        {
+            rightWall.StartCoUp();
+            leftWall.StartCoDown();
+        }
+        else
+        {
+            leftWall.StartCoUp();
+            rightWall.StartCoDown();
+        }
     }
 
     private void OnDrawGizmos()
@@ -311,9 +333,9 @@ public class GloomMap : MonoBehaviour
 
 
         for (int i = 0; i < projectilePositions.Length; i++)
-        {             
+        {
 
-                Gizmos.color = Color.green;
+            Gizmos.color = Color.green;
 
 
             Gizmos.DrawSphere(projectilePositions[i], 0.2f);

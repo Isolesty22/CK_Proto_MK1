@@ -227,7 +227,7 @@ public class GloomController : BossController
 
     [Tooltip("현재 보스의 위치")]
     [ReadOnly]
-    public eDiretion diretion;
+    public eDirection diretion;
 
     [SerializeField]
     private Components _components;
@@ -286,7 +286,7 @@ public class GloomController : BossController
         //stateMachine.isDebugMode = true;
         stateMachine.StartState((int)eGloomState.Idle);
 
-        ChangeDirection(eDiretion.Right);
+        ChangeDirection(eDirection.Right);
 
         onHitAction = OnHit;
 
@@ -368,7 +368,7 @@ public class GloomController : BossController
     private int currentIndex = 0;
     private IEnumerator ExecutePattern()
     {
-        if (diretion == eDiretion.Right)
+        if (diretion == eDirection.Right)
         {
             myTransform.position = Com.gloomMap.gloomPos_Right.position;
         }
@@ -468,7 +468,7 @@ public class GloomController : BossController
     /// <summary>
     /// 보스의 방향을 바꿉니다. (왼쪽/오른쪽)
     /// </summary>
-    public void ChangeDirection(eDiretion _direction)
+    public void ChangeDirection(eDirection _direction)
     {
         diretion = _direction;
         Com.gloomMap.ChangeDirection(_direction);

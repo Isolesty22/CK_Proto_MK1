@@ -90,8 +90,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7700772180954754920}
-  - component: {fileID: 7667643230771677961}
   - component: {fileID: 3380118852508955288}
+  - component: {fileID: 4327583994799243711}
   m_Layer: 0
   m_Name: WallThornVine
   m_TagString: Untagged
@@ -115,21 +115,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7667643230771677961
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7700772180954754921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a67292187c586b74eb51b632c482bd92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 3380118852508955288}
-  boxCollider: {fileID: 7700772182998053324}
-  effectVector: {x: 7.41, y: 0, z: 0}
 --- !u!54 &3380118852508955288
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -146,6 +131,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4327583994799243711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7700772180954754921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a574180454055e4295b5db127c482f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 3380118852508955288}
+  boxCollider: {fileID: 7700772182998053324}
+  modelTransform: {fileID: 5551820941049726257}
+  effectVector: {x: 0, y: 0, z: 0}
 --- !u!1 &7700772182998053325
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,7 +195,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7700772182998053325}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -239,5 +240,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.6790956, z: 1}
+  m_Center: {x: 0, y: 0.1604524, z: 0}

@@ -156,7 +156,7 @@ public class FieldMapManager : MonoBehaviour
     /// <summary>
     /// 셀렉터를 이동시킵니다.
     /// </summary>
-    public void MoveSelector(eDiretion _dir)
+    public void MoveSelector(eDirection _dir)
     {
         bool moveSucceed = false;
         int moveStageNumber = -1;
@@ -166,7 +166,7 @@ public class FieldMapManager : MonoBehaviour
             gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
         }
 
-        if (_dir == eDiretion.Right)
+        if (_dir == eDirection.Right)
         {
             moveStageNumber = selectedDoor.stageNumber + 1;
 
@@ -304,12 +304,12 @@ public class FieldMapManager : MonoBehaviour
         //오른쪽 이동
         if (Input.GetKeyDown(keyOption.moveRight))
         {
-            MoveSelector(eDiretion.Right);
+            MoveSelector(eDirection.Right);
         }
         //왼쪽 이동
         if (Input.GetKeyDown(keyOption.moveLeft))
         {
-            MoveSelector(eDiretion.Left);
+            MoveSelector(eDirection.Left);
         }
 
 
