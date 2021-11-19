@@ -36,6 +36,7 @@ public class UILosePopup : UIBase
 
     public void Button_Restart()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         SceneChanger.Instance.LoadThisScene(SceneChanger.Instance.GetNowSceneName());
         Com.canvasGroup.interactable = false;
         //Time.timeScale = 1f;
@@ -43,6 +44,7 @@ public class UILosePopup : UIBase
 
     public void Button_ReturnFieldMap()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         Com.canvasGroup.interactable = false;
         //Time.timeScale = 1f;
@@ -50,6 +52,7 @@ public class UILosePopup : UIBase
 
     public void Button_QuitGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenQuitPopup();
     }
 

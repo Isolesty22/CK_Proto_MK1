@@ -3927,7 +3927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 314361432, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 314361432, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3943,7 +3943,7 @@ PrefabInstance:
       objectReference: {fileID: 1065764554}
     - target: {fileID: 1905637099, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1905637099, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4043,7 +4043,7 @@ PrefabInstance:
       objectReference: {fileID: 783687787}
     - target: {fileID: 7656030522470876923, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7656030522470876923, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4071,7 +4071,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9181137522029671492, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9181137522029671492, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10246,7 +10246,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.0572916, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -10263,7 +10263,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 386206113}
   m_LocalRotation: {x: 0.03489949, y: -0, z: -0, w: 0.99939084}
-  m_LocalPosition: {x: 54.23, y: 3.5910208, z: -30.684736}
+  m_LocalPosition: {x: 0, y: 3.5910208, z: -30.684736}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 851807401}
@@ -20002,7 +20002,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3596807244569954174, guid: ee1039e9034460b45b2d709182ff33c3, type: 3}
       propertyPath: m_TagString
-      value: Monster
+      value: ParryingObject
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee1039e9034460b45b2d709182ff33c3, type: 3}
@@ -53658,6 +53658,26 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8100945099093131080, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100945099093131080, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100945099093131080, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100945099093131080, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8100945099093131080, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8441052378158989887, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -55768,6 +55788,7 @@ MonoBehaviour:
     audioSource_BGM: {fileID: 1159313371}
     audioSource_EVM: {fileID: 679365673}
     audioSource_SFX: {fileID: 355290617}
+    audioSource_UI: {fileID: 0}
     audioSource_PAttack: {fileID: 700197899}
     audioSource_PParrying: {fileID: 1723252489}
     audioSource_PWalk: {fileID: 1028487620}
@@ -55779,6 +55800,7 @@ MonoBehaviour:
     bgm: 1
     evm: 1
     sfx: 1
+    ui: 1
     pAttack: 1
     pParrying: 1
     pWalk: 1
@@ -55791,6 +55813,7 @@ MonoBehaviour:
   powerAttack: {fileID: 0}
   currentMasterVolume: 0
   currentSFXVolume: 0
+  curentBGMVolume: 0
 --- !u!4 &1930551996
 Transform:
   m_ObjectHideFlags: 0
@@ -72768,7 +72791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 54.23
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4650393343393378140, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: m_LocalPosition.y

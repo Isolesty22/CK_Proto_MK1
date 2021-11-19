@@ -34,6 +34,8 @@ public class UIPopup_New : UIBase
         }
         button_left.onClick.AddListener(_left);
         button_right.onClick.AddListener(_right);
+        button_left.onClick.AddListener(() => AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]));
+        button_right.onClick.AddListener(()=> AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]));
     }
     private void Start()
     {
@@ -77,7 +79,6 @@ public class UIPopup_New : UIBase
     }
 
     public void CloseMe() => UIManager.Instance.CloseTop();
-
 }
 
 [System.Serializable]

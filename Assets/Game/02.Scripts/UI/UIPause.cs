@@ -48,25 +48,30 @@ public class UIPause : UIBase
 
     public void Button_CloseTop()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.CloseTop();
     }
     public void Button_OpenThis(string _name)
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenThis(_name);
     }
     public void Button_ReturnFieldMap()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
     public void Button_QuitGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenQuitPopup();
     }
 
     public void Button_Restart()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         SceneChanger.Instance.LoadThisScene(SceneChanger.Instance.GetNowSceneName());
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;

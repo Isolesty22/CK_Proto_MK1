@@ -72,11 +72,6 @@ public class RabbitController : MonsterController
         base.Move();
         moveTime += Time.deltaTime;
 
-        if (!Com.audio.isPlaying)
-        {
-            Com.audio.Play();
-        }
-
         if (moveTime > Stat2.moveDelay)
         {
 
@@ -95,6 +90,7 @@ public class RabbitController : MonsterController
                 {
                     Com.rigidbody.velocity = Vector3.zero;
                     transform.localEulerAngles = new Vector3(0, 180, 0);
+                    Com.audio.PlayOneShot(Com.audio.clip);
                     Com.rigidbody.AddForce(new Vector3(Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
                     layDir = Vector3.right;
                 }
@@ -102,6 +98,7 @@ public class RabbitController : MonsterController
                 {
                     Com.rigidbody.velocity = Vector3.zero;
                     transform.localEulerAngles = Vector3.zero;
+                    Com.audio.PlayOneShot(Com.audio.clip);
                     Com.rigidbody.AddForce(new Vector3(-Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
                     layDir = Vector3.left;
                 }
@@ -110,11 +107,13 @@ public class RabbitController : MonsterController
             {
                 if (transform.localEulerAngles == Vector3.zero)
                 {
+                    Com.audio.PlayOneShot(Com.audio.clip);
                     Com.rigidbody.AddForce(new Vector3(-Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
                     layDir = Vector3.left;
                 }
                 else
                 {
+                    Com.audio.PlayOneShot(Com.audio.clip);
                     Com.rigidbody.AddForce(new Vector3(Stat.moveSpeed, Stat2.jumpPower, 0), ForceMode.Impulse);
                     layDir = Vector3.right;
                 }
