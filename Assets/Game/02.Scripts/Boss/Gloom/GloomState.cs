@@ -989,6 +989,7 @@ public class GloomState_Die : GloomState
         gloom.animator.enabled = false;
 
         //gloom.Com.bodyCollider.enabled = false;
+        gloom.SkillObj.whiskers.SetActive(false);
         gloom.Com.wallCollider.enabled = false;
     }
 }

@@ -43,6 +43,8 @@ public class GloomController : BossController
     [Serializable]
     public class SkillObjects
     {
+        public GameObject whiskers;
+
         [Tooltip("불꽃 추아악")]
         public GloomLeapImpact leapImpact;
 
