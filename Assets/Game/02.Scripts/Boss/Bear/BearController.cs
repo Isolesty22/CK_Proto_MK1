@@ -42,30 +42,31 @@ public class BearController : BossController
         public GameObject roarEffect;
         public GameObject roarGroundEffect;
 
-        [Space(10)]
+        [Space(5)]
         public GameObject claw_A_Effect;
         public GameObject claw_B_Effect;
         public Transform clawUnderPosition;
 
-        [Space(10)]
+        [Space(5)]
         public Transform headParringPosition;
         public HeadParryingHelper concentrateHelper;
         public GameObject concentrateSphere;
 
-        [Space(10)]
+        [Space(5)]
+        public SmashHelper smashHelper;
         public GameObject smashRock;
         public Transform handTransform;
 
-
-
-        [Space(10)]
+        [Space(5)]
         public GameObject rushEffect;
         public Texture hurtTex;
         public RushSpiderHelper spiderHelper;
 
-        [Space(10)]
+        [Space(5)]
         public GameObject stampShockEffect;
         public GameObject mushrooms;
+
+        [Space(5)]
         public Transform mushroomPoint_Left;
         public Transform mushroomPoint_Right;
     }
