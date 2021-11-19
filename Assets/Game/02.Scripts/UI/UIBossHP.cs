@@ -35,10 +35,7 @@ public class UIBossHP : UIBase
     }
     void Start()
     {
-        if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
-        {
-            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
-        }
+        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
     }
 
     public void OnTimelineEnded()
