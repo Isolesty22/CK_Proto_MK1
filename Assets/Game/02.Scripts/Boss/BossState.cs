@@ -630,13 +630,19 @@ public class BearState_Claw : BearState
 }
 public class BearState_Smash : BearState
 {
+    WaitForSeconds waitSec = new WaitForSeconds(1f);
+    SmashHelper smashHelper;
     public BearState_Smash(BearController _bearController)
     {
         bearController = _bearController;
+        smashHelper = bearController.skillObjects.smashHelper;
     }
     public override void OnEnter()
     {
         canExit = false;
+
+        followHand = CoFollowHand();
+
         bearController.bearMapInfo.UpdateProjectileRandArray();
         bearController.SetAnimEvent(ActiveHandRock);
         bearController.SetTrigger("Smash_Start");
@@ -644,47 +650,66 @@ public class BearState_Smash : BearState
         //bearController.skillObjects.smashRock.SetActive(true);
         //bearController.StartCoroutine(ProcessUpdate());
     }
+
+    private IEnumerator followHand = null;
+    private IEnumerator CoFollowHand()
+    {
+        while (true)
+        {
+            smashHelper.myTransform.SetPositionAndRotation(smashHelper.bearHandTransform.position, smashHelper.bearHandTransform.rotation);
+            yield return null;
+        }
+    }
+
     public override void OnExit()
     {
         base.OnExit();
     }
 
+    /// <summary>
+    /// 손에 있는 돌덩이를 활성화합니다.
+    /// </summary>
     public void ActiveHandRock()
     {
-        bearController.skillObjects.smashRock.transform.SetPositionAndRotation(bearController.skillObjects.handTransform.position, bearController.skillObjects.handTransform.rotation);
-        bearController.skillObjects.smashRock.SetActive(true);
+        smashHelper.SetActive(true);
+        smashHelper.SetActiveRocks(true);
+        bearController.StartCoroutine(followHand);
+        //bearController.skillObjects.smashRock.transform.SetPositionAndRotation(bearController.skillObjects.handTransform.position, bearController.skillObjects.handTransform.rotation);
+        //bearController.skillObjects.smashRock.SetActive(true);
         bearController.SetAnimEvent(AnimEvent);
     }
     public void AnimEvent()
     {
-
         bearController.StartCoroutine(ProcessAnimEvent());
     }
 
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
     private IEnumerator ProcessAnimEvent()
     {
         //바위 없애기
-        bearController.skillObjects.smashRock.SetActive(false);
+        //bearController.skillObjects.smashRock.SetActive(false);
 
+        //바위가 곰의 손을 더이상 따라가지 않음
+        bearController.StopCoroutine(followHand);
+        smashHelper.SetParentRocks(null);
+        //smashHelper.StartMoveDusts();
 
-        Vector3 startPos = bearController.skillObjects.smashRock.transform.position;
-
+        int length = smashHelper.rockCount;
         //바위 쿠과광
-        int length = bearController.skillValue.smashRandCount;
         for (int i = 0; i < length; i++)
         {
-            Vector3 midPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
-            // midPos = new Vector3(midPos.x, midPos.y, midPos.z);
+            Vector3 startPos = smashHelper.GetPosition(i);
+
+            Vector3 tempPos = bearController.bearMapInfo.projectilePositions[bearController.bearMapInfo.projectileRandArray[i]];
+            Vector3 midPos = new Vector3(tempPos.x, tempPos.y - 5f, tempPos.z);
             Vector3 endPos = new Vector3(midPos.x, bearController.bearMapInfo.mapData.minPosition.y, midPos.z);
 
-            SmashProjectile smashProjectile = bearController.pools.smashProjectile.SpawnThis();
-            smashProjectile.Init(startPos, midPos, endPos);
-            smashProjectile.Move();
+            smashHelper.UpdateVectors(i, startPos, midPos, endPos);
+            smashHelper.StartMove(i);
         }
-
+        smashHelper.SetActive(false);
         yield break;
     }
+
 }
 public class BearState_Concentrate : BearState
 {
