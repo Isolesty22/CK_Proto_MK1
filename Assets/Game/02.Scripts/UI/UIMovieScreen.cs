@@ -9,13 +9,21 @@ public class UIMovieScreen : UIBase
 {
 
     public Image blackPanel;
+    public RenderTexture renderTexture;
     public VideoPlayer videoPlayer;
+
+    [Space(5)]
+    public VideoClip[] videoClips;
+
 
     public IEnumerator playingCoroutine;
 
     public Action OnMovieEnded = null;
 
     private bool isSkip = false;
+
+    [Tooltip("true일 경우, 영상 플레이가 끝날 때 렌더텍스처를 해제하지 않습니다.")]
+    private bool doNotRelease;
     private void Awake()
     {
         playingCoroutine = Playing();
@@ -45,7 +53,13 @@ public class UIMovieScreen : UIBase
     }
     public void Play()
     {
+        StartCoroutine(Playing());
+    }
 
+
+    public void Play(int _index)
+    {
+        videoPlayer.clip = videoClips[_index];
         StartCoroutine(Playing());
     }
     public void OnPressSkip()
@@ -100,5 +114,9 @@ public class UIMovieScreen : UIBase
 
         videoPlayer.Stop();
         OnMovieEnded?.Invoke();
+        if (!doNotRelease)
+        {
+            renderTexture.Release();
+        }
     }
 }
