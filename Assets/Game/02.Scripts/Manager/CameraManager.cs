@@ -90,8 +90,8 @@ public class CameraManager : MonoBehaviour
 
     public void AddShakeValue(float _value)
     {
-        vcamNoise.m_AmplitudeGain = _value;
-        vcamNoise.m_FrequencyGain = _value;
+        vcamNoise.m_AmplitudeGain += _value;
+        vcamNoise.m_FrequencyGain += _value;
     }
     public void SetShakeValue(float _amplitude,float _frequency)
     {
