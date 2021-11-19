@@ -36,7 +36,7 @@ public class MonsterController : MonoBehaviour
         public float initDistance = 10f;
         public float respawnTime = 10f;
         public float audioVolume = 1;
-        public float deathVolume = 0.5f;
+        public float deathVolume = 0.4f;
     }
 
     [Serializable]
@@ -260,7 +260,6 @@ public class MonsterController : MonoBehaviour
 
     IEnumerator Dead()
     {
-        float temp = Com.audio.volume;
         Com.audio.volume = Stat.deathVolume * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         Com.audio.PlayOneShot(AudioManager.Instance.monsterDeath);
         var amount = 0f;

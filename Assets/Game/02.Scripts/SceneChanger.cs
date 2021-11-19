@@ -211,31 +211,32 @@ public class SceneChanger : MonoBehaviour
                 break;
             case "Stage_01":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage1BGM"];
-                AudioManager.Instance.Volumes.bgm = 0.3f;
+                AudioManager.Instance.Volumes.bgm = 0.2f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1;
                 AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clipDict_BGM["Stage1ambient"];
-                AudioManager.Instance.Volumes.evm = 0.4f;
+                AudioManager.Instance.Volumes.evm = 0.3f;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Play();
                 break;
             case "Stage_02":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage2BGM"];
-                AudioManager.Instance.Volumes.bgm = 1f;
+                AudioManager.Instance.Volumes.bgm = 0.7f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1f;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Stop();
                 break;
             case "Stage_03":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage3BGM"];
-                AudioManager.Instance.Volumes.bgm = 1f;
+                AudioManager.Instance.Volumes.bgm = 0.7f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1;
-                AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clipDict_BGM["Stage1ambient"];
+                AudioManager.Instance.Audios.audioSource_EVM.clip = AudioManager.Instance.clipDict_BGM["Stage3ambient"];
+                AudioManager.Instance.Volumes.evm = 0.3f;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Play();
                 break;
             case "Stage_04":
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage4BGM"];
-                AudioManager.Instance.Volumes.bgm = 1f;
+                AudioManager.Instance.Volumes.bgm = 0.2f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1f;
                 AudioManager.Instance.Audios.audioSource_BGM.Play();
                 AudioManager.Instance.Audios.audioSource_EVM.Stop();

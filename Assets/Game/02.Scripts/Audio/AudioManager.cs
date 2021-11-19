@@ -107,8 +107,8 @@ public class AudioManager : MonoBehaviour
     {
         Volumes.ui = .5f;
         Volumes.pAttack = .3f;
-        Volumes.pRun = .5f;
-        Volumes.pWalk = .5f;
+        Volumes.pRun = .4f;
+        Volumes.pWalk = .4f;
         Volumes.pJump = .5f;
         Volumes.pParrying = .7f;
         Volumes.pHit = 1f;
@@ -131,6 +131,9 @@ public class AudioManager : MonoBehaviour
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage3BGM"));
         clipDict_BGM.Add("Stage3BGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage3ambient"));
+        clipDict_BGM.Add("Stage3ambient", DataManager.Instance.fileManager.getAudioClip_Result);
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/Stage4BGM"));
         clipDict_BGM.Add("Stage4BGM", DataManager.Instance.fileManager.getAudioClip_Result);
