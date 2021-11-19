@@ -30,10 +30,11 @@ public class UIMovieScreen : UIBase
         isSkip = false;
         //OnMovieEnded +=  delegate{ Close(); };
     }
-    //private void Start()
-    //{
-    //    StartCoroutine(playingCoroutine);
-    //}
+    private void Start()
+    {
+        Init();
+        UIManager.Instance.AddDict(this);
+    }
     public override void Init()
     {
         CheckOpen();
