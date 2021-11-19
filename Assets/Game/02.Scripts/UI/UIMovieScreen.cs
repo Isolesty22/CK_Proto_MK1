@@ -50,6 +50,7 @@ public class UIMovieScreen : UIBase
     }
     public void OnPressSkip()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         isSkip = true;
     }
 
