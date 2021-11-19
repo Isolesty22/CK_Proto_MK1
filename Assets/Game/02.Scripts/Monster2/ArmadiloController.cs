@@ -152,13 +152,8 @@ public class ArmadiloController : MonsterController
 
     IEnumerator ChangeHitSound()
     {
-        //AudioClip temp = AudioManager.Instance.clips.arrowHitMon;
-        //AudioManager.Instance.clips.arrowHitMon = AudioManager.Instance.clips.arrowHitArmadiloDefence;
-        //yield return null;
-        //AudioManager.Instance.clips.arrowHitMon = temp;
-
         AudioClip temp = AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"];
-        AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = AudioManager.Instance.clipDict_ArrowHit["arrowHitArmadiloDefence"];
+        AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = AudioManager.Instance.clipDict_ArrowHit["armadiloHit"];
         yield return null;
         AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = temp;
 
