@@ -311,6 +311,7 @@ GameObject:
   - component: {fileID: 4178469830452306995}
   - component: {fileID: 1044905968558716822}
   - component: {fileID: 2802735702398950920}
+  - component: {fileID: 100646638844771805}
   m_Layer: 5
   m_Name: UIBossHP[TEST]
   m_TagString: Untagged
@@ -394,8 +395,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66cddd870175f6d469047a939f706d93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpen: 0
+  components:
+    contentObject: {fileID: 4721380911589217844}
+    canvas: {fileID: 4178469830452306995}
+    canvasGroup: {fileID: 100646638844771805}
   bossController: {fileID: 0}
   hpImage: {fileID: 7998096715785647552}
+--- !u!225 &100646638844771805
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6984851219908903337}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7051403242474209646
 GameObject:
   m_ObjectHideFlags: 0
