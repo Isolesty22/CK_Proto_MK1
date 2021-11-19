@@ -20,25 +20,30 @@ public class StageStarter : MonoBehaviour
 
     [Header("Stage Start UI")]
     public UIStageStart uiStageStart;
-    public void Start()
+    public IEnumerator Start()
     {
         if (useTimeline)
         {
             GameManager.instance.playerController.State.moveSystem = true;
-            GameManager.instance.timelineManager.onTimelineEnded += OpenStageStarter;
+            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         }
         else
         {
-            GameManager.instance.timelineManager.onTimelineEnded += OpenStageStarter;
+            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
 
         }
 
-
+        if (SceneChanger.Instance != null)
+        {
+            yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        }
+        StartCoroutine(OpenUI());
+        yield break;
     }
 
-    public void OpenStageStarter()
+    public void OnTimelineEnded()
     {
-        GameManager.instance.timelineManager.onTimelineEnded -= OpenStageStarter;
+        GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
 
         if (useTimeline)
         {
@@ -49,7 +54,13 @@ public class StageStarter : MonoBehaviour
             GameManager.instance.playerController.InputVal.movementInput = 0f;
             GameManager.instance.playerController.MoveSystem(playerMoveEndPosition.position);
         }
-        StartCoroutine(OpenUI());
+        //StartCoroutine(OpenUI());
+    }
+
+    private IEnumerator TestProcess()
+    {
+        yield return new WaitForSeconds(2f);
+        UIManager.Instance.Talk("하찮은 동물 주제에 감히 이 몸을 가로막다니...!");
     }
     private IEnumerator OpenUI()
     {
