@@ -32,11 +32,13 @@ public class UIMainMenu : UIBase
     }
     public void Button_StartNewGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenPopup(eUIText.StartNewGame,
             StartNewGame, UIManager.Instance.CloseTop);
     }
     public void Button_StartTutorial()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenPopup(eUIText.StartTutorial,
             StartNewGame, UIManager.Instance.CloseTop);
     }
@@ -46,6 +48,9 @@ public class UIMainMenu : UIBase
         //상호작용 불가
         Com.canvasGroup.interactable = false;
         UIManager.Instance.CloseTop();
+
+        if(AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
+            AudioManager.Instance.Audios.audioSource_BGM.Stop();
 
         Debug.Log("Start New Game...");
         //DataManager.Instance.currentData_player = new Data_Player();
@@ -92,6 +97,8 @@ public class UIMainMenu : UIBase
     }
     public void Button_ContinueGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
             UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
@@ -109,21 +116,27 @@ public class UIMainMenu : UIBase
 
     private void Button_Continue_OK()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+
         Com.canvasGroup.interactable = false;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
 
     private void Button_Continue_Close()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.CloseTop();
     }
     public void Button_OpenSettings()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
         UIManager.Instance.OpenThis(UIName.UIOption_Main);
     }
 
     public void Button_QuitGame()
     {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+
         UIManager.Instance.OpenQuitPopup();
     }
 }

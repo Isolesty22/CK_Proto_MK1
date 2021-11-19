@@ -82,10 +82,7 @@ public class SpiderController : MonsterController
             {
                 moveTrigger = true;
                 Com.animator.SetBool("isAttack", true);
-                if (!Com.audio.isPlaying)
-                {
-                    Com.audio.Play();
-                }
+                Com.audio.PlayOneShot(Com.audio.clip);
                 ChangeState(MonsterState.ATTACK);
             }
         }

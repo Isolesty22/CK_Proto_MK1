@@ -128,10 +128,7 @@ public class SpitterController : MonsterController
     private IEnumerator Shoot()
     {
         Com.animator.SetTrigger("isAttack");
-        if (!Com.audio.isPlaying)
-        {
-            Com.audio.Play();
-        }
+        Com.audio.PlayOneShot(Com.audio.clip);
         isRunCo = true;
         yield return new WaitForSeconds(0.8f);
         var venom = CustomPoolManager.Instance.curveBulletPool.SpawnThis(transform.position, Vector3.zero, null);
