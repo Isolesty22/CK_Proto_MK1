@@ -16,6 +16,7 @@ public class GloomObstructBullet : MonoBehaviour
 
     public Rigidbody rb;
     //public Transform myTransform;
+    public Collider myCollider;
 
     private Vector3 startPos;
     private Vector3 endPos;
@@ -23,7 +24,8 @@ public class GloomObstructBullet : MonoBehaviour
     private PlayerController player;
     private IEnumerator moveCoroutine = null;
 
-    public Collider myCollider;
+    private WaitForSeconds waitSec = null;
+
 
     private void Start()
     {
@@ -39,6 +41,7 @@ public class GloomObstructBullet : MonoBehaviour
         moveTime = _moveTime;
         waitTime = gloom.SkillVal.obstruct.waitTime;
         myCollider.enabled = false;
+        waitSec = new WaitForSeconds(waitTime);
     }
 
     public void Move()
@@ -48,19 +51,20 @@ public class GloomObstructBullet : MonoBehaviour
 
     private IEnumerator ProcessMove()
     {
-        yield return new WaitForSeconds(waitTime);
+        yield return waitSec;
 
         float timer = 0f;
         float progress = 0f;
+
         myCollider.enabled = true;
+
         while (progress < 1f)
         {
-            timer += Time.deltaTime * curve.Evaluate(progress);
+            timer += Time.fixedDeltaTime * curve.Evaluate(progress);
             progress = timer / moveTime;
-            //Debug.Log(curve.Evaluate(progress));
-            rb.MovePosition(Vector3.Lerp(startPos, endPos, progress));
 
-            yield return null;
+            rb.MovePosition(Vector3.Lerp(startPos, endPos, progress));
+            yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
         rb.MovePosition(endPos);
@@ -74,7 +78,7 @@ public class GloomObstructBullet : MonoBehaviour
 
     private IEnumerator ProcessDespawn()
     {
-        // yield return YieldInstructionCache.WaitForFixedUpdate;
+
         yield return null;
 
         gloom.Pool.obstructBullet.ReleaseThis(this);

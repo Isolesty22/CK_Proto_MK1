@@ -32,7 +32,7 @@ public class ClawProjectile : BearProjectile
         float timer = 0;
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
 
             progress = timer / moveTime;
             myTransform.position = Vector3.Lerp(startPos, endPos, progress);

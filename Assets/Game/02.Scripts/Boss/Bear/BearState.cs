@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -44,10 +44,10 @@ public class BearState_Stamp : BearState
         bearController.skillObjects.stampShockEffect.SetActive(true);
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
-        //¶¥¿¡ ÀÖÀ» °æ¿ì
+        //ë•…ì— ìˆì„ ê²½ìš°
         if (GameManager.instance.playerController.State.isGrounded == true)
         {
-            //ÇÇ°İ °¡´É »óÅÂÀÏ °æ¿ì
+            //í”¼ê²© ê°€ëŠ¥ ìƒíƒœì¼ ê²½ìš°
             if (!GameManager.instance.playerController.IsInvincible())
             {
                 GameManager.instance.playerController.Hit();
@@ -84,12 +84,12 @@ public class BearState_Rush : BearState
         bearController = _bearController;
 
         startPos = bearController.myTransform.position;
-        //¿ŞÂÊ ³¡±îÁö µ¹ÁøÇÏ´Â À§Ä¡ ¼³Á¤
+        //ì™¼ìª½ ëê¹Œì§€ ëŒì§„í•˜ëŠ” ìœ„ì¹˜ ì„¤ì •
         leftRushPos = new Vector3(bearController.bearMapInfo.mapData.minPosition.x - 3f,
             bearController.myTransform.position.y,
             bearController.myTransform.position.z);
 
-        //¸¶Áö¸· À§Ä¡
+        //ë§ˆì§€ë§‰ ìœ„ì¹˜
         phase2Rotation = Quaternion.Euler(new Vector3(0, -90f, 0));
         phase2Pos = bearController.bearMapInfo.phase2Position;
     }
@@ -99,19 +99,19 @@ public class BearState_Rush : BearState
         bearController.StartInvincible();
 
         canGo = true;
-        //¸ÊÀÇ ¿ŞÂÊÀ¸·Î ºü¸£°Ô ÀÌµ¿ÇÏ´Â ÇÔ¼ö
+        //ë§µì˜ ì™¼ìª½ìœ¼ë¡œ ë¹ ë¥´ê²Œ ì´ë™í•˜ëŠ” í•¨ìˆ˜
         bearController.SetAnimEvent(LeftRush);
 
 
         if (bearController.skillValue.summonRushSpider)
         {
-            //°Å¹Ì µîÀå
+            //ê±°ë¯¸ ë“±ì¥
             GameObject.Instantiate(bearController.skillObjects.spiderHelper.gameObject);
         }
 
 
         bearController.colliders.bodyCollider.enabled = false;
-        //¾Ö´Ï¸ŞÀÌ¼Ç ½ºÅ¸Æ®
+        //ì• ë‹ˆë©”ì´ì…˜ ìŠ¤íƒ€íŠ¸
         bearController.SetTrigger("Rush_Start");
     }
     public override void OnExit()
@@ -159,27 +159,27 @@ public class BearState_Rush : BearState
             bearController.myTransform.position = Vector3.Lerp(startPos, leftRushPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //µ¹Áø Á¾·á
+        //ëŒì§„ ì¢…ë£Œ
 
         bearController.SetAnimEvent(StopMove);
         bearController.SetTrigger("Rush_End");
-        //ÀÌÈÄ ÀÚµ¿À¸·Î °È±â ¾Ö´Ï¸ŞÀÌ¼Ç Ãâ·ÂµÊ
+        //ì´í›„ ìë™ìœ¼ë¡œ ê±·ê¸° ì• ë‹ˆë©”ì´ì…˜ ì¶œë ¥ë¨
 
         bearController.skillObjects.rushEffect.SetActive(false);
 
         yield return YieldInstructionCache.WaitForEndOfFrame;
 
-        //È¸Àü
+        //íšŒì „
         bearController.myTransform.rotation = phase2Rotation;
 
-        //ÅØ½ºÃ³ º¯°æ
+        //í…ìŠ¤ì²˜ ë³€ê²½
 
         bearController.SetHurtTexture();
 
         timer = 0f;
         progress = 0f;
 
-        //ÆäÀÌÁî 2 Æ÷Áö¼Ç±îÁö °È±â
+        //í˜ì´ì¦ˆ 2 í¬ì§€ì…˜ê¹Œì§€ ê±·ê¸°
         while (progress < 1f)
         {
             if (!canGo)
@@ -193,7 +193,7 @@ public class BearState_Rush : BearState
             bearController.myTransform.position = Vector3.Lerp(leftRushPos, phase2Pos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //ÆäÀÌÁî 2 Æ÷Áö¼Ç±îÁö µµÂø ¿Ï·á
+        //í˜ì´ì¦ˆ 2 í¬ì§€ì…˜ê¹Œì§€ ë„ì°© ì™„ë£Œ
 
         bearController.SetTrigger("Rush_Walk_End");
         canExit = true;
@@ -208,10 +208,6 @@ public class BearState_Rush : BearState
 public class BearState_Roar : BearState
 {
 
-    /// <summary>
-    /// Åõ»çÃ¼ Áß ¾Ö¹ú·¹°¡ ¼¯¿©³ª¿À´Â °¹¼öÀÔ´Ï´Ù.
-    /// </summary>
-    private int rollerCount;
     private WaitForSeconds waitSec = new WaitForSeconds(1f);
     public BearState_Roar(BearController _bearController)
     {
@@ -223,7 +219,7 @@ public class BearState_Roar : BearState
 
         switch ((eBearState)bearController.stateInfo.stateInt)
         {
-            // Åõ»çÃ¼
+            // íˆ¬ì‚¬ì²´
             case eBearState.Roar_A:
                 bearController.bearMapInfo.UpdateProjectileRandArray();
 
@@ -233,11 +229,11 @@ public class BearState_Roar : BearState
                 bearController.skillObjects.roarGroundEffect.SetActive(true);
                 break;
 
-            // Áß¾Ó °ø°İ
+            // ì¤‘ì•™ ê³µê²©
             case eBearState.Roar_B:
                 bearController.SetAnimEvent(AnimEvent_B);
                 bearController.SetSkillVariety(1);
-                UIManager.Instance.Talk("ÀÌÇÇ¾Æ! ¸öÀ» ³·Ãç!");
+                UIManager.Instance.Talk("ì´í”¼ì•„! ëª¸ì„ ë‚®ì¶°!");
                 break;
 
             default:
@@ -259,11 +255,9 @@ public class BearState_Roar : BearState
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
 
-    //À§¿¡¼­ ¹º°¡ ¶³¾îÁü
+    //ìœ„ì—ì„œ ë­”ê°€ ë–¨ì–´ì§
     private IEnumerator ProcessAnimEvent_A()
     {
-
-        int currentRollerCount = rollerCount;
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
 
@@ -278,6 +272,7 @@ public class BearState_Roar : BearState
             RoarProjectile roarProjectile = bearController.pools.roarProjectile.SpawnThis();
             roarProjectile.Init(startPos, endPos);
             roarProjectile.Move();
+
             yield return new WaitForSeconds(Random.Range(0f, 0.3f));
         }
 
@@ -285,7 +280,7 @@ public class BearState_Roar : BearState
         yield break;
     }
 
-    //¼÷¿©¼­ °ø°İ
+    //ìˆ™ì—¬ì„œ ê³µê²©
     private IEnumerator ProcessAnimEvent_B()
     {
         bearController.skillObjects.roarEffect.SetActive(true);
@@ -295,6 +290,7 @@ public class BearState_Roar : BearState
 }
 public class BearState_Strike : BearState
 {
+    WaitForSeconds waitSec_B = new WaitForSeconds(1.5f);
     public BearState_Strike(BearController _bearController)
     {
         bearController = _bearController;
@@ -320,7 +316,7 @@ public class BearState_Strike : BearState
             default:
                 break;
         }
-        UIManager.Instance.Talk("¹Ù´ÚÀ» Á¶½ÉÇØ, ÀÌÇÇ¾Æ!");
+        UIManager.Instance.Talk("ë°”ë‹¥ì„ ì¡°ì‹¬í•´, ì´í”¼ì•„!");
         bearController.SetTrigger("Strike_Start");
     }
 
@@ -339,7 +335,7 @@ public class BearState_Strike : BearState
         }
     }
     /// <summary>
-    /// ÆäÀÌÁî 1 Àü¿ë ¹è¿­ ¼¯±â
+    /// í˜ì´ì¦ˆ 1 ì „ìš© ë°°ì—´ ì„ê¸°
     /// </summary>
     private void ShuffleArray_Phase1()
     {
@@ -358,7 +354,7 @@ public class BearState_Strike : BearState
     }
 
     /// <summary>
-    /// ÆäÀÌÁî 2 Àü¿ë ¹è¿­ ¼¯±â
+    /// í˜ì´ì¦ˆ 2 ì „ìš© ë°°ì—´ ì„ê¸°
     /// </summary>
     private void ShuffleArray_Phase2()
     {
@@ -378,13 +374,13 @@ public class BearState_Strike : BearState
     #endregion
 
 
-    //ÇØ¾ßÇÔ : Clone ¸»°í Ç®¸µ
+    //í•´ì•¼í•¨ : Clone ë§ê³  í’€ë§
 
     private void CloneStrikeCube(int _bearBlockIndex)
     {
         GameObject.Instantiate(bearController.skillObjects.strikeCube, bearController.bearMapInfo.mapBlocks[_bearBlockIndex].positions.groundCenter, Quaternion.identity);
     }
-    //·£´ı
+    //ëœë¤
     private void AnimEvent_A()
     {   
         GameManager.instance.cameraManager.ShakeCamera();
@@ -393,7 +389,7 @@ public class BearState_Strike : BearState
         CloneStrikeCube(strikePos[2]);
     }
 
-    //¿ŞÂÊºÎÅÍ ¿À¸¥ÂÊ±îÁö
+    //ì™¼ìª½ë¶€í„° ì˜¤ë¥¸ìª½ê¹Œì§€
     private void AnimEvent_B()
     {        
         //Camera Shake
@@ -402,13 +398,13 @@ public class BearState_Strike : BearState
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
 
-    WaitForSeconds waitBSec = new WaitForSeconds(1.5f);
+
     private IEnumerator ProcessAnimEvent_B()
     {
         for (int i = 1; i < 5; i++)
         {
             CloneStrikeCube(i);
-            yield return waitBSec;
+            yield return waitSec_B;
 
         }
     }
@@ -535,16 +531,16 @@ public class BearState_Smash : BearState
     }
 
     /// <summary>
-    /// ¼Õ¿¡ ÀÖ´Â µ¹µ¢ÀÌ¸¦ È°¼ºÈ­ÇÕ´Ï´Ù.
+    /// ì†ì— ìˆëŠ” ëŒë©ì´ë¥¼ í™œì„±í™”í•©ë‹ˆë‹¤.
     /// </summary>
     public void ActiveHandRock()
     {
 
-        //¹ÙÀ§ È°¼ºÈ­
+        //ë°”ìœ„ í™œì„±í™”
         smashHelper.SetActive(true);
         smashHelper.SetActiveRocks(true);
 
-        //¼Õ µû¶ó°¡°Ô
+        //ì† ë”°ë¼ê°€ê²Œ
         bearController.StartCoroutine(followHand);
 
         bearController.SetAnimEvent(AnimEvent);
@@ -557,12 +553,12 @@ public class BearState_Smash : BearState
     private IEnumerator ProcessAnimEvent()
     {
 
-        //¹ÙÀ§°¡ °õÀÇ ¼ÕÀ» ´õÀÌ»ó µû¶ó°¡Áö ¾ÊÀ½
+        //ë°”ìœ„ê°€ ê³°ì˜ ì†ì„ ë”ì´ìƒ ë”°ë¼ê°€ì§€ ì•ŠìŒ
         bearController.StopCoroutine(followHand);
         smashHelper.SetParentRocks(null);
 
         int length = smashHelper.rockCount;
-        //¹ÙÀ§ Äí°ú±¤
+        //ë°”ìœ„ ì¿ ê³¼ê´‘
         for (int i = 0; i < length; i++)
         {
             Vector3 startPos = smashHelper.GetPosition(i);
@@ -596,7 +592,7 @@ public class BearState_Concentrate : BearState
     {
         canExit = false;
         bearController.StartInvincible();
-        UIManager.Instance.Talk("¾Ñ, ¾ÈµÅ! ¾î¼­ ¸Ó¸®¸¦ ¹â¾Æ¹ö·Á!");
+        UIManager.Instance.Talk("ì•—, ì•ˆë¼! ì–´ì„œ ë¨¸ë¦¬ë¥¼ ë°Ÿì•„ë²„ë ¤!");
         concentrate = ProcessConcentrate();
 
         bearController.SetAnimEvent(AnimEvent);
@@ -668,7 +664,7 @@ public class BearState_Powerless : BearState
 
         bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
-        UIManager.Instance.Talk("ÀÌ¶§´Ù! ÀÌÇÇ¾Æ, °ø°İÇØ!");
+        UIManager.Instance.Talk("ì´ë•Œë‹¤! ì´í”¼ì•„, ê³µê²©í•´!");
         bearController.SetTrigger("Powerless_Start");
     }
 
@@ -684,7 +680,7 @@ public class BearState_Powerless : BearState
 
     private IEnumerator ProcessAnimEvent_Begin()
     {
-        //´ë±â
+        //ëŒ€ê¸°
         yield return waitSecBegin;
         bearController.EmissionOn(10f);
         bearController.SetTrigger("Powerless_End");
@@ -692,7 +688,7 @@ public class BearState_Powerless : BearState
 
     private IEnumerator ProcessWaitTime()
     {
-        //´ë±â
+        //ëŒ€ê¸°
         yield return waitSecEnd;
         canExit = true;
     }
@@ -710,7 +706,7 @@ public class BearState_Die : BearState
         canExit = false;
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
-        UIManager.Instance.Talk("ÈŞ...´õ ÀÌ»ó ¿ì¸®¸¦ °ø°İÇÏÁø ¸øÇÒ °Í °°¾Æ.");
+        UIManager.Instance.Talk("íœ´...ë” ì´ìƒ ìš°ë¦¬ë¥¼ ê³µê²©í•˜ì§„ ëª»í•  ê²ƒ ê°™ì•„.");
     }
 
     public void AnimEvent()

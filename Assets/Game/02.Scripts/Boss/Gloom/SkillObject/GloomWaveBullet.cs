@@ -60,7 +60,7 @@ public class GloomWaveBullet : MonoBehaviour
 
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             progress = timer / Val.moveTime;
 
             currentPosition = new Vector3(

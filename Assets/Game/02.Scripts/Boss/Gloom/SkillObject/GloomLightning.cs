@@ -87,7 +87,7 @@ public class GloomLightning : MonoBehaviour
     /// </summary>
     private readonly Vector3 sphereBigScale = new Vector3(1.5f, 1.5f, 1.5f);
 
-
+    private WaitForSeconds waitUpdateDelay = null;
     private float shakeAddValue;
     private void Awake()
     {
@@ -95,6 +95,7 @@ public class GloomLightning : MonoBehaviour
         sphereEffectTransform.gameObject.SetActive(false);
         lineEffectTransform.gameObject.SetActive(false);
         shakeAddValue = 1f / lineCount;
+        waitUpdateDelay = new WaitForSeconds(updateDelay);
         Debug.LogError(shakeAddValue);
     }
 
@@ -147,6 +148,7 @@ public class GloomLightning : MonoBehaviour
 
 
     private Vector3 startTopPos;
+
     /// <summary>
     /// 번개를 쏘지 않고 오직 구체만을 움직입니다. 크기도 커집니다(오브젝트 전체를 감싼 리지드바디를 움직이기 떄문에 주의가 필요합니다).
     /// </summary>
@@ -211,7 +213,8 @@ public class GloomLightning : MonoBehaviour
         {
             lines[i].enabled = true;
             UpdateLightning(eUpdateLightningMode.Forced);
-            yield return new WaitForSeconds(updateDelay);
+
+            yield return waitUpdateDelay;
             currentShakeValue += shakeAddValue;
             GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
         }
@@ -240,7 +243,6 @@ public class GloomLightning : MonoBehaviour
 
     public IEnumerator CoMove()
     {
-
         ClearTimer();
 
         Vector3 currentPos;
@@ -310,7 +312,7 @@ public class GloomLightning : MonoBehaviour
             currentShakeValue -= shakeAddValue;
             GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
 
-            yield return new WaitForSeconds(updateDelay);
+            yield return waitUpdateDelay;
         }
 
         //이펙트 끄기

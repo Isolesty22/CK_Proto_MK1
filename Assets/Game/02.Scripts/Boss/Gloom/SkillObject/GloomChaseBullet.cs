@@ -47,7 +47,7 @@ public class GloomChaseBullet : MonoBehaviour
         Vector3 p1, p2;
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+            timer += Time.fixedDeltaTime;
             progress = timer / Val.moveTime;
 
             p1 = Vector3.Lerp(startPosition, midPosition, progress);
