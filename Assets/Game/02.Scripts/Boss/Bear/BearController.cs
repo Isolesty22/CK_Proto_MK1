@@ -54,7 +54,6 @@ public class BearController : BossController
 
         [Space(5)]
         public SmashHelper smashHelper;
-        public GameObject smashRock;
         public Transform handTransform;
 
         [Space(5)]
@@ -99,8 +98,6 @@ public class BearController : BossController
     {
         public CustomPool<RoarProjectile> roarProjectile = new CustomPool<RoarProjectile>();
         public CustomPool<ClawProjectile> clawProjectile = new CustomPool<ClawProjectile>();
-        public CustomPool<SmashProjectile> smashProjectile = new CustomPool<SmashProjectile>();
-        //public CustomPool<RoarRollerHelper> rollerProjectile = new CustomPool<RoarRollerHelper>();
     }
 
     #endregion
@@ -195,8 +192,6 @@ public class BearController : BossController
     {
         pools.roarProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarProjectile>();
         pools.clawProjectile = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
-        pools.smashProjectile = CustomPoolManager.Instance.CreateCustomPool<SmashProjectile>();
-        //pools.rollerProjectile = CustomPoolManager.Instance.CreateCustomPool<RoarRollerHelper>();
     }
 
     #endregion

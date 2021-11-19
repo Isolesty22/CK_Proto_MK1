@@ -281,6 +281,7 @@ public static class TagName
     public static readonly string ParryingObject = "ParryingObject";
     public static readonly string Monster = "Monster";
     public static readonly string Boss = "Boss";
+    public static readonly string Untagged = "Untagged";
     // public static readonly string  = "FieldMap";
 }
 

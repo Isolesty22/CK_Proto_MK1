@@ -36,34 +36,36 @@ public class SmashRock : MonoBehaviour
 
     private void Awake()
     {
-        rotateSpeed = 2f;
-        moveTime = 2f;
+        rotateSpeed = 1f;
+        moveTime = 2.5f;
 
 
         //피봇을 가운데로 변경하기
 
+        //Vector3 center = meshRenderer.bounds.center;
+        //Debug.Log(center);
+        //modelTr.position -= center;
+        //tr.position += center;
+
+        //originRot = Quaternion.Euler(Vector3.zero);
+        //originPos = tr.localPosition;
+
+        move = CoMove();
+        waitDespawnTime = new WaitForSeconds(2f);
+
+        SetActive(false);
+    }
+
+    public void UpdatePivot(Vector3 _value)
+    {
         Vector3 center = meshRenderer.bounds.center;
+        center -= _value;
 
         modelTr.position -= center;
         tr.position += center;
 
-        originRot = tr.rotation;
-        originPos = tr.position;
-
-        Debug.Log(gameObject.name +" : " +tr.localPosition);
-
-        move = CoMove();
-        waitDespawnTime = new WaitForSeconds(2f);
-    }
-
-
-    private void Start()
-    {
-        Renderer r = GetComponentInChildren<MeshRenderer>();
-       
-
-        //tr.parent.position -= center;
-
+        originRot = Quaternion.Euler(Vector3.zero);
+        originPos = tr.localPosition;
     }
     public void UpdateVectors(Vector3 _start, Vector3 _mid, Vector3 _end)
     {
@@ -73,7 +75,7 @@ public class SmashRock : MonoBehaviour
 
         //회전값 랜덤으로 설정
         rotateDir = new Vector3((int)Random.Range(0, 2), (int)Random.Range(0, 2), (int)Random.Range(0, 2));
-        
+
         //아예 안돌면 z값 돌리기
         if (rotateDir == Vector3.zero)
         {
@@ -96,6 +98,7 @@ public class SmashRock : MonoBehaviour
     {
 
         tr.parent = null;
+        gameObject.tag = TagName.ParryingObject;
 
         float progress = 0f;
         float timer = 0;
@@ -126,6 +129,7 @@ public class SmashRock : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
+        gameObject.tag = TagName.Untagged;
         //사라짐 대기시간
         yield return waitDespawnTime;
         Despawn();
@@ -138,12 +142,13 @@ public class SmashRock : MonoBehaviour
     {
         SetActive(false);
 
-        //위치, 회전값을 원래대로 되돌리기
-        tr.rotation = originRot;
-        tr.position = originPos;
-
         //부모를 원래대로 되돌리기
         tr.parent = parentTransform;
+
+        //위치, 회전값을 원래대로 되돌리기
+        tr.localRotation = originRot;
+        tr.localPosition = originPos;
+
 
         move = null;
     }
