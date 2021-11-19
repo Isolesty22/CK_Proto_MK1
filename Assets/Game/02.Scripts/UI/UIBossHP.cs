@@ -10,7 +10,7 @@ public class UIBossHP : UIBase
     public BossController bossController;
     public Image hpImage;
     private float maxHP;
-
+    private string sceneName;
 
     private void Awake()
     {
@@ -19,27 +19,25 @@ public class UIBossHP : UIBase
     public override void Init()
     {
         CheckOpen();
+        sceneName = SceneManager.GetActiveScene().name;
 
-        Com.canvas.enabled = false;
-
-        string sceneName = SceneManager.GetActiveScene().name;
-
+        Debug.Log("!!" + sceneName);
         if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
         {
+            gameObject.SetActive(true);
             bossController = FindObjectOfType<BossController>();
             maxHP = bossController.hp;
-        }
-    }
-    void Start()
-    {
-        if (SceneManager.GetActiveScene().name == "Stage_02" || SceneManager.GetActiveScene().name == "Stage_0")
-        {
-            gameObject.SetActive(true);
-            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         }
         else
         {
             gameObject.SetActive(false);
+        }
+    }
+    void Start()
+    {
+        if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
+        {
+            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         }
     }
 
