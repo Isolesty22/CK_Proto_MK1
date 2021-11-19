@@ -6,7 +6,7 @@ public class GloomBerserk : MonoBehaviour
 {
 
     [Tooltip("발 부분에 생기는 불 이펙트입니다.")]
-    public ParticleSystem[] toeFlames;
+    public ParticleSystem[] particles;
     public SkinnedMeshRenderer meshRenderer;
 
 
@@ -24,10 +24,10 @@ public class GloomBerserk : MonoBehaviour
         maneMat = meshRenderer.materials[1];
         maneMat.SetColor("_EmissionColor", originColor);
 
-        toeFlamesLength = toeFlames.Length;
+        toeFlamesLength = particles.Length;
         for (int i = 0; i < toeFlamesLength; i++)
         {
-            toeFlames[i].gameObject.SetActive(false);
+            particles[i].gameObject.SetActive(false);
         }
     }
 
@@ -38,8 +38,8 @@ public class GloomBerserk : MonoBehaviour
     {
         for (int i = 0; i < toeFlamesLength; i++)
         {
-            toeFlames[i].gameObject.SetActive(true);
-            toeFlames[i].Play();
+            particles[i].gameObject.SetActive(true);
+            particles[i].Play();
         }
         maneMat.SetColor("_EmissionColor", berserkColor);
     }
@@ -51,7 +51,7 @@ public class GloomBerserk : MonoBehaviour
     {
         for (int i = 0; i < toeFlamesLength; i++)
         {
-            toeFlames[i].Stop();
+            particles[i].Stop();
         }
         maneMat.SetColor("_EmissionColor", originColor);
     }
