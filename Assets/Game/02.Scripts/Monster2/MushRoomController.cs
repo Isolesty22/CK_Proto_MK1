@@ -123,7 +123,10 @@ public class MushRoomController : MonsterController
 
     public override void Hit(int damage)
     {
-        base.Hit(damage);
+        if (state == MonsterState.IDLE)
+            return;
+        else
+            base.Hit(damage);
     }
 
     protected override void Death()
