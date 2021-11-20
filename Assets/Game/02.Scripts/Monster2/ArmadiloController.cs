@@ -32,6 +32,10 @@ public class ArmadiloController : MonsterController
 
     [SerializeField]
     private ArmadiloState armaState;
+    [SerializeField]
+    private AudioClip originSound;
+
+    private float originEnergy;
     #endregion
     public override void Initialize()
     {
@@ -46,6 +50,11 @@ public class ArmadiloController : MonsterController
     public override void Awake()
     {
         base.Awake();
+    }
+
+    public override void Start()
+    {
+        originEnergy = GameManager.instance.playerController.Stat.attackEnerge;
     }
 
     public override void Update()
@@ -152,10 +161,11 @@ public class ArmadiloController : MonsterController
 
     IEnumerator ChangeHitSound()
     {
-        AudioClip temp = AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"];
         AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = AudioManager.Instance.clipDict_ArrowHit["armadiloHit"];
+        GameManager.instance.playerController.Stat.attackEnerge = 0;
         yield return null;
-        AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = temp;
-
+        AudioManager.Instance.clipDict_ArrowHit["arrowHitMon"] = originSound;
+        GameManager.instance.playerController.Stat.attackEnerge = originEnergy;
     }
+
 }
