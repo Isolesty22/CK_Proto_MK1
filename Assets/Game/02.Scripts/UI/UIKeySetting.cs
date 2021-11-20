@@ -334,7 +334,7 @@ public class UIKeySetting : UIBase
     /// </summary>
     private void Button_InputChangeKey(string _keyType)
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         InputChangeKey(_keyType);
     }
 
@@ -343,7 +343,7 @@ public class UIKeySetting : UIBase
     /// </summary>
     public void Button_SetDefault()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         currentData_keyOption = new KeyOption();
         Init_KeyChangeButtons();
         SetFailed(false);
@@ -356,7 +356,7 @@ public class UIKeySetting : UIBase
     /// </summary>
     public void Button_Save()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         if (isSaving || !CanSave())
         {
             Debug.Log("키 변경 중에는 저장할 수 없습니다.");

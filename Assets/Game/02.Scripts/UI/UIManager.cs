@@ -284,11 +284,18 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        PlayAudio_Click();
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #endif
         Application.Quit();
     }
+
+
+    public void PlayAudio_Click()
+    {
+        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+    }
+
     private void VoidFunc() { }
 }

@@ -135,7 +135,7 @@ public class UIVolumeSetting : UIBase
 
     public void Button_Close()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         //변경사항이 있다면
         if (!(currentData_settings.IsEquals(dataManager.currentData_settings)))
         {
@@ -152,7 +152,7 @@ public class UIVolumeSetting : UIBase
 
     public void Button_Save()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         if (isSaving)
         {
             return;
@@ -162,7 +162,7 @@ public class UIVolumeSetting : UIBase
 
     public void Button_SetDefault()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         //현재 데이터를 저장된 데이터로 변경(폐기)
         //currentData_settings.CopyData(DataManager.Instance.currentData_settings);
         currentData_settings = new Data_Settings();
@@ -179,7 +179,7 @@ public class UIVolumeSetting : UIBase
     /// </summary>
     private void Button_Changes_Save()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         if (isSaving)
         {
             return;
@@ -193,7 +193,7 @@ public class UIVolumeSetting : UIBase
     }
     private void Button_Changes_Close()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         //현재 데이터를 저장된 데이터로 변경(폐기)
         currentData_settings.CopyData(dataManager.currentData_settings);
 
