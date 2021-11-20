@@ -28,4 +28,5 @@ public class TutorialCollider : MonoBehaviour
             //onTriggerEnter.Invoke();
         }
     }
+
 }
