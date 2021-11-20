@@ -53,7 +53,7 @@ MonoBehaviour:
   monsterStatus:
     name: Armadilo
     hp: 0
-    maxHp: 3
+    maxHp: 6
     moveSpeed: 0
     isAlive: 0
     isCanSpawnMon: 0
@@ -76,8 +76,9 @@ MonoBehaviour:
   playerOutOfRange: 0
   inAttackCol: 0
   armadiloStatus:
-    overturnTime: 1
+    overturnTime: 1.5
   armaState: 0
+  originSound: {fileID: 8300000, guid: ed9f9835f860ce848aa3d40c555e8ec6, type: 3}
 --- !u!54 &2636562877231805735
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -309,7 +310,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 15, y: 5, z: 2}
+  m_Size: {x: 20, y: 5, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1336617225881730582
 PrefabInstance:
