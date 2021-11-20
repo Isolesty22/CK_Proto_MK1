@@ -174,7 +174,7 @@ public class SceneChanger : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name;
     }
-    public Action onSceneLoadEnded = null;
+    public event Action onSceneLoadEnded = null;
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
