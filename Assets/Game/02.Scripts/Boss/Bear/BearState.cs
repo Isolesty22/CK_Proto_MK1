@@ -524,7 +524,7 @@ public class BearState_Smash : BearState
                 smashHelper.bearHandTransform.position, 
                 smashHelper.bearHandTransform.rotation);
 
-            yield return null;
+            yield return YieldInstructionCache.WaitForEndOfFrame;
         }
     }
 
