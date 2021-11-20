@@ -464,5 +464,6 @@ public class TempTutorialLoader : MonoBehaviour
     {
         coDict = null;
         tcDict = null;
+        StopCoroutine(currentCoName);
     }
 }

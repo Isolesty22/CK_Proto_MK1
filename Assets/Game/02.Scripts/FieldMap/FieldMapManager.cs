@@ -37,6 +37,7 @@ public class FieldMapManager : MonoBehaviour
 
         //로딩이 끝날 때 까지 대기
         yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
         CheckOpenDoor();
         //CheckOpenDoor();
 
@@ -297,6 +298,43 @@ public class FieldMapManager : MonoBehaviour
         }
 
 
+    }
+
+    public void Button_MoveSelector(int _stageNumber)
+    {
+        FieldDoor door = null;
+        //딕셔너리에 있다면
+        if (fieldDoorDict.TryGetValue(_stageNumber, out door))
+        {
+
+
+            if (door.mode == FieldDoor.eMode.Lock)
+            {
+                gameMessage.Open("아직은 이동할 수 없습니다.");
+            }
+            else
+            {
+                if (door == selectedDoor)
+                {
+                    canDetectKey = false;
+                    enterStageAction?.Invoke();
+                }
+                else
+                {
+                    selector.MovePosition(door.selectTransform.position);
+                    SelectDoor(_stageNumber);
+                    UpdateScrollPosition(selectedDoor.stageNumber);
+                    Scroll();
+                }
+
+            }
+        }
+
+
+        else
+        {
+            Debug.LogWarning("등록되지 않은 스테이지 넘버입니다 : " + _stageNumber);
+        }
     }
 
     private void DetectKey()
