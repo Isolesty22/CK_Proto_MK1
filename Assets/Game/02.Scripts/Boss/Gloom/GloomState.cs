@@ -154,20 +154,16 @@ public class GloomState_Leap : GloomState
             timer += Time.deltaTime;
             progress = timer / leapValue.upTime;
 
-            //gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.start, pos.startTop, progress),
-            //    Quaternion.Lerp(rot.start, rot.end, progress));
-
             gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
-            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
+
             yield return null;
         }
 
-        //gloom.myTransform.SetPositionAndRotation(pos.startTop, rot.start);
 
         gloom.myTransform.position = pos.startTop;
 
         //벽 위치 변경
-        gloom.Com.gloomMap.UpdateWall(endDirection);
+        //gloom.Com.gloomMap.UpdateWall(endDirection);
 
         //점프가 끝나면 착지 이벤트 실행
         //gloom.SetAnimEvent(AnimEvent_Fall);
@@ -179,7 +175,6 @@ public class GloomState_Leap : GloomState
     /// <summary>
     /// 일정시간 이후에 Leap_End 애니메이션으로 전환합니다.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator DelayLeapEndAnimation()
     {
         yield return downAnimTime;
@@ -221,19 +216,16 @@ public class GloomState_Leap : GloomState
             timer += Time.deltaTime;
             progress = timer / leapValue.downTime;
 
-            gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
+            gloom.myTransform.SetPositionAndRotation(
+                Vector3.Lerp(pos.endTop, pos.end, progress),
                 Quaternion.Lerp(rot.start, rot.end, progress));
 
-            //gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
-            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
             yield return null;
         }
 
         gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
         //gloom.SetTrigger("Leap_End");
 
-        //리프 임팩트 실행
-        // gloom.SkillObj.leapStartImpact.SetActive(true);
         gloom.SkillObj.leapImpact.StartImpact();
         GameManager.instance.cameraManager.ShakeCamera();
         //방향 바꿈 판정
@@ -277,8 +269,6 @@ public class GloomState_Leap : GloomState
             gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
                 Quaternion.Lerp(rot.start, rot.end, progress));
 
-            //gloom.myTransform.position = Vector3.Lerp(pos.start, pos.startTop, progress);
-            //gloom.myTransform.rotation = Quaternion.Euler((Vector3.Lerp(rot.start, rot.end, progress)));
             yield return null;
         }
 
@@ -322,7 +312,7 @@ public class GloomState_Resonance : GloomState
         // float summonInterval = gloom.SkillVal.resonance.createInterval;
         float summonInterval = 0f;
 
-        //gloom.SkillObj.resonanceSphereEffect.SetActiveTime(skillVal.resonanceTime);
+
         gloom.SkillObj.resonanceSphere.SetActive(true);
 
         gloom.StartInvincible();
@@ -833,19 +823,8 @@ public class GloomState_Wave : GloomState
         upBullet.Move();
         downBullet.Move();
 
-        //gloom.StartCoroutine(ProcessSkill());
     }
 
-    //private IEnumerator ProcessSkill()
-    //{
-    //    GloomWaveBullet upBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
-    //    GloomWaveBullet downBullet = gloom.Pool.waveBullet.SpawnThis(startPos);
-
-    //    upBullet.Init(gloom, GloomWaveBullet.eMode.Up);
-    //    downBullet.Init(gloom, GloomWaveBullet.eMode.Down);
-    //    upBullet.Move();
-    //    downBullet.Move();
-    //}
 }
 public class GloomState_Advance : GloomState
 {
@@ -878,12 +857,6 @@ public class GloomState_Advance : GloomState
             startPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.min].positions.topCenter;
             endPos = gloom.Com.gloomMap.mapBlocks[gloom.Com.gloomMap.index.max - 2].positions.topCenter;
         }
-
-
-
-        //lightning.SetMoveSpherePosition(gloom.SkillObj.obstructTransforms[2].position, startPos);
-
-        //lightning.SetXPosition(startPos, endPos);
 
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Advance_Start");
@@ -952,7 +925,6 @@ public class GloomState_Powerless : GloomState
         gloom.SetTrigger("Powerless_Start");
         //gloom.SetAnimEvent(AnimEvent);
         gloom.StartCoroutine(ProcessPowerless());
-        UIManager.Instance.Talk("어둠의 힘이 더 날뛰는 것 같아...조심해!");
     }
 
     public void AnimEvent()
@@ -987,9 +959,9 @@ public class GloomState_Die : GloomState
     public void AnimEvent()
     {
         gloom.animator.enabled = false;
+        gloom.SkillObj.whiskers.SetActive(false);
 
         //gloom.Com.bodyCollider.enabled = false;
-        gloom.SkillObj.whiskers.SetActive(false);
         gloom.Com.wallCollider.enabled = false;
     }
 }

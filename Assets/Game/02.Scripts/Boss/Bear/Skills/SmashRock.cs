@@ -10,6 +10,7 @@ public class SmashRock : MonoBehaviour
     [Tooltip("소멸 시 되돌아갈 부모 트랜스폼")]
     public Transform parentTransform;
 
+
     [Space(5)]
 
     public Transform tr;
