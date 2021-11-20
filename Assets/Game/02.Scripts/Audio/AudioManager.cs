@@ -94,6 +94,9 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
+        if (monsterDeath == null)
+            Init();
+
         SettingVolume();
     }
 

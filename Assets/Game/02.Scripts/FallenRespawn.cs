@@ -27,5 +27,9 @@ public class FallenRespawn : MonoBehaviour
                 GameManager.instance.playerController.transform.position = spawnPos.position + Vector3.up;
             }
         }
+        else if (collision.transform.CompareTag("Monster"))
+        {
+            collision.transform.GetComponent<MonsterController>().ChangeState(MonsterController.MonsterState.DEATH);
+        }
     }
 }

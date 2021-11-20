@@ -27,6 +27,7 @@ public class BitterController : MonsterController
 
     public Tween tween;
 
+    bool isReturnStart;
     #endregion
     public override void Initialize()
     {
@@ -60,10 +61,14 @@ public class BitterController : MonsterController
 
         if(gameObject.transform.position.y != Com.spawnPos.y)
         {
-            Com.animator.SetBool("isAttack", false);
-            Utility.KillTween(tween);
-            tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
-            tween.Play();
+            if (!isReturnStart)
+            {
+                isReturnStart = true;
+                Com.animator.SetBool("isAttack", false);
+                Utility.KillTween(tween);
+                tween = transform.DOMove(Com.spawnPos, Stat2.upDownSpeed).SetEase(Ease.InCubic);
+                tween.Play();
+            }
         }
     }
 
@@ -78,6 +83,8 @@ public class BitterController : MonsterController
     protected override void Attack()
     {
         base.Attack();
+
+        isReturnStart = false;
 
         if (gameObject.transform.position.y == Com.spawnPos.y)
         {
