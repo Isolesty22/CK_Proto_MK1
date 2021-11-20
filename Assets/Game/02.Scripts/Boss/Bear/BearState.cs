@@ -116,7 +116,8 @@ public class BearState_Rush : BearState
     }
     public override void OnExit()
     {
-        bearController.colliders.bodyCollider.enabled = true;
+        //다시 공격을 받아야하니까 원래대로 변경
+        bearController.gameObject.tag = TagName.Boss;
         bearController.EndInvincible();
     }
 
@@ -144,6 +145,9 @@ public class BearState_Rush : BearState
 
         bearController.SetAnimEvent(StopMove);
 
+        //정령 게이지 안채우게 하려고 태그를 변경
+        bearController.gameObject.tag = TagName.Untagged;
+
         bearController.skillObjects.rushEffect.SetActive(true);
         while (progress < 1f)
         {
@@ -163,7 +167,6 @@ public class BearState_Rush : BearState
         bearController.SetAnimEvent(StopMove);
         bearController.SetTrigger("Rush_End");
         //이후 자동으로 걷기 애니메이션 출력됨
-
         bearController.skillObjects.rushEffect.SetActive(false);
 
         yield return YieldInstructionCache.WaitForEndOfFrame;
@@ -172,8 +175,10 @@ public class BearState_Rush : BearState
         bearController.myTransform.rotation = phase2Rotation;
 
         //텍스처 변경
-
         bearController.SetHurtTexture();
+
+        //콜라이더 활성화
+        bearController.colliders.bodyCollider.enabled = true;
 
         timer = 0f;
         progress = 0f;

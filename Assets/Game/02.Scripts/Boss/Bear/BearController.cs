@@ -206,6 +206,7 @@ public class BearController : BossController
 
         //    }
 
+        talkDict = new Dictionary<int, Action>();
 
         for (int i = 200; i <= 210; i++)
         {
@@ -245,8 +246,13 @@ public class BearController : BossController
                 //myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
                 //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
+                //해야함 : 빌드 시에 널체크 뺴기
                 //2페이즈 대사 추가
-                talkDict.Add(203, () => UIManager.Instance.Talk(206, 2f));
+                if (DataManager.Instance != null)
+                {
+                    talkDict.Add(203, () => UIManager.Instance.Talk(206, 2f));
+
+                }
 
                 //투사체 위치 다시 계산
                 bearMapInfo.leftPadding = 0;

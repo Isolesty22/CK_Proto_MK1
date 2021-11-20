@@ -120,7 +120,19 @@ public class BossController : MonoBehaviour, IDamageable
     /// </summary>
     public void TalkOnce(int _CODE)
     {
+        //해야함 : 빌드 시에 널체크 빼기
+        if (DataManager.Instance == null)
+        {
+            return;
+        }
+
         talkAction = null;
+        //if (talkDict.ContainsKey(_CODE))
+        //{
+        //    talkAction = talkDict[_CODE];
+        //    talkAction();
+        //    talkDict.Remove(_CODE);
+        //}
         if (talkDict.TryGetValue(_CODE, out talkAction))
         {
             talkAction();
