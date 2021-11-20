@@ -42,6 +42,7 @@ public class UIPlayerHP : UIBase
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         Init();
         CheckOpen();
+        UIManager.Instance.AddDict(this);
         UpdateUI();
 
     }
@@ -147,5 +148,22 @@ public class UIPlayerHP : UIBase
         yield return new WaitForSeconds(1f);
         UIManager.Instance.OpenThis(UIName.UILosePopup);
 
+    }
+
+    public override bool Open()
+    {
+        StartCoroutine(ProcessOpen());
+        return true;
+
+        //Com.canvas.enabled = true;
+        //return isOpen = Com.canvas.enabled;
+    }
+
+    public override bool Close()
+    {
+        StartCoroutine(ProcessClose());
+        return true;
+        //Com.canvas.enabled = false;
+        //return !(isOpen = Com.canvas.enabled);
     }
 }
