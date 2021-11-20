@@ -581,12 +581,15 @@ public class BearState_Concentrate : BearState
 
     private Transform sphereTransform;
     private HeadParryingHelper helper;
+
+
     public BearState_Concentrate(BearController _bearController)
     {
         bearController = _bearController;
 
         sphereTransform = bearController.skillObjects.concentrateSphere.transform;
         helper = bearController.skillObjects.concentrateHelper;
+
     }
     public override void OnEnter()
     {
@@ -649,28 +652,42 @@ public class BearState_Concentrate : BearState
 }
 public class BearState_Powerless : BearState
 {
-    WaitForSeconds waitSecBegin;
-    WaitForSeconds waitSecEnd;
+    private WaitForSeconds waitSecBegin;
+    private WaitForSeconds waitSecEnd;
+
+    private ParticleSystem stunEffect;
     public BearState_Powerless(BearController _bearController)
     {
         bearController = _bearController;
         waitSecBegin = new WaitForSeconds(bearController.skillValue.powerlessTime);
         waitSecEnd = new WaitForSeconds(bearController.currentPattern.waitTime);
+        stunEffect = bearController.skillObjects.stunEffect;
     }
     public override void OnEnter()
     {
         canExit = false;
-        bearController.SetAnimEvent(AnimEvent_WaitEnd);
 
         bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
+
         UIManager.Instance.Talk("이때다! 이피아, 공격해!");
+
+        bearController.SetAnimEvent(AnimEvent_StunEffectOn);
         bearController.SetTrigger("Powerless_Start");
+
     }
 
     public override void OnExit()
     {
         bearController.EmissionOn(10f);
+
+    }
+    public void AnimEvent_StunEffectOn()
+    {
+        stunEffect.gameObject.SetActive(true);
+        stunEffect.Play();
+
+        bearController.SetAnimEvent(AnimEvent_WaitEnd);
     }
 
     public void AnimEvent_WaitEnd()
@@ -684,6 +701,10 @@ public class BearState_Powerless : BearState
         yield return waitSecBegin;
         bearController.EmissionOn(10f);
         bearController.SetTrigger("Powerless_End");
+
+        stunEffect.Stop();
+        stunEffect.gameObject.SetActive(false);
+
     }
 
     private IEnumerator ProcessWaitTime()
