@@ -34,8 +34,8 @@ public class UIPopup_New : UIBase
         }
         button_left.onClick.AddListener(_left);
         button_right.onClick.AddListener(_right);
-        button_left.onClick.AddListener(() => AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]));
-        button_right.onClick.AddListener(()=> AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]));
+        button_left.onClick.AddListener(() => UIManager.Instance.PlayAudio_Click());
+        button_right.onClick.AddListener(() => UIManager.Instance.PlayAudio_Click());
     }
     private void Start()
     {
@@ -86,5 +86,5 @@ public class UIPopupTextImages
 {
     public eUIText uiText;
     public Sprite textSprite;
-    
+
 }

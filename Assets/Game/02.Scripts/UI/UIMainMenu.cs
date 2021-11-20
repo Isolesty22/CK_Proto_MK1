@@ -32,13 +32,13 @@ public class UIMainMenu : UIBase
     }
     public void Button_StartNewGame()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenPopup(eUIText.StartNewGame,
             StartNewGame, UIManager.Instance.CloseTop);
     }
     public void Button_StartTutorial()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenPopup(eUIText.StartTutorial,
             StartNewGame, UIManager.Instance.CloseTop);
     }
@@ -60,13 +60,13 @@ public class UIMainMenu : UIBase
         DataManager.Instance.currentData_player = new Data_Player();
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
 
-        movieScreen.OnMovieEnded += OnMovieEnded;
+        movieScreen.onMovieEnded += OnMovieEnded;
         StartCoroutine(movieScreen.playingCoroutine);
     }
 
     private void OnMovieEnded()
     {
-        movieScreen.OnMovieEnded -= OnMovieEnded;
+        movieScreen.onMovieEnded -= OnMovieEnded;
 
         UIManager.Instance.OpenPopup(eUIText.StartTutorial, LoadTutorial, LoadFieldMap);
     }
@@ -97,7 +97,7 @@ public class UIMainMenu : UIBase
     }
     public void Button_ContinueGame()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
 
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
@@ -116,7 +116,7 @@ public class UIMainMenu : UIBase
 
     private void Button_Continue_OK()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
 
         Com.canvasGroup.interactable = false;
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -124,19 +124,18 @@ public class UIMainMenu : UIBase
 
     private void Button_Continue_Close()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.CloseTop();
     }
     public void Button_OpenSettings()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenThis(UIName.UIOption_Main);
     }
 
     public void Button_QuitGame()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
-
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenQuitPopup();
     }
 }

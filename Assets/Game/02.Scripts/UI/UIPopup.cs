@@ -48,23 +48,23 @@ public class UIPopup : UIBase
 
     public void Button_OpenThis(UIBase _uiBase)
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenThis(_uiBase);
     }
     public void Button_OpenThis(string _uiName)
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenThis(_uiName);
     }
     public void Button_CloseTop()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.CloseTop();
     }
 
     public void Button_QuitGame()
     {
-        AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
+        UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.OpenQuitPopup();
     }
 }
