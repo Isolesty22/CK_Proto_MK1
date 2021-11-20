@@ -38,6 +38,7 @@ public class TempTutorialLoader : MonoBehaviour
         DataManager.Instance.UpdateTalkData();
 
         yield return null;
+        currentTalkCode = 900;
         player = GameManager.instance.playerController;
         uiPlayer = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
         StartCoroutine(CoBeginTutorial());
@@ -296,7 +297,6 @@ public class TempTutorialLoader : MonoBehaviour
 
         Talk("좋았어! 이대로 지나가보자.");
         MessageOpen("'패링'은 땅에 닿기 전까지\n몇 번이고 연속해서 사용할 수 있습니다. ");
-        yield return wait3sec;
         MessageClose();
     }
 
@@ -335,7 +335,7 @@ public class TempTutorialLoader : MonoBehaviour
         CanMove(false, false);
         MessageOpen("게이지를 일정량 획득하여 꽃이 한 송이씩 필 때마다, \n루미에의 '강공격'을 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        Talk("좋았어. 뭔가 보여드리겠습니다. ");
+        Talk("좋았어. 뭔가 보여드리겠습니다.");
         MessageOpen("[C] 키로 강공격을 사용하세요.");
 
         CanMove(true, false);
@@ -346,7 +346,7 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         MessageClose();
-        Talk("봤지? 난 그냥 따라다니기만 하는 마스코트가 아니야!\n이 교수 자식들아!!");
+        Talk("봤지? 난 그냥 졸졸 따라다니기만 하는 마스코트가 아니야!");
     }
 
     private IEnumerator CoPrac_Attack_Ult()
@@ -391,19 +391,24 @@ public class TempTutorialLoader : MonoBehaviour
         player.InputVal.movementInput = 1f;
 
         GameManager.instance.cameraManager.vcam.Follow =null;
-        yield return waitSsec;
-
+        yield return wait3sec;
+        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
         GameManager.instance.EndTutorial();
 
 
     }
+    private int currentTalkCode = 900;
     private void Talk(string _str)
     {
-        UIManager.Instance.Talk(_str, talkTime);
+        UIManager.Instance.Talk(currentTalkCode, talkTime);
+        currentTalkCode += 1;
+        //UIManager.Instance.Talk(_str, talkTime);
     }
     private void TalkInfinity(string _str)
     {
-        UIManager.Instance.TalkInfinity(_str);
+        UIManager.Instance.TalkInfinity(currentTalkCode);
+        currentTalkCode += 1;
+        //UIManager.Instance.TalkInfinity(_str);
     }
     private void TalkEnd()
     {
