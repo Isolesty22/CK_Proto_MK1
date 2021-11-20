@@ -925,7 +925,6 @@ public class GloomState_Powerless : GloomState
         gloom.SetTrigger("Powerless_Start");
         //gloom.SetAnimEvent(AnimEvent);
         gloom.StartCoroutine(ProcessPowerless());
-        UIManager.Instance.Talk("어둠의 힘이 더 날뛰는 것 같아...조심해!");
     }
 
     public void AnimEvent()

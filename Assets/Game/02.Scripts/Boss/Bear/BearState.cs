@@ -31,6 +31,7 @@ public class BearState_Stamp : BearState
         canExit = false;
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Stamp_Start");
+        UIManager.Instance.Talk("뛰어! 이피아!");
     }
 
     public override void OnExit()
@@ -102,11 +103,14 @@ public class BearState_Rush : BearState
         bearController.StartInvincible();
 
         canGo = true;
+        bearController.colliders.bodyCollider.enabled = false;
+
+
+        bearController.TalkOnce(204);
 
         //맵의 왼쪽으로 빠르게 이동
         bearController.SetAnimEvent(LeftRush);
 
-        bearController.colliders.bodyCollider.enabled = false;
         //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");
     }
@@ -174,6 +178,9 @@ public class BearState_Rush : BearState
         timer = 0f;
         progress = 0f;
 
+        UIManager.Instance.Talk("다시 이쪽으로 오고있어….");
+
+
         //페이즈 2 포지션까지 걷기
         while (progress < 1f)
         {
@@ -228,7 +235,8 @@ public class BearState_Roar : BearState
             case eBearState.Roar_B:
                 bearController.SetAnimEvent(AnimEvent_B);
                 bearController.SetSkillVariety(1);
-                UIManager.Instance.Talk("이피아! 몸을 낮춰!");
+
+                UIManager.Instance.Talk("이피아! 몸을 낮춰야해!");
                 break;
 
             default:
@@ -301,17 +309,20 @@ public class BearState_Strike : BearState
             case eBearState.Strike_A:
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
+
+                bearController.TalkOnce(201);
                 break;
 
             case eBearState.Strike_B:
                 bearController.SetAnimEvent(AnimEvent_B);
                 bearController.SetSkillVariety(1);
+
+                bearController.TalkOnce(205);
                 break;
 
             default:
                 break;
         }
-        UIManager.Instance.Talk("바닥을 조심해, 이피아!");
         bearController.SetTrigger("Strike_Start");
     }
 
@@ -392,7 +403,6 @@ public class BearState_Strike : BearState
 
         bearController.StartCoroutine(ProcessAnimEvent_B());
     }
-
 
     private IEnumerator ProcessAnimEvent_B()
     {
@@ -595,11 +605,12 @@ public class BearState_Concentrate : BearState
     {
         canExit = false;
         bearController.StartInvincible();
-        UIManager.Instance.Talk("앗, 안돼! 어서 머리를 밟아버려!");
         concentrate = ProcessConcentrate();
 
+        bearController.TalkOnce(202);
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Concentrate_Start");
+
     }
     public override void OnExit()
     {
@@ -670,8 +681,8 @@ public class BearState_Powerless : BearState
         bearController.EmissionOff();
         bearController.StartCoroutine(ProcessAnimEvent_Begin());
 
-        UIManager.Instance.Talk("이때다! 이피아, 공격해!");
 
+        bearController.TalkOnce(203);
         bearController.SetAnimEvent(AnimEvent_StunEffectOn);
         bearController.SetTrigger("Powerless_Start");
 
@@ -727,15 +738,26 @@ public class BearState_Die : BearState
         canExit = false;
         bearController.colliders.bodyCollider.enabled = false;
 
+        bearController.StartCoroutine(CoTalkDie());
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
-        UIManager.Instance.Talk("휴...더 이상 우리를 공격하진 못할 것 같아.");
     }
 
     public void AnimEvent()
     {
         bearController.animator.enabled = false;
         bearController.colliders.groundCollider.enabled = true;
+
+    }
+
+
+    private IEnumerator CoTalkDie()
+    {
+        bearController.TalkOnce(208);
+        yield return new WaitForSeconds(2.5f);
+        bearController.TalkOnce(209);
+        yield return new WaitForSeconds(2.5f);
+        bearController.TalkOnce(210);
     }
 }
 

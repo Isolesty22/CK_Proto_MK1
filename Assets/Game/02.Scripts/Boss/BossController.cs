@@ -23,11 +23,14 @@ public class BossController : MonoBehaviour, IDamageable
     [Range(0, 1000)]
     public float hp = 450f;
 
+    protected float maxHp;
 
     [HideInInspector]
     [Tooltip("현재 상태")]
     public StateInfo stateInfo = new StateInfo();
 
+    [Tooltip("보스전 중 나올 대사들의 딕셔너리")]
+    public Dictionary<int, Action> talkDict = new Dictionary<int, Action>();
 
     [Tooltip("애니메이터 파라미터 딕셔너리")]
     public Dictionary<string, int> aniHash = new Dictionary<string, int>();
@@ -108,6 +111,22 @@ public class BossController : MonoBehaviour, IDamageable
     }
     #endregion
 
+
+
+
+    private Action talkAction = null;
+    /// <summary>
+    /// 딕셔너리에 존재하는 코드일 경우, 한 번 말하고 난 뒤에 딕셔너리에서 제거합니다.  
+    /// </summary>
+    public void TalkOnce(int _CODE)
+    {
+        talkAction = null;
+        if (talkDict.TryGetValue(_CODE, out talkAction))
+        {
+            talkAction();
+            talkDict.Remove(_CODE);
+        }
+    }
 
     public virtual void OnHit()
     {

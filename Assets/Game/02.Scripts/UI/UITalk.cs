@@ -91,6 +91,12 @@ public class UITalk : UIBase
         waitSec = new WaitForSeconds(_duration);
     }
 
+
+    public void SetValue(float _duration)
+    {
+        waitSec = new WaitForSeconds(_duration);
+    }
+
     public void SetText_Test(string _text)
     {
         currentText = _text;
