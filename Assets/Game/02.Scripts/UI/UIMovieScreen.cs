@@ -11,25 +11,30 @@ public class UIMovieScreen : UIBase
     [Tooltip("영상이 재생될 렌더 텍스처입니다.")]
     public RenderTexture renderTexture;
     public VideoPlayer videoPlayer;
+
     [Space(5)]
+
     [Tooltip("영상이 끝나면 해당 패널이 페이드 됩니다.")]
     public Image blackPanel;
 
     [Space(5)]
     public VideoClip[] videoClips;
 
-    public IEnumerator playingCoroutine;
-
-    public event Action onMovieEnded = null;
-
     private bool isSkip = false;
 
     [Tooltip("true일 경우, 영상 플레이가 끝날 때 렌더텍스처를 해제하지 않습니다.")]
     private bool doNotRelease;
 
+    //Black Panel Colors
+    private Color startColor = new Color(0, 0, 0, 0);
+    private Color endColor = new Color(0, 0, 0, 1);
+
+    public IEnumerator playMovie;
+    public event Action onMovieEnded = null;
+
     private void Awake()
     {
-        playingCoroutine = Playing();
+        playMovie = CoPlayMovie();
         isSkip = false;
         //OnMovieEnded +=  delegate{ Close(); };
     }
@@ -57,14 +62,14 @@ public class UIMovieScreen : UIBase
     }
     public void Play()
     {
-        StartCoroutine(Playing());
+        StartCoroutine(CoPlayMovie());
     }
 
 
     public void Play(int _index)
     {
         videoPlayer.clip = videoClips[_index];
-        StartCoroutine(Playing());
+        StartCoroutine(CoPlayMovie());
     }
     public void OnPressSkip()
     {
@@ -72,11 +77,7 @@ public class UIMovieScreen : UIBase
         isSkip = true;
     }
 
-    Color startColor = new Color(0, 0, 0, 0);
-    Color endColor = new Color(0, 0, 0, 1);
-
-    WaitForEndOfFrame waitFrame = new WaitForEndOfFrame();
-    private IEnumerator Playing()
+    private IEnumerator CoPlayMovie()
     {
         yield return StartCoroutine(ProcessOpen());
         blackPanel.gameObject.SetActive(false);

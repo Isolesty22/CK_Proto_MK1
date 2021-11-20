@@ -61,7 +61,7 @@ public class UIMainMenu : UIBase
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
 
         movieScreen.onMovieEnded += OnMovieEnded;
-        StartCoroutine(movieScreen.playingCoroutine);
+        StartCoroutine(movieScreen.playMovie);
     }
 
     private void OnMovieEnded()
