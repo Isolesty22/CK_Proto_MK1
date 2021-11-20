@@ -23027,10 +23027,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ParryingObject
       objectReference: {fileID: 0}
-    - target: {fileID: 3596807244569954174, guid: ee1039e9034460b45b2d709182ff33c3, type: 3}
-      propertyPath: m_TagString
-      value: Monster
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee1039e9034460b45b2d709182ff33c3, type: 3}
 --- !u!1001 &727593979
@@ -52981,6 +52977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+--- !u!198 &1661833665 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2101645185976169981, guid: 6a80078327423b24d813f23bc33e26c9, type: 3}
+  m_PrefabInstance: {fileID: 1661833664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1668401647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58061,6 +58062,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 288506976620591632, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 667548635014402803, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -58093,6 +58098,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5553405870938484357, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2bf86e87f9b3c4141bcab33665af3862, type: 3}
     - target: {fileID: 6347635882182910113, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -58208,6 +58217,22 @@ PrefabInstance:
     - target: {fileID: 8441052378158989887, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114388993450380756, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0bbc618201637de43bfdc15fb354598d, type: 3}
+    - target: {fileID: 9114388993450380756, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_SpriteState.m_SelectedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0bbc618201637de43bfdc15fb354598d, type: 3}
+    - target: {fileID: 9114388993450380756, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_SpriteState.m_HighlightedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0bbc618201637de43bfdc15fb354598d, type: 3}
+    - target: {fileID: 9114388993450380756, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Button_EndTutorial
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e51a4232a542f8c4f92b8f981bf65965, type: 3}
@@ -78710,6 +78735,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4650393343393378141, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
+      propertyPath: components.hit
+      value: 
+      objectReference: {fileID: 1661833665}
     - target: {fileID: 4650393343393378141, guid: be036967b73ff9442bb665e3d032ebd4, type: 3}
       propertyPath: components.pixy
       value: 
