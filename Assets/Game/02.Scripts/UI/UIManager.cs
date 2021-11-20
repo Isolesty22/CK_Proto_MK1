@@ -238,6 +238,11 @@ public class UIManager : MonoBehaviour
             CloseTop);
     }
 
+
+    //=====================
+    // Talk
+    //=====================
+
     /// <summary>
     /// 지속시간에 영향을 받지 않고, 닫기 전까지 열려있는 대화를 시작합니다. <see cref="TalkEnd"/>를 호출하여 창을 닫을 수 있습니다.
     /// </summary>
@@ -275,6 +280,7 @@ public class UIManager : MonoBehaviour
     public void Talk(string _str)
     {
         uiTalk.SetText_Test(_str);
+        uiTalk.SetValue(2f);
         //uiTalk.StartTalkInfinity();
         uiTalk.StartTalk();
     }
@@ -290,7 +296,6 @@ public class UIManager : MonoBehaviour
 #endif
         Application.Quit();
     }
-
 
     public void PlayAudio_Click()
     {

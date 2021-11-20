@@ -49,10 +49,6 @@ public class GloomMap : MonoBehaviour
     public Transform gloomPos_Left;
     public Transform gloomPos_Right;
 
-    [Header("Wall")]
-    public GloomMapWall leftWall;
-    public GloomMapWall rightWall;
-
     [Tooltip("맵의 방향")]
     [HideInInspector]
     public eDirection mapDirection;
@@ -264,24 +260,6 @@ public class GloomMap : MonoBehaviour
                 index.min = 0;
                 index.max = blockCount - exclusiveCount;
                 break;
-        }
-    }
-
-    /// <summary>
-    /// GloomMapWall을 업데이트합니다.
-    /// </summary>
-    /// <param name="_dir">보스의 현재 위치</param>
-    public void UpdateWall(eDirection _dir)
-    {
-        if (_dir == eDirection.Left)
-        {
-            rightWall.StartCoUp();
-            leftWall.StartCoDown();
-        }
-        else
-        {
-            leftWall.StartCoUp();
-            rightWall.StartCoDown();
         }
     }
 

@@ -51,6 +51,7 @@ public class BearController : BossController
         public Transform headParringPosition;
         public HeadParryingHelper concentrateHelper;
         public GameObject concentrateSphere;
+        public ParticleSystem stunEffect;
 
         [Space(5)]
         public SmashHelper smashHelper;
@@ -149,6 +150,7 @@ public class BearController : BossController
 
         skillObjects.concentrateHelper.Init();
         bossPhaseValue.Init(hp);
+        maxHp = hp;
 
         Init_Animator();
         Init_Pool();
@@ -194,6 +196,25 @@ public class BearController : BossController
         pools.clawProjectile = CustomPoolManager.Instance.CreateCustomPool<ClawProjectile>();
     }
 
+
+    private void Init_Talk()
+    {
+
+        //원래라면 이런 느낌으로 헀었어야하지만...
+        //    for (int i = 200; i < 200+ DataManager.Instance.currentData_talk.talk_stage_02.Count; i++)
+        //    {
+
+        //    }
+
+
+        for (int i = 200; i <= 210; i++)
+        {
+            int code = i;
+            talkDict.Add(code, () => UIManager.Instance.Talk(code, 2f));
+        }
+
+        //talkDict.Add("StageClear", () => UIManager.Instance.Talk(206, 2f));
+    }
     #endregion
     private void Awake()
     {
@@ -202,13 +223,18 @@ public class BearController : BossController
     private void Start()
     {
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+        Init_Talk();
     }
     private void OnTimelineEnded()
     {
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
+
+
         Init();
         StartCoroutine(ExecutePatternCoroutine);
+        StartCoroutine(WaitHpPer20());
+        TalkOnce(200);
     }
 
     private void ProcessChangePhase(ePhase _phase)
@@ -219,11 +245,15 @@ public class BearController : BossController
                 //myTransform.SetPositionAndRotation(bearMapInfo.phase2Position, Quaternion.Euler(Vector3.zero));
                 //myTransform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
+                //2페이즈 대사 추가
+                talkDict.Add(203, () => UIManager.Instance.Talk(206, 2f));
+
                 //투사체 위치 다시 계산
                 bearMapInfo.leftPadding = 0;
                 bearMapInfo.rightPadding = bearMapInfo.paddingSize;
                 bearMapInfo.Init_Projectiles();
                 ChangeState((int)eBearState.Rush);
+
                 break;
 
             //case ePhase.Phase_2:
@@ -268,6 +298,24 @@ public class BearController : BossController
     }
 
     private int currentIndex = 0;
+
+    /// <summary>
+    /// 체력이 20퍼가 될 때까지 기다리다가 대사를 출력합니다.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitHpPer20()
+    {
+        while (true)
+        {
+            if (hp / maxHp <= 0.2f)
+            {
+                TalkOnce(207);
+
+                yield break;
+            }
+            yield return null;
+        }
+    }
     private IEnumerator ExecutePattern()
     {
         stateInfo.phase = ePhase.Phase_1;
@@ -282,6 +330,7 @@ public class BearController : BossController
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
+
                     //체력이 0이하면 break;
                     if (hp <= 0)
                     {
@@ -407,13 +456,13 @@ public class BearController : BossController
         }
     }
 
-    private void OnCollisionStay(Collision collision)
-    {
-        if (collision.collider.CompareTag(TagName.Player))
-        {
-            PlayerHit();
-        }
-    }
+    //private void OnCollisionStay(Collision collision)
+    //{
+    //    if (collision.collider.CompareTag(TagName.Player))
+    //    {
+    //        PlayerHit();
+    //    }
+    //}
 
     private void OnTriggerEnter(Collider other)
     {

@@ -405,6 +405,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &5680380121366449073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6455502534888969767}
+  m_Layer: 0
+  m_Name: SmashRock
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6455502534888969767
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680380121366449073}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.77, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 7742347013436991653}
+  - {fileID: 7742347013632050668}
+  m_Father: {fileID: 7197960804655929459}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5730143924136746769
 GameObject:
   m_ObjectHideFlags: 0
@@ -821,7 +853,7 @@ GameObject:
   - component: {fileID: 7197960804655929459}
   - component: {fileID: 7543418994079023818}
   m_Layer: 0
-  m_Name: SmashRock_Real
+  m_Name: SmashRock_New
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -838,8 +870,7 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7742347013436991653}
-  - {fileID: 7742347013632050668}
+  - {fileID: 6455502534888969767}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -864,6 +895,7 @@ MonoBehaviour:
   - {fileID: 7742347013772222564}
   - {fileID: 7742347014573737153}
   bearHandTransform: {fileID: 0}
+  pivotTransform: {fileID: 6455502534888969767}
 --- !u!1 &7742347013405782626
 GameObject:
   m_ObjectHideFlags: 0
@@ -1097,7 +1129,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7742347013436991652}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1107,7 +1139,7 @@ Transform:
   - {fileID: 7742347013405782627}
   - {fileID: 7742347013772222561}
   - {fileID: 7742347014573737182}
-  m_Father: {fileID: 7197960804655929459}
+  m_Father: {fileID: 6455502534888969767}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7742347013632050667
@@ -1120,7 +1152,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7742347013632050668}
   m_Layer: 0
-  m_Name: Dust
+  m_Name: DustGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1133,7 +1165,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7742347013632050667}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1141,7 +1173,7 @@ Transform:
   - {fileID: 7057082182184680106}
   - {fileID: 5362987738582793770}
   - {fileID: 4989687914410898006}
-  m_Father: {fileID: 7197960804655929459}
+  m_Father: {fileID: 6455502534888969767}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7742347013772222560

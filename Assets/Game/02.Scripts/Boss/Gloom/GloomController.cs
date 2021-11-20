@@ -259,6 +259,7 @@ public class GloomController : BossController
 
     private void Start()
     {
+        Init_Talk();
         OnTimelineEnded();
         //GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
     }
@@ -281,6 +282,7 @@ public class GloomController : BossController
         phaseList.Add(patterns.phase_02_List);
 
         bossPhaseValue.Init(hp);
+        maxHp = hp;
 
         ExecutePatternCoroutine = ExecutePattern();
 
@@ -343,6 +345,15 @@ public class GloomController : BossController
         UpdateWavePosition();
         SkillObj.threat.SetActive(false);
 
+    }
+
+    private void Init_Talk()
+    {
+        for (int i = 400; i <= 411; i++)
+        {
+            int CODE = i;
+            talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 2f));
+        }
     }
 
     /// <summary>
@@ -523,6 +534,26 @@ public class GloomController : BossController
         }
         return tempList;
     }
+
+
+    /// <summary>
+    /// 체력이 20퍼가 될 때까지 기다리다가 대사를 출력합니다.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator WaitHpPer20()
+    {
+        while (true)
+        {
+            if (hp / maxHp <= 0.2f)
+            {
+                TalkOnce(410);
+
+                yield break;
+            }
+            yield return null;
+        }
+    }
+
 
     /// <summary>
     /// 해당 블록의 타입을 지정합니다.
