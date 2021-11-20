@@ -123,9 +123,7 @@ public class MushRoomController : MonsterController
 
     public override void Hit(int damage)
     {
-        if (state == MonsterState.IDLE)
-            return;
-        else
+        if (Com.animator.GetBool("isMove"))
             base.Hit(damage);
     }
 
