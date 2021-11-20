@@ -250,6 +250,10 @@ public class BearController : BossController
                 //2페이즈 대사 추가
                 if (DataManager.Instance != null)
                 {
+                    if (talkDict.ContainsKey(203))
+                    {
+                        talkDict.Remove(203);
+                    }
                     talkDict.Add(203, () => UIManager.Instance.Talk(206, 2f));
 
                 }
