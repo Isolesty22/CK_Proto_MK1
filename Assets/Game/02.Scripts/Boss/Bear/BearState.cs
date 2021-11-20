@@ -17,7 +17,6 @@ public class BearState_Idle : BearState
     public override void OnEnter()
     {
         canExit = true;
-
     }
 
 }
@@ -56,12 +55,16 @@ public class BearState_Stamp : BearState
 
         if (bearController.stateInfo.phase == ePhase.Phase_1)
         {
-            GameObject.Instantiate(bearController.skillObjects.mushrooms, bearController.skillObjects.mushroomPoint_Left.position, Quaternion.identity);
+            GameObject.Instantiate(
+                bearController.skillObjects.mushrooms, 
+                bearController.skillObjects.mushroomPoint_Left.position, Quaternion.identity);
 
         }
         else
         {
-            GameObject.Instantiate(bearController.skillObjects.mushrooms, bearController.skillObjects.mushroomPoint_Right.position, Quaternion.identity);
+            GameObject.Instantiate(
+                bearController.skillObjects.mushrooms, 
+                bearController.skillObjects.mushroomPoint_Right.position, Quaternion.identity);
 
         }
     }
@@ -99,16 +102,9 @@ public class BearState_Rush : BearState
         bearController.StartInvincible();
 
         canGo = true;
-        //맵의 왼쪽으로 빠르게 이동하는 함수
+
+        //맵의 왼쪽으로 빠르게 이동
         bearController.SetAnimEvent(LeftRush);
-
-
-        if (bearController.skillValue.summonRushSpider)
-        {
-            //거미 등장
-            GameObject.Instantiate(bearController.skillObjects.spiderHelper.gameObject);
-        }
-
 
         bearController.colliders.bodyCollider.enabled = false;
         //애니메이션 스타트
@@ -116,7 +112,6 @@ public class BearState_Rush : BearState
     }
     public override void OnExit()
     {
-
         bearController.colliders.bodyCollider.enabled = true;
         bearController.EndInvincible();
     }
@@ -525,7 +520,10 @@ public class BearState_Smash : BearState
     {
         while (true)
         {
-            smashHelper.myTransform.SetPositionAndRotation(smashHelper.bearHandTransform.position, smashHelper.bearHandTransform.rotation);
+            smashHelper.myTransform.SetPositionAndRotation(
+                smashHelper.bearHandTransform.position, 
+                smashHelper.bearHandTransform.rotation);
+
             yield return null;
         }
     }
@@ -556,6 +554,8 @@ public class BearState_Smash : BearState
         //바위가 곰의 손을 더이상 따라가지 않음
         bearController.StopCoroutine(followHand);
         smashHelper.SetParentRocks(null);
+
+        //yield return new WaitForSeconds(0.2f);
 
         int length = smashHelper.rockCount;
         //바위 쿠과광
@@ -704,6 +704,8 @@ public class BearState_Die : BearState
     public override void OnEnter()
     {
         canExit = false;
+        bearController.colliders.bodyCollider.enabled = false;
+
         bearController.SetAnimEvent(AnimEvent);
         bearController.SetTrigger("Die_Start");
         UIManager.Instance.Talk("휴...더 이상 우리를 공격하진 못할 것 같아.");
@@ -712,8 +714,6 @@ public class BearState_Die : BearState
     public void AnimEvent()
     {
         bearController.animator.enabled = false;
-        bearController.colliders.bodyCollider.enabled = false;
-
         bearController.colliders.groundCollider.enabled = true;
     }
 }

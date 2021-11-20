@@ -9,10 +9,13 @@ public class SmashHelper : MonoBehaviour
 {
 
     public Transform myTransform;
+    
+
     public SmashRock[] smashRocks;
 
     [Space(5)]
     public Transform bearHandTransform;
+    public Transform pivotTransform;
 
     public int rockCount { get; private set; }
     private void Awake()
@@ -20,7 +23,7 @@ public class SmashHelper : MonoBehaviour
         rockCount = smashRocks.Length;
         for (int i = 0; i < rockCount; i++)
         {
-            smashRocks[i].UpdatePivot(myTransform.position);
+            smashRocks[i].UpdatePivot(pivotTransform.position);
         }
     }
     /// <summary>

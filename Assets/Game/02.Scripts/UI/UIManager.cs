@@ -291,7 +291,6 @@ public class UIManager : MonoBehaviour
         Application.Quit();
     }
 
-
     public void PlayAudio_Click()
     {
         AudioManager.Instance.Audios.audioSource_UI.PlayOneShot(AudioManager.Instance.clipDict_UI["Click"]);
