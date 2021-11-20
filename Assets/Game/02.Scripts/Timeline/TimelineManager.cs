@@ -12,7 +12,7 @@ public class TimelineManager : MonoBehaviour
     public bool playOnLoadingEnded;
     public PlayableDirector director;
 
-    public Action onTimelineEnded = null;
+    public event Action onTimelineEnded = null;
 
     private void Awake()
     {
