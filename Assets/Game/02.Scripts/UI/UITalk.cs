@@ -8,7 +8,7 @@ public class UITalk : UIBase
     //-----인스펙터
     [Header("UITalk")]
     public Text uiText;
-    [Header("현재 대화 코드"),ReadOnly]
+    [Header("현재 대화 코드"), ReadOnly]
     public int currentCode;
     [Tooltip("몇 번대인가? csv 파일 내 CODE의 일련번호입니다.")]
     public int stageCode;
@@ -132,17 +132,30 @@ public class UITalk : UIBase
     {
         if (isOpen)
         {
+            if (openUseDuration != null)
+            {
+                StopCoroutine(openUseDuration);
+            }
             StopCoroutine(open);
+            StopCoroutine(close);
         }
+        ClearTimer();
         open = ProcessOpen();
         StartCoroutine(open);
     }
     public void StartTalk()
     {
+        if (isOpen)
+        {
+
+            StopCoroutine(open);
+            StopCoroutine(close);
+        }
         if (openUseDuration != null)
         {
             StopCoroutine(openUseDuration);
         }
+
 
         openUseDuration = ProcessOpenUseDuration();
         StartCoroutine(openUseDuration);
@@ -157,6 +170,12 @@ public class UITalk : UIBase
         {
             StopCoroutine(open);
             StopCoroutine(close);
+
+            if (openUseDuration != null)
+            {
+                StopCoroutine(openUseDuration);
+            }
+
             close = ProcessClose();
             StartCoroutine(close);
         }

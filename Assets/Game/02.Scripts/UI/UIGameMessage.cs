@@ -40,6 +40,10 @@ public class UIGameMessage : UIBase
         openUseDuration = ProcessOpenUseDuration();
     }
 
+    public void SetWaitTime(float _waitTime)
+    {
+        waitSec = new WaitForSeconds(_waitTime);
+    }
     public override bool Open()
     {
         if (openUseDuration != null)
@@ -73,7 +77,14 @@ public class UIGameMessage : UIBase
 
     public override bool Close()
     {
-        StartCoroutine(ProcessClose());
+
+        if (!isOpen)
+        {
+            return false;
+        }
+
+        close = ProcessClose();
+        StartCoroutine(close);
         return true;
     }
 

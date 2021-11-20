@@ -62,10 +62,10 @@ public class UISkillGauge : MonoBehaviour
     }
     private void Update()
     {
-        if (currentGauge != playerController.Stat.pixyEnerge)
-        {
+        //if (currentGauge != playerController.Stat.pixyEnerge)
+        //{
             UpdateGauge_New();
-        }
+        //}
 
     }
 
@@ -87,6 +87,7 @@ public class UISkillGauge : MonoBehaviour
                 {
                     skillFlowers[2].SetState(UISkillFlower.eState.blueOn);
                     skillFlowers[2].On();
+                    //UpdateImages();
                     return;
                 }
                 //마지막 꽃 애니메이션이 끝나면 전부 강조표시

@@ -251,6 +251,13 @@ public class UIManager : MonoBehaviour
         uiTalk.SetValue(_CODE);
         uiTalk.StartTalkInfinity();
     }
+
+    public void TalkInfinity(string _str)
+    {
+        uiTalk.SetText_Test(_str);
+        uiTalk.StartTalkInfinity();
+    }
+
     /// <summary>
     /// 대화창을 닫습니다. 대화창이 열려있는 상태에서만 작동합니다.
     /// </summary>
@@ -282,6 +289,12 @@ public class UIManager : MonoBehaviour
         uiTalk.SetText_Test(_str);
         uiTalk.SetValue(2f);
         //uiTalk.StartTalkInfinity();
+        uiTalk.StartTalk();
+    }
+    public void Talk(string _str, float _duration)
+    {
+        uiTalk.SetText_Test(_str);
+        uiTalk.SetValue(_duration);
         uiTalk.StartTalk();
     }
 
