@@ -93,6 +93,8 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         player.State.isCrouching = false;
+        player.State.isLookUp = false;
+        player.State.isAttack = false;
         player.InputVal.movementInput = 0f;
         player.State.moveSystem = !_b;
     }
