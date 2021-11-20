@@ -76,6 +76,13 @@ public class UIPause : UIBase
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
     }
+
+    public void Button_EndTutorial()
+    {
+        UIManager.Instance.PlayAudio_Click();
+        GameManager.instance.EndTutorial();
+
+    }
     protected override IEnumerator ProcessOpen()
     {
         //처음부터 열려있는 판정(연속입력방지)

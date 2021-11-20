@@ -189,6 +189,6 @@ public class TutorialManager : MonoBehaviour
 
         yield return new WaitForSeconds(3f);
 
-        SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+        GameManager.instance.EndTutorial();
     }
 }

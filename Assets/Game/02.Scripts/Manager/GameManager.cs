@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
     /// <summary>
-    /// [임시] 다음 스테이지로 넘어갑니다.
+    /// 다음 스테이지로 넘어갑니다.
     /// </summary>
     public void GoNextStage()
     {
