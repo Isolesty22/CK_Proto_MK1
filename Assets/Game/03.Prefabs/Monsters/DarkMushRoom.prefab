@@ -60,6 +60,8 @@ MonoBehaviour:
     fadeOutTime: 1.5
     initDistance: 10
     respawnTime: 10
+    audioVolume: 0.2
+    deathVolume: 0.4
   components:
     rigidbody: {fileID: 6307346486017835251}
     collider: {fileID: 4147787381735573126}
@@ -112,9 +114,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4c661f2f2b33a8147b1711d23b3866ab, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

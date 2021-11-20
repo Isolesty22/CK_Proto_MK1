@@ -35,7 +35,6 @@ public class DarkJinnDustController : MonsterController
     {
         base.Initialize();
         isRunCo = false;
-        Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
     }
 
@@ -143,10 +142,9 @@ public class DarkJinnDustController : MonsterController
         }
 
         Debug.Log(shootDir);
-        if (!Com.audio.isPlaying)
-        {
-            Com.audio.Play();
-        }
+
+        Com.audio.PlayOneShot(Com.audio.clip);
+
         while (state != MonsterState.DEATH)
         {
             Com.rigidbody.velocity = shootDir.normalized * Stat.moveSpeed * Time.deltaTime * 100;
@@ -163,7 +161,6 @@ public class DarkJinnDustController : MonsterController
 
     protected override void Death()
     {
-        Com.animator.SetBool("isDeath", true);
         base.Death();
     }
 

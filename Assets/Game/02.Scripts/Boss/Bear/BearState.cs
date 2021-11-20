@@ -290,7 +290,7 @@ public class BearState_Roar : BearState
 }
 public class BearState_Strike : BearState
 {
-    WaitForSeconds waitSec_B = new WaitForSeconds(1.5f);
+    WaitForSeconds waitSec_B = new WaitForSeconds(0.9f);
     public BearState_Strike(BearController _bearController)
     {
         bearController = _bearController;

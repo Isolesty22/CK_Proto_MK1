@@ -187,17 +187,17 @@ public class RollerController : MonsterController
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
         Com2.rollingCollider.gameObject.SetActive(true);
-    }
-
-    protected override void Attack()
-    {
-        base.Attack();
 
         if (!Com.audio.isPlaying)
         {
             Com.audio.loop = true;
             Com.audio.Play();
         }
+    }
+
+    protected override void Attack()
+    {
+        base.Attack();
 
         currentSpeed = Mathf.Clamp(currentSpeed += usingAclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
         Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
