@@ -38,8 +38,10 @@ public class UIPlayerHP : UIBase
     }
     private void Start()
     {
-
-        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+        if (GameManager.instance.timelineManager.playOnLoadingEnded)
+        {
+            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+        }
         Init();
         CheckOpen();
         UIManager.Instance.AddDict(this);

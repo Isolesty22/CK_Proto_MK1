@@ -85,7 +85,7 @@ public class UITalk : UIBase
             realCode = _CODE - stageCode;
         }
 
-        Debug.Log(realCode);
+        //Debug.Log(realCode);
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
         waitSec = new WaitForSeconds(_duration);

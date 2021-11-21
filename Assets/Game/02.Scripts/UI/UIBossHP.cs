@@ -20,8 +20,6 @@ public class UIBossHP : UIBase
     {
         CheckOpen();
         sceneName = SceneManager.GetActiveScene().name;
-
-        Debug.Log("!!" + sceneName);
         if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
         {
             gameObject.SetActive(true);
