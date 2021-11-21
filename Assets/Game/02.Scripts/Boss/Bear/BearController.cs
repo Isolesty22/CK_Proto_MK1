@@ -9,8 +9,8 @@ using System.Linq;
 public class BearController : BossController
 {
 
-    [Header("임시 포탈")]
-    public TestStagePotal testPotal;
+    [Header("포탈")]
+    public StagePortal testPotal;
     [Space(20)]
     public BearMapInfo bearMapInfo;
 
