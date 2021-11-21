@@ -210,6 +210,30 @@ public class GloomController : BossController
         public Vector3 extendEndPos;
     }
 
+    [Serializable]
+    public class AudioClips
+    {
+        public AudioClip death;
+        public AudioClip fire;
+        public AudioClip fire2;
+        public AudioClip jump;
+        public AudioClip land;
+        public AudioClip lightning;
+        public AudioClip longHowling;
+        public AudioClip shorHowling;
+        public AudioClip magic;
+        public AudioClip magicArrow;
+        public AudioClip resonanace;
+        public AudioClip scratchGround;
+        public AudioClip thorn;
+        public AudioClip walk;
+        public AudioClip weild;
+        public AudioClip chase;
+        public AudioClip resonanceArrow;
+        public AudioClip parrying;
+        public AudioClip wave;
+    }
+
     #endregion
 
 
@@ -246,6 +270,10 @@ public class GloomController : BossController
 
     public SkillValues SkillVal => _skillValues;
 
+    public AudioClips audioClips;
+
+    [HideInInspector]
+    public AudioSource audioSource;
     [HideInInspector]
     public Pools Pool;
 
@@ -259,6 +287,8 @@ public class GloomController : BossController
 
     private void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         Init_Talk();
         OnTimelineEnded();
         //GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;

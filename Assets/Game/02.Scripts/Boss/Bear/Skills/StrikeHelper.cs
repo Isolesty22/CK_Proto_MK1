@@ -21,11 +21,13 @@ public class StrikeHelper : MonoBehaviour
     private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         StartCoroutine(CoProcessStrike());
     }
 
     private IEnumerator CoProcessStrike()
     {
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         yield return waitColliderOn;
         audioSource.Play();
         box.enabled = true;
