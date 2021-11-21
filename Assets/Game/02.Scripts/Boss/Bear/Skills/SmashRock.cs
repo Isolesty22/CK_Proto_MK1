@@ -19,6 +19,8 @@ public class SmashRock : MonoBehaviour
 
     public Renderer meshRenderer;
 
+    public AudioSource audioSource;
+
     private Vector3 startPos;
     private Vector3 midPos;
     private Vector3 endPos;
@@ -55,6 +57,11 @@ public class SmashRock : MonoBehaviour
         waitDespawnTime = new WaitForSeconds(2f);
 
         SetActive(false);
+    }
+
+    private void Start()
+    {
+        audioSource.volume = 0.5f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
     }
 
     public void UpdatePivot(Vector3 _value)
@@ -97,6 +104,7 @@ public class SmashRock : MonoBehaviour
     }
     protected IEnumerator CoMove()
     {
+        audioSource.volume = 0.5f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
 
         tr.parent = null;
         gameObject.tag = TagName.ParryingObject;
@@ -129,6 +137,8 @@ public class SmashRock : MonoBehaviour
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
+        audioSource.PlayOneShot(audioSource.clip);
 
         gameObject.tag = TagName.Untagged;
         //사라짐 대기시간

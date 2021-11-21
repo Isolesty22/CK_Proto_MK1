@@ -249,6 +249,7 @@ public class BearController : BossController
     private void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         Init_Talk();
     }
