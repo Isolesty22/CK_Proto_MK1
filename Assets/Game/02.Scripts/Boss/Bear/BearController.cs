@@ -101,6 +101,27 @@ public class BearController : BossController
         public CustomPool<ClawProjectile> clawProjectile = new CustomPool<ClawProjectile>();
     }
 
+    [Serializable]
+    public class AudioClips
+    {
+        public AudioClip death;
+        public AudioClip forwardRoar;
+        public AudioClip scratch;
+        public AudioClip jumpAttack;
+        public AudioClip rockBreak;
+        public AudioClip upRoar;
+        public AudioClip wakeUp;
+        public AudioClip phase2Walk;
+        public AudioClip energyGather;
+        public AudioClip energyExplosion;
+        public AudioClip dash;
+        public AudioClip groundStrike;
+        public AudioClip strikeAttack;
+        public AudioClip parrying;
+        public AudioClip stun;
+        public AudioClip down;
+        public AudioClip wind;
+    }
     #endregion
 
 
@@ -118,10 +139,14 @@ public class BearController : BossController
     [Header("패턴 관련")]
     public Patterns patterns;
 
+    [Header("오디오 클립")]
+    public AudioClips audioClips;
     private List<List<BearPattern>> phaseList = new List<List<BearPattern>>();
+
     [HideInInspector]
     public BearPattern currentPattern;
-
+    [HideInInspector]
+    public AudioSource audioSource;
 
     public Pools pools = new Pools();
 
@@ -223,6 +248,8 @@ public class BearController : BossController
     }
     private void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         Init_Talk();
     }
