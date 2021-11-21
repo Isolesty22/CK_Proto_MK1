@@ -104,6 +104,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
     private int damage = 1;
 
     private Quaternion zeroRotation;
+
     private void Awake()
     {
         if (Com.material == null)
@@ -118,6 +119,10 @@ public class GloomThornVine : MonoBehaviour, IDamageable
             Val.fadeOutTime = 1f;
         }
         zeroRotation = Quaternion.Euler(Vector3.zero);
+    }
+
+    private void Start()
+    {
     }
 
     public void Init()
@@ -167,7 +172,6 @@ public class GloomThornVine : MonoBehaviour, IDamageable
         //대기시간만큼 기다린 다음에 생성 시작
         yield return Val.waitTime;
 
-
         while (progress < 1f)
         {
             timer += Time.fixedDeltaTime;
@@ -178,6 +182,7 @@ public class GloomThornVine : MonoBehaviour, IDamageable
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
         Effect.thornSign.SetActive(false);
         Com.rigidbody.MovePosition(Val.endPosition);
         Com.collider.isTrigger = false;
