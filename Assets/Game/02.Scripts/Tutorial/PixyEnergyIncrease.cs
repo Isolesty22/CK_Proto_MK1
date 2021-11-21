@@ -14,7 +14,10 @@ public class PixyEnergyIncrease : MonoBehaviour
     {
         if (other.CompareTag(TagName.Arrow))
         {
-            player.Stat.pixyEnerge = Mathf.Clamp(player.Stat.pixyEnerge + 3f, 0, 30);
+            if (!player.Com.pixy.isAttack)
+            {
+                player.Stat.pixyEnerge = Mathf.Clamp(player.Stat.pixyEnerge + 3f, 0, 30);
+            }
         }
     }
 

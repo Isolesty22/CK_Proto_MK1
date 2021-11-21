@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UIGameMessage : UIBase
 {
-
     public Text uiText;
     private string currentText;
 

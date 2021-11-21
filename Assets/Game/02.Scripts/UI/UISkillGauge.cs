@@ -38,7 +38,6 @@ public class UISkillGauge : MonoBehaviour
     //public Slider lightGaugeSlider;
 
     private float maxGauge;
-    [HideInInspector]
     public float currentGauge;
     private float currentAmount;
     private PlayerController playerController;
@@ -131,6 +130,13 @@ public class UISkillGauge : MonoBehaviour
         {
             if (playerController.Stat.pixyEnerge < 9.95f)
             {
+                if (skillFlowers[2].currentState != UISkillFlower.eState.blueOff)
+                {
+                    skillFlowers[1].SetState(UISkillFlower.eState.blueOff);
+                    skillFlowers[2].SetState(UISkillFlower.eState.blueOff);
+                    skillFlowers[1].HighlightOff();
+                    skillFlowers[2].HighlightOff();
+                }
                 if (skillFlowers[0].currentState == UISkillFlower.eState.orangeOn)
                 {
                     skillFlowers[0].SetState(UISkillFlower.eState.blueOff);
@@ -143,6 +149,7 @@ public class UISkillGauge : MonoBehaviour
                     UpdateImages();
                     return;
                 }
+
                 if (skillFlowers[0].currentState != UISkillFlower.eState.blueOff)
                 {
                     skillFlowers[0].SetState(UISkillFlower.eState.blueOff);
