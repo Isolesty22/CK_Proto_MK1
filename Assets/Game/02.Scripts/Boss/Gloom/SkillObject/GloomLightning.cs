@@ -109,6 +109,7 @@ public class GloomLightning : MonoBehaviour
 
     public void Init()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         sphereEffectTransform.gameObject.SetActive(false);
         lineEffectTransform.gameObject.SetActive(false);
