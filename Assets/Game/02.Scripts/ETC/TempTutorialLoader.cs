@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +9,7 @@ public class TempTutorialLoader : MonoBehaviour
 
 
     private PlayerController player;
-    [Tooltip("Á¶ÀÛ ºÒ°¡ ÅØ½ºÆ®")]
+    [Tooltip("ì¡°ì‘ ë¶ˆê°€ í…ìŠ¤íŠ¸")]
     public GameObject uiText_control;
 
     private UIPlayerHP uiPlayer;
@@ -24,10 +24,10 @@ public class TempTutorialLoader : MonoBehaviour
         }
         else
         {
-            Debug.Log("ÀÌ¹Ì instance°¡ Á¸ÀçÇÕ´Ï´Ù." + this);
-            if (Instance != this) //³ª ÀÚ½ÅÀÌ ÀÎ½ºÅÏ½º°¡ ¾Æ´Ò °æ¿ì
+            Debug.Log("ì´ë¯¸ instanceê°€ ì¡´ì¬í•©ë‹ˆë‹¤." + this);
+            if (Instance != this) //ë‚˜ ìì‹ ì´ ì¸ìŠ¤í„´ìŠ¤ê°€ ì•„ë‹ ê²½ìš°
             {
-                Debug.Log(this + " : ´õ ÀÌ»ó, ÀÌ ¼¼°è¼±¿¡¼­´Â Á¸ÀçÇÒ ¼ö ¾øÀ» °Í °°¾Æ... ¾È³ç.");
+                Debug.Log(this + " : ë” ì´ìƒ, ì´ ì„¸ê³„ì„ ì—ì„œëŠ” ì¡´ì¬í•  ìˆ˜ ì—†ì„ ê²ƒ ê°™ì•„... ì•ˆë…•.");
                 Destroy(this.gameObject);
             }
         }
@@ -111,7 +111,7 @@ public class TempTutorialLoader : MonoBehaviour
     }
 
     /// <summary>
-    /// _uib°¡ trueÀÏ °æ¿ì ÇÃ·¹ÀÌ¾î UI¸¦ ÇÔ²² ¿­°Å³ª ´İ½À´Ï´Ù.
+    /// _uibê°€ trueì¼ ê²½ìš° í”Œë ˆì´ì–´ UIë¥¼ í•¨ê»˜ ì—´ê±°ë‚˜ ë‹«ìŠµë‹ˆë‹¤.
     /// </summary>
     private void CanMove(bool _b, bool _uib)
     {
@@ -138,7 +138,7 @@ public class TempTutorialLoader : MonoBehaviour
 
 
     /// <summary>
-    /// Æ©Åä¸®¾ó¿¡ Ã³À½ ÀÔÀåÇßÀ» ¶§ ¶ß´Â ´ë»ç
+    /// íŠœí† ë¦¬ì–¼ì— ì²˜ìŒ ì…ì¥í–ˆì„ ë•Œ ëœ¨ëŠ” ëŒ€ì‚¬
     /// </summary>
     private IEnumerator CoBeginTutorial()
     {
@@ -148,27 +148,27 @@ public class TempTutorialLoader : MonoBehaviour
         gameMessage = UIManager.Instance.GetUI("UIGameMessage") as UIGameMessage;
         gameMessage.SetWaitTime(100f);
 
-        MessageOpen("[½ºÆäÀÌ½º ¹Ù]Å°·Î ´ëÈ­¸¦ ½ºÅµÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("[ìŠ¤í˜ì´ìŠ¤ ë°”]í‚¤ë¡œ ëŒ€í™”ë¥¼ ìŠ¤í‚µí•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
 
         CanMove(false);
-        ////Talk("¾ÆÂ÷, ÀÚ±â¼Ò°³¸¦ ±ôºıÇß³×! ³» ÀÌ¸§Àº ·ç¹Ì¿¡¾ß ¾îÂ¼±¸");
+        ////Talk("ì•„ì°¨, ìê¸°ì†Œê°œë¥¼ ê¹œë¹¡í–ˆë„¤! ë‚´ ì´ë¦„ì€ ë£¨ë¯¸ì—ì•¼ ì–´ì©Œêµ¬");
         Talk(900);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("½£À» µÇµ¹¸®±â À§ÇØ¼±, Á¤È­ÀÇ ÈûÀÌ ÇÊ¿äÇØ. ¾îÂ¼±¸ÀúÂ¼±¸");
+        //Talk("ìˆ²ì„ ë˜ëŒë¦¬ê¸° ìœ„í•´ì„ , ì •í™”ì˜ í˜ì´ í•„ìš”í•´. ì–´ì©Œêµ¬ì €ì©Œêµ¬");
         Talk(901);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("°ÆÁ¤¸¶! ³Ê¿¡°Ô ³» Á¤È­ÀÇ ÈûÀ» Á¶±İ ³ª´²ÁÙ°Ô.");
+        //Talk("ê±±ì •ë§ˆ! ë„ˆì—ê²Œ ë‚´ ì •í™”ì˜ í˜ì„ ì¡°ê¸ˆ ë‚˜ëˆ ì¤„ê²Œ.");
         Talk(902);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¾Æ¹«·¡µµ, Ã³À½ºÎÅÍ ÈûÀ» ¿Ïº®È÷ ´Ù·ç±â´Â Èûµé°ÚÁö?");
+        //Talk("ì•„ë¬´ë˜ë„, ì²˜ìŒë¶€í„° í˜ì„ ì™„ë²½íˆ ë‹¤ë£¨ê¸°ëŠ” í˜ë“¤ê² ì§€?");
         Talk(903);
         yield return StartCoroutine(CoWaitTalkEnd());
 
 
-        //Talk("Â÷±ÙÂ÷±Ù ÇÏ³ª¾¿ ¿¬½ÀÇØº¸ÀÚ.");
+        //Talk("ì°¨ê·¼ì°¨ê·¼ í•˜ë‚˜ì”© ì—°ìŠµí•´ë³´ì.");
         Talk(904);
         yield return new WaitForSeconds(1f);
 
@@ -181,9 +181,9 @@ public class TempTutorialLoader : MonoBehaviour
     {
         //CloseCollider("CoPrac_Move");
         GameManager.instance.playerController.Com.pixy.getPixy = true;
-        //Talk("ÀÏ´Ü, ¸öÀ» Á» ¿òÁ÷¿©º¼±î?");
+        //Talk("ì¼ë‹¨, ëª¸ì„ ì¢€ ì›€ì§ì—¬ë³¼ê¹Œ?");
         Talk(905);
-        MessageOpen("È­»ìÇ¥ [¡ç],[¡æ] Å°·Î ÀÌµ¿ÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("í™”ì‚´í‘œ [â†],[â†’] í‚¤ë¡œ ì´ë™í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         CanMove(true);
 
         while (true)
@@ -197,29 +197,29 @@ public class TempTutorialLoader : MonoBehaviour
         }
         //TalkEnd();
         Talk(906);
-        //Talk("ÁÁ¾Æ! ÀÌ´ë·Î Àú¾î~±â Åë³ª¹« ÀÖ´Â °÷ ±îÁö °¡º¸ÀÚ!");
+        //Talk("ì¢‹ì•„! ì´ëŒ€ë¡œ ì €ì–´~ê¸° í†µë‚˜ë¬´ ìˆëŠ” ê³³ ê¹Œì§€ ê°€ë³´ì!");
     }
 
     private IEnumerator CoPrac_Jump()
     {
-        MessageOpen("[X]Å°·Î Á¡ÇÁÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("[X]í‚¤ë¡œ ì í”„í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
 
-        //Talk("ÀÌ Á¤µµ¶ó¸é ¶Ù¾î³ÑÀ» ¼ö ÀÖÀ»°Å¾ß. ÇÑ ¹ø ¶Ù¾îº¼±î?");
+        //Talk("ì´ ì •ë„ë¼ë©´ ë›°ì–´ë„˜ì„ ìˆ˜ ìˆì„ê±°ì•¼. í•œ ë²ˆ ë›°ì–´ë³¼ê¹Œ?");
         Talk(907);
         while (!GetKey(key.jump))
         {
             yield return null;
         }
 
-        //Talk("Èì, »çÁö´Â ¸ÖÂÄÇÑ°¡º¸³×¡¦.\nºñ½Çºñ½ÇÇØº¸¿©¼­ ºÒ¾ÈÇß´Âµ¥ ¸»ÀÌÁö¡¦.");
+        //Talk("í , ì‚¬ì§€ëŠ” ë©€ì©¡í•œê°€ë³´ë„¤â€¦.\në¹„ì‹¤ë¹„ì‹¤í•´ë³´ì—¬ì„œ ë¶ˆì•ˆí–ˆëŠ”ë° ë§ì´ì§€â€¦.");
         Talk(908);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¾Ñ? ¾Æ´Ï¾ß! ¾Æ¹« ¸»µµ ¾ÈÇß¾î(*^_^*)!");
+        //Talk("ì•—? ì•„ë‹ˆì•¼! ì•„ë¬´ ë§ë„ ì•ˆí–ˆì–´(*^_^*)!");
         Talk(909);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("Á» ´õ ¾ÕÀ¸·Î °¡º¼±î?(*^_^*)");
+        //Talk("ì¢€ ë” ì•ìœ¼ë¡œ ê°€ë³¼ê¹Œ?(*^_^*)");
         Talk(910);
 
         MessageClose();
@@ -229,20 +229,20 @@ public class TempTutorialLoader : MonoBehaviour
     {
         MessageClose();
         CanMove(false);
-        //Talk("¿©±ä ±æÀÌ Á» ³·³×¡¦. ¾îÂ¼±¸ ´ëÃæ ³·´Ù´Â ³»¿ë");
+        //Talk("ì—¬ê¸´ ê¸¸ì´ ì¢€ ë‚®ë„¤â€¦. ì–´ì©Œêµ¬ ëŒ€ì¶© ë‚®ë‹¤ëŠ” ë‚´ìš©");
         Talk(911);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("ÀÌÇÇ¾Æ´Â ³ªº¸´Ù ÈÎ¾À µ¢Ä¡°¡ Å©´Ï±î, \n¸öÀ» ¿õÅ©·Á¼­ Áö³ª°¡¾ßÇÒ°Å¾ß.");
+        //Talk("ì´í”¼ì•„ëŠ” ë‚˜ë³´ë‹¤ í›¨ì”¬ ë©ì¹˜ê°€ í¬ë‹ˆê¹Œ, \nëª¸ì„ ì›…í¬ë ¤ì„œ ì§€ë‚˜ê°€ì•¼í• ê±°ì•¼.");
         Talk(912);
-        MessageOpen("È­»ìÇ¥ [¡é]Å°·Î ¿õÅ©¸± ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("í™”ì‚´í‘œ [â†“]í‚¤ë¡œ ì›…í¬ë¦´ ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         CanMove(true);
 
         while (!GetKey(key.crouch))
         {
             yield return null;
         }
-        //Talk("ÁÁ¾Æ, ÃµÃµÈ÷ Áö³ª°¡ÀÚ.");
+        //Talk("ì¢‹ì•„, ì²œì²œíˆ ì§€ë‚˜ê°€ì.");
         Talk(913);
     }
 
@@ -251,30 +251,30 @@ public class TempTutorialLoader : MonoBehaviour
         MessageClose();
 
         CanMove(false);
-        //Talk("¿ì¿Í¾Ñ, Åä³¢´Ù!");
+        //Talk("ìš°ì™€ì•—, í† ë¼ë‹¤!");
         Talk(914);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¾Èº¸ÀÎ´Ù±¸? ³ªµµ ¾Èº¸¿©¡¦³ªÁß¿¡ ÇØ´Ş¶ó°í ÇÏÀÚ¡¦.");
+        //Talk("ì•ˆë³´ì¸ë‹¤êµ¬? ë‚˜ë„ ì•ˆë³´ì—¬â€¦ë‚˜ì¤‘ì— í•´ë‹¬ë¼ê³  í•˜ìâ€¦.");
         Talk(915);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¾Æ¹«Æ°! °Ñ¸ğ½ÀÀº Á» ¸ÖÂÄÇØº¸¿©µµ,\nÁ¤½ÅÀº ÀÌ¹Ì ¾îµÒ¿¡ ¹°µé¾î¹ö·È¾î¡¦.");
+        //Talk("ì•„ë¬´íŠ¼! ê²‰ëª¨ìŠµì€ ì¢€ ë©€ì©¡í•´ë³´ì—¬ë„,\nì •ì‹ ì€ ì´ë¯¸ ì–´ë‘ ì— ë¬¼ë“¤ì–´ë²„ë ¸ì–´â€¦.");
         Talk(916);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("ÀÌÇÇ¾Æ, Á¤È­ÀÇ ÈûÀ» »ç¿ëÇÒ ¶§¾ß! Àú ³à¼®À» 'Á¤È­'ÇØ¹ö·Á!");
+        //Talk("ì´í”¼ì•„, ì •í™”ì˜ í˜ì„ ì‚¬ìš©í•  ë•Œì•¼! ì € ë…€ì„ì„ 'ì •í™”'í•´ë²„ë ¤!");
         Talk(917);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        MessageOpen("[Z]Å°·Î °ø°İÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("[Z]í‚¤ë¡œ ê³µê²©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         CanMove(true);
         while (!GetKey(key.attack))
         {
             yield return null;
         }
 
-        //Talk("ÈÄ¡¦ÁÖ´Ô, ÇÑ¸¶¸® ´õ º¸³À´Ï´Ù.");
+        //Talk("í›„â€¦ì£¼ë‹˜, í•œë§ˆë¦¬ ë” ë³´ëƒ…ë‹ˆë‹¤.");
         Talk(918);
         yield return wait3sec;
         MessageClose();
@@ -285,27 +285,27 @@ public class TempTutorialLoader : MonoBehaviour
         CanMove(false);
         MessageClose();
 
-        //Talk("¿ì¿Ó! ÀÌÇÇ¾Æ, À§ÂÊÀ» ºÁ!");
+        //Talk("ìš°ì™“! ì´í”¼ì•„, ìœ„ìª½ì„ ë´!");
         Talk(919);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("Àú °Å¹Ìµµ ÀÌ¹Ì ¾îµÒ¿¡ ¹°µé¾î¹ö¸° °Í °°¾Æ.");
+        //Talk("ì € ê±°ë¯¸ë„ ì´ë¯¸ ì–´ë‘ ì— ë¬¼ë“¤ì–´ë²„ë¦° ê²ƒ ê°™ì•„.");
         Talk(920);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¾î¼­ ÁÖ´Ô °çÀ¸·Î º¸³»ÁÖÀÚ.");
+        //Talk("ì–´ì„œ ì£¼ë‹˜ ê³ìœ¼ë¡œ ë³´ë‚´ì£¼ì.");
         Talk(921);
         yield return StartCoroutine(CoWaitTalkEnd());
 
         CanMove(true);
-        MessageOpen("[¡è]Å°·Î À§¸¦ Á¶ÁØÇÒ ¼ö ÀÖ½À´Ï´Ù. \n[Z]Å°¸¦ ÇÔ²² »ç¿ëÇÏ¿© À§¸¦ ÇâÇØ °ø°İÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("[â†‘]í‚¤ë¡œ ìœ„ë¥¼ ì¡°ì¤€í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. \n[Z]í‚¤ë¥¼ í•¨ê»˜ ì‚¬ìš©í•˜ì—¬ ìœ„ë¥¼ í–¥í•´ ê³µê²©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
 
         while (!GetKey(key.lookUp))
         {
             yield return null;
         }
 
-        //Talk("Å©Åª¡¦¾î¶°³Ä, Á¤È­ÀÇ ÈûÀÌ¡¦.");
+        //Talk("í¬í­â€¦ì–´ë– ëƒ, ì •í™”ì˜ í˜ì´â€¦.");
         Talk(922);
         MessageClose();
     }
@@ -317,18 +317,18 @@ public class TempTutorialLoader : MonoBehaviour
 
         CanMove(false);
 
-        //Talk("ÀÌ°Ç, ÇÑ ¹ø ¶Ú´Ù°í Áö³ª°¥ ¼ö ÀÖ´Â ³ôÀÌ°¡ ¾Æ´Ï³×¡¦.");
+        //Talk("ì´ê±´, í•œ ë²ˆ ë›´ë‹¤ê³  ì§€ë‚˜ê°ˆ ìˆ˜ ìˆëŠ” ë†’ì´ê°€ ì•„ë‹ˆë„¤â€¦.");
         Talk(923);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("Àú ¹«½Ã¹«½ÃÇÑ °¡½Ã°øÀÌ º¸ÀÌ´Ï? \nÀú°É µó°í ¶Ú´Ù¸é ³Ñ¾î°¥ ¼ö ÀÖÀ»°Å¾ß.");
+        //Talk("ì € ë¬´ì‹œë¬´ì‹œí•œ ê°€ì‹œê³µì´ ë³´ì´ë‹ˆ? \nì €ê±¸ ë”›ê³  ë›´ë‹¤ë©´ ë„˜ì–´ê°ˆ ìˆ˜ ìˆì„ê±°ì•¼.");
         Talk(924);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("°ÆÁ¤¸¶! Á¤È­ÀÇ ÈûÀ» »ç¿ëÇÑ´Ù¸é\n»óÃ³¾øÀÌ Áö³ª°¥ ¼ö ÀÖÀ»°Å¾ß. ¾îÂ¼±¸ÀúÂ¼±¸!!");
+        //Talk("ê±±ì •ë§ˆ! ì •í™”ì˜ í˜ì„ ì‚¬ìš©í•œë‹¤ë©´\nìƒì²˜ì—†ì´ ì§€ë‚˜ê°ˆ ìˆ˜ ìˆì„ê±°ì•¼. ì–´ì©Œêµ¬ì €ì©Œêµ¬!!");
         Talk(925);
 
-        MessageOpen("Á¡ÇÁ Áß, Àû°ú ´ê¾ÒÀ» ¶§ [X]Å°¸¦ »ç¿ëÇÏ¸é \n'ÆĞ¸µ'À¸·Î ¿¬¼Ó Á¡ÇÁ¸¦ ÇÒ ¼ö ÀÖ½À´Ï´Ù. ");
+        MessageOpen("ì í”„ ì¤‘, ì ê³¼ ë‹¿ì•˜ì„ ë•Œ [X]í‚¤ë¥¼ ì‚¬ìš©í•˜ë©´ \n'íŒ¨ë§'ìœ¼ë¡œ ì—°ì† ì í”„ë¥¼ í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ");
         CanMove(true);
 
         while (!player.State.isParrying)
@@ -336,9 +336,9 @@ public class TempTutorialLoader : MonoBehaviour
             yield return null;
         }
 
-        //Talk("ÁÁ¾Ò¾î! ÀÌ´ë·Î Áö³ª°¡º¸ÀÚ.");
+        //Talk("ì¢‹ì•˜ì–´! ì´ëŒ€ë¡œ ì§€ë‚˜ê°€ë³´ì.");
         Talk(926);
-        MessageOpen("'ÆĞ¸µ'Àº ¶¥¿¡ ´ê±â Àü±îÁö\n¸î ¹øÀÌ°í ¿¬¼ÓÇØ¼­ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù. ");
+        MessageOpen("'íŒ¨ë§'ì€ ë•…ì— ë‹¿ê¸° ì „ê¹Œì§€\nëª‡ ë²ˆì´ê³  ì—°ì†í•´ì„œ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤. ");
     }
 
     private IEnumerator CoPrac_Attack_Power()
@@ -346,34 +346,35 @@ public class TempTutorialLoader : MonoBehaviour
 
         CanMove(false);
         MessageClose();
-        //Talk("½£ ¼Ó¿¡¼­ »ç¿ëÇÑ Á¤È­ÀÇ ÈûÀº ³ª¿¡°Ô ´Ù½Ã µ¹¾Æ¿À°Ô µÅ.");
+        //Talk("ìˆ² ì†ì—ì„œ ì‚¬ìš©í•œ ì •í™”ì˜ í˜ì€ ë‚˜ì—ê²Œ ë‹¤ì‹œ ëŒì•„ì˜¤ê²Œ ë¼.");
         Talk(927);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¸ô¶ú´Ù±¸? ´ç¿¬ÇÏÁö! ¹æ±İ ±ŞÁ¶ÇÑ ¼³Á¤ÀÌ´Ï±î!!");
+        //Talk("ëª°ëë‹¤êµ¬? ë‹¹ì—°í•˜ì§€! ë°©ê¸ˆ ê¸‰ì¡°í•œ ì„¤ì •ì´ë‹ˆê¹Œ!!");
         Talk(928);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¹İÈ¯µÈ ÈûÀº Â÷°îÂ÷°î ¸ğ¾ÆµÑÅ×´Ï, \nÀÌÇÇ¾Æ°¡ ÇÊ¿äÇÒ ¶§ ¸»ÇÏ¸é µµ¿òÀÌ µÉ¸¸ÇÑ ÀÏÀ» ÇØº¼°Ô.");
+        //Talk("ë°˜í™˜ëœ í˜ì€ ì°¨ê³¡ì°¨ê³¡ ëª¨ì•„ë‘˜í…Œë‹ˆ, \nì´í”¼ì•„ê°€ í•„ìš”í•  ë•Œ ë§í•˜ë©´ ë„ì›€ì´ ë ë§Œí•œ ì¼ì„ í•´ë³¼ê²Œ.");
         Talk(929);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("½ÃÇè »ï¾Æ¼­ ÇÑ ¹ø ÇØº¼±î?");
+        //Talk("ì‹œí—˜ ì‚¼ì•„ì„œ í•œ ë²ˆ í•´ë³¼ê¹Œ?");
         Talk(930);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("½È´Ù±¸? ½È¾îµµ ÇØ¾ßÇØ. ½£ ¸ÁÇÏ´Â ²Ã º¸°í½Í¾î?");
+        //Talk("ì‹«ë‹¤êµ¬? ì‹«ì–´ë„ í•´ì•¼í•´. ìˆ² ë§í•˜ëŠ” ê¼´ ë³´ê³ ì‹¶ì–´?");
         Talk(931);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("¿ì¼±, ¾ÕÀÇ Åë³ª¹«¸¦ ¶§·Á¼­ Á¤È­ÀÇ ÈûÀ» ¹İÈ¯½ÃÄÑºÁ.");
+        //Talk("ìš°ì„ , ì•ì˜ í†µë‚˜ë¬´ë¥¼ ë•Œë ¤ì„œ ì •í™”ì˜ í˜ì„ ë°˜í™˜ì‹œì¼œë´.");
         Talk(932);
         yield return StartCoroutine(CoWaitTalkEnd());
+        TalkEnd();
 
-        MessageOpen("¸ó½ºÅÍ¿¡°Ô °ø°İÀ» ÀûÁß½ÃÅ°°Å³ª 'ÆĞ¸µ'À» ¼º°ø½ÃÅ°¸é \nÁ¤È­ °ÔÀÌÁö¸¦ È¹µæÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("ëª¬ìŠ¤í„°ì—ê²Œ ê³µê²©ì„ ì ì¤‘ì‹œí‚¤ê±°ë‚˜ 'íŒ¨ë§'ì„ ì„±ê³µì‹œí‚¤ë©´ \nì •í™” ê²Œì´ì§€ë¥¼ íšë“í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        MessageOpen("Á¤È­ °ÔÀÌÁö´Â ÁÂÃø »ó´Ü UI¿¡¼­ È®ÀÎÇÒ ¼ö ÀÖ½À´Ï´Ù.\n Åë³ª¹«¸¦ ¶§·Á¼­ Á¤È­ °ÔÀÌÁö¸¦ È¹µæÇØº¸¼¼¿ä.");
+        MessageOpen("ì •í™” ê²Œì´ì§€ëŠ” ì¢Œì¸¡ ìƒë‹¨ UIì—ì„œ í™•ì¸í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.\n í†µë‚˜ë¬´ë¥¼ ë•Œë ¤ì„œ ì •í™” ê²Œì´ì§€ë¥¼ íšë“í•´ë³´ì„¸ìš”.");
         CanMove(true);
         while (player.Stat.pixyEnerge < 9.8f)
         {
@@ -381,13 +382,13 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         CanMove(false, false);
-        MessageOpen("°ÔÀÌÁö¸¦ ÀÏÁ¤·® È¹µæÇÒ ¶§¸¶´Ù ÁÂÃø »ó´Ü UI¿¡ ²ÉÀÌ ÇÑ ¼ÛÀÌ¾¿ ÇÇ¾î³³´Ï´Ù.");
+        MessageOpen("ê²Œì´ì§€ë¥¼ ì¼ì •ëŸ‰ íšë“í•  ë•Œë§ˆë‹¤ ì¢Œì¸¡ ìƒë‹¨ UIì— ê½ƒì´ í•œ ì†¡ì´ì”© í”¼ì–´ë‚©ë‹ˆë‹¤.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        MessageOpen("²ÉÀ» ÇÑ ¼ÛÀÌ ¼Ò¸ğÇÏ¿© \n·ç¹Ì¿¡ÀÇ '°­°ø°İ'À» »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("ê½ƒì„ í•œ ì†¡ì´ ì†Œëª¨í•˜ì—¬ \në£¨ë¯¸ì—ì˜ 'ê°•ê³µê²©'ì„ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        //Talk("ÁÁ¾Ò¾î. ¹º°¡ º¸¿©µå¸®°Ú½À´Ï´Ù.");
+        //Talk("ì¢‹ì•˜ì–´. ë­”ê°€ ë³´ì—¬ë“œë¦¬ê² ìŠµë‹ˆë‹¤.");
         Talk(933);
-        MessageOpen("[C]Å°·Î °­°ø°İÀ» »ç¿ëÇÏ¼¼¿ä.");
+        MessageOpen("[C]í‚¤ë¡œ ê°•ê³µê²©ì„ ì‚¬ìš©í•˜ì„¸ìš”.");
 
         CanMove(true, false);
 
@@ -397,37 +398,37 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         MessageClose();
-        //Talk("ºÃÁö? ³­ ±×³É Á¹Á¹ µû¶ó´Ù´Ï±â¸¸ ÇÏ´Â ¸¶½ºÄÚÆ®°¡ ¾Æ´Ï¾ß!");
+        //Talk("ë´¤ì§€? ë‚œ ê·¸ëƒ¥ ì¡¸ì¡¸ ë”°ë¼ë‹¤ë‹ˆê¸°ë§Œ í•˜ëŠ” ë§ˆìŠ¤ì½”íŠ¸ê°€ ì•„ë‹ˆì•¼!");
         Talk(934);
     }
 
     private IEnumerator CoPrac_Attack_Ult()
     {
         CanMove(false);
-        //Talk("ÈûÀ» Á¶±İ¸¸ ´õ ¸ğÀ¸¸é,\n ¹æ±İ °Íº¸´Ù ´ë´ÜÇÑ °É ÇÒ ¼ö ÀÖ¾î.");
+        //Talk("í˜ì„ ì¡°ê¸ˆë§Œ ë” ëª¨ìœ¼ë©´,\n ë°©ê¸ˆ ê²ƒë³´ë‹¤ ëŒ€ë‹¨í•œ ê±¸ í•  ìˆ˜ ìˆì–´.");
         Talk(935);
         yield return StartCoroutine(CoWaitTalkEnd());
-        MessageOpen("Á¤È­ °ÔÀÌÁö¸¦ ³¡±îÁö Ã¤¿ö ²ÉÀÌ ÁÖÈ²»öÀ¸·Î ¹°µé¸é,\n ·ç¹Ì¿¡ÀÇ '±Ã±Ø±â'¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.");
+        MessageOpen("ì •í™” ê²Œì´ì§€ë¥¼ ëê¹Œì§€ ì±„ì›Œ ê½ƒì´ ì£¼í™©ìƒ‰ìœ¼ë¡œ ë¬¼ë“¤ë©´,\n ë£¨ë¯¸ì—ì˜ 'ê¶ê·¹ê¸°'ë¥¼ ì‚¬ìš©í•  ìˆ˜ ìˆìŠµë‹ˆë‹¤.");
         yield return StartCoroutine(CoWaitTalkEnd());
         CanMove(true);
 
-        MessageOpen("Á¤È­ °ÔÀÌÁö¸¦ ³¡±îÁö Ã¤¿öº¸¼¼¿ä.");
+        MessageOpen("ì •í™” ê²Œì´ì§€ë¥¼ ëê¹Œì§€ ì±„ì›Œë³´ì„¸ìš”.");
         while (player.Stat.pixyEnerge < 29.8f)
         {
             yield return null;
         }
-        //Talk("ÁØºñ´Â ³¡³µ¾î! ¸»¸¸ ÇØ!");
+        //Talk("ì¤€ë¹„ëŠ” ëë‚¬ì–´! ë§ë§Œ í•´!");
         Talk(936);
-        MessageOpen("[V] Å°·Î ±Ã±Ø±â¸¦ »ç¿ëÇÏ¼¼¿ä.");
+        MessageOpen("[V] í‚¤ë¡œ ê¶ê·¹ê¸°ë¥¼ ì‚¬ìš©í•˜ì„¸ìš”.");
 
         while (!player.Com.pixy.isUlt)
         {
             yield return null;
         }
 
-        MessageOpen("±Ã±Ø±â¸¦ »ç¿ëÇÏ°í ÀÖÀ» ¶§¿¡´Â Á¤È­ °ÔÀÌÁö¸¦ È¹µæÇÒ ¼ö ¾ø½À´Ï´Ù.");
+        MessageOpen("ê¶ê·¹ê¸°ë¥¼ ì‚¬ìš©í•˜ê³  ìˆì„ ë•Œì—ëŠ” ì •í™” ê²Œì´ì§€ë¥¼ íšë“í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
 
-        //Talk("ÈÄ, ºÃ³Ä? ÀÌ°Ô ³» ÈûÀÌ´Ù.\nÀÌÇÇ¾Æ´Â ÀÎ°£ÀÌ¶ó ÀÌ·±°Å ¸øÇÏÁö?");
+        //Talk("í›„, ë´¤ëƒ? ì´ê²Œ ë‚´ í˜ì´ë‹¤.\nì´í”¼ì•„ëŠ” ì¸ê°„ì´ë¼ ì´ëŸ°ê±° ëª»í•˜ì§€?");
         Talk(937);
     }
     private IEnumerator CoPrac_End()
@@ -435,23 +436,22 @@ public class TempTutorialLoader : MonoBehaviour
         CanMove(false);
         MessageClose();
 
-        //Talk("¿¬½ÀÀº ÀÌ°É·Î ³¡ÀÌ¾ß. ´õ ÀÌ»óÀº ½Ã°£ÀÌ ¾ø¾î¡¦.");
+        //Talk("ì—°ìŠµì€ ì´ê±¸ë¡œ ëì´ì•¼. ë” ì´ìƒì€ ì‹œê°„ì´ ì—†ì–´â€¦.");
         Talk(938);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("ÀÌÇÇ¾Æ, ÀÌÁ¦´Â ÇÑ ¹ø¸¸ ½Ç¼öÇØµµ ¸ğ°¡Áö¾ß ¸ğ°¡Áö.");
+        //Talk("ì´í”¼ì•„, ì´ì œëŠ” í•œ ë²ˆë§Œ ì‹¤ìˆ˜í•´ë„ ëª¨ê°€ì§€ì•¼ ëª¨ê°€ì§€.");
         Talk(939);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("Àß Á» ÇÏÀÚ? ^^");
+        //Talk("ì˜ ì¢€ í•˜ì? ^^");
         Talk(940);
         player.State.moveSystem = true;
         player.InputVal.movementInput = 1f;
 
         GameManager.instance.cameraManager.vcam.Follow = null;
         yield return wait3sec;
-        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
-        GameManager.instance.EndTutorial();
+        GameManager.instance.StageClear();
 
 
     }
@@ -507,7 +507,7 @@ public class TempTutorialLoader : MonoBehaviour
     private bool GetKeyDown(KeyCode _keyCode) => Input.GetKey(_keyCode);
 
     /// <summary>
-    /// ´ëÈ­¸¦ ½ºÅµÇÒ ¼ö ÀÖ´Â Å°°¡ ´­·È´Â°¡?
+    /// ëŒ€í™”ë¥¼ ìŠ¤í‚µí•  ìˆ˜ ìˆëŠ” í‚¤ê°€ ëˆŒë ¸ëŠ”ê°€?
     /// </summary>
     private bool IsInputSkipKey()
     {

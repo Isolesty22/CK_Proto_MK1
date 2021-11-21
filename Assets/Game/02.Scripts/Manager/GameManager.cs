@@ -133,6 +133,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StageClear()
     {
+
+
         if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_00)
         {
             EndTutorial();

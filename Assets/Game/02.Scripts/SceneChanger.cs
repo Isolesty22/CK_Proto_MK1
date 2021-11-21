@@ -82,6 +82,11 @@ public class SceneChanger : MonoBehaviour
         AudioManager.Instance.SettingVolume(DataManager.Instance.currentData_settings.volume_master, DataManager.Instance.currentData_settings.volume_bgm, DataManager.Instance.currentData_settings.volume_sfx);
         AudioManager.Instance.Audios.audioSource_BGM.Stop();
         AudioManager.Instance.Audios.audioSource_EVM.Stop();
+
+        //플레이어 사운드가 계속 출력되는 것을 방지
+        AudioManager.Instance.Audios.audioSource_PRun.Stop();
+        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+
         isLoading = true;
         isSceneLoading = true;
         moveSceneName = _sceneName;
