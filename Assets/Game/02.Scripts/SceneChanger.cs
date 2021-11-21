@@ -86,6 +86,7 @@ public class SceneChanger : MonoBehaviour
         //플레이어 사운드가 계속 출력되는 것을 방지
         AudioManager.Instance.Audios.audioSource_PRun.Stop();
         AudioManager.Instance.Audios.audioSource_PWalk.Stop();
+        AudioManager.Instance.Audios.audioSource_SFX.Stop();
 
         isLoading = true;
         isSceneLoading = true;

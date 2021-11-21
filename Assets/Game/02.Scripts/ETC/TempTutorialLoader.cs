@@ -20,7 +20,6 @@ public class TempTutorialLoader : MonoBehaviour
         {
             instance = this;
             Instance = instance;
-            DontDestroyOnLoad(this.gameObject);
         }
         else
         {
@@ -526,5 +525,7 @@ public class TempTutorialLoader : MonoBehaviour
         coDict = null;
         tcDict = null;
         StopCoroutine(currentCoName);
+        Instance = null;
+        instance = null;
     }
 }

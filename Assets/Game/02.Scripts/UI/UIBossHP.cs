@@ -51,6 +51,25 @@ public class UIBossHP : UIBase
     float progres = 1f;
 
 
+    public override bool Close()
+    {
+        if (isOpen)
+        {
+            StartCoroutine(ProcessClose());
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+    protected override IEnumerator ProcessClose()
+    {
+        yield return StartCoroutine(base.ProcessClose());
+        gameObject.SetActive(false);
+    }
+
     private void Update()
     {
         timer += Time.deltaTime * 0.01f;

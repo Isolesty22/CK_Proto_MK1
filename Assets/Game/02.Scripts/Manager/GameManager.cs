@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
         tempData.currentStageName = SceneNames.stage_01;
         tempData.currentStageNumber = 1;
         tempData.finalStageName = SceneNames.stage_00;
-        tempData.finalStageNumber= 0;
+        tempData.finalStageNumber = 0;
         DataManager.Instance.currentClearStageNumber = 0;
         DataManager.Instance.currentData_player.CopyData(tempData);
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
@@ -133,7 +133,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StageClear()
     {
-
+        if (playerController != null)
+        {
+            playerController.State.moveSystem = false;
+        }
 
         if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_00)
         {
