@@ -399,7 +399,7 @@ public class BearController : BossController
 
         SetStateInfo((int)eBearState.Die);
         ChangeState((int)eBearState.Die);
-        testPotal.Active();
+
     }
     private void SetCurrentPattern(BearPattern _pattern)
     {

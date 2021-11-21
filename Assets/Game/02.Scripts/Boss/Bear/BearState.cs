@@ -818,6 +818,7 @@ public class BearState_Die : BearState
     {
         bearController.animator.enabled = false;
         bearController.colliders.groundCollider.enabled = true;
+        bearController.testPotal.gameObject.SetActive(true);
 
     }
 

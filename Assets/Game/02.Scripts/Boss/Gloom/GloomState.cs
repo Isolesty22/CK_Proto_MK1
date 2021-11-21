@@ -841,7 +841,6 @@ public class GloomState_Advance : GloomState
     }
     public override void OnEnter()
     {
-        Debug.Log("전진 Enter");
         canExit = false;
         lightning.Init();
 
