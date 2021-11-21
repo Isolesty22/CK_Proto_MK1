@@ -562,9 +562,6 @@ public class PlayerController : MonoBehaviour
 
     private void LookUp()
     {
-        if (State.isCrouching)
-            return;
-
         if (Input.GetKey(Key.lookUp))
         {
             State.isLookUp = true;
@@ -573,6 +570,9 @@ public class PlayerController : MonoBehaviour
         {
             State.isLookUp = false;
         }
+
+        if (State.isCrouching)
+            State.isLookUp = false;
     }
 
     public void ReadyToParry()
@@ -620,7 +620,7 @@ public class PlayerController : MonoBehaviour
         Val.velocityY = Stat.parryingForce;
         Com.animator.SetTrigger("Parrying");
 
-        if (Com.pixy.isUlt)
+        if (!Com.pixy.isUlt)
             Stat.pixyEnerge = Mathf.Clamp(Stat.pixyEnerge += Stat.parryingEnerge, 0, 30);
 
         State.isParrying = true;
@@ -750,6 +750,8 @@ public class PlayerController : MonoBehaviour
         //input 안되게 해야 함
         InputVal.movementInput = 0f;
         State.moveSystem = true;
+        State.isLookUp = false;
+        State.isCrouching = false;
 
         //Debug.Log("work");
 
