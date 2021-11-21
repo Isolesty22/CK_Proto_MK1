@@ -677,19 +677,19 @@ MonoBehaviour:
   animator: {fileID: 6058052776558698487}
   runtimeAnimator: {fileID: 9100000, guid: d41977d244bdcfb42b7a9652eccef081, type: 2}
   animationEventListener: {fileID: 7252689686199632660}
-  hp: 500
+  hp: 670
   stateInfo:
     phase: 0
     state: 
     stateInt: 0
   bossPhaseValue:
-    phase2Per: 0.5
+    phase2Per: 0.55
     phase3Per: 0
     phase2Hp: 0
     phase3Hp: 0
   _skillValues:
     chase:
-      count: 20
+      count: 15
       intevar: 0.2
       moveTime: 0.9
       curvedValue: 7
@@ -734,7 +734,7 @@ MonoBehaviour:
       positions: []
     wave:
       moveTime: 5
-      frequency: 3
+      frequency: 3.5
       magnitude: 3
       startPosition: {x: 0, y: 0, z: 0}
     resonance:
@@ -755,14 +755,10 @@ MonoBehaviour:
       waitTime: 1
     - state: 5
       waitTime: 1
-    - state: 10
-      waitTime: 1
     - state: 6
       waitTime: 1
-    - state: 5
-      waitTime: 0
     - state: 10
-      waitTime: 2
+      waitTime: 1
     - state: 3
       waitTime: 3
     - state: 4
@@ -773,13 +769,11 @@ MonoBehaviour:
       waitTime: 1
     - state: 10
       waitTime: 1
-    - state: 7
-      waitTime: 0
+    - state: 5
+      waitTime: 1
     - state: 3
       waitTime: 3
     - state: 6
-      waitTime: 1
-    - state: 5
       waitTime: 1
     phase_02_List:
     - state: 0
@@ -808,8 +802,6 @@ MonoBehaviour:
       waitTime: 0
     - state: 8
       waitTime: 1
-    - state: 9
-      waitTime: 0
     - state: 9
       waitTime: 0
     - state: 2

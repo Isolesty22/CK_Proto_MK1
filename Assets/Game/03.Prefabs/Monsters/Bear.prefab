@@ -19713,7 +19713,7 @@ MonoBehaviour:
   animator: {fileID: 5283914769549063802}
   runtimeAnimator: {fileID: 9100000, guid: 1d895e1996eaff843907070cb2956507, type: 2}
   animationEventListener: {fileID: 6852019225570319218}
-  hp: 450
+  hp: 550
   stateInfo:
     phase: 0
     state: 
@@ -19756,65 +19756,55 @@ MonoBehaviour:
     clawDelay: 0.5
     roarRandCount: 7
     smashRandCount: 6
-    concentrateTime: 6
+    concentrateTime: 4
     powerlessTime: 5
     summonRushSpider: 0
   patterns:
     phase_01_List:
     - state: 0
-      waitTime: 1
+      waitTime: 3
     - state: 7
-      waitTime: 2
+      waitTime: 1
     - state: 2
-      waitTime: 2
-    - state: 4
-      waitTime: 2
-    - state: 7
       waitTime: 1
-    - state: 5
-      waitTime: 2
     - state: 3
       waitTime: 0
-    - state: 2
+    - state: 5
       waitTime: 2
+    - state: 7
+      waitTime: 0
+    - state: 2
+      waitTime: 1
     - state: 4
-      waitTime: 3
+      waitTime: 2
     - state: 10
       waitTime: 1
     - state: 11
-      waitTime: 2
+      waitTime: 1
     - state: 4
       waitTime: 2
     - state: 11
-      waitTime: 2
-    - state: 12
       waitTime: 1
-    - state: 3
+    - state: 12
       waitTime: 0
     phase_02_List:
     - state: 0
-      waitTime: 1
+      waitTime: 2
     - state: 9
       waitTime: 2
     - state: 8
       waitTime: 2
-    - state: 2
-      waitTime: 1
-    - state: 8
-      waitTime: 2
-    - state: 3
-      waitTime: 1
     - state: 6
       waitTime: 1
-    - state: 9
-      waitTime: 2
+    - state: 2
+      waitTime: 1
     - state: 8
       waitTime: 2
-    - state: 14
+    - state: 9
       waitTime: 1
     - state: 13
-      waitTime: 0
-    - state: 2
+      waitTime: 2
+    - state: 13
       waitTime: 2
     - state: 10
       waitTime: 1
@@ -19826,7 +19816,7 @@ MonoBehaviour:
       waitTime: 1
     - state: 13
       waitTime: 0
-    - state: 14
+    - state: 9
       waitTime: 0
   audioClips:
     death: {fileID: 8300000, guid: 59eb9c00f47906f42822dc831b0c441c, type: 3}
