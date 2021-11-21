@@ -203,7 +203,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
     m_PressedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
-    m_SelectedSprite: {fileID: 21300000, guid: dfad50b50083ba542ac54c7541d9ec93, type: 3}
+    m_SelectedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
     m_DisabledSprite: {fileID: 0}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
@@ -215,7 +215,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4752436076641923278}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4475997073383293641}
+        m_TargetAssemblyTypeName: UIMovieScreen, Assembly-CSharp
+        m_MethodName: Button_ToggleSpeed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2750461978286431522
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +366,21 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 9cfa8926ac3841a49b05f055fcf95050, type: 2}
   videoPlayer: {fileID: 4475997073383293640}
   blackPanel: {fileID: 7767462166820117514}
+  playbackSpeedButton: {fileID: 6764859100803623196}
+  x1SpriteSet:
+    defaultSprite: {fileID: 21300000, guid: dfad50b50083ba542ac54c7541d9ec93, type: 3}
+    sprites:
+      m_HighlightedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
+      m_PressedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
+      m_SelectedSprite: {fileID: 21300000, guid: 2243e6b19c0f9ea4fac88ea9ada5f99c, type: 3}
+      m_DisabledSprite: {fileID: 0}
+  x2SpriteSet:
+    defaultSprite: {fileID: 21300000, guid: 143c949511796584d9d7b59407c6f160, type: 3}
+    sprites:
+      m_HighlightedSprite: {fileID: 21300000, guid: f3b83518b51c5774991aa09142f81b37, type: 3}
+      m_PressedSprite: {fileID: 21300000, guid: f3b83518b51c5774991aa09142f81b37, type: 3}
+      m_SelectedSprite: {fileID: 21300000, guid: f3b83518b51c5774991aa09142f81b37, type: 3}
+      m_DisabledSprite: {fileID: 0}
   videoClips: []
 --- !u!223 &4475997073383293644
 Canvas:
