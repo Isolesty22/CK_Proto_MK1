@@ -89,6 +89,8 @@ public class GloomLightning : MonoBehaviour
 
     private WaitForSeconds waitUpdateDelay = null;
     private float shakeAddValue;
+
+    private AudioSource audioSource;
     private void Awake()
     {
         yOriginPos = yTransform.position.y;
@@ -99,8 +101,16 @@ public class GloomLightning : MonoBehaviour
         Debug.LogError(shakeAddValue);
     }
 
+    private void Start()
+    {
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
+    }
+
     public void Init()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         sphereEffectTransform.gameObject.SetActive(false);
         lineEffectTransform.gameObject.SetActive(false);
         nextUpdateTime = 0f;
@@ -190,6 +200,9 @@ public class GloomLightning : MonoBehaviour
         //시간 초기화
 
         ClearTimer();
+
+        //사운드 시작
+        audioSource.Play();
 
         //위치 설정
         Vector3 endTopPos = new Vector3(moveSphereEndPos.x, startTopPos.y, moveSphereEndPos.z);
@@ -294,6 +307,9 @@ public class GloomLightning : MonoBehaviour
         //=========================
         // 글룸 쪽으로 돌아가기
         //=========================
+
+        //사운드 종료
+        audioSource.Stop();
 
         //이펙트 등등 Off
         lineEffectTransform.gameObject.SetActive(false);

@@ -54,6 +54,9 @@ public class GloomState_Chase : GloomState
         {
             GloomChaseBullet bullet = gloom.Pool.chaseBullet.SpawnThis(gloom.SkillObj.sphereTransform.position);
 
+            //사운드 출력
+            gloom.audioSource.PlayOneShot(gloom.audioClips.chase);
+
             bullet.Init(gloom);
             bullet.SetPosition(gloom.SkillObj.sphereTransform.position, playerRB.position);
             bullet.Move();
@@ -149,6 +152,9 @@ public class GloomState_Leap : GloomState
         float timer = 0f;
         float progress = 0f;
 
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.jump);
+
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -179,6 +185,12 @@ public class GloomState_Leap : GloomState
     {
         yield return downAnimTime;
 
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.land);
+
+        gloom.audioSource.PlayOneShot(gloom.audioClips.fire);
+
+        gloom.audioSource.PlayOneShot(gloom.audioClips.fire2);
 
         gloom.SetTrigger("Leap_End");
     }
@@ -297,6 +309,7 @@ public class GloomState_Resonance : GloomState
     {
         canExit = false;
         gloom.SetTrigger("Resonance_Start");
+
         gloom.SetAnimEvent(AnimEvent);
         UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
     }
@@ -315,6 +328,11 @@ public class GloomState_Resonance : GloomState
 
         gloom.SkillObj.resonanceSphere.SetActive(true);
 
+        //사운드 출력
+        gloom.audioSource.loop = true;
+        gloom.audioSource.clip = gloom.audioClips.resonanace;
+        gloom.audioSource.Play();
+
         gloom.StartInvincible();
 
         while (timer < skillVal.resonanceTime)
@@ -324,6 +342,13 @@ public class GloomState_Resonance : GloomState
             //구슬 패링에 성공했을 경우
             if (helper.isSucceedParry)
             {
+                //사운드 끝내기
+                gloom.audioSource.loop = false;
+                gloom.audioSource.Stop();
+
+                //사운드 출력
+                gloom.audioSource.PlayOneShot(gloom.audioClips.parrying);
+
                 //검사 끝내기
                 helper.EndCheck();
 
@@ -344,6 +369,10 @@ public class GloomState_Resonance : GloomState
 
             yield return null;
         }
+
+        //사운드 끝내기
+        gloom.audioSource.loop = false;
+        gloom.audioSource.Stop();
 
         ReadyToExit();
         gloom.SetTrigger("Resonance_End");
@@ -381,6 +410,9 @@ public class GloomState_Resonance : GloomState
             //투사체 회전값 조절
             sign.SetBulletRotation(bulletRot);
             sign.Init(gloom, spawnPos, block.positions.topCenter, skillVal.moveTime);
+
+            //사운드 출력
+            gloom.audioSource.PlayOneShot(gloom.audioClips.resonanceArrow);
         }
     }
 
@@ -424,6 +456,9 @@ public class GloomState_Threat : GloomState
 
     private IEnumerator ProcessSkill()
     {
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.weild);
+
         gloom.SkillObj.threat.SetActive(true);
         yield return new WaitForSeconds(0.4f);
         gloom.SkillObj.threat.SetActive(false);
@@ -472,6 +507,9 @@ public class GloomState_ThornPath : GloomState
     }
     private IEnumerator ProcessAnimEvent()
     {
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.magic);
+
         //2개 이상 있다면 for문으로 돌리기 
         if (blockArr.Length > 1)
         {
@@ -511,7 +549,14 @@ public class GloomState_ThornPath : GloomState
             yield return null;
         }
 
+        gloom.StartCoroutine(ThornSound());
+    }
 
+    private IEnumerator ThornSound()
+    {
+        yield return new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.thorn);
     }
 
     private IEnumerator ProcessAnimEnd()
@@ -597,6 +642,10 @@ public class GloomState_Obstruct : GloomState
             };
 
         gloom.SetTrigger("Obstruct_Start");
+
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.scratchGround);
+
         gloom.SetAnimEvent(AnimEvent);
     }
 
@@ -616,6 +665,8 @@ public class GloomState_Obstruct : GloomState
 
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(startPos, rot, null); ;
             sign.Init(gloom, startPos, endPosArr[index], bulletMoveTime);
+            //사운드 출력
+            gloom.audioSource.PlayOneShot(gloom.audioClips.resonanceArrow);
             //GloomObstructBullet bullet = gloom.Pool.obstructBullet.SpawnThis(startPos);
             //bullet.Init(gloom, startPos, endPosArr[index]);
             //bullet.Move();
@@ -697,6 +748,9 @@ public class GloomState_ThornForest : GloomState
 
     public void AnimEvent()
     {
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.magic);
+
         //가져온게 없으면
         if (blockArr.Length == 0)
         {
@@ -771,7 +825,16 @@ public class GloomState_ThornForest : GloomState
                 yield return null;
             }
         }
+
+        gloom.StartCoroutine(ThornSound());
     }
+    private IEnumerator ThornSound()
+    {
+        yield return new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.thorn);
+    }
+
     private IEnumerator ProcessAnimEnd()
     {
         yield return waitSec;
@@ -805,6 +868,10 @@ public class GloomState_Wave : GloomState
         }
 
         gloom.SetAnimEvent(AnimEvent);
+
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.longHowling);
+
         gloom.SetTrigger("Wave_Start");
     }
 
@@ -823,6 +890,18 @@ public class GloomState_Wave : GloomState
         upBullet.Move();
         downBullet.Move();
 
+        //사운드 출력
+        gloom.audioSource.loop = true;
+        gloom.audioSource.clip = gloom.audioClips.wave;
+        gloom.audioSource.Play();
+
+        gloom.StartCoroutine(EndAudio());
+    }
+
+    private IEnumerator EndAudio()
+    {
+        yield return new WaitForSeconds(4.2f);
+        gloom.audioSource.Stop();
     }
 
 }
@@ -873,11 +952,13 @@ public class GloomState_Advance : GloomState
 
         lightning.SetMoveSpherePosition(gloom.SkillObj.sphereTransform.position, startPos);
         //lightning.Init_Position();
+
         yield return gloom.StartCoroutine(lightning.CoBeginMove());
 
         lightning.SetMovePosition(startPos, endPos);
         // lightning.Init_Position();
         yield return gloom.StartCoroutine(lightning.CoMove());
+
         lightning.gameObject.SetActive(false);
 
         gloom.SetTrigger("Advance_End");
@@ -948,6 +1029,8 @@ public class GloomState_Die : GloomState
     {
         canExit = false;
 
+        //사운드 출력
+        gloom.audioSource.PlayOneShot(gloom.audioClips.death);
 
         gloom.SetAnimEvent(AnimEvent);
 
