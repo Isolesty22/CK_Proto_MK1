@@ -41,6 +41,9 @@ public class BearState_Stamp : BearState
 
     public void AnimEvent()
     {
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.jumpAttack);
+
         bearController.skillObjects.stampShockEffect.SetActive(true);
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
@@ -149,6 +152,10 @@ public class BearState_Rush : BearState
         bearController.gameObject.tag = TagName.Untagged;
 
         bearController.skillObjects.rushEffect.SetActive(true);
+
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.dash);
+
         while (progress < 1f)
         {
             if (!canGo)
@@ -162,8 +169,8 @@ public class BearState_Rush : BearState
             bearController.myTransform.position = Vector3.Lerp(startPos, leftRushPos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
-        //돌진 종료
 
+        //돌진 종료
         bearController.SetAnimEvent(StopMove);
         bearController.SetTrigger("Rush_End");
         //이후 자동으로 걷기 애니메이션 출력됨
@@ -197,10 +204,21 @@ public class BearState_Rush : BearState
             timer += Time.fixedDeltaTime;
             progress = timer / walkTime;
 
+            //사운드 출력
+            if (!bearController.audioSource.isPlaying)
+            {
+                bearController.audioSource.clip = bearController.audioClips.phase2Walk;
+                bearController.audioSource.loop = true;
+                bearController.audioSource.Play();
+            }
             bearController.myTransform.position = Vector3.Lerp(leftRushPos, phase2Pos, progress);
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
         //페이즈 2 포지션까지 도착 완료
+
+        //사운드 종료
+        bearController.audioSource.loop = false;
+        bearController.audioSource.Stop();
 
         bearController.SetTrigger("Rush_Walk_End");
         canExit = true;
@@ -230,6 +248,9 @@ public class BearState_Roar : BearState
             case eBearState.Roar_A:
                 bearController.bearMapInfo.UpdateProjectileRandArray();
 
+                //사운드 출력
+                bearController.audioSource.PlayOneShot(bearController.audioClips.upRoar);
+
                 bearController.SetAnimEvent(AnimEvent_A);
                 bearController.SetSkillVariety(0);
 
@@ -238,6 +259,9 @@ public class BearState_Roar : BearState
 
             // 중앙 공격
             case eBearState.Roar_B:
+                //사운드 출력
+                bearController.audioSource.PlayOneShot(bearController.audioClips.forwardRoar);
+
                 bearController.SetAnimEvent(AnimEvent_B);
                 bearController.SetSkillVariety(1);
 
@@ -393,7 +417,10 @@ public class BearState_Strike : BearState
     }
     //랜덤
     private void AnimEvent_A()
-    {   
+    {
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.strikeAttack);
+
         GameManager.instance.cameraManager.ShakeCamera();
         CloneStrikeCube(strikePos[0]);
         CloneStrikeCube(strikePos[1]);
@@ -402,7 +429,10 @@ public class BearState_Strike : BearState
 
     //왼쪽부터 오른쪽까지
     private void AnimEvent_B()
-    {        
+    {
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.strikeAttack);
+
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
 
@@ -480,6 +510,9 @@ public class BearState_Claw : BearState
 
     private IEnumerator ProcessAnimEvent_A()
     {
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.scratch);
+
         bearController.skillObjects.claw_A_Effect.SetActive(true);
         yield return waitHalfSec;
         bearController.skillObjects.claw_A_Effect.SetActive(false);
@@ -487,6 +520,9 @@ public class BearState_Claw : BearState
 
     private IEnumerator ProcessAnimEvent_B()
     {
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.scratch);
+
         bearController.skillObjects.claw_B_Effect.SetActive(true);
 
         //Spawn Claw projectile
@@ -498,6 +534,9 @@ public class BearState_Claw : BearState
 
             Vector3 startPos = Quaternion.Euler(0, 0, clawProjectile.degree) * bearController.skillObjects.clawUnderPosition.position;
             Vector3 endPos = new Vector3(projectileEndPosX, startPos.y, startPos.z);
+
+            //사운드 출력
+            bearController.audioSource.PlayOneShot(bearController.audioClips.wind);
 
             clawProjectile.Init(startPos, endPos);
             clawProjectile.Move();
@@ -573,6 +612,10 @@ public class BearState_Smash : BearState
         //yield return new WaitForSeconds(0.2f);
 
         int length = smashHelper.rockCount;
+
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.rockBreak);
+
         //바위 쿠과광
         for (int i = 0; i < length; i++)
         {
@@ -624,6 +667,10 @@ public class BearState_Concentrate : BearState
     }
     public void AnimEvent()
     {
+        //사운드 출력
+        bearController.audioSource.clip = bearController.audioClips.energyGather;
+        bearController.audioSource.Play();
+
         helper.StartCheck();
         bearController.skillObjects.concentrateSphere.SetActive(true);
         bearController.StartCoroutine(concentrate);
@@ -645,11 +692,19 @@ public class BearState_Concentrate : BearState
 
             if (helper.isSucceedParry)
             {
+                //사운드 출력
+                bearController.audioSource.Stop();
+                bearController.audioSource.PlayOneShot(bearController.audioClips.parrying);
                 ChangeStatePowerless();
             }
 
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
+
+        //사운드 출력
+        bearController.audioSource.Stop();
+        bearController.audioSource.PlayOneShot(bearController.audioClips.energyExplosion);
+
         bearController.SetTrigger("Concentrate_End");
         bearController.EmissionOn(10f);
         sphereTransform.gameObject.SetActive(false);
@@ -703,6 +758,11 @@ public class BearState_Powerless : BearState
         stunEffect.gameObject.SetActive(true);
         stunEffect.Play();
 
+        //사운드 출력
+        bearController.audioSource.loop = true;
+        bearController.audioSource.clip = bearController.audioClips.stun;
+        bearController.audioSource.Play();
+
         bearController.SetAnimEvent(AnimEvent_WaitEnd);
     }
 
@@ -720,6 +780,10 @@ public class BearState_Powerless : BearState
 
         stunEffect.Stop();
         stunEffect.gameObject.SetActive(false);
+
+        //사운드 출력
+        bearController.audioSource.Stop();
+        bearController.audioSource.PlayOneShot(bearController.audioClips.wakeUp);
 
     }
 
@@ -742,6 +806,8 @@ public class BearState_Die : BearState
     {
         canExit = false;
         bearController.colliders.bodyCollider.enabled = false;
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.death);
 
         bearController.StartCoroutine(CoTalkDie());
         bearController.SetAnimEvent(AnimEvent);
@@ -761,7 +827,10 @@ public class BearState_Die : BearState
         bearController.TalkOnce(208);
         yield return new WaitForSeconds(2.5f);
         bearController.TalkOnce(209);
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.5f);
+        //사운드 출력
+        bearController.audioSource.PlayOneShot(bearController.audioClips.down);
+        yield return new WaitForSeconds(1f);
         bearController.TalkOnce(210);
     }
 }
