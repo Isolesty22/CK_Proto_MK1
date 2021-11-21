@@ -752,6 +752,7 @@ public class PlayerController : MonoBehaviour
         State.moveSystem = true;
         State.isLookUp = false;
         State.isCrouching = false;
+        State.isAttack = false;
 
         //Debug.Log("work");
 
