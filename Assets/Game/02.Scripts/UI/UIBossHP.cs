@@ -17,6 +17,10 @@ public class UIBossHP : UIBase
     {
         Init();
     }
+    private void Start()
+    {
+        UIManager.Instance.AddDict(this);
+    }
     public override void Init()
     {
         CheckOpen();
@@ -32,19 +36,11 @@ public class UIBossHP : UIBase
             gameObject.SetActive(false);
         }
     }
-    void Start()
-    {
-        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
-    }
 
-    public void OnTimelineEnded()
+    public void StartUI()
     {
-        string sceneName = SceneManager.GetActiveScene().name;
-        if (sceneName == SceneNames.stage_02 || sceneName == SceneNames.stage_04)
-        {
-            StartCoroutine(ProcessOpen());
-            StartCoroutine(UpdateUI());
-        }
+        StartCoroutine(ProcessOpen());
+        StartCoroutine(UpdateUI());
     }
 
     float timer = 0f;

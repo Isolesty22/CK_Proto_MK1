@@ -10,6 +10,10 @@ public class StageStarter : MonoBehaviour
     [Header("타임라인 사용 여부")]
     public bool useTimeline;
 
+    [Tooltip("true일 때, 타임라인이 끝나면 자동으로 플레이어 UI가 열리지 않습니다(플레이어의 조작 불가도 그대로입니다).")]
+    [Header("자동으로 플레이어 UI를 열지 않기")]
+    public bool doNotOpenPlayerUI;
+
     [Header("Null Check")]
     public bool isDebug;
 
@@ -20,7 +24,7 @@ public class StageStarter : MonoBehaviour
 
     [Header("Stage Start UI")]
     public UIStageStart uiStageStart;
-    public IEnumerator Start()
+    private void Start()
     {
         if (useTimeline)
         {
@@ -32,12 +36,13 @@ public class StageStarter : MonoBehaviour
             GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         }
 
-        if (SceneChanger.Instance != null)
-        {
-            yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
-        }
-        StartCoroutine(OpenUI());
-        yield break;
+
+        //if (SceneChanger.Instance != null)
+        //{
+        //    yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+        //    StartCoroutine(OpenUI());
+        //}
+      //  yield break;
     }
 
     public void OnTimelineEnded()
@@ -46,9 +51,13 @@ public class StageStarter : MonoBehaviour
 
         if (useTimeline)
         {
-            GameManager.instance.playerController.State.moveSystem = false;
-            UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
-            ui.Open();
+            if (!doNotOpenPlayerUI)
+            {
+                GameManager.instance.playerController.State.moveSystem = false;
+                UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
+                ui.Open();
+            }
+                return;
         }
         else
         {

@@ -257,12 +257,14 @@ public class BearController : BossController
     {
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
-
-
         Init();
         StartCoroutine(ExecutePatternCoroutine);
         StartCoroutine(WaitHpPer20());
         TalkOnce(200);
+
+        //체력바 열기
+        UIBossHP uiBossHP = UIManager.Instance.GetUI("UIBossHP") as UIBossHP;
+        uiBossHP.StartUI();
     }
 
     private void ProcessChangePhase(ePhase _phase)

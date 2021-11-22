@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class TempTutorialLoader : MonoBehaviour
 {
-    private static TempTutorialLoader instance;
     public static TempTutorialLoader Instance;
-
 
     private PlayerController player;
     [Tooltip("조작 불가 텍스트")]
@@ -18,8 +16,7 @@ public class TempTutorialLoader : MonoBehaviour
     {
         if (Instance == null)
         {
-            instance = this;
-            Instance = instance;
+            Instance = this;
         }
         else
         {
@@ -526,6 +523,5 @@ public class TempTutorialLoader : MonoBehaviour
         tcDict = null;
         StopCoroutine(currentCoName);
         Instance = null;
-        instance = null;
     }
 }
