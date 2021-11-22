@@ -9,7 +9,7 @@ public class Seed : MonoBehaviour
     public Vector3 fireDir;
     public Vector3 firePos;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if((firePos - transform.position).magnitude < range)
         {

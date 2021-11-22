@@ -188,7 +188,7 @@ public class RollerController : MonsterController
         Com2.sphereCollider.enabled = true;
         Com2.rollingCollider.gameObject.SetActive(true);
 
-        if (!Com.audio.isPlaying)
+        if (!Com.audio.isPlaying && Time.timeScale != 0)
         {
             Com.audio.loop = true;
             Com.audio.Play();
