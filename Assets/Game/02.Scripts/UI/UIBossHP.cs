@@ -69,7 +69,7 @@ public class UIBossHP : UIBase
 
     private IEnumerator UpdateUI()
     {
-        while (hpImage.fillAmount > 0.015f)
+        while (hpImage.fillAmount > 0.01f)
         {
             timer += Time.deltaTime * 0.01f;
             progres = Mathf.Lerp(progres, bossController.hp / maxHP, timer);

@@ -317,15 +317,15 @@ public class TempTutorialLoader : MonoBehaviour
         CanMove(false);
 
         //Talk("이건, 한 번 뛴다고 지나갈 수 있는 높이가 아니네….");
-        Talk(923);
+        // Talk(923);
         yield return StartCoroutine(CoWaitTalkEnd());
 
         //Talk("저 무시무시한 가시공이 보이니? \n저걸 딛고 뛴다면 넘어갈 수 있을거야.");
-        Talk(924);
+        //Talk(924);
         yield return StartCoroutine(CoWaitTalkEnd());
 
         //Talk("걱정마! 정화의 힘을 사용한다면\n상처없이 지나갈 수 있을거야. 어쩌구저쩌구!!");
-        Talk(925);
+        //Talk(925);
 
         MessageOpen("점프 중, 적과 닿았을 때 [X]키를 사용하면 \n'패링'으로 연속 점프를 할 수 있습니다. ");
         CanMove(true);
@@ -336,7 +336,7 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         //Talk("좋았어! 이대로 지나가보자.");
-        Talk(926);
+        //Talk(926);
         MessageOpen("'패링'은 땅에 닿기 전까지\n몇 번이고 연속해서 사용할 수 있습니다. ");
     }
 
