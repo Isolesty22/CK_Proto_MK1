@@ -194,7 +194,10 @@ public class SceneChanger : MonoBehaviour
             return;
         }
 
-
+        if (uiLoading == null)
+        {
+            uiLoading = FindObjectOfType<UILoading>();
+        }
         uiLoading.Close();
         Time.timeScale = 1f;
         #region BGMSet
