@@ -289,17 +289,18 @@ public class GloomController : BossController
     {
         //OnTimelineEnded();
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
-
-        audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         Init_Talk();
         Init();
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
+
     }
 
     private void OnTimelineEnded()
     {
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
+
         StartCoroutine(CoBeginPatternYeonchool());
     }
 
@@ -311,6 +312,7 @@ public class GloomController : BossController
         yield return new WaitForSeconds(2f);
         TalkOnce(402);
         yield return new WaitForSeconds(2f);
+
         StartCoroutine(ExecutePatternCoroutine);
         GameManager.instance.playerController.State.moveSystem = false;
 
@@ -334,6 +336,7 @@ public class GloomController : BossController
         bossPhaseValue.Init(hp);
         maxHp = hp;
 
+        Com.gloomMap.Init();
         ExecutePatternCoroutine = ExecutePattern();
 
         stateMachine = new GloomStateMachine(this);
