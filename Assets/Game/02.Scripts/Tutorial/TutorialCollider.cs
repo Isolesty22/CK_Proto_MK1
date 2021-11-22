@@ -10,8 +10,6 @@ public class TutorialCollider : MonoBehaviour
     public string coName;
     //public UnityEvent onTriggerEnter;
 
-    public event Action onTriggerEnter;
-
     private void Start()
     {
         TempTutorialLoader.Instance.AddDict(coName, this);

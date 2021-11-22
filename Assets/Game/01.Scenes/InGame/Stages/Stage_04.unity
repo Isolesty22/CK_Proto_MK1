@@ -46906,7 +46906,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.7770833, y: 1}
+    m_SensorSize: {x: 1.7777778, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -75784,7 +75784,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1905637099, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.36254787
+      value: -0.35774016
       objectReference: {fileID: 0}
     - target: {fileID: 1905637099, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -75916,7 +75916,7 @@ PrefabInstance:
       objectReference: {fileID: 1430872287}
     - target: {fileID: 7656030522470876923, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.36254787
+      value: -0.35774016
       objectReference: {fileID: 0}
     - target: {fileID: 7656030522470876923, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
       propertyPath: m_LocalPosition.y
@@ -75993,6 +75993,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d21ce62278edf0045a02b10e5c0905fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1391084986 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 314361433, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
+  m_PrefabInstance: {fileID: 1391084984}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1391084987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 947553979, guid: 082cb9684005d7d4db9d535eab2385c9, type: 3}
+  m_PrefabInstance: {fileID: 1391084984}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1393334434
@@ -76286,16 +76308,18 @@ PlayableDirector:
   m_InitialTime: 0
   m_SceneBindings:
   - key: {fileID: -394146663070970869, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
-    value: {fileID: 0}
+    value: {fileID: 1391084987}
   - key: {fileID: 8104080669396831742, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
     value: {fileID: 0}
   - key: {fileID: 775489224457912509, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
     value: {fileID: 0}
   - key: {fileID: 3094221929907630126, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -7277162056425352544, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
-    - e1176300b9b245b4c8f0e4b5745bece8: {fileID: 0}
+    - e1176300b9b245b4c8f0e4b5745bece8: {fileID: 1391084986}
     - 613d6d3319f89e3459d76519acbecdd3: {fileID: 764003411}
 --- !u!4 &1403329395
 Transform:
@@ -87304,6 +87328,10 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: 8b5f38d6f5993e845a6d8050d4c5e182, type: 3}
     - target: {fileID: 8828996961806049965, guid: 08cbd336607b0f74c9f38afb1fed071b, type: 3}
       propertyPath: useTimeline
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828996961806049965, guid: 08cbd336607b0f74c9f38afb1fed071b, type: 3}
+      propertyPath: doNotOpenPlayerUI
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9089833017131300218, guid: 08cbd336607b0f74c9f38afb1fed071b, type: 3}
