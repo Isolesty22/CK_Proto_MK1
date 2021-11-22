@@ -38,21 +38,11 @@ public class UIPlayerHP : UIBase
     }
     private void Start()
     {
-        if (GameManager.instance.timelineManager.playOnLoadingEnded)
-        {
-            GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
-        }
         Init();
         CheckOpen();
         UIManager.Instance.AddDict(this);
         UpdateUI();
 
-    }
-    public void OnTimelineEnded()
-    {
-        //타임라인이 끝나고 열리게
-        fadeDuration = 0.3f;
-        StartCoroutine(ProcessOpen());
     }
 
     public override void Init()
@@ -160,7 +150,6 @@ public class UIPlayerHP : UIBase
         //Com.canvas.enabled = true;
         //return isOpen = Com.canvas.enabled;
     }
-
     public override bool Close()
     {
         StartCoroutine(ProcessClose());

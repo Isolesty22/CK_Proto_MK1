@@ -17,6 +17,6 @@ public class AnimationEventListener : MonoBehaviour
     }
     public void CallEvent()
     {
-        eventAction.Invoke();
+        eventAction?.Invoke();
     }
 }
