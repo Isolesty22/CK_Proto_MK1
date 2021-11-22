@@ -1045,6 +1045,16 @@ public class GloomState_Die : GloomState
 
         //gloom.Com.bodyCollider.enabled = false;
         gloom.Com.wallCollider.enabled = false;
+
+        //UIMovieScreen uiMovie = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
+        //uiMovie.onMovieEnded += UiMovie_onMovieEnded;
+        //StartCoroutine(uiMovie.playMovie);
+
+    }
+
+    private void UiMovie_onMovieEnded()
+    {
+        //throw new System.NotImplementedException();
     }
 }
 
