@@ -90,7 +90,7 @@ public class GloomLightning : MonoBehaviour
     private WaitForSeconds waitUpdateDelay = null;
     private float shakeAddValue;
 
-    private AudioSource audioSource;
+    public AudioClip clip;
     private void Awake()
     {
         yOriginPos = yTransform.position.y;
@@ -100,17 +100,8 @@ public class GloomLightning : MonoBehaviour
         waitUpdateDelay = new WaitForSeconds(updateDelay);
         Debug.LogError(shakeAddValue);
     }
-
-    private void Start()
-    {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
-    }
-
     public void Init()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         sphereEffectTransform.gameObject.SetActive(false);
         lineEffectTransform.gameObject.SetActive(false);
         nextUpdateTime = 0f;
@@ -202,7 +193,8 @@ public class GloomLightning : MonoBehaviour
         ClearTimer();
 
         //사운드 시작
-        audioSource.Play();
+        AudioManager.Instance.Audios.audioSource_SFX.clip = clip;
+        AudioManager.Instance.Audios.audioSource_SFX.Play();
 
         //위치 설정
         Vector3 endTopPos = new Vector3(moveSphereEndPos.x, startTopPos.y, moveSphereEndPos.z);
@@ -309,7 +301,7 @@ public class GloomLightning : MonoBehaviour
         //=========================
 
         //사운드 종료
-        audioSource.Stop();
+        AudioManager.Instance.Audios.audioSource_SFX.Stop();
 
         //이펙트 등등 Off
         lineEffectTransform.gameObject.SetActive(false);

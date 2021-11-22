@@ -34,6 +34,7 @@ public class UIPause : UIBase
         blurVolume.SetActive(true);
         StartCoroutine(ProcessOpen());
         Time.timeScale = 0f;
+        AudioManager.Instance.Pause();
         return true;
     }
 
@@ -43,6 +44,7 @@ public class UIPause : UIBase
         blurVolume.SetActive(false);
         StartCoroutine(ProcessClose());
         Time.timeScale = 1f;
+        AudioManager.Instance.UnPause();
         return true;
     }
 
@@ -62,6 +64,7 @@ public class UIPause : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
+        AudioManager.Instance.UnPause();
     }
     public void Button_QuitGame()
     {
@@ -75,6 +78,7 @@ public class UIPause : UIBase
         SceneChanger.Instance.LoadThisScene(SceneChanger.Instance.GetNowSceneName());
         Com.canvasGroup.interactable = false;
         Time.timeScale = 1f;
+        AudioManager.Instance.UnPause();
     }
 
     public void Button_EndTutorial()

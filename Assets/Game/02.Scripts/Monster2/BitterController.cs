@@ -89,7 +89,7 @@ public class BitterController : MonsterController
         if (gameObject.transform.position.y == Com.spawnPos.y)
         {
             Com.animator.SetBool("isAttack", true);
-            if (!Com.audio.isPlaying)
+            if (!Com.audio.isPlaying && Time.timeScale != 0)
             {
                 Com.audio.Play();
             }
