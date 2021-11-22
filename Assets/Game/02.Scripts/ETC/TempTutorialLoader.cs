@@ -38,7 +38,10 @@ public class TempTutorialLoader : MonoBehaviour
         currentTalkCode = 900;
         player = GameManager.instance.playerController;
         uiPlayer = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
+
+        yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
         StartCoroutine(CoBeginTutorial());
+
 
     }
 
