@@ -26,6 +26,7 @@ public class RollerController : MonsterController
     {
         //instance
         public ParticleSystem particle;
+        public ParticleSystem VFX_rush;
 
         public ConstantForce constantForce;
         public SphereCollider sphereCollider;
@@ -63,6 +64,7 @@ public class RollerController : MonsterController
         currentSpeed = 0f;
         usingAclrt = Stat2.aclrt;
         Com2.constantForce.enabled = true;
+        Com2.VFX_rush.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 
         if (Stat2.isJustMove)
             Com2.attackCollider.gameObject.SetActive(false);
@@ -183,6 +185,7 @@ public class RollerController : MonsterController
         //instance
         Com.animator.SetBool("isAttack", true);
         Com2.particle.Play();
+        Com2.VFX_rush.Play();
 
         Com.collider.enabled = false;
         Com2.sphereCollider.enabled = true;
@@ -202,6 +205,8 @@ public class RollerController : MonsterController
         currentSpeed = Mathf.Clamp(currentSpeed += usingAclrt * Time.deltaTime, 0f, Stat2.maxSpeed);
         Com.animator.SetFloat("AttackSpeed", currentSpeed * 0.4f);
         var layDir = new Vector3();
+
+        //Com2.VFX_rush.Play();
 
         if (moveDir.x < 0)
         {
