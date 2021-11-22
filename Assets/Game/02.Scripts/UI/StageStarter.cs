@@ -24,7 +24,7 @@ public class StageStarter : MonoBehaviour
 
     [Header("Stage Start UI")]
     public UIStageStart uiStageStart;
-    private void Start()
+    private IEnumerator Start()
     {
         if (useTimeline)
         {
@@ -37,12 +37,12 @@ public class StageStarter : MonoBehaviour
         }
 
 
-        //if (SceneChanger.Instance != null)
-        //{
-        //    yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
-        //    StartCoroutine(OpenUI());
-        //}
-      //  yield break;
+        if (SceneChanger.Instance != null)
+        {
+            yield return new WaitWhile(() => SceneChanger.Instance.isLoading);
+            StartCoroutine(OpenUI());
+        }
+        yield break;
     }
 
     public void OnTimelineEnded()
