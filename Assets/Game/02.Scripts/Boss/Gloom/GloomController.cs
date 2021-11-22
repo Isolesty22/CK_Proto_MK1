@@ -295,6 +295,21 @@ public class GloomController : BossController
         audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
 
     }
+    private void Update()
+    {
+        CheckTimeScale();
+    }
+    public void CheckTimeScale()
+    {
+        if (Time.timeScale == 0)
+        {
+            audioSource.Pause();
+        }
+        else
+        {
+            audioSource.UnPause();
+        }
+    }
 
     private void OnTimelineEnded()
     {

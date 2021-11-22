@@ -98,6 +98,8 @@ public class MonsterController : MonoBehaviour
 
     public virtual void Update()
     {
+        CheckTimeScale();
+
         State(state);
         HandleAnimation();
 
@@ -127,6 +129,18 @@ public class MonsterController : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    public void CheckTimeScale()
+    {
+        if(Time.timeScale == 0)
+        {
+            Com.audio.Pause();
+        }
+        else
+        {
+            Com.audio.UnPause();
         }
     }
 

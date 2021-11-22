@@ -12,30 +12,25 @@ public class StrikeHelper : MonoBehaviour
     private WaitForSeconds waitColliderOff = new WaitForSeconds(0.3f);
     private WaitForSeconds waitDestroy = new WaitForSeconds(1f);
 
-    private AudioSource audioSource;
+    public AudioClip clip;
+
     private void Awake()
     {
-
         box.enabled = false;
     }
     private void Start()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         StartCoroutine(CoProcessStrike());
     }
 
     private IEnumerator CoProcessStrike()
     {
-        audioSource = gameObject.GetComponent<AudioSource>();
-        audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         yield return waitColliderOn;
-        audioSource.Play();
+        AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(clip);
         box.enabled = true;
         yield return waitColliderOff;
         box.enabled = false;
         yield return waitDestroy;
-        audioSource.Stop();
         Destroy(gameObject);
     }
 

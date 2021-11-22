@@ -80,13 +80,8 @@ public class SceneChanger : MonoBehaviour
     public IEnumerator LoadThisSceneToName(string _sceneName)
     {
         AudioManager.Instance.SettingVolume(DataManager.Instance.currentData_settings.volume_master, DataManager.Instance.currentData_settings.volume_bgm, DataManager.Instance.currentData_settings.volume_sfx);
-        AudioManager.Instance.Audios.audioSource_BGM.Stop();
-        AudioManager.Instance.Audios.audioSource_EVM.Stop();
-
         //플레이어 사운드가 계속 출력되는 것을 방지
-        AudioManager.Instance.Audios.audioSource_PRun.Stop();
-        AudioManager.Instance.Audios.audioSource_PWalk.Stop();
-        AudioManager.Instance.Audios.audioSource_SFX.Stop();
+        AudioManager.Instance.AllSoundStop();
 
         isLoading = true;
         isSceneLoading = true;
@@ -228,6 +223,7 @@ public class SceneChanger : MonoBehaviour
                 AudioManager.Instance.Audios.audioSource_EVM.Play();
                 break;
             case "Stage_02":
+                AudioManager.Instance.Audios.audioSource_Boss = GameObject.Find("Bear").GetComponent<AudioSource>();
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage2BGM"];
                 AudioManager.Instance.Volumes.bgm = 0.7f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1f;
@@ -244,6 +240,7 @@ public class SceneChanger : MonoBehaviour
                 AudioManager.Instance.Audios.audioSource_EVM.Play();
                 break;
             case "Stage_04":
+                AudioManager.Instance.Audios.audioSource_Boss = GameObject.Find("Gloom").GetComponent<AudioSource>();
                 AudioManager.Instance.Audios.audioSource_BGM.clip = AudioManager.Instance.clipDict_BGM["Stage4BGM"];
                 AudioManager.Instance.Volumes.bgm = 0.2f;
                 AudioManager.Instance.Audios.audioSource_BGM.pitch = 1f;
