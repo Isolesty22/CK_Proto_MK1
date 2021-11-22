@@ -287,20 +287,40 @@ public class GloomController : BossController
 
     private void Start()
     {
+        //OnTimelineEnded();
+        GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
+
         audioSource = gameObject.GetComponent<AudioSource>();
         audioSource.volume = 1 * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         Init_Talk();
-        OnTimelineEnded();
-        //GameManager.instance.timelineManager.OnTimelineEnded += OnTimelineEnded;
+        Init();
     }
 
     private void OnTimelineEnded()
     {
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
+        StartCoroutine(CoBeginPatternYeonchool());
+    }
 
-        Init();
+    private IEnumerator CoBeginPatternYeonchool()
+    {
+        TalkOnce(400);
+        yield return new WaitForSeconds(2f);
+        TalkOnce(401);
+        yield return new WaitForSeconds(2f);
+        TalkOnce(402);
+        yield return new WaitForSeconds(2f);
         StartCoroutine(ExecutePatternCoroutine);
+        GameManager.instance.playerController.State.moveSystem = false;
+
+        //체력바 열기
+        UIBossHP uiBossHP = UIManager.Instance.GetUI("UIBossHP") as UIBossHP;
+        uiBossHP.StartUI();
+
+        //플레이어 UI 열기
+        UIPlayerHP uiPlayerHP = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
+        uiPlayerHP.Open();
     }
 
     protected override void Init()
@@ -379,7 +399,7 @@ public class GloomController : BossController
 
     private void Init_Talk()
     {
-        for (int i = 400; i <= 411; i++)
+        for (int i = 400; i <= 412; i++)
         {
             int CODE = i;
             talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 2f));
