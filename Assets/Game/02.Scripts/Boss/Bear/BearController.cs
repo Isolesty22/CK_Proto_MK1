@@ -253,6 +253,23 @@ public class BearController : BossController
         GameManager.instance.timelineManager.onTimelineEnded += OnTimelineEnded;
         Init_Talk();
     }
+
+    private void Update()
+    {
+        CheckTimeScale();
+    }
+    public void CheckTimeScale()
+    {
+        if (Time.timeScale == 0)
+        {
+            audioSource.Pause();
+        }
+        else
+        {
+            audioSource.UnPause();
+        }
+    }
+
     private void OnTimelineEnded()
     {
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;

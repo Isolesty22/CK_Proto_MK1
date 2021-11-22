@@ -31,6 +31,9 @@ public class AudioManager : MonoBehaviour
         public AudioSource audioSource_PJump;
         public AudioSource audioSource_PLand;
         public AudioSource audioSource_PHit;
+
+        [Header("Boss")]
+        public AudioSource audioSource_Boss;
     }
 
     [Serializable]
@@ -387,6 +390,9 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.volume = Volumes.pParrying * currentMasterVolume * currentSFXVolume;
         Audios.audioSource_PRun.volume = Volumes.pRun * currentMasterVolume * currentSFXVolume;
         Audios.audioSource_PWalk.volume = Volumes.pWalk * currentMasterVolume * currentSFXVolume;
+
+        if(Audios.audioSource_Boss)
+            Audios.audioSource_Boss.volume = Volumes.sfx * currentMasterVolume * currentSFXVolume;
     }
 
     public void SettingVolume(float masterVolume, float bgmVolume, float sfxVolume)
@@ -406,6 +412,10 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.volume = Volumes.pParrying * masterVolume * sfxVolume;
         Audios.audioSource_PRun.volume = Volumes.pRun * masterVolume * sfxVolume;
         Audios.audioSource_PWalk.volume = Volumes.pWalk * masterVolume * sfxVolume;
+
+        if (Audios.audioSource_Boss)
+            Audios.audioSource_Boss.volume = Volumes.sfx * masterVolume * sfxVolume;
+
     }
 
     public void SettingVolume(string masterVolume, string bgmVolume, string sfxVolume)
@@ -425,7 +435,64 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.volume = Volumes.pParrying * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PRun.volume = Volumes.pRun * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PWalk.volume = Volumes.pWalk * GetFloat(masterVolume) * GetFloat(sfxVolume);
+
+        if (Audios.audioSource_Boss)
+            Audios.audioSource_Boss.volume = Volumes.sfx * GetFloat(masterVolume) * GetFloat(sfxVolume);
+
     }
+
+    public void AllSoundStop()
+    {
+        Audios.audioSource_BGM.Stop();
+        Audios.audioSource_EVM.Stop();
+        Audios.audioSource_SFX.Stop();
+        Audios.audioSource_UI.Stop();
+        Audios.audioSource_PAttack.Stop();
+        Audios.audioSource_PHit.Stop();
+        Audios.audioSource_PJump.Stop();
+        Audios.audioSource_PLand.Stop();
+        Audios.audioSource_PParrying.Stop();
+        Audios.audioSource_PRun.Stop();
+        Audios.audioSource_PWalk.Stop();
+        if (Audios.audioSource_Boss)
+            Audios.audioSource_Boss.Stop();
+    }
+
+    public void Pause()
+    {
+        Audios.audioSource_BGM.volume = Volumes.bgm * 0.5f * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_EVM.volume = Volumes.evm * 0.5f * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_SFX.Pause();
+        Audios.audioSource_UI.Pause();
+        Audios.audioSource_PAttack.Pause();
+        Audios.audioSource_PHit.Pause();
+        Audios.audioSource_PJump.Pause();
+        Audios.audioSource_PLand.Pause();
+        Audios.audioSource_PParrying.Pause();
+        Audios.audioSource_PRun.Pause();
+        Audios.audioSource_PWalk.Pause();
+        if (Audios.audioSource_Boss)
+            Audios.audioSource_Boss.Pause();
+    }
+
+    public void UnPause()
+    {
+        Audios.audioSource_BGM.volume = Volumes.bgm * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_EVM.volume = Volumes.evm * currentMasterVolume * curentBGMVolume;
+        Audios.audioSource_SFX.UnPause();
+        Audios.audioSource_UI.UnPause();
+        Audios.audioSource_PAttack.UnPause();
+        Audios.audioSource_PHit.UnPause();
+        Audios.audioSource_PJump.UnPause();
+        Audios.audioSource_PLand.UnPause();
+        Audios.audioSource_PParrying.UnPause();
+        Audios.audioSource_PRun.UnPause();
+        Audios.audioSource_PWalk.UnPause();
+        if (Audios.audioSource_Boss)
+            Audios.audioSource_Boss.UnPause();
+    }
+
+
     private float GetFloat(string _input)
     {
         return (float)System.Convert.ToDouble(_input);
