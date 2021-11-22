@@ -63307,6 +63307,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081639396}
   m_Mesh: {fileID: 8178755616798326567, guid: f6cfae98ce54903418da8d7131789176, type: 3}
+--- !u!95 &1087152038 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 6058052776558698487, guid: 5cf2596ed52a53246b3484c2912c597d, type: 3}
+  m_PrefabInstance: {fileID: 1369393120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1087186467
 GameObject:
   m_ObjectHideFlags: 0
@@ -76301,7 +76306,7 @@ PlayableDirector:
   m_GameObject: {fileID: 1403329393}
   m_Enabled: 1
   serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
+  m_PlayableAsset: {fileID: 11400000, guid: 0a6daabda2569304b8cd4728810ea50e, type: 2}
   m_InitialState: 0
   m_WrapMode: 2
   m_DirectorUpdateMode: 1
@@ -76317,10 +76322,20 @@ PlayableDirector:
     value: {fileID: 0}
   - key: {fileID: -7277162056425352544, guid: 4aeba439c810c2a42aa77ea474e02cc7, type: 2}
     value: {fileID: 0}
+  - key: {fileID: -332167638983850919, guid: 0a6daabda2569304b8cd4728810ea50e, type: 2}
+    value: {fileID: 1391084987}
+  - key: {fileID: 2189905332384275060, guid: 0a6daabda2569304b8cd4728810ea50e, type: 2}
+    value: {fileID: 764003413}
+  - key: {fileID: -6058347300454013067, guid: 0a6daabda2569304b8cd4728810ea50e, type: 2}
+    value: {fileID: 1087152038}
+  - key: {fileID: -4453511549685878348, guid: 0a6daabda2569304b8cd4728810ea50e, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References:
     - e1176300b9b245b4c8f0e4b5745bece8: {fileID: 1391084986}
+    - d44481c8bb55a8d478eda67225b0abb6: {fileID: 1391084986}
     - 613d6d3319f89e3459d76519acbecdd3: {fileID: 764003411}
+    - 4d90e08ae5599d24d95af8d1530b43c5: {fileID: 764003411}
 --- !u!4 &1403329395
 Transform:
   m_ObjectHideFlags: 0
@@ -85270,7 +85285,7 @@ PrefabInstance:
       objectReference: {fileID: 1403329394}
     - target: {fileID: 5910953784060771468, guid: 50fe4d33f83d8a94fb7768b566c15f4d, type: 3}
       propertyPath: playOnLoadingEnded
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50fe4d33f83d8a94fb7768b566c15f4d, type: 3}
