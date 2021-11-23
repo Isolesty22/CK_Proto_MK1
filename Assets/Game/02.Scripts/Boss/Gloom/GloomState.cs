@@ -261,12 +261,14 @@ public class GloomState_Resonance : GloomState
     private HeadParryingHelper helper;
 
     private GloomController.SkillValues.ResonancePattern skillVal;
-
+    private GloomResonanceScreen resonanceScreen;
     public GloomState_Resonance(GloomController _gloomController)
     {
         gloom = _gloomController;
         skillVal = gloom.SkillVal.resonance;
         helper = gloom.SkillObj.resonanceHelper;
+        resonanceScreen = gloom.SkillObj.resonanceScreen;
+        resonanceScreen.gloom = _gloomController;
     }
 
     public override void OnEnter()
@@ -277,15 +279,6 @@ public class GloomState_Resonance : GloomState
         UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Resonance_Start");
-
-        if (gloom.diretion == eDirection.Right)
-        {
-            bulletRot = new Vector3(0f, 0f, -90f);
-        }
-        else
-        {
-
-        }
 
     }
     public override void OnExit()
@@ -328,6 +321,7 @@ public class GloomState_Resonance : GloomState
                 //무력화상태 진입
                 ChangeStatePowerless();
                 //사운드 출력
+                gloom.audioSource.Stop();
                 gloom.audioSource.PlayOneShot(gloom.audioClips.parrying);
                 yield break;
             }
@@ -346,13 +340,12 @@ public class GloomState_Resonance : GloomState
         }
 
         ReadyToExit();
-        gloom.SetTrigger("Resonance_End");
 
+        gloom.SkillObj.resonanceScreen.StartResonanceScreen();
         //데미지 주기
-        if (!GameManager.instance.playerController.IsInvincible())
-        {
-            GameManager.instance.playerController.Hit();
-        }
+
+        yield return new WaitForSeconds(3f);
+        gloom.SetTrigger("Resonance_End");
     }
 
     private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
