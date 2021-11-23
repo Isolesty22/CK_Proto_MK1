@@ -171,39 +171,37 @@ public class TempTutorialLoader : MonoBehaviour
         Talk(904);
         yield return new WaitForSeconds(1f);
 
-        StartCoroutine(CoPrac_Move());
-
-    }
-
-
-    private IEnumerator CoPrac_Move()
-    {
-        //CloseCollider("CoPrac_Move");
         GameManager.instance.playerController.Com.pixy.getPixy = true;
         //Talk("일단, 몸을 좀 움직여볼까?");
         Talk(905);
-        //MessageOpen("화살표 [←],[→] 키로 이동할 수 있습니다.");
         CanMove(true);
+       // StartCoroutine(CoPrac_Move());
 
-        while (true)
-        {
-
-            if (GetKey(key.moveRight) || GetKey(key.moveLeft))
-            {
-                break;
-            }
-            yield return null;
-        }
-        //TalkEnd();
-        Talk(906);
-        //Talk("좋아! 이대로 저어~기 통나무 있는 곳 까지 가보자!");
     }
+
+
+    //private IEnumerator CoPrac_Move()
+    //{
+
+    //    while (true)
+    //    {
+    //        if (GetKey(key.moveRight) || GetKey(key.moveLeft))
+    //        {
+    //            break;
+    //        }
+    //        yield return null;
+    //    }
+    //    //TalkEnd();
+    //    Talk(906);
+    //    //Talk("좋아! 이대로 저어~기 통나무 있는 곳 까지 가보자!");
+    //}
 
     private IEnumerator CoPrac_Jump()
     {
-        yield break;
         //// MessageOpen("[X]키로 점프할 수 있습니다.");
 
+
+        yield break;
         // //Talk("이 정도라면 뛰어넘을 수 있을거야. 한 번 뛰어볼까?");
         // Talk(907);
         // while (!GetKey(key.jump))
