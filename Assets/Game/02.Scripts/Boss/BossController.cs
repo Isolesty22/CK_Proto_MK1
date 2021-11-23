@@ -44,7 +44,7 @@ public class BossController : MonoBehaviour, IDamageable
     /// <summary>
     /// 패턴 전환 코루틴. 보스가 죽기 전까지 패턴을 실행합니다.
     /// </summary>
-    protected IEnumerator ExecutePatternCoroutine;
+    protected IEnumerator executePattern;
 
     protected virtual void Init() { }
 

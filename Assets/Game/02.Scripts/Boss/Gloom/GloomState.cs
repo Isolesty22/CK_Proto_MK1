@@ -35,18 +35,20 @@ public class GloomState_Chase : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        currentCoroutine = CoSkill();
 
-        UIManager.Instance.Talk("이피아! 도망쳐!");
+        //UIManager.Instance.Talk("이피아! 도망쳐!");
+
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Chase_Start");
     }
 
     public void AnimEvent()
     {
-        gloom.StartCoroutine(ProcessSkill());
+        gloom.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator ProcessSkill()
+    private IEnumerator CoSkill()
     {
 
         // startPos = gloom.SkillObj.chaseTransform.position,playerRB.position
@@ -90,6 +92,7 @@ public class GloomState_Leap : GloomState
     private Position pos = new Position();
     private Rotation rot = new Rotation();
     private WaitForSeconds downAnimTime = null;
+    private float fDownAnimTime = 0; 
 
     private GloomController.SkillValues.LeapPattern leapValue;
     public GloomState_Leap(GloomController _gloomController)
@@ -97,11 +100,12 @@ public class GloomState_Leap : GloomState
         gloom = _gloomController;
         leapValue = gloom.SkillVal.leap;
         downAnimTime = new WaitForSeconds(leapValue.downTime - leapValue.downAnimTime);
+        fDownAnimTime = leapValue.downTime - leapValue.downAnimTime;
     }
     public override void OnEnter()
     {
         canExit = false;
-
+        currentCoroutine = CoAnimEvent_Jump();
 
         //현재 위치가 오른쪽이면
         if (gloom.diretion == eDirection.Right)
@@ -140,14 +144,10 @@ public class GloomState_Leap : GloomState
 
     public void AnimEvent_Jump()
     {
-        gloom.StartCoroutine(ProcessAnimEvent_Jump());
-
+        gloom.StartCoroutine(currentCoroutine);
     }
-    //public void AnimEvent_Fall()
-    //{
-    //    gloom.StartCoroutine(ProcessAnimEvent_Fall());
-    //}
-    private IEnumerator ProcessAnimEvent_Jump()
+
+    private IEnumerator CoAnimEvent_Jump()
     {
         float timer = 0f;
         float progress = 0f;
@@ -175,7 +175,9 @@ public class GloomState_Leap : GloomState
         //gloom.SetAnimEvent(AnimEvent_Fall);
 
         yield return new WaitForSeconds(1f);
-        gloom.StartCoroutine(ProcessAnimEvent_Fall_DelayAnimation());
+
+        currentCoroutine = CoAnimEvent_FallDelayTime();
+        gloom.StartCoroutine(currentCoroutine);
     }
 
     /// <summary>
@@ -186,18 +188,12 @@ public class GloomState_Leap : GloomState
         yield return downAnimTime;
 
         //사운드 출력
-        gloom.audioSource.PlayOneShot(gloom.audioClips.land);
 
-        gloom.audioSource.PlayOneShot(gloom.audioClips.fire);
-
-        gloom.audioSource.PlayOneShot(gloom.audioClips.fire2);
-
-        gloom.SetTrigger("Leap_End");
     }
     /// <summary>
     /// End애니메이션을 자동이 아닌 특정 시간 이후에 실행합니다.
     /// </summary>
-    private IEnumerator ProcessAnimEvent_Fall_DelayAnimation()
+    private IEnumerator CoAnimEvent_FallDelayTime()
     {
 
         //착지 자리에 있는 덩쿨 없애기 
@@ -221,8 +217,8 @@ public class GloomState_Leap : GloomState
         float progress = 0f;
 
         //일정 시간 이후에 착지 애니메이션 실행
-        gloom.StartCoroutine(DelayLeapEndAnimation());
-
+        //gloom.StartCoroutine(DelayLeapEndAnimation());
+        bool canStartFallAnim = true;
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -231,6 +227,20 @@ public class GloomState_Leap : GloomState
             gloom.myTransform.SetPositionAndRotation(
                 Vector3.Lerp(pos.endTop, pos.end, progress),
                 Quaternion.Lerp(rot.start, rot.end, progress));
+
+            if (canStartFallAnim)
+            {
+                if (timer > fDownAnimTime)
+                {
+                    canStartFallAnim = false;
+                    gloom.audioSource.PlayOneShot(gloom.audioClips.land);
+                    gloom.audioSource.PlayOneShot(gloom.audioClips.fire);
+                    gloom.audioSource.PlayOneShot(gloom.audioClips.fire2);
+
+                    gloom.SetTrigger("Leap_End");
+                }
+
+            }
 
             yield return null;
         }
@@ -243,52 +253,6 @@ public class GloomState_Leap : GloomState
         //방향 바꿈 판정
         gloom.ChangeDirection(endDirection);
         canExit = true;
-    }
-
-    /// <summary>
-    /// End애니메이션을 착지 이동이 끝난 후에 실행
-    /// </summary>
-    private IEnumerator ProcessAnimEvent_Fall()
-    {
-
-
-        //착지 자리에 있는 덩쿨 없애기 
-        if (endDirection == eDirection.Right)
-        {
-            if (gloom.ContainsThornVineDict(6))
-            {
-                gloom.aliveThornVineDict[6].StartDelayDie();
-            }
-        }
-        else
-        {
-            if (gloom.ContainsThornVineDict(0))
-            {
-                gloom.aliveThornVineDict[0].StartDelayDie();
-            }
-        }
-
-
-        float timer = 0f;
-        float progress = 0f;
-
-        //gloom.StartCoroutine(DelayLeapEndAnimation());
-        while (progress < 1f)
-        {
-            timer += Time.deltaTime;
-            progress = timer / leapValue.downTime;
-
-            gloom.myTransform.SetPositionAndRotation(Vector3.Lerp(pos.endTop, pos.end, progress),
-                Quaternion.Lerp(rot.start, rot.end, progress));
-
-            yield return null;
-        }
-
-        gloom.myTransform.SetPositionAndRotation(pos.end, rot.end);
-        gloom.SetTrigger("Leap_End");
-
-        canExit = true;
-        yield break;
     }
 }
 public class GloomState_Resonance : GloomState
@@ -308,18 +272,24 @@ public class GloomState_Resonance : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+        currentCoroutine = CoSkill();
+        UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
+        gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Resonance_Start");
 
-        gloom.SetAnimEvent(AnimEvent);
-        UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
+    }
+    public override void OnExit()
+    {
+        ReadyToExit();
     }
 
     public void AnimEvent()
     {
         helper.StartCheck();
-        gloom.StartCoroutine(ProcessSkill());
+        gloom.StartCoroutine(currentCoroutine);
     }
-    private IEnumerator ProcessSkill()
+    private IEnumerator CoSkill()
     {
         float timer = 0f;
         // float summonInterval = gloom.SkillVal.resonance.createInterval;
@@ -342,18 +312,14 @@ public class GloomState_Resonance : GloomState
             //구슬 패링에 성공했을 경우
             if (helper.isSucceedParry)
             {
-                //사운드 끝내기
-                gloom.audioSource.loop = false;
-                gloom.audioSource.Stop();
-
-                //사운드 출력
-                gloom.audioSource.PlayOneShot(gloom.audioClips.parrying);
 
                 //검사 끝내기
                 helper.EndCheck();
 
                 //무력화상태 진입
                 ChangeStatePowerless();
+                //사운드 출력
+                gloom.audioSource.PlayOneShot(gloom.audioClips.parrying);
                 yield break;
             }
 
@@ -369,10 +335,6 @@ public class GloomState_Resonance : GloomState
 
             yield return null;
         }
-
-        //사운드 끝내기
-        gloom.audioSource.loop = false;
-        gloom.audioSource.Stop();
 
         ReadyToExit();
         gloom.SetTrigger("Resonance_End");
@@ -430,19 +392,28 @@ public class GloomState_Resonance : GloomState
         helper.EndCheck();
         gloom.EndInvincible();
 
+        gloom.audioSource.loop = false;
+        gloom.audioSource.Stop();
         gloom.SkillObj.resonanceSphere.SetActive(false);
     }
+
+
 
 }
 public class GloomState_Threat : GloomState
 {
+
+
+    private WaitForSeconds waitSec;
     public GloomState_Threat(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(0.4f);
     }
     public override void OnEnter()
     {
         canExit = false;
+        currentCoroutine = CoSkill();
 
         gloom.SetTrigger("Threat_Start");
         gloom.SetAnimEvent(AnimEvent);
@@ -450,17 +421,17 @@ public class GloomState_Threat : GloomState
 
     public void AnimEvent()
     {
-        gloom.StartCoroutine(ProcessSkill());
+        gloom.StartCoroutine(currentCoroutine);
 
     }
 
-    private IEnumerator ProcessSkill()
+    private IEnumerator CoSkill()
     {
         //사운드 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.weild);
 
         gloom.SkillObj.threat.SetActive(true);
-        yield return new WaitForSeconds(0.4f);
+        yield return waitSec;
         gloom.SkillObj.threat.SetActive(false);
     }
 }
@@ -478,6 +449,8 @@ public class GloomState_ThornPath : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        currentCoroutine = CoSkill();
+
 
         //현재 보스의 방향을 가져옴
         diretion = gloom.diretion;
@@ -502,10 +475,9 @@ public class GloomState_ThornPath : GloomState
             gloom.SetTrigger("ThornPath_End");
             return;
         }
-        gloom.StartCoroutine(ProcessAnimEvent());
-        gloom.StartCoroutine(ProcessAnimEnd());
+        gloom.StartCoroutine(currentCoroutine);
     }
-    private IEnumerator ProcessAnimEvent()
+    private IEnumerator CoSkill()
     {
         //사운드 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.magic);
@@ -528,7 +500,6 @@ public class GloomState_ThornPath : GloomState
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
-                yield return null;
             }
         }
         //1개 밖에 없다면 그냥 지정해서 소환
@@ -546,24 +517,18 @@ public class GloomState_ThornPath : GloomState
             thornVine.UpdateEndPosition();
 
             thornVine.StartGrow();
-            yield return null;
         }
 
-        gloom.StartCoroutine(ThornSound());
-    }
+        //가시가 자라나기 전까지 대기
+        yield return waitSec;
 
-    private IEnumerator ThornSound()
-    {
-        yield return new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
-        //사운드 출력
+        //끝나는 애니메이션 출력
+        gloom.SetTrigger("ThornPath_End");
+
+        //가시 자라는 소리 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.thorn);
     }
 
-    private IEnumerator ProcessAnimEnd()
-    {
-        yield return waitSec;
-        gloom.SetTrigger("ThornPath_End");
-    }
 
     private void ShuffleArray()
     {
@@ -616,7 +581,7 @@ public class GloomState_Obstruct : GloomState
     public override void OnEnter()
     {
         canExit = false;
-
+        currentCoroutine = CoSkill();
         currentIndex = -1;
         usableIndex = new List<int> { 0, 1, 2 };
         usedIndex = new List<int>();
@@ -651,9 +616,9 @@ public class GloomState_Obstruct : GloomState
 
     public void AnimEvent()
     {
-        gloom.StartCoroutine(ProcessSkill());
+        gloom.StartCoroutine(currentCoroutine);
     }
-    private IEnumerator ProcessSkill()
+    private IEnumerator CoSkill()
     {
         yield return null;
 
@@ -734,7 +699,7 @@ public class GloomState_ThornForest : GloomState
     public override void OnEnter()
     {
         canExit = false;
-
+        currentCoroutine = CoSkill();
         //현재 보스의 방향을 가져옴
         diretion = gloom.diretion;
 
@@ -744,8 +709,6 @@ public class GloomState_ThornForest : GloomState
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("ThornForest_Start");
     }
-
-
     public void AnimEvent()
     {
         //사운드 출력
@@ -758,10 +721,9 @@ public class GloomState_ThornForest : GloomState
             gloom.SetTrigger("ThornForest_End");
             return;
         }
-        gloom.StartCoroutine(ProcessAnimEvent());
-        gloom.StartCoroutine(ProcessAnimEnd());
+        gloom.StartCoroutine(currentCoroutine);
     }
-    private IEnumerator ProcessAnimEvent()
+    private IEnumerator CoSkill()
     {
         int length;
         //보스가 오른쪽에 있으면
@@ -791,7 +753,6 @@ public class GloomState_ThornForest : GloomState
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
-                yield return null;
             }
         }
         //왼쪽일때
@@ -822,23 +783,11 @@ public class GloomState_ThornForest : GloomState
                 thornVine.UpdateEndPosition();
 
                 thornVine.StartGrow();
-                yield return null;
             }
         }
-
-        gloom.StartCoroutine(ThornSound());
-    }
-    private IEnumerator ThornSound()
-    {
-        yield return new WaitForSeconds(gloom.SkillVal.thorn.waitTime);
-        //사운드 출력
-        gloom.audioSource.PlayOneShot(gloom.audioClips.thorn);
-    }
-
-    private IEnumerator ProcessAnimEnd()
-    {
         yield return waitSec;
         gloom.SetTrigger("ThornForest_End");
+        gloom.audioSource.PlayOneShot(gloom.audioClips.thorn);
     }
 }
 public class GloomState_Wave : GloomState
@@ -847,15 +796,17 @@ public class GloomState_Wave : GloomState
     private Vector3 startPos;
     private Vector3 endPos;
 
+    private WaitForSeconds waitSec;
+
     public GloomState_Wave(GloomController _gloomController)
     {
         gloom = _gloomController;
+        waitSec = new WaitForSeconds(4.2f);
     }
-
     public override void OnEnter()
     {
         canExit = false;
-
+        currentCoroutine = CoEndAudio();
         if (gloom.diretion == eDirection.Right)
         {
             endPos = gloom.Com.gloomMap.mapData.minPosition;
@@ -895,12 +846,17 @@ public class GloomState_Wave : GloomState
         gloom.audioSource.clip = gloom.audioClips.wave;
         gloom.audioSource.Play();
 
-        gloom.StartCoroutine(EndAudio());
+        gloom.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator EndAudio()
+    private IEnumerator CoEndAudio()
     {
-        yield return new WaitForSeconds(4.2f);
+        yield return waitSec;
+        gloom.audioSource.Stop();
+    }
+
+    public override void OnExit()
+    {
         gloom.audioSource.Stop();
     }
 
@@ -921,6 +877,10 @@ public class GloomState_Advance : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+        currentCoroutine = CoSkill();
+        beginLightning = lightning.CoBeginMove();
+        moveLightning = lightning.CoMove();
         lightning.Init();
 
         //오른쪽에 있으면
@@ -943,28 +903,35 @@ public class GloomState_Advance : GloomState
 
     public void AnimEvent()
     {
-        gloom.StartCoroutine(CoMoveLightning());
+        gloom.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator CoMoveLightning()
+
+    private IEnumerator beginLightning;
+    private IEnumerator moveLightning;
+    private IEnumerator CoSkill()
     {
         lightning.gameObject.SetActive(true);
 
         lightning.SetMoveSpherePosition(gloom.SkillObj.sphereTransform.position, startPos);
         //lightning.Init_Position();
 
-        yield return gloom.StartCoroutine(lightning.CoBeginMove());
+        yield return gloom.StartCoroutine(beginLightning);
 
         lightning.SetMovePosition(startPos, endPos);
         // lightning.Init_Position();
-        yield return gloom.StartCoroutine(lightning.CoMove());
+        yield return gloom.StartCoroutine(moveLightning);
 
         lightning.gameObject.SetActive(false);
 
         gloom.SetTrigger("Advance_End");
-
     }
 
+    public override void OnExit()
+    {
+        gloom.StopCoroutine(beginLightning);
+        gloom.StopCoroutine(moveLightning);
+    }
 }
 public class GloomState_Berserk : GloomState
 {
@@ -975,18 +942,22 @@ public class GloomState_Berserk : GloomState
     public override void OnEnter()
     {
         canExit = false;
-        gloom.StartCoroutine(CoWait());
+        currentCoroutine = CoWait();
+        gloom.StartCoroutine(currentCoroutine);
         gloom.SkillObj.berserk.StartBerserk();
         UIManager.Instance.Talk("어둠의 힘이 강해진 것 같아...조심해!");
     }
-
 
     private IEnumerator CoWait()
     {
         gloom.StartInvincible();
         yield return new WaitForSeconds(2f);
-        gloom.EndInvincible();
         canExit = true;
+    }
+
+    public override void OnExit()
+    {
+        gloom.EndInvincible();
     }
 }
 public class GloomState_Powerless : GloomState
@@ -1002,18 +973,13 @@ public class GloomState_Powerless : GloomState
     public override void OnEnter()
     {
         canExit = false;
+        currentCoroutine = CoPowerless();
+
         gloom.SetTrigger("Powerless_Start");
-        //gloom.SetAnimEvent(AnimEvent);
-        gloom.StartCoroutine(ProcessPowerless());
+        gloom.StartCoroutine(currentCoroutine);
     }
 
-    public void AnimEvent()
-    {
-
-    }
-
-
-    private IEnumerator ProcessPowerless()
+    private IEnumerator CoPowerless()
     {
         yield return waitSec;
         gloom.SetTrigger("Powerless_End");
