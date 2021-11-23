@@ -341,10 +341,13 @@ public class GloomState_Resonance : GloomState
 
         ReadyToExit();
 
+        GameManager.instance.playerController.InputVal.movementInput = 0f;
+        GameManager.instance.playerController.State.moveSystem = true;
         gloom.SkillObj.resonanceScreen.StartResonanceScreen();
         //데미지 주기
 
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4f);
+        GameManager.instance.playerController.State.moveSystem = false;
         gloom.SetTrigger("Resonance_End");
     }
 
