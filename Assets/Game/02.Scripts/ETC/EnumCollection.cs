@@ -323,6 +323,7 @@ public static class SceneNames
     public static readonly string mainMenu = "MainMenu";
     public static readonly string title = "Title";
     public static readonly string fieldMap = "FieldMap";
+    public static readonly string ending = "Ending"
 
     public const string stage_00 = "Stage_00";
     public const string stage_01 = "Stage_01";

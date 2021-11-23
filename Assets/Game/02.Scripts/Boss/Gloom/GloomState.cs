@@ -1057,15 +1057,17 @@ public class GloomState_Die : GloomState
 
         yield return waitForMoviePlay;
 
-        uiMovie.gameObject.SetActive(true);
-        uiMovie.onMovieEnded += UiMovie_onMovieEnded;
+        SceneChanger.Instance.LoadThisScene("Ending");
 
-        Time.timeScale = 0f;
-        uiMovie.StartCoroutine(uiMovie.playMovie);
+        //uiMovie.gameObject.SetActive(true);
+        //uiMovie.onMovieEnded += UiMovie_onMovieEnded;
+
+        //Time.timeScale = 0f;
+        //uiMovie.StartCoroutine(uiMovie.playMovie);
     }
     private void UiMovie_onMovieEnded()
     {
-        //throw new System.NotImplementedException();
+       
     }
 }
 
