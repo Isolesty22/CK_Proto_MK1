@@ -1021,6 +1021,7 @@ public class GloomState_Powerless : GloomState
 }
 public class GloomState_Die : GloomState
 {
+    private WaitForSeconds waitForMoviePlay = new WaitForSeconds(2f);
     public GloomState_Die(GloomController _gloomController)
     {
         gloom = _gloomController;
@@ -1046,12 +1047,22 @@ public class GloomState_Die : GloomState
         //gloom.Com.bodyCollider.enabled = false;
         gloom.Com.wallCollider.enabled = false;
 
-        //UIMovieScreen uiMovie = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
-        //uiMovie.onMovieEnded += UiMovie_onMovieEnded;
-        //StartCoroutine(uiMovie.playMovie);
+        gloom.StartCoroutine(CoPlayMovie());
 
     }
 
+    private IEnumerator CoPlayMovie()
+    {
+        UIMovieScreen uiMovie = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
+
+        yield return waitForMoviePlay;
+
+        uiMovie.gameObject.SetActive(true);
+        uiMovie.onMovieEnded += UiMovie_onMovieEnded;
+
+        Time.timeScale = 0f;
+        uiMovie.StartCoroutine(uiMovie.playMovie);
+    }
     private void UiMovie_onMovieEnded()
     {
         //throw new System.NotImplementedException();
