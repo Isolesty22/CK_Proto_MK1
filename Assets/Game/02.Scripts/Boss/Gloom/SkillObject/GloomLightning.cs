@@ -221,7 +221,8 @@ public class GloomLightning : MonoBehaviour
 
             yield return waitUpdateDelay;
             currentShakeValue += shakeAddValue;
-            GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+            //GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+            GameManager.instance.cameraManager.AddShakeValue(shakeAddValue);
         }
         //마지막으로 큰 줄기 On
         lineEffectTransform.gameObject.SetActive(true);
@@ -317,9 +318,12 @@ public class GloomLightning : MonoBehaviour
             UpdateLightning(eUpdateLightningMode.Forced);
 
             //서서히 덜 흔들리게
-            currentShakeValue -= shakeAddValue;
-            GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+            //currentShakeValue -= shakeAddValue;
+            //GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
 
+            currentShakeValue -= shakeAddValue;
+            //GameManager.instance.cameraManager.SetShakeValue(currentShakeValue, currentShakeValue);
+            GameManager.instance.cameraManager.AddShakeValue(-shakeAddValue);
             yield return waitUpdateDelay;
         }
 
