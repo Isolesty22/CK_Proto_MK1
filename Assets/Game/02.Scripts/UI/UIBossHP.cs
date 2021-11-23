@@ -66,7 +66,7 @@ public class UIBossHP : UIBase
         gameObject.SetActive(false);
     }
 
-
+    private const string str_Die = "Die";
     private IEnumerator UpdateUI()
     {
         while (hpImage.fillAmount > 0.01f)
@@ -77,7 +77,7 @@ public class UIBossHP : UIBase
             yield return null;
         }
 
-        yield return new WaitWhile(() => bossController.animator.enabled);
+        yield return new WaitUntil(() => bossController.stateInfo.state == str_Die);
         float startFillAmount = hpImage.fillAmount;
 
         float oneSecTimer = 0f;

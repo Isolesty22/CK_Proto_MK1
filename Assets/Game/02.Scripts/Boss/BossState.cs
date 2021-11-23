@@ -9,6 +9,8 @@ public class BossState
     /// </summary>
     public bool canExit = true;
 
+    public IEnumerator currentCoroutine { get; protected set; }
+
     /// <summary>
     /// 상태가 시작할때 호출됨
     /// </summary>
@@ -19,13 +21,15 @@ public class BossState
     }
 
     /// <summary>
-    /// Monobehaviour Update에서 지속적으로 호출됨
+    /// (사용되지 않음)
+    /// Monobehaviour Update에서 지속적으로 호출됨(사용되지 않음)
     /// </summary>
     public virtual void OnUpdate()
     {
 
     }
     /// <summary>
+    /// (사용되지 않음)
     /// Monobehaviour FixedUpdate에서 지속적으로 호출됨
     /// </summary>
     public virtual void OnFixedUpdate()

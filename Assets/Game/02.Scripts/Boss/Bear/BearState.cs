@@ -60,14 +60,14 @@ public class BearState_Stamp : BearState
         if (bearController.stateInfo.phase == ePhase.Phase_1)
         {
             GameObject.Instantiate(
-                bearController.skillObjects.mushrooms, 
+                bearController.skillObjects.mushrooms,
                 bearController.skillObjects.mushroomPoint_Left.position, Quaternion.identity);
 
         }
         else
         {
             GameObject.Instantiate(
-                bearController.skillObjects.mushrooms, 
+                bearController.skillObjects.mushrooms,
                 bearController.skillObjects.mushroomPoint_Right.position, Quaternion.identity);
 
         }
@@ -575,7 +575,7 @@ public class BearState_Smash : BearState
         while (true)
         {
             smashHelper.myTransform.SetPositionAndRotation(
-                smashHelper.bearHandTransform.position, 
+                smashHelper.bearHandTransform.position,
                 smashHelper.bearHandTransform.rotation);
 
             yield return YieldInstructionCache.WaitForEndOfFrame;
@@ -705,12 +705,13 @@ public class BearState_Concentrate : BearState
         bearController.audioSource.Stop();
         bearController.audioSource.PlayOneShot(bearController.audioClips.energyExplosion);
 
+        //플레이어에게 데미지를 입힘
+        GameManager.instance.playerController.Hit();
         bearController.SetTrigger("Concentrate_End");
         bearController.EmissionOn(10f);
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
     }
-
     private void ChangeStatePowerless()
     {
         bearController.StopCoroutine(concentrate);

@@ -319,16 +319,29 @@ public class GloomController : BossController
         StartCoroutine(CoBeginPatternYeonchool());
     }
 
+    private IEnumerator CoWaitInputSkipKey()
+    {
+        float timer = 0f;
+        while (timer < 2f)
+        {
+            timer += Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                yield break;
+            }
+            yield return null;
+        }
+    }
     private IEnumerator CoBeginPatternYeonchool()
     {
         TalkOnce(400);
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(CoWaitInputSkipKey());
         TalkOnce(401);
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(CoWaitInputSkipKey());
         TalkOnce(402);
-        yield return new WaitForSeconds(2f);
+        yield return StartCoroutine(CoWaitInputSkipKey());
 
-        StartCoroutine(ExecutePatternCoroutine);
+        StartCoroutine(executePattern);
         GameManager.instance.playerController.State.moveSystem = false;
 
         //체력바 열기
@@ -352,7 +365,7 @@ public class GloomController : BossController
         maxHp = hp;
 
         Com.gloomMap.Init();
-        ExecutePatternCoroutine = ExecutePattern();
+        executePattern = CoExecutePattern();
 
         stateMachine = new GloomStateMachine(this);
         //stateMachine.isDebugMode = true;
@@ -447,7 +460,7 @@ public class GloomController : BossController
 
 
     private int currentIndex = 0;
-    private IEnumerator ExecutePattern()
+    private IEnumerator CoExecutePattern()
     {
         if (diretion == eDirection.Right)
         {
@@ -652,7 +665,29 @@ public class GloomController : BossController
     {
         ReceiveDamage();
         Com.emissionHelper.OnHit();
+
+
+        //죽어야 한다면
+        if (hp <= 0)
+        {
+
+            if (stateMachine.GetCurrentStateName()=="GloomState_Advance")
+            {
+                return;
+            }
+            //패턴 실행 코루틴 종료
+            StopCoroutine(executePattern);
+
+            Debug.Log("Test!!!");
+            //현재 상태의 코루틴 종료
+            StopCoroutine(stateMachine.currentState.currentCoroutine);
+
+            //죽음 상태로 전환
+            SetStateInfo((int)eGloomState.Die);
+            ChangeState((int)eGloomState.Die);
+        }
     }
+
 
     /// <summary>
     /// 무적 상태가 됩니다.

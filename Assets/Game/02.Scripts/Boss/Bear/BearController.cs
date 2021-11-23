@@ -157,7 +157,7 @@ public class BearController : BossController
         //패턴 관련 초기화
         phaseList.Add(patterns.phase_01_List);
         phaseList.Add(patterns.phase_02_List);
-        ExecutePatternCoroutine = ExecutePattern();
+        executePattern = CoExecutePattern();
 
         //맵 관련 초기화
         bearMapInfo.paddingSize = 4;
@@ -275,7 +275,7 @@ public class BearController : BossController
         GameManager.instance.timelineManager.onTimelineEnded -= OnTimelineEnded;
         animator.runtimeAnimatorController = runtimeAnimator;
         Init();
-        StartCoroutine(ExecutePatternCoroutine);
+        StartCoroutine(executePattern);
         StartCoroutine(WaitHpPer20());
         TalkOnce(200);
 
@@ -372,7 +372,7 @@ public class BearController : BossController
             yield return null;
         }
     }
-    private IEnumerator ExecutePattern()
+    private IEnumerator CoExecutePattern()
     {
         stateInfo.phase = ePhase.Phase_1;
         currentIndex = 0;
