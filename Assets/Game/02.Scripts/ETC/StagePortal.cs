@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class StagePortal : MonoBehaviour
 {
+
+    public GameObject parentObject;
     public Collider col;
 
     public CanvasGroup canvasGroup;
@@ -25,18 +27,18 @@ public class StagePortal : MonoBehaviour
         canvasGroup.alpha = 0f;
         if (activeOnAwake)
         {
-            gameObject.SetActive(true);
+            parentObject.SetActive(true);
             rectTransform = image.rectTransform;
         }
         else
         {
-            gameObject.SetActive(false);
+            parentObject.SetActive(false);
         }
     }
 
     public void Active()
     {
-        gameObject.SetActive(true);
+        parentObject.SetActive(true);
     }
 
     private void OnTriggerEnter(Collider other)

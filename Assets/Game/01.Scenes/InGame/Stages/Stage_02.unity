@@ -12428,17 +12428,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ebef79abbf3e2248828cedf13d0179b, type: 3}
---- !u!114 &370026972 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2902427340091780208, guid: db52a3ee5db8ce343bbc6951f7402fc5, type: 3}
-  m_PrefabInstance: {fileID: 487095136}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7da09d02ad73a4418daa1c96b8b72e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &377241795 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1178697535520257401, guid: e48bc1a1cd3d66e418063ef9ac714cbf, type: 3}
@@ -14562,6 +14551,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6203288614724627439, guid: db52a3ee5db8ce343bbc6951f7402fc5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6542107310888172117, guid: db52a3ee5db8ce343bbc6951f7402fc5, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8385831106733062843, guid: db52a3ee5db8ce343bbc6951f7402fc5, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -44119,6 +44116,7 @@ MonoBehaviour:
     audioSource_PJump: {fileID: 805816404}
     audioSource_PLand: {fileID: 1772738351}
     audioSource_PHit: {fileID: 810774123}
+    audioSource_Boss: {fileID: 0}
   audioVolumes:
     bgm: 1
     evm: 1
@@ -46513,7 +46511,7 @@ PrefabInstance:
       objectReference: {fileID: 445310321}
     - target: {fileID: 5910953784060771468, guid: 50fe4d33f83d8a94fb7768b566c15f4d, type: 3}
       propertyPath: playOnLoadingEnded
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50fe4d33f83d8a94fb7768b566c15f4d, type: 3}
@@ -50043,7 +50041,7 @@ PrefabInstance:
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: testPotal
       value: 
-      objectReference: {fileID: 370026972}
+      objectReference: {fileID: 0}
     - target: {fileID: 4326774578364781439, guid: b4e499c0060a2ca419d1075933926606, type: 3}
       propertyPath: bearMapInfo
       value: 
