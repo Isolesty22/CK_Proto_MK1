@@ -13,6 +13,8 @@ public class UIFlashScreen : UIBase
 
         [Tooltip("startSpeed초 동안 페이드인 합니다.")]
         public float startSpeed;
+        [Tooltip("페이드 지속 시간")]
+        public float waitTime;
         [Tooltip("endSpeed초 동안 페이드아웃 합니다.")]
         public float endSpeed;
 
@@ -27,13 +29,14 @@ public class UIFlashScreen : UIBase
 
     [SerializeField]
     private FlashValue flashVal;
-
+    private WaitForSeconds waitTime = null;
     private float progress = 0f;
     private float timer = 0f;
 
     private void Awake()
     {
         Com.canvas.enabled = false;
+        waitTime = new WaitForSeconds(flashVal.waitTime);
     }
     private void Start()
     {
@@ -65,7 +68,7 @@ public class UIFlashScreen : UIBase
 
         Com.canvasGroup.alpha = 1f;
 
-        yield return YieldInstructionCache.WaitForEndOfFrame;
+        yield return waitTime;
 
         //-------------------
         //페이드아웃

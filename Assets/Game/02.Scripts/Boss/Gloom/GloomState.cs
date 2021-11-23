@@ -278,6 +278,15 @@ public class GloomState_Resonance : GloomState
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Resonance_Start");
 
+        if (gloom.diretion == eDirection.Right)
+        {
+            bulletRot = new Vector3(0f, 0f, -90f);
+        }
+        else
+        {
+
+        }
+
     }
     public override void OnExit()
     {

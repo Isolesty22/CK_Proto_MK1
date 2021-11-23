@@ -735,13 +735,18 @@ public class BearState_Concentrate : BearState
         bearController.audioSource.PlayOneShot(bearController.audioClips.energyExplosion);
 
         bearController.SetTrigger("Concentrate_End");
-        bearController.EmissionOn(10f);
-        sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
 
+        yield return new WaitForSeconds(0.1f);
+
+        //구체 없애기
+        sphereTransform.gameObject.SetActive(false);
+        bearController.EmissionOn(10f);
+
+        //이펙트 퍼펑~
         flashEffect.Active();
-        yield return YieldInstructionCache.WaitForFixedUpdate;
         flashScreen.StartFlashScreen();
+
         //플레이어에게 데미지를 입힘
         if (!GameManager.instance.playerController.IsInvincible())
         {
