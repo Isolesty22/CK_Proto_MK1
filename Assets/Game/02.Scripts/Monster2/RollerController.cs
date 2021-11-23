@@ -184,7 +184,7 @@ public class RollerController : MonsterController
 
         //instance
         Com.animator.SetBool("isAttack", true);
-        Com2.particle.Play();
+        //Com2.particle.Play();
         Com2.VFX_rush.Play();
 
         Com.collider.enabled = false;
@@ -247,6 +247,7 @@ public class RollerController : MonsterController
         Com.animator.SetBool("isAttack", false);
         Com2.constantForce.enabled = false;
         base.Death();
+        Com2.VFX_rush.Stop();
     }
 
     protected override void HandleAnimation()

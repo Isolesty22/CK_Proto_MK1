@@ -815,13 +815,13 @@ public class PlayerController : MonoBehaviour
         if (State.isMoving && State.isGrounded && !Com.walk.isPlaying)
         {
             Com.walk.Play();
-            Debug.Log("walk");
+            //Debug.Log("walk");
             //Com.walk.gameObject.SetActive(true);
         }
         else if(!State.isMoving || !State.isGrounded)
         {
             Com.walk.Stop();
-            Debug.Log("stop walk");
+            //Debug.Log("stop walk");
             //Com.walk.gameObject.SetActive(false);
         }
 
