@@ -87,6 +87,7 @@ public class CameraManager : MonoBehaviour
     //}
 
     float timer = 0f;
+    float progress = 0f;
 
     public void AddShakeValue(float _value)
     {
@@ -106,7 +107,7 @@ public class CameraManager : MonoBehaviour
         vcamNoise.m_FrequencyGain += 1f;
 
         timer = 0f;
-        float progress = 0f;
+        progress = 0f;
         while (progress < 1f)
         {
             timer += Time.deltaTime;
@@ -128,6 +129,7 @@ public class CameraManager : MonoBehaviour
         else
         {
             timer = 0f;
+            progress = 0f;
         }
     }
 

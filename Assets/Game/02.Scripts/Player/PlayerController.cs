@@ -556,14 +556,22 @@ public class PlayerController : MonoBehaviour
     {
         while(State.isInvincible)
         {
-            Com.mat1.color = Com.hitColor;
-            Com.mat2.color = Com.hitColor;
-            Com.mat3.color = Com.hitColor;
+            Com.mat1.SetColor("_TexColor", Com.hitColor);
+            Com.mat2.SetColor("_TexColor", Com.hitColor);
+            Com.mat3.SetColor("_TexColor", Com.hitColor);
             yield return new WaitForSeconds(Stat.hitColorTime);
-            Com.mat1.color = Com.originalColor;
-            Com.mat2.color = Com.originalColor;
-            Com.mat3.color = Com.originalColor;
+            Com.mat1.SetColor("_TexColor", Com.originalColor);
+            Com.mat2.SetColor("_TexColor", Com.originalColor);
+            Com.mat3.SetColor("_TexColor", Com.originalColor);
             yield return new WaitForSeconds(Stat.hitColorDelay);
+            //Com.mat1.color = Com.hitColor;
+            //Com.mat2.color = Com.hitColor;
+            //Com.mat3.color = Com.hitColor;
+            //yield return new WaitForSeconds(Stat.hitColorTime);
+            //Com.mat1.color = Com.originalColor;
+            //Com.mat2.color = Com.originalColor;
+            //Com.mat3.color = Com.originalColor;
+            //yield return new WaitForSeconds(Stat.hitColorDelay);
         }
     }
 
@@ -815,13 +823,13 @@ public class PlayerController : MonoBehaviour
         if (State.isMoving && State.isGrounded && !Com.walk.isPlaying)
         {
             Com.walk.Play();
-            Debug.Log("walk");
+            //Debug.Log("walk");
             //Com.walk.gameObject.SetActive(true);
         }
         else if(!State.isMoving || !State.isGrounded)
         {
             Com.walk.Stop();
-            Debug.Log("stop walk");
+            //Debug.Log("stop walk");
             //Com.walk.gameObject.SetActive(false);
         }
 

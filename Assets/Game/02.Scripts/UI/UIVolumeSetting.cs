@@ -62,6 +62,7 @@ public class UIVolumeSetting : UIBase
     protected override void CheckOpen()
     {
         isOpen = Com.canvas.enabled;
+        Com.canvasGroup.interactable = false;
     }
 
     public override bool Open()
@@ -75,6 +76,13 @@ public class UIVolumeSetting : UIBase
         //return isOpen = Com.canvas.enabled;
     }
 
+
+
+    protected override IEnumerator ProcessOpen()
+    {
+        yield return base.ProcessOpen();
+        Com.canvasGroup.interactable = true;
+    }
     public override bool Close()
     {
         StartCoroutine(ProcessClose());
@@ -87,6 +95,7 @@ public class UIVolumeSetting : UIBase
         //다 닫은다음에 false
         yield return base.ProcessClose();
         this.enabled = false;
+        Com.canvasGroup.interactable = false;
     }
     #endregion
 
@@ -127,6 +136,9 @@ public class UIVolumeSetting : UIBase
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(currentData_settings.volume_master)) * 20));
         audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(currentData_settings.volume_bgm)) * 20));
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, GetFloat(currentData_settings.volume_sfx)) * 20));
+
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
+
     }
 
     #endregion
@@ -215,16 +227,19 @@ public class UIVolumeSetting : UIBase
     {
         audioMixer.SetFloat("MasterVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         currentData_settings.volume_master = VolumeSlider.master.value.ToString();
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
     }
     public void OnValueChanged_BGMSlider()
     {
         audioMixer.SetFloat("BgmVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         currentData_settings.volume_bgm = VolumeSlider.bgm.value.ToString();
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
     }
     public void OnValueChanged_SFXSlider()
     {
         audioMixer.SetFloat("SfxVolume", Mathf.Log(Mathf.Lerp(0.001f, 1, VolumeSlider.master.value)) * 20);
         currentData_settings.volume_sfx = VolumeSlider.sfx.value.ToString();
+        AudioManager.Instance.SettingVolume(GetFloat(currentData_settings.volume_master), GetFloat(currentData_settings.volume_bgm), GetFloat(currentData_settings.volume_sfx));
     }
 
     #endregion

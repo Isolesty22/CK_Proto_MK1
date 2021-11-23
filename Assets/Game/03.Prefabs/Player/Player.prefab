@@ -9943,6 +9943,7 @@ GameObject:
   - component: {fileID: 4650393343393378131}
   - component: {fileID: 2416211944509498855}
   - component: {fileID: 2019211029}
+  - component: {fileID: 2868293151139676719}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -10004,12 +10005,12 @@ MonoBehaviour:
     mat1: {fileID: 2100000, guid: 62092965db29eb64594c7441cfa70cd9, type: 2}
     mat2: {fileID: 2100000, guid: 20806c8a31f89774e9d26e90d9b2672a, type: 2}
     mat3: {fileID: 2100000, guid: cc053d0b8f7a0494e8c66a62cbef21d6, type: 2}
-    originalColor: {r: 1, g: 1, b: 1, a: 0}
-    hitColor: {r: 0.735849, g: 0.735849, b: 0.735849, a: 0}
+    originalColor: {r: 0, g: 0, b: 0, a: 0}
+    hitColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 0}
   playerStatus:
     name: Player
     hp: 0
-    maxHp: 5
+    maxHp: 30
     movementSpeed: 4
     crouchMoveSpeed: 2
     jumpForce: 15
@@ -10128,6 +10129,36 @@ AudioListener:
   m_GameObject: {fileID: 4650393343393378136}
   m_Enabled: 1
 --- !u!114 &2019211029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4650393343393378136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 0}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4650393343393378136}
+          m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_MethodName: 
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: 
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &2868293151139676719
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
