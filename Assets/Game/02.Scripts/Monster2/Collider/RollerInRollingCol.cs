@@ -10,7 +10,7 @@ public class RollerInRollingCol : MonoBehaviour
     {
         if (other.transform.CompareTag("Monster"))
         {
-            if (other.GetComponent<RollerController>())
+            if (other.GetComponent<RollerController>() || rollerController.state != MonsterController.MonsterState.ATTACK)
                 return;
 
             if(other.transform.GetComponent<MonsterController>())
@@ -24,12 +24,12 @@ public class RollerInRollingCol : MonoBehaviour
                 if (rollerController.moveDir.x < 0)
                 {
                     rollerController.moveDir = new Vector3(1, 0, 0);
-                    transform.localEulerAngles = new Vector3(0, 180, 0);
+                    rollerController.transform.localEulerAngles = new Vector3(0, 180, 0);
                 }
                 else
                 {
                     rollerController.moveDir = new Vector3(-1, 0, 0);
-                    transform.localEulerAngles = Vector3.zero;
+                    rollerController.transform.localEulerAngles = Vector3.zero;
                 }
             }
         }

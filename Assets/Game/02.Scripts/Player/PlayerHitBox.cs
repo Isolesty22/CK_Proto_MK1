@@ -21,7 +21,7 @@ public class PlayerHitBox : MonoBehaviour
         {
             if (other.GetComponent<MonsterController>())
             {
-                if (!other.GetComponent<MonsterController>().Stat.isAlive)
+                if (!other.GetComponent<MonsterController>().Stat.isAlive || other.GetComponent<MonsterController>().state == MonsterController.MonsterState.WAIT)
                     return;
             }
         }
@@ -30,6 +30,9 @@ public class PlayerHitBox : MonoBehaviour
         {
             if(other.CompareTag("Monster"))
             {
+                if (!other.GetComponent<MonsterController>().Stat.isAlive || other.GetComponent<MonsterController>().state == MonsterController.MonsterState.WAIT)
+                    return;
+
                 StopCoroutine(parry);
 
                 parry = playerController.Parrying();
