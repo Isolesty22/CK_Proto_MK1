@@ -38,6 +38,7 @@ Transform:
   - {fileID: 805635387455677763}
   - {fileID: 6297029571871693702}
   - {fileID: 734921194782332624}
+  - {fileID: 9179456811201178577}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -89,6 +90,7 @@ MonoBehaviour:
     isJustMove: 0
   rollerComponents:
     particle: {fileID: 7611530813265327115}
+    VFX_rush: {fileID: 9179456811201178578}
     constantForce: {fileID: 1551969497}
     sphereCollider: {fileID: 771319751876465725}
     capsuleCollider: {fileID: 8948101247578799124}
@@ -5319,6 +5321,81 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 25, y: 10, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1001 &1344649579
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1328435132049023873}
+    m_Modifications:
+    - target: {fileID: 9179456810302950977, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456811665796561, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9179456812004020927, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+      propertyPath: m_Name
+      value: VFX_Roller
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+--- !u!4 &9179456811201178577 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9179456812004020922, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+  m_PrefabInstance: {fileID: 1344649579}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &9179456811201178578 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 9179456812004020921, guid: 3f1f19624c955cf42bb92b22ae1239bc, type: 3}
+  m_PrefabInstance: {fileID: 1344649579}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5852005216349858440
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -31,7 +31,10 @@ public class PlayerController : MonoBehaviour
         [Header("VFX")]
         public ParticleSystem parry;
         public ParticleSystem hit;
+        public ParticleSystem walk;
+        public ParticleSystem landing;
 
+        [Space]
         public Animator animator;
 
         public Material mat1;
@@ -168,10 +171,13 @@ public class PlayerController : MonoBehaviour
         Com.pixyTargetPos.localPosition = Com.pixyPos;
 
         State.isAlive = true;
+
+        //Com.walk.gameObject.SetActive(false);
     }
 
     private void Start()
     {
+        //Com.walk.Play();
         //MoveSystem(new Vector3(6,0,0));
         //MoveSystem(Vector3.zero);
     }
@@ -195,6 +201,7 @@ public class PlayerController : MonoBehaviour
            
 
         HandleAnimation();
+        VFXControl();
     }
 
     private void FixedUpdate()
@@ -801,5 +808,27 @@ public class PlayerController : MonoBehaviour
         {
             State.counterCheck = true;
         }
+    }
+
+    void VFXControl()
+    {
+        if (State.isMoving && State.isGrounded && !Com.walk.isPlaying)
+        {
+            Com.walk.Play();
+            Debug.Log("walk");
+            //Com.walk.gameObject.SetActive(true);
+        }
+        else if(!State.isMoving || !State.isGrounded)
+        {
+            Com.walk.Stop();
+            Debug.Log("stop walk");
+            //Com.walk.gameObject.SetActive(false);
+        }
+
+        //if(!State.prevGrounded && State.isGrounded && State.isJumping)
+        //{
+        //    Com.landing.Play();
+        //}
+
     }
 }
