@@ -332,9 +332,14 @@ public class TempTutorialLoader : MonoBehaviour
 
         MessageOpen("몬스터에게 공격을 적중시키거나 '패링'을 성공시키면 \n정화 게이지를 획득할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
+        
 
-        MessageOpen("정화 게이지는 좌측 상단 UI에서 확인할 수 있습니다.\n 통나무를 때려서 정화 게이지를 획득해보세요.");
+        MessageOpen("정화 게이지는 좌측 상단 UI에서 확인할 수 있습니다.");
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        MessageOpen("통나무를 때려서 정화 게이지를 획득해보세요.");
         CanMove(true);
+
         while (player.Stat.pixyEnerge < 9.8f)
         {
             yield return null;
@@ -363,18 +368,18 @@ public class TempTutorialLoader : MonoBehaviour
     private IEnumerator CoPrac_Attack_Ult()
     {
         CanMove(false);
-
-        yield return StartCoroutine(CoWaitTalkEnd());
         MessageOpen("정화 게이지를 끝까지 채워 꽃이 주황색으로 물들면,\n 루미에의 '궁극기'를 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
         CanMove(true);
 
-        MessageOpen("정화 게이지를 끝까지 채워보세요.");
+        MessageOpen("통나무를 때려서 정화 게이지를 끝까지 채워보세요.");
 
         while (player.Stat.pixyEnerge < 29.8f)
         {
             yield return null;
         }
+
+        MessageOpen("[V]키로 궁극기를 사용하세요.");
 
         while (!player.Com.pixy.isUlt)
         {
