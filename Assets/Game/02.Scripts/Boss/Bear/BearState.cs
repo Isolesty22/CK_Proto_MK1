@@ -108,49 +108,55 @@ public class BearState_Rush : BearState
         canGo = true;
         bearController.colliders.bodyCollider.enabled = false;
 
-
         bearController.TalkOnce(204);
 
         //맵의 왼쪽으로 빠르게 이동
-        bearController.SetAnimEvent(LeftRush);
+        bearController.SetAnimEvent(AnimEvent_LeftRush);
 
         //애니메이션 스타트
         bearController.SetTrigger("Rush_Start");
     }
     public override void OnExit()
     {
+        //사운드 종료
+        bearController.audioSource.loop = false;
+        bearController.audioSource.Stop();
+
+
         //다시 공격을 받아야하니까 원래대로 변경
         bearController.gameObject.tag = TagName.Boss;
         bearController.EndInvincible();
     }
 
-    public void LeftRush()
+    public void AnimEvent_LeftRush()
     {
-        bearController.StartCoroutine(ProcessLeftRush());
+        currentCoroutine = CoLeftRush();
+        bearController.StartCoroutine(currentCoroutine);
     }
 
-    public void GoMove()
+    public void AnimEvent_GoMove()
     {
         canGo = true;
         //bearController.skillObjects.rushEffect.SetActive(true);
-        bearController.SetAnimEvent(StopMove);
+        bearController.SetAnimEvent(AnimEvent_StopMove);
     }
-    public void StopMove()
+    public void AnimEvent_StopMove()
     {
         canGo = false;
         //bearController.skillObjects.rushEffect.SetActive(false);
-        bearController.SetAnimEvent(GoMove);
+        bearController.SetAnimEvent(AnimEvent_GoMove);
     }
-    private IEnumerator ProcessLeftRush()
+    private IEnumerator CoLeftRush()
     {
         timer = 0f;
         progress = 0f;
 
-        bearController.SetAnimEvent(StopMove);
+        bearController.SetAnimEvent(AnimEvent_StopMove);
 
         //정령 게이지 안채우게 하려고 태그를 변경
         bearController.gameObject.tag = TagName.Untagged;
 
+        //이펙트 켜기
         bearController.skillObjects.rushEffect.SetActive(true);
 
         //사운드 출력
@@ -171,7 +177,7 @@ public class BearState_Rush : BearState
         }
 
         //돌진 종료
-        bearController.SetAnimEvent(StopMove);
+        bearController.SetAnimEvent(AnimEvent_StopMove);
         bearController.SetTrigger("Rush_End");
         //이후 자동으로 걷기 애니메이션 출력됨
         bearController.skillObjects.rushEffect.SetActive(false);
@@ -224,10 +230,6 @@ public class BearState_Rush : BearState
         canExit = true;
     }
 
-    private IEnumerator ProcessChangePhase2()
-    {
-        yield break;
-    }
 }
 
 public class BearState_Roar : BearState
@@ -276,19 +278,23 @@ public class BearState_Roar : BearState
     }
     public override void OnExit()
     {
-        base.OnExit();
+        //혹시 모르니까 이펙트 끄기
+        bearController.skillObjects.roarGroundEffect.SetActive(false);
+        bearController.skillObjects.roarEffect.SetActive(false);
     }
     public void AnimEvent_A()
     {
-        bearController.StartCoroutine(ProcessAnimEvent_A());
+        currentCoroutine = CoSkill_A();
+        bearController.StartCoroutine(CoSkill_A());
     }
     public void AnimEvent_B()
     {
-        bearController.StartCoroutine(ProcessAnimEvent_B());
+        currentCoroutine = CoSkill_B();
+        bearController.StartCoroutine(CoSkill_B());
     }
 
     //위에서 뭔가 떨어짐
-    private IEnumerator ProcessAnimEvent_A()
+    private IEnumerator CoSkill_A()
     {
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
@@ -313,7 +319,7 @@ public class BearState_Roar : BearState
     }
 
     //숙여서 공격
-    private IEnumerator ProcessAnimEvent_B()
+    private IEnumerator CoSkill_B()
     {
         bearController.skillObjects.roarEffect.SetActive(true);
         yield return waitSec;
@@ -436,10 +442,11 @@ public class BearState_Strike : BearState
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
 
-        bearController.StartCoroutine(ProcessAnimEvent_B());
+        currentCoroutine = CoSkill_B();
+        bearController.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator ProcessAnimEvent_B()
+    private IEnumerator CoSkill_B()
     {
         for (int i = 1; i < 5; i++)
         {
@@ -499,16 +506,26 @@ public class BearState_Claw : BearState
         bearController.SetTrigger("Claw_Start");
     }
 
+
+    public override void OnExit()
+    {
+        bearController.skillObjects.claw_B_Effect.SetActive(true);
+        bearController.skillObjects.claw_A_Effect.SetActive(true);
+    }
     public void AnimEvent_A()
     {
-        bearController.StartCoroutine(ProcessAnimEvent_A());
+        currentCoroutine = CoSkill_A();
+        bearController.StartCoroutine(currentCoroutine);
     }
     public void AnimEvent_B()
     {
-        bearController.StartCoroutine(ProcessAnimEvent_B());
+        currentCoroutine = CoSkill_B();
+        bearController.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator ProcessAnimEvent_A()
+
+
+    private IEnumerator CoSkill_A()
     {
         //사운드 출력
         bearController.audioSource.PlayOneShot(bearController.audioClips.scratch);
@@ -518,7 +535,7 @@ public class BearState_Claw : BearState
         bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
 
-    private IEnumerator ProcessAnimEvent_B()
+    private IEnumerator CoSkill_B()
     {
         //사운드 출력
         bearController.audioSource.PlayOneShot(bearController.audioClips.scratch);
@@ -560,8 +577,8 @@ public class BearState_Smash : BearState
     public override void OnEnter()
     {
         canExit = false;
-
-        followHand = CoFollowHand();
+        //손 따라가게
+        currentCoroutine = CoFollowHand();
 
         bearController.bearMapInfo.UpdateProjectileRandArray();
 
@@ -569,7 +586,26 @@ public class BearState_Smash : BearState
         bearController.SetTrigger("Smash_Start");
     }
 
-    private IEnumerator followHand = null;
+
+    public override void OnExit()
+    {
+        smashHelper.SetActive(false);
+    }
+    /// <summary>
+    /// 손에 있는 돌덩이를 활성화합니다.
+    /// </summary>
+    public void ActiveHandRock()
+    {
+
+        //바위 활성화
+        smashHelper.SetActive(true);
+        smashHelper.SetActiveRocks(true);
+
+
+        bearController.StartCoroutine(currentCoroutine);
+
+        bearController.SetAnimEvent(AnimEvent);
+    }
     private IEnumerator CoFollowHand()
     {
         while (true)
@@ -582,31 +618,18 @@ public class BearState_Smash : BearState
         }
     }
 
-    /// <summary>
-    /// 손에 있는 돌덩이를 활성화합니다.
-    /// </summary>
-    public void ActiveHandRock()
-    {
 
-        //바위 활성화
-        smashHelper.SetActive(true);
-        smashHelper.SetActiveRocks(true);
-
-        //손 따라가게
-        bearController.StartCoroutine(followHand);
-
-        bearController.SetAnimEvent(AnimEvent);
-    }
     public void AnimEvent()
     {
-        bearController.StartCoroutine(ProcessAnimEvent());
+        currentCoroutine = CoSkill();
+        bearController.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator ProcessAnimEvent()
+    private IEnumerator CoSkill()
     {
 
         //바위가 곰의 손을 더이상 따라가지 않음
-        bearController.StopCoroutine(followHand);
+        bearController.StopCoroutine(currentCoroutine);
         smashHelper.SetParentRocks(null);
 
         //yield return new WaitForSeconds(0.2f);
@@ -635,7 +658,6 @@ public class BearState_Smash : BearState
 }
 public class BearState_Concentrate : BearState
 {
-    private IEnumerator concentrate;
 
     private Transform sphereTransform;
     private HeadParryingHelper helper;
@@ -653,7 +675,7 @@ public class BearState_Concentrate : BearState
     {
         canExit = false;
         bearController.StartInvincible();
-        concentrate = ProcessConcentrate();
+        currentCoroutine = CoSkill();
 
         bearController.TalkOnce(202);
         bearController.SetAnimEvent(AnimEvent);
@@ -673,10 +695,10 @@ public class BearState_Concentrate : BearState
 
         helper.StartCheck();
         bearController.skillObjects.concentrateSphere.SetActive(true);
-        bearController.StartCoroutine(concentrate);
+        bearController.StartCoroutine(currentCoroutine);
     }
 
-    private IEnumerator ProcessConcentrate()
+    private IEnumerator CoSkill()
     {
         float timer = 0f;
         float maxTime = bearController.skillValue.concentrateTime + 1f;
@@ -714,7 +736,7 @@ public class BearState_Concentrate : BearState
     }
     private void ChangeStatePowerless()
     {
-        bearController.StopCoroutine(concentrate);
+        bearController.StopCoroutine(currentCoroutine);
 
         sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
@@ -725,6 +747,10 @@ public class BearState_Concentrate : BearState
 public class BearState_Powerless : BearState
 {
     private WaitForSeconds waitSecBegin;
+    
+    /// <summary>
+    /// 무력화 이후의 waitTime을 적용하기 위해서...
+    /// </summary>
     private WaitForSeconds waitSecEnd;
 
     private ParticleSystem stunEffect;
@@ -740,18 +766,28 @@ public class BearState_Powerless : BearState
         canExit = false;
 
         bearController.EmissionOff();
-        bearController.StartCoroutine(ProcessAnimEvent_Begin());
+
+        currentCoroutine = ProcessAnimEvent_Begin();
+        bearController.StartCoroutine(currentCoroutine);
 
 
         bearController.TalkOnce(203);
         bearController.SetAnimEvent(AnimEvent_StunEffectOn);
         bearController.SetTrigger("Powerless_Start");
-
     }
 
     public override void OnExit()
     {
+        //사운드 스탑
+        bearController.audioSource.Stop();
+
+        //이미션 원래대로...
         bearController.EmissionOn(10f);
+
+        //이펙트 켜기
+        stunEffect.Stop();
+        stunEffect.gameObject.SetActive(false);
+        
 
     }
     public void AnimEvent_StunEffectOn()
@@ -769,7 +805,8 @@ public class BearState_Powerless : BearState
 
     public void AnimEvent_WaitEnd()
     {
-        bearController.StartCoroutine(ProcessWaitTime());
+        currentCoroutine = ProcessWaitTime();
+        bearController.StartCoroutine(currentCoroutine);
     }
 
     private IEnumerator ProcessAnimEvent_Begin()

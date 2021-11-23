@@ -502,6 +502,27 @@ public class BearController : BossController
     {
         ReceiveDamage();
         emissionHelper.OnHit();
+
+
+        //죽어야 한다면
+        if (hp <= 0)
+        {
+
+            //if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
+            //{
+            //    return;
+            //}
+            //패턴 실행 코루틴 종료
+            StopCoroutine(executePattern);
+
+            Debug.Log("Test!!!");
+            //현재 상태의 코루틴 종료
+            StopCoroutine(stateMachine.currentState.currentCoroutine);
+
+            //죽음 상태로 전환
+            SetStateInfo((int)eBearState.Die);
+            ChangeState((int)eBearState.Die);
+        }
     }
 
     private void PlayerHit()
