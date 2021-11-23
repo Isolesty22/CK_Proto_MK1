@@ -24,6 +24,7 @@ public class MonsterController : MonoBehaviour
         public int hp;
         public int maxHp;
         public float moveSpeed;
+        public bool noneHit;
 
 
         [Header("Sub Status")]

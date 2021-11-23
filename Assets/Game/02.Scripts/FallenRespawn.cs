@@ -48,10 +48,10 @@ public class FallenRespawn : MonoBehaviour
         {
             spawn.gameObject.SetActive(true);
             spawn.transform.position = spawnPos.position + Vector3.up * 0.05f;
-            spawn.Play();
 
             yield return new WaitForSeconds(GameManager.instance.playerController.Stat.spawnTime);
 
+            spawn.Play();
             GameManager.instance.playerController.transform.position = spawnPos.position + Vector3.up;
         }
     }
