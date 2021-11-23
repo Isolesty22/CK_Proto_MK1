@@ -1013,16 +1013,13 @@ public class GloomState_Die : GloomState
         //gloom.Com.bodyCollider.enabled = false;
         gloom.Com.wallCollider.enabled = false;
 
-        gloom.StartCoroutine(CoPlayMovie());
+        gloom.StartCoroutine(CoEnding());
 
     }
 
-    private IEnumerator CoPlayMovie()
+    private IEnumerator CoEnding()
     {
-        UIMovieScreen uiMovie = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
-
-        yield return waitForMoviePlay;
-
+        yield return new WaitForSeconds(1f);
         SceneChanger.Instance.LoadThisScene("Ending");
 
         //uiMovie.gameObject.SetActive(true);

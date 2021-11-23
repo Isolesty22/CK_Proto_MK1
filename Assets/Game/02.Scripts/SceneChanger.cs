@@ -32,8 +32,10 @@ public class SceneChanger : MonoBehaviour
     [Space(10)]
 
     [HideInInspector]
+    [Tooltip("로딩이 끝나고 로딩창이 완전히 닫혔는가?")]
     public bool isLoading = false;
     [HideInInspector]
+    [Tooltip("로딩이 끝났는가?")]
     public bool isSceneLoading = false;
 
     [SerializeField]

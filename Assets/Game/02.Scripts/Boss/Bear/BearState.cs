@@ -509,8 +509,8 @@ public class BearState_Claw : BearState
 
     public override void OnExit()
     {
-        bearController.skillObjects.claw_B_Effect.SetActive(true);
-        bearController.skillObjects.claw_A_Effect.SetActive(true);
+        bearController.skillObjects.claw_B_Effect.SetActive(false);
+        bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
     public void AnimEvent_A()
     {
