@@ -92,7 +92,7 @@ public class GloomState_Leap : GloomState
     private Position pos = new Position();
     private Rotation rot = new Rotation();
     private WaitForSeconds downAnimTime = null;
-    private float fDownAnimTime = 0; 
+    private float fDownAnimTime = 0;
 
     private GloomController.SkillValues.LeapPattern leapValue;
     public GloomState_Leap(GloomController _gloomController)
@@ -340,7 +340,10 @@ public class GloomState_Resonance : GloomState
         gloom.SetTrigger("Resonance_End");
 
         //데미지 주기
-        GameManager.instance.playerController.Hit();
+        if (!GameManager.instance.playerController.IsInvincible())
+        {
+            GameManager.instance.playerController.Hit();
+        }
     }
 
     private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
@@ -1030,7 +1033,7 @@ public class GloomState_Die : GloomState
     }
     private void UiMovie_onMovieEnded()
     {
-       
+
     }
 }
 

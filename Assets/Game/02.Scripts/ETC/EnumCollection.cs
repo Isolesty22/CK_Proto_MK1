@@ -41,25 +41,25 @@ public enum eBearState
     Concentrate,
 
 
-    [InspectorName("랜덤 1번")]
+    [InspectorName("랜덤/1번")]
     Random_1,
 
-    [InspectorName("랜덤 2번")]
+    [InspectorName("랜덤/2번")]
     Random_2,
 
-    [InspectorName("랜덤 3번")]
+    [InspectorName("랜덤/3번")]
     Random_3,
 
-    [InspectorName("랜덤 4번")]
+    [InspectorName("랜덤/4번")]
     Random_4,
 
-
+    [InspectorName("사용금지/무력화")]
     Powerless,
 
-    [InspectorName("페이즈2 전환 연출(돌진)")]
+    [InspectorName("사용금지/페이즈2 전환 연출(돌진)")]
     Rush,
 
-    [InspectorName("죽음")]
+    [InspectorName("사용금지/죽음")]
     Die
 }
 

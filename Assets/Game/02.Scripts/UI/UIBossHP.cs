@@ -74,7 +74,7 @@ public class UIBossHP : UIBase
         {
             timer += Time.deltaTime * 0.01f;
             progress = Mathf.Lerp(progress, bossController.hp / maxHP, timer);
-            //hpImage.fillAmount = progress;
+            hpImage.fillAmount = progress;
             yield return null;
         }
 
