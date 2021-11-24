@@ -10,7 +10,7 @@ public class StrikeHelper : MonoBehaviour
 
     private WaitForSeconds waitColliderOn = new WaitForSeconds(3.5f);
     private WaitForSeconds waitColliderOff = new WaitForSeconds(0.3f);
-    private WaitForSeconds waitDestroy = new WaitForSeconds(1f);
+    private WaitForSeconds waitDestroy = new WaitForSeconds(2f);
 
     public AudioClip clip;
 
