@@ -98,7 +98,10 @@ public class UIKeySetting : UIBase
 
     [Tooltip("keyType을 key로 갖는 딕셔너리.")]
     private Dictionary<string, KeyChangeButton> keyChangeButtonDict;
-    //private Dictionary <string, Selec>
+
+
+    [Tooltip("keyType을 key로 갖는 딕셔너리.")]
+    private Dictionary<string, SelectorButton> selectorButtonDict;
 
     private int length;
 
@@ -106,11 +109,6 @@ public class UIKeySetting : UIBase
     private bool isChangingKey = false;
     private bool isSaving;
     private IEnumerator waitInputKey;
-
-
-
-
-
 
     private void Start()
     {
@@ -139,13 +137,14 @@ public class UIKeySetting : UIBase
     public void Init_Dict()
     {
         keyChangeButtonDict = new Dictionary<string, KeyChangeButton>();
-
+        selectorButtonDict = new Dictionary<string, SelectorButton>();
         length = keyChangeButtons.Length;
 
         //keyChangeButtons를 딕셔너리에 추가
         for (int i = 0; i < length; i++)
         {
             keyChangeButtonDict.Add(keyChangeButtons[i].keyType, keyChangeButtons[i]);
+            selectorButtonDict.Add(keyChangeButtons[i].keyType, selectorController.buttons[i]);
         }
 
     }
@@ -197,6 +196,7 @@ public class UIKeySetting : UIBase
 
         //셀렉터 포지션을 업데이트하게
         selectorController.DoUpdateSelectorPosition();
+
         //감지 되었으면 키 변경 시도
         TryChangeThisKey(_keyType);
     }
@@ -204,9 +204,6 @@ public class UIKeySetting : UIBase
     private void InputChangeKey(string _keyType)
     {
         UIManager.Instance.StopDetectingCloseKey();
-
-        //셀렉터 포지션을 업데이트하게
-        selectorController.DoNotUpdateSelectorPosition();
 
         //이미 다른 키를 변경 중이었을 경우에는, 해당 키를 변경할 수 있도록 Stop후 재시작
         if (isChangingKey)
@@ -228,9 +225,18 @@ public class UIKeySetting : UIBase
         {
             uiText.text = "키 입력 대기 중...";
         }
+        Debug.Log("KeyChange Button! : " + _keyType);
+
+
         waitInputKey = WaitInputKey(_keyType);
 
-        Debug.Log("KeyChange Button! : " + _keyType);
+        //셀렉터 포지션을 업데이트하지 않음
+        selectorController.DoUpdateSelectorPosition();
+        //버튼 셀렉트하기
+        selectorController.SelectButton(selectorButtonDict[_keyType]);
+
+        //셀렉터 포지션을 업데이트하지 않음
+        selectorController.DoNotUpdateSelectorPosition();
 
 
         StartCoroutine(waitInputKey);
