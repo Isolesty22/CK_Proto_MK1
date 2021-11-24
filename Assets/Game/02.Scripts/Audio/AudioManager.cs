@@ -167,8 +167,15 @@ public class AudioManager : MonoBehaviour
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitPower"));
         clipDict_ArrowHit.Add("arrowHitPower", DataManager.Instance.fileManager.getAudioClip_Result);
 
-        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitSpecial"));
-        clipDict_ArrowHit.Add("arrowHitSpecial", DataManager.Instance.fileManager.getAudioClip_Result);
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitSpecial1"));
+        clipDict_ArrowHit.Add("arrowHitSpecial1", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitSpecial2"));
+        clipDict_ArrowHit.Add("arrowHitSpecial2", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/arrowHitSpecial3"));
+        clipDict_ArrowHit.Add("arrowHitSpecial3", DataManager.Instance.fileManager.getAudioClip_Result);
+
         #endregion
 
         #region Player

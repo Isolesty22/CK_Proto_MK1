@@ -61,7 +61,7 @@ public class SmashRock : MonoBehaviour
 
     private void Start()
     {
-        audioSource.volume = 0.8f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
+        audioSource.volume = 1f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
     }
 
     public void UpdatePivot(Vector3 _value)
@@ -136,7 +136,7 @@ public class SmashRock : MonoBehaviour
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        audioSource.volume = 0.8f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
+        audioSource.volume = 1f * AudioManager.Instance.currentMasterVolume * AudioManager.Instance.currentSFXVolume;
         audioSource.PlayOneShot(audioSource.clip);
 
         gameObject.tag = TagName.Untagged;
