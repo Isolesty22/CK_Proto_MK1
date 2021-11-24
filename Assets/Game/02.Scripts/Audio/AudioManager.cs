@@ -112,9 +112,9 @@ public class AudioManager : MonoBehaviour
     public void SetInitVolume()
     {
         Volumes.ui = .5f;
-        Volumes.pAttack = .3f;
-        Volumes.pRun = .4f;
-        Volumes.pWalk = .4f;
+        Volumes.pAttack = .25f;
+        Volumes.pRun = .5f;
+        Volumes.pWalk = .5f;
         Volumes.pJump = .5f;
         Volumes.pParrying = .7f;
         Volumes.pHit = 1f;
