@@ -181,9 +181,9 @@ public class PlayerController : MonoBehaviour
         Stat.Initialize();
         transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
         parry = Parry();
-        Com.mat1.color = Com.originalColor;
-        Com.mat2.color = Com.originalColor;
-        Com.mat3.color = Com.originalColor;
+        Com.mat1.SetColor("_TexColor", Com.originalColor);
+        Com.mat2.SetColor("_TexColor", Com.originalColor);
+        Com.mat3.SetColor("_TexColor", Com.originalColor);
 
         Stat.pixyEnerge = 0f;
 
