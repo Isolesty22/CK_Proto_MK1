@@ -173,6 +173,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 crouchCapsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.crouchCollier.height / 2 - Com.crouchCollier.radius, 0);
 
     private IEnumerator parry;
+    private IEnumerator invincible;
 
     #endregion
 
@@ -191,6 +192,7 @@ public class PlayerController : MonoBehaviour
 
         State.isAlive = true;
 
+        invincible = Invincible();
         //Com.walk.gameObject.SetActive(false);
     }
 
@@ -536,9 +538,45 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
-        var invincible = Invincible();
+        invincible = Invincible();
         StartCoroutine(invincible);
+
+    }
+
+    public void Fall()
+    {
+        //State.isHit = true;
+        State.isAttack = false;
+        State.isCrouching = false;
+        State.isLookUp = false;
+
+
+        Stat.hp -= 1;
+        AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
+
+        Com.hit.transform.position = transform.position;
+        Com.hit.Play();
+
+        //Camera Shake
+        GameManager.instance.cameraManager.ShakeCamera();
+
+        if (Stat.hp < 1)
+        {
+            State.isAlive = false;
+            Com.animator.SetTrigger("Death");
+            State.moveSystem = false;
+        }
+        else
+        {
+            //Com.animator.SetTrigger("Hit");
+        }
+
+        StopCoroutine(invincible);
+        invincible = Invincible();
+        StartCoroutine(invincible);
+
+        var hitColor = HitColor();
+        StartCoroutine(hitColor);
 
     }
 
@@ -558,6 +596,7 @@ public class PlayerController : MonoBehaviour
         State.isHit = false;
 
         Val.knockBackVelocity = Vector3.zero;
+
 
         var hitColor = HitColor();
         StartCoroutine(hitColor);
@@ -584,16 +623,10 @@ public class PlayerController : MonoBehaviour
             Com.mat2.SetColor("_TexColor", Com.originalColor);
             Com.mat3.SetColor("_TexColor", Com.originalColor);
             yield return new WaitForSeconds(Stat.hitColorDelay);
-            //Com.mat1.color = Com.hitColor;
-            //Com.mat2.color = Com.hitColor;
-            //Com.mat3.color = Com.hitColor;
-            //yield return new WaitForSeconds(Stat.hitColorTime);
-            //Com.mat1.color = Com.originalColor;
-            //Com.mat2.color = Com.originalColor;
-            //Com.mat3.color = Com.originalColor;
-            //yield return new WaitForSeconds(Stat.hitColorDelay);
         }
     }
+
+
 
     private void LookUp()
     {
@@ -613,7 +646,7 @@ public class PlayerController : MonoBehaviour
     public void ReadyToParry()
     {
         //패링 불가능한 상태
-        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded || State.isHit)
+        if (State.isJumping && State.isGrounded || !State.isJumping || State.isGrounded || State.isHit || State.prevGrounded)
         {
             StopCoroutine(parry);
             State.canParry = false;
@@ -628,6 +661,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(Key.jump))
         {
+            Debug.Log("work");
             parry = Parry();
             StartCoroutine(parry);
         }
