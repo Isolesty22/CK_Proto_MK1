@@ -19,6 +19,7 @@ public class DarkJinnDustController : MonsterController
     [Serializable]
     public class DarkJinnDustComponents
     {
+        public ParticleSystem VFX_Bomb;
 
     }
 
@@ -36,6 +37,9 @@ public class DarkJinnDustController : MonsterController
         base.Initialize();
         isRunCo = false;
         Com.rigidbody.velocity = Vector3.zero;
+        Com.monsterModel.SetActive(true);
+        Com2.VFX_Bomb.gameObject.SetActive(false);
+        Com2.VFX_Bomb.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public override void Awake()
@@ -161,6 +165,12 @@ public class DarkJinnDustController : MonsterController
 
     protected override void Death()
     {
+        if (!Com2.VFX_Bomb.isPlaying)
+        {
+            Com.monsterModel.SetActive(false);
+            Com2.VFX_Bomb.gameObject.SetActive(true);
+            Com2.VFX_Bomb.Play();
+        }
         base.Death();
     }
 
