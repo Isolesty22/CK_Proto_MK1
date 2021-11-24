@@ -12,8 +12,22 @@ public class FallenRespawn : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var fall = Fall();
-            StartCoroutine(fall);
+            //var fall = Fall();
+            //StartCoroutine(fall);
+            GameManager.instance.playerController.Fall();
+
+            if (GameManager.instance.playerController.Stat.hp <= 0)
+            {
+
+            }
+            else
+            {
+                spawn.gameObject.SetActive(true);
+                spawn.transform.position = spawnPos.position + Vector3.up * 0.05f;
+
+                spawn.Play();
+                GameManager.instance.playerController.transform.position = spawnPos.position + Vector3.up;
+            }
         }
         else if (other.CompareTag("Monster"))
         {
@@ -34,25 +48,25 @@ public class FallenRespawn : MonoBehaviour
     //    }
     //}
 
-    IEnumerator Fall()
-    {
-        GameManager.instance.playerController.Hit();
+    //IEnumerator Fall()
+    //{
+    //    GameManager.instance.playerController.Hit();
 
-        Debug.Log("fall");
+    //    Debug.Log("fall");
 
-        if (GameManager.instance.playerController.Stat.hp <= 0)
-        {
+    //    if (GameManager.instance.playerController.Stat.hp <= 0)
+    //    {
 
-        }
-        else
-        {
-            spawn.gameObject.SetActive(true);
-            spawn.transform.position = spawnPos.position + Vector3.up * 0.05f;
+    //    }
+    //    else
+    //    {
+    //        spawn.gameObject.SetActive(true);
+    //        spawn.transform.position = spawnPos.position + Vector3.up * 0.05f;
 
-            yield return new WaitForSeconds(GameManager.instance.playerController.Stat.spawnTime);
+    //        yield return new WaitForSeconds(GameManager.instance.playerController.Stat.spawnTime);
 
-            spawn.Play();
-            GameManager.instance.playerController.transform.position = spawnPos.position + Vector3.up;
-        }
-    }
+    //        spawn.Play();
+    //        GameManager.instance.playerController.transform.position = spawnPos.position + Vector3.up;
+    //    }
+    //}
 }
