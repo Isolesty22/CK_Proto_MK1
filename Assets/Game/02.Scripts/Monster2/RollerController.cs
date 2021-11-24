@@ -25,7 +25,7 @@ public class RollerController : MonsterController
     public class RollerComponents
     {
         //instance
-        public ParticleSystem particle;
+        public ParticleSystem VFX_change;
         public ParticleSystem VFX_rush;
 
         public ConstantForce constantForce;
@@ -65,7 +65,7 @@ public class RollerController : MonsterController
         usingAclrt = Stat2.aclrt;
         Com2.constantForce.enabled = true;
         Com2.VFX_rush.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
+        Com2.VFX_change.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         if (Stat2.isJustMove)
             Com2.attackCollider.gameObject.SetActive(false);
     }
@@ -182,6 +182,8 @@ public class RollerController : MonsterController
 
         yield return new WaitForSeconds(Stat2.changeDelay);
 
+        Com2.VFX_change.Play();
+
         //instance
         Com.animator.SetBool("isAttack", true);
         //Com2.particle.Play();
@@ -248,6 +250,7 @@ public class RollerController : MonsterController
         Com2.constantForce.enabled = false;
         base.Death();
         Com2.VFX_rush.Stop();
+        Com2.VFX_change.Stop();
     }
 
     protected override void HandleAnimation()

@@ -19,6 +19,7 @@ public class SpitterController : MonsterController
     [Serializable]
     public class SpitterComponents
     {
+        //public ParticleSystem VFX_shoot;
     }
 
     [SerializeField] private SpitterStatus spitterStatus = new SpitterStatus();
@@ -36,6 +37,7 @@ public class SpitterController : MonsterController
         Com.rigidbody.useGravity = false;
         isRunCo = false;
         base.Initialize();
+        //Com2.VFX_shoot.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public override void Awake()
@@ -130,10 +132,12 @@ public class SpitterController : MonsterController
         Com.animator.SetTrigger("isAttack");
         isRunCo = true;
         yield return new WaitForSeconds(0.8f);
+        //Com2.VFX_shoot.Stop();
+        //Com2.VFX_shoot.Play();
         Com.audio.PlayOneShot(Com.audio.clip);
         var venom = CustomPoolManager.Instance.curveBulletPool.SpawnThis(transform.position, Vector3.zero, null);
         venom.startPos = transform.position;
-        venom.endPos = GameManager.instance.playerController.transform.position + new Vector3(0,-1,0);
+        venom.endPos = GameManager.instance.playerController.transform.position;
         venom.duration = 10 - Stat2.venomSpeed;
         venom.height = Stat2.venomHeight;
         venom.Initialize();
@@ -153,6 +157,7 @@ public class SpitterController : MonsterController
     {
         Com.animator.SetBool("isDeath", true);
         base.Death();
+        //Com2.VFX_shoot.Stop();
     }
 
     protected override void HandleAnimation()
