@@ -302,7 +302,7 @@ public class GloomLightning : MonoBehaviour
         //=========================
 
         //사운드 종료
-        AudioManager.Instance.Audios.audioSource_SFX.Stop();
+        //AudioManager.Instance.Audios.audioSource_SFX.Stop();
 
         //이펙트 등등 Off
         lineEffectTransform.gameObject.SetActive(false);

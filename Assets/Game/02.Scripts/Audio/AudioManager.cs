@@ -397,7 +397,10 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PRun.volume = Volumes.pRun * currentMasterVolume * currentSFXVolume;
         Audios.audioSource_PWalk.volume = Volumes.pWalk * currentMasterVolume * currentSFXVolume;
 
-        if(Audios.audioSource_Boss)
+        Audios.audioSource_PWalk.pitch = 1.6f;
+        Audios.audioSource_PRun.pitch = 0.9f;
+
+        if (Audios.audioSource_Boss)
             Audios.audioSource_Boss.volume = Volumes.sfx * currentMasterVolume * currentSFXVolume;
     }
 
@@ -418,6 +421,9 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.volume = Volumes.pParrying * masterVolume * sfxVolume;
         Audios.audioSource_PRun.volume = Volumes.pRun * masterVolume * sfxVolume;
         Audios.audioSource_PWalk.volume = Volumes.pWalk * masterVolume * sfxVolume;
+
+        Audios.audioSource_PWalk.pitch = 1.6f;
+        Audios.audioSource_PRun.pitch = 0.9f;
 
         if (Audios.audioSource_Boss)
             Audios.audioSource_Boss.volume = Volumes.sfx * masterVolume * sfxVolume;
@@ -441,6 +447,9 @@ public class AudioManager : MonoBehaviour
         Audios.audioSource_PParrying.volume = Volumes.pParrying * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PRun.volume = Volumes.pRun * GetFloat(masterVolume) * GetFloat(sfxVolume);
         Audios.audioSource_PWalk.volume = Volumes.pWalk * GetFloat(masterVolume) * GetFloat(sfxVolume);
+
+        Audios.audioSource_PWalk.pitch = 1.6f;
+        Audios.audioSource_PRun.pitch = 0.9f;
 
         if (Audios.audioSource_Boss)
             Audios.audioSource_Boss.volume = Volumes.sfx * GetFloat(masterVolume) * GetFloat(sfxVolume);
