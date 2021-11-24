@@ -260,12 +260,17 @@ public class DataManager : MonoBehaviour
 
         yield break;
     }
-    private List<Dictionary<string, object>> loadData_Talk_Result = new List<Dictionary<string, object>>();
-    private int stageCode = 0;
+    public List<Dictionary<string, object>> loadData_Talk_Result
+    {
+        get;
+        private set;
+    }
+    public int stageCode { get; private set; }
     public IEnumerator LoadData_Talk(string _stageName)
     {
         string dataName = "Data_Talk_" + _stageName;
         loadData_Talk_Result = null;
+        loadData_Talk_Result = new List<Dictionary<string, object>>();
         loadData_Talk_Result = CsvReader.Read("DataFiles/Talk/" + dataName);
 
         stageCode = 900;
@@ -304,11 +309,6 @@ public class DataManager : MonoBehaviour
                 break;
         }
 
-        if (SceneChanger.Instance != null)
-        {
-            SceneChanger.Instance.onSceneLoadEnded += UpdateTalkData;
-        }
-
         yield break;
     }
 
@@ -319,17 +319,6 @@ public class DataManager : MonoBehaviour
         yield break;
     }
     #endregion
-
-    public void UpdateTalkData()
-    {
-        if (SceneChanger.Instance != null)
-        {
-            SceneChanger.Instance.onSceneLoadEnded -= UpdateTalkData;
-
-        }
-        UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);
-        UIManager.Instance.uiTalk.stageCode = stageCode;
-    }
     /// <summary>
     /// 플레이어 데이터가 새로 만든 플레이어 데이터와 다를게 없는지 검사합니다.
     /// </summary>

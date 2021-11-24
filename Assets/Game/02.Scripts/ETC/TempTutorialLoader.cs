@@ -30,7 +30,6 @@ public class TempTutorialLoader : MonoBehaviour
     private IEnumerator Start()
     {
         yield return StartCoroutine(DataManager.Instance.LoadData_Talk("Stage_00"));
-        DataManager.Instance.UpdateTalkData();
 
         yield return null;
         currentTalkCode = 900;

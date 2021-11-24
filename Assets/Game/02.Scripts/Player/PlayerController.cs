@@ -138,14 +138,33 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Value value = new Value();
     [SerializeField] private InputValue input = new InputValue();
     [SerializeField] private PlayerState playerState = new PlayerState();
-    [SerializeField] private KeyOption keyOption = new KeyOption();
+    [SerializeField]
+    private KeyOption keyOption = new KeyOption();
 
     public Components Com => components;
     public PlayerStatus Stat => playerStatus;
     public Value Val => value;
     public InputValue InputVal => input;
     public PlayerState State => playerState;
-    public KeyOption Key => keyOption;
+    public KeyOption Key
+    {
+        get
+        {
+            if (DataManager.Instance != null)
+            {
+                return DataManager.Instance.currentData_settings.keySetting;
+            }
+            else
+            {
+                return keyOption;
+            }
+        }
+        set
+        {
+            keyOption = value;
+        }
+
+    }
 
     private Vector3 capsulePoint1 => new Vector3(transform.position.x, transform.position.y - Com.collider.height / 2 + Com.collider.radius, 0);
     private Vector3 capsulePoint2 => new Vector3(transform.position.x, transform.position.y + Com.collider.height / 2 - Com.collider.radius, 0);
@@ -198,7 +217,7 @@ public class PlayerController : MonoBehaviour
             Counter();
 
         }
-           
+
 
         HandleAnimation();
         VFXControl();
@@ -297,7 +316,7 @@ public class PlayerController : MonoBehaviour
         const float rayDistance = 10f;
         const float threshold = 0.13f;
 
-        if(!State.isCrouching)
+        if (!State.isCrouching)
         {
             bool cast = Physics.SphereCast(transform.position, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
             Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
@@ -305,7 +324,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            bool cast = Physics.SphereCast(transform.position +Vector3.down * 0.25f, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
+            bool cast = Physics.SphereCast(transform.position + Vector3.down * 0.25f, Com.collider.radius * 0.9f, Vector3.up, out var hit, rayDistance, layerMask);
             Val.upDistance = cast ? hit.distance + Com.collider.radius - Com.collider.height / 2 : rayDistance;
             State.isUpBlocked = Val.upDistance <= threshold;
         }
@@ -323,7 +342,7 @@ public class PlayerController : MonoBehaviour
         //gravity
         if (State.isGrounded && State.prevGrounded)
         {
-            if(!State.isParrying)
+            if (!State.isParrying)
             {
                 State.isJumping = false;
                 Val.velocityY = 0f;
@@ -400,7 +419,7 @@ public class PlayerController : MonoBehaviour
         //최종 이동속도 결정
         //Com.rigidbody.velocity = Vector3.ClampMagnitude(new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity, 5) + (Vector3.up * Val.velocityY);
 
-        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0)+ Val.knockBackVelocity + (Vector3.up * Val.velocityY);
+        Com.rigidbody.velocity = new Vector3(Val.moveVelocity.x, Val.moveVelocity.y, 0) + Val.knockBackVelocity + (Vector3.up * Val.velocityY);
     }
 
     private void Rotate()
@@ -446,7 +465,7 @@ public class PlayerController : MonoBehaviour
         if (State.isHit)
             return;
 
-        if (State.isJumping || !Input.GetKey(Key.crouch) && State.isCrouching )
+        if (State.isJumping || !Input.GetKey(Key.crouch) && State.isCrouching)
         {
             if (State.isUpBlocked)
                 return;
@@ -460,10 +479,10 @@ public class PlayerController : MonoBehaviour
             Com.hitBox.hitBox.enabled = true;
             Com.hitBox.crouchHitBox.enabled = false;
 
-            if(!Com.pixy.isAttack)
+            if (!Com.pixy.isAttack)
                 //Com.pixy.transform.localPosition = Com.pixy.pixyPos;
 
-            Com.pixyTargetPos.localPosition = Com.pixyPos;
+                Com.pixyTargetPos.localPosition = Com.pixyPos;
 
             return;
         }
@@ -482,7 +501,7 @@ public class PlayerController : MonoBehaviour
             if (!Com.pixy.isAttack)
                 //Com.pixy.transform.localPosition = Com.pixy.courchPixyPos;
 
-            Com.pixyTargetPos.localPosition = Com.pixyCrouchPos;
+                Com.pixyTargetPos.localPosition = Com.pixyCrouchPos;
         }
     }
 
@@ -503,7 +522,7 @@ public class PlayerController : MonoBehaviour
         //Camera Shake
         GameManager.instance.cameraManager.ShakeCamera();
 
-        if(Stat.hp <1)
+        if (Stat.hp < 1)
         {
             State.isAlive = false;
             Com.animator.SetTrigger("Death");
@@ -554,7 +573,7 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator HitColor()
     {
-        while(State.isInvincible)
+        while (State.isInvincible)
         {
             Com.mat1.SetColor("_TexColor", Com.hitColor);
             Com.mat2.SetColor("_TexColor", Com.hitColor);
@@ -601,7 +620,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if(State.canParry)
+        if (State.canParry)
         {
             return;
         }
@@ -714,7 +733,7 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if(Com.pixy.isAttack)
+        if (Com.pixy.isAttack)
         {
             return;
         }
@@ -771,7 +790,7 @@ public class PlayerController : MonoBehaviour
 
         //Debug.Log("work");
 
-        if(transform.position.x < targetPos.x)
+        if (transform.position.x < targetPos.x)
         {
             InputVal.movementInput = 1f;
             State.isMoving = true;
@@ -812,7 +831,7 @@ public class PlayerController : MonoBehaviour
 
     public void CounterCheck()
     {
-        if(Input.GetKeyDown(Key.counter))
+        if (Input.GetKeyDown(Key.counter))
         {
             State.counterCheck = true;
         }
@@ -826,7 +845,7 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("walk");
             //Com.walk.gameObject.SetActive(true);
         }
-        else if(!State.isMoving || !State.isGrounded)
+        else if (!State.isMoving || !State.isGrounded)
         {
             Com.walk.Stop();
             //Debug.Log("stop walk");
