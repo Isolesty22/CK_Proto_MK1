@@ -44,7 +44,7 @@ public class UIBossHP : UIBase
     }
 
     float timer = 0f;
-    float progres = 1f;
+    float progress = 1f;
 
 
     public override bool Close()
@@ -69,11 +69,12 @@ public class UIBossHP : UIBase
     private const string str_Die = "Die";
     private IEnumerator UpdateUI()
     {
+
         while (hpImage.fillAmount > 0.01f)
         {
             timer += Time.deltaTime * 0.01f;
-            progres = Mathf.Lerp(progres, bossController.hp / maxHP, timer);
-            hpImage.fillAmount = progres;
+            progress = Mathf.Lerp(progress, bossController.hp / maxHP, timer);
+            hpImage.fillAmount = progress;
             yield return null;
         }
 
@@ -82,10 +83,10 @@ public class UIBossHP : UIBase
 
         float oneSecTimer = 0f;
 
-        while (progres < 1f)
+        while (progress < 1f)
         {
             oneSecTimer += Time.deltaTime;
-            progres = oneSecTimer / 1f;
+            progress = oneSecTimer / 1f;
             hpImage.fillAmount = Mathf.Lerp(startFillAmount, 0f, oneSecTimer);
 
             yield return null;

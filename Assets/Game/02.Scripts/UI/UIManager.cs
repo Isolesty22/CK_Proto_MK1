@@ -227,6 +227,10 @@ public class UIManager : MonoBehaviour
     /// uiDict에서 UIBase를 반환합니다(오류검사를 하지 않습니다). 
     /// </summary>
     public UIBase GetUI(string _name) => uiDict[_name];
+    /// <summary>
+    /// uiDict에서 UIBase를 반환합니다(오류검사를 하지 않습니다). 
+    /// </summary>
+    public UIBase GetUI<T>() where T : UIBase => uiDict[typeof(T).Name];
 
     /// <summary>
     /// 게임 종료 팝업을 엽니다.

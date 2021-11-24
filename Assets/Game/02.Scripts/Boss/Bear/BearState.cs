@@ -509,8 +509,8 @@ public class BearState_Claw : BearState
 
     public override void OnExit()
     {
-        bearController.skillObjects.claw_B_Effect.SetActive(true);
-        bearController.skillObjects.claw_A_Effect.SetActive(true);
+        bearController.skillObjects.claw_B_Effect.SetActive(false);
+        bearController.skillObjects.claw_A_Effect.SetActive(false);
     }
     public void AnimEvent_A()
     {
@@ -661,14 +661,21 @@ public class BearState_Concentrate : BearState
 
     private Transform sphereTransform;
     private HeadParryingHelper helper;
-
+    private VfxActiveHelper flashEffect;
+    private UIFlashScreen flashScreen;
 
     public BearState_Concentrate(BearController _bearController)
     {
         bearController = _bearController;
 
         sphereTransform = bearController.skillObjects.concentrateSphere.transform;
+        flashEffect = bearController.skillObjects.flashEffect;
+        flashEffect.SetActiveTime(1f);
+
         helper = bearController.skillObjects.concentrateHelper;
+
+
+        flashScreen = UIManager.Instance.GetUI<UIFlashScreen>() as UIFlashScreen;
 
     }
     public override void OnEnter()
@@ -727,12 +734,24 @@ public class BearState_Concentrate : BearState
         bearController.audioSource.Stop();
         bearController.audioSource.PlayOneShot(bearController.audioClips.energyExplosion);
 
-        //플레이어에게 데미지를 입힘
-        GameManager.instance.playerController.Hit();
         bearController.SetTrigger("Concentrate_End");
-        bearController.EmissionOn(10f);
-        sphereTransform.gameObject.SetActive(false);
         helper.EndCheck();
+
+        yield return new WaitForSeconds(0.1f);
+
+        //구체 없애기
+        sphereTransform.gameObject.SetActive(false);
+        bearController.EmissionOn(10f);
+
+        //이펙트 퍼펑~
+        flashEffect.Active();
+        flashScreen.StartFlashScreen();
+
+        //플레이어에게 데미지를 입힘
+        if (!GameManager.instance.playerController.IsInvincible())
+        {
+            GameManager.instance.playerController.Hit();
+        }
     }
     private void ChangeStatePowerless()
     {
@@ -747,7 +766,7 @@ public class BearState_Concentrate : BearState
 public class BearState_Powerless : BearState
 {
     private WaitForSeconds waitSecBegin;
-    
+
     /// <summary>
     /// 무력화 이후의 waitTime을 적용하기 위해서...
     /// </summary>
@@ -787,7 +806,7 @@ public class BearState_Powerless : BearState
         //이펙트 켜기
         stunEffect.Stop();
         stunEffect.gameObject.SetActive(false);
-        
+
 
     }
     public void AnimEvent_StunEffectOn()

@@ -62,6 +62,7 @@ public class GloomController : BossController
         [Header("패링 헬퍼")]
         [Tooltip("공명 스킬의 패링 성공여부를 확인하기 위해 사용합니다.")]
         public HeadParryingHelper resonanceHelper;
+        public GloomResonanceScreen resonanceScreen;
 
         [Header("구슬 트랜스폼")]
         public Transform sphereTransform;
@@ -224,6 +225,7 @@ public class GloomController : BossController
         public AudioClip magic;
         public AudioClip magicArrow;
         public AudioClip resonanace;
+        public AudioClip resonanaceScreen;
         public AudioClip scratchGround;
         public AudioClip thorn;
         public AudioClip walk;

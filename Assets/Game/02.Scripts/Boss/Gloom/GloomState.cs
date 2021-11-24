@@ -92,7 +92,7 @@ public class GloomState_Leap : GloomState
     private Position pos = new Position();
     private Rotation rot = new Rotation();
     private WaitForSeconds downAnimTime = null;
-    private float fDownAnimTime = 0; 
+    private float fDownAnimTime = 0;
 
     private GloomController.SkillValues.LeapPattern leapValue;
     public GloomState_Leap(GloomController _gloomController)
@@ -261,12 +261,14 @@ public class GloomState_Resonance : GloomState
     private HeadParryingHelper helper;
 
     private GloomController.SkillValues.ResonancePattern skillVal;
-
+    private GloomResonanceScreen resonanceScreen;
     public GloomState_Resonance(GloomController _gloomController)
     {
         gloom = _gloomController;
         skillVal = gloom.SkillVal.resonance;
         helper = gloom.SkillObj.resonanceHelper;
+        resonanceScreen = gloom.SkillObj.resonanceScreen;
+        resonanceScreen.gloom = _gloomController;
     }
 
     public override void OnEnter()
@@ -282,6 +284,7 @@ public class GloomState_Resonance : GloomState
     public override void OnExit()
     {
         ReadyToExit();
+        gloom.SkillObj.resonanceScreen.StopResoanceScreen();
     }
 
     public void AnimEvent()
@@ -305,6 +308,8 @@ public class GloomState_Resonance : GloomState
 
         gloom.StartInvincible();
 
+        resonanceScreen.StartResonanceScreen();
+
         while (timer < skillVal.resonanceTime)
         {
             timer += Time.deltaTime;
@@ -319,6 +324,7 @@ public class GloomState_Resonance : GloomState
                 //무력화상태 진입
                 ChangeStatePowerless();
                 //사운드 출력
+                gloom.audioSource.Stop();
                 gloom.audioSource.PlayOneShot(gloom.audioClips.parrying);
                 yield break;
             }
@@ -336,11 +342,22 @@ public class GloomState_Resonance : GloomState
             yield return null;
         }
 
+
+        //GameManager.instance.playerController.InputVal.movementInput = 0f;
+        //GameManager.instance.playerController.State.moveSystem = true;
+
         ReadyToExit();
-        gloom.SetTrigger("Resonance_End");
+        ////얼굴 켜기
+        //resonanceScreen.StartResonanceScreen();
+
+        yield return resonanceScreen.waitFaceTime;
 
         //데미지 주기
         GameManager.instance.playerController.Hit();
+        yield return resonanceScreen.waitEndTime;
+        gloom.SetTrigger("Resonance_End");
+        //GameManager.instance.playerController.State.moveSystem = false;
+
     }
 
     private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
@@ -582,6 +599,7 @@ public class GloomState_Obstruct : GloomState
     {
         canExit = false;
         currentCoroutine = CoSkill();
+
         currentIndex = -1;
         usableIndex = new List<int> { 0, 1, 2 };
         usedIndex = new List<int>();
@@ -1013,16 +1031,13 @@ public class GloomState_Die : GloomState
         //gloom.Com.bodyCollider.enabled = false;
         gloom.Com.wallCollider.enabled = false;
 
-        gloom.StartCoroutine(CoPlayMovie());
+        gloom.StartCoroutine(CoEnding());
 
     }
 
-    private IEnumerator CoPlayMovie()
+    private IEnumerator CoEnding()
     {
-        UIMovieScreen uiMovie = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
-
-        yield return waitForMoviePlay;
-
+        yield return new WaitForSeconds(1f);
         SceneChanger.Instance.LoadThisScene("Ending");
 
         //uiMovie.gameObject.SetActive(true);
@@ -1033,7 +1048,7 @@ public class GloomState_Die : GloomState
     }
     private void UiMovie_onMovieEnded()
     {
-       
+
     }
 }
 

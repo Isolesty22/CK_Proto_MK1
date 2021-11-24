@@ -52,6 +52,7 @@ public class BearController : BossController
         public HeadParryingHelper concentrateHelper;
         public GameObject concentrateSphere;
         public ParticleSystem stunEffect;
+        public VfxActiveHelper flashEffect;
 
         [Space(5)]
         public SmashHelper smashHelper;
