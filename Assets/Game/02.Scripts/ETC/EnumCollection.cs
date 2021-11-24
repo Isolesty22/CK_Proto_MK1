@@ -113,6 +113,10 @@ public enum eUIText
     StartNewGame,
     StartTutorial,
     NoPlayerData,
+    /// <summary>
+    /// 데이터가 저장되지 않았는데 끌려고 했을 때
+    /// </summary>
+    DataNotSave,
     DataDelete,
     DataSave,
     Exit,

@@ -10,8 +10,17 @@ public class UITalk : UIBase
     public Text uiText;
     [Header("현재 대화 코드"), ReadOnly]
     public int currentCode;
-    [Tooltip("몇 번대인가? csv 파일 내 CODE의 일련번호입니다.")]
-    public int stageCode;
+    /// <summary>
+    /// 몇 번대인가? csv 파일 내 CODE의 일련번호입니다.
+    /// </summary>
+    public int stageCode
+    {
+        get
+        {
+            return DataManager.Instance.stageCode;
+        }
+
+    }
     //-----
 
 
@@ -30,7 +39,12 @@ public class UITalk : UIBase
     private float progress = 0f;
     private float timer = 0f;
 
-    private List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>();
+    //private List<Dictionary<string, object>> talkData = new List<Dictionary<string, object>>();
+    private List<Dictionary<string, object>> talkData
+    {
+        get { return DataManager.Instance.loadData_Talk_Result; }
+
+    }
 
     private const string str_NAEYONG = "NAEYONG";
     private const string str_CODE = "CODE";
@@ -39,6 +53,10 @@ public class UITalk : UIBase
     {
         Init();
         UIManager.Instance.AddDict(this);
+
+
+        //UIManager.Instance.uiTalk.SetTalkData(loadData_Talk_Result);
+        //UIManager.Instance.uiTalk.stageCode = stageCode;
     }
     public override void Init()
     {
@@ -118,11 +136,6 @@ public class UITalk : UIBase
         Debug.Log(realCode);
         currentCode = (int)talkData[realCode][str_CODE];
         currentText = talkData[realCode][str_NAEYONG] as string;
-    }
-    public void SetTalkData(List<Dictionary<string, object>> _talkData)
-    {
-        talkData = null;
-        talkData = _talkData;
     }
 
     /// <summary>

@@ -75,6 +75,7 @@ public class UIKeySetting : UIBase
         }
         else
         {
+            currentData_keyOption = new KeyOption();
             currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
         }
 
