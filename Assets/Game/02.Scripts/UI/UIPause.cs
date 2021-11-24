@@ -72,6 +72,16 @@ public class UIPause : UIBase
         UIManager.Instance.OpenQuitPopup();
     }
 
+    public void Button_ReturnMain()
+    {
+        UIManager.Instance.PlayAudio_Click();
+        SceneChanger.Instance.LoadThisScene(SceneNames.mainMenu);
+        Com.canvasGroup.interactable = false;
+        Time.timeScale = 1f;
+        AudioManager.Instance.UnPause();
+    }
+
+
     public void Button_Restart()
     {
         UIManager.Instance.PlayAudio_Click();
