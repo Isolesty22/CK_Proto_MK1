@@ -78,6 +78,8 @@ public class UIKeySetting : UIBase
     [Header("입력 감지기")]
     public KeyInputDetector keyInputDetector;
 
+    public SelectorController selectorController;
+
     [Header("키세팅 실패 문구")]
     public GameObject failedImage;
     public Text uiText;
@@ -96,6 +98,7 @@ public class UIKeySetting : UIBase
 
     [Tooltip("keyType을 key로 갖는 딕셔너리.")]
     private Dictionary<string, KeyChangeButton> keyChangeButtonDict;
+    //private Dictionary <string, Selec>
 
     private int length;
 
@@ -124,7 +127,7 @@ public class UIKeySetting : UIBase
         uiText.text = "";
         Init_Dict();
         Init_KeyChangeButtons();
-
+        selectorController.SelectButton(selectorController.selectIndexOnStart);
         UpdateAllUI();
 
         UIManager.Instance.AddDict(this);
@@ -159,7 +162,7 @@ public class UIKeySetting : UIBase
             tempButton.Init();
             tempButton.field = currentData_keyOption.GetType().GetField(tempButton.keyType, BindingFlags.Public | BindingFlags.Instance);
             tempButton.keyCode = (KeyCode)tempButton.field.GetValue(currentData_keyOption);
-            tempButton.button.onClick.AddListener(delegate { Button_InputChangeKey(tempButton.keyType); });
+            tempButton.button.onClick.AddListener(() => Button_InputChangeKey(tempButton.keyType));
         }
     }
 
@@ -188,17 +191,22 @@ public class UIKeySetting : UIBase
         //    uiText.text = "";
         //    yield break;
         //}
+
         //다시 UI매니저에서 ESC키를 감지하게
         UIManager.Instance.StartDetectingCloseKey();
 
+        //셀렉터 포지션을 업데이트하게
+        selectorController.DoUpdateSelectorPosition();
         //감지 되었으면 키 변경 시도
         TryChangeThisKey(_keyType);
     }
 
     private void InputChangeKey(string _keyType)
     {
-
         UIManager.Instance.StopDetectingCloseKey();
+
+        //셀렉터 포지션을 업데이트하게
+        selectorController.DoNotUpdateSelectorPosition();
 
         //이미 다른 키를 변경 중이었을 경우에는, 해당 키를 변경할 수 있도록 Stop후 재시작
         if (isChangingKey)
@@ -211,6 +219,7 @@ public class UIKeySetting : UIBase
             if (keyInputDetector.currentKeyCode == KeyCode.Escape)
             {
                 UIManager.Instance.StartDetectingCloseKey();
+                selectorController.DoUpdateSelectorPosition();
 
                 return;
             }

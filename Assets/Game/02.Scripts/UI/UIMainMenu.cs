@@ -6,7 +6,7 @@ public class UIMainMenu : UIBase
 {
 
     [SerializeField]
-    private UIMainMenuSelector selector;
+    private SelectorController selectorController;
 
     public UIMovieScreen movieScreen;
 
@@ -67,6 +67,12 @@ public class UIMainMenu : UIBase
         StartCoroutine(movieScreen.playMovie);
     }
 
+
+
+    private void Update()
+    {
+        selectorController.DetectKey();
+    }
     private void OnMovieEnded()
     {
         movieScreen.onMovieEnded -= OnMovieEnded;
