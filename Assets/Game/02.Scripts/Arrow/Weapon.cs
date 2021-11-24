@@ -28,7 +28,15 @@ public class Weapon : MonoBehaviour
         {
             if (weaponState == State.Basic)
             {
-                AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.Audios.audioSource_PAttack.clip);
+                int n;
+                n = Random.Range(0, 3);
+                if(n == 0)
+                    AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.clipDict_Player["IpeaAttack"]);
+                else if(n==1)
+                    AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.clipDict_Player["IpeaAttack_low"]);
+                else
+                    AudioManager.Instance.Audios.audioSource_PAttack.PlayOneShot(AudioManager.Instance.clipDict_Player["IpeaAttack_high"]);
+
                 var fire = BasicFire();
                 StartCoroutine(fire);
             }

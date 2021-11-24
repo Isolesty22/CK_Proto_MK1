@@ -175,6 +175,12 @@ public class AudioManager : MonoBehaviour
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaAttack"));
         clipDict_Player.Add("IpeaAttack", DataManager.Instance.fileManager.getAudioClip_Result);
 
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaAttack_low"));
+        clipDict_Player.Add("IpeaAttack_low", DataManager.Instance.fileManager.getAudioClip_Result);
+
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaAttack_high"));
+        clipDict_Player.Add("IpeaAttack_high", DataManager.Instance.fileManager.getAudioClip_Result);
+
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Player/IpeaHit"));
         clipDict_Player.Add("IpeaHit", DataManager.Instance.fileManager.getAudioClip_Result);
 
