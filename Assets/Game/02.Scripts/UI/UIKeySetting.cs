@@ -399,6 +399,7 @@ public class UIKeySetting : UIBase
         //아니...이게...이게 맞나? 진짜 이렇게 해아하는건가?
         switch (_keyCode)
         {
+            case KeyCode.Space:
             case KeyCode.Q:
             case KeyCode.W:
             case KeyCode.E:
@@ -428,6 +429,12 @@ public class UIKeySetting : UIBase
             case KeyCode.RightArrow:
             case KeyCode.UpArrow:
             case KeyCode.DownArrow:
+            case KeyCode.RightShift:
+            case KeyCode.LeftShift:
+            case KeyCode.RightControl:
+            case KeyCode.LeftControl:
+            case KeyCode.RightAlt:
+            case KeyCode.LeftAlt:
                 return true;
 
             default:
@@ -441,21 +448,30 @@ public class UIKeySetting : UIBase
 
     private string TryConvertString(KeyCode _keyCode)
     {
-
         switch (_keyCode)
         {
+            case KeyCode.Space:
+                return "[ ]";
             case KeyCode.RightArrow:
                 return "→";
-
             case KeyCode.UpArrow:
                 return "↑";
-
             case KeyCode.DownArrow:
                 return "↓";
-
             case KeyCode.LeftArrow:
                 return "←";
-
+            case KeyCode.RightControl:
+                return "R ctrl";
+            case KeyCode.LeftControl:
+                return "L ctrl";
+            case KeyCode.RightAlt:
+                return "R alt";
+            case KeyCode.LeftAlt:
+                return "L alt";
+            case KeyCode.RightShift:
+                return "R shift";
+            case KeyCode.LeftShift:
+                return "L shift";
             default:
                 return _keyCode.ToString();
         }

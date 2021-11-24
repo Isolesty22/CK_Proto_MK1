@@ -673,16 +673,25 @@ public class GloomController : BossController
         if (hp <= 0)
         {
 
-            if (stateMachine.GetCurrentStateName()=="GloomState_Advance")
+            if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
             {
                 return;
             }
             //패턴 실행 코루틴 종료
-            StopCoroutine(executePattern);
+
+            if (executePattern != null)
+            {
+                StopCoroutine(executePattern);
+
+            }
 
             Debug.Log("Test!!!");
             //현재 상태의 코루틴 종료
-            StopCoroutine(stateMachine.currentState.currentCoroutine);
+            if (stateMachine.currentState.currentCoroutine != null)
+            {
+                StopCoroutine(stateMachine.currentState.currentCoroutine);
+            }
+
 
             //죽음 상태로 전환
             SetStateInfo((int)eGloomState.Die);

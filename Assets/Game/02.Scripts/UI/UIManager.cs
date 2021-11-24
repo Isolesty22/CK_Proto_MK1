@@ -177,7 +177,6 @@ public class UIManager : MonoBehaviour
     {
         uiPopup_new.Init_Popup(_uiText, _left, _right);
         OpenThis(uiPopup_new);
-
     }
 
     /// <summary>
@@ -331,4 +330,11 @@ public class UIManager : MonoBehaviour
     }
 
     private void VoidFunc() { }
+
+
+    private void OnDestroy()
+    {
+        this.uiStack = null;
+        this.uiDict = null;
+    }
 }

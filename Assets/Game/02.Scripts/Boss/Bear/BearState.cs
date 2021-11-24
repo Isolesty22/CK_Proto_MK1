@@ -83,7 +83,7 @@ public class BearState_Rush : BearState
     float timer;
     float progress;
     float rushTime = 1.5f;
-    float walkTime = 3f;
+    float walkTime = 2f;
 
     bool canGo;
     public BearState_Rush(BearController _bearController)
