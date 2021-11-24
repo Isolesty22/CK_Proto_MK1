@@ -162,7 +162,7 @@ public class Pixy : MonoBehaviour
             {
                 counter.transform.Translate(Vector3.forward * counterSpeed * Time.fixedDeltaTime);
 
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             else
             {
