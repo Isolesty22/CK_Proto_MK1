@@ -67,6 +67,12 @@ public class UIMainMenu : UIBase
         StartCoroutine(movieScreen.playMovie);
     }
 
+
+
+    private void Update()
+    {
+        selectorController.DetectKey();
+    }
     private void OnMovieEnded()
     {
         movieScreen.onMovieEnded -= OnMovieEnded;

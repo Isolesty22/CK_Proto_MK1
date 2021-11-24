@@ -48,6 +48,9 @@ public class SelectorController : MonoBehaviour
     /// </summary>
     public int buttonsCount { get; private set; }
 
+    [Tooltip("true일 경우, 셀렉터의 포지션을 업데이트하지 않습니다.")]
+    private bool doNotUpdateSelectorPosition;
+
     private void Awake()
     {
         buttonsCount = buttons.Length;
@@ -77,13 +80,14 @@ public class SelectorController : MonoBehaviour
             return current.index;
         }
     }
-    private void Update()
+
+    public void DetectKey()
     {
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
         {
             ExecuteButton();
+            return;
         }
-
 
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
         {
@@ -105,12 +109,29 @@ public class SelectorController : MonoBehaviour
 
             return;
         }
+    }
 
+
+
+    /// <summary>
+    /// 셀렉터 포지션을 업데이트합니다.  <see cref="DoNotUpdateSelectorPosition"/>으로 업데이트를 하지 않게 할 수 있습니다.
+    /// </summary>
+    public void DoUpdateSelectorPosition()
+    {
+        doNotUpdateSelectorPosition = false;
+    }
+
+    /// <summary>
+    /// 셀렉터 포지션을 업데이트하지 않습니다.  <see cref="DoUpdateSelectorPosition"/>으로 업데이트를 하게 할 수 있습니다.
+    /// </summary>
+    public void DoNotUpdateSelectorPosition()
+    {
+        doNotUpdateSelectorPosition = true;
     }
     /// <summary>
     /// 셀렉터의 위치를 변경합니다.
     /// </summary>
-    public void SetPosition(Vector2 _pos)
+    private void SetPosition(Vector2 _pos)
     {
         cursor.SetPosition(_pos);
     }
@@ -120,6 +141,10 @@ public class SelectorController : MonoBehaviour
     /// </summary>
     public void SelectButton(SelectorButton _button)
     {
+        if (doNotUpdateSelectorPosition)
+        {
+            return;
+        }
         SetImageType(false);
 
         cursor.currentIndex = _button.index;
@@ -136,6 +161,10 @@ public class SelectorController : MonoBehaviour
     /// </summary>
     public void SelectButton(int _index)
     {
+        if (doNotUpdateSelectorPosition)
+        {
+            return;
+        }
         SetImageType(false);
 
         cursor.currentIndex = _index;
