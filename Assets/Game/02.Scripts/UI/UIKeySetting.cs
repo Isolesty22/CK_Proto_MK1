@@ -14,6 +14,7 @@ public class UIKeySetting : UIBase
 
     public override bool Open()
     {
+        SetEventSystemNull();
         UpdateAllUI();
         keyInputDetector.Init();
         StartCoroutine(ProcessOpen());
@@ -450,8 +451,6 @@ public class UIKeySetting : UIBase
     {
         switch (_keyCode)
         {
-            case KeyCode.Space:
-                return "[ ]";
             case KeyCode.RightArrow:
                 return "→";
             case KeyCode.UpArrow:

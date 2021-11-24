@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 public class SelectorController : MonoBehaviour
 {
@@ -60,7 +61,9 @@ public class SelectorController : MonoBehaviour
         {
             buttons[i].SetController(this);
             buttons[i].index = i;
-            buttons[i].button.onClick.AddListener(() => Button_SetOnImage());
+            Button button = buttons[i].button;
+            button.onClick.AddListener(() => Button_SetOnImage());
+            button.onClick.AddListener(() => Button_SetEventNull());
         }
     }
 
@@ -148,9 +151,8 @@ public class SelectorController : MonoBehaviour
         SetImageType(false);
 
         cursor.currentIndex = _button.index;
-
         current.index = _button.index;
-        current.selectorButton = buttons[_button.index];
+        current.selectorButton = _button;
 
         //위치 이동
         SetPosition(current.selectorButton.rect.anchoredPosition);
@@ -180,7 +182,8 @@ public class SelectorController : MonoBehaviour
     /// </summary>
     public void ExecuteButton()
     {
-        current.selectorButton.button.onClick.Invoke();
+        Button tempButton = current.selectorButton.button;
+        tempButton.onClick.Invoke();
     }
 
     /// <summary>
@@ -189,6 +192,11 @@ public class SelectorController : MonoBehaviour
     public void Button_SetOnImage()
     {
         SetImageType(true);
+    }
+    public void Button_SetEventNull()
+    {
+        EventSystem currentEvent = EventSystem.current;
+        currentEvent.SetSelectedGameObject(null);
     }
 
 

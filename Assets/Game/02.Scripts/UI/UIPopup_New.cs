@@ -71,7 +71,7 @@ public class UIPopup_New : UIBase
         //RemoveListeners
         button_right.onClick.RemoveAllListeners();
         button_left.onClick.RemoveAllListeners();
-
+        SetEventSystemNull();
         StartCoroutine(ProcessClose());
         return true;
         //Com.canvas.enabled = false;

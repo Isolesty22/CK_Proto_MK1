@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// UI들의 상위 클래스 
@@ -86,6 +87,12 @@ public class UIBase : MonoBehaviour
         //this.enabled = false;
 
         return true;
+    }
+
+    public void SetEventSystemNull()
+    {
+        EventSystem currentEvent = EventSystem.current;
+        currentEvent.SetSelectedGameObject(null);
     }
 
     protected virtual IEnumerator ProcessOpen()

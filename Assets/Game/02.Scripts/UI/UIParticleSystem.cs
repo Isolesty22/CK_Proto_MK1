@@ -101,7 +101,7 @@ public class UIParticleSystem : MaskableGraphic
         // automatically set material to UI/Particles/Hidden shader, and get previous texture
         if (setParticleSystemMaterial)
         {
-            Material material = new Material(Shader.Find("UI/Particles/Hidden"));
+            //Material material = new Material(Shader.Find("UI/Particles/Hidden"));
             if (Application.isPlaying)
             {
                 renderer.material = material;

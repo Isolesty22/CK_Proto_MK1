@@ -8,6 +8,7 @@ public class UIMainMenu : UIBase
     [SerializeField]
     private SelectorController selectorController;
 
+    public ParticleSystem particle;
     [Tooltip("까만색 패널")]
     public GameObject blackPanel;
 
@@ -15,6 +16,7 @@ public class UIMainMenu : UIBase
 
     private void Start()
     {
+        particle.Play();
         Open();
     }
     protected override void CheckOpen()
