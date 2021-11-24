@@ -10,6 +10,9 @@ public class ArrowBase : MonoBehaviour
 
     private MonsterController currentMonster;
 
+    public ParticleSystem VFX;
+    public TrailRenderer VFX_trail;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Monster"))
@@ -67,6 +70,7 @@ public class ArrowBase : MonoBehaviour
 
 
         isActive = false;
+        VFX_trail.Clear();
         CustomPoolManager.Instance.ReleaseThis(this);
     }
 }

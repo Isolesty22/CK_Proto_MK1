@@ -39,6 +39,7 @@ public class Weapon : MonoBehaviour
     public IEnumerator BasicFire()
     {
         var arrow = CustomPoolManager.Instance.basicArrowPool.SpawnThis(transform.position, transform.eulerAngles, null);
+        arrow.VFX_trail.Clear();
         var fire = CustomPoolManager.Instance.firePool.SpawnThis(transform.position, Vector3.zero, null);
         fire.Play();
 
