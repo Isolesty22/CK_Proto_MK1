@@ -19,6 +19,7 @@ public class GloomResonanceScreen : MonoBehaviour
     private float originSmooth;
     private float originIntensity;
     public WaitForSeconds waitFaceTime { get; private set; }
+    public WaitForSeconds waitFaceDuration { get; private set; }
     public WaitForSeconds waitEndTime { get; private set; }
     [System.Serializable]
     public struct TimeValue
@@ -54,10 +55,14 @@ public class GloomResonanceScreen : MonoBehaviour
         waitFaceTime = new WaitForSeconds(
             timeVal.dark_begin +
             timeVal.dark_duration +
-            timeVal.face_begin + timeVal.face_duration
+            timeVal.face_begin
             );
+
+        waitFaceDuration = new WaitForSeconds(
+    timeVal.face_duration
+    );
+
         waitEndTime = new WaitForSeconds(
-            timeVal.face_duration +
             timeVal.face_end
             );
 

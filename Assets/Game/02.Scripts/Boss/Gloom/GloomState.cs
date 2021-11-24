@@ -284,6 +284,9 @@ public class GloomState_Resonance : GloomState
     public override void OnExit()
     {
         ReadyToExit();
+
+        gloom.audioSource.loop = false;
+        gloom.audioSource.Stop();
         gloom.SkillObj.resonanceScreen.StopResoanceScreen();
     }
 
@@ -346,16 +349,19 @@ public class GloomState_Resonance : GloomState
         //GameManager.instance.playerController.InputVal.movementInput = 0f;
         //GameManager.instance.playerController.State.moveSystem = true;
 
-        ReadyToExit();
         ////얼굴 켜기
         //resonanceScreen.StartResonanceScreen();
-
+        gloom.audioSource.Stop();
         yield return resonanceScreen.waitFaceTime;
 
         //데미지 주기
+        yield return resonanceScreen.waitFaceDuration;
         GameManager.instance.playerController.Hit();
+        ReadyToExit();
+
         yield return resonanceScreen.waitEndTime;
         gloom.SetTrigger("Resonance_End");
+
         //GameManager.instance.playerController.State.moveSystem = false;
 
     }
@@ -398,6 +404,9 @@ public class GloomState_Resonance : GloomState
     private void ChangeStatePowerless()
     {
         ReadyToExit();
+
+        gloom.audioSource.loop = false;
+        gloom.audioSource.Stop();
         gloom.ChangeState((int)eGloomState.Powerless);
     }
 
@@ -409,8 +418,6 @@ public class GloomState_Resonance : GloomState
         helper.EndCheck();
         gloom.EndInvincible();
 
-        gloom.audioSource.loop = false;
-        gloom.audioSource.Stop();
         gloom.SkillObj.resonanceSphere.SetActive(false);
     }
 
