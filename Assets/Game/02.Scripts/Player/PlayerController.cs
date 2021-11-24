@@ -526,6 +526,7 @@ public class PlayerController : MonoBehaviour
         {
             State.isAlive = false;
             Com.animator.SetTrigger("Death");
+            State.moveSystem = false;
         }
         else
         {

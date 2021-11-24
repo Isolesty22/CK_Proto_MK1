@@ -53,8 +53,9 @@ MonoBehaviour:
   monsterStatus:
     name: Armadilo
     hp: 0
-    maxHp: 3
+    maxHp: 6
     moveSpeed: 0
+    noneHit: 0
     isAlive: 0
     isCanSpawnMon: 0
     hitTime: 0.2
@@ -76,7 +77,7 @@ MonoBehaviour:
   playerOutOfRange: 0
   inAttackCol: 0
   armadiloStatus:
-    overturnTime: 1
+    overturnTime: 1.5
   armaState: 0
 --- !u!54 &2636562877231805735
 Rigidbody:
