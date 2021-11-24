@@ -284,6 +284,7 @@ public class GloomState_Resonance : GloomState
     public override void OnExit()
     {
         ReadyToExit();
+        gloom.SkillObj.resonanceScreen.StopResoanceScreen();
     }
 
     public void AnimEvent()
@@ -306,6 +307,8 @@ public class GloomState_Resonance : GloomState
         gloom.audioSource.Play();
 
         gloom.StartInvincible();
+
+        resonanceScreen.StartResonanceScreen();
 
         while (timer < skillVal.resonanceTime)
         {
@@ -339,16 +342,22 @@ public class GloomState_Resonance : GloomState
             yield return null;
         }
 
+
+        //GameManager.instance.playerController.InputVal.movementInput = 0f;
+        //GameManager.instance.playerController.State.moveSystem = true;
+
         ReadyToExit();
+        ////얼굴 켜기
+        //resonanceScreen.StartResonanceScreen();
 
-        GameManager.instance.playerController.InputVal.movementInput = 0f;
-        GameManager.instance.playerController.State.moveSystem = true;
-        gloom.SkillObj.resonanceScreen.StartResonanceScreen();
+        yield return resonanceScreen.waitFaceTime;
+
         //데미지 주기
-
-        yield return new WaitForSeconds(4f);
-        GameManager.instance.playerController.State.moveSystem = false;
+        GameManager.instance.playerController.Hit();
+        yield return resonanceScreen.waitEndTime;
         gloom.SetTrigger("Resonance_End");
+        //GameManager.instance.playerController.State.moveSystem = false;
+
     }
 
     private Vector3 bulletRot = new Vector3(0f, 0f, -90f);
@@ -590,6 +599,7 @@ public class GloomState_Obstruct : GloomState
     {
         canExit = false;
         currentCoroutine = CoSkill();
+
         currentIndex = -1;
         usableIndex = new List<int> { 0, 1, 2 };
         usedIndex = new List<int>();
