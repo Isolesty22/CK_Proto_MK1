@@ -513,12 +513,17 @@ public class BearController : BossController
             //{
             //    return;
             //}
-            //패턴 실행 코루틴 종료
-            StopCoroutine(executePattern);
+            if (executePattern != null)
+            {
+                //현재 상태의 코루틴 종료
+                StopCoroutine(executePattern);
+            }
 
-            Debug.Log("Test!!!");
-            //현재 상태의 코루틴 종료
-            StopCoroutine(stateMachine.currentState.currentCoroutine);
+            if (stateMachine.currentState.currentCoroutine != null)
+            {
+                //현재 상태의 코루틴 종료
+                StopCoroutine(stateMachine.currentState.currentCoroutine);
+            }
 
             //죽음 상태로 전환
             SetStateInfo((int)eBearState.Die);
