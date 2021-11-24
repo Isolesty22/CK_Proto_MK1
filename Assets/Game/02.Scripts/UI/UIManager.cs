@@ -36,6 +36,17 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Stack<UIBase> uiStack = new Stack<UIBase>();
 
+    /// <summary>
+    /// 스택의 카운트를 반환합니다.
+    /// </summary>
+    public int uiStackCount
+    {
+        get
+        {
+            return uiStack.Count;
+        }
+    }
+
     [Tooltip("가장 최근에 접근 시도했던 UIBase")]
     private UIBase latelyUI;
 

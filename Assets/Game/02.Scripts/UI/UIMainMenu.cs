@@ -8,14 +8,15 @@ public class UIMainMenu : UIBase
     [SerializeField]
     private SelectorController selectorController;
 
+    [Tooltip("까만색 패널")]
+    public GameObject blackPanel;
+
     public UIMovieScreen movieScreen;
 
     private void Start()
     {
         Open();
     }
-
-
     protected override void CheckOpen()
     {
         base.CheckOpen();
@@ -52,7 +53,7 @@ public class UIMainMenu : UIBase
         Com.canvasGroup.interactable = false;
         UIManager.Instance.CloseTop();
 
-        if(AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
+        if (AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
             AudioManager.Instance.Audios.audioSource_BGM.Stop();
 
         Debug.Log("Start New Game...");
@@ -67,11 +68,12 @@ public class UIMainMenu : UIBase
         StartCoroutine(movieScreen.playMovie);
     }
 
-
-
     private void Update()
     {
-        selectorController.DetectKey();
+        if (UIManager.Instance.uiStackCount == 0)
+        {
+            selectorController.DetectKey();
+        }
     }
     private void OnMovieEnded()
     {
