@@ -23,7 +23,7 @@ public class SeedShooterController : MonsterController
     [Serializable]
     public class SeedShooterComponents
     {
-
+        public ParticleSystem VFX_shoot;
 
     }
 
@@ -53,6 +53,7 @@ public class SeedShooterController : MonsterController
         transform.rotation = Quaternion.Euler(0, 0, 0);
         cooltime = 10f;
         Stat2.fireDir = Vector3.left;
+        Com2.VFX_shoot.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public override void Update()
@@ -103,6 +104,9 @@ public class SeedShooterController : MonsterController
         {
             Com.animator.SetTrigger("isAttack");
             Com.audio.PlayOneShot(Com.audio.clip);
+
+            Com2.VFX_shoot.Stop();
+            Com2.VFX_shoot.Play();
             var seed = CustomPoolManager.Instance.seedPool.SpawnThis(Stat2.firePos.position, new Vector3(0, 0, 0), null);
             seed.firePos = Stat2.firePos.position;
             seed.fireDir = Stat2.fireDir;
@@ -111,7 +115,6 @@ public class SeedShooterController : MonsterController
 
             cooltime = 0f;
         }
-
     }
 
     public override void Hit(int damage)
@@ -123,5 +126,6 @@ public class SeedShooterController : MonsterController
     {
         Com.animator.SetBool("isDeath", true);
         base.Death();
+        Com2.VFX_shoot.Stop();
     }
 }

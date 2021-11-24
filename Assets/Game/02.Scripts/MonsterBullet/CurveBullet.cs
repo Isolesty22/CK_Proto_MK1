@@ -20,13 +20,14 @@ public class CurveBullet : MonoBehaviour
 
     float startTime;
 
-
-    void Start()
-    {
-    }
+    public ParticleSystem VFX_arrow;
+    public ParticleSystem VFX_boomb;
 
     public void Initialize()
     {
+        gameObject.GetComponent<SphereCollider>().enabled = true;
+        VFX_boomb.gameObject.SetActive(false);
+        VFX_boomb.Stop();
         startTime = Time.time;
         startHeightPos = startPos + new Vector3(0, 1, 0) * height;
         endHeightPos = endPos + new Vector3(0, 1, 0) * height;
@@ -42,8 +43,8 @@ public class CurveBullet : MonoBehaviour
 
         if(Vector3.Distance(transform.position, endPos) < 0.01f)
         {
-            isRun = false;
-            transform.GetComponent<Rigidbody>().useGravity = true;
+            var despawn = Despawn();
+            StartCoroutine(despawn);
         }
     }
 
@@ -72,12 +73,24 @@ public class CurveBullet : MonoBehaviour
 
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            CustomPoolManager.Instance.ReleaseThis(this);
+            var despawn = Despawn();
+            StartCoroutine(despawn);
         }
     }
     public IEnumerator Despawn()
     {
+        isRun = false;
+
+        VFX_arrow.Stop();
+        VFX_boomb.gameObject.SetActive(true);
+        if(!VFX_boomb.isPlaying)
+            VFX_boomb.Play();
+
         yield return null;
+
+        gameObject.GetComponent<SphereCollider>().enabled = false;
+
+        yield return new WaitForSeconds(1f);
 
         CustomPoolManager.Instance.ReleaseThis(this);
     }
