@@ -5,6 +5,9 @@ using UnityEngine;
 public class UIMainMenu : UIBase
 {
 
+    [SerializeField]
+    private UIMainMenuSelector selector;
+
     public UIMovieScreen movieScreen;
 
     private void Start()

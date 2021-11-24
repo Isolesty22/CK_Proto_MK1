@@ -15,21 +15,57 @@ public class UIKeySetting : UIBase
     public override bool Open()
     {
         UpdateAllUI();
+        keyInputDetector.Init();
         StartCoroutine(ProcessOpen());
         return true; ;
     }
 
     public override bool Close()
     {
-        if (!CanSave())
+        //변경사항이 있다면
+        if (!(currentData_keyOption.IsEquals(DataManager.Instance.currentData_settings.keySetting)))
         {
-            Debug.Log("Cant Save!");
+            //팝업 띄우기
+            UIManager.Instance.OpenPopup(eUIText.DataNotSave,
+                Button_Changes_Yes, Button_Changes_No);
             return false;
         }
-        StartCoroutine(ProcessClose());
-        return true;
+        else //없다면
+        {
+            //그냥 닫음
+            StartCoroutine(ProcessClose());
+            isChangingKey = false;
+            keyInputDetector.Init();
+            return true;
+        }
     }
+    /// <summary>
+    /// 이대로 종료하시겠습니까? 네 의 버튼
+    /// </summary>
+    private void Button_Changes_Yes()
+    {
+        UIManager.Instance.PlayAudio_Click();
+        isChangingKey = false;
 
+        //현재 데이터를 저장된 데이터로 변경(폐기)
+        currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
+
+        //버튼 초기화
+        Init_KeyChangeButtons();
+        SetFailed(false);
+        //UI 업데이트
+        UpdateAllUI();
+
+        //창을 아예 닫기
+        UIManager.Instance.CloseTop();
+        UIManager.Instance.CloseTop();
+    }
+    private void Button_Changes_No()
+    {
+        UIManager.Instance.PlayAudio_Click();
+        isChangingKey = false;
+        UIManager.Instance.CloseTop();
+    }
 
     public void CloseMe()
     {
@@ -44,6 +80,7 @@ public class UIKeySetting : UIBase
 
     [Header("키세팅 실패 문구")]
     public GameObject failedImage;
+    public Text uiText;
 
     [Header("기본/실패 스프라이트")]
     public Sprite basicBoxSprite;
@@ -67,6 +104,11 @@ public class UIKeySetting : UIBase
     private bool isSaving;
     private IEnumerator waitInputKey;
 
+
+
+
+
+
     private void Start()
     {
         if (DataManager.Instance == null)
@@ -79,7 +121,7 @@ public class UIKeySetting : UIBase
             currentData_keyOption.CopyData(DataManager.Instance.currentData_settings.keySetting);
         }
 
-
+        uiText.text = "";
         Init_Dict();
         Init_KeyChangeButtons();
 
@@ -102,6 +144,7 @@ public class UIKeySetting : UIBase
         {
             keyChangeButtonDict.Add(keyChangeButtons[i].keyType, keyChangeButtons[i]);
         }
+
     }
 
     /// <summary>
@@ -139,12 +182,24 @@ public class UIKeySetting : UIBase
         //감지 되었으면 감지 끝내기
         keyInputDetector.EndDetect();
 
+        //if (keyInputDetector.currentKeyCode == KeyCode.Escape)
+        //{
+        //    isChangingKey = false;
+        //    uiText.text = "";
+        //    yield break;
+        //}
+        //다시 UI매니저에서 ESC키를 감지하게
+        UIManager.Instance.StartDetectingCloseKey();
+
         //감지 되었으면 키 변경 시도
         TryChangeThisKey(_keyType);
     }
 
     private void InputChangeKey(string _keyType)
     {
+
+        UIManager.Instance.StopDetectingCloseKey();
+
         //이미 다른 키를 변경 중이었을 경우에는, 해당 키를 변경할 수 있도록 Stop후 재시작
         if (isChangingKey)
         {
@@ -152,11 +207,22 @@ public class UIKeySetting : UIBase
             StopCoroutine(waitInputKey);
             keyInputDetector.EndDetect();
             isChangingKey = false;
-        }
 
+            if (keyInputDetector.currentKeyCode == KeyCode.Escape)
+            {
+                UIManager.Instance.StartDetectingCloseKey();
+
+                return;
+            }
+        }
+        else
+        {
+            uiText.text = "키 입력 대기 중...";
+        }
         waitInputKey = WaitInputKey(_keyType);
 
         Debug.Log("KeyChange Button! : " + _keyType);
+
 
         StartCoroutine(waitInputKey);
     }
@@ -170,7 +236,7 @@ public class UIKeySetting : UIBase
         KeyCode currentKeyCode = keyInputDetector.currentKeyCode;
 
         bool isFailed = false;
-
+        bool isImpossibled = false;
 
         for (int i = 0; i < length; i++)
         {
@@ -185,20 +251,34 @@ public class UIKeySetting : UIBase
             }
         }
 
-        //실패 판정이 났을 경우 다시 감지
-        if (isFailed || !IsPossibleKey(currentKeyCode))
+
+        isImpossibled = !IsPossibleKey(currentKeyCode);
+
+        if (isFailed)
         {
-            Debug.Log("실패 판정입니다.");
-            SetFailed(true);
+            uiText.text = "이미 사용 중인 키입니다.";
+        }
+        else if (isImpossibled)
+        {
+            uiText.text = "해당 키는 사용할 수 없습니다.";
+        }
+        else
+        {
+            uiText.text = "";
+        }
+
+        //실패 판정이 났을 경우 다시 감지
+        if (isFailed || isImpossibled)
+        {
             //실패 상태로 변경
             currentButton.image.sprite = failedBoxSprite;
-            currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
+            currentButton.text.text = "";// TryConvertString(keyInputDetector.currentKeyCode);
             currentButton.isFailed = true;
 
             keyInputDetector.EndDetect();
+
+            //다시 키 입력 받기
             InputChangeKey(_keyType);
-
-
             return;
         }
         else // 성공 판정이 났을 경우
@@ -225,7 +305,19 @@ public class UIKeySetting : UIBase
         isChangingKey = false;
     }
 
-    private void SetFailed(bool _active) => failedImage.gameObject.SetActive(_active);
+    private void SetFailed(bool _active)
+    {
+
+        if (_active)
+        {
+            uiText.text = "키 등록에 실패했습니다.";
+        }
+        else
+        {
+            uiText.text = "";
+        }
+    }
+
 
     /// <summary>
     /// 모든 UpdateUI를 호출합니다.
@@ -283,24 +375,48 @@ public class UIKeySetting : UIBase
         return true;
     }
 
-
-
-    //해야함 : LINQ로 변경할 수 있을 것 같으니 실험해보기
     /// <summary>
-    /// 키 설정이 가능한 키인지 체크합니다.
+    /// 키 설정이 가능한 키인지 체크합니다...
     /// </summary>
     private bool IsPossibleKey(KeyCode _keyCode)
     {
+
+        //아니...이게...이게 맞나? 진짜 이렇게 해아하는건가?
         switch (_keyCode)
         {
-            case KeyCode.Backspace:
-            case KeyCode.Return:
-            case KeyCode.Escape:
-            case KeyCode.Semicolon:
-            case KeyCode.BackQuote:
-                return false;
-            default:
+            case KeyCode.Q:
+            case KeyCode.W:
+            case KeyCode.E:
+            case KeyCode.R:
+            case KeyCode.T:
+            case KeyCode.Y:
+            case KeyCode.U:
+            case KeyCode.I:
+            case KeyCode.O:
+            case KeyCode.P:
+            case KeyCode.A:
+            case KeyCode.S:
+            case KeyCode.D:
+            case KeyCode.F:
+            case KeyCode.G:
+            case KeyCode.H:
+            case KeyCode.J:
+            case KeyCode.K:
+            case KeyCode.L:
+            case KeyCode.Z:
+            case KeyCode.X:
+            case KeyCode.C:
+            case KeyCode.V:
+            case KeyCode.B:
+            case KeyCode.N:
+            case KeyCode.LeftArrow:
+            case KeyCode.RightArrow:
+            case KeyCode.UpArrow:
+            case KeyCode.DownArrow:
                 return true;
+
+            default:
+                return false;
         }
     }
 

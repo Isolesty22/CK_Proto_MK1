@@ -29,7 +29,7 @@ public class UIVolumeSetting : UIBase
     public Sliders VolumeSlider => sliders;
 
     private DataManager dataManager = null;
-    private UIManager uiManager = null;
+
     private void Start()
     {
         Init();
@@ -85,10 +85,26 @@ public class UIVolumeSetting : UIBase
     }
     public override bool Close()
     {
-        StartCoroutine(ProcessClose());
-        return true;
-        //Com.canvas.enabled = false;
-        //return !(isOpen = Com.canvas.enabled);
+        //변경사항이 있다면
+        if (!(currentData_settings.IsEquals(dataManager.currentData_settings)))
+        {
+            //팝업 띄우기
+            UIManager.Instance.OpenPopup(eUIText.DataNotSave,
+                Button_Changes_Yes, Button_Changes_No);
+            return false;
+        }
+        else //없다면
+        {
+            //그냥 닫음
+            StartCoroutine(ProcessClose());
+            return true;
+        }
+
+
+        //StartCoroutine(ProcessClose());
+        //return true;
+        ////Com.canvas.enabled = false;
+        ////return !(isOpen = Com.canvas.enabled);
     }
     protected override IEnumerator ProcessClose()
     {
@@ -152,13 +168,13 @@ public class UIVolumeSetting : UIBase
         if (!(currentData_settings.IsEquals(dataManager.currentData_settings)))
         {
             //팝업 띄우기
-            uiManager.OpenPopup(eUIText.DataSave,
-                Button_Changes_Save, Button_Changes_Close);
+            UIManager.Instance.OpenPopup(eUIText.DataNotSave,
+                Button_Changes_Yes, Button_Changes_No);
         }
         else //없다면
         {
             //그냥 닫음
-            uiManager.CloseTop();
+            UIManager.Instance.CloseTop();
         }
     }
 
@@ -187,23 +203,9 @@ public class UIVolumeSetting : UIBase
     }
 
     /// <summary>
-    /// 변경된 사항을 저장하시겠습니까? 어쩌고...의 버튼
+    /// 이대로 종료하시겠습니까? 네 의 버튼
     /// </summary>
-    private void Button_Changes_Save()
-    {
-        UIManager.Instance.PlayAudio_Click();
-        if (isSaving)
-        {
-            return;
-        }
-
-        StartCoroutine(ProcessSave());
-
-        //닫기
-        uiManager.CloseTop();
-        uiManager.CloseTop();
-    }
-    private void Button_Changes_Close()
+    private void Button_Changes_Yes()
     {
         UIManager.Instance.PlayAudio_Click();
         //현재 데이터를 저장된 데이터로 변경(폐기)
@@ -215,9 +217,24 @@ public class UIVolumeSetting : UIBase
         //실제 설정 업데이트
         UpdateVolumeSetting();
 
+        //창을 아예 닫기
+        UIManager.Instance.CloseTop();
+        UIManager.Instance.CloseTop();
+    }
+    private void Button_Changes_No()
+    {
+        //UIManager.Instance.PlayAudio_Click();
+        ////현재 데이터를 저장된 데이터로 변경(폐기)
+        //currentData_settings.CopyData(dataManager.currentData_settings);
+
+        ////UI 업데이트
+        //UpdateUI();
+
+        ////실제 설정 업데이트
+        //UpdateVolumeSetting();
+
         //닫기
-        uiManager.CloseTop();
-        uiManager.CloseTop();
+        UIManager.Instance.CloseTop();
     }
 
     #endregion

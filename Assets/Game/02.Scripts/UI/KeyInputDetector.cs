@@ -18,6 +18,12 @@ public class KeyInputDetector : MonoBehaviour
     public KeyCode currentKeyCode = KeyCode.None;
 
 
+    public void Init()
+    {
+        currentKeyCode = KeyCode.None;
+        isDetecting = false;
+    }
+
     /// <summary>
     /// 키 입력 감지를 시작합니다. 입력된 키는 currentKeyCode에 저장됩니다.
     /// </summary>
