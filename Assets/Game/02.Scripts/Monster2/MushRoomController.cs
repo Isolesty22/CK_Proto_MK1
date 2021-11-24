@@ -15,6 +15,7 @@ public class MushRoomController : MonsterController
     [Serializable]
     public class MushRoomComponents
     {
+        public ParticleSystem VFX_rush;
     }
 
     [SerializeField] private MushRoomStatus mushRoomStatus = new MushRoomStatus();
@@ -34,6 +35,7 @@ public class MushRoomController : MonsterController
         Com.animator.SetBool("isDeath", false);
         Com.rigidbody.velocity = Vector3.zero;
         transform.localEulerAngles = firstLookDir;
+        Com2.VFX_rush.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public override void Awake()
@@ -80,6 +82,9 @@ public class MushRoomController : MonsterController
             Com.audio.loop = true;
             Com.audio.Play();
         }
+
+        if(!Com2.VFX_rush.isPlaying)
+            Com2.VFX_rush.Play();
 
         if (moveDir == Vector3.left)
         {
@@ -141,6 +146,7 @@ public class MushRoomController : MonsterController
     {
         Com.animator.SetBool("isDeath", true);
         base.Death();
+        Com2.VFX_rush.Stop();
     }
 
     protected override void HandleAnimation()
