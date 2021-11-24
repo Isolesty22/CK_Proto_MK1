@@ -6,7 +6,7 @@ public class UIMainMenu : UIBase
 {
 
     [SerializeField]
-    private UIMainMenuSelector selector;
+    private SelectorController selectorController;
 
     public UIMovieScreen movieScreen;
 
