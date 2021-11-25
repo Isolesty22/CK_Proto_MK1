@@ -1,10 +1,10 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// ´êÀ¸¸é °ÔÀÓ¸Å´ÏÀúÀÇ StageClear¸¦ È£ÃâÇÕ´Ï´Ù. 
+/// ë‹¿ìœ¼ë©´ ê²Œì„ë§¤ë‹ˆì €ì˜ StageClearë¥¼ í˜¸ì¶œí•©ë‹ˆë‹¤. 
 /// </summary>
 public class StagePortal : MonoBehaviour
 {
@@ -18,10 +18,10 @@ public class StagePortal : MonoBehaviour
     private readonly float talkTime = 3f;
 
     private RectTransform rectTransform;
-    [Tooltip("trueÀÏ °æ¿ì, 2ÃÊ°£ °É¾î°£ µÚ ½ºÅ×ÀÌÁö¸¦ ÀÌµ¿ÇÕ´Ï´Ù.")]
+    [Tooltip("trueì¼ ê²½ìš°, 2ì´ˆê°„ ê±¸ì–´ê°„ ë’¤ ìŠ¤í…Œì´ì§€ë¥¼ ì´ë™í•©ë‹ˆë‹¤.")]
     public bool moveOnEnter;
 
-    [Tooltip("falseÀÏ °æ¿ì, Awake¶§ ¿ÀºêÁ§Æ®¸¦ ºñÈ°¼ºÈ­ÇÕ´Ï´Ù.")]
+    [Tooltip("falseì¼ ê²½ìš°, Awakeë•Œ ì˜¤ë¸Œì íŠ¸ë¥¼ ë¹„í™œì„±í™”í•©ë‹ˆë‹¤.")]
     public bool activeOnAwake;
 
     private WaitForSeconds waitSec;
@@ -100,17 +100,17 @@ public class StagePortal : MonoBehaviour
     {
         ActiveMoveSystem(true);
 
-        //UI ²ô±â
+        //UI ë„ê¸°
         UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
         ui.Close();
 
-        //Ä«¸Ş¶ó °íÁ¤
+        //ì¹´ë©”ë¼ ê³ ì •
         GameManager.instance.cameraManager.vcam.Follow = null;
 
         AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        //´ëÈ­ ¶ß±â
+        //ëŒ€í™” ëœ¨ê¸°
         UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
         yield return StartCoroutine(CoWaitTalkEnd());
 
@@ -118,7 +118,7 @@ public class StagePortal : MonoBehaviour
         yield return StartCoroutine(CoWaitTalkEnd());
 
 
-        //¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+        //ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
         StartCoroutine(CoFadeClearImage());
         GameManager.instance.playerController.InputVal.movementInput = 1f;
         yield return new WaitForSeconds(1.3f);
@@ -129,23 +129,14 @@ public class StagePortal : MonoBehaviour
     {
         ActiveMoveSystem(true);
 
-        //UI ²ô±â
+        //UI ë„ê¸°
         UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
         ui.Close();
 
-        //Ä«¸Ş¶ó °íÁ¤
+        //ì¹´ë©”ë¼ ê³ ì •
         GameManager.instance.cameraManager.vcam.Follow = null;
 
-        //´ëÈ­ ¶ß±â
-        UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
-        yield return StartCoroutine(CoWaitTalkEnd());
-
-        UIManager.Instance.Talk(DataManager.Instance.stageCode + 1, 2f);
-        yield return StartCoroutine(CoWaitTalkEnd());
-        yield return new WaitForSeconds(0.6f);
-
-
-        //¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+        //ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
         StartCoroutine(CoFadeClearImage());
         GameManager.instance.playerController.InputVal.movementInput = 1f;
         yield return new WaitForSeconds(1.3f);
