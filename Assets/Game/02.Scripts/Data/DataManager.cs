@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
+using System.Security.Cryptography;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -388,28 +389,39 @@ public class DataManager : MonoBehaviour
 
     }
 
-    #region legacy_SaveData
+    private static readonly string privateKey = "nicomakisaranhaeyo";
+    private static RijndaelManaged CreateRijndaelManaged()
+    {
+        byte[] keyArray = System.Text.Encoding.UTF8.GetBytes(privateKey);
+        RijndaelManaged result = new RijndaelManaged();
 
-    ///// <summary>
-    ///// currentData를 json파일로 저장합니다.
-    ///// </summary>
-    //private IEnumerator SaveData_Settings()
-    //{
-    //    //json 형식으로 변경
-    //    string jsonData = JsonUtility.ToJson(currentData_settings, true);
-    //    yield return StartCoroutine(fileManager.WriteText(DataName.settings, jsonData, dataFilePath));
-    //}
+        byte[] newKeysArray = new byte[16];
+        System.Array.Copy(keyArray, 0, newKeysArray, 0, 16);
 
-    ///// <summary>
-    ///// currentData를 json파일로 저장합니다.
-    ///// </summary>
-    //private IEnumerator SaveData_Player()
-    //{
-    //    //json 형식으로 변경
-    //    string jsonData = JsonUtility.ToJson(currentData_player, true);
-    //    yield return StartCoroutine(fileManager.WriteText(DataName.player, jsonData, dataFilePath));
-    //}
+        result.Key = newKeysArray;
+        result.Mode = CipherMode.ECB;
+        result.Padding = PaddingMode.PKCS7;
+        return result;
+    }
+    private static string Encrypt(string data)
+    {
 
-    #endregion
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(data);
+        RijndaelManaged rm = CreateRijndaelManaged();
+        ICryptoTransform ct = rm.CreateEncryptor();
+        byte[] results = ct.TransformFinalBlock(bytes, 0, bytes.Length);
+        return System.Convert.ToBase64String(results, 0, results.Length);
+
+    }
+
+    private static string Decrypt(string data)
+    {
+
+        byte[] bytes = System.Convert.FromBase64String(data);
+        RijndaelManaged rm = CreateRijndaelManaged();
+        ICryptoTransform ct = rm.CreateDecryptor();
+        byte[] resultArray = ct.TransformFinalBlock(bytes, 0, bytes.Length);
+        return System.Text.Encoding.UTF8.GetString(resultArray);
+    }
 
 }
