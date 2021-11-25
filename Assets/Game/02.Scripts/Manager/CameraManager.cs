@@ -33,7 +33,7 @@ public class CameraManager : MonoBehaviour
     }
     public CameraShakeValue shakeValue;
     public CinemachineVirtualCamera vcam;
-    private CinemachineBasicMultiChannelPerlin vcamNoise;
+    public CinemachineBasicMultiChannelPerlin vcamNoise;
 
     private IEnumerator shakeCoroutine = null;
     private void Awake()

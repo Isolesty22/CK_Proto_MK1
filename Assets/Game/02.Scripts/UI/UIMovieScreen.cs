@@ -134,6 +134,7 @@ public class UIMovieScreen : UIBase
     {
         //UIManager.Instance.PlayAudio_Click();
         isSkip = true;
+        Com.canvasGroup.interactable = false;
     }
 
     private IEnumerator CoPlayMovie()

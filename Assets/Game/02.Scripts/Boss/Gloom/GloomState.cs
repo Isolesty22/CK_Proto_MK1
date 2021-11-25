@@ -968,6 +968,7 @@ public class GloomState_Advance : GloomState
         gloom.StopCoroutine(beginLightning);
         gloom.StopCoroutine(moveLightning);
         lightning.gameObject.SetActive(false);
+        AudioManager.Instance.Audios.audioSource_SFX.Stop();
     }
 }
 public class GloomState_Berserk : GloomState
@@ -1036,6 +1037,7 @@ public class GloomState_Die : GloomState
     {
         canExit = false;
 
+        GameManager.instance.cameraManager.vcamNoise.enabled = false;
         //사운드 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.death);
 
