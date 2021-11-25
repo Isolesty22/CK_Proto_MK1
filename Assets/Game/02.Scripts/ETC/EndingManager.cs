@@ -13,6 +13,7 @@ public class EndingManager : MonoBehaviour
         
         //무비스크린 데려오기
         movieScreen = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
+        movieScreen.StartCoroutine(movieScreen.playMovie);
 
         //무비가 끝나면 할짓 설정
         movieScreen.onMovieEnded += MovieScreen_onMovieEnded;
@@ -20,7 +21,21 @@ public class EndingManager : MonoBehaviour
 
     private void MovieScreen_onMovieEnded()
     {
+        movieScreen.onMovieEnded -= MovieScreen_onMovieEnded;
+        //꺼버리기
+        movieScreen.gameObject.SetActive(false);
+
         endingCredit = UIManager.Instance.GetUI("UIEndingCredit") as UIEndingCredit;
+        endingCredit.StartCoroutine(endingCredit.Up());
+
+        endingCredit.onCreditMoveEnded += EndingCredit_onCreditMoveEnded;
+
+    }
+
+    private void EndingCredit_onCreditMoveEnded()
+    {
+        endingCredit.onCreditMoveEnded -= EndingCredit_onCreditMoveEnded;
+
 
     }
 }
