@@ -282,7 +282,6 @@ public class BearState_Roar : BearState
     {
         //혹시 모르니까 이펙트 끄기
         canExit = true;
-
         bearController.skillObjects.roarGroundEffect.SetActive(false);
         bearController.skillObjects.roarEffect.SetActive(false);
     }

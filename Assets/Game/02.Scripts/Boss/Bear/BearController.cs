@@ -395,11 +395,11 @@ public class BearController : BossController
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
 
-                    ////체력이 0이하면 break;
-                    //if (hp <= 0)
-                    //{
-                    //    break;
-                    //}
+                    //체력이 0이하면 break;
+                    if (hp <= 0)
+                    {
+                        yield break;
+                    }
 
                     ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;

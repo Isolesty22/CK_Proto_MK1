@@ -9,7 +9,7 @@ public class BossState
     /// </summary>
     public bool canExit = true;
 
-    public IEnumerator currentCoroutine { get; protected set; }
+    public IEnumerator currentCoroutine { get; set; }
 
     /// <summary>
     /// 상태가 시작할때 호출됨

@@ -68,6 +68,8 @@ public class BossStateMachine
             LogWarning(currentState.ToString() + " - Exit");
         }
 
+        currentState.currentCoroutine = null;
+
 
         //enum들 설정
         prevStateInt = currentStateInt;
