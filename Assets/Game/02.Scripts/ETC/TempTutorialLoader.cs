@@ -165,14 +165,15 @@ public class TempTutorialLoader : MonoBehaviour
         Talk(903);
         yield return StartCoroutine(CoWaitTalkEnd());
 
+        Talk(904);
+        yield return StartCoroutine(CoWaitTalkEnd());
 
         //Talk("차근차근 하나씩 연습해보자.");
-        Talk(904);
-        yield return new WaitForSeconds(1f);
+        Talk(905);
+        yield return new WaitForSeconds(0.5f);
 
         GameManager.instance.playerController.Com.pixy.getPixy = true;
-        //Talk("일단, 몸을 좀 움직여볼까?");
-        Talk(905);
+        Talk("일단, 몸을 좀 움직여볼까?");
         CanMove(true);
        // StartCoroutine(CoPrac_Move());
 
@@ -348,10 +349,10 @@ public class TempTutorialLoader : MonoBehaviour
 
         MessageOpen("게이지를 일정량 획득할 때마다 좌측 상단 UI에 꽃이 한 송이씩 피어납니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        MessageOpen("꽃을 한 송이 소모하여 \n루미에의 '강공격'을 사용할 수 있습니다.");
+        MessageOpen("꽃을 한 송이 소모하면 \n루미에의 '생명의 빛'을 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        MessageOpen("[C]키로 강공격을 사용하세요.");
+        MessageOpen("[C]키로 생명의 빛을 사용해보세요.");
 
         CanMove(true, false);
 
@@ -359,15 +360,14 @@ public class TempTutorialLoader : MonoBehaviour
         {
             yield return null;
         }
-
-        MessageClose();
+        MessageOpen("생명의 빛은 적을 관통할 수 있습니다.");
 
     }
 
     private IEnumerator CoPrac_Attack_Ult()
     {
         CanMove(false);
-        MessageOpen("정화 게이지를 끝까지 채워 꽃이 주황색으로 물들면,\n 루미에의 '궁극기'를 사용할 수 있습니다.");
+        MessageOpen("정화 게이지를 끝까지 채워 꽃이 주황색으로 물들면,\n 루미에의 '빛의 축제'를 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
         CanMove(true);
 
@@ -378,30 +378,32 @@ public class TempTutorialLoader : MonoBehaviour
             yield return null;
         }
 
-        MessageOpen("[V]키로 궁극기를 사용하세요.");
+        MessageOpen("[V]키로 빛의 축제를 사용해보세요.");
 
         while (!player.Com.pixy.isUlt)
         {
             yield return null;
         }
 
-        MessageOpen("궁극기를 사용하고 있을 때에는 정화 게이지를 획득할 수 없습니다.");
+        MessageOpen("빛의 축제를 사용하고 있을 때에는 정화 게이지를 획득할 수 없습니다.");
     }
     private IEnumerator CoPrac_End()
     {
         CanMove(false);
         MessageClose();
 
-        //Talk("연습은 이걸로 끝이야. 더 이상은 시간이 없어….");
+        Talk(906);
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        Talk(907);
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        Talk(908);
+        yield return StartCoroutine(CoWaitTalkEnd());
+
         Talk(909);
-        //yield return StartCoroutine(CoWaitTalkEnd());
+        yield return StartCoroutine(CoWaitTalkEnd());
 
-        //Talk("이피아, 이제는 한 번만 실수해도 모가지야 모가지.");
-        //Talk(939);
-        //yield return StartCoroutine(CoWaitTalkEnd());
-
-        //Talk("잘 좀 하자? ^^");
-        //Talk(940);
         player.State.moveSystem = true;
         player.InputVal.movementInput = 1f;
 

@@ -570,6 +570,8 @@ public class BearState_Smash : BearState
     WaitForSeconds waitSec = new WaitForSeconds(1f);
     SmashHelper smashHelper;
     bool isFollowHand = false;
+
+    IEnumerator followHand = null;
     public BearState_Smash(BearController _bearController)
     {
         bearController = _bearController;
@@ -590,7 +592,7 @@ public class BearState_Smash : BearState
     {
         if (isFollowHand)
         {
-            bearController.StopCoroutine("CoFollowHand");
+            bearController.StopCoroutine(followHand);
             isFollowHand = false;
         }
         smashHelper.SetActive(false);
@@ -606,8 +608,8 @@ public class BearState_Smash : BearState
         smashHelper.SetActiveRocks(true);
 
         //손 따라가게
-        //currentCoroutine = CoFollowHand();
-        bearController.StartCoroutine("CoFollowHand");
+        followHand = CoFollowHand();
+        bearController.StartCoroutine(followHand);
 
         bearController.SetAnimEvent(AnimEvent);
     }
@@ -637,7 +639,7 @@ public class BearState_Smash : BearState
         //바위가 곰의 손을 더이상 따라가지 않음
         if (isFollowHand)
         {
-            bearController.StopCoroutine("CoFollowHand");
+            bearController.StopCoroutine(followHand);
             isFollowHand = false;
         }
 
