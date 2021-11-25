@@ -68,17 +68,15 @@ public class StageStarter : MonoBehaviour
 
     private IEnumerator CoOpenPlayerUI()
     {
-
-        //GameManager.instance.playerController.MoveSystem(playerMoveEndPosition.position);
-
-
-        //GameManager.instance.playerController.State.moveSystem = true;
-        //GameManager.instance.playerController.InputVal.movementInput = 1f;
-        //yield return new WaitForSeconds(2f);
-        //GameManager.instance.playerController.State.moveSystem = false;
-
         UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
+
+        GameManager.instance.playerController.State.moveSystem = true;
+        GameManager.instance.playerController.InputVal.movementInput = 1f;
+        yield return new WaitForSeconds(1.3f);
+
+        GameManager.instance.playerController.State.moveSystem = false;
         ui.Open();
+
         yield return null;
     }
     private IEnumerator OpenUI()

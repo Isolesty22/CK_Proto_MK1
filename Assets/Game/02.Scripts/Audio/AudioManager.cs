@@ -152,7 +152,12 @@ public class AudioManager : MonoBehaviour
 
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("BGM/FieldMapBGM"));
         clipDict_BGM.Add("FieldMapBGM", DataManager.Instance.fileManager.getAudioClip_Result);
+
+
+
         #endregion
+        yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Boss/Bear/Bear_ForwardRoar"));
+        clipDict_SFX.Add("Bear_ForwardRoar", DataManager.Instance.fileManager.getAudioClip_Result);
 
         #region ArrowHit
         yield return StartCoroutine(DataManager.Instance.fileManager.GetAudioClip("Arrows/armadiloHit"));

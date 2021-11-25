@@ -133,10 +133,10 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StageClear()
     {
-        if (playerController != null)
-        {
-            playerController.State.moveSystem = false;
-        }
+        //if (playerController != null)
+        //{
+        //    playerController.State.moveSystem = false;
+        //}
 
         if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_00)
         {
