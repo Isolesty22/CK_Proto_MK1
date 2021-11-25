@@ -11,7 +11,7 @@ public class UIEndingCredit : UIBase
     public float moveTime;
     private Vector2 startPos;
     private Vector2 endPos;
-    
+
     /// <summary>
     /// 크레딧이 끝나면 호출됩니다.
     /// </summary>
@@ -37,7 +37,17 @@ public class UIEndingCredit : UIBase
 
         while (progress < 1f)
         {
-            timer += Time.deltaTime;
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                timer += Time.deltaTime * 3f;
+
+            }
+            else
+            {
+
+                timer += Time.deltaTime;
+            }
             progress = timer / moveTime;
             rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, progress);
 
