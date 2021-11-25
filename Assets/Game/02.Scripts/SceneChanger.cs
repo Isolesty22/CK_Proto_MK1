@@ -101,6 +101,18 @@ public class SceneChanger : MonoBehaviour
         //yield return new WaitUntil(() =>uiLoading.isOpen);
 
 
+        if (GameManager.instance != null)
+        {
+            if (GameManager.instance.playerController != null)
+            {
+                GameManager.instance.playerController.InputVal.movementInput = 0f;
+                GameManager.instance.playerController.State.moveSystem = false;
+            }
+        }
+
+        yield return null;
+        AudioManager.Instance.AllSoundStop();
+
         //비동기로 로드하기
         AsyncOperation asyncOperation = SceneManager.LoadSceneAsync(moveSceneName);
         asyncOperation.allowSceneActivation = false; //씬 활성화 false : 로딩이 끝나도 씬이 활성화되지 않음
@@ -157,7 +169,6 @@ public class SceneChanger : MonoBehaviour
             }
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
-
         yield return new WaitForSecondsRealtime(0.5f);
 
         Debug.Log("씬 로딩 완료!");

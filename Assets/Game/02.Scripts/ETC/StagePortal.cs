@@ -25,6 +25,8 @@ public class StagePortal : MonoBehaviour
     public bool activeOnAwake;
 
     private WaitForSeconds waitSec;
+
+    private string nowSceneName;
     private void Awake()
     {
         canvasGroup.alpha = 0f;
@@ -51,10 +53,20 @@ public class StagePortal : MonoBehaviour
         if (other.CompareTag(TagName.Player))
         {
             col.enabled = false;
+            nowSceneName = SceneChanger.Instance.GetNowSceneName();
 
             if (moveOnEnter)
             {
-                StartCoroutine(CoStageClear());
+                switch (nowSceneName)
+                {
+                    case SceneNames.stage_01:
+                        StartCoroutine(CoStage01Clear());
+                        break;
+
+                    case SceneNames.stage_03:
+                        StartCoroutine(CoStage03Clear());
+                        break;
+                }
             }
             else
             {
@@ -84,7 +96,7 @@ public class StagePortal : MonoBehaviour
             yield return null;
         }
     }
-    private IEnumerator CoStageClear()
+    private IEnumerator CoStage01Clear()
     {
         ActiveMoveSystem(true);
 
@@ -95,13 +107,9 @@ public class StagePortal : MonoBehaviour
         //카메라 고정
         GameManager.instance.cameraManager.vcam.Follow = null;
 
+        AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
+        yield return new WaitForSeconds(1f);
 
-        if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_01)
-        {
-            AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
-        }
-
-        yield return new WaitForSeconds(0.8f);
 
         //대화 뜨기
         UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
@@ -118,6 +126,43 @@ public class StagePortal : MonoBehaviour
         yield return new WaitForSeconds(1.3f);
         GameManager.instance.StageClear();
     }
+
+    private IEnumerator CoStage03Clear()
+    {
+        ActiveMoveSystem(true);
+
+        //UI 끄기
+        UIPlayerHP ui = UIManager.Instance.GetUI("UIPlayerHP") as UIPlayerHP;
+        ui.Close();
+
+        //카메라 고정
+        GameManager.instance.cameraManager.vcam.Follow = null;
+
+
+        if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_01)
+        {
+            AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
+            yield return new WaitForSeconds(1f);
+        }
+
+
+        //대화 뜨기
+        UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        UIManager.Instance.Talk(DataManager.Instance.stageCode + 1, 2f);
+        yield return StartCoroutine(CoWaitTalkEnd());
+        yield return new WaitForSeconds(0.6f);
+
+
+        //오른쪽으로 이동
+        StartCoroutine(CoFadeClearImage());
+        GameManager.instance.playerController.InputVal.movementInput = 1f;
+        yield return new WaitForSeconds(1.3f);
+        GameManager.instance.StageClear();
+    }
+
+
 
     private WaitForSeconds waitSsec = new WaitForSeconds(0.1f);
     private IEnumerator CoWaitTalkEnd()
