@@ -117,7 +117,6 @@ public class StagePortal : MonoBehaviour
 
         UIManager.Instance.Talk(DataManager.Instance.stageCode + 1, 2f);
         yield return StartCoroutine(CoWaitTalkEnd());
-        yield return new WaitForSeconds(0.6f);
 
 
         //오른쪽으로 이동
@@ -137,14 +136,6 @@ public class StagePortal : MonoBehaviour
 
         //카메라 고정
         GameManager.instance.cameraManager.vcam.Follow = null;
-
-
-        if (SceneChanger.Instance.GetNowSceneName() == SceneNames.stage_01)
-        {
-            AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
-            yield return new WaitForSeconds(1f);
-        }
-
 
         //대화 뜨기
         UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
