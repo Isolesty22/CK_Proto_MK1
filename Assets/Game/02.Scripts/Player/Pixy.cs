@@ -269,14 +269,17 @@ public class Pixy : MonoBehaviour
                 {
                     return;
                 }
-                else if (other.GetComponent<MonsterController>())
-                {
-                    if (other.GetComponent<MonsterController>().Stat.noneHit)
-                        return;
-                }
             }
-            if (!other.GetComponent<MonsterController>().Stat.noneHit)
-                enemyList.Add(other.gameObject);
+
+            MonsterController temp = null;
+            if(other.TryGetComponent<MonsterController>(out temp))
+            {
+                if (temp.Stat.noneHit)
+                    return;
+            }
+
+            enemyList.Add(other.gameObject);
+            //if (!other.GetComponent<MonsterController>().Stat.noneHit || other.CompareTag("Boss"))
         }
     }
 
