@@ -88,6 +88,20 @@ public class UIMovieScreen : UIBase
         StartCoroutine(CoPlayMovie());
     }
 
+
+    protected override IEnumerator ProcessOpen()
+    {
+        if (isOpen)
+        {
+            yield break;
+        }
+        else
+        {
+            yield return StartCoroutine(base.ProcessOpen());
+        }
+
+    }
+
     public void Button_ToggleSpeed()
     {
         //스피드가 올라간 상태라면
