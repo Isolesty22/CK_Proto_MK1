@@ -395,11 +395,11 @@ public class BearController : BossController
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
 
-                    ////체력이 0이하면 break;
-                    //if (hp <= 0)
-                    //{
-                    //    break;
-                    //}
+                    //체력이 0이하면 break;
+                    if (hp <= 0)
+                    {
+                        yield break;
+                    }
 
                     ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
@@ -520,6 +520,8 @@ public class BearController : BossController
             //{
             //    return;
             //}
+
+            SetAnimEvent(null);
             if (executePattern != null)
             {
                 //현재 상태의 코루틴 종료

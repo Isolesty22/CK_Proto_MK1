@@ -36,6 +36,7 @@ public class BearState_Stamp : BearState
 
     public override void OnExit()
     {
+        canExit = true;
         bearController.skillObjects.stampShockEffect.SetActive(false);
     }
 
@@ -118,6 +119,7 @@ public class BearState_Rush : BearState
     }
     public override void OnExit()
     {
+        canExit = true;
         //사운드 종료
         bearController.audioSource.loop = false;
         bearController.audioSource.Stop();
@@ -279,6 +281,7 @@ public class BearState_Roar : BearState
     public override void OnExit()
     {
         //혹시 모르니까 이펙트 끄기
+        canExit = true;
         bearController.skillObjects.roarGroundEffect.SetActive(false);
         bearController.skillObjects.roarEffect.SetActive(false);
     }
@@ -315,7 +318,6 @@ public class BearState_Roar : BearState
         }
 
         bearController.skillObjects.roarGroundEffect.SetActive(false);
-        yield break;
     }
 
     //숙여서 공격
@@ -454,6 +456,11 @@ public class BearState_Strike : BearState
             yield return waitSec_B;
 
         }
+    }
+
+    public override void OnExit()
+    {
+        canExit = true;
     }
 
 }
@@ -643,6 +650,7 @@ public class BearState_Smash : BearState
             isFollowHand = false;
         }
 
+        yield return null;
         smashHelper.SetParentRocks(null);
 
         //yield return new WaitForSeconds(0.2f);
@@ -665,7 +673,6 @@ public class BearState_Smash : BearState
             smashHelper.StartMove(i);
         }
         smashHelper.SetActive(false);
-        yield break;
     }
 
 }

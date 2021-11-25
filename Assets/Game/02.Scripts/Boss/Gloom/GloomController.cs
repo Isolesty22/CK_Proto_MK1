@@ -485,11 +485,11 @@ public class GloomController : BossController
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
-                    ////체력이 0이하면 break;
-                    //if (hp <= 0)
-                    //{
-                    //    break;
-                    //}
+                    //체력이 0이하면 break;
+                    if (hp <= 0)
+                    {
+                        yield break;
+                    }
 
 
                     ProcessChangePhase(stateInfo.phase);
@@ -685,6 +685,8 @@ public class GloomController : BossController
         if (hp <= 0)
         {
             onHitAction = VoidFunc;
+
+            SetAnimEvent(null);
             //패턴 실행 코루틴 종료
             if (executePattern != null)
             {
