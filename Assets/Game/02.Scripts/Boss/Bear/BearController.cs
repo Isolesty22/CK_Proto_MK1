@@ -73,6 +73,10 @@ public class BearController : BossController
         [Space(5)]
         public Transform mushroomPoint_Left;
         public Transform mushroomPoint_Right;
+
+        [Space(5)]
+        [Tooltip("곰이 죽은 다음 픽시가 이동할 위치입니다.")]
+        public Transform pixyMoveTransform;
     }
 
     [Serializable]
@@ -237,7 +241,7 @@ public class BearController : BossController
 
         talkDict = new Dictionary<int, Action>();
 
-        for (int i = 200; i <= 210; i++)
+        for (int i = 200; i <= 211; i++)
         {
             int code = i;
             talkDict.Add(code, () => UIManager.Instance.Talk(code, 2f));

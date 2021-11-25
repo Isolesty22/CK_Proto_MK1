@@ -867,14 +867,28 @@ public class BearState_Powerless : BearState
 
 public class BearState_Die : BearState
 {
+
+
+    private float pixyMoveTime = 0f;
+    private Pixy pixy;
+    private Transform pixyTR;
     public BearState_Die(BearController _bearController)
     {
+        pixyMoveTime = 2f;
         bearController = _bearController;
+
 
     }
     public override void OnEnter()
     {
         canExit = false;
+
+
+        pixy = GameManager.instance.playerController.Com.pixy;
+        pixyTR = pixy.transform;
+
+
+
         bearController.colliders.bodyCollider.enabled = false;
         //사운드 출력
         bearController.audioSource.PlayOneShot(bearController.audioClips.death);
@@ -903,6 +917,35 @@ public class BearState_Die : BearState
         bearController.audioSource.PlayOneShot(bearController.audioClips.down);
         yield return new WaitForSeconds(1f);
         bearController.TalkOnce(210);
+        yield return new WaitForSeconds(2.5f);
+        UIManager.Instance.Talk(211, 5f);
+
+        //bearController.TalkOnce(211);
+        pixy.getPixy = false;
+
+        Vector3 startPos = pixyTR.position;
+        Vector3 endPos = bearController.skillObjects.pixyMoveTransform.position;
+
+        pixyTR.rotation = Quaternion.Euler(0f, 90f, 0f);
+        pixyTR.localScale = Vector3.one;
+
+        pixy.anim.SetBool("IsMoving", true);
+        float timer = 0f;
+        float progress = 0f;
+        while (progress < 1f)
+        {
+            timer += Time.deltaTime;
+
+            progress = timer / pixyMoveTime;
+            pixyTR.position = Vector3.Lerp(startPos, endPos, progress);
+
+            yield return null;
+
+        }
+
+        pixy.anim.SetBool("IsMoving", false);
+        pixyTR.rotation = Quaternion.Euler(0f, -90f, 0f);
+        pixyTR.localScale = new Vector3(-1f, 1f, 1f);
     }
 }
 
