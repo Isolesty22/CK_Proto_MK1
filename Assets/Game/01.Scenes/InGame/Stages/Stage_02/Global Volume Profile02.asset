@@ -103,7 +103,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 0.95
+    m_Value: 0.8
     min: 0
   scatter:
     m_OverrideState: 1
@@ -170,7 +170,7 @@ MonoBehaviour:
     m_Value: 0
   focusDistance:
     m_OverrideState: 1
-    m_Value: 4.3
+    m_Value: 4.45
     min: 0.1
   aperture:
     m_OverrideState: 1
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_AdvancedMode: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.24275675, g: 0.19103774, b: 0.254717, a: 1}
+    m_Value: {r: 0.39387682, g: 0.13841224, b: 0.4528302, a: 1}
     hdr: 0
     showAlpha: 0
     showEyeDropper: 1
@@ -274,7 +274,7 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.18
+    m_Value: 0.35
     min: 0
     max: 1
   smoothness:
@@ -302,7 +302,6 @@ MonoBehaviour:
   - {fileID: -5074379507242822845}
   - {fileID: 3718854933460034230}
   - {fileID: -4056440920779407971}
-  - {fileID: 6298525116827598032}
   - {fileID: 8452694318430628061}
   - {fileID: -36732653968427730}
 --- !u!114 &1228918162983859198
@@ -381,44 +380,6 @@ MonoBehaviour:
   balance:
     m_OverrideState: 1
     m_Value: 25
-    min: -100
-    max: 100
---- !u!114 &6298525116827598032
-MonoBehaviour:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66f335fb1ffd8684294ad653bf1c7564, type: 3}
-  m_Name: ColorAdjustments
-  m_EditorClassIdentifier: 
-  active: 0
-  m_AdvancedMode: 0
-  postExposure:
-    m_OverrideState: 1
-    m_Value: -0.2
-  contrast:
-    m_OverrideState: 0
-    m_Value: 0
-    min: -100
-    max: 100
-  colorFilter:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
-  hueShift:
-    m_OverrideState: 0
-    m_Value: 0
-    min: -180
-    max: 180
-  saturation:
-    m_OverrideState: 0
-    m_Value: 0
     min: -100
     max: 100
 --- !u!114 &8452694318430628061
