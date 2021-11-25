@@ -15,7 +15,7 @@ public class StagePortal : MonoBehaviour
     public CanvasGroup canvasGroup;
     public Image image;
 
-    public float talkTime = 2f;
+    private readonly float talkTime = 3f;
 
     private RectTransform rectTransform;
     [Tooltip("true일 경우, 2초간 걸어간 뒤 스테이지를 이동합니다.")]
@@ -108,8 +108,7 @@ public class StagePortal : MonoBehaviour
         GameManager.instance.cameraManager.vcam.Follow = null;
 
         AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_SFX["Bear_ForwardRoar"]);
-        yield return new WaitForSeconds(1f);
-
+        yield return StartCoroutine(CoWaitTalkEnd());
 
         //대화 뜨기
         UIManager.Instance.Talk(DataManager.Instance.stageCode, 2f);
