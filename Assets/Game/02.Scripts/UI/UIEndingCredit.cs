@@ -12,7 +12,6 @@ public class UIEndingCredit : UIBase
     private Vector2 startPos;
     private Vector2 endPos;
     
-
     /// <summary>
     /// 크레딧이 끝나면 호출됩니다.
     /// </summary>

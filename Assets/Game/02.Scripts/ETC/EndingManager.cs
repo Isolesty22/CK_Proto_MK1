@@ -23,7 +23,7 @@ public class EndingManager : MonoBehaviour
     {
         movieScreen.onMovieEnded -= MovieScreen_onMovieEnded;
         //²¨¹ö¸®±â
-        movieScreen.gameObject.SetActive(false);
+        movieScreen.Close();
 
         endingCredit = UIManager.Instance.GetUI("UIEndingCredit") as UIEndingCredit;
         endingCredit.StartCoroutine(endingCredit.Up());
@@ -35,7 +35,6 @@ public class EndingManager : MonoBehaviour
     private void EndingCredit_onCreditMoveEnded()
     {
         endingCredit.onCreditMoveEnded -= EndingCredit_onCreditMoveEnded;
-
-
+        SceneChanger.Instance.LoadThisScene(SceneNames.mainMenu);
     }
 }
