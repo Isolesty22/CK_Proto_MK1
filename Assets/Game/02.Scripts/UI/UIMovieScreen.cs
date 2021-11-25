@@ -12,6 +12,8 @@ public class UIMovieScreen : UIBase
     public RenderTexture renderTexture;
     public VideoPlayer videoPlayer;
 
+    public GameObject waitingPanel;
+
     [Space(5)]
 
     [Tooltip("영상이 끝나면 해당 패널이 페이드 됩니다.")]
@@ -116,12 +118,14 @@ public class UIMovieScreen : UIBase
     }
     public void OnPressSkip()
     {
-        UIManager.Instance.PlayAudio_Click();
+        //UIManager.Instance.PlayAudio_Click();
         isSkip = true;
     }
 
     private IEnumerator CoPlayMovie()
     {
+
+        Debug.Log("CoPlayMoive");
         yield return StartCoroutine(ProcessOpen());
         blackPanel.gameObject.SetActive(false);
         videoPlayer.Play();
