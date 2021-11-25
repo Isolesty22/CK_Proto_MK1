@@ -810,6 +810,7 @@ public class BearState_Powerless : BearState
 
     public override void OnExit()
     {
+        canExit = true;
         //사운드 스탑
         bearController.audioSource.Stop();
 
@@ -895,6 +896,7 @@ public class BearState_Die : BearState
 
         bearController.StartCoroutine(CoTalkDie());
         bearController.SetAnimEvent(AnimEvent);
+
         bearController.SetTrigger("Die_Start");
     }
 

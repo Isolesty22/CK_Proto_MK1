@@ -511,11 +511,11 @@ public class BearController : BossController
         ReceiveDamage();
         emissionHelper.OnHit();
 
-
         //죽어야 한다면
         if (hp <= 0)
         {
 
+        onHitAction = VoidFunc;
             //if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
             //{
             //    return;
