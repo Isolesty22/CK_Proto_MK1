@@ -435,7 +435,8 @@ public class GloomController : BossController
         for (int i = 400; i <= 412; i++)
         {
             int CODE = i;
-            talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 2f));
+
+            talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 3f));
         }
     }
 
@@ -528,6 +529,9 @@ public class GloomController : BossController
         switch (_phase)
         {
             case ePhase.Phase_1:
+
+                talkDict.Add(404, () => UIManager.Instance.Talk(409, 3f));
+                talkDict.Add(406, () => UIManager.Instance.Talk(410, 3f));
 
                 ChangeState((int)eGloomState.Berserk);
                 break;
@@ -629,7 +633,7 @@ public class GloomController : BossController
         {
             if (hp / maxHp <= 0.2f)
             {
-                TalkOnce(410);
+                TalkOnce(411);
 
                 yield break;
             }

@@ -36,7 +36,7 @@ public class GloomState_Chase : GloomState
     {
         canExit = false;
         currentCoroutine = CoSkill();
-
+        gloom.TalkOnce(408);
         //UIManager.Instance.Talk("이피아! 도망쳐!");
 
         gloom.SetAnimEvent(AnimEvent);
@@ -105,7 +105,7 @@ public class GloomState_Leap : GloomState
     public override void OnEnter()
     {
         canExit = false;
-        currentCoroutine = CoAnimEvent_Jump();
+
 
         //현재 위치가 오른쪽이면
         if (gloom.diretion == eDirection.Right)
@@ -144,6 +144,7 @@ public class GloomState_Leap : GloomState
 
     public void AnimEvent_Jump()
     {
+        currentCoroutine = CoAnimEvent_Jump();
         gloom.StartCoroutine(currentCoroutine);
     }
 
@@ -275,8 +276,9 @@ public class GloomState_Resonance : GloomState
     {
         canExit = false;
 
-        currentCoroutine = CoSkill();
-        UIManager.Instance.Talk("이피아! 머리 위의 구슬을 노려! 그게 약점이야!");
+
+        gloom.TalkOnce(404);
+
         gloom.SetAnimEvent(AnimEvent);
         gloom.SetTrigger("Resonance_Start");
 
@@ -293,6 +295,8 @@ public class GloomState_Resonance : GloomState
     public void AnimEvent()
     {
         helper.StartCheck();
+
+        currentCoroutine = CoSkill();
         gloom.StartCoroutine(currentCoroutine);
     }
     private IEnumerator CoSkill()
@@ -324,6 +328,7 @@ public class GloomState_Resonance : GloomState
                 //검사 끝내기
                 helper.EndCheck();
 
+                gloom.TalkOnce(405);
                 //무력화상태 진입
                 ChangeStatePowerless();
                 //사운드 출력
@@ -361,7 +366,7 @@ public class GloomState_Resonance : GloomState
 
         yield return resonanceScreen.waitEndTime;
         gloom.SetTrigger("Resonance_End");
-
+        gloom.TalkOnce(406);
         //GameManager.instance.playerController.State.moveSystem = false;
 
     }
@@ -970,7 +975,7 @@ public class GloomState_Berserk : GloomState
         currentCoroutine = CoWait();
         gloom.StartCoroutine(currentCoroutine);
         gloom.SkillObj.berserk.StartBerserk();
-        UIManager.Instance.Talk("어둠의 힘이 강해진 것 같아...조심해!");
+        gloom.TalkOnce(407);
     }
 
     private IEnumerator CoWait()
@@ -998,10 +1003,13 @@ public class GloomState_Powerless : GloomState
     public override void OnEnter()
     {
         canExit = false;
+
+
+        gloom.TalkOnce(405);
         currentCoroutine = CoPowerless();
+        gloom.StartCoroutine(currentCoroutine);
 
         gloom.SetTrigger("Powerless_Start");
-        gloom.StartCoroutine(currentCoroutine);
     }
 
     private IEnumerator CoPowerless()
@@ -1023,6 +1031,9 @@ public class GloomState_Die : GloomState
 
         //사운드 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.death);
+
+
+        gloom.TalkOnce(412);
 
         gloom.SetAnimEvent(AnimEvent);
 

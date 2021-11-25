@@ -39,7 +39,7 @@ public class SmashRock : MonoBehaviour
 
     private void Awake()
     {
-        rotateSpeed = 1f;
+        rotateSpeed = 3f;
         moveTime = 2.5f;
 
 
