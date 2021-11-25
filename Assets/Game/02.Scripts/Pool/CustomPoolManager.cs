@@ -23,6 +23,7 @@ public class CustomPoolManager : MonoBehaviour
     public CustomPool<Seed> seedPool;
     public CustomPool<ArrowHit> arrowHitPool;
     public CustomPool<UltHit> ultHitPool;
+    public CustomPool<HeavyHit> heavyHitPool;
 
 
     public CustomPool<ArrowBase> basicArrowPool;
@@ -67,6 +68,7 @@ public class CustomPoolManager : MonoBehaviour
         seedPool = CreateCustomPool<Seed>();
         arrowHitPool = CreateCustomPool<ArrowHit>();
         ultHitPool = CreateCustomPool<UltHit>();
+        heavyHitPool = CreateCustomPool<HeavyHit>();
 
 
         basicArrowPool = CreateCustomPool<ArrowBase>();
