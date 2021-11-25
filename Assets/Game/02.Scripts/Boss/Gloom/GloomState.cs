@@ -967,6 +967,7 @@ public class GloomState_Advance : GloomState
     {
         gloom.StopCoroutine(beginLightning);
         gloom.StopCoroutine(moveLightning);
+        lightning.gameObject.SetActive(false);
     }
 }
 public class GloomState_Berserk : GloomState
@@ -1061,7 +1062,17 @@ public class GloomState_Die : GloomState
 
     private IEnumerator CoEnding()
     {
+        Data_Player tempData = new Data_Player();
+        tempData.currentStageName = SceneNames.stage_04;
+        tempData.currentStageNumber = 4;
+        tempData.finalStageName = SceneNames.stage_04;
+        tempData.finalStageNumber = 4;
+        DataManager.Instance.currentClearStageNumber = 4;
+        DataManager.Instance.currentData_player.CopyData(tempData);
+        yield return gloom.StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
         yield return new WaitForSeconds(1f);
+
+
         SceneChanger.Instance.LoadThisScene("Ending");
 
         //uiMovie.gameObject.SetActive(true);

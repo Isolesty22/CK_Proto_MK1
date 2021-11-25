@@ -684,14 +684,8 @@ public class GloomController : BossController
         //죽어야 한다면
         if (hp <= 0)
         {
-
-            //어드밴스 패턴에서는 죽지 않음
-            if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
-            {
-                return;
-            }
+            onHitAction = VoidFunc;
             //패턴 실행 코루틴 종료
-
             if (executePattern != null)
             {
                 StopCoroutine(executePattern);
