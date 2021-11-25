@@ -514,8 +514,8 @@ public class PlayerController : MonoBehaviour
         State.isCrouching = false;
         State.isLookUp = false;
 
-
-        Stat.hp -= 1;
+        if(!State.isInvincible)
+            Stat.hp -= 1;
         AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
 
         Com.hit.transform.position = transform.position;
@@ -550,8 +550,8 @@ public class PlayerController : MonoBehaviour
         State.isCrouching = false;
         State.isLookUp = false;
 
-
-        Stat.hp -= 1;
+        if (!State.isInvincible)
+            Stat.hp -= 1;
         AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
 
         Com.hit.transform.position = transform.position;

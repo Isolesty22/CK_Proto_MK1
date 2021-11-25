@@ -393,15 +393,15 @@ public class TempTutorialLoader : MonoBehaviour
         MessageClose();
 
         //Talk("연습은 이걸로 끝이야. 더 이상은 시간이 없어….");
-        Talk(938);
-        yield return StartCoroutine(CoWaitTalkEnd());
+        Talk(909);
+        //yield return StartCoroutine(CoWaitTalkEnd());
 
         //Talk("이피아, 이제는 한 번만 실수해도 모가지야 모가지.");
-        Talk(939);
-        yield return StartCoroutine(CoWaitTalkEnd());
+        //Talk(939);
+        //yield return StartCoroutine(CoWaitTalkEnd());
 
         //Talk("잘 좀 하자? ^^");
-        Talk(940);
+        //Talk(940);
         player.State.moveSystem = true;
         player.InputVal.movementInput = 1f;
 
