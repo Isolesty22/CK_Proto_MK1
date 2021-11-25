@@ -77,18 +77,18 @@ public class GameManager : MonoBehaviour
         ////}
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.N))
+    //    {
 
-            GoNextStage();
-        }
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            playerController.Stat.hp += 1;
-        }
-    }
+    //        GoNextStage();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P))
+    //    {
+    //        playerController.Stat.hp += 1;
+    //    }
+    //}
 
     /// <summary>
     /// Application.Quit;
