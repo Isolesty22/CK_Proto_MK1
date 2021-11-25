@@ -504,7 +504,17 @@ MonoBehaviour:
   background: {fileID: 1420767568}
   progress: 0
   duration: 0
-  splashImageList: []
+  splashImageList:
+  - sprite: {fileID: 21300000, guid: 23e2d4c375665f74db1e50abe12a97ce, type: 3}
+    duration_wait: 0.95
+    duration_front: 0.85
+    duration_mid: 0.78
+    duration_back: 0.81
+  - sprite: {fileID: 21300000, guid: 04907c5182f020c41bea3b3bae2c99d8, type: 3}
+    duration_wait: 0.73
+    duration_front: 0.72
+    duration_mid: 0.71
+    duration_back: 2
   isEnd: 0
 --- !u!1 &393463058
 GameObject:
@@ -547,10 +557,12 @@ MonoBehaviour:
     audioSource_PJump: {fileID: 799587118}
     audioSource_PLand: {fileID: 1194551204}
     audioSource_PHit: {fileID: 552440786}
+    audioSource_Boss: {fileID: 0}
   audioVolumes:
     bgm: 1
     evm: 1
     sfx: 1
+    ui: 1
     pAttack: 1
     pParrying: 1
     pWalk: 1
@@ -563,6 +575,7 @@ MonoBehaviour:
   powerAttack: {fileID: 0}
   currentMasterVolume: 0
   currentSFXVolume: 0
+  curentBGMVolume: 0
 --- !u!4 &393463060
 Transform:
   m_ObjectHideFlags: 0
