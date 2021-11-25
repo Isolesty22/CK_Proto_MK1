@@ -520,6 +520,8 @@ public class BearController : BossController
             //{
             //    return;
             //}
+
+            SetAnimEvent(null);
             if (executePattern != null)
             {
                 //현재 상태의 코루틴 종료

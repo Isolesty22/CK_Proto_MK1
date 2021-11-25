@@ -685,6 +685,8 @@ public class GloomController : BossController
         if (hp <= 0)
         {
             onHitAction = VoidFunc;
+
+            SetAnimEvent(null);
             //패턴 실행 코루틴 종료
             if (executePattern != null)
             {

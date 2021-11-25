@@ -127,7 +127,7 @@ public class GloomResonanceScreen : MonoBehaviour
             timer += Time.deltaTime;
             progress = timer / timeVal.commingDarkTime;
 
-            float tempIntensity = Mathf.Lerp(originIntensity, 1f, progress);
+            float tempIntensity = Mathf.Lerp(0f, 1f, progress);
             float tempSmooth = Mathf.Lerp(originSmooth, 1f, progress);
 
             SetVignetteValue(tempIntensity, tempSmooth);
