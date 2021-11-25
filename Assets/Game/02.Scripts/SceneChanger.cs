@@ -121,8 +121,11 @@ public class SceneChanger : MonoBehaviour
 
         }
 
+        AudioManager.Instance.AllSoundStop();
+
         //저장
         yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
+
 
         while (!asyncOperation.isDone) //로딩이 완료되기 전 까지만
         {
