@@ -530,9 +530,17 @@ public class GloomController : BossController
         {
             case ePhase.Phase_1:
 
+                if (talkDict.ContainsKey(404))
+                {
+                    talkDict.Remove(404);
+                }
                 talkDict.Add(404, () => UIManager.Instance.Talk(409, 3f));
+                
+                if (talkDict.ContainsKey(406))
+                {
+                    talkDict.Remove(406);
+                }
                 talkDict.Add(406, () => UIManager.Instance.Talk(410, 3f));
-
                 ChangeState((int)eGloomState.Berserk);
                 break;
 

@@ -98,7 +98,7 @@ public class GloomLightning : MonoBehaviour
         lineEffectTransform.gameObject.SetActive(false);
         shakeAddValue = 1f / lineCount;
         waitUpdateDelay = new WaitForSeconds(updateDelay);
-        Debug.LogError(shakeAddValue);
+       // Debug.LogError(shakeAddValue);
     }
     public void Init()
     {

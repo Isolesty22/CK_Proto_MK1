@@ -13,10 +13,9 @@ public class EndingManager : MonoBehaviour
         
         //무비스크린 데려오기
         movieScreen = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
-        movieScreen.StartCoroutine(movieScreen.playMovie);
 
-        //무비가 끝나면 할짓 설정
         movieScreen.onMovieEnded += MovieScreen_onMovieEnded;
+        StartCoroutine(movieScreen.playMovie);
     }
 
     private void MovieScreen_onMovieEnded()

@@ -25,12 +25,16 @@ public class GloomObstructBullet : MonoBehaviour
     private IEnumerator moveCoroutine = null;
 
     private WaitForSeconds waitSec = null;
+    private Quaternion rightRot;
+    private Quaternion leftRot;
 
 
     private void Start()
     {
         player = GameManager.instance.playerController;
     }
+
+
     public void Init(GloomController _gloom, Vector3 _startPos, Vector3 _endPos, float _moveTime)
     {
         moveCoroutine = ProcessMove();
@@ -42,6 +46,8 @@ public class GloomObstructBullet : MonoBehaviour
         waitTime = gloom.SkillVal.obstruct.waitTime;
         myCollider.enabled = false;
         waitSec = new WaitForSeconds(waitTime);
+
+
     }
 
     public void Move()

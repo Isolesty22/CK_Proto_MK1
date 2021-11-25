@@ -597,6 +597,7 @@ public class GloomState_Obstruct : GloomState
     private Vector3[] endPosArr = null;
 
     private Vector3 rot;
+    private Vector3 bulletRot;
 
     private WaitForSeconds waitSec = null;
 
@@ -622,12 +623,14 @@ public class GloomState_Obstruct : GloomState
             endPos = gloom.Com.gloomMap.mapData.minPosition;
             endPos -= gloom.SkillVal.extendEndPos;
             rot = new Vector3(0f, -10f, 0f);
+            bulletRot = new Vector3(0f, 0f, 0f);
         }
         else
         {
             endPos = gloom.Com.gloomMap.mapData.maxPosition;
             endPos += gloom.SkillVal.extendEndPos;
             rot = new Vector3(0f, 10f, 0f);
+            bulletRot = new Vector3(0f, -180f, 0f);
         }
 
         endPosArr = new Vector3[] {
@@ -648,6 +651,8 @@ public class GloomState_Obstruct : GloomState
     {
         gloom.StartCoroutine(currentCoroutine);
     }
+
+
     private IEnumerator CoSkill()
     {
         yield return null;
@@ -659,6 +664,7 @@ public class GloomState_Obstruct : GloomState
 
 
             GloomObstructSign sign = gloom.Pool.obstructSign.SpawnThis(startPos, rot, null); ;
+            sign.SetBulletRotation(bulletRot);
             sign.Init(gloom, startPos, endPosArr[index], bulletMoveTime);
             //사운드 출력
             gloom.audioSource.PlayOneShot(gloom.audioClips.resonanceArrow);
