@@ -14,8 +14,8 @@ public class EndingManager : MonoBehaviour
         yield return null;
         //무비스크린 데려오기
         movieScreen = UIManager.Instance.GetUI("UIMovieScreen") as UIMovieScreen;
-        //if (AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
-        //    AudioManager.Instance.Audios.audioSource_BGM.Stop();
+        if (AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
+            AudioManager.Instance.Audios.audioSource_BGM.Stop();
         movieScreen.onMovieEnded += MovieScreen_onMovieEnded;
         StartCoroutine(movieScreen.playMovie);
     }

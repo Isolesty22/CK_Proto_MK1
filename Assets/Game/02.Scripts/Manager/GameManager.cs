@@ -77,7 +77,6 @@ public class GameManager : MonoBehaviour
         ////}
     }
 
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N))
@@ -90,7 +89,6 @@ public class GameManager : MonoBehaviour
             playerController.Stat.hp += 1;
         }
     }
-
 
     /// <summary>
     /// Application.Quit;
