@@ -62,6 +62,9 @@ public class StagePortal : MonoBehaviour
                     case SceneNames.stage_01:
                         StartCoroutine(CoStage01Clear());
                         break;
+                    case SceneNames.stage_02:
+                        StartCoroutine(CoStage03Clear());
+                        break;
 
                     case SceneNames.stage_03:
                         StartCoroutine(CoStage03Clear());
