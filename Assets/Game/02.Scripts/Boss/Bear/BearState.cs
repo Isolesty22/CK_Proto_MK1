@@ -569,6 +569,7 @@ public class BearState_Smash : BearState
 {
     WaitForSeconds waitSec = new WaitForSeconds(1f);
     SmashHelper smashHelper;
+    bool isFollowHand = false;
     public BearState_Smash(BearController _bearController)
     {
         bearController = _bearController;
@@ -577,9 +578,7 @@ public class BearState_Smash : BearState
     public override void OnEnter()
     {
         canExit = false;
-        //손 따라가게
-        currentCoroutine = CoFollowHand();
-
+        isFollowHand = false;
         bearController.bearMapInfo.UpdateProjectileRandArray();
 
         bearController.SetAnimEvent(ActiveHandRock);
@@ -589,6 +588,11 @@ public class BearState_Smash : BearState
 
     public override void OnExit()
     {
+        if (isFollowHand)
+        {
+            bearController.StopCoroutine("CoFollowHand");
+            isFollowHand = false;
+        }
         smashHelper.SetActive(false);
     }
     /// <summary>
@@ -601,13 +605,15 @@ public class BearState_Smash : BearState
         smashHelper.SetActive(true);
         smashHelper.SetActiveRocks(true);
 
-
-        bearController.StartCoroutine(currentCoroutine);
+        //손 따라가게
+        //currentCoroutine = CoFollowHand();
+        bearController.StartCoroutine("CoFollowHand");
 
         bearController.SetAnimEvent(AnimEvent);
     }
     private IEnumerator CoFollowHand()
     {
+        isFollowHand = true;
         while (true)
         {
             smashHelper.myTransform.SetPositionAndRotation(
@@ -629,7 +635,12 @@ public class BearState_Smash : BearState
     {
 
         //바위가 곰의 손을 더이상 따라가지 않음
-        bearController.StopCoroutine(currentCoroutine);
+        if (isFollowHand)
+        {
+            bearController.StopCoroutine("CoFollowHand");
+            isFollowHand = false;
+        }
+
         smashHelper.SetParentRocks(null);
 
         //yield return new WaitForSeconds(0.2f);

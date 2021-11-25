@@ -391,11 +391,11 @@ public class BearController : BossController
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
 
-                    //체력이 0이하면 break;
-                    if (hp <= 0)
-                    {
-                        break;
-                    }
+                    ////체력이 0이하면 break;
+                    //if (hp <= 0)
+                    //{
+                    //    break;
+                    //}
 
                     ProcessChangePhase(stateInfo.phase);
                     length = phaseList[stateInfo].Count;
@@ -420,8 +420,8 @@ public class BearController : BossController
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        SetStateInfo((int)eBearState.Die);
-        ChangeState((int)eBearState.Die);
+        //SetStateInfo((int)eBearState.Die);
+        //ChangeState((int)eBearState.Die);
 
     }
     private void SetCurrentPattern(BearPattern _pattern)

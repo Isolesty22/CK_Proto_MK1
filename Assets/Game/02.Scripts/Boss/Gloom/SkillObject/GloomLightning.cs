@@ -226,7 +226,6 @@ public class GloomLightning : MonoBehaviour
         }
         //마지막으로 큰 줄기 On
         lineEffectTransform.gameObject.SetActive(true);
-        GameManager.instance.cameraManager.SetShakeValue(1f, 1f);
 
         //-----아래로 슝
         while (progress < 1f)
@@ -331,7 +330,6 @@ public class GloomLightning : MonoBehaviour
         lineParent.gameObject.SetActive(false);
         endRB.gameObject.SetActive(false);
 
-        GameManager.instance.cameraManager.SetShakeValue(0f, 0f);
 
         //시간 초기화
         ClearTimer();

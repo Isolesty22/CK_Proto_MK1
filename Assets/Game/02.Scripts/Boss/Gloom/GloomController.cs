@@ -484,11 +484,11 @@ public class GloomController : BossController
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
-                    //체력이 0이하면 break;
-                    if (hp <= 0)
-                    {
-                        break;
-                    }
+                    ////체력이 0이하면 break;
+                    //if (hp <= 0)
+                    //{
+                    //    break;
+                    //}
 
 
                     ProcessChangePhase(stateInfo.phase);
@@ -514,8 +514,8 @@ public class GloomController : BossController
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        SetStateInfo((int)eGloomState.Die);
-        ChangeState((int)eGloomState.Die);
+        //SetStateInfo((int)eGloomState.Die);
+        //ChangeState((int)eGloomState.Die);
 
     }
 
@@ -673,6 +673,7 @@ public class GloomController : BossController
         if (hp <= 0)
         {
 
+            //어드밴스 패턴에서는 죽지 않음
             if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
             {
                 return;
@@ -682,7 +683,6 @@ public class GloomController : BossController
             if (executePattern != null)
             {
                 StopCoroutine(executePattern);
-
             }
 
             Debug.Log("Test!!!");
@@ -691,7 +691,6 @@ public class GloomController : BossController
             {
                 StopCoroutine(stateMachine.currentState.currentCoroutine);
             }
-
 
             //죽음 상태로 전환
             SetStateInfo((int)eGloomState.Die);
