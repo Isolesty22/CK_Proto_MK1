@@ -173,7 +173,6 @@ public class TempTutorialLoader : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         GameManager.instance.playerController.Com.pixy.getPixy = true;
-        Talk("일단, 몸을 좀 움직여볼까?");
         CanMove(true);
        // StartCoroutine(CoPrac_Move());
 

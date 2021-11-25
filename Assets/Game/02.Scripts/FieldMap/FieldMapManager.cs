@@ -107,7 +107,7 @@ public class FieldMapManager : MonoBehaviour
 
             //마지막 스테이지면 저장만하고 아무것도 안함...
             if (dataManager.currentClearStageNumber == 4)
-            {  
+            {
                 //4스테이지로 스크롤
                 UpdateScrollPosition(4);
                 Scroll();
@@ -373,6 +373,15 @@ public class FieldMapManager : MonoBehaviour
         {
             fieldDoors[i].Open();
         }
+
+        Data_Player tempData = new Data_Player();
+        tempData.currentStageName = SceneNames.stage_04;
+        tempData.currentStageNumber = 4;
+        tempData.finalStageName = SceneNames.stage_04;
+        tempData.finalStageNumber = 4;
+        DataManager.Instance.currentClearStageNumber = 4;
+        DataManager.Instance.currentData_player.CopyData(tempData);
+        StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
 
     }
 }
