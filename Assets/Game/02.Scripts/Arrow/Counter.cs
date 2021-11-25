@@ -20,6 +20,8 @@ public class Counter : MonoBehaviour
         {
             AudioManager.Instance.Audios.audioSource_SFX.PlayOneShot(AudioManager.Instance.clipDict_ArrowHit["arrowHitPower"]);
             other.GetComponent<MonsterController>().Hit(damage);
+            var hit = CustomPoolManager.Instance.heavyHitPool.SpawnThis(transform.position, transform.eulerAngles, null);
+            hit.Play();
 
             return;
         }
