@@ -59,10 +59,10 @@ public class UISplashLogo : MonoBehaviour
         {
             timer += Time.smoothDeltaTime;
 
-            //if (Input.anyKeyDown)
-            //{
-            //    break;
-            //}
+            if (Input.anyKeyDown)
+            {
+                break;
+            }
             yield return null;
         }
 
@@ -83,10 +83,10 @@ public class UISplashLogo : MonoBehaviour
 
             logoImage.color = new Color(1, 1, 1, progress);
 
-            //if (Input.anyKeyDown)
-            //{
-            //    break;
-            //}
+            if (Input.anyKeyDown)
+            {
+                break;
+            }
             yield return null;
         }
 
@@ -101,10 +101,10 @@ public class UISplashLogo : MonoBehaviour
         {
             timer += Time.unscaledDeltaTime;
 
-            //if (Input.anyKeyDown)
-            //{
-            //    break;
-            //}
+            if (Input.anyKeyDown)
+            {
+                break;
+            }
             yield return null;
         }
 
@@ -122,10 +122,10 @@ public class UISplashLogo : MonoBehaviour
 
             logoImage.color = new Color(1, 1, 1, 1f - progress);
 
-            //if (Input.anyKeyDown)
-            //{
-            //    break;
-            //}
+            if (Input.anyKeyDown)
+            {
+                break;
+            }
             yield return null;
         }
 
