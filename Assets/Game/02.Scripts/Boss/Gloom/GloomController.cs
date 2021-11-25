@@ -435,7 +435,8 @@ public class GloomController : BossController
         for (int i = 400; i <= 412; i++)
         {
             int CODE = i;
-            talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 2f));
+
+            talkDict.Add(CODE, () => UIManager.Instance.Talk(CODE, 3f));
         }
     }
 
@@ -484,11 +485,11 @@ public class GloomController : BossController
                 //페이즈 전환 체크
                 if (hp <= GetNextPhaseHP(stateInfo.phase))
                 {
-                    //체력이 0이하면 break;
-                    if (hp <= 0)
-                    {
-                        break;
-                    }
+                    ////체력이 0이하면 break;
+                    //if (hp <= 0)
+                    //{
+                    //    break;
+                    //}
 
 
                     ProcessChangePhase(stateInfo.phase);
@@ -514,8 +515,8 @@ public class GloomController : BossController
             yield return YieldInstructionCache.WaitForFixedUpdate;
         }
 
-        SetStateInfo((int)eGloomState.Die);
-        ChangeState((int)eGloomState.Die);
+        //SetStateInfo((int)eGloomState.Die);
+        //ChangeState((int)eGloomState.Die);
 
     }
 
@@ -528,6 +529,9 @@ public class GloomController : BossController
         switch (_phase)
         {
             case ePhase.Phase_1:
+
+                talkDict.Add(404, () => UIManager.Instance.Talk(409, 3f));
+                talkDict.Add(406, () => UIManager.Instance.Talk(410, 3f));
 
                 ChangeState((int)eGloomState.Berserk);
                 break;
@@ -629,7 +633,7 @@ public class GloomController : BossController
         {
             if (hp / maxHp <= 0.2f)
             {
-                TalkOnce(410);
+                TalkOnce(411);
 
                 yield break;
             }
@@ -673,6 +677,7 @@ public class GloomController : BossController
         if (hp <= 0)
         {
 
+            //어드밴스 패턴에서는 죽지 않음
             if (stateMachine.GetCurrentStateName() == "GloomState_Advance")
             {
                 return;
@@ -682,7 +687,6 @@ public class GloomController : BossController
             if (executePattern != null)
             {
                 StopCoroutine(executePattern);
-
             }
 
             Debug.Log("Test!!!");
@@ -691,7 +695,6 @@ public class GloomController : BossController
             {
                 StopCoroutine(stateMachine.currentState.currentCoroutine);
             }
-
 
             //죽음 상태로 전환
             SetStateInfo((int)eGloomState.Die);
