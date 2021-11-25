@@ -108,6 +108,7 @@ public class SeedShooterController : MonsterController
             Com2.VFX_shoot.Stop();
             Com2.VFX_shoot.Play();
             var seed = CustomPoolManager.Instance.seedPool.SpawnThis(Stat2.firePos.position, new Vector3(0, 0, 0), null);
+            seed.Initialize();
             seed.firePos = Stat2.firePos.position;
             seed.fireDir = Stat2.fireDir;
             seed.range = Stat2.fireRange;

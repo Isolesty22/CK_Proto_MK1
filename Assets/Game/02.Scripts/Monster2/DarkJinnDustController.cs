@@ -37,7 +37,6 @@ public class DarkJinnDustController : MonsterController
         base.Initialize();
         isRunCo = false;
         Com.rigidbody.velocity = Vector3.zero;
-        Com.monsterModel.SetActive(true);
         Com2.VFX_Bomb.gameObject.SetActive(false);
         Com2.VFX_Bomb.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
@@ -160,6 +159,9 @@ public class DarkJinnDustController : MonsterController
 
     public override void Hit(int damage)
     {
+        if (state == MonsterState.WAIT || state == MonsterState.DEATH)
+            return;
+
         base.Hit(damage);
     }
 
