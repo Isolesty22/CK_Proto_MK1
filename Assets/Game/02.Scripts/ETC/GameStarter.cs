@@ -25,6 +25,7 @@ public class GameStarter : MonoBehaviour
 
         //스플래시가 끝날 때 까지 대기
         yield return StartCoroutine(uiSplashLogo.ProcessSplashAllImage());
+        yield return new WaitForSeconds(0.5f);
         //yield return new WaitUntil(() => uiSplashLogo.isEnd);
 
         uiTitleScreen.Open();

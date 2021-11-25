@@ -53,6 +53,7 @@ public class UISplashLogo : MonoBehaviour
         logoImage.color = alphaZero;
         duration = _splashImage.duration_wait;
 
+
         //wait만큼 대기
         while (timer < duration)
         {
@@ -70,7 +71,9 @@ public class UISplashLogo : MonoBehaviour
 
         logoImage.sprite = _splashImage.sprite;
         duration = _splashImage.duration_front;
+        logoImage.SetNativeSize();
         yield return null;
+
 
         //페이드 인
         while (progress < 1f)
