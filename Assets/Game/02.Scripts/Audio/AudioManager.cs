@@ -85,6 +85,8 @@ public class AudioManager : MonoBehaviour
         }
         else
         {
+
+
             Debug.Log("이미 instance가 존재합니다." + this);
             if (Instance != this) //나 자신이 인스턴스가 아닐 경우
             {
@@ -365,7 +367,7 @@ public class AudioManager : MonoBehaviour
             }
 
             source.Stop();
-            source.volume = 1f- myEarGuard;
+            source.volume = 1f - myEarGuard;
         }
 
     }
@@ -424,7 +426,7 @@ public class AudioManager : MonoBehaviour
 
         Audios.audioSource_BGM.volume = Volumes.bgm * masterVolume * bgmVolume;
         Audios.audioSource_EVM.volume = Volumes.evm * masterVolume * bgmVolume;
-        Audios.audioSource_SFX.volume = Volumes.sfx * masterVolume* sfxVolume;
+        Audios.audioSource_SFX.volume = Volumes.sfx * masterVolume * sfxVolume;
         Audios.audioSource_UI.volume = Volumes.ui * masterVolume * sfxVolume;
         Audios.audioSource_PAttack.volume = Volumes.pAttack * masterVolume * sfxVolume;
         Audios.audioSource_PHit.volume = Volumes.pHit * masterVolume * sfxVolume;
