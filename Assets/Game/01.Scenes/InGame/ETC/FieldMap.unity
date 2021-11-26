@@ -747,6 +747,80 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 846.75, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &433115896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 433115898}
+  - component: {fileID: 433115897}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &433115897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433115896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c14a2bba1debc584ca8b51a1f9ee94b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSources:
+    audioSource_BGM: {fileID: 0}
+    audioSource_EVM: {fileID: 0}
+    audioSource_SFX: {fileID: 0}
+    audioSource_UI: {fileID: 0}
+    audioSource_PAttack: {fileID: 0}
+    audioSource_PParrying: {fileID: 0}
+    audioSource_PWalk: {fileID: 0}
+    audioSource_PRun: {fileID: 0}
+    audioSource_PJump: {fileID: 0}
+    audioSource_PLand: {fileID: 0}
+    audioSource_PHit: {fileID: 0}
+    audioSource_Boss: {fileID: 0}
+  audioVolumes:
+    bgm: 1
+    evm: 1
+    sfx: 1
+    ui: 1
+    pAttack: 1
+    pParrying: 1
+    pWalk: 1
+    pRun: 1
+    pJump: 1
+    pLand: 1
+    pHit: 1
+  specialAttackClips: []
+  monsterDeath: {fileID: 0}
+  powerAttack: {fileID: 0}
+  currentMasterVolume: 0
+  currentSFXVolume: 0
+  curentBGMVolume: 0
+--- !u!4 &433115898
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 433115896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.3731194, y: -3.5950172, z: -1.2730844}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &454641614
 GameObject:
   m_ObjectHideFlags: 0

@@ -82,10 +82,13 @@ public class AudioManager : MonoBehaviour
             instance = this;
             Instance = instance;
             DontDestroyOnLoad(this.gameObject);
+
         }
         else
         {
 
+            AudioManager.Instance.audioSources.audioSource_PWalk.Stop();
+            AudioManager.Instance.audioSources.audioSource_PRun.Stop();
 
             Debug.Log("이미 instance가 존재합니다." + this);
             if (Instance != this) //나 자신이 인스턴스가 아닐 경우

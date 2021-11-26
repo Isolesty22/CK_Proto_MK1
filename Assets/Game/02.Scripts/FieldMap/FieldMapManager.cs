@@ -59,6 +59,8 @@ public class FieldMapManager : MonoBehaviour
 
     public void Init()
     {
+
+        isButtonExecute = false;
         keyOption = new KeyOption();
         if (DataManager.Instance != null)
         {
@@ -307,6 +309,7 @@ public class FieldMapManager : MonoBehaviour
 
     }
 
+    private bool isButtonExecute = false;
     public void Button_MoveSelector(int _stageNumber)
     {
         FieldDoor door = null;
@@ -321,9 +324,10 @@ public class FieldMapManager : MonoBehaviour
             }
             else
             {
-                if (door == selectedDoor)
+                if (door == selectedDoor && !isButtonExecute)
                 {
                     canDetectKey = false;
+                    isButtonExecute = true;
                     enterStageAction?.Invoke();
                 }
                 else
@@ -364,7 +368,12 @@ public class FieldMapManager : MonoBehaviour
             //더이상 키 입력을 받지 않음
             canDetectKey = false;
 
-            enterStageAction?.Invoke();
+
+            if (!isButtonExecute)
+            {
+                isButtonExecute = true;
+                enterStageAction?.Invoke();
+            }
         }
     }
 

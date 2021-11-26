@@ -13,8 +13,22 @@ public class UITitleScreen : UIBase
     [Tooltip("현재 load 중 뭘 하고 있는지 표시하는 텍스트")]
     public Text text_load;
 
+
+    [SerializeField]
+    [Tooltip("시연용 빌드 알림 텍스트")]
+    private GameObject text_siyeon;
+
     [Tooltip("아무 키나 누르세요 텍스트")]
     public Image text_pressKey;
+
+
+#if __SIYEON__
+    private void Awake()
+    {
+        text_siyeon.SetActive(true);
+    }
+
+#endif
     public override void Init()
     {
         base.Init();

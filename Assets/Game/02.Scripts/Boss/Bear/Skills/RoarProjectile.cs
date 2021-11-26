@@ -5,6 +5,12 @@ using UnityEngine;
 public class RoarProjectile : BearProjectile
 {
     private float tempMoveTime = 0f;
+
+    [SerializeField]
+    private GameObject model;
+
+    [SerializeField]
+    private ParticleSystem particle;
     public void Init(Vector3 _start, Vector3 _end)
     {
         startPos = _start;
@@ -14,18 +20,23 @@ public class RoarProjectile : BearProjectile
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
         tempMoveTime = Random.Range(moveTime, moveTime + 0.5f);
+
+        model.SetActive(true);
     }
 
     public override void Move()
     {
         StartCoroutine(moveEnumerator);
     }
-
+    private WaitForSeconds waitParticlePlay = new WaitForSeconds(1.1f);
     protected override IEnumerator ProcessDespawn()
     {
         StopCoroutine(moveEnumerator);
         moveEnumerator = ProcessMove();
         yield return null;
+        particle.Play();
+        model.SetActive(false);
+        yield return waitParticlePlay;
         CustomPoolManager.Instance.ReleaseThis(this);
     }
 
