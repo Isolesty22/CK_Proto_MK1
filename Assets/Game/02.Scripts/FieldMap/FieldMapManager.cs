@@ -26,10 +26,17 @@ public class FieldMapManager : MonoBehaviour
 
     private UIGameMessage gameMessage = null;
 
+    [Space(5)]
+    [Tooltip("모든 스테이지를 해금하는 버튼입니다.")]
+    public Button unlockButton;
+
+
+#if __SIYEON__
     private void Awake()
     {
-
+      unlockButton.gameObject.SetActive(true);  
     }
+#endif
     private IEnumerator Start()
     {
 

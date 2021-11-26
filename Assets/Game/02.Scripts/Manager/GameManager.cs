@@ -77,6 +77,8 @@ public class GameManager : MonoBehaviour
         ////}
     }
 
+#if __SIYEON__
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.N))
@@ -89,7 +91,7 @@ public class GameManager : MonoBehaviour
             playerController.Stat.hp += 1;
         }
     }
-
+#endif
     /// <summary>
     /// Application.Quit;
     /// </summary>
