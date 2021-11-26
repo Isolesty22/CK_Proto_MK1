@@ -36,7 +36,6 @@ public class BearState_Stamp : BearState
 
     public override void OnExit()
     {
-        canExit = true;
         bearController.skillObjects.stampShockEffect.SetActive(false);
     }
 
@@ -119,7 +118,7 @@ public class BearState_Rush : BearState
     }
     public override void OnExit()
     {
-        canExit = true;
+
         //사운드 종료
         bearController.audioSource.loop = false;
         bearController.audioSource.Stop();
@@ -179,7 +178,7 @@ public class BearState_Rush : BearState
         }
 
         //돌진 종료
-        bearController.SetAnimEvent(AnimEvent_StopMove);
+        bearController.SetAnimEvent(AnimEvent_GoMove);
         bearController.SetTrigger("Rush_End");
         //이후 자동으로 걷기 애니메이션 출력됨
         bearController.skillObjects.rushEffect.SetActive(false);
@@ -281,7 +280,6 @@ public class BearState_Roar : BearState
     public override void OnExit()
     {
         //혹시 모르니까 이펙트 끄기
-        canExit = true;
         bearController.skillObjects.roarGroundEffect.SetActive(false);
         bearController.skillObjects.roarEffect.SetActive(false);
     }
@@ -458,10 +456,6 @@ public class BearState_Strike : BearState
         }
     }
 
-    public override void OnExit()
-    {
-        canExit = true;
-    }
 
 }
 public class BearState_Claw : BearState
@@ -588,7 +582,7 @@ public class BearState_Smash : BearState
     public override void OnEnter()
     {
         canExit = false;
-        
+
         isFollowHand = false;
 
         bearController.bearMapInfo.UpdateProjectileRandArray();
@@ -825,7 +819,6 @@ public class BearState_Powerless : BearState
 
     public override void OnExit()
     {
-        canExit = true;
         //사운드 스탑
         bearController.audioSource.Stop();
 
@@ -905,13 +898,11 @@ public class BearState_Die : BearState
         pixyTR = pixy.transform;
 
         bearController.colliders.bodyCollider.enabled = false;
-        //사운드 출력
+        ////사운드 출력
         bearController.audioSource.PlayOneShot(bearController.audioClips.death);
 
-        bearController.StartCoroutine(CoTalkDie());
-        bearController.SetAnimEvent(AnimEvent);
-
         bearController.SetTrigger("Die_Start");
+        bearController.StartCoroutine(ProcessDie());
     }
 
     public void AnimEvent()
@@ -919,12 +910,19 @@ public class BearState_Die : BearState
         bearController.animator.enabled = false;
         bearController.colliders.groundCollider.enabled = true;
         bearController.testPotal.Active();
-
     }
 
 
-    private IEnumerator CoTalkDie()
+    private IEnumerator ProcessDie()
     {
+
+        //Death로 전환될 때 까지 대기!!
+        yield return new WaitUntil(() => bearController.animator.GetCurrentAnimatorStateInfo(0).IsName("Die"));
+
+        //이벤트 설정
+        bearController.SetAnimEvent(AnimEvent);
+        
+        //정령 말 시작
         bearController.TalkOnce(208);
         yield return new WaitForSeconds(2.5f);
 

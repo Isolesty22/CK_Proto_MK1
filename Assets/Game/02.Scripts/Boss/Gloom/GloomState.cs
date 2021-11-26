@@ -1037,18 +1037,20 @@ public class GloomState_Die : GloomState
     {
         canExit = false;
 
+        //쉐이크 끝나게...제발
         GameManager.instance.cameraManager.vcamNoise.enabled = false;
+
         //사운드 출력
         gloom.audioSource.PlayOneShot(gloom.audioClips.death);
 
-
         gloom.TalkOnce(412);
-
-        gloom.SetAnimEvent(AnimEvent);
 
         //광폭화 종료
         gloom.SkillObj.berserk.EndBerserk();
+
+        //애니메이션 전환
         gloom.SetTrigger("Die_Start");
+        gloom.StartCoroutine(ProcessDie());
     }
     public void AnimEvent()
     {
@@ -1062,6 +1064,17 @@ public class GloomState_Die : GloomState
 
     }
 
+
+    private IEnumerator ProcessDie()
+    {
+        //Death로 전환될 때 까지 대기!!
+        yield return new WaitUntil(() => gloom.animator.GetCurrentAnimatorStateInfo(0).IsName("Die"));
+
+        //이벤트 설정
+        gloom.SetAnimEvent(AnimEvent);
+
+
+    }
     private IEnumerator CoEnding()
     {
         Data_Player tempData = new Data_Player();
@@ -1072,7 +1085,7 @@ public class GloomState_Die : GloomState
         DataManager.Instance.currentClearStageNumber = 4;
         DataManager.Instance.currentData_player.CopyData(tempData);
         yield return gloom.StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
 
 
         SceneChanger.Instance.LoadThisScene("Ending");
@@ -1082,10 +1095,6 @@ public class GloomState_Die : GloomState
 
         //Time.timeScale = 0f;
         //uiMovie.StartCoroutine(uiMovie.playMovie);
-    }
-    private void UiMovie_onMovieEnded()
-    {
-
     }
 }
 
