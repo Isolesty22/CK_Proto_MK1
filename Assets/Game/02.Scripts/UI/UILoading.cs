@@ -46,7 +46,6 @@ public class UILoading : UIBase
 
     public override bool Close()
     {
-        Debug.Log("Close!");
         fadeDuration = 0.5f;
         StartCoroutine(ProcessClose());
         return true;

@@ -85,8 +85,6 @@ public class UITalk : UIBase
 
     private void ClearTimer()
     {
-
-        Debug.Log("Clear Talk Timer!");
         progress = 0f;
         timer = 0f;
     }

@@ -574,11 +574,12 @@ public class BearState_Claw : BearState
 }
 public class BearState_Smash : BearState
 {
-    WaitForSeconds waitSec = new WaitForSeconds(1f);
-    SmashHelper smashHelper;
-    bool isFollowHand = false;
+    private WaitForSeconds waitSec = new WaitForSeconds(1f);
+    private SmashHelper smashHelper;
 
-    IEnumerator followHand = null;
+    private IEnumerator followHand = null;
+
+    private bool isFollowHand = false;
     public BearState_Smash(BearController _bearController)
     {
         bearController = _bearController;
@@ -587,7 +588,9 @@ public class BearState_Smash : BearState
     public override void OnEnter()
     {
         canExit = false;
+        
         isFollowHand = false;
+
         bearController.bearMapInfo.UpdateProjectileRandArray();
 
         bearController.SetAnimEvent(ActiveHandRock);
@@ -597,10 +600,10 @@ public class BearState_Smash : BearState
 
     public override void OnExit()
     {
-        if (isFollowHand)
+        //손 따라가기가 아직 실행중이라면
+        if (followHand != null)
         {
             bearController.StopCoroutine(followHand);
-            isFollowHand = false;
         }
         smashHelper.SetActive(false);
     }
@@ -623,7 +626,8 @@ public class BearState_Smash : BearState
     private IEnumerator CoFollowHand()
     {
         isFollowHand = true;
-        while (true)
+
+        while (isFollowHand)
         {
             smashHelper.myTransform.SetPositionAndRotation(
                 smashHelper.bearHandTransform.position,
@@ -631,6 +635,8 @@ public class BearState_Smash : BearState
 
             yield return YieldInstructionCache.WaitForEndOfFrame;
         }
+
+        followHand = null;
     }
 
 
@@ -642,15 +648,17 @@ public class BearState_Smash : BearState
 
     private IEnumerator CoSkill()
     {
+        isFollowHand = false;
+
+        yield return null;
 
         //바위가 곰의 손을 더이상 따라가지 않음
-        if (isFollowHand)
+        if (followHand != null)
         {
             bearController.StopCoroutine(followHand);
             isFollowHand = false;
         }
 
-        yield return null;
         smashHelper.SetParentRocks(null);
 
         //yield return new WaitForSeconds(0.2f);
@@ -891,11 +899,10 @@ public class BearState_Die : BearState
     {
         canExit = false;
 
+        Debug.Log("Enter Die");
 
         pixy = GameManager.instance.playerController.Com.pixy;
         pixyTR = pixy.transform;
-
-
 
         bearController.colliders.bodyCollider.enabled = false;
         //사운드 출력
@@ -920,13 +927,17 @@ public class BearState_Die : BearState
     {
         bearController.TalkOnce(208);
         yield return new WaitForSeconds(2.5f);
+
         bearController.TalkOnce(209);
         yield return new WaitForSeconds(1.5f);
+
         //사운드 출력
         bearController.audioSource.PlayOneShot(bearController.audioClips.down);
         yield return new WaitForSeconds(1f);
+
         bearController.TalkOnce(210);
         yield return new WaitForSeconds(2.5f);
+
         UIManager.Instance.Talk(211, 5f);
 
         //bearController.TalkOnce(211);

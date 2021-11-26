@@ -191,12 +191,14 @@ public class SceneChanger : MonoBehaviour
     {
         return SceneManager.GetActiveScene().name;
     }
+
+
     public event Action onSceneLoadEnded = null;
     public void LoadSceneEnd(Scene _scene, LoadSceneMode _loadSceneMode)
     {
         SceneManager.sceneLoaded -= LoadSceneEnd;
         isSceneLoading = false;
-        Debug.Log("LoadSceneEnd 함수 호출");
+
         onSceneLoadEnded?.Invoke();
         if (_scene.name != moveSceneName)
         {

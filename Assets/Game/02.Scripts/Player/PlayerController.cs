@@ -514,7 +514,7 @@ public class PlayerController : MonoBehaviour
         State.isCrouching = false;
         State.isLookUp = false;
 
-        if(!State.isInvincible)
+        if (!State.isInvincible)
             Stat.hp -= 1;
         AudioManager.Instance.Audios.audioSource_PHit.PlayOneShot(AudioManager.Instance.Audios.audioSource_PHit.clip);
 
@@ -661,7 +661,6 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(Key.jump))
         {
-            Debug.Log("work");
             parry = Parry();
             StartCoroutine(parry);
         }
@@ -768,7 +767,7 @@ public class PlayerController : MonoBehaviour
 
     public void Counter()
     {
-        if (Com.pixy.isAttack)
+        if (Com.pixy.isAttack || !Com.pixy.getPixy)
         {
             return;
         }

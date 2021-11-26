@@ -114,10 +114,23 @@ public class UIMainMenu : UIBase
 
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
-                StartNewGame,
-                Button_Continue_Close);
+            //근데 이제 디폴트 생성자랑 데이터가 같을 때만!!
+            if (DataManager.Instance.currentData_player != new Data_Player())
+            {
+                UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
+                     StartNewGame,
+                      Button_Continue_Close);
+            }
+            //디폴트 생성자랑 데이터가 다르면 데이터가 있다는 뜻임. 필드맵 로드 ㄱㄱ
+            else
+            {
+                //상호작용 불가
+                Com.canvasGroup.interactable = false;
+                SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
+            }
+
         }
+        // 필드맵 로드 ㄱㄱ
         else
         {
             //상호작용 불가
