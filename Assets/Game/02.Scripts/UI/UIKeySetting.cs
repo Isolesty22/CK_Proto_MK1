@@ -24,7 +24,7 @@ public class UIKeySetting : UIBase
     public override bool Close()
     {
         //변경사항이 있다면
-        if (!(currentData_keyOption.IsEquals(DataManager.Instance.currentData_settings.keySetting)))
+        if (!(currentData_keyOption.IsEquals(DataManager.Instance.currentData_settings.keySetting)) || !CanSave())
         {
             //팝업 띄우기
             UIManager.Instance.OpenPopup(eUIText.DataNotSave,
@@ -426,6 +426,7 @@ public class UIKeySetting : UIBase
             case KeyCode.V:
             case KeyCode.B:
             case KeyCode.N:
+            case KeyCode.M:
             case KeyCode.LeftArrow:
             case KeyCode.RightArrow:
             case KeyCode.UpArrow:
@@ -504,9 +505,22 @@ public class UIKeySetting : UIBase
     public void Button_Save()
     {
         UIManager.Instance.PlayAudio_Click();
-        if (isSaving || !CanSave())
+
+        if (isSaving)
         {
-            Debug.Log("키 변경 중에는 저장할 수 없습니다.");
+            uiText.text = "변경사항을 저장 중입니다. 다시 한 번 시도해주세요.";
+            return;
+        }
+        if (!CanSave())
+        {
+            uiText.text = "등록에 실패한 키가 있습니다. 확인해주세요.";
+            return;
+        }
+        if (isChangingKey)
+        {
+
+            uiText.text = "키 입력 중에는 적용할 수 없습니다.";
+            //Debug.Log("키 변경 중에는 저장할 수 없습니다.");
             return;
         }
         isSaving = true;

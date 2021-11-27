@@ -878,7 +878,7 @@ public class BearState_Die : BearState
 {
 
 
-    private float pixyMoveTime = 0f;
+    private float pixyMoveTime = 2f;
     private Pixy pixy;
     private Transform pixyTR;
     public BearState_Die(BearController _bearController)
@@ -909,7 +909,6 @@ public class BearState_Die : BearState
     {
         bearController.animator.enabled = false;
         bearController.colliders.groundCollider.enabled = true;
-        bearController.testPotal.Active();
     }
 
 
@@ -936,7 +935,11 @@ public class BearState_Die : BearState
         bearController.TalkOnce(210);
         yield return new WaitForSeconds(2.5f);
 
+        //이쪽이라고 말하기
         UIManager.Instance.Talk(211, 5f);
+
+        //포탈 열기
+        bearController.testPotal.Active();
 
         //bearController.TalkOnce(211);
         pixy.getPixy = false;
