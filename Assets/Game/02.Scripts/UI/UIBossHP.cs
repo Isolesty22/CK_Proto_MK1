@@ -66,11 +66,11 @@ public class UIBossHP : UIBase
         gameObject.SetActive(false);
     }
 
-    private const string str_Die = "Die";
+    //private const string str_Die = "Die";
     private IEnumerator UpdateUI()
     {
 
-        while (hpImage.fillAmount > 0.01f)
+        while (bossController.hp > 0)
         {
             timer += Time.deltaTime * 0.01f;
             progress = Mathf.Lerp(progress, bossController.hp / maxHP, timer);
@@ -78,19 +78,21 @@ public class UIBossHP : UIBase
             yield return null;
         }
 
-        yield return new WaitUntil(() => bossController.stateInfo.state == str_Die);
-        float startFillAmount = hpImage.fillAmount;
+        hpImage.fillAmount = 0f;
+        yield break;
+        //yield return new WaitUntil(() => bossController.stateInfo.state == str_Die);
+        //float startFillAmount = hpImage.fillAmount;
 
-        float oneSecTimer = 0f;
+        //float oneSecTimer = 0f;
 
-        while (progress < 1f)
-        {
-            oneSecTimer += Time.deltaTime;
-            progress = oneSecTimer / 1f;
-            hpImage.fillAmount = Mathf.Lerp(startFillAmount, 0f, oneSecTimer);
+        //while (progress < 1f)
+        //{
+        //    oneSecTimer += Time.deltaTime;
+        //    progress = oneSecTimer / 1f;
+        //    hpImage.fillAmount = Mathf.Lerp(startFillAmount, 0f, oneSecTimer);
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
 
     }
 
