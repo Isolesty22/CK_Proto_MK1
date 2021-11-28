@@ -21,14 +21,21 @@ public class UITitleScreen : UIBase
     [Tooltip("아무 키나 누르세요 텍스트")]
     public Image text_pressKey;
 
-
-#if __SIYEON__
     private void Awake()
     {
-        text_siyeon.SetActive(true);
+
     }
 
-#endif
+
+    private void Start()
+    {
+
+        if (DataManager.Instance.isDebugMode)
+        {
+            text_siyeon.SetActive(true);
+        }
+
+    }
     public override void Init()
     {
         base.Init();
