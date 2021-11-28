@@ -236,7 +236,7 @@ public class BearState_Rush : BearState
 public class BearState_Roar : BearState
 {
 
-    private WaitForSeconds waitSec = new WaitForSeconds(1f);
+    private WaitForSeconds waitSec = new WaitForSeconds(0.6f);
     public BearState_Roar(BearController _bearController)
     {
         bearController = _bearController;

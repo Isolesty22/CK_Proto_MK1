@@ -10,6 +10,9 @@ public class RoarProjectile : BearProjectile
     private GameObject model;
 
     [SerializeField]
+    private Collider col;
+
+    [SerializeField]
     private ParticleSystem particle;
     public void Init(Vector3 _start, Vector3 _end)
     {
@@ -20,7 +23,7 @@ public class RoarProjectile : BearProjectile
         playerController = GameManager.instance.playerController;
         parryEnumerator = playerController.Parrying();
         tempMoveTime = Random.Range(moveTime, moveTime + 0.5f);
-
+        col.enabled = true;
         model.SetActive(true);
     }
 
@@ -34,6 +37,7 @@ public class RoarProjectile : BearProjectile
         StopCoroutine(moveEnumerator);
         moveEnumerator = ProcessMove();
         yield return null;
+        col.enabled = false;
         particle.Play();
         model.SetActive(false);
         yield return waitParticlePlay;
