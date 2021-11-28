@@ -66,32 +66,31 @@ public class GameManager : MonoBehaviour
             //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
 
-        ////if (cameraManager == null)
-        ////{
-        //cameraManager = FindObjectOfType<CameraManager>();
-        ////}
-
-        ////if (playerController == null)
-        ////{
-        //playerController = FindObjectOfType<PlayerController>();
-        ////}
+        if (DataManager.Instance.isDebugMode)
+        {
+            StartCoroutine(CoDebugMode());
+        }
     }
 
-#if __SIYEON__
 
-    private void Update()
+    private IEnumerator CoDebugMode()
     {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
 
-            GoNextStage();
-        }
-        if (Input.GetKeyDown(KeyCode.P))
+        while (true)
         {
-            playerController.Stat.hp += 1;
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                GoNextStage();
+            }
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                playerController.Stat.hp += 1;
+            }
+
+            yield return null;
         }
+
     }
-#endif
     /// <summary>
     /// Application.Quit;
     /// </summary>

@@ -38,8 +38,13 @@ public class DataManager : MonoBehaviour
     public FileManager fileManager;
 
     [SerializeField, Tooltip("현재 상태")]
+    [ReadOnly]
     private eDataManagerState currentState;
 
+    [Tooltip("해당 옵션이 true일 경우, 각종 기능들을 사용할 수 있게 됩니다.")]
+    public bool isDebugMode;
+
+    [Space(5)]
     #region 파일 이름 및 경로
 
     [Tooltip("/DataFiles/")]

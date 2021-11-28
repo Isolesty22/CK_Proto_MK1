@@ -31,12 +31,15 @@ public class FieldMapManager : MonoBehaviour
     public Button unlockButton;
 
 
-#if __SIYEON__
     private void Awake()
     {
-      unlockButton.gameObject.SetActive(true);  
+
+        if (DataManager.Instance.isDebugMode)
+        {
+            unlockButton.gameObject.SetActive(true);
+        }
     }
-#endif
+
     private IEnumerator Start()
     {
 
