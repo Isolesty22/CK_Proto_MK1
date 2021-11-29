@@ -112,10 +112,11 @@ public class UIMainMenu : UIBase
     {
         UIManager.Instance.PlayAudio_Click();
 
+
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            //근데 이제 디폴트 생성자랑 데이터가 같을 때만!!
-            if (DataManager.Instance.currentData_player != new Data_Player())
+            //근데 이제 디폴트 생성자랑 데이터가 같을 때만 데이터 없다는 창 띄우기
+            if (DataManager.Instance.currentData_player.IsEquals(new Data_Player()))
             {
                 UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
                      StartNewGame,
