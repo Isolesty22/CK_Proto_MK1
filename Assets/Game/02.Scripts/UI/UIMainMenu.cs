@@ -97,17 +97,7 @@ public class UIMainMenu : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
     public void LoadTutorial() => SceneChanger.Instance.LoadThisScene(SceneNames.stage_00);
-    private IEnumerator ProcessStartNewGame()
-    {
-        //Com.canvasGroup.interactable = false;
 
-        //DataManager.Instance.currentData_player = new Data_Player();
-        //yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.DataName.settings));
-        //StartCoroutine(movieScreen.playingCoroutine);
-        //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
-
-        yield break;
-    }
     public void Button_ContinueGame()
     {
         UIManager.Instance.PlayAudio_Click();
@@ -153,6 +143,7 @@ public class UIMainMenu : UIBase
     {
         UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.CloseTop();
+
     }
     public void Button_OpenSettings()
     {
