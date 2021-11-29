@@ -237,12 +237,14 @@ public class DataManager : MonoBehaviour
         //파일 읽어오기
         yield return StartCoroutine(fileManager.ReadText(DataName.player, dataFilePath));
 
+
         //제대로 읽어졌으면
         if (!string.IsNullOrEmpty(fileManager.readText_Result))
         {
             Data_Player loadedData = JsonUtility.FromJson<Data_Player>(fileManager.readText_Result);
 
-            currentData_player = loadedData;
+            currentData_player = new Data_Player();
+            currentData_player.CopyData(loadedData);
         }
         else // 없을 경우
         {

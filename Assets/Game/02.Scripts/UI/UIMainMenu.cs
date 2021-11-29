@@ -97,25 +97,16 @@ public class UIMainMenu : UIBase
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
     }
     public void LoadTutorial() => SceneChanger.Instance.LoadThisScene(SceneNames.stage_00);
-    private IEnumerator ProcessStartNewGame()
-    {
-        //Com.canvasGroup.interactable = false;
 
-        //DataManager.Instance.currentData_player = new Data_Player();
-        //yield return StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.DataName.settings));
-        //StartCoroutine(movieScreen.playingCoroutine);
-        //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
-
-        yield break;
-    }
     public void Button_ContinueGame()
     {
         UIManager.Instance.PlayAudio_Click();
 
+
         if (DataManager.Instance.isCreatedNewPlayerData) //데이터가 없었던 상태라면
         {
-            //근데 이제 디폴트 생성자랑 데이터가 같을 때만!!
-            if (DataManager.Instance.currentData_player != new Data_Player())
+            //근데 이제 디폴트 생성자랑 데이터가 같을 때만 데이터 없다는 창 띄우기
+            if (DataManager.Instance.currentData_player.IsEquals(new Data_Player()))
             {
                 UIManager.Instance.OpenPopup(eUIText.NoPlayerData,
                      StartNewGame,
@@ -152,6 +143,7 @@ public class UIMainMenu : UIBase
     {
         UIManager.Instance.PlayAudio_Click();
         UIManager.Instance.CloseTop();
+
     }
     public void Button_OpenSettings()
     {
