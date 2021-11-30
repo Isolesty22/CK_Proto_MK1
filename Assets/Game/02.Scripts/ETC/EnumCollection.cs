@@ -299,7 +299,6 @@ public static class DataName
     public const string talk_stage_02 = "Data_Talk_Stage_02";
     public const string talk_stage_03 = "Data_Talk_Stage_03";
     public const string talk_stage_04 = "Data_Talk_Stage_04";
-
 }
 public static class UIName
 {
@@ -357,6 +356,44 @@ public static class SceneNames
 
 }
 
+
+/// <summary>
+/// 키보드 관련한 유틸입니다.
+/// </summary>
+public static class KeyUtil
+{
+    /// <summary>
+    /// 키코드를 텍스트로 변환해줍니다. 특정 키코드는 지정된 텍스트가 반환됩니다.
+    /// </summary>
+    public static string TryConvertString(KeyCode _keyCode)
+    {
+        switch (_keyCode)
+        {
+            case KeyCode.RightArrow:
+                return "→";
+            case KeyCode.UpArrow:
+                return "↑";
+            case KeyCode.DownArrow:
+                return "↓";
+            case KeyCode.LeftArrow:
+                return "←";
+            case KeyCode.RightControl:
+                return "R ctrl";
+            case KeyCode.LeftControl:
+                return "L ctrl";
+            case KeyCode.RightAlt:
+                return "R alt";
+            case KeyCode.LeftAlt:
+                return "L alt";
+            case KeyCode.RightShift:
+                return "R shift";
+            case KeyCode.LeftShift:
+                return "L shift";
+            default:
+                return _keyCode.ToString();
+        }
+    }
+}
 public class EnumCollection : MonoBehaviour
 {
 

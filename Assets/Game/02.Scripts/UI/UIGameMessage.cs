@@ -5,8 +5,16 @@ using UnityEngine.UI;
 
 public class UIGameMessage : UIBase
 {
-    public Text uiText;
+    [SerializeField]
+    private Text uiText;
+
+    [SerializeField]
+    private GameObject skipText;
+
+
     private string currentText;
+
+
 
     private WaitForSeconds waitSec;
     private IEnumerator open;
@@ -39,6 +47,14 @@ public class UIGameMessage : UIBase
         openUseDuration = ProcessOpenUseDuration();
     }
 
+
+    /// <summary>
+    /// 메시지를 건너뛸 수 있다는 UI를 활성화/비활성화합니다.
+    /// </summary>
+    public void SetActiveSkipMessage(bool _b)
+    {
+        skipText.SetActive(_b);
+    }
     public void SetWaitTime(float _waitTime)
     {
         waitSec = new WaitForSeconds(_waitTime);

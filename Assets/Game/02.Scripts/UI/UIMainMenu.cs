@@ -55,6 +55,7 @@ public class UIMainMenu : UIBase
         Com.canvasGroup.interactable = false;
         UIManager.Instance.CloseTop();
 
+        //브금 재생 종료
         if (AudioManager.Instance.Audios.audioSource_BGM.isPlaying)
             AudioManager.Instance.Audios.audioSource_BGM.Stop();
 
@@ -63,16 +64,19 @@ public class UIMainMenu : UIBase
         //StartCoroutine(DataManager.Instance.SaveCurrentData(DataManager.DataName.settings));
         //SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
 
+        //새로운 게임 데이터를 생성 후 저장
         DataManager.Instance.currentData_player = new Data_Player();
         StartCoroutine(DataManager.Instance.SaveCurrentData(DataName.player));
 
         movieScreen.onMovieEnded += OnMovieEnded;
+
+        //영상 재생
         StartCoroutine(movieScreen.playMovie);
     }
 
     private void Update()
     {
-        if (UIManager.Instance.uiStackCount == 0)
+        if (UIManager.Instance.uiStackCount == 0 && Com.canvasGroup.interactable)
         {
             selectorController.DetectKey();
         }

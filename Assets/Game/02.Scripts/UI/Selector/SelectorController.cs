@@ -96,7 +96,6 @@ public class SelectorController : MonoBehaviour
         {
             current.index = (current.index - 1) % buttonsCount;
             AbsCurrentIndex();
-            Debug.Log(current.index);
             SelectButton(current.index);
 
             return;
@@ -107,7 +106,6 @@ public class SelectorController : MonoBehaviour
             current.index = (current.index + 1) % buttonsCount;
             AbsCurrentIndex();
             //current.index = Mathf.Abs(current.index);
-            Debug.Log(current.index);
             SelectButton(current.index);
 
             return;

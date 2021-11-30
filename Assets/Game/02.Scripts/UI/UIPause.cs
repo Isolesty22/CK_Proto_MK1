@@ -60,6 +60,8 @@ public class UIPause : UIBase
     }
     public void Button_ReturnFieldMap()
     {
+        Com.canvasGroup.interactable = false;
+
         UIManager.Instance.PlayAudio_Click();
         SceneChanger.Instance.LoadThisScene(SceneNames.fieldMap);
         Com.canvasGroup.interactable = false;
@@ -74,6 +76,8 @@ public class UIPause : UIBase
 
     public void Button_ReturnMain()
     {
+        Com.canvasGroup.interactable = false;
+
         UIManager.Instance.PlayAudio_Click();
         SceneChanger.Instance.LoadThisScene(SceneNames.mainMenu);
         Com.canvasGroup.interactable = false;

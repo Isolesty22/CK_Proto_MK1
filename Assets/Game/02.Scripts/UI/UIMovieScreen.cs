@@ -97,7 +97,7 @@ public class UIMovieScreen : UIBase
         }
         else
         {
-            yield return StartCoroutine(base.ProcessOpen());
+            yield return base.ProcessOpen();
         }
 
     }
@@ -132,7 +132,7 @@ public class UIMovieScreen : UIBase
     }
     public void OnPressSkip()
     {
-        //UIManager.Instance.PlayAudio_Click();
+        UIManager.Instance.PlayAudio_Click();
         isSkip = true;
         Com.canvasGroup.interactable = false;
     }
@@ -142,6 +142,12 @@ public class UIMovieScreen : UIBase
 
         Debug.Log("CoPlayMoive");
         yield return StartCoroutine(ProcessOpen());
+        //UIManager.Instance.OpenThis(this);
+
+        //열릴떄까지 대기
+        yield return new WaitUntil(() => Com.canvasGroup.alpha >= 1f);
+
+        //다 열렸으면 false;
         blackPanel.gameObject.SetActive(false);
         videoPlayer.Play();
         long frameCount = Convert.ToInt64(videoPlayer.frameCount) - 1;
@@ -150,10 +156,7 @@ public class UIMovieScreen : UIBase
 
         while (true)
         {
-
-            if (Input.GetKeyDown(KeyCode.Escape) ||
-                Input.GetKeyDown(KeyCode.Return) ||
-                Input.GetKeyDown(KeyCode.Z) || isSkip)
+            if (Input.GetKeyDown(KeyCode.Escape) || isSkip)
             {
                 break;
             }
