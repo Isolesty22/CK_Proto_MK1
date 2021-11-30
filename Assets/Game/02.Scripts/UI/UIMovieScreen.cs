@@ -132,6 +132,10 @@ public class UIMovieScreen : UIBase
     }
     public void OnPressSkip()
     {
+        if (isSkip)
+        {
+            return;
+        }
         UIManager.Instance.PlayAudio_Click();
         isSkip = true;
         Com.canvasGroup.interactable = false;

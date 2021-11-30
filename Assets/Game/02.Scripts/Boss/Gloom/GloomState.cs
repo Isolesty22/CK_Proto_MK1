@@ -980,17 +980,10 @@ public class GloomState_Berserk : GloomState
     public override void OnEnter()
     {
         canExit = false;
-        currentCoroutine = CoWait();
-        gloom.StartCoroutine(currentCoroutine);
         gloom.SkillObj.berserk.StartBerserk();
         gloom.TalkOnce(407);
-    }
 
-    private IEnumerator CoWait()
-    {
-        gloom.StartInvincible();
-        yield return new WaitForSeconds(2f);
-        canExit = true;
+        gloom.SetTrigger("Berserk_Start");
     }
 
     public override void OnExit()

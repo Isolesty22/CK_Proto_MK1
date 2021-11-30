@@ -40,8 +40,12 @@ public class TempTutorialLoader : MonoBehaviour
         }
     }
 
+   
+
     private IEnumerator Start()
     {
+        //시작부터 못움직이게
+        GameManager.instance.playerController.State.moveSystem = true;
         yield return StartCoroutine(DataManager.Instance.LoadData_Talk("Stage_00"));
 
         yield return null;
@@ -354,7 +358,7 @@ public class TempTutorialLoader : MonoBehaviour
         MessageClose();
 
         SetSkipMessage(true);
-        MessageOpen("몬스터에게 공격을 적중시키거나 '패링'을 성공시키면 \n정화 게이지를 획득할 수 있습니다.");
+        MessageOpen("공격을 적중시키거나 '패링'을 성공시키면 \n정화 게이지를 획득할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
 
 
@@ -380,7 +384,7 @@ public class TempTutorialLoader : MonoBehaviour
         yield return StartCoroutine(CoWaitTalkEnd());
 
         SetSkipMessage(false);
-        MessageOpen(GetKeyString(keyOption.counter) + "키로 생명의 빛을 사용해보세요.");
+        MessageOpen(GetKeyString(keyOption.counter) + "키로 표적을 향해 생명의 빛을 사용해보세요.");
         CanMove(true, false);
 
         while (!player.Com.pixy.isAttack)
@@ -415,6 +419,7 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         MessageOpen("빛의 축제를 사용하고 있을 때에는 정화 게이지를 획득할 수 없습니다.");
+        yield return StartCoroutine(CoWaitTalkEnd());
     }
     private IEnumerator CoPrac_End()
     {
