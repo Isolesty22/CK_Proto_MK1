@@ -316,7 +316,7 @@ public class UIKeySetting : UIBase
         currentButton.keyCode = keyInputDetector.currentKeyCode;
 
         //텍스트 변경
-        currentButton.text.text = TryConvertString(keyInputDetector.currentKeyCode);
+        currentButton.text.text = KeyUtil.TryConvertString(keyInputDetector.currentKeyCode);
 
         isChangingKey = false;
     }
@@ -352,7 +352,7 @@ public class UIKeySetting : UIBase
     {
         for (int i = 0; i < length; i++)
         {
-            keyChangeButtons[i].text.text = TryConvertString(keyChangeButtons[i].keyCode);
+            keyChangeButtons[i].text.text = KeyUtil.TryConvertString(keyChangeButtons[i].keyCode);
         }
     }
 
@@ -396,6 +396,16 @@ public class UIKeySetting : UIBase
     /// </summary>
     private bool IsPossibleKey(KeyCode _keyCode)
     {
+        //디버그 모드일 경우
+        if (DataManager.Instance.isDebugMode)
+        {
+            if (_keyCode == KeyCode.N || _keyCode == KeyCode.P)
+            {
+                return false;
+            }
+
+        }
+
 
         //아니...이게...이게 맞나? 진짜 이렇게 해아하는건가?
         switch (_keyCode)
@@ -444,38 +454,6 @@ public class UIKeySetting : UIBase
         }
     }
 
-    /// <summary>
-    /// KeyCode를 String으로 변환합니다. 특정 KeyCode의 경우에는 지정된 문자로 변환횝니다.
-    /// </summary>
-
-    private string TryConvertString(KeyCode _keyCode)
-    {
-        switch (_keyCode)
-        {
-            case KeyCode.RightArrow:
-                return "→";
-            case KeyCode.UpArrow:
-                return "↑";
-            case KeyCode.DownArrow:
-                return "↓";
-            case KeyCode.LeftArrow:
-                return "←";
-            case KeyCode.RightControl:
-                return "R ctrl";
-            case KeyCode.LeftControl:
-                return "L ctrl";
-            case KeyCode.RightAlt:
-                return "R alt";
-            case KeyCode.LeftAlt:
-                return "L alt";
-            case KeyCode.RightShift:
-                return "R shift";
-            case KeyCode.LeftShift:
-                return "L shift";
-            default:
-                return _keyCode.ToString();
-        }
-    }
 
     /// <summary>
     /// 키 변경 버튼 함수
@@ -536,7 +514,7 @@ public class UIKeySetting : UIBase
         Debug.Log("Save 완료");
 
         isSaving = false;
-        UIManager.Instance.CloseTop();
+        uiText.text = "적용되었습니다.";
     }
 
 }

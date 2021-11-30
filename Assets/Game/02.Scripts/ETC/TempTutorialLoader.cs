@@ -9,6 +9,19 @@ public class TempTutorialLoader : MonoBehaviour
     private PlayerController player;
 
     private UIPlayerHP uiPlayer;
+
+
+    public KeyOption keyOption
+    {
+        get
+        {
+            return DataManager.Instance.currentData_settings.keySetting;
+        }
+        private set
+        {
+            keyOption = value;
+        }
+    }
     public string currentCoName { get; private set; }
     private void Awake()
     {
@@ -174,7 +187,7 @@ public class TempTutorialLoader : MonoBehaviour
 
         GameManager.instance.playerController.Com.pixy.getPixy = true;
         CanMove(true);
-       // StartCoroutine(CoPrac_Move());
+        // StartCoroutine(CoPrac_Move());
 
     }
 
@@ -306,6 +319,9 @@ public class TempTutorialLoader : MonoBehaviour
         yield break;
     }
 
+
+    private string GetKeyString(KeyCode _keyCode) => "[" + KeyUtil.TryConvertString(_keyCode) + "]";
+
     private IEnumerator CoPrac_Parrying()
     {
 
@@ -313,7 +329,15 @@ public class TempTutorialLoader : MonoBehaviour
 
         CanMove(false);
 
-        MessageOpen("점프 중, 적과 닿았을 때 [X]키를 사용하면 \n'패링'으로 연속 점프를 할 수 있습니다. ");
+        SetSkipMessage(true);
+        MessageOpen("점프 중, 적과 닿기 직전에" + GetKeyString(keyOption.jump) + "키를 사용하면 \n'패링'으로 연속 점프를 할 수 있습니다. ");
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        MessageOpen("몬스터의 몸통이나 발사체 등, \n대부분의 물체는 '패링'을 할 수 있습니다.");
+        yield return StartCoroutine(CoWaitTalkEnd());
+
+        SetSkipMessage(false);
+        MessageOpen("가시공을 향해 점프한 후, 닿기 직전에\n"+ GetKeyString(keyOption.jump)+"키를 눌러 '패링'을 해보세요.");
         CanMove(true);
 
         while (!player.State.isParrying)
@@ -326,18 +350,20 @@ public class TempTutorialLoader : MonoBehaviour
     private IEnumerator CoPrac_Attack_Power()
     {
 
-        CanMove(false);
+        CanMove(false, false);
         MessageClose();
 
+        SetSkipMessage(true);
         MessageOpen("몬스터에게 공격을 적중시키거나 '패링'을 성공시키면 \n정화 게이지를 획득할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        
+
 
         MessageOpen("정화 게이지는 좌측 상단 UI에서 확인할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
 
+        SetSkipMessage(false);
         MessageOpen("통나무를 때려서 정화 게이지를 획득해보세요.");
-        CanMove(true);
+        CanMove(true, false);
 
         while (player.Stat.pixyEnerge < 9.8f)
         {
@@ -346,30 +372,34 @@ public class TempTutorialLoader : MonoBehaviour
 
         CanMove(false, false);
 
+        SetSkipMessage(true);
         MessageOpen("게이지를 일정량 획득할 때마다 좌측 상단 UI에 꽃이 한 송이씩 피어납니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
+
         MessageOpen("꽃을 한 송이 소모하면 \n루미에의 '생명의 빛'을 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
 
-        MessageOpen("[C]키로 생명의 빛을 사용해보세요.");
-
+        SetSkipMessage(false);
+        MessageOpen(GetKeyString(keyOption.counter) + "키로 생명의 빛을 사용해보세요.");
         CanMove(true, false);
 
         while (!player.Com.pixy.isAttack)
         {
             yield return null;
         }
-        MessageOpen("생명의 빛은 적을 관통할 수 있습니다.");
+        MessageOpen("생명의 빛은 지형과 적을 관통할 수 있습니다.");
 
     }
 
     private IEnumerator CoPrac_Attack_Ult()
     {
-        CanMove(false);
+        CanMove(false, false);
+        SetSkipMessage(true);
         MessageOpen("정화 게이지를 끝까지 채워 꽃이 주황색으로 물들면,\n 루미에의 '빛의 축제'를 사용할 수 있습니다.");
         yield return StartCoroutine(CoWaitTalkEnd());
-        CanMove(true);
 
+        CanMove(true, false);
+        SetSkipMessage(false);
         MessageOpen("통나무를 때려서 정화 게이지를 끝까지 채워보세요.");
 
         while (player.Stat.pixyEnerge < 29.8f)
@@ -377,7 +407,7 @@ public class TempTutorialLoader : MonoBehaviour
             yield return null;
         }
 
-        MessageOpen("[V]키로 빛의 축제를 사용해보세요.");
+        MessageOpen(GetKeyString(keyOption.ult) + "키로 빛의 축제를 사용해보세요.");
 
         while (!player.Com.pixy.isUlt)
         {
@@ -459,6 +489,11 @@ public class TempTutorialLoader : MonoBehaviour
     private void MessageClose()
     {
         gameMessage.Close();
+    }
+
+    private void SetSkipMessage(bool _b)
+    {
+        gameMessage.SetActiveSkipMessage(_b);
     }
     private bool GetKey(KeyCode _keyCode) => Input.GetKey(_keyCode);
     private bool GetKeyDown(KeyCode _keyCode) => Input.GetKey(_keyCode);
