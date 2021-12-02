@@ -9,25 +9,24 @@ public class KeyTextManager : MonoBehaviour
     [Tooltip("키세팅 UI. 이벤트 설정 용으로 사용함")]
     private UIKeySetting uiKeySetting;
 
+    [SerializeField]
+    private TextMesh keyLookUp;
+    [SerializeField]
+    private TextMesh keyCrouch;
+    [SerializeField]
+    private TextMesh keyMoveRight;
+    [SerializeField]
+    private TextMesh keyMoveLeft;
+    [SerializeField]
+    private TextMesh keyJump;
 
     [SerializeField]
-    private Text keyLookUp;
-    [SerializeField]
-    private Text keyCrouch;
-    [SerializeField]
-    private Text keyMoveRight;
-    [SerializeField]
-    private Text keyMoveLeft;
-    [SerializeField]
-    private Text keyJump;
+    private TextMesh keyAttack;
 
     [SerializeField]
-    private Text keyAttack;
-
+    private TextMesh keyLifeLight;
     [SerializeField]
-    private Text keyLifeLight;
-    [SerializeField]
-    private Text keyLightFes;
+    private TextMesh keyLightFes;
 
     private KeyOption keyOption
     {
@@ -60,7 +59,7 @@ public class KeyTextManager : MonoBehaviour
         ChangeKeyText(keyLightFes, keyOption.ult);
     }
 
-    private void ChangeKeyText(Text _text, KeyCode _changeKeyCode)
+    private void ChangeKeyText(TextMesh _text, KeyCode _changeKeyCode)
     {
         _text.text = KeyUtil.TryConvertString(_changeKeyCode);
     }
