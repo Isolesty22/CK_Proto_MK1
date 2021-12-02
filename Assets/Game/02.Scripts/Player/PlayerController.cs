@@ -238,17 +238,19 @@ public class PlayerController : MonoBehaviour
         UpdatePhysics();
         UpCheck();
 
-        if (!State.isAlive)
-            return;
 
-        Com.animator.SetBool("isJumping", State.isJumping);
 
-        if (!State.moveSystem)
-        {
-            Jump();
-            ReadyToParry();
-            JumpInputCheck();
-        }
+            Com.animator.SetBool("isJumping", State.isJumping);
+
+            if (!State.moveSystem)
+            {
+                Jump();
+                ReadyToParry();
+                JumpInputCheck();
+            }
+
+        
+
 
         Move();
     }
@@ -465,6 +467,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (!State.isAlive)
+            return;
+
+
         if (!Val.prevJump && Input.GetKey(Key.jump) && !State.isJumping) 
         {
             AudioManager.Instance.Audios.audioSource_PJump.PlayOneShot(AudioManager.Instance.Audios.audioSource_PJump.clip);
@@ -544,8 +550,12 @@ public class PlayerController : MonoBehaviour
         if (Stat.hp < 1)
         {
             State.isAlive = false;
+
+            Com.animator.SetLayerWeight(1, 0);
+
             Com.animator.SetTrigger("Death");
             InputVal.movementInput = 0f;
+
             State.moveSystem = false;
         }
         else
@@ -581,6 +591,8 @@ public class PlayerController : MonoBehaviour
         if (Stat.hp < 1)
         {
             State.isAlive = false;
+
+            Com.animator.SetLayerWeight(1, 0);
             Com.animator.SetTrigger("Death");
             InputVal.movementInput = 0f;
             State.moveSystem = false;
