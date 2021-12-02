@@ -10,31 +10,22 @@ public class KeyTextManager : MonoBehaviour
     private UIKeySetting uiKeySetting;
 
     [SerializeField]
-    private TextMesh keyLookUp;
+    private Sprite boxLongSprite;
     [SerializeField]
-    private TextMesh keyCrouch;
-    [SerializeField]
-    private TextMesh keyMoveRight;
-    [SerializeField]
-    private TextMesh keyMoveLeft;
+    private Sprite boxShortSprite;
 
-    [SerializeField]
-    private TextMesh keyJump;
-    [SerializeField]
-    private TextMesh keyJump_Parry;
-    [SerializeField]
-    private TextMesh keyJump_Jump;
-
-    [SerializeField]
-    private TextMesh keyAttack;
-
-    [SerializeField]
-    private TextMesh keyAttack_Up;
-
-    [SerializeField]
-    private TextMesh keyLifeLight;
-    [SerializeField]
-    private TextMesh keyLightFes;
+    [Space(5)]
+    private TutorialKeyBox keyLookUp;
+    private TutorialKeyBox keyCrouch;
+    private TutorialKeyBox keyMoveRight;
+    private TutorialKeyBox keyMoveLeft;
+    private TutorialKeyBox keyJump;
+    private TutorialKeyBox keyParry;
+    private TutorialKeyBox keyParry_Jump;
+    private TutorialKeyBox keyAttack;
+    private TutorialKeyBox keyAttack_Up;
+    private TutorialKeyBox keyLifeLight;
+    private TutorialKeyBox keyLightFes;
 
     private KeyOption keyOption
     {
@@ -46,32 +37,43 @@ public class KeyTextManager : MonoBehaviour
 
     private void Start()
     {
-        uiKeySetting.onSave += UpdateKeyText;
+        uiKeySetting.onSave += UpdateAllKeyBox;
     }
 
     /// <summary>
-    /// 등록된 키 텍스트를 업데이트합니다.
+    /// 등록된 키박스를 전부 업데이트합니다.
     /// </summary>
-    private void UpdateKeyText()
+    private void UpdateAllKeyBox()
     {
-        ChangeKeyText(keyAttack, keyOption.attack);
-        ChangeKeyText(keyAttack_Up, keyOption.attack);
+        UpdateKeyBox(keyAttack, keyOption.attack);
+        UpdateKeyBox(keyAttack_Up, keyOption.attack);
 
-        ChangeKeyText(keyLookUp, keyOption.lookUp);
-        ChangeKeyText(keyCrouch, keyOption.crouch);
+        UpdateKeyBox(keyLookUp, keyOption.lookUp);
+        UpdateKeyBox(keyCrouch, keyOption.crouch);
 
-        ChangeKeyText(keyMoveLeft, keyOption.moveLeft);
-        ChangeKeyText(keyMoveRight, keyOption.moveRight);
-        ChangeKeyText(keyJump, keyOption.jump);
-        ChangeKeyText(keyJump_Jump, keyOption.jump);
-        ChangeKeyText(keyJump_Parry, keyOption.jump);
+        UpdateKeyBox(keyMoveLeft, keyOption.moveLeft);
+        UpdateKeyBox(keyMoveRight, keyOption.moveRight);
+        UpdateKeyBox(keyJump, keyOption.jump);
+        UpdateKeyBox(keyParry, keyOption.jump);
+        UpdateKeyBox(keyParry_Jump, keyOption.jump);
 
-        ChangeKeyText(keyLifeLight, keyOption.counter);
-        ChangeKeyText(keyLightFes, keyOption.ult);
+        UpdateKeyBox(keyLifeLight, keyOption.counter);
+        UpdateKeyBox(keyLightFes, keyOption.ult);
     }
 
-    private void ChangeKeyText(TextMesh _text, KeyCode _changeKeyCode)
+    private void UpdateKeyBox(TutorialKeyBox _keyBox, KeyCode _changeKeyCode)
     {
-        _text.text = KeyUtil.TryConvertString(_changeKeyCode);
+        string curString = KeyUtil.TryConvertString(_changeKeyCode);
+
+        if (curString.Length > 1)
+        {
+            _keyBox.SetSprite(boxLongSprite);
+        }
+        else
+        {
+            _keyBox.SetSprite(boxShortSprite);
+        }
+
+        _keyBox.UpdateText(curString);
     }
 }
