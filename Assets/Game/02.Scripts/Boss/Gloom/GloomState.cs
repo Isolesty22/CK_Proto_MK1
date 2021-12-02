@@ -982,12 +982,13 @@ public class GloomState_Berserk : GloomState
         canExit = false;
         gloom.SkillObj.berserk.StartBerserk();
         gloom.TalkOnce(407);
+        gloom.StartCoroutine(CoWait());
     }
 
 
     private IEnumerator CoWait()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         canExit = true;
     }
 

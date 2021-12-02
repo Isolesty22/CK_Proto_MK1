@@ -327,7 +327,7 @@ public class GloomController : BossController
         while (timer < 2f)
         {
             timer += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
             {
                 yield break;
             }

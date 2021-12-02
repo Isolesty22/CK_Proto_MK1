@@ -11,6 +11,9 @@ public class TempTutorialLoader : MonoBehaviour
     private UIPlayerHP uiPlayer;
 
 
+    public GameObject keyLifeLight;
+    public GameObject keyLightFes;
+
     public KeyOption keyOption
     {
         get
@@ -44,6 +47,9 @@ public class TempTutorialLoader : MonoBehaviour
 
     private IEnumerator Start()
     {
+        keyLifeLight.SetActive(false);
+        keyLightFes.SetActive(false);
+
         //시작부터 못움직이게
         GameManager.instance.playerController.State.moveSystem = true;
         yield return StartCoroutine(DataManager.Instance.LoadData_Talk("Stage_00"));
@@ -386,6 +392,7 @@ public class TempTutorialLoader : MonoBehaviour
         SetSkipMessage(false);
         MessageOpen(GetKeyString(keyOption.counter) + "키로 표적을 향해 생명의 빛을 사용해보세요.");
         CanMove(true, false);
+        keyLifeLight.SetActive(true);
 
         while (!player.Com.pixy.isAttack)
         {
@@ -412,7 +419,7 @@ public class TempTutorialLoader : MonoBehaviour
         }
 
         MessageOpen(GetKeyString(keyOption.ult) + "키로 빛의 축제를 사용해보세요.");
-
+        keyLightFes.SetActive(true);
         while (!player.Com.pixy.isUlt)
         {
             yield return null;
@@ -508,7 +515,7 @@ public class TempTutorialLoader : MonoBehaviour
     /// </summary>
     private bool IsInputSkipKey()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetMouseButtonDown(0)))
         {
             return true;
         }
