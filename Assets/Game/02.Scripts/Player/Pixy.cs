@@ -9,6 +9,7 @@ public class Pixy : MonoBehaviour
     public Animator anim;
     public ParticleSystem charge;
     public ParticleSystem ultEnerge;
+    public ParticleSystem fullEnerge;
 
     public bool getPixy;
 
@@ -32,6 +33,7 @@ public class Pixy : MonoBehaviour
     public float ultDelay = 0.2f;
     public float ultTime = 10f;
 
+    public bool fullTrigger;
 
     private void Awake()
     {
@@ -78,7 +80,9 @@ public class Pixy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(getPixy)
+        FullEnerge();
+
+        if (getPixy)
         {
             if (isUlt)
             {
@@ -288,6 +292,23 @@ public class Pixy : MonoBehaviour
         if (other.CompareTag("Monster") || other.CompareTag("Boss"))
         {
             enemyList.Remove(other.gameObject);
+        }
+    }
+
+    public void FullEnerge()
+    {
+        if(pc.Stat.pixyEnerge >29.95)
+        {
+            if(fullTrigger)
+            {
+                fullEnerge.Play();
+                fullTrigger = false;
+            }
+        }
+        else
+        {
+            fullTrigger = true;
+            fullEnerge.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 }

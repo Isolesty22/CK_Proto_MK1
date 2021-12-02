@@ -121,6 +121,7 @@ public class PlayerController : MonoBehaviour
         public bool moveSystem;
         public bool isAlive;
         public bool counterCheck;
+        public bool parryLimit;
     }
 
     [Serializable]
@@ -191,6 +192,7 @@ public class PlayerController : MonoBehaviour
         Com.pixyTargetPos.localPosition = Com.pixyPos;
 
         State.isAlive = true;
+        State.parryLimit = true;
 
         invincible = Invincible();
         //Com.walk.gameObject.SetActive(false);
@@ -205,6 +207,9 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (!State.isAlive)
+            return;
+
         if (!State.moveSystem)
         {
             SetInput();
@@ -214,7 +219,7 @@ public class PlayerController : MonoBehaviour
             LookUp();
             Crouch();
             Rotate();
-            ReadyToParry();
+            //ReadyToParry();
 
             Counter();
 
@@ -227,14 +232,22 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         GroundCheck();
         ForwardCheck();
         UpdatePhysics();
         UpCheck();
 
+        if (!State.isAlive)
+            return;
+
+        Com.animator.SetBool("isJumping", State.isJumping);
+
         if (!State.moveSystem)
         {
             Jump();
+            ReadyToParry();
+            JumpInputCheck();
         }
 
         Move();
@@ -447,18 +460,22 @@ public class PlayerController : MonoBehaviour
 
     private void Jump()
     {
-        if (!State.isGrounded || State.isHit || State.isUpBlocked)
+        if (!State.isGrounded || State.isHit || State.isUpBlocked || State.isJumping)
         {
             return;
         }
 
-        if (!Val.prevJump && Input.GetKey(Key.jump))
+        if (!Val.prevJump && Input.GetKey(Key.jump) && !State.isJumping) 
         {
             AudioManager.Instance.Audios.audioSource_PJump.PlayOneShot(AudioManager.Instance.Audios.audioSource_PJump.clip);
             Val.velocityY = Stat.jumpForce;
+            State.parryLimit = true;
             State.isJumping = true;
         }
+    }
 
+    private void JumpInputCheck()
+    {
         Val.prevJump = Input.GetKey(Key.jump);
     }
 
@@ -528,6 +545,7 @@ public class PlayerController : MonoBehaviour
         {
             State.isAlive = false;
             Com.animator.SetTrigger("Death");
+            InputVal.movementInput = 0f;
             State.moveSystem = false;
         }
         else
@@ -564,6 +582,7 @@ public class PlayerController : MonoBehaviour
         {
             State.isAlive = false;
             Com.animator.SetTrigger("Death");
+            InputVal.movementInput = 0f;
             State.moveSystem = false;
         }
         else
@@ -659,17 +678,18 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (Input.GetKeyDown(Key.jump))
+        if (Input.GetKey(Key.jump) && !Val.prevJump && State.parryLimit)
         {
+            Debug.Log("ready to parry!");
             parry = Parry();
             StartCoroutine(parry);
         }
-
     }
 
     public IEnumerator Parry()
     {
         State.canParry = true;
+        State.parryLimit = false;
 
         //effect
         Com.parry.Play();
@@ -685,7 +705,9 @@ public class PlayerController : MonoBehaviour
         AudioManager.Instance.Audios.audioSource_PParrying.PlayOneShot(AudioManager.Instance.Audios.audioSource_PParrying.clip);
 
         State.canParry = false;
+
         Val.velocityY = Stat.parryingForce;
+        State.parryLimit = true;
         Com.animator.SetTrigger("Parrying");
 
         if (!Com.pixy.isUlt)
@@ -797,7 +819,7 @@ public class PlayerController : MonoBehaviour
         Com.animator.SetBool("isMoving", State.isMoving);
         Com.animator.SetBool("isAttack", State.isAttack);
         Com.animator.SetBool("isCrouching", State.isCrouching);
-        Com.animator.SetBool("isJumping", State.isJumping);
+        //Com.animator.SetBool("isJumping", State.isJumping);
         Com.animator.SetBool("isLookUp", State.isLookUp);
         Com.animator.SetBool("isHit", State.isHit);
         //Com.animator.SetBool("isAlive", State.isAlive);
