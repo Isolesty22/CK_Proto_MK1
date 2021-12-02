@@ -4,8 +4,22 @@ using UnityEngine;
 
 public class TutorialKeyBox : MonoBehaviour
 {
-    public SpriteRenderer boxSprite;
-    public TextMesh textMesh;
+    [SerializeField]
+    private SpriteRenderer boxSprite;
+    [SerializeField]
+    private TextMesh textMesh;
+    [SerializeField]
+    private Transform tr;
+    
+    [SerializeField]
+    private Transform tr_parent;
+
+    [Tooltip("피봇의 방향입니다. 오른쪽, 왼쪽 중 하나여야합니다.")]
+    public eDirection pivotDir;
+    public void UpdatePosition(Vector2 _pos)
+    {
+        tr.position = _pos;
+    }
     public void UpdateText(string _str)
     {
         textMesh.text = _str;

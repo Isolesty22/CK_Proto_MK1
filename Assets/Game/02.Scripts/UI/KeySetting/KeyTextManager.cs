@@ -15,16 +15,28 @@ public class KeyTextManager : MonoBehaviour
     private Sprite boxShortSprite;
 
     [Space(5)]
+
+    [SerializeField]
     private TutorialKeyBox keyLookUp;
+    [SerializeField]
     private TutorialKeyBox keyCrouch;
+    [SerializeField]
     private TutorialKeyBox keyMoveRight;
+    [SerializeField]
     private TutorialKeyBox keyMoveLeft;
+    [SerializeField]
     private TutorialKeyBox keyJump;
+    [SerializeField]
     private TutorialKeyBox keyParry;
+    [SerializeField]
     private TutorialKeyBox keyParry_Jump;
+    [SerializeField]
     private TutorialKeyBox keyAttack;
+    [SerializeField]
     private TutorialKeyBox keyAttack_Up;
+    [SerializeField]
     private TutorialKeyBox keyLifeLight;
+    [SerializeField]
     private TutorialKeyBox keyLightFes;
 
     private KeyOption keyOption
@@ -35,8 +47,15 @@ public class KeyTextManager : MonoBehaviour
         }
     }
 
+    private readonly Vector2 boxLongPos_right = new Vector2(-0.85f, 0f);
+    private readonly Vector2 boxLongPos_left = new Vector2(-0.85f, 0f);
+    private readonly Vector2 boxShortPos_right = new Vector2(-0.3f, 0f);
+    private readonly Vector2 boxShortPos_left = new Vector2(-0.3f, 0f);
+
+
     private void Start()
     {
+        UpdateAllKeyBox();
         uiKeySetting.onSave += UpdateAllKeyBox;
     }
 
@@ -68,10 +87,26 @@ public class KeyTextManager : MonoBehaviour
         if (curString.Length > 1)
         {
             _keyBox.SetSprite(boxLongSprite);
+            if (_keyBox.pivotDir == eDirection.Left)
+            {
+                _keyBox.UpdatePosition(boxLongPos_left);
+            }
+            else
+            {
+                _keyBox.UpdatePosition(boxLongPos_right);
+            }
         }
         else
         {
             _keyBox.SetSprite(boxShortSprite);
+            if (_keyBox.pivotDir == eDirection.Left)
+            {
+                _keyBox.UpdatePosition(boxShortPos_left);
+            }
+            else
+            {
+                _keyBox.UpdatePosition(boxShortPos_right);
+            }
         }
 
         _keyBox.UpdateText(curString);
