@@ -982,14 +982,18 @@ public class GloomState_Berserk : GloomState
         canExit = false;
         gloom.SkillObj.berserk.StartBerserk();
         gloom.TalkOnce(407);
-
-        gloom.SetTrigger("Berserk_Start");
     }
 
-    public override void OnExit()
+
+    private IEnumerator CoWait()
     {
-        gloom.EndInvincible();
+        yield return new WaitForSeconds(1f);
+        canExit = true;
     }
+
+    //public override void OnExit()
+    //{
+    //}
 }
 public class GloomState_Powerless : GloomState
 {
