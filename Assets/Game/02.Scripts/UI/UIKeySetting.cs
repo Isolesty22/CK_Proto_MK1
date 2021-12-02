@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Reflection;
+using System;
 
 public class UIKeySetting : UIBase
 {
@@ -111,6 +112,10 @@ public class UIKeySetting : UIBase
     private bool isSaving;
     private IEnumerator waitInputKey;
 
+    /// <summary>
+    /// 설정이 저장될 때 호출됩니다.
+    /// </summary>
+    public event Action onSave = null;
     private void Start()
     {
         if (DataManager.Instance == null)
@@ -515,8 +520,14 @@ public class UIKeySetting : UIBase
 
         isSaving = false;
         uiText.text = "적용되었습니다.";
+        onSave?.Invoke();
     }
 
+
+    private void OnDestroy()
+    {
+        onSave = null;
+    }
 }
 
 
