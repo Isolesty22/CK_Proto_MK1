@@ -17,11 +17,19 @@ public class KeyTextManager : MonoBehaviour
     private TextMesh keyMoveRight;
     [SerializeField]
     private TextMesh keyMoveLeft;
+
     [SerializeField]
     private TextMesh keyJump;
+    [SerializeField]
+    private TextMesh keyJump_Parry;
+    [SerializeField]
+    private TextMesh keyJump_Jump;
 
     [SerializeField]
     private TextMesh keyAttack;
+
+    [SerializeField]
+    private TextMesh keyAttack_Up;
 
     [SerializeField]
     private TextMesh keyLifeLight;
@@ -47,6 +55,7 @@ public class KeyTextManager : MonoBehaviour
     private void UpdateKeyText()
     {
         ChangeKeyText(keyAttack, keyOption.attack);
+        ChangeKeyText(keyAttack_Up, keyOption.attack);
 
         ChangeKeyText(keyLookUp, keyOption.lookUp);
         ChangeKeyText(keyCrouch, keyOption.crouch);
@@ -54,6 +63,8 @@ public class KeyTextManager : MonoBehaviour
         ChangeKeyText(keyMoveLeft, keyOption.moveLeft);
         ChangeKeyText(keyMoveRight, keyOption.moveRight);
         ChangeKeyText(keyJump, keyOption.jump);
+        ChangeKeyText(keyJump_Jump, keyOption.jump);
+        ChangeKeyText(keyJump_Parry, keyOption.jump);
 
         ChangeKeyText(keyLifeLight, keyOption.counter);
         ChangeKeyText(keyLightFes, keyOption.ult);
