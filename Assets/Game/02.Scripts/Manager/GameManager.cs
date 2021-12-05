@@ -66,12 +66,18 @@ public class GameManager : MonoBehaviour
             //   GameObject.DontDestroyOnLoad(this.gameObject);
         }
 
-        if (DataManager.Instance.isDebugMode)
-        {
-            StartCoroutine(CoDebugMode());
-        }
     }
 
+    private void Start()
+    {
+        if (DataManager.Instance != null)
+        {
+            if (DataManager.Instance.isDebugMode)
+            {
+                StartCoroutine(CoDebugMode());
+            }
+        }
+    }
 
     private IEnumerator CoDebugMode()
     {
